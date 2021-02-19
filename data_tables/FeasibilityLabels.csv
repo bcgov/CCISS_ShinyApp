@@ -1,0 +1,12 @@
+SuitDiff,Flag
+0,S
+1,I1
+2,I2
+-1,D1
+-2,D2
+9,A1
+8,A2
+7,A3
+-8,Removing
+-7,Removing
+-9,Removing
