@@ -1,5 +1,21 @@
 ## CCISS 2020 Step 2: Edatopic Overlap
 ## Kiri Daust, 2020
+
+# Copyright 2021 Will Mackenzie
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 #dat = dat; Edatope = E1
 edatopicOverlap <- function(dat,Edatope){
   SS <- Edatope[is.na(Special),.(BGC,SS_NoSpace,Edatopic)]
