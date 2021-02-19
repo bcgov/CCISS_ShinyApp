@@ -5,6 +5,21 @@ script author: Kiri Daust + Will MacKenzie
 output: html_document
 ---
 
+# Copyright 2021 Will Mackenzie
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -64,8 +79,7 @@ toc()
 ID1_testsite <- cbind(pointDat, test_siteno) %>% dplyr::rename(SiteNo = test_siteno)
 # test_siteno <- c(3084611 ,3088043 ,3088100 ,3093240 ,3096701 ,3103527 ,3103529 ,3103530 ,3105299 ,3115525) #hex numbers
 average <- FALSE
-BGC <- dbGetCCISS(test_siteno, avg = average, host = "smithersresearch.ca") ## for remote access
-# BGC <- dbGetCCISS(test_siteno, avg = average, host = "FLNRServer") ## for Will
+BGC <- dbGetCCISS(test_siteno, avg = average, host = "smithersresearch.ca") 
 #BGC <- BGC %>% filter (BGC == "IDFxh2")
 
 
