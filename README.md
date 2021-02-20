@@ -7,7 +7,7 @@ There are two development tasks.
  A scaleable BEC map interface for retrieving lat/long for submission to the CCISS script. 
  Graphical output of BGC futures, tree species feasibility ratings by timeperiod, and display of existing stocking standard recommendations
 
-Copyright 2021 Will Mackenzie
+Copyright 2021 Province of British Columbia
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
