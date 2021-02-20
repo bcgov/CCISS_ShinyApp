@@ -2,7 +2,7 @@
 ### Kiri Daust. Heavily edited 28Jan2021 by W.MacKenzie
 #SSPred = SSPreds; suit = S1; rules = R1; feasFlag = F1
 
-# Copyright 2021 Will Mackenzie
+# Copyright 2021 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
