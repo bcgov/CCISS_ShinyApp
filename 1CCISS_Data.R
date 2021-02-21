@@ -15,52 +15,93 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#' Initiate a connection CCISS database
+#' @param host A character string. Database host.
+#' @param ... Additional parameters for dbConnect
+init_con <- function(host = "localhost", ...) {
+  # hardcoded passwords and login are a security risk
+  # best to use sodium and OS credentials store in production
+  drv <- dbDriver("PostgreSQL")
+  dbConnect(
+    drv, user = "postgres", host = host, password = "Kiriliny41", 
+    port = 5432, dbname = "cciss_data", ...
+  )
+}
 
 ##Pull HexIDs from lat long inputs
-dbGetHexID <- function(points, xName = "Long", yName = "Lat", host = "localhost"){
-  drv <- dbDriver("PostgreSQL")
-  con <- dbConnect(drv, user = "postgres", host = host,password = "Kiriliny41", 
-                   port = 5432, dbname = "cciss_data")
+dbGetHexID <- function(points, xName = "Long", yName = "Lat", host = "localhost", ...) {
+  
   txt <- st_as_sf(points,coords = c(xName,yName), crs = 4326) %>%
     st_transform(3005) %>%
     st_combine() %>%
     st_as_text()
-  q1 <- paste0("SELECT DISTINCT siteno FROM hex_grid WHERE ST_Intersects(ST_GeomFromText('",txt,"', 3005), hex_grid.geom)")
-  out <- st_read(con, query = q1)
-  dbDisconnect(con)
+  
+  hexid_sql <- paste0("
+  
+  SELECT DISTINCT siteno
+  FROM hex_grid
+  WHERE ST_Intersects(ST_GeomFromText('",txt,"', 3005), hex_grid.geom)
+  
+  ")
+  
+  con <- init_con(host, ...)
+  on.exit(dbDisconnect(con), add = TRUE)
+  out <- dbGetQuery(con, hexid_sql)
+
   return(out[,1])
 }
 
 
-dbGetCCISS <- function(SiteNo, avg, scn = c("rcp45","rcp85"), host = "localhost"){
-  drv <- dbDriver("PostgreSQL")
-  con <- dbConnect(drv, user = "postgres", host = host,password = "Kiriliny41", 
-                   port = 5432, dbname = "cciss_data")
-  q <- paste0("SELECT * FROM cciss_future WHERE siteno IN (",paste(SiteNo, collapse = ","),
-              ") AND scenario IN ('",paste(scn, collapse = "','"),"')")
-  dat <- dbGetQuery(con,q)
-  dat <- as.data.table(dat)
-  setnames(dat,c("GCM","Scenario","FuturePeriod","SiteNo","BGC","BGC.pred"))
+dbGetCCISS <- function(SiteNo, avg, scn = c("rcp45","rcp85"), host = "localhost", ...){
   
-  q2 <- paste0("SELECT * FROM cciss_historic WHERE siteno IN (",paste(SiteNo, collapse = ","),
-              ")")
-  datCurr <- dbGetQuery(con,q2)
-  datCurr <- as.data.table(datCurr)
-  datID <- data.table(period = c("Normal61","Current91"),pID = c(1975,2000), 
-                      GCM = c("Historic","Current"))
-  datCurr[datID, `:=`(FuturePeriod = i.pID,GCM  = i.GCM), on = "period"]
-  datCurr[,period := NULL]
+  cciss_future_sql <- paste0("
+              
+  SELECT * 
+  FROM cciss_future 
+  WHERE siteno IN (", paste(SiteNo, collapse = ","), ")
+    AND scenario IN ('", paste(scn, collapse = "','"), "')
+  
+  ")
+  
+  con <- init_con(host, ...)
+  on.exit(dbDisconnect(con), add = TRUE)
+  
+  dat <- dbGetQuery(con, cciss_future_sql)
+  setDT(dat)
+  setnames(dat, c("GCM","Scenario","FuturePeriod","SiteNo","BGC","BGC.pred"))
+  
+  cciss_historic_sql <- paste0("
+               
+  SELECT *
+  FROM cciss_historic
+  WHERE siteno IN (", paste(SiteNo, collapse = ","), ")
+               
+  ")
+  
+  datCurr <- dbGetQuery(con, cciss_historic_sql)
+  setDT(datCurr)
+  # use set with match in production to avoid `[` overhead
+  # this could all be done in the same set call
+  # split for clarity
+  # Use of .subset and .subset2 is mostly for performance
+  m <- match(.subset2(datCurr, "period"), c("Normal61","Current91"))
+  set(datCurr, j = "period", value = NULL)
+  set(datCurr, j = "FuturePeriod", value = .subset(c(1975,2000), m))
+  set(datCurr, j = "GCM", value = .subset(c("Historic","Current"), m))
   setcolorder(datCurr, c("FuturePeriod","siteno","bgc","bgc_pred","GCM"))
   setnames(datCurr, c("FuturePeriod","SiteNo","BGC","BGC.pred","GCM"))
-  dat <- rbind(dat,datCurr, fill = T)
+  dat <- rbind(dat, datCurr, fill = T)
   
-  if(avg){
-    dat[,SiteNo := as.numeric(as.factor(BGC))]
+  if (avg) {
+    # This as.factor depends on the values in BGC at runtime
+    # This could lead to unexpected results
+    dat[, SiteNo := as.numeric(as.factor(BGC))]
   }
+  # Why does SiteNo appears twice here
   dat[,TotNum := .N, by = .(SiteNo,FuturePeriod,SiteNo)]
   dat2 <- dat[,.(BGC.prop = .N/TotNum), keyby = .(SiteNo,FuturePeriod,BGC,BGC.pred)]
   dat2 <- unique(dat2)
-  dbDisconnect(con)
+
   return(dat2)
 }
 

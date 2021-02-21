@@ -37,6 +37,7 @@ require(tictoc)
 require(ggplot2)
 require(ggthemes)
 require(tmap)
+require(plotly)
 #install.packages("tmap")
 ```
 
@@ -71,15 +72,16 @@ Extract data given hex id values. Output is predicted BGCs, with the proportion 
 ```{r get BGC.pred at sites}
 ##load csv with lat and long columns
 loc_name <- "WilliamsLake" ## name of trial run
+host <- "smithersresearch.ca"
 pointDat <- fread("./test_locations/WilliamsLake_Locations.csv")
-test_siteno <- dbGetHexID(pointDat,host = "smithersresearch.ca") ## returns hex number from location for testing
+test_siteno <- dbGetHexID(pointDat, host = host) ## returns hex number from location for testing
 tic()
 # test_siteno <- dbGetHexID(pointDat, host = "FLNRServer")
 toc()
 ID1_testsite <- cbind(pointDat, test_siteno) %>% dplyr::rename(SiteNo = test_siteno)
 # test_siteno <- c(3084611 ,3088043 ,3088100 ,3093240 ,3096701 ,3103527 ,3103529 ,3103530 ,3105299 ,3115525) #hex numbers
 average <- FALSE
-BGC <- dbGetCCISS(test_siteno, avg = average, host = "smithersresearch.ca") 
+BGC <- dbGetCCISS(test_siteno, avg = average, host = host) 
 #BGC <- BGC %>% filter (BGC == "IDFxh2")
 
 
@@ -110,6 +112,20 @@ CCISS_Raw  <- left_join(CCISS_Raw ,ID1_testsite) %>% dplyr::select(-ID2, -ModAgr
 
 ```
 
-1. BGC ratios stack bar from BGC table
+1. BGC ratios stack bar from BGC table (freebie)
+
+```{r bgc_ratio_chart}
+for (site in unique(BGC$SiteNo)) {
+  for (bgc in unique(BGC[SiteNo == site]$BGC)) {
+    plot_ly(data = BGC[BGC == bgc & SiteNo == site], x = ~FuturePeriod,
+            y = ~BGC.prop, split = ~BGC.pred, type = 'bar') %>%
+      layout(yaxis = list(title = ""), barmode = 'stack') %>%
+      print
+  }
+}
+
+```
 2. Feasibility report from CCISS_Summary + CCISS_Raw tables
+
+
 3. Map of locations from CCISS_Sites
