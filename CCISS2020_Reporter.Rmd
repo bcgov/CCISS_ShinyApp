@@ -112,7 +112,7 @@ CCISS_Raw  <- left_join(CCISS_Raw ,ID1_testsite) %>% dplyr::select(-ID2, -ModAgr
 
 ```
 
-1. BGC ratios stack bar from BGC table (freebie)
+1. BGC ratios stack bar from BGC table (without colors correction)
 
 ```{r bgc_ratio_chart}
 for (site in unique(BGC$SiteNo)) {
