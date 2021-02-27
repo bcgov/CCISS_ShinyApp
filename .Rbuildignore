@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^.*\.RDS$
+^\.Rproj\.user$
+^LICENSE
+^data-raw
+^CONTRIBUTING\.md$
+^.*\.git
+^\.R.*
+^\.github$
+^codecov\.yml$
+^.*\.o$
+^.*\.html$

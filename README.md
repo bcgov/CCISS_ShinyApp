@@ -1,3 +1,9 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/meztez/CCISS_ShinyApp/workflows/R-CMD-check/badge.svg)](https://github.com/meztez/CCISS_ShinyApp/actions)
+[![Codecov test coverage](https://codecov.io/gh/meztez/CCISS_ShinyApp/branch/main/graph/badge.svg)](https://codecov.io/gh/meztez/CCISS_ShinyApp?branch=main)
+[![R-CMD-check](https://github.com/bcgov/CCISS_ShinyApp/workflows/R-CMD-check/badge.svg)](https://github.com/bcgov/CCISS_ShinyApp/actions)
+<!-- badges: end -->
+
 # CCISS_ShinyApp
 CCISS RMD knitr report graphics and Shiny App
 This repository is a fork of a development CCISS R script for devexchange code-with-us development.

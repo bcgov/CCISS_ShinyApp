@@ -1,4 +1,12 @@
+docs
+/src/*.o
+/src/*.o-*
+/src/*.d
+/src/*.so
+*.dll
+.RData
 .Rproj.user
 .Rhistory
-.RData
-.Ruserdata
+inst/doc
+.httr-oauth
+*.RDS
