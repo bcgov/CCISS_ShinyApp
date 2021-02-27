@@ -17,7 +17,7 @@
 # limitations under the License.
 
 
-ccissOutput <- function(SSPred,suit,rules,feasFlag){
+ccissOutput <- function(SSPreds,suit,rules,feasFlag){
  ### generate raw feasibility ratios
   suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
   ## replace the coast/interior divisions of species

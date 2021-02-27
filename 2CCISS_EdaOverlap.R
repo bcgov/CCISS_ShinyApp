@@ -17,7 +17,7 @@
 
 
 #dat = dat; Edatope = E1
-edatopicOverlap <- function(dat,Edatope){
+edatopicOverlap <- function(BGC,Edatope){
   SS <- Edatope[is.na(Special),.(BGC,SS_NoSpace,Edatopic)]
   SS <- unique(SS)
   BGC <- unique(BGC)
