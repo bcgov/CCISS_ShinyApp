@@ -1,0 +1,30 @@
+Package: CCISS
+Title: B.C. Climate Change Informed Tree Species Selection
+Version: 1.0.0.9000
+Authors@R: c(
+  person("Will", "MacKenzie", role = c("cre", "aut"), email = "Will.MacKenzie@gov.bc.ca"),
+  person("Kiri", "Daust", role = c("aut")),
+  person("Bruno", "Tremblay", role = "ctb", email = "treeforce@neoxone.com"),
+  person(family = "Province of British Columbia", role = c("cph", "fnd")))
+Description: What the package does (one paragraph).
+License: Apache License (== 2)
+Encoding: UTF-8
+Depends: 
+    data.table,
+    sf,
+    R (>= 3.5.0)
+Imports: 
+    RPostgreSQL,
+    dplyr,
+    getPass,
+    keyring,
+    matrixStats
+Suggests:
+    covr,
+    here,
+    testthat (>= 3.0.0)
+LinkingTo: Rcpp
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Config/testthat/edition: 3
