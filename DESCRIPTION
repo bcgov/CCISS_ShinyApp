@@ -24,7 +24,12 @@ Suggests:
     covr,
     here,
     testthat (>= 3.0.0),
-    shiny
+    shiny,
+    bcdata,
+    bcmaps
+Remotes:
+    bcgov/bcdata,
+    bcgov/bcmaps
 LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)

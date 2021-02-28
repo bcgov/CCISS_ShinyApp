@@ -10,3 +10,4 @@ docs
 inst/doc
 .httr-oauth
 *.RDS
+/data-raw/shp
