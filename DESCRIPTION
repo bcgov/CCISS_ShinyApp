@@ -18,11 +18,13 @@ Imports:
     dplyr,
     getPass,
     keyring,
-    matrixStats
+    matrixStats,
+    rmarkdown
 Suggests:
     covr,
     here,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    shiny
 LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)
