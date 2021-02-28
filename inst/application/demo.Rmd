@@ -57,7 +57,7 @@ fill_colorways <- function(x, keys, colours) {
 #   fill_colorways() %>%
 #   geojsonsf::sf_geojson() %>%
 #   saveRDS("bec.RDS")
-bec <- readRDS("./demo/bec.RDS")
+bec <- readRDS(system.file("application/demo/bec.RDS", package = "CCISS"))
 
 # Additional leaflet plugins registration
 registerPlugin <- function(map, plugin) {
