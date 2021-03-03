@@ -1,4 +1,4 @@
-Package: CCISS
+Package: bccciss
 Title: B.C. Climate Change Informed Tree Species Selection
 Version: 1.0.0.9000
 Authors@R: c(
@@ -19,14 +19,19 @@ Imports:
     getPass,
     keyring,
     matrixStats,
-    rmarkdown
+    rmarkdown,
+    htmltools,
+    htmlwidgets,
+    leaflet,
+    leaflet.extras,
+    analogsea
 Suggests:
     covr,
-    here,
     testthat (>= 3.0.0),
     shiny,
     bcdata,
-    bcmaps
+    bcmaps,
+    usethis
 Remotes:
     bcgov/bcdata,
     bcgov/bcmaps

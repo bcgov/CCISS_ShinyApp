@@ -1,0 +1,147 @@
+---
+title: "Demo"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    logo: www/logo.svg
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+suppressPackageStartupMessages({
+  library(bccciss)
+  library(leaflet)
+  library(shiny)
+})
+bec <- readRDS(system.file("application/demo/bec.RDS", package = "bccciss"))
+
+```
+
+Inputs {data-width=30% .sidebar}
+=====================================
+
+### Climate Change Informed Species Selection Decision Aid
+
+The Climate Change Informed Species Selection Decision Aid provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.
+
+[How the CCISS tool works](./#section-how-the-cciss-tool-works)
+
+For this Demo, I'm using a simplified geojson with a size of ~50MB.
+The map will appear when the data finish loading. I've only
+implemented map pop up information.
+
+```{r}
+textInput("reportName", "Report Name", placeholder = "My Custom Report")
+
+```
+
+#### Points
+<hr>  
+Click on the map to add points or enter data below.
+
+```{r}
+numericInput("lat", "Latitude", min = 48.22484, max = 60.00193, step = 0.001, width = "160px", value = 56.789)
+numericInput("lng", "Longitude", min = -139.0613, max = -114.0541, step = 0.001, width = "160px", value = -123.4)
+actionButton("add_pts", "ADD POINT", width = "120px")
+fileInput(
+  inputId,
+  label,
+  multiple = FALSE,
+  accept = NULL,
+  width = NULL,
+  buttonLabel = "Browse...",
+  placeholder = "No file selected"
+)
+varSelectInput("variables", "Variable:", mtcars, multiple = TRUE)
+radioButtons("dist", "Distribution type:",
+               c("Normal" = "norm",
+                 "Uniform" = "unif",
+                 "Log-normal" = "lnorm",
+                 "Exponential" = "exp"))
+DTOutput
+
+```
+
+
+
+BEC MAP
+=====================================  
+
+### Biogeoclimatic Zones + Subzones Variants Map 
+    
+
+```{r}
+leafletOutput("bec_map", width = "100%", height = "100%")
+
+```
+
+SPECIES SUITABILITY
+=====================================     
+
+### Species Suitability
+
+Site Series
+{insert name of site series}
+
+Predicted Suitability
+
+```{r}
+```
+   
+SILVICULTURE
+=====================================     
+
+### Silviculture
+
+Site Series
+{insert name of site series}
+
+Forest Region:
+    
+```{r}
+```
+
+
+BGC FUTURES
+=====================================     
+
+### BGC Futures: ratio of models predicting BGC
+
+Current BGC : {insert current}
+ 
+```{r}
+```
+
+How the CCISS tool works {data-navmenu="ABOUT"} 
+=====================================
+
+The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate- and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near- and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/ silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will different regions and elevations of a BGC.  
+  
+[Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
+
+Hire the guy who did this {data-navmenu="ABOUT"}
+=====================================
+Bruno Tremblay  
+Github: [\@meztez](https://github.com/meztez)  
+Twitter: [\@meztez2](https://twitter.com/meztez2)  
+Contact: [treeforce@neoxone.com](mailto:treeforce@neoxone.com)  
+
+
+```{r server_elements, context="server"}
+
+output$bec_map <- renderLeaflet({
+  bccciss_map()
+})
+
+# Monitor `bec_cur` to show feature information
+observeEvent(input$bec_cur, {
+  leafletProxy('bec_map') %>%
+    add(lng = cur$latlng$lng, lat = cur$latlng$lat,
+              popup = pop_info(cur$properties),
+              group = "popups")
+  
+})
+
+
+```
