@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // combCurr
 NumericVector combCurr(NumericMatrix dat, float wt);
-RcppExport SEXP _CCISS_combCurr(SEXP datSEXP, SEXP wtSEXP) {
+RcppExport SEXP _bccciss_combCurr(SEXP datSEXP, SEXP wtSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type dat(datSEXP);
@@ -18,7 +18,7 @@ END_RCPP
 }
 // NewSuitNoCurr
 NumericVector NewSuitNoCurr(NumericMatrix x, NumericVector vals);
-RcppExport SEXP _CCISS_NewSuitNoCurr(SEXP xSEXP, SEXP valsSEXP) {
+RcppExport SEXP _bccciss_NewSuitNoCurr(SEXP xSEXP, SEXP valsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -29,7 +29,7 @@ END_RCPP
 }
 // FeasSuit
 NumericVector FeasSuit(NumericMatrix x, IntegerVector Curr, NumericVector vals, NumericVector CurrAdj);
-RcppExport SEXP _CCISS_FeasSuit(SEXP xSEXP, SEXP CurrSEXP, SEXP valsSEXP, SEXP CurrAdjSEXP) {
+RcppExport SEXP _bccciss_FeasSuit(SEXP xSEXP, SEXP CurrSEXP, SEXP valsSEXP, SEXP CurrAdjSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -42,7 +42,7 @@ END_RCPP
 }
 // stepDiff
 NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector Curr);
-RcppExport SEXP _CCISS_stepDiff(SEXP YearSEXP, SEXP NewSuitSEXP, SEXP CurrSEXP) {
+RcppExport SEXP _bccciss_stepDiff(SEXP YearSEXP, SEXP NewSuitSEXP, SEXP CurrSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type Year(YearSEXP);
@@ -54,7 +54,7 @@ END_RCPP
 }
 // ModelDir
 NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir);
-RcppExport SEXP _CCISS_ModelDir(SEXP xSEXP, SEXP CurrSEXP, SEXP dirSEXP) {
+RcppExport SEXP _bccciss_ModelDir(SEXP xSEXP, SEXP CurrSEXP, SEXP dirSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
@@ -66,7 +66,7 @@ END_RCPP
 }
 // bifurcTrend
 LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl);
-RcppExport SEXP _CCISS_bifurcTrend(SEXP ImpSEXP, SEXP DeclSEXP) {
+RcppExport SEXP _bccciss_bifurcTrend(SEXP ImpSEXP, SEXP DeclSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type Imp(ImpSEXP);
@@ -77,16 +77,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_CCISS_combCurr", (DL_FUNC) &_CCISS_combCurr, 2},
-    {"_CCISS_NewSuitNoCurr", (DL_FUNC) &_CCISS_NewSuitNoCurr, 2},
-    {"_CCISS_FeasSuit", (DL_FUNC) &_CCISS_FeasSuit, 4},
-    {"_CCISS_stepDiff", (DL_FUNC) &_CCISS_stepDiff, 3},
-    {"_CCISS_ModelDir", (DL_FUNC) &_CCISS_ModelDir, 3},
-    {"_CCISS_bifurcTrend", (DL_FUNC) &_CCISS_bifurcTrend, 2},
+    {"_bccciss_combCurr", (DL_FUNC) &_bccciss_combCurr, 2},
+    {"_bccciss_NewSuitNoCurr", (DL_FUNC) &_bccciss_NewSuitNoCurr, 2},
+    {"_bccciss_FeasSuit", (DL_FUNC) &_bccciss_FeasSuit, 4},
+    {"_bccciss_stepDiff", (DL_FUNC) &_bccciss_stepDiff, 3},
+    {"_bccciss_ModelDir", (DL_FUNC) &_bccciss_ModelDir, 3},
+    {"_bccciss_bifurcTrend", (DL_FUNC) &_bccciss_bifurcTrend, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_CCISS(DllInfo *dll) {
+RcppExport void R_init_bccciss(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

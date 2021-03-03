@@ -35,7 +35,7 @@ db_auth <- function(host, dbname, port, user, force = FALSE, ...) {
     key <- paste0(host, dbname, port, user)
     tryCatch(
       {
-        .auth$creds$pwd <- keyring::key_get("cciss", key)
+        .auth$creds$pwd <- keyring::key_get("bccciss", key)
       },
       error = function(e) {
         if (interactive()) {
@@ -44,7 +44,7 @@ db_auth <- function(host, dbname, port, user, force = FALSE, ...) {
           )
           if (is.null(.auth$creds$pwd)) { stop("Could not authorize", user) }
           if (utils::menu(c("Yes","No"), title = "Save password to your system keyring between R sessions?") == 1L) {
-            keyring::key_set_with_value("cciss", key, .auth$creds$pwd)
+            keyring::key_set_with_value("bccciss", key, .auth$creds$pwd)
           }
         } else {
           stop("Could not obtain password to authenticate to database.
@@ -78,7 +78,7 @@ db_auth_check <- function(host, dbname, port, user, password, ...) {
     },
     error = function(e) {
       db_deauth()
-      try(keyring::key_delete("cciss", paste0(host, dbname, port, user)), silent = TRUE)
+      try(keyring::key_delete("bccciss", paste0(host, dbname, port, user)), silent = TRUE)
       message(e)
       return(NULL)
     }

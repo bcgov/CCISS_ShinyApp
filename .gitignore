@@ -10,4 +10,7 @@ docs
 inst/doc
 .httr-oauth
 *.RDS
+*.rds
+*.mbtiles
 /data-raw/shp
+*.geojson

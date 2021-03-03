@@ -4,7 +4,7 @@
 #' @export
 launch_app <- function() {
   rmarkdown::run(
-    file = system.file("application/demo.Rmd", package = "CCISS"),
+    file = system.file("application/app.Rmd", package = "bccciss"),
     shiny_args = list()
   )
 }

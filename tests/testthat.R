@@ -1,4 +1,4 @@
 library(testthat)
-library(CCISS)
+library(bccciss)
 
-test_check("CCISS")
+test_check("bccciss")
