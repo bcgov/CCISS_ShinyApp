@@ -29,15 +29,15 @@ bccciss_map <- function(points, bec_tiles) {
     # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
     htmlwidgets::onRender('
       function(el, x, data) {
-        
+
         var vectorTileOptionsSubz = {
           vectorTileLayerName : "bec_subz",
           interactive: true, // makes it able to trigger js events like click
           vectorTileLayerStyles: {
-            BEC_MAP: function(properties, zoom) {
+            BECMap: function(properties, zoom) {
               return {
                 weight: 0,
-                fillColor: properties.fillColorS,
+                fillColor: "#ccc",
                 fillOpacity: 0.75,
                 fill: true
               }
@@ -50,18 +50,18 @@ bccciss_map <- function(points, bec_tiles) {
             //return f.properties["OBJECTID"];
           },
           // This assign the grid to the overlay layer
-          // so it will drawn above the base map layer 
+          // so it will drawn above the base map layer
           pane : "overlayPane"
         };
-        
+
         var vectorTileOptionsZone = {
           vectorTileLayerName : "bec_z",
           interactive: true, // makes it able to trigger js events like click
           vectorTileLayerStyles: {
-            BEC_MAP: function(properties, zoom) {
+            BECMap: function(properties, zoom) {
               return {
                 weight: 0,
-                fillColor: properties.fillColorZ,
+                fillColor: "#aaa",
                 fillOpacity: 0.75,
                 fill: true
               }
@@ -74,15 +74,15 @@ bccciss_map <- function(points, bec_tiles) {
             //return f.properties["OBJECTID"];
           },
           // This assign the grid to the overlay layer
-          // so it will drawn above the base map layer 
+          // so it will drawn above the base map layer
           pane : "overlayPane"
         };
-        
+
         // Create the vector grid layer and add to the widget
         // using the same methods as would R leaflet package.
-        
-        var zLayer = L.vectorGrid.protobuf("http://localhost:8080/data/BEC_MAP/{z}/{x}/{y}.pbf", vectorTileOptionsZone, {maxNativeZoom: 10});
-        var subzLayer = L.vectorGrid.protobuf("http://localhost:8080/data/BEC_MAP/{z}/{x}/{y}.pbf", vectorTileOptionsSubz, {maxNativeZoom: 10});
+
+        var zLayer = L.vectorGrid.protobuf("http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf", vectorTileOptionsZone, {maxNativeZoom: 16});
+        var subzLayer = L.vectorGrid.protobuf("http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf", vectorTileOptionsSubz, {maxNativeZoom: 16});
         this.layerManager.addLayer(
           zLayer, // layer
           "tile", // category
@@ -95,18 +95,19 @@ bccciss_map <- function(points, bec_tiles) {
           "bec_subz", // layerId
           "Subzones Variants" // group
         );
-        
-        // Define a js onClick event to trigger a Shiny event with bec_cur
-        //subzLayer.on("click",
-         // function(e) {
-         //   if (e.layer.properties) {
-         //     Shiny.setInputValue("bec_cur", {
-        //        latlng: e.latlng,
-         //       properties: e.layer.properties
-        //      });
-        //    }
-        //  }
-        //);
+
+        //Define a js onClick event to trigger a Shiny event with bec_cur
+        subzLayer.on("click",
+         function(e) {
+          console.log(e);
+        //   if (e.layer.properties) {
+        //     Shiny.setInputValue("bec_cur", {
+          //    latlng: e.latlng,
+          //     properties: e.layer.properties
+        //    });
+         // }
+          }
+        );
       }') %>%
     leaflet::addLayersControl(
       baseGroups = c("Satellite", "Hillshade", "OpenStreetMap"),
