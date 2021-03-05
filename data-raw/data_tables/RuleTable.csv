@@ -1,0 +1,22 @@
+Type,mx,mn,Label
+PeriodTraj,Inf,1.5,Strongly Improving
+PeriodTraj,1.5,0.5,Improving
+PeriodTraj,0.5,-0.5,No Change
+PeriodTraj,-0.5,-1.5,Declining
+PeriodTraj,-1.5,-Inf,Strongly Declining
+Risk,Inf,0.5,Very High
+Risk,0.5,0.35,High
+Risk,0.35,0.2,Moderate
+Risk,0.2,-1,Low
+ModAgr,Inf,0.8,High
+ModAgr,0.8,0.6,Moderate
+ModAgr,0.6,-Inf,Low
+OverallTraj,Inf,2,Strongly Improving
+OverallTraj,2,0.5,Improving
+OverallTraj,0.5,-0.5,No Change
+OverallTraj,-0.5,-2,Declining
+OverallTraj,-2,-Inf,Strongly Declining
+EstabRisk,Inf,0.8,Low CC Risk
+EstabRisk,0.8,0.65,Moderate CC Risk
+EstabRisk,0.65,0.5,Considerable CC Risk
+EstabRisk,0.5,-Inf,High Risk
