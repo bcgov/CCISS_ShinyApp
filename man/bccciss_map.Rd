@@ -4,14 +4,11 @@
 \alias{bccciss_map}
 \title{Main CCISS APP leaflet map}
 \usage{
-bccciss_map(points, bec_tiles)
+bccciss_map(points, xName = "Long", yName = "Lat", render = c("app", "report"))
 }
 \arguments{
-\item{points}{A data.frame like object containing geoposition of
-points of interest.}
-
-\item{bec_tiles}{A vector tiles provider created with
-\link{vector_tiles_provider} to fetch BEC layers.}
+\item{pts}{A data.frame like object containing geoposition of
+points of interest in CRS 4326.}
 }
 \value{
 A Leaflet map object.

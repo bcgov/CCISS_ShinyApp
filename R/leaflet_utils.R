@@ -1,138 +1,79 @@
 #' Main CCISS APP leaflet map
-#' @param points A data.frame like object containing geoposition of
-#' points of interest.
-#' @param bec_tiles A vector tiles provider created with
-#' [vector_tiles_provider] to fetch BEC layers.
+#' @param pts A data.frame like object containing geoposition of
+#' points of interest in CRS 4326.
 #' @return A Leaflet map object.
 #' @importFrom leaflet leaflet setView addProviderTiles addWMSTiles hideGroup addMeasure addLayersControl providers
 #' @importFrom leaflet.extras addSearchOSM searchOptions
 #' @importFrom htmlwidgets onRender
 #' @export
-bccciss_map <- function(points, bec_tiles) {
+bccciss_map <- function(points, xName = "Long", yName = "Lat", render = c("app", "report")) {
   l <- leaflet::leaflet() %>%
-    leaflet::setView(lng = -120.5687032, lat = 54.1414255, zoom = 7) %>%
-    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite")  %>%
-    leaflet::addWMSTiles(baseUrl = wms$usgs_hs$baseUrl,
-                layers = wms$usgs_hs$layers,
-                options = wms$usgs_hs$options, group = "Hillshade",
-                attribution = wms$usgs_hs$attribution) %>%
     leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap") %>%
-    leaflet::addMeasure(
-      position = "bottomleft",
-      primaryLengthUnit = "meters",
-      secondaryLengthUnit = "kilometers",
-      primaryAreaUnit = "sqmeters") %>%
-    leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = FALSE)) %>%
-    registerPlugin(plugins$vgplugin) %>%
-    # This is a custom javascript to enable VectorGrid with Shiny
-    # using BEC geojson data
-    # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
-    htmlwidgets::onRender('
-      function(el, x, data) {
-
-        var vectorTileOptionsSubz = {
-          vectorTileLayerName : "bec_subz",
-          interactive: true, // makes it able to trigger js events like click
-          vectorTileLayerStyles: {
-            BECMap: function(properties, zoom) {
-              return {
-                weight: 0,
-                fillColor: "#ccc",
-                fillOpacity: 0.75,
-                fill: true
-              }
-            }
-          },
-          // This allow each feature to have an identifier
-          // equal to OBJECTID property
-          getFeatureId: function(f) {
-            console.log(f);
-            //return f.properties["OBJECTID"];
-          },
-          // This assign the grid to the overlay layer
-          // so it will drawn above the base map layer
-          pane : "overlayPane"
-        };
-
-        var vectorTileOptionsZone = {
-          vectorTileLayerName : "bec_z",
-          interactive: true, // makes it able to trigger js events like click
-          vectorTileLayerStyles: {
-            BECMap: function(properties, zoom) {
-              return {
-                weight: 0,
-                fillColor: "#aaa",
-                fillOpacity: 0.75,
-                fill: true
-              }
-            }
-          },
-          // This allow each feature to have an identifier
-          // equal to OBJECTID property
-          getFeatureId: function(f) {
-            console.log(f);
-            //return f.properties["OBJECTID"];
-          },
-          // This assign the grid to the overlay layer
-          // so it will drawn above the base map layer
-          pane : "overlayPane"
-        };
-
-        // Create the vector grid layer and add to the widget
-        // using the same methods as would R leaflet package.
-
-        var zLayer = L.vectorGrid.protobuf("http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf", vectorTileOptionsZone, {maxNativeZoom: 16});
-        var subzLayer = L.vectorGrid.protobuf("http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf", vectorTileOptionsSubz, {maxNativeZoom: 16});
-        this.layerManager.addLayer(
-          zLayer, // layer
-          "tile", // category
-          "bec_z", // layerId
-          "Zones" // group
-        );
-        this.layerManager.addLayer(
-          subzLayer, // layer
-          "tile", // category
-          "bec_subz", // layerId
-          "Subzones Variants" // group
-        );
-
-        //Define a js onClick event to trigger a Shiny event with bec_cur
-        subzLayer.on("click",
-         function(e) {
-          console.log(e);
-        //   if (e.layer.properties) {
-        //     Shiny.setInputValue("bec_cur", {
-          //    latlng: e.latlng,
-          //     properties: e.layer.properties
-        //    });
-         // }
-          }
-        );
-      }') %>%
-    leaflet::addLayersControl(
-      baseGroups = c("Satellite", "Hillshade", "OpenStreetMap"),
-      overlayGroups = c("Zones", "Subzones Variants"),
-      position = "topright") %>%
+    addVectorGridTilesDev() %>%
     leaflet::hideGroup("Zones")
+  
+  if (!missing(points)) {
+    pts_crs <- st_as_sf(points,coords = c(xName,yName), crs = 4326)
+    bbox <- unname(sf::st_bbox(pts_crs))
+    l <- leaflet::setMaxBounds(l, bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]]) %>%
+      leaflet::addMarkers(lat = ~LATITUDE, lng = ~LONGITUDE, data = pts_crs)
+  } else {
+    l <- leaflet::setView(l, lng = -120.5687032, lat = 54.1414255, zoom = 7)
+  }
+  
+  render <- match.arg(render)
+  
+  if (render == "app") {
+    l <- leaflet::addProviderTiles(l, leaflet::providers$Esri.WorldImagery, group = "Satellite")  %>%
+      leaflet::addWMSTiles(baseUrl = wms$usgs_hs$baseUrl,
+                           layers = wms$usgs_hs$layers,
+                           options = wms$usgs_hs$options, group = "Hillshade",
+                           attribution = wms$usgs_hs$attribution) %>%
+      leaflet::addWMSTiles(baseUrl = wms$bec_wms$baseUrl,
+                           layers = wms$bec_wms$layers,
+                           options = wms$bec_wms$options, group = "BEC WMS",
+                           attribution = wms$bec_wms$attribution) %>%
+      leaflet::hideGroup("BEC WMS") %>%
+      leaflet::addMeasure(
+        position = "bottomleft",
+        primaryLengthUnit = "meters",
+        secondaryLengthUnit = "kilometers",
+        primaryAreaUnit = "sqmeters") %>%
+      leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = FALSE)) %>%
+      leaflet::addLayersControl(
+        baseGroups = c("OpenStreetMap", "Satellite", "Hillshade"),
+        overlayGroups = c("Zones", "Subzones Variants", "BEC WMS"),
+        position = "topright")
+  }
+  
+  return(l)
 }
 
-#' Define VectorGrid tiles provider to use with
-#' VectorGrid.Protobuf
-#' @param name A character string. Name of the tiles provider.
-#' @param uri_template A character string. URI template to fetch tiles.
-#' @details See leaflet
-#' [VectorGrid documentation](https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html#vectorgrid-protobuf)
-#' for more details
-#' @return A list of provider attributes.
-#' @export 
-vector_tiles_provider <- function(name, uri_template
-                                  #, vectorTileLayerStyles,
-                                  #subdomains, key, maxNativeZoom, token, ...
-                                  ) {
-  return()
+#' Add VectorGrid tiles to map
+#' @param map A leaflet htmlwidget
+#' @export
+addVectorGridTilesDev <- function(map) {
+  map <- registerPlugin(map, plugins$vgplugin)
+  # This is a custom javascript to enable VectorGrid with Shiny
+  # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
+  map <- htmlwidgets::onRender(map, '
+    function(el, x, data) {
+      var zLayer = L.vectorGrid.protobuf(
+        "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
+        L.vectorTileOptions("bec_z", "BECMap", true,
+                            "overlayPane", zoneColors, "ZONE")
+      )
+      var subzLayer = L.vectorGrid.protobuf(
+        "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
+        L.vectorTileOptions("bec_subz", "BECMap", true,
+                            "overlayPane", subzoneColors, "MAP_LABEL")
+      )
+      this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
+      this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+    }'
+  )
+  map
 }
-
-
 
 #' Additional leaflet plugins registration
 #' @param map An htmlwidget. i.e. a leaflet map.
@@ -156,8 +97,8 @@ plugins_loaded <- function() {
       htmltools::htmlDependency(
         name = "leaflet.vectorgrid",
         version = "1.3.0",
-        system.file("application/js", package = "bccciss"),
-        script = "Leaflet.VectorGrid.bundled.min.js"
+        system.file("htmlwidgets", package = "bccciss"),
+        script = c("lfx-vgrid-prod.js", "bec-styling.js")
       )
     )
   )
@@ -192,6 +133,18 @@ wms_loaded <- function() {
           crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
           transparent = FALSE),
         attribution = '<a href="https://catalog.data.gov/dataset/usgs-hill-shade-base-map-service-from-the-national-map">USGS</a>'
+      ),
+    bec_wms = 
+      list(
+        #WMS config for BEC layer (for greater visual precision at higher zoom level)
+        baseUrl = "https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY/ows?",
+        layers = "pub:WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY",
+        options = leaflet::WMSTileOptions(
+          format = "image/png",
+          crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
+          transparent = TRUE,
+          style = "1409_1410"),
+        attribution = '<a href="https://catalogue.data.gov.bc.ca/dataset/bec-map">BEC Map</a>'
       )
     )
   )

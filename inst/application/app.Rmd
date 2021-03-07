@@ -1,76 +1,71 @@
 ---
-title: "Demo"
+title: "CCISS BEC"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: fill
     logo: www/logo.svg
+    favicon: www/favicon.ico
 runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
 suppressPackageStartupMessages({
   library(bccciss)
-  library(leaflet)
   library(shiny)
+  library(leaflet)
+  library(DT)
 })
-bec <- readRDS(system.file("application/demo/bec.RDS", package = "bccciss"))
 
 ```
 
-Inputs {data-width=30% .sidebar}
-=====================================
 
-### Climate Change Informed Species Selection Decision Aid
-
-The Climate Change Informed Species Selection Decision Aid provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.
-
-[How the CCISS tool works](./#section-how-the-cciss-tool-works)
-
-For this Demo, I'm using a simplified geojson with a size of ~50MB.
-The map will appear when the data finish loading. I've only
-implemented map pop up information.
-
-```{r}
-textInput("reportName", "Report Name", placeholder = "My Custom Report")
-
-```
-
-#### Points
-<hr>  
-Click on the map to add points or enter data below.
-
-```{r}
-numericInput("lat", "Latitude", min = 48.22484, max = 60.00193, step = 0.001, width = "160px", value = 56.789)
-numericInput("lng", "Longitude", min = -139.0613, max = -114.0541, step = 0.001, width = "160px", value = -123.4)
-actionButton("add_pts", "ADD POINT", width = "120px")
-fileInput(
-  inputId,
-  label,
-  multiple = FALSE,
-  accept = NULL,
-  width = NULL,
-  buttonLabel = "Browse...",
-  placeholder = "No file selected"
-)
-varSelectInput("variables", "Variable:", mtcars, multiple = TRUE)
-radioButtons("dist", "Distribution type:",
-               c("Normal" = "norm",
-                 "Uniform" = "unif",
-                 "Log-normal" = "lnorm",
-                 "Exponential" = "exp"))
-DTOutput
-
-```
 
 
 
 BEC MAP
 =====================================  
 
-### Biogeoclimatic Zones + Subzones Variants Map 
-    
+Inputs {.sidebar data-width=500}
+-------------------------------------
 
+#### Points
+<hr>  
+Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim,
+
+```{r}
+fluidPage(
+  fluidRow(
+    actionButton("add_button", "Add", icon("plus")),
+    actionButton("delete_button", "Delete", icon("trash-alt")),
+    actionButton("upload_button", "Upload", icon("upload")),
+    actionButton("clear_button", "Clear", icon("broom"))
+  ),
+  br(),
+  fluidRow(width="100%",
+           DT::DTOutput("points_table", width="100%")
+  ),
+  br(),
+  fluidRow(
+    selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5", "8.5"), multiple = TRUE),
+    radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = FALSE, "Averaged by BGC Zone" = TRUE))
+  ),
+  br(),
+  fluidRow(
+    span("Download a self-contained report")
+  ),
+  fluidRow(
+    actionButton("html_report_button", "HTML Report", icon("file-code")),
+    actionButton("pdf_report_button", "PDF Report", icon("file-pdf"))
+  )
+)
+
+```
+
+[How the CCISS tool works](./#section-how-the-cciss-tool-works)
+
+Biogeoclimatic Zones + Subzones Variants Map
+-------------------------------------
 ```{r}
 leafletOutput("bec_map", width = "100%", height = "100%")
 
@@ -116,32 +111,106 @@ Current BGC : {insert current}
 How the CCISS tool works {data-navmenu="ABOUT"} 
 =====================================
 
+The Climate Change Informed Species Selection Decision Aid provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
+
 The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate- and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near- and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/ silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will different regions and elevations of a BGC.  
   
 [Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
 
-Hire the guy who did this {data-navmenu="ABOUT"}
-=====================================
-Bruno Tremblay  
-Github: [\@meztez](https://github.com/meztez)  
-Twitter: [\@meztez2](https://twitter.com/meztez2)  
-Contact: [treeforce@neoxone.com](mailto:treeforce@neoxone.com)  
-
 
 ```{r server_elements, context="server"}
+
+# Input management ----
+
+session$userData$points <- session$userData$basepoints <- data.table(
+  ID = integer(),
+  Latitude = numeric(),
+  Longitude = numeric(),
+  Elevation = numeric(),
+  BGC = character()
+)
+
+#Upload points logic
+upload_form <- function(button_id){
+  showModal(
+    modalDialog(
+      fileInput(inputId = "points_upload", label =  "Upload points in a delimited files",
+                accept = c(".csv", ".txt"), buttonLabel = "Browse...", placeholder = "My points")
+    )
+  )
+}
+
+#Add data
+update_points <- function(data) {
+  if (!missing(data)) {
+    session$userData$points <- rbindlist(list(session$userData$points, data), fill = TRUE)
+    session$userData$points$ID <- seq_len(nrow(session$userData$points))   
+  }
+  DT::replaceData(DT_proxy, session$userData$points, clearSelection = "all", rownames = FALSE)
+}
+
+append_points_file <- function(datapath){
+  points <- fread(datapath)
+  lat_match <- head(grep("^lat", names(points), ignore.case = TRUE), 1)
+  lng_match <- head(grep("^lng|^long", names(points), ignore.case = TRUE), 1)
+  update_points(data.table(Latitude = points[[lat_match]], Longitude = points[[lng_match]]))
+}
+
+observeEvent(input$upload_button, priority = 20,{
+  upload_form("upload_button")
+})
+
+observeEvent(input$points_upload, priority = 20,{
+  append_points_file(input$points_upload$datapath)
+  removeModal()
+})
+
+observeEvent(input$add_button, priority = 20,{
+  update_points(data.table(ID = NA))
+})
+
+observeEvent(input$clear_button, priority = 20,{
+  session$userData$points <- session$userData$basepoints
+  update_points()
+})
+
+#delete data
+observeEvent(input$delete_button, priority = 20,{
+  
+  if(length(input$points_table_rows_selected)>=1 ){
+    session$userData$points <- session$userData$points[-input$points_table_rows_selected]
+    update_points()
+  }
+  
+  showModal(
+    if(length(input$points_table_rows_selected) < 1 ){
+      modalDialog(
+        title = "Warning",
+        paste("Please select row(s)." ),easyClose = TRUE
+      )
+    }
+  )
+})
+
+output$points_table <- DT::renderDataTable({
+  datatable(session$userData$points, rownames = FALSE,
+            options = list(searching = FALSE),
+            editable = list(target = "row", disable = list(columns = c(0,4))))
+})
+
+DT_proxy <- DT::dataTableProxy("points_table")
+
+observeEvent(input$points_table_cell_edit, {
+  info = input$points_table_cell_edit
+  # col is 0-indexed because not using rownames
+  set(session$userData$points, info$row[1], info$col + 1, as.list(as.numeric(info$value)))
+  update_points()
+})
+
+# Map ----
 
 output$bec_map <- renderLeaflet({
   bccciss_map()
 })
-
-# Monitor `bec_cur` to show feature information
-observeEvent(input$bec_cur, {
-  leafletProxy('bec_map') %>%
-    add(lng = cur$latlng$lng, lat = cur$latlng$lat,
-              popup = pop_info(cur$properties),
-              group = "popups")
-  
-})
-
 
 ```
