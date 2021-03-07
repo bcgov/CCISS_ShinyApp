@@ -1,4 +1,4 @@
-# Tiles hosting pipeline ----
+# Tiles hosting pipeline with Tileserver GL ----
 
 #' Setup droplet
 #' @rdname do_helpers
@@ -175,6 +175,9 @@ launch_tileserver <- function(droplet, config, styles) {
   analogsea::droplet_ssh(droplet, "docker ps -q -a | xargs -r docker stop")
   # Star tileserver as root
   analogsea::droplet_ssh(droplet, paste("docker run --rm -v /mapdata:/data -p 8080:8080 -d --user root maptiler/tileserver-gl -s", config))
+  Sys.sleep(3)
+  utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(droplet)))
+  return(droplet)
 }
 
 # Helper task -----

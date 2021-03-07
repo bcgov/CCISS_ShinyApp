@@ -13,3 +13,4 @@
 ^.*\.html$
 ^\.httr-oauth$
 ^\.mbtiles$
+^scripts

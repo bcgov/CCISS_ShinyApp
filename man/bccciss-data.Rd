@@ -3,6 +3,7 @@
 \docType{data}
 \name{bccciss-data}
 \alias{bccciss-data}
+\alias{bec_info}
 \alias{E1}
 \alias{F1}
 \alias{R1}

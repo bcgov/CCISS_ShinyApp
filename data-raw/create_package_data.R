@@ -3,14 +3,17 @@
 
 library(data.table)
 library(usethis)
+library(bcdata)
 E1 <- fread("./data-raw/data_tables/Edatopic_v11_22.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v11_22.csv")
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv")
 zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key = "classification")
 subzones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Subzone_Colours.csv", key = "classification")
+map <- bcdc_get_data(bcdc_search("BEC Map")[["bec-map"]])
+bec_info <- setDT(map, key = "OBJECTID")[, geometry := NULL][, id := NULL]
 
-use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE)
+use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, bec_info, overwrite = TRUE)
 # see version in ?usethis::use_data, if you all use R 3.5 and up. You should bump to version 3
 # use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE, version = 3)
 

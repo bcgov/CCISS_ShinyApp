@@ -31,8 +31,9 @@ bcdc_get_data(bcdc_search("BEC Map")[["bec-map"]]) %>%
   st_write(dsn = file.path(out_dir, shp_name), layer = layer, overwrite = TRUE)
 
 # Digital Ocean provisioning - Setup your SSH keys in your accounts before running these.
-tileserver <- setup_docklet()
+# tileserver <- setup_docklet()
+tileserver <- droplets()[[1]]
 remote_shp_tiles(tileserver, paste0("--use-attribute-for-id=", id),
-                 "-zg --force --coalesce-densest-as-needed --extend-zooms-if-still-dropping",
+                 "-z18 --simplification=20 --force --coalesce-densest-as-needed --extend-zooms-if-still-dropping",
                  source_dir = out_dir, skip_upload = TRUE)
 launch_tileserver(tileserver, config = "./inst/tileserver/config.json", styles = "./inst/tileserver/becstyle.json")
