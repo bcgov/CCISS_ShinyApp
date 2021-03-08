@@ -1,19 +1,22 @@
 L.vectorTileOptions=function(layerName, layerId, activ,
-                             lfPane, colorMap, prop) {
+                             lfPane, colorMap, prop, id, opacity) {
   return {
-    vectorTileLayerName : layerName,
+    vectorTileLayerName: layerName,
     interactive: activ, // makes it able to trigger js events like click
     vectorTileLayerStyles: {
       [layerId]: function(properties, zoom) {
         return {
           weight: 0,
           fillColor: colorMap[properties[prop]],
-          fillOpacity: 0.5,
+          fillOpacity: opacity,
           fill: true
         }
       }
     },
-    pane : lfPane
+    pane : lfPane,
+    getFeatureId: function(f) {
+        return f.properties[id];
+    }
   }
   
 };
