@@ -7,8 +7,15 @@
 bccciss_map(points, xName = "Long", yName = "Lat", render = c("app", "report"))
 }
 \arguments{
-\item{pts}{A data.frame like object containing geoposition of
-points of interest in CRS 4326.}
+\item{points}{A data.frame with columns xName yName representing longitude and latitude
+GPS values (EPSG:4326)}
+
+\item{xName}{A character string. Longitude column name.}
+
+\item{yName}{A character string. Latitude column name.}
+
+\item{render}{A character. Where the map will be rendered. Either in a Shiny app or a report.
+Default to app.}
 }
 \value{
 A Leaflet map object.

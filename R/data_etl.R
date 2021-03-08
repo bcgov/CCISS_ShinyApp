@@ -26,6 +26,7 @@
 #' @return A vector of hex IDs,
 #' @import sf
 #' @importFrom RPostgreSQL dbGetQuery dbDisconnect
+#' @return BEC Information about features
 #' @export
 dbGetHexID <- function(points, xName = "Long", yName = "Lat", host = "localhost", ...) {
   
@@ -48,6 +49,84 @@ dbGetHexID <- function(points, xName = "Long", yName = "Lat", host = "localhost"
   
   return(out[,1])
 }
+
+#' Pull bec_info from lat long inputs
+#' @inheritParams dbGetHexID
+#' @return BEC Information about features
+#' @export
+dbGetBecInfo <- function(points, xName = "Long", yName = "Lat", host = "localhost", ...) {
+  
+  txt <- st_as_sf(points,coords = c(xName,yName), crs = 4326) %>%
+    st_transform(3005) %>%
+    st_combine() %>%
+    st_as_text()
+  
+  bec_info_sql <- paste0("
+  
+  SELECT \"ZONE\",
+         \"SUBZONE\",
+         \"VARIANT\",
+         \"PHASE\",
+         \"NATURAL_DISTURBANCE\",
+         \"MAP_LABEL\",
+         \"BGC_LABEL\",
+         \"ZONE_NAME\",
+         \"SUBZONE_NAME\",
+         \"VARIANT_NAME\",
+         \"PHASE_NAME\",
+         \"NATURAL_DISTURBANCE_NAME\",
+         \"FEATURE_AREA_SQM\",
+         \"FEATURE_LENGTH_M\",
+         \"FEATURE_AREA\",
+         \"FEATURE_LENGTH\"
+  FROM bec_sf
+  WHERE ST_Intersects(ST_GeomFromText('",txt,"', 3005), bec_sf.geometry)
+  
+  ")
+  
+  con <- init_con(host, ...)
+  on.exit(RPostgreSQL::dbDisconnect(con), add = TRUE)
+  out <- RPostgreSQL::dbGetQuery(con, bec_info_sql)
+  
+  return(out)  
+}
+
+#' Pull bec_info from lat long inputs
+#' @inheritParams dbGetHexID
+#' @return BEC Information about features
+#' @export
+localGetBecInfo <- function(points, xName = "Long", yName = "Lat", host, ...) {
+  pts <- st_as_sf(points,coords = c(xName,yName), crs = 4326) %>%
+    st_transform(3005)
+  
+  # Faster sf_intersects by skipping costly operations and pre filtering
+  # Do not intersects with polygons you know the bbox to be outside your
+  # points of interest. Return NA rows for non-geometry.
+  default <- rbindlist(list(host[0,], data.table(id = NA_character_)), fill = TRUE)
+  dt <- rbindlist(lapply(pts$geometry, function(g) {
+    if (sf::st_is_empty(g)) {
+      return(default)
+    }
+    b <- as.list(sf::st_bbox(g))
+    idx <- which(.subset2(b, "xmin") < .subset2(host, "xmax") &
+                 .subset2(b, "xmax") > .subset2(host, "xmin") &
+                 .subset2(b, "ymin") < .subset2(host, "ymax") &
+                 .subset2(b, "ymax") > .subset2(host, "ymin"))
+    if (length(idx) == 0) {
+      return(default)
+    }
+    m <- unlist(sf::st_intersects(g, host[idx, with = FALSE]$geometry))
+    if (length(m) == 0) {
+      return(default)
+    }
+    return(host[m, with = FALSE])
+  }))
+  
+  # Lazy column selection
+  return(dt[j = 3L:18L])
+
+}
+
 
 #' Pull CCISS from a vector of SiteNo
 #' @param SiteNo A numeric vector of SiteNo.

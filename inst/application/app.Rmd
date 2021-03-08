@@ -6,6 +6,7 @@ output:
     vertical_layout: fill
     logo: www/logo.svg
     favicon: www/favicon.ico
+    theme: flatly
 runtime: shiny_prerendered
 ---
 
@@ -15,12 +16,24 @@ suppressPackageStartupMessages({
   library(shiny)
   library(leaflet)
   library(DT)
+  library(bcmaps)
 })
 
+# Again this could be done with postgis instead
+bec <- bcmaps::bec(ask = FALSE)
+# Trick to make intersect faster by prefiltering with bbox
+classes <- attr(bec, "class")
+# reclass as data.table to allow data.table operation
+setDT(bec)
+data.table::set(
+  bec,
+  j = c("xmin", "ymin", "xmax", "ymax"),
+  value = data.table::rbindlist(lapply(bec$geometry, function(x) as.list(sf::st_bbox(x))))
+)
+# and back into an sf
+attr(bec, "class") <- classes
+
 ```
-
-
-
 
 
 BEC MAP
@@ -34,32 +47,13 @@ Inputs {.sidebar data-width=500}
 Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim,
 
 ```{r}
-fluidPage(
-  fluidRow(
-    actionButton("add_button", "Add", icon("plus")),
-    actionButton("delete_button", "Delete", icon("trash-alt")),
-    actionButton("upload_button", "Upload", icon("upload")),
-    actionButton("clear_button", "Clear", icon("broom"))
-  ),
-  br(),
-  fluidRow(width="100%",
-           DT::DTOutput("points_table", width="100%")
-  ),
-  br(),
-  fluidRow(
-    selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5", "8.5"), multiple = TRUE),
-    radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = FALSE, "Averaged by BGC Zone" = TRUE))
-  ),
-  br(),
-  fluidRow(
-    span("Download a self-contained report")
-  ),
-  fluidRow(
-    actionButton("html_report_button", "HTML Report", icon("file-code")),
-    actionButton("pdf_report_button", "PDF Report", icon("file-pdf"))
-  )
-)
-
+actionButton("add_button", "Add", icon("plus"))
+actionButton("delete_button", "Delete", icon("trash-alt"))
+actionButton("upload_button", "Upload", icon("upload"))
+actionButton("clear_button", "Clear", icon("broom"))
+DT::DTOutput("points_table", width="100%")
+selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5", "8.5"), multiple = TRUE, width = 150)
+radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = FALSE, "Averaged by BGC Zone" = TRUE), inline = TRUE)
 ```
 
 [How the CCISS tool works](./#section-how-the-cciss-tool-works)
@@ -108,6 +102,12 @@ Current BGC : {insert current}
 ```{r}
 ```
 
+... to PDF {data-navmenu="EXPORT" .navbar-right}
+=====================================
+
+... to HTML {data-navmenu="EXPORT" .navbar-right}
+=====================================
+
 How the CCISS tool works {data-navmenu="ABOUT"} 
 =====================================
 
@@ -120,9 +120,17 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
 
 ```{r server_elements, context="server"}
 
+# Proxy objects
+DT_proxy <- DT::dataTableProxy("points_table")
+map_proxy <- leaflet::leafletProxy('bec_map')
+
 # Input management ----
 
-session$userData$points <- session$userData$basepoints <- data.table(
+## Points dataframe
+uData <- session$userData
+uData$bec <- bec
+
+uData$points <- uData$basepoints <- data.table(
   ID = integer(),
   Latitude = numeric(),
   Longitude = numeric(),
@@ -130,7 +138,49 @@ session$userData$points <- session$userData$basepoints <- data.table(
   BGC = character()
 )
 
-#Upload points logic
+output$points_table <- DT::renderDataTable({
+  DT::datatable(
+    uData$points, rownames = FALSE,
+    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5),
+    editable = list(target = "row", disable = list(columns = c(0,4)))
+  )
+})
+
+## Points update logic
+update_points <- function(data) {
+  if (!missing(data)) {
+    data[, Latitude := round(Latitude, 5)]
+    data[, Longitude := round(Longitude, 5)]
+    uData$points <- rbindlist(list(uData$points, data), fill = TRUE)
+    uData$points[, ID := seq_len(nrow(uData$points))]
+  }
+  non_na_idx <- which(!is.na(uData$points$Longitude) & !is.na(uData$points$Latitude))
+  # Using a local sf object, this should be a postgis database call
+  # This data is not feeded to points DT in UI but feeds popups
+  if (length(non_na_idx) > 0L) {
+    bec_info <- localGetBecInfo(uData$points[i = non_na_idx], "Longitude", "Latitude", uData$bec)
+    uData$points[i = non_na_idx, BGC := bec_info$BGC_LABEL]
+    # TODO
+    # Fetch elevation from where?
+    popups <- bec_info[, paste("<b>", names(.SD), ":</b>", .SD, collapse = "<br />"), by=1:NROW(bec_info)]$V1
+    uData$points[i = non_na_idx, popups := sapply(popups, htmltools::HTML)]
+    map_proxy %>%
+    leaflet::clearMarkers() %>%
+    leaflet::addCircleMarkers(lng = ~Longitude, lat = ~Latitude,
+                              data = uData$points[i = non_na_idx],
+                              radius = 4, color = "#333", fillColor = "red", stroke = TRUE,
+                              fillOpacity = 0.4, opacity = 0.8, weight = 2,
+                              popup = ~popups)
+    uData$points[, popups := NULL]
+  }
+  DT::replaceData(DT_proxy, uData$points, clearSelection = "all", rownames = FALSE)
+}
+
+## Upload points logic
+observeEvent(input$upload_button, priority = 20,{
+  upload_form("upload_button")
+})
+
 upload_form <- function(button_id){
   showModal(
     modalDialog(
@@ -140,70 +190,58 @@ upload_form <- function(button_id){
   )
 }
 
-#Add data
-update_points <- function(data) {
-  if (!missing(data)) {
-    session$userData$points <- rbindlist(list(session$userData$points, data), fill = TRUE)
-    session$userData$points$ID <- seq_len(nrow(session$userData$points))   
-  }
-  DT::replaceData(DT_proxy, session$userData$points, clearSelection = "all", rownames = FALSE)
-}
-
-append_points_file <- function(datapath){
-  points <- fread(datapath)
-  lat_match <- head(grep("^lat", names(points), ignore.case = TRUE), 1)
-  lng_match <- head(grep("^lng|^long", names(points), ignore.case = TRUE), 1)
-  update_points(data.table(Latitude = points[[lat_match]], Longitude = points[[lng_match]]))
-}
-
-observeEvent(input$upload_button, priority = 20,{
-  upload_form("upload_button")
-})
-
 observeEvent(input$points_upload, priority = 20,{
   append_points_file(input$points_upload$datapath)
   removeModal()
 })
 
+append_points_file <- function(datapath){
+  points <- fread(datapath)
+  lat_match <- head(grep("^lat|latitude", names(points), ignore.case = TRUE), 1)
+  lng_match <- head(grep("^lng|^long|longitude", names(points), ignore.case = TRUE), 1)
+  ele_match <- head(grep("^elev|elevation", names(points), ignore.case = TRUE), 1)
+  update_points(
+    data.table(
+      Latitude = {if (length(lat_match) > 0L) {as.numeric(points[[lat_match]])} else NA_real_},
+      Longitude = {if (length(lng_match) > 0L) {as.numeric(points[[lng_match]])} else NA_real_},
+      Elevation = {if (length(ele_match) > 0L) {as.numeric(points[[ele_match]])} else NA_real_}
+    )
+  )
+}
+
+## Add a point logic
 observeEvent(input$add_button, priority = 20,{
   update_points(data.table(ID = NA))
 })
 
+## Delete selected points logic
+observeEvent(input$delete_button, priority = 20,{
+  
+  if(length(input$points_table_rows_selected)>=1) {
+    uData$points <- uData$points[-input$points_table_rows_selected]
+    update_points()
+  } else {
+    showModal(
+      modalDialog(
+        title = "Warning",
+        paste("Please select row(s)." ),
+        easyClose = TRUE
+      )
+    )
+  }
+})
+
+## Clear all points logic
 observeEvent(input$clear_button, priority = 20,{
-  session$userData$points <- session$userData$basepoints
+  uData$points <- uData$basepoints
   update_points()
 })
 
-#delete data
-observeEvent(input$delete_button, priority = 20,{
-  
-  if(length(input$points_table_rows_selected)>=1 ){
-    session$userData$points <- session$userData$points[-input$points_table_rows_selected]
-    update_points()
-  }
-  
-  showModal(
-    if(length(input$points_table_rows_selected) < 1 ){
-      modalDialog(
-        title = "Warning",
-        paste("Please select row(s)." ),easyClose = TRUE
-      )
-    }
-  )
-})
-
-output$points_table <- DT::renderDataTable({
-  datatable(session$userData$points, rownames = FALSE,
-            options = list(searching = FALSE),
-            editable = list(target = "row", disable = list(columns = c(0,4))))
-})
-
-DT_proxy <- DT::dataTableProxy("points_table")
-
+## Edit points logic
 observeEvent(input$points_table_cell_edit, {
   info = input$points_table_cell_edit
   # col is 0-indexed because not using rownames
-  set(session$userData$points, info$row[1], info$col + 1, as.list(as.numeric(info$value)))
+  set(uData$points, info$row[1], info$col + 1L, as.list(as.numeric(info$value)))
   update_points()
 })
 
@@ -212,5 +250,12 @@ observeEvent(input$points_table_cell_edit, {
 output$bec_map <- renderLeaflet({
   bccciss_map()
 })
+
+## Map click logic
+observeEvent(input$bec_map_click, {
+  pos <- input$bec_map_click
+  update_points(data.table(Latitude = pos$lat, Longitude = pos$lng))
+})
+
 
 ```

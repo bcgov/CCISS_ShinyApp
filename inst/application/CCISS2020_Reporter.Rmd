@@ -36,7 +36,7 @@ Extract data given hex id values. Output is predicted BGCs, with the proportion 
 ```{r get BGC.pred at sites}
 ##load csv with lat and long columns
 loc_name <- "WilliamsLake" ## name of trial run
-pointDat <- fread("./test_locations/WilliamsLake_Locations.csv")
+pointDat <- data.table::fread("./test_locations/WilliamsLake_Locations.csv")
 test_siteno <- dbGetHexID(pointDat,host = "smithersresearch.ca") ## returns hex number from location for testing
 tic()
 # test_siteno <- dbGetHexID(pointDat, host = "FLNRServer")

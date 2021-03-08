@@ -1,7 +1,8 @@
 #' Main CCISS APP leaflet map
-#' @param pts A data.frame like object containing geoposition of
-#' points of interest in CRS 4326.
+#' @param render A character. Where the map will be rendered. Either in a Shiny app or a report.
+#' Default to app.
 #' @return A Leaflet map object.
+#' @inheritParams dbGetHexID
 #' @importFrom leaflet leaflet setView addProviderTiles addWMSTiles hideGroup addMeasure addLayersControl providers
 #' @importFrom leaflet.extras addSearchOSM searchOptions
 #' @importFrom htmlwidgets onRender
@@ -39,11 +40,12 @@ bccciss_map <- function(points, xName = "Long", yName = "Lat", render = c("app",
         primaryLengthUnit = "meters",
         secondaryLengthUnit = "kilometers",
         primaryAreaUnit = "sqmeters") %>%
-      leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = FALSE)) %>%
+      leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
       leaflet::addLayersControl(
         baseGroups = c("OpenStreetMap", "Satellite", "Hillshade"),
         overlayGroups = c("Zones", "Subzones Variants", "BEC WMS"),
-        position = "topright")
+        position = "topright") %>%
+      leaflet::addMiniMap(toggleDisplay = TRUE)
   }
   
   return(l)
@@ -61,15 +63,53 @@ addVectorGridTilesDev <- function(map) {
       var zLayer = L.vectorGrid.protobuf(
         "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
         L.vectorTileOptions("bec_z", "BECMap", true,
-                            "overlayPane", zoneColors, "ZONE")
+                            "overlayPane", zoneColors, "ZONE", "OBJECTID", 0.85)
       )
       var subzLayer = L.vectorGrid.protobuf(
         "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
         L.vectorTileOptions("bec_subz", "BECMap", true,
-                            "overlayPane", subzoneColors, "MAP_LABEL")
+                            "overlayPane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
       )
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+      
+      var highlight
+		  var clearHighlight = function() {
+		  	if (highlight) {
+		  		subzLayer.resetFeatureStyle(highlight);
+		  	}
+		  	highlight = null;
+		  }
+      
+      // Zone
+      
+      zLayer.bindTooltip(function(e) {
+        return e.properties.ZONE
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      // Subzones
+      
+      subzLayer.bindTooltip(function(e) {
+        return e.properties.MAP_LABEL
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      subzLayer.on("mouseover", function(e) {
+        if (e.layer.properties) {
+          var properties = e.layer.properties
+  			  highlight = properties.OBJECTID
+  			  var style = {
+            weight: 1,
+            color: "#555",
+            fillColor: subzoneColors[properties.MAP_LABEL],
+            fillOpacity: 0.75,
+            fill: true
+          }
+          subzLayer.setFeatureStyle(properties.OBJECTID, style);
+        }
+      })
+      subzLayer.on("mouseout", function(e) {
+        clearHighlight();
+      })
     }'
   )
   map
