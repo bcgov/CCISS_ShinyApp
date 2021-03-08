@@ -96,35 +96,50 @@ dbGetBecInfo <- function(points, xName = "Long", yName = "Lat", host = "localhos
 #' @return BEC Information about features
 #' @export
 localGetBecInfo <- function(points, xName = "Long", yName = "Lat", host, ...) {
-  pts <- st_as_sf(points,coords = c(xName,yName), crs = 4326) %>%
-    st_transform(3005)
+  
+  # Return immediatly if points is empty
+  if (nrow(points) == 0L) {
+    return(list(points = points))
+  }
+  
+  pts <- st_as_sf(points, coords = c(xName, yName), crs = 4326)
+  pts <- st_transform(pts, crs = 3005)
+  
+  # Remove points that do not have valid geometries
+  has_geom <- which(!sf::st_is_empty(pts))
+  points <- points[i = has_geom]
+  pts <- pts[has_geom, ]
   
   # Faster sf_intersects by skipping costly operations and pre filtering
   # Do not intersects with polygons you know the bbox to be outside your
-  # points of interest. Return NA rows for non-geometry.
-  default <- rbindlist(list(host[0,], data.table(id = NA_character_)), fill = TRUE)
-  dt <- rbindlist(lapply(pts$geometry, function(g) {
-    if (sf::st_is_empty(g)) {
-      return(default)
-    }
-    b <- as.list(sf::st_bbox(g))
+  # points of interest.
+  midx <- integer()
+  for (pt in pts$geometry) {
+    b <- as.list(sf::st_bbox(pt))
     idx <- which(.subset2(b, "xmin") < .subset2(host, "xmax") &
                  .subset2(b, "xmax") > .subset2(host, "xmin") &
                  .subset2(b, "ymin") < .subset2(host, "ymax") &
                  .subset2(b, "ymax") > .subset2(host, "ymin"))
-    if (length(idx) == 0) {
-      return(default)
-    }
-    m <- unlist(sf::st_intersects(g, host[idx, with = FALSE]$geometry))
-    if (length(m) == 0) {
-      return(default)
-    }
-    return(host[m, with = FALSE])
-  }))
+    midx <- c(midx, idx)
+  }
+  midx <- sort(unique(midx))
   
-  # Lazy column selection
-  return(dt[j = 3L:18L])
-
+  # Return early with empty points when all points outside bboxes
+  if (length(midx) == 0) {
+    return(list(points = points[i = 0]))
+  }
+  
+  m <- sf::st_intersects(pts$geometry, host$geometry[midx])
+  has_m <- which(lengths(m) > 0)
+  
+  # Return early with empty if no intersects match is found
+  if (length(has_m) == 0) {
+    return(list(points = points[i = 0]))
+  }
+  
+  # Retain only points with a match with filtered BEC Info
+  list(points = points[i = has_m], info = host[i = midx[unlist(m)], j = 3L:18L])
+  
 }
 
 
