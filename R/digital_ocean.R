@@ -65,7 +65,7 @@ setup_docklet <- function(size = "s-2vcpu-4gb-intel",
   setup_firewall(droplet)
   setup_updates(droplet)
   install_tippecanoe(droplet)
-  install_nginx(droplet)
+  install_nginx(droplet, system.file("tileserver", "nginx.conf", package="bccciss"))
   prepare_tileserver(droplet)
   return(invisible(droplet))
 }
@@ -203,13 +203,13 @@ prepare_tileserver <- function(droplet) {
 #' Install and configure nginx
 #' @noRd
 #' @importFrom analogsea docklet_pull droplet_ssh debian_apt_get_install
-install_nginx <- function(droplet){
+install_nginx <- function(droplet, config, name = "tileserver"){
   analogsea::debian_apt_get_install(droplet, "nginx")
   analogsea::droplet_ssh(droplet, "rm -f /etc/nginx/sites-enabled/default") # Disable the default site
   analogsea::droplet_ssh(droplet, "mkdir -p /cache/nginx && chmod -R 777 /cache/nginx")
-  analogsea::droplet_upload(droplet, local=system.file("tileserver", "nginx.conf", package="bccciss"),
-                            remote="/etc/nginx/sites-available/tileserver")
-  analogsea::droplet_ssh(droplet, "ln -sf /etc/nginx/sites-available/tileserver /etc/nginx/sites-enabled/")
+  analogsea::droplet_upload(droplet, local=config,
+                            remote=paste0("/etc/nginx/sites-available/", name))
+  analogsea::droplet_ssh(droplet, paste0("ln -sf /etc/nginx/sites-available/", name," /etc/nginx/sites-enabled/"))
   analogsea::droplet_ssh(droplet, "systemctl reload nginx")
 }
 
