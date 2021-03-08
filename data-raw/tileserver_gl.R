@@ -32,7 +32,7 @@ bcmaps::bec(ask = FALSE) %>%
 # tileserver <- setup_docklet()
 tileserver <- droplets()[[1]]
 remote_shp_tiles(tileserver,
-                 "-z18 --simplification=12 --force --coalesce-densest-as-needed --extend-zooms-if-still-dropping --detect-shared-borders",
+                 "-z18 --simplification=10 --force --coalesce-densest-as-needed --extend-zooms-if-still-dropping --detect-shared-borders",
                  source_dir = out_dir, skip_upload = TRUE)
 launch_tileserver(tileserver, config = "./inst/tileserver/config.json", styles = "./inst/tileserver/becstyle.json")
 

@@ -18,20 +18,17 @@ suppressPackageStartupMessages({
   library(DT)
   library(bcmaps)
 })
-
+## BEC Map data, bit transformed for faster processing
 # Again this could be done with postgis instead
+# This particular sf has zones over water bodies
 bec <- bcmaps::bec(ask = FALSE)
-# Trick to make intersect faster by prefiltering with bbox
-classes <- attr(bec, "class")
 # reclass as data.table to allow data.table operation
-setDT(bec)
+data.table::setDT(bec)
 data.table::set(
   bec,
   j = c("xmin", "ymin", "xmax", "ymax"),
   value = data.table::rbindlist(lapply(bec$geometry, function(x) as.list(sf::st_bbox(x))))
 )
-# and back into an sf
-attr(bec, "class") <- classes
 
 ```
 
@@ -128,98 +125,138 @@ map_proxy <- leaflet::leafletProxy('bec_map')
 
 ## Points dataframe
 uData <- session$userData
-uData$bec <- bec
 
 uData$points <- uData$basepoints <- data.table(
   ID = integer(),
   Latitude = numeric(),
   Longitude = numeric(),
   Elevation = numeric(),
-  BGC = character()
+  BGC = character(),
+  popups = character()
 )
 
+## Exclude popup
 output$points_table <- DT::renderDataTable({
   DT::datatable(
-    uData$points, rownames = FALSE,
+    uData$points[j = 1L:5L], rownames = FALSE,
     options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5),
     editable = list(target = "row", disable = list(columns = c(0,4)))
   )
 })
 
+
+## Interface redraw methods
+update_DT <- function() {
+  DT::replaceData(DT_proxy, uData$points[j = 1L:5L], clearSelection = "all", rownames = FALSE)
+}
+
+clear_mk <- function() {
+  leaflet::clearMarkers(map_proxy)
+}
+
+draw_mk <- function(data = uData$points) {
+  non_na_idx <- which(!is.na(data$Longitude) & !is.na(data$Latitude))
+  leaflet::addCircleMarkers(map_proxy, lng = ~Longitude, lat = ~Latitude,
+                            data = data[i = non_na_idx],
+                            radius = 4, color = "#333", fillColor = "red", stroke = TRUE,
+                            fillOpacity = 0.4, opacity = 0.8, weight = 2,
+                            popup = ~popups) 
+}
+
 ## Points update logic
-update_points <- function(data) {
-  if (!missing(data)) {
-    data[, Latitude := round(Latitude, 5)]
-    data[, Longitude := round(Longitude, 5)]
-    uData$points <- rbindlist(list(uData$points, data), fill = TRUE)
-    uData$points[, ID := seq_len(nrow(uData$points))]
+update_ID <- function() {
+  uData$points[, ID := seq_len(nrow(uData$points))]
+}
+
+new_points <- function(points) {
+  beg <- nrow(points)
+  withProgress(min = 0, max = 3, detail = "Adding points ...", {
+    setProgress(1, message = "Fetch points details")
+    points <- points[!is.na(Longitude) & !is.na(Latitude)]
+    points[,`:=`(Longitude = round(Longitude, 5), Latitude = round(Latitude, 5))]
+    res <- localGetBecInfo(points, "Longitude", "Latitude", bec)
+    points <- res$points
+    if (nrow(points) > 0) {
+      points[, BGC := res$info$BGC_LABEL]
+      # TODO
+      # Fetch elevation from where?
+      # points[is.na(Elevevation), Elevation := bcmaps::cded(...)]
+      setProgress(2, message = "Create popup info")
+      popups <- res$info[, paste("<b>", names(.SD), ":</b>", .SD, collapse = "<br />"), by=1:NROW(res$info)]$V1
+      points[, popups := sapply(popups, htmltools::HTML)]
+    }
+    points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
+    setProgress(3, message = "Done")
+  })
+  end <- nrow(points)
+  if (beg != end) {
+    showModal(
+      modalDialog(
+        title = "Warning",
+        paste("Points outside of coverage zones were dropped or not updated." ),
+        easyClose = TRUE
+      )
+    )
   }
-  non_na_idx <- which(!is.na(uData$points$Longitude) & !is.na(uData$points$Latitude))
-  # Using a local sf object, this should be a postgis database call
-  # This data is not feeded to points DT in UI but feeds popups
-  if (length(non_na_idx) > 0L) {
-    bec_info <- localGetBecInfo(uData$points[i = non_na_idx], "Longitude", "Latitude", uData$bec)
-    uData$points[i = non_na_idx, BGC := bec_info$BGC_LABEL]
-    # TODO
-    # Fetch elevation from where?
-    popups <- bec_info[, paste("<b>", names(.SD), ":</b>", .SD, collapse = "<br />"), by=1:NROW(bec_info)]$V1
-    uData$points[i = non_na_idx, popups := sapply(popups, htmltools::HTML)]
-    map_proxy %>%
-    leaflet::clearMarkers() %>%
-    leaflet::addCircleMarkers(lng = ~Longitude, lat = ~Latitude,
-                              data = uData$points[i = non_na_idx],
-                              radius = 4, color = "#333", fillColor = "red", stroke = TRUE,
-                              fillOpacity = 0.4, opacity = 0.8, weight = 2,
-                              popup = ~popups)
-    uData$points[, popups := NULL]
+  return(points)
+}
+
+insert_points <- function(points) {
+  if (nrow(points)) {
+    uData$points <- rbindlist(list(uData$points, points), fill = TRUE)
+    update_ID()
+    update_DT()
+    draw_mk(points)
   }
-  DT::replaceData(DT_proxy, uData$points, clearSelection = "all", rownames = FALSE)
 }
 
 ## Upload points logic
-observeEvent(input$upload_button, priority = 20,{
-  upload_form("upload_button")
-})
-
-upload_form <- function(button_id){
+observeEvent(input$upload_button,{
   showModal(
     modalDialog(
       fileInput(inputId = "points_upload", label =  "Upload points in a delimited files",
                 accept = c(".csv", ".txt"), buttonLabel = "Browse...", placeholder = "My points")
     )
   )
-}
-
-observeEvent(input$points_upload, priority = 20,{
-  append_points_file(input$points_upload$datapath)
-  removeModal()
 })
 
-append_points_file <- function(datapath){
+observeEvent(input$points_upload,{
+  insert_points_file(input$points_upload$datapath)
+})
+
+insert_points_file <- function(datapath){
+  # Columns detection using regular expression, hopefully column names have a match
   points <- fread(datapath)
-  lat_match <- head(grep("^lat|latitude", names(points), ignore.case = TRUE), 1)
-  lng_match <- head(grep("^lng|^long|longitude", names(points), ignore.case = TRUE), 1)
-  ele_match <- head(grep("^elev|elevation", names(points), ignore.case = TRUE), 1)
-  update_points(
-    data.table(
-      Latitude = {if (length(lat_match) > 0L) {as.numeric(points[[lat_match]])} else NA_real_},
-      Longitude = {if (length(lng_match) > 0L) {as.numeric(points[[lng_match]])} else NA_real_},
-      Elevation = {if (length(ele_match) > 0L) {as.numeric(points[[ele_match]])} else NA_real_}
-    )
-  )
+  lat_j <- head(grep("^lat|latitude", names(points), ignore.case = TRUE), 1)
+  lng_j <- head(grep("^lng|^long|longitude", names(points), ignore.case = TRUE), 1)
+  ele_j <- head(grep("^elev|elevation", names(points), ignore.case = TRUE), 1)
+  cln_j <- function(j) {
+    if (length(j) > 0) {
+      as.numeric(points[[j]])
+    } else {
+      NA_real_
+    }
+  }
+  points <- data.table(Latitude = cln_j(lat_j), Longitude = cln_j(lng_j),
+                       Elevation = cln_j(ele_j))
+  points <- new_points(points)
+  insert_points(points)
 }
 
 ## Add a point logic
-observeEvent(input$add_button, priority = 20,{
-  update_points(data.table(ID = NA))
+observeEvent(input$add_button,{
+  uData$points <- rbindlist(list(uData$points, data.table(ID=NA_integer_)), fill = TRUE)
+  update_ID()
+  update_DT()
 })
 
 ## Delete selected points logic
-observeEvent(input$delete_button, priority = 20,{
-  
+observeEvent(input$delete_button,{
   if(length(input$points_table_rows_selected)>=1) {
     uData$points <- uData$points[-input$points_table_rows_selected]
-    update_points()
+    update_DT()
+    clear_mk()
+    draw_mk()
   } else {
     showModal(
       modalDialog(
@@ -232,17 +269,28 @@ observeEvent(input$delete_button, priority = 20,{
 })
 
 ## Clear all points logic
-observeEvent(input$clear_button, priority = 20,{
+observeEvent(input$clear_button,{
   uData$points <- uData$basepoints
-  update_points()
+  update_DT()
+  clear_mk()
 })
 
 ## Edit points logic
 observeEvent(input$points_table_cell_edit, {
   info = input$points_table_cell_edit
-  # col is 0-indexed because not using rownames
-  set(uData$points, info$row[1], info$col + 1L, as.list(as.numeric(info$value)))
-  update_points()
+  points <- data.table(
+    ID = as.numeric(info$value[1]),
+    Longitude = as.numeric(info$value[2]),
+    Latitude = as.numeric(info$value[3]),
+    Elevation = as.numeric(info$value[4])
+  )
+  points <- new_points(points)
+  if (nrow(points)) {
+    set(uData$points, info$row[1], points)
+    clear_mk()
+    draw_mk()
+  }
+  update_DT()
 })
 
 # Map ----
@@ -254,7 +302,8 @@ output$bec_map <- renderLeaflet({
 ## Map click logic
 observeEvent(input$bec_map_click, {
   pos <- input$bec_map_click
-  update_points(data.table(Latitude = pos$lat, Longitude = pos$lng))
+  points <- new_points(data.table(Latitude = pos$lat, Longitude = pos$lng))
+  insert_points(points)
 })
 
 
