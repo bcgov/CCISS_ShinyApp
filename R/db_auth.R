@@ -42,7 +42,7 @@ db_auth <- function(host, dbname, port, user, force = FALSE, ...) {
           .auth$creds$pwd <- getPass::getPass(
             paste0("Enter Postgres ", dbname, " database password for user ", user, " on ", host, ":", port)
           )
-          if (is.null(.auth$creds$pwd)) { stop("Could not authorize", user) }
+          if (is.null(.auth$creds$pwd)) { stop("Could not authorize ", user) }
           if (utils::menu(c("Yes","No"), title = "Save password to your system keyring between R sessions?") == 1L) {
             keyring::key_set_with_value("bccciss", key, .auth$creds$pwd)
           }
