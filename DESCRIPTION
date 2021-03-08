@@ -24,7 +24,9 @@ Imports:
     htmlwidgets,
     leaflet,
     leaflet.extras,
-    analogsea
+    analogsea,
+    DT,
+    flexdashboard
 Suggests:
     covr,
     testthat (>= 3.0.0),
