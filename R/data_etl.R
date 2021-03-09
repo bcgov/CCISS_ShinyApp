@@ -72,11 +72,13 @@ dbGetBecInfo <- function(con, points) {
          feature_area_sqm,
          feature_length_m,
          feature_area,
-         feature_length
+         feature_length,
+         bcb_hres.objectid is NOT NULL onbcland
   FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
   LEFT JOIN bec_info
   ON ST_Intersects(pts.geom, bec_info.geometry)
-  
+  LEFT JOIN bcb_hres
+  ON ST_Intersects(pts.geom, bcb_hres.geometry)
   ")
 
   return(setDT(RPostgreSQL::dbGetQuery(con, bec_info_sql)))  

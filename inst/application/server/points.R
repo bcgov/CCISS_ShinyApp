@@ -27,7 +27,7 @@ uData$points <- uData$basepoints <- data.table(
 output$points_table <- DT::renderDataTable({
   DT::datatable(
     uData$points[j = 1L:5L], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5),
+    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "200px", scrollCollapse = FALSE),
     editable = list(target = "row", disable = list(columns = c(0,4)))
   )
 })
@@ -56,7 +56,7 @@ new_points <- function(points) {
     setProgress(2, message = "Create popup info")
     popups <- res[, paste("<b>", names(.SD), ":</b>", .SD, collapse = "<br />"), by=1:NROW(res)]$V1
     points[, popups := sapply(popups, htmltools::HTML)]
-    points <- points[!is.na(BGC)]
+    points <- points[!is.na(BGC) & isTRUE(res$onbcland)]
     points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
     setProgress(3, message = "Done")
   })
