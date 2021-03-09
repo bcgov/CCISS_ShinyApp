@@ -14,3 +14,4 @@ inst/doc
 *.mbtiles
 /data-raw/shp
 *.geojson
+.httr-oauth

@@ -16,8 +16,6 @@ Depends:
 Imports: 
     RPostgreSQL,
     dplyr,
-    getPass,
-    keyring,
     matrixStats,
     rmarkdown,
     htmltools,
@@ -28,8 +26,6 @@ Imports:
     DT,
     flexdashboard
 Suggests:
-    covr,
-    testthat (>= 3.0.0),
     shiny,
     bcdata,
     bcmaps,
