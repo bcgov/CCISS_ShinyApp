@@ -4,12 +4,13 @@
 \alias{dbGetCCISS}
 \title{Pull CCISS from a vector of SiteNo}
 \usage{
-dbGetCCISS(con, SiteNo, avg, scn = c("rcp45", "rcp85"))
+dbGetCCISS(con, points, avg, scn = c("rcp45", "rcp85"))
 }
 \arguments{
 \item{con}{An active postgre DBI connection.}
 
-\item{SiteNo}{A numeric vector of SiteNo.}
+\item{points}{A data.frame with two columns representing longitude and latitude
+GPS values (EPSG:4326)}
 
 \item{avg}{A boolean.}
 

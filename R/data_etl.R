@@ -37,11 +37,11 @@ dbGetHexID <- function(con, points) {
   SELECT DISTINCT siteno
   FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
   INNER JOIN hex_grid
-  ON ST_Intersects(pts.geom, bec_info.geometry)
+  ON ST_Intersects(pts.geom, hex_grid.geom)
   
   ")
   
-  return(out[,1])
+  return(RPostgreSQL::dbGetQuery(con, hexid_sql)[,1])
 }
 
 #' Pull bec_info from lat long inputs
@@ -86,7 +86,8 @@ dbGetBecInfo <- function(con, points) {
 
 #' Pull CCISS from a vector of SiteNo
 #' @param con An active postgre DBI connection.
-#' @param SiteNo A numeric vector of SiteNo.
+#' @param points A data.frame with two columns representing longitude and latitude
+#' GPS values (EPSG:4326)
 #' @param avg A boolean. 
 #' @param scn A character string. Scenario name. Either `rcp45` or `rcp85`.
 #' @details Get CCISS for provided SiteNo.
@@ -94,52 +95,90 @@ dbGetBecInfo <- function(con, points) {
 #' @import sf
 #' @importFrom RPostgreSQL dbGetQuery
 #' @export
-dbGetCCISS <- function(con, SiteNo, avg, scn = c("rcp45","rcp85")){
+dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
+
+  txt <- st_as_sf(points, coords = 1L:2L, crs = 4326) %>%
+    st_transform(3005) %>%
+    st_geometry() %>%
+    st_as_text()
   
-  cciss_future_sql <- paste0("
-              
-  SELECT * 
-  FROM cciss_future 
-  WHERE siteno IN (", paste(SiteNo, collapse = ","), ")
-    AND scenario IN ('", paste(scn, collapse = "','"), "')
-  
-  ")
-  
-  dat <- RPostgreSQL::dbGetQuery(con, cciss_future_sql)
-  setDT(dat)
-  setnames(dat, c("GCM","Scenario","FuturePeriod","SiteNo","BGC","BGC.pred"))
-  
-  cciss_historic_sql <- paste0("
-               
-  SELECT *
-  FROM cciss_historic
-  WHERE siteno IN (", paste(SiteNo, collapse = ","), ")
-               
-  ")
-  
-  datCurr <- RPostgreSQL::dbGetQuery(con, cciss_historic_sql)
-  setDT(datCurr)
-  # use set with match in production to avoid `[` overhead
-  # this could all be done in the same set call
-  # split for clarity
-  # Use of .subset and .subset2 is mostly for performance
-  m <- match(.subset2(datCurr, "period"), c("Normal61","Current91"))
-  set(datCurr, j = "period", value = NULL)
-  set(datCurr, j = "FuturePeriod", value = .subset(c(1975,2000), m))
-  set(datCurr, j = "GCM", value = .subset(c("Historic","Current"), m))
-  setcolorder(datCurr, c("FuturePeriod","siteno","bgc","bgc_pred","GCM"))
-  setnames(datCurr, c("FuturePeriod","SiteNo","BGC","BGC.pred","GCM"))
-  dat <- rbind(dat, datCurr, fill = T)
-  
-  if (avg) {
-    dat[, SiteNo := as.numeric(as.factor(BGC))]
+  groupby = "siteno"
+  if (isTRUE(avg)) {
+    groupby = "bgc"
   }
-  # Why does SiteNo appears twice here
-  # TODO:
-  # Validate if this is the intended behavior
-  dat[,TotNum := .N, by = .(SiteNo,FuturePeriod,SiteNo)]
-  dat2 <- dat[,.(BGC.prop = .N/TotNum), keyby = .(SiteNo,FuturePeriod,BGC,BGC.pred)]
-  dat2 <- unique(dat2)
+    
+  cciss_sql <- paste0("
+  WITH siteno AS (
   
-  return(dat2)
+    SELECT DISTINCT siteno
+    FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
+    INNER JOIN hex_grid
+    ON ST_Intersects(pts.geom, hex_grid.geom)
+  
+  ), cciss AS (
+  
+    SELECT futureperiod,
+           cciss_future.siteno,
+           bgc,
+           bgc_pred,
+           gcm
+    FROM cciss_future
+    JOIN siteno
+      ON siteno.siteno = cciss_future.siteno
+    WHERE scenario IN ('", paste(scn, collapse = "','"), "')
+    
+    UNION ALL
+    
+    SELECT CASE period
+             WHEN 'Normal61' THEN '1975'
+             WHEN 'Current91' THEN '2000'
+           END futureperiod,
+           cciss_historic.siteno,
+           bgc,
+           bgc_pred,
+           CASE period
+             WHEN 'Normal61' THEN 'Historic'
+             WHEN 'Current91' THEN 'Current'
+           END gcm
+    FROM cciss_historic
+    JOIN siteno
+      ON siteno.siteno = cciss_historic.siteno
+  
+  ), cciss_count_den AS (
+  
+    SELECT ", groupby, ",
+           futureperiod,
+           COUNT(siteno) n
+    FROM cciss
+    GROUP BY ", groupby, ", futureperiod
+  
+  ), cciss_count_num AS (
+  
+    SELECT ", groupby, ",
+           futureperiod,
+           bgc,
+           bgc_pred,
+           COUNT(siteno) n
+    FROM cciss
+    GROUP BY ", groupby, ", futureperiod, bgc, bgc_pred
+  
+  )
+  
+  SELECT a.", groupby, ",
+         a.futureperiod,
+         a.bgc,
+         a.bgc_pred,
+         a.n/cast(b.n as float) bgc_prop
+  FROM cciss_count_num a
+  JOIN cciss_count_den b
+    ON a.", groupby, " = b.", groupby, "
+   AND a.futureperiod = b.futureperiod
+  
+  ")
+  
+  dat <- setDT(RPostgreSQL::dbGetQuery(con, cciss_sql))
+
+  setnames(dat, c("SiteNo","FuturePeriod","BGC","BGC.pred","BGC.prop"))
+  
+  return(dat)
 }

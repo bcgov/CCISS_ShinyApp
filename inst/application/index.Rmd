@@ -38,7 +38,7 @@ actionButton("delete_button", "Delete", icon("trash-alt"))
 actionButton("upload_button", "Upload", icon("upload"))
 actionButton("clear_button", "Clear", icon("broom"))
 DT::DTOutput("points_table", width="100%")
-selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5", "8.5"), multiple = TRUE, width = 150)
+selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150)
 radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = FALSE, "Averaged by BGC Zone" = TRUE), inline = TRUE)
 ```
 
