@@ -35,6 +35,15 @@ dbSendQuery(con, glue("
   ", tb = "bec_info", geom = "geometry"))
 dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "bec_info"))
 
+bcb_hres <- bc_bound_hres()
+names(bcb_hres) <- tolower(names(bcb_hres))
+st_write(bcb_hres, con, "bcb_hres")
+dbSendQuery(con, glue("
+    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
+  ", tb = "bcb_hres", geom = "geometry"))
+dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "bcb_hres"))
+
+
 # Testing intersects speed (should be below 30ms)
 
 query <- "
