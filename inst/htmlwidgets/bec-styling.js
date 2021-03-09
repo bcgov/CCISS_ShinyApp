@@ -1,26 +1,3 @@
-L.vectorTileOptions=function(layerName, layerId, activ,
-                             lfPane, colorMap, prop, id, opacity) {
-  return {
-    vectorTileLayerName: layerName,
-    interactive: activ, // makes it able to trigger js events like click
-    vectorTileLayerStyles: {
-      [layerId]: function(properties, zoom) {
-        return {
-          weight: 0,
-          fillColor: colorMap[properties[prop]],
-          fillOpacity: opacity,
-          fill: true
-        }
-      }
-    },
-    pane : lfPane,
-    getFeatureId: function(f) {
-        return f.properties[id];
-    }
-  }
-  
-};
-
 var subzoneColors = {
 'BAFAun':'#E2F5F1',
 'BAFAunp':'#F0E1DD',

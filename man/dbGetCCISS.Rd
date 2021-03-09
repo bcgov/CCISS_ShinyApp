@@ -4,18 +4,16 @@
 \alias{dbGetCCISS}
 \title{Pull CCISS from a vector of SiteNo}
 \usage{
-dbGetCCISS(SiteNo, avg, scn = c("rcp45", "rcp85"), host = "localhost", ...)
+dbGetCCISS(con, SiteNo, avg, scn = c("rcp45", "rcp85"))
 }
 \arguments{
+\item{con}{An active postgre DBI connection.}
+
 \item{SiteNo}{A numeric vector of SiteNo.}
 
 \item{avg}{A boolean.}
 
 \item{scn}{A character string. Scenario name. Either \code{rcp45} or \code{rcp85}.}
-
-\item{host}{A character string. Postgres database host. Default to \code{localhost}.}
-
-\item{...}{Additional parameters for dbConnect.}
 }
 \value{
 A data.table containing CCISS information for each provided SiteNo.

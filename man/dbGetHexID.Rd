@@ -4,19 +4,13 @@
 \alias{dbGetHexID}
 \title{Pull HexIDs (SiteNo) from lat long inputs}
 \usage{
-dbGetHexID(points, xName = "Long", yName = "Lat", host = "localhost", ...)
+dbGetHexID(con, points)
 }
 \arguments{
-\item{points}{A data.frame with columns xName yName representing longitude and latitude
+\item{con}{An active postgre DBI connection.}
+
+\item{points}{A data.frame with two columns representing longitude and latitude
 GPS values (EPSG:4326)}
-
-\item{xName}{A character string. Longitude column name.}
-
-\item{yName}{A character string. Latitude column name.}
-
-\item{host}{A character string. Postgres database host. Default to \code{localhost}.}
-
-\item{...}{Additional parameters for dbConnect.}
 }
 \value{
 A vector of hex IDs,

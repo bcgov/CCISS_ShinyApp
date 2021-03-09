@@ -4,19 +4,13 @@
 \alias{dbGetBecInfo}
 \title{Pull bec_info from lat long inputs}
 \usage{
-dbGetBecInfo(points, xName = "Long", yName = "Lat", host = "localhost", ...)
+dbGetBecInfo(con, points)
 }
 \arguments{
-\item{points}{A data.frame with columns xName yName representing longitude and latitude
+\item{con}{An active postgre DBI connection.}
+
+\item{points}{A data.frame with two columns representing longitude and latitude
 GPS values (EPSG:4326)}
-
-\item{xName}{A character string. Longitude column name.}
-
-\item{yName}{A character string. Latitude column name.}
-
-\item{host}{A character string. Postgres database host. Default to \code{localhost}.}
-
-\item{...}{Additional parameters for dbConnect.}
 }
 \value{
 BEC Information about features
