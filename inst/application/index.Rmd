@@ -7,6 +7,7 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     theme: yeti
+    css: www/style.css
 runtime: shiny_prerendered
 ---
 
@@ -38,7 +39,7 @@ onStop(function() {
 BEC MAP
 =====================================  
 
-Inputs {.sidebar data-width=500}
+Inputs {.sidebar data-width=450}
 -------------------------------------
 
 #### Points
@@ -65,8 +66,7 @@ span("Shiny host: ", system("hostname", intern = TRUE), br(),
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
 ```{r}
-# Remove width and height for use in regular Shiny app, it messes up the map
-leafletOutput("bec_map", width = "100%", height = "100%")
+leafletOutput("bec_map", height = "auto")
 
 ```
 
