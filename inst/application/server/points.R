@@ -5,14 +5,6 @@ DT_proxy <- DT::dataTableProxy("points_table")
 
 ## Points dataframe
 uData <- session$userData
-uData$con <- RPostgreSQL::dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  host = Sys.getenv("POSTGRES_PASSWORD_HOST"),
-  dbname = "cciss_data",
-  port = 5432, 
-  user = "postgres",
-  password = Sys.getenv("POSTGRES_PASSWORD")
-)
 
 uData$points <- uData$basepoints <- data.table(
   ID = integer(),
@@ -27,7 +19,7 @@ uData$points <- uData$basepoints <- data.table(
 output$points_table <- DT::renderDataTable({
   DT::datatable(
     uData$points[j = 1L:5L], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "200px", scrollCollapse = FALSE),
+    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "175px", scrollCollapse = FALSE),
     editable = list(target = "row", disable = list(columns = c(0,4)))
   )
 })
@@ -48,15 +40,15 @@ new_points <- function(points) {
     setProgress(1, message = "Fetch points details")
     points <- points[!is.na(Longitude) & !is.na(Latitude)]
     points[,`:=`(Longitude = round(Longitude, 5), Latitude = round(Latitude, 5))]
-    res <- dbGetBecInfo(uData$con, points[, list(Longitude, Latitude)])
+    res <- dbGetBecInfo(pool, points[, list(Longitude, Latitude)])
     points[, BGC := res$bgc_label]
     # TODO
     # Fetch elevation from where?
     # points[is.na(Elevevation), Elevation := bcmaps::cded(...)]
     setProgress(2, message = "Create popup info")
     popups <- res[, paste("<b>", names(.SD), ":</b>", .SD, collapse = "<br />"), by=1:NROW(res)]$V1
-    points[, popups := sapply(popups, htmltools::HTML)]
-    points <- points[!is.na(BGC) & isTRUE(res$onbcland)]
+    points[, popups := sapply(popups, HTML)]
+    points <- points[!is.na(BGC) & res$onbcland]
     points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
     setProgress(3, message = "Done")
   })
@@ -69,6 +61,8 @@ new_points <- function(points) {
         easyClose = TRUE
       )
     )
+  } else {
+    removeModal()
   }
   return(points)
 }
@@ -109,10 +103,11 @@ insert_points_file <- function(datapath){
       NA_real_
     }
   }
-  points <- data.table(Latitude = cln_j(lat_j), Longitude = cln_j(lng_j),
+  points <- data.table(Longitude = cln_j(lng_j), Latitude = cln_j(lat_j),
                        Elevation = cln_j(ele_j))
   points <- new_points(points)
   insert_points(points)
+  set_map_bound()
 }
 
 ## Add a point logic

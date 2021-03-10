@@ -24,7 +24,9 @@ Imports:
     leaflet.extras,
     analogsea,
     DT,
-    flexdashboard
+    flexdashboard,
+    plotly,
+    pool
 Suggests:
     shiny,
     bcdata,
@@ -32,9 +34,9 @@ Suggests:
     usethis
 Remotes:
     bcgov/bcdata,
-    bcgov/bcmaps
+    bcgov/bcmaps,
+    rstudio/flexdashboard
 LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Config/testthat/edition: 3

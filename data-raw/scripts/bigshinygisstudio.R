@@ -8,7 +8,6 @@ postgis_password = .rs.api.askForPassword("Choose a password for PostGis databas
 # Machine setup
 # server <- droplet_create("BigShinyGisStudio", size = "s-4vcpu-8gb-intel", region = "tor1",
 #                          image = "docker-20-04", tags = c("bccciss", "shiny", "rstudio", "postgis"), wait = TRUE)
-server <- droplets()$BigShinyGisStudio
 server <- droplet(id=server$id)
 analogsea::debian_add_swap(server)
 bccciss:::setup_firewall(server)
@@ -99,6 +98,7 @@ analogsea::debian_apt_get_install(server,
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
+server <- analogsea::droplets()$BigShinyGisStudio
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/CCISS_ShinyAPP@code_with_us', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
 analogsea::droplet_upload(server, "./inst/application/index.Rmd", "/srv/shiny-server/cciss/index.Rmd")
