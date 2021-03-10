@@ -46,7 +46,7 @@ addVectorGridTilesDev <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   # This is a custom javascript to enable VectorGrid with Shiny
   # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
-  map <- htmlwidgets::onRender(map, '
+  map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
     
       var vectorTileOptions=function(layerName, layerId, activ,
@@ -73,13 +73,13 @@ addVectorGridTilesDev <- function(map) {
       };
     
       var zLayer = L.vectorGrid.protobuf(
-        "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
-        vectorTileOptions("bec_z", "BECMap", true,
+        "', tileserver, '",
+        vectorTileOptions("bec_z", "', tilelayer, '", true,
                           "overlayPane", zoneColors, "ZONE", "OBJECTID", 0.85)
       )
       var subzLayer = L.vectorGrid.protobuf(
-        "http://159.203.39.184/data/tiles/{z}/{x}/{y}.pbf",
-        vectorTileOptions("bec_subz", "BECMap", true,
+        "', tileserver, '",
+        vectorTileOptions("bec_subz", "', tilelayer, '", true,
                           "overlayPane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
       )
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
@@ -123,7 +123,7 @@ addVectorGridTilesDev <- function(map) {
         clearHighlight();
       })
     }'
-  )
+  ))
   map
 }
 
@@ -167,7 +167,7 @@ draw_mk <- function(data = uData$points) {
   non_na_idx <- which(!is.na(data$Longitude) & !is.na(data$Latitude))
   leaflet::addCircleMarkers(map_proxy, lng = ~Longitude, lat = ~Latitude,
                             data = data[i = non_na_idx],
-                            radius = 6, color = "#444", fillColor = "orangered", stroke = TRUE,
+                            radius = 9, color = "#444", fillColor = "orangered", stroke = TRUE,
                             fillOpacity = 0.6, opacity = 0.8, weight = 2,
                             popup = ~popups) 
 }
@@ -179,7 +179,7 @@ set_map_bound <- function(data = uData$points) {
     sf::st_transform(4326) %>%
     sf::st_bbox() %>%
     unname()
-  leaflet::setMaxBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
+  leaflet::flyToBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
 }
 
 ## Map click logic

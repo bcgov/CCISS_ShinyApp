@@ -22,7 +22,7 @@
 #' @details Get hex IDs for provided geolocations.
 #' @return A vector of hex IDs,
 #' @import sf
-#' @importFrom RPostgreSQL dbGetQuery
+#' @importFrom RPostgres dbGetQuery
 #' @return BEC Information about features
 #' @export
 dbGetHexID <- function(con, points) {
@@ -41,7 +41,7 @@ dbGetHexID <- function(con, points) {
   
   ")
   
-  return(RPostgreSQL::dbGetQuery(con, hexid_sql)[,1])
+  return(RPostgres::dbGetQuery(con, hexid_sql)[,1])
 }
 
 #' Pull bec_info from lat long inputs
@@ -81,7 +81,7 @@ dbGetBecInfo <- function(con, points) {
   ON ST_Intersects(pts.geom, bcb_hres.geometry)
   ")
 
-  return(setDT(RPostgreSQL::dbGetQuery(con, bec_info_sql)))  
+  return(setDT(RPostgres::dbGetQuery(con, bec_info_sql)))  
 }
 
 #' Pull CCISS from a vector of SiteNo
@@ -93,7 +93,7 @@ dbGetBecInfo <- function(con, points) {
 #' @details Get CCISS for provided SiteNo.
 #' @return A data.table containing CCISS information for each provided SiteNo.
 #' @import sf
-#' @importFrom RPostgreSQL dbGetQuery
+#' @importFrom RPostgres dbGetQuery
 #' @export
 dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
 
@@ -176,7 +176,7 @@ dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
   
   ")
   
-  dat <- setDT(RPostgreSQL::dbGetQuery(con, cciss_sql))
+  dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
 
   setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
   

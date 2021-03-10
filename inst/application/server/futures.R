@@ -35,6 +35,7 @@ observeEvent(input$points_table_rows_all, {
 observeEvent(input$current_siteref, priority = 100, {
   output$bgc_futures <- renderUI({
     b <- bgc_react()
+    if (is.null(b)) return(NULL)
     b <- b[SiteRef == input$current_siteref]
     bgc <- unique(b$BGC)
     list(span(paste("Current BGC :", bgc)), br(), br(),
@@ -44,8 +45,9 @@ observeEvent(input$current_siteref, priority = 100, {
 })
   
 observeEvent(input$current_siteref, priority = 50, {
+  b <- bgc_react()
+  if (is.null(b)) return(NULL)
   output$bgc_futures_plot <- renderPlotly({
-    b <- bgc_react()
     b <- b[SiteRef == input$current_siteref]
     bgc <- unique(b$BGC)
     cm_bcg_fplot(b[BGC == bgc]) %>% plotly::layout(margin = list(b = 125))

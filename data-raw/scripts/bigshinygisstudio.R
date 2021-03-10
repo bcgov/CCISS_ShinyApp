@@ -43,11 +43,11 @@ analogsea::droplet_ssh(server,
   sprintf("docker run --name cciss-postgis -p 5432:5432 -e POSTGRES_PASSWORD=%s -d postgis/postgis", postgis_password)
 )
 analogsea::debian_apt_get_install(server, "--reinstall", "libpq-dev")
-analogsea::droplet_ssh(server, "R -e \"install.packages('RPostgreSQL')\"")
+analogsea::droplet_ssh(server, "R -e \"install.packages('RPostgres')\"")
 
 # Connect from RStudio or Shiny app on server using
-# con <- RPostgreSQL::dbConnect(
-#   PostgreSQL(),
+# con <- RPostgres::dbConnect(
+#   Postgres(),
 #   user = "postgres",
 #   host = "localhost",
 #   password = postgis_password,

@@ -8,7 +8,8 @@ cm_bcg_fplot <- function(data) {
     bordercolor = "#FFFFFF",
     borderwidth = 2,
     orientation = 'h',
-    y = 1.1)
+    y = 1.1,
+    x = -0.05)
   color_ref <- {
     colors <- subzones_colours_ref[unique(data$BGC.pred)]
     col <- colors$colour
