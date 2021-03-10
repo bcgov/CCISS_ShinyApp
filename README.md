@@ -1,9 +1,3 @@
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/meztez/CCISS_ShinyApp/workflows/R-CMD-check/badge.svg)](https://github.com/meztez/CCISS_ShinyApp/actions)
-[![Codecov test coverage](https://codecov.io/gh/meztez/CCISS_ShinyApp/branch/main/graph/badge.svg)](https://codecov.io/gh/meztez/CCISS_ShinyApp?branch=main)
-[![R-CMD-check](https://github.com/bcgov/CCISS_ShinyApp/workflows/R-CMD-check/badge.svg)](https://github.com/bcgov/CCISS_ShinyApp/actions)
-<!-- badges: end -->
-
 # CCISS_ShinyApp
 CCISS RMD knitr report graphics and Shiny App
 This repository is a fork of a development CCISS R script for devexchange code-with-us development.
@@ -16,7 +10,7 @@ There are two development tasks.
 ## Usage
 
 ```r
-library(CCISS)
+library(bcciss)
 launch_app()
 ```
 
@@ -33,7 +27,7 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
 ##### data
 Standard R package folder for the
 [Data in packages](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages).
-Data is generated from `create_package_data` script in `data-raw`. The script is run manually
+Data is generated from `create_package_data` script in `data-raw/scripts`. The script is run manually
 to update data as needed. When a package includes data, they are available like other objects
 after you load the library.
 

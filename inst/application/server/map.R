@@ -172,6 +172,16 @@ draw_mk <- function(data = uData$points) {
                             popup = ~popups) 
 }
 
+set_map_bound <- function(data = uData$points) {
+  bbox <- st_as_sf(data[, list(Longitude, Latitude)], coords = 1L:2L, crs = 4326) %>%
+    sf::st_transform(3005) %>%
+    sf::st_buffer(units::as_units(1, "km"), nQuadSegs = 3) %>%
+    sf::st_transform(4326) %>%
+    sf::st_bbox() %>%
+    unname()
+  leaflet::setMaxBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
+}
+
 ## Map click logic
 observeEvent(input$bec_map_click, {
   pos <- input$bec_map_click

@@ -6,17 +6,30 @@ output:
     vertical_layout: fill
     logo: www/logo.svg
     favicon: www/favicon.ico
-    theme: flatly
+    theme: yeti
 runtime: shiny_prerendered
 ---
 
-```{r setup, include=FALSE}
+```{r global, include=FALSE}
 suppressPackageStartupMessages({
   library(bccciss)
   library(shiny)
   library(leaflet)
   library(DT)
   library(RPostgreSQL)
+  library(plotly)
+  library(pool)
+})
+pool <- dbPool(
+  drv = RPostgreSQL::PostgreSQL(),
+  dbname = "cciss_data",
+  host = Sys.getenv("POSTGRES_HOST"),
+  port = 5432, 
+  user = "postgres",
+  password = Sys.getenv("POSTGRES_PASSWORD")
+)
+onStop(function() {
+  poolClose(pool)
 })
 
 ```
@@ -30,7 +43,7 @@ Inputs {.sidebar data-width=500}
 
 #### Points
 <hr>  
-Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim,
+Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
 
 ```{r}
 actionButton("add_button", "Add", icon("plus"))
@@ -38,15 +51,21 @@ actionButton("delete_button", "Delete", icon("trash-alt"))
 actionButton("upload_button", "Upload", icon("upload"))
 actionButton("clear_button", "Clear", icon("broom"))
 DT::DTOutput("points_table", width="100%")
-selectInput("rcp_scenario", "RCP Scenario:", selected = "4.5", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150)
-radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = FALSE, "Averaged by BGC Zone" = TRUE), inline = TRUE)
+selectInput("rcp_scenario", "RCP Scenario:", selected = "rcp45", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150)
+radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE"), inline = TRUE)
 ```
 
 [How the CCISS tool works](./#section-how-the-cciss-tool-works)
 
+```{r}
+span("Shiny host: ", system("hostname", intern = TRUE), br(),
+          "Database host: ", Sys.getenv("POSTGRES_HOST"))
+```
+
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
 ```{r}
+# Remove width and height for use in regular Shiny app, it messes up the map
 leafletOutput("bec_map", width = "100%", height = "100%")
 
 ```
@@ -79,13 +98,26 @@ Forest Region:
 
 
 BGC FUTURES
-=====================================     
+=====================================
 
-### BGC Futures: ratio of models predicting BGC
+Inputs {.sidebar data-width=200}
+-------------------------------------
 
-Current BGC : {insert current}
- 
+### Site reference
+
 ```{r}
+uiOutput("bgc_site_ref_select")
+
+```
+
+BGC Futures: ratio of models predicting BGC
+-------------------------------------
+
+### BGC Futures: ratio of models predicting BGC  
+
+```{r}
+uiOutput("bgc_futures")
+
 ```
 
 ... to PDF {data-navmenu="EXPORT" .navbar-right}
@@ -107,5 +139,7 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
 ```{r server, context = "server"}
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
+source("./server/futures.R", local = TRUE)
+source("./server/common.R", local = TRUE)
 
 ```

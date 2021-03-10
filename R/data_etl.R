@@ -146,7 +146,7 @@ dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
   
   ), cciss_count_den AS (
   
-    SELECT ", groupby, ",
+    SELECT ", groupby, " siteref,
            futureperiod,
            COUNT(siteno) n
     FROM cciss
@@ -154,7 +154,7 @@ dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
   
   ), cciss_count_num AS (
   
-    SELECT ", groupby, ",
+    SELECT ", groupby, " siteref,
            futureperiod,
            bgc,
            bgc_pred,
@@ -164,21 +164,21 @@ dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
   
   )
   
-  SELECT a.", groupby, ",
+  SELECT cast(a.siteref as text) siteref,
          a.futureperiod,
          a.bgc,
          a.bgc_pred,
          a.n/cast(b.n as float) bgc_prop
   FROM cciss_count_num a
   JOIN cciss_count_den b
-    ON a.", groupby, " = b.", groupby, "
+    ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
   
   ")
   
   dat <- setDT(RPostgreSQL::dbGetQuery(con, cciss_sql))
 
-  setnames(dat, c("SiteNo","FuturePeriod","BGC","BGC.pred","BGC.prop"))
+  setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
   
   return(dat)
 }
