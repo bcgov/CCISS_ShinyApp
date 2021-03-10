@@ -17,21 +17,24 @@ suppressPackageStartupMessages({
   library(shiny)
   library(leaflet)
   library(DT)
-  library(RPostgreSQL)
+  library(RPostgres)
   library(plotly)
   library(pool)
 })
 pool <- dbPool(
-  drv = RPostgreSQL::PostgreSQL(),
-  dbname = "cciss_data",
-  host = Sys.getenv("POSTGRES_HOST"),
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
   port = 5432, 
-  user = "postgres",
-  password = Sys.getenv("POSTGRES_PASSWORD")
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
 )
 onStop(function() {
   poolClose(pool)
 })
+tileserver <- Sys.getenv("BCGOV_TILESERVER")
+tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+if (is.null(tileserver) || is.null(tilelayer)) stop("tileserver env not set")
 
 ```
 
@@ -57,11 +60,6 @@ radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FAL
 ```
 
 [How the CCISS tool works](./#section-how-the-cciss-tool-works)
-
-```{r}
-span("Shiny host: ", system("hostname", intern = TRUE), br(),
-          "Database host: ", Sys.getenv("POSTGRES_HOST"))
-```
 
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
@@ -120,11 +118,13 @@ uiOutput("bgc_futures")
 
 ```
 
-... to PDF {data-navmenu="EXPORT" .navbar-right}
+EXPORT
 =====================================
 
-... to HTML {data-navmenu="EXPORT" .navbar-right}
-=====================================
+Export a report on selected points.
+```{r}
+uiOutput("downloadUI")
+```
 
 How the CCISS tool works {data-navmenu="ABOUT"} 
 =====================================
@@ -135,11 +135,32 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
   
 [Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
 
+Shiny app information {data-navmenu="ABOUT"} 
+=====================================
+
+Shiny host: `r system("hostname", intern = TRUE)`  
+Database host: `r Sys.getenv("BCGOV_HOST")`  
+Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`
+Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp/tree/code_with_us)  
+  
+Copyright 2021 Province of British Columbia  
+  
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at  
+  
+http://www.apache.org/licenses/LICENSE-2.0
+  
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.  
 
 ```{r server, context = "server"}
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/common.R", local = TRUE)
-
+source("./server/download.R", local = TRUE)
 ```

@@ -14,7 +14,7 @@ Depends:
     sf,
     R (>= 3.5.0)
 Imports: 
-    RPostgreSQL,
+    RPostgres,
     dplyr,
     matrixStats,
     rmarkdown,

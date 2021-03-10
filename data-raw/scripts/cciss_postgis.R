@@ -1,28 +1,17 @@
-library(RPostgreSQL)
+library(RPostgres)
 library(bcmaps)
 library(sf)
 library(glue)
 
-postgis_password = .rs.api.askForPassword("PostGis database password")
+# Add missing data + create some indexes for better query performances
 
-con <- RPostgreSQL::dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  host = "localhost",
-  dbname = "postgres",
+con <- RPostgres::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
   port = 5432, 
-  user = "postgres",
-  password = postgis_password
-)
-
-dbSendQuery(con, "CREATE DATABASE cciss_data;")
-
-con <- RPostgreSQL::dbConnect(
-  RPostgreSQL::PostgreSQL(),
-  host = "localhost",
-  dbname = "cciss_data",
-  port = 5432, 
-  user = "postgres",
-  password = postgis_password
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
 )
 
 dbSendQuery(con, "CREATE EXTENSION postgis;")
@@ -42,6 +31,17 @@ dbSendQuery(con, glue("
     CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
   ", tb = "bcb_hres", geom = "geometry"))
 dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "bcb_hres"))
+
+dbSendQuery(con, glue("
+    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
+  ", tb = "hex_grid", geom = "geom"))
+dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "hex_grid"))
+
+dbSendQuery(con, glue("
+    CREATE INDEX {tb}_idx ON {tb} USING BTREE ({idx});
+  ", tb = "cciss_historic", idx = "siteno"))
+dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "cciss_historic"))
+
 
 
 # Testing intersects speed (should be below 30ms)
