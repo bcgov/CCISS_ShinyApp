@@ -24,6 +24,10 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
 
 #### R packages folders
 
+##### app
+
+CCISS Flexdashboard app
+
 ##### data
 Standard R package folder for the
 [Data in packages](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages).
@@ -39,8 +43,7 @@ the package repository.
 
 ##### inst
 Standard R package folder. The contents of the `inst` subdirectory will be copied recursively
-to the installation directory. This would be where you put your `Shiny` app or `plumber` api with
-there required assets. Again, this is described in
+to the installation directory. This is described in
 [Data in packages](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages)
 
 ##### man
@@ -55,11 +58,6 @@ will be included with the package when it is built.
 ##### src
 [Also standard](https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages).
 Code which needs to be compiled.
-
-##### tests
-The fun part. [Tests are a great way](https://testthat.r-lib.org/) to make sure changes do not
-break package behavior. Writing tests is pretty straightforward and should be done as you
-build functions. You are doing it anyway, might as well make it a test.
 
 #### Building packages
 R is a great community. There is a lot of great resources on how to build packages. I highly

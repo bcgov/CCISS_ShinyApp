@@ -15,4 +15,5 @@ inst/doc
 /data-raw/shp
 *.geojson
 .httr-oauth
-/inst/application/index.html
+/app/index.html
+/app/server/report.html
