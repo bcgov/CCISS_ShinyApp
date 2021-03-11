@@ -16,39 +16,36 @@ bgc_react <- reactive({
   return(res)
 })
 
-output$bgc_site_ref_select <- renderUI({span("Add points to generate BGC Futures")})
-
-observeEvent(input$points_table_rows_all, {
-  output$bgc_site_ref_select <- renderUI({
-    b <- bgc_react()
-    if (is.null(b)) return(
-      span("Add points to generate BGC Futures")
-    )
-    list(
-      radioButtons("current_siteref", label = "Results:", choices = unique(b$SiteRef)),
-      span("Averaged: ", input$aggregation, br(),
-           "RCP scenratio: ", input$rcp_scenario)
-    )
-  })
+output$bgc_site_ref_select <- renderUI({
+  b <- bgc_react()
+  avg <- input$aggregation
+  rcp <- paste(input$rcp_scenario, collapse = ", ")
+  if (is.null(b)) return(span("Add points to generate BGC Futures"))
+  list(
+    radioButtons("current_siteref", label = "Results:", choices = unique(b$SiteRef)),
+    span("Averaged: ", br(), avg, br(), br(),
+         "RCP scenratio: ", br(), rcp)
+  )
 })
 
 observeEvent(input$current_siteref, priority = 100, {
   output$bgc_futures <- renderUI({
     b <- bgc_react()
+    siteref <- input$current_siteref
     if (is.null(b)) return(NULL)
-    b <- b[SiteRef == input$current_siteref]
+    b <- b[SiteRef == siteref]
     bgc <- unique(b$BGC)
     list(span(paste("Current BGC :", bgc)), br(), br(),
-         plotly::plotlyOutput("bgc_futures_plot", width = "100%", height = "100%"),
-         span("Page close test"))
+         plotly::plotlyOutput("bgc_futures_plot", width = "100%", height = "100%"))
   })
 })
-  
+
 observeEvent(input$current_siteref, priority = 50, {
   b <- bgc_react()
+  siteref <- input$current_siteref
   if (is.null(b)) return(NULL)
   output$bgc_futures_plot <- renderPlotly({
-    b <- b[SiteRef == input$current_siteref]
+    b <- b[SiteRef == siteref]
     bgc <- unique(b$BGC)
     cm_bcg_fplot(b[BGC == bgc]) %>% plotly::layout(margin = list(b = 125))
   })

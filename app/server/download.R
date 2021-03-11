@@ -1,9 +1,6 @@
 output$downloadUI <- renderUI({
-  # to invalidate reactive with points table change
-  # and force this value and all others that depends
-  # on it to recompute
-  pts_react <- input$points_table_rows_all
-  if (is.null(bgc_react())) {
+  bgc <- bgc_react()
+  if (is.null(bgc)) {
     return(span("Add points to generate report."))
   }
   style <- "max-width: 300px; width:100%; height: 40px !important;"

@@ -32,9 +32,9 @@ pool <- dbPool(
 onStop(function() {
   poolClose(pool)
 })
-tileserver <- Sys.getenv("BCGOV_TILESERVER")
-tilelayer <- Sys.getenv("BCGOV_TILELAYER")
-if (is.null(tileserver) || is.null(tilelayer)) stop("tileserver env not set")
+bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
+bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
 
 ```
 
@@ -140,22 +140,12 @@ Shiny app information {data-navmenu="ABOUT"}
 
 Shiny host: `r system("hostname", intern = TRUE)`  
 Database host: `r Sys.getenv("BCGOV_HOST")`  
-Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`
+Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`  
 Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp/tree/code_with_us)  
   
 Copyright 2021 Province of British Columbia  
   
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at  
-  
-http://www.apache.org/licenses/LICENSE-2.0
-  
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.  
+[LICENSE](http://www.apache.org/licenses/LICENSE-2.0)
 
 ```{r server, context = "server"}
 source("./server/points.R", local = TRUE)

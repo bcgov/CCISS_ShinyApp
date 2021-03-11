@@ -73,13 +73,13 @@ addVectorGridTilesDev <- function(map) {
       };
     
       var zLayer = L.vectorGrid.protobuf(
-        "', tileserver, '",
-        vectorTileOptions("bec_z", "', tilelayer, '", true,
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
                           "overlayPane", zoneColors, "ZONE", "OBJECTID", 0.85)
       )
       var subzLayer = L.vectorGrid.protobuf(
-        "', tileserver, '",
-        vectorTileOptions("bec_subz", "', tilelayer, '", true,
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
                           "overlayPane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
       )
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
