@@ -38,10 +38,10 @@ analogsea::droplet_ssh(server,
   "rm pandoc-2.11.4-1-amd64.deb"
 )
 
-# Setup a Postgis database using docker (localhost port 5432)
-analogsea::droplet_ssh(server,
-  sprintf("docker run --name cciss-postgis -p 5432:5432 -e POSTGRES_PASSWORD=%s -d postgis/postgis", postgis_password)
-)
+# Setup a Postgis database using docker (localhost port 5432) and R RPostgres
+# analogsea::droplet_ssh(server,
+#   sprintf("docker run --name cciss-postgis -p 5432:5432 -e POSTGRES_PASSWORD=%s -d postgis/postgis", postgis_password)
+# )
 analogsea::debian_apt_get_install(server, "--reinstall", "libpq-dev")
 analogsea::droplet_ssh(server, "R -e \"install.packages('RPostgres')\"")
 
@@ -65,11 +65,11 @@ analogsea::droplet_ssh(server,
 # Setup nginx
 bccciss:::install_nginx(server, config = "./data-raw/config/bsgs/nginx.conf", name = "BSGS")
 
-utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/rstudio"))
+# utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/rstudio"))
 
 # Install Shiny App
 
-# dependencies
+# system dependencies
 analogsea::debian_apt_get_install(server,
                                   "git",
                                   "libaio1",
@@ -94,7 +94,10 @@ analogsea::debian_apt_get_install(server,
                                   "sshpass",
                                   "libfontconfig1-dev",
                                   "libharfbuzz-dev",
-                                  "libfribidi-dev")
+                                  "libfribidi-dev",
+                                  "texlive",
+                                  "texlive-extra-utils",
+                                  "texlive-latex-extra")
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
@@ -105,6 +108,7 @@ analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/cciss/in
 analogsea::droplet_ssh(server, "rm /srv/shiny-server/cciss/index.html")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/cciss")
+analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 
 utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/shiny/cciss"))
