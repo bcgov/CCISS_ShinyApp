@@ -35,7 +35,6 @@ onStop(function() {
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
-
 ```
 
 
@@ -71,14 +70,32 @@ leafletOutput("bec_map", height = "auto")
 SPECIES SUITABILITY
 =====================================     
 
-### Species Suitability
+Inputs {.sidebar data-width=200}
+-------------------------------------
 
-Site Series
-{insert name of site series}
-
-Predicted Suitability
+### Site reference
 
 ```{r}
+uiOutput("ss_site_ref_select")
+uiOutput("ss_legend")
+
+```
+
+Species Suitability {.tabset}
+-------------------------------------
+
+### Summary
+
+```{r}
+uiOutput("species_suitability_summary")
+
+```
+
+### Detailed
+
+```{r}
+uiOutput("species_suitability_detailed")
+
 ```
    
 SILVICULTURE
@@ -111,7 +128,7 @@ uiOutput("bgc_site_ref_select")
 BGC Futures: ratio of models predicting BGC
 -------------------------------------
 
-### BGC Futures: ratio of models predicting BGC  
+### Ratio of Models Predicting BGC `r textOutput("current_futures_bgc", inline = TRUE)`
 
 ```{r}
 uiOutput("bgc_futures")
@@ -148,9 +165,10 @@ Copyright 2021 Province of British Columbia
 [LICENSE](http://www.apache.org/licenses/LICENSE-2.0)
 
 ```{r server, context = "server"}
+source("./server/common.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
+source("./server/suitability.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
-source("./server/common.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 ```

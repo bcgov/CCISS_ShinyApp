@@ -4,10 +4,10 @@
 \alias{edatopicOverlap}
 \title{EDA Topic Overlap}
 \usage{
-edatopicOverlap(dat, Edatope)
+edatopicOverlap(BGC, Edatope)
 }
 \arguments{
-\item{dat}{dat}
+\item{BGC}{BGC}
 
 \item{Edatope}{A data.table?}
 }

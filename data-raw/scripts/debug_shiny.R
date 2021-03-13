@@ -31,6 +31,8 @@ ui <- fixedPage(
   selectInput("rcp_scenario", "RCP Scenario:", selected = "rcp45", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150),
   radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE"), inline = TRUE),
   leafletOutput("bec_map"),
+  uiOutput("ss_site_ref_select"),
+  uiOutput("species_suitability_detailed"),
   uiOutput("bgc_site_ref_select"),
   uiOutput("bgc_futures"),
   plotly::plotlyOutput("bgc_futures_plot"),
@@ -38,10 +40,11 @@ ui <- fixedPage(
 )
 
 server <- function(input, output, session) {
+  source("./server/common.R", local = TRUE)
   source("./server/points.R", local = TRUE)
   source("./server/map.R", local = TRUE)
+  source("./server/suitability.R", local = TRUE)
   source("./server/futures.R", local = TRUE)
-  source("./server/common.R", local = TRUE)
   source("./server/download.R", local = TRUE)
   
   onStop(function() {

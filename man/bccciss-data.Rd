@@ -9,6 +9,8 @@
 \alias{R1}
 \alias{S1}
 \alias{subzones_colours_ref}
+\alias{T1}
+\alias{V1}
 \alias{zones_colours_ref}
 \title{Data to be included in bccciss package}
 \description{
