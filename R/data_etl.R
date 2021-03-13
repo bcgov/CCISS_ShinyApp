@@ -34,9 +34,9 @@ dbGetHexID <- function(con, points) {
   
   hexid_sql <- paste0("
   
-  SELECT DISTINCT siteno
+  SELECT cast(siteno as text) siteref
   FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
-  INNER JOIN hex_grid
+  LEFT JOIN hex_grid
   ON ST_Intersects(pts.geom, hex_grid.geom)
   
   ")

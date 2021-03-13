@@ -32,7 +32,7 @@ plugins <- {
       name = "leaflet.vectorgrid",
       version = "1.3.0",
       src = system.file("htmlwidgets", package = "bccciss"),
-      script = c("lfx-vgrid-prod.js", "bec-styling.js")
+      script = c("lfx-vgrid-prod.js")
     )
   )
 }
@@ -48,7 +48,8 @@ addVectorGridTilesDev <- function(map) {
   # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-    
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
       var vectorTileOptions=function(layerName, layerId, activ,
                              lfPane, colorMap, prop, id, opacity) {
         return {
@@ -164,16 +165,16 @@ clear_mk <- function() {
 }
 
 draw_mk <- function(data = uData$points) {
-  non_na_idx <- which(!is.na(data$Longitude) & !is.na(data$Latitude))
-  leaflet::addCircleMarkers(map_proxy, lng = ~Longitude, lat = ~Latitude,
-                            data = data[i = non_na_idx],
-                            radius = 9, color = "#444", fillColor = "orangered", stroke = TRUE,
-                            fillOpacity = 0.6, opacity = 0.8, weight = 2,
-                            popup = ~popups) 
+  non_na_idx <- which(!is.na(data$Long) & !is.na(data$Lat))
+  leaflet::addAwesomeMarkers(
+    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat, 
+    icon = makeAwesomeIcon(icon = 'tree', markerColor = 'OrangeRed', library = 'fa', iconColor = '#FFF'),
+    popup = ~popups, label = ~ID
+  ) 
 }
 
 set_map_bound <- function(data = uData$points) {
-  bbox <- st_as_sf(data[, list(Longitude, Latitude)], coords = 1L:2L, crs = 4326) %>%
+  bbox <- st_as_sf(data[, list(Long, Lat)], coords = 1L:2L, crs = 4326) %>%
     sf::st_transform(3005) %>%
     sf::st_buffer(units::as_units(1, "km"), nQuadSegs = 3) %>%
     sf::st_transform(4326) %>%
@@ -185,6 +186,6 @@ set_map_bound <- function(data = uData$points) {
 ## Map click logic
 observeEvent(input$bec_map_click, {
   pos <- input$bec_map_click
-  points <- new_points(data.table(Latitude = pos$lat, Longitude = pos$lng))
+  points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
   insert_points(points)
 })
