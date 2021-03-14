@@ -180,7 +180,7 @@ set_map_bound <- function(data = uData$points) {
     sf::st_transform(4326) %>%
     sf::st_bbox() %>%
     unname()
-  leaflet::flyToBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
+  leaflet::fitBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
 }
 
 ## Map click logic
