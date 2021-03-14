@@ -31,10 +31,9 @@ observeEvent(input$current_siteref_ss, priority = 50, {
         cciss_summary[, SiteRef := NULL], escape = FALSE, rownames = FALSE,
         options = list(
           columnDefs = list(
-            list(className = 'dt-center', targets = 2:10),
-            list(width = "150px", targets = 1)
+            list(className = 'dt-center', targets = 2:10)
           ),
-          autoWidth = TRUE,
+          scrollY="100vh",
           scrollCollapse = FALSE
         )
       )
@@ -45,10 +44,9 @@ observeEvent(input$current_siteref_ss, priority = 50, {
         cciss_raw[, SiteRef := NULL], escape = FALSE, rownames = FALSE,
         options = list(
           columnDefs = list(
-            list(className = 'dt-center', targets = 2:6),
-            list(width = "150px", targets = 1)
+            list(className = 'dt-center', targets = 2:6)
           ),
-          autoWidth = TRUE,
+          scrollY="100vh",
           scrollCollapse = FALSE
         )
       )
