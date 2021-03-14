@@ -173,20 +173,28 @@ suitability_flag <- function(x) {
 
 radio_select_siteref <- function(subid) {
   renderUI({
-    b <- bgc_react()
-    avg <- input$aggregation
-    rcp <- paste(input$rcp_scenario, collapse = ", ")
-    if (is.null(b)) return(span("Add points to generate selection menu."))
-    choices <- unique(b$SiteRef)
-    if (!isTRUE(as.logical(avg))) {
-      IDs <- uData$points$ID[match(choices, uData$points$Site)]
-      IDs[is.na(IDs)] <- seq_len(length(IDs))[is.na(IDs)]
-      names(choices) <- paste(choices, IDs, sep = "/")
-    }
-    list(
-      radioButtons(paste("current_siteref", subid, sep = "_"), label = "Results:", choices = choices),
-      span("Averaged: ", br(), avg, br(), br(),
-           "RCP scenratio: ", br(), rcp)
-    )
+    withProgress({
+      b <- bgc_react()
+      avg <- input$aggregation
+      rcp <- paste(input$rcp_scenario, collapse = ", ")
+      if (is.null(b)) return(span("Add points to generate selection menu."))
+      choices <- unique(b$SiteRef)
+      if (!isTRUE(as.logical(avg))) {
+        # ordering choices to match points
+        choices <- uData$points[
+          Site %in% unique(b$SiteRef),
+          {
+            x <- Site
+            names(x) <- paste(Site, ID, sep = " / ")
+            x
+          }
+        ]
+      }
+      list(
+        radioButtons(paste("current_siteref", subid, sep = "_"), label = "Results:", choices = choices),
+        span("Averaged: ", br(), avg, br(), br(),
+             "RCP scenratio: ", br(), rcp)
+      )
+    }, min = 0, max = 2, value = 1, message = "Generating selection", detail = "...")
   })
 }
