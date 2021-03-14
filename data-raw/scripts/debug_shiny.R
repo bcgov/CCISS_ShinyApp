@@ -32,6 +32,8 @@ ui <- fixedPage(
   radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE"), inline = TRUE),
   leafletOutput("bec_map"),
   uiOutput("ss_site_ref_select"),
+  uiOutput("ss_legend"),
+  uiOutput("species_suitability_summary"),
   uiOutput("species_suitability_detailed"),
   uiOutput("bgc_site_ref_select"),
   uiOutput("bgc_futures"),

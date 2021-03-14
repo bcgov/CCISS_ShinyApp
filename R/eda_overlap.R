@@ -44,7 +44,9 @@ edatopicOverlap <- function(BGC,Edatope){
   FutBGC <- FutBGC[!is.na(SS.pred),]
   setkey(FutBGC, SiteRef, FuturePeriod, BGC,BGC.pred, Codes)
   setkey(CurrBGC,SiteRef,FuturePeriod, BGC,BGC.pred, Codes)
-  new <- CurrBGC[FutBGC]
+  # "CWHvh2" BGC gives out Join results in 258 rows; more than 135 = nrow(x)+nrow(i), I'm
+  # setting it to allow.cartesian, might need to investigate.
+  new <- CurrBGC[FutBGC, allow.cartesian=TRUE]
   SSsp.out <- new[,.(allOverlap = 1/.N,SS.pred,BGC.prop), keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
   
   ##regular site series edatopes
