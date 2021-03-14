@@ -1,0 +1,174 @@
+---
+title: "CCISS BEC"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    logo: www/logo.svg
+    favicon: www/favicon.ico
+    theme: yeti
+    css: www/style.css
+runtime: shiny_prerendered
+---
+
+```{r global, include=FALSE}
+suppressPackageStartupMessages({
+  library(bccciss)
+  library(shiny)
+  library(leaflet)
+  library(DT)
+  library(RPostgres)
+  library(plotly)
+  library(pool)
+})
+pool <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+onStop(function() {
+  poolClose(pool)
+})
+bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
+bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
+```
+
+
+BEC MAP
+=====================================  
+
+Inputs {.sidebar data-width=450}
+-------------------------------------
+
+#### Points
+<hr>  
+Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
+
+```{r}
+actionButton("add_button", "Add", icon("plus"))
+actionButton("delete_button", "Delete", icon("trash-alt"))
+actionButton("upload_button", "Upload", icon("upload"))
+actionButton("clear_button", "Clear", icon("broom"))
+DT::DTOutput("points_table", width="100%")
+selectInput("rcp_scenario", "RCP Scenario:", selected = "rcp45", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150)
+radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE"), inline = TRUE)
+```
+
+[How the CCISS tool works](./#section-how-the-cciss-tool-works)
+
+Biogeoclimatic Zones + Subzones Variants Map
+-------------------------------------
+```{r}
+leafletOutput("bec_map", height = "auto")
+
+```
+
+SPECIES SUITABILITY
+=====================================     
+
+Inputs {.sidebar data-width=200}
+-------------------------------------
+
+### Site reference
+
+```{r}
+uiOutput("ss_site_ref_select")
+uiOutput("ss_legend")
+
+```
+
+Species Suitability {.tabset}
+-------------------------------------
+
+### Summary
+
+```{r}
+uiOutput("species_suitability_summary")
+
+```
+
+### Detailed
+
+```{r}
+uiOutput("species_suitability_detailed")
+
+```
+   
+SILVICULTURE
+=====================================     
+
+### Silviculture
+
+Site Series
+{insert name of site series}
+
+Forest Region:
+    
+```{r}
+```
+
+
+BGC FUTURES
+=====================================
+
+Inputs {.sidebar data-width=200}
+-------------------------------------
+
+### Site reference
+
+```{r}
+uiOutput("bgc_site_ref_select")
+
+```
+
+BGC Futures: ratio of models predicting BGC
+-------------------------------------
+
+### Ratio of Models Predicting BGC `r textOutput("current_futures_bgc", inline = TRUE)`
+
+```{r}
+uiOutput("bgc_futures")
+
+```
+
+EXPORT
+=====================================
+
+Export a report on selected points.
+```{r}
+uiOutput("downloadUI")
+```
+
+How the CCISS tool works {data-navmenu="ABOUT"} 
+=====================================
+
+The Climate Change Informed Species Selection Decision Aid provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
+
+The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate- and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near- and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/ silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will different regions and elevations of a BGC.  
+  
+[Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
+
+Shiny app information {data-navmenu="ABOUT"} 
+=====================================
+
+Shiny host: `r system("hostname", intern = TRUE)`  
+Database host: `r Sys.getenv("BCGOV_HOST")`  
+Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`  
+Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp/tree/code_with_us)  
+  
+Copyright 2021 Province of British Columbia  
+  
+[LICENSE](http://www.apache.org/licenses/LICENSE-2.0)
+
+```{r server, context = "server"}
+source("./server/common.R", local = TRUE)
+source("./server/points.R", local = TRUE)
+source("./server/map.R", local = TRUE)
+source("./server/suitability.R", local = TRUE)
+source("./server/futures.R", local = TRUE)
+source("./server/download.R", local = TRUE)
+```
