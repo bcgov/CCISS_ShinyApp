@@ -166,11 +166,9 @@ clear_mk <- function() {
 
 draw_mk <- function(data = uData$points) {
   non_na_idx <- which(!is.na(data$Long) & !is.na(data$Lat))
-  leaflet::addAwesomeMarkers(
-    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat, 
-    icon = makeAwesomeIcon(icon = 'tree', markerColor = 'OrangeRed', library = 'fa', iconColor = '#FFF'),
-    popup = ~popups, label = ~ID
-  ) 
+  leaflet::addMarkers(
+    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat, popup = ~popups, label = ~ID
+  )
 }
 
 set_map_bound <- function(data = uData$points) {
