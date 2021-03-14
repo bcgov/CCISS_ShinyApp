@@ -9,7 +9,6 @@ output$ss_legend <- renderUI({
 })
 
 observeEvent(input$current_siteref_ss, priority = 100, {
-  siteref <- input$current_siteref_ss
   output$species_suitability_summary <- renderUI({
     DT::DTOutput("species_suitability_summary_dt", width = "100%", height = "100%")
   })
