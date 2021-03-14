@@ -1,30 +1,18 @@
 # Map main
 
-wms <- {
-  list(usgs_hs = 
-    list(
-      baseUrl = "https://basemap.nationalmap.gov:443/arcgis/services/USGSShadedReliefOnly/MapServer/WmsServer?",
-      layers = "0",
-      options = leaflet::WMSTileOptions(
-        format = "image/png",
-        crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
-        transparent = FALSE),
-      attribution = '<a href="https://catalog.data.gov/dataset/usgs-hill-shade-base-map-service-from-the-national-map">USGS</a>'
-    ),
-  bec_wms = 
-    list(
-      #WMS config for BEC layer (for greater visual precision at higher zoom level)
-      baseUrl = "https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY/ows?",
-      layers = "pub:WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY",
-      options = leaflet::WMSTileOptions(
-        format = "image/png",
-        crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
-        transparent = TRUE,
-        style = "1409_1410"),
-      attribution = '<a href="https://catalogue.data.gov.bc.ca/dataset/bec-map">BEC Map</a>'
-    )
+wms <- list(bec_wms = 
+  list(
+    #WMS config for BEC layer (for greater visual precision at higher zoom level)
+    baseUrl = "https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY/ows?",
+    layers = "pub:WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY",
+    options = leaflet::WMSTileOptions(
+      format = "image/png",
+      crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
+      transparent = TRUE,
+      style = "1409_1410"),
+    attribution = '<a href="https://catalogue.data.gov.bc.ca/dataset/bec-map">BEC Map</a>'
   )
-}
+)
 
 plugins <- {
   list(vgplugin = 
@@ -76,12 +64,12 @@ addVectorGridTilesDev <- function(map) {
       var zLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
-                          "overlayPane", zoneColors, "ZONE", "OBJECTID", 0.85)
+                          "tilePane", zoneColors, "ZONE", "OBJECTID", 0.85)
       )
       var subzLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
-                          "overlayPane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
+                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
       )
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
@@ -130,20 +118,22 @@ addVectorGridTilesDev <- function(map) {
 
 output$bec_map <- renderLeaflet({
   leaflet::leaflet() %>%
-    leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap") %>%
-    addVectorGridTilesDev() %>%
-    leaflet::hideGroup("Zones") %>%
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
-    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite") %>%
-    leaflet::addWMSTiles(baseUrl = wms$usgs_hs$baseUrl,
-                         layers = wms$usgs_hs$layers,
-                         options = wms$usgs_hs$options, group = "Hillshade",
-                         attribution = wms$usgs_hs$attribution) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    addVectorGridTilesDev() %>%
     leaflet::addWMSTiles(baseUrl = wms$bec_wms$baseUrl,
                          layers = wms$bec_wms$layers,
                          options = wms$bec_wms$options, group = "BEC WMS",
                          attribution = wms$bec_wms$attribution) %>%
+    leaflet::hideGroup("Zones") %>%
     leaflet::hideGroup("BEC WMS") %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Labels",
+                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::addMeasure(
       position = "bottomleft",
       primaryLengthUnit = "meters",
@@ -151,8 +141,8 @@ output$bec_map <- renderLeaflet({
       primaryAreaUnit = "sqmeters") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
     leaflet::addLayersControl(
-      baseGroups = c("OpenStreetMap", "Satellite", "Hillshade"),
-      overlayGroups = c("Zones", "Subzones Variants", "BEC WMS"),
+      baseGroups = c("Positron", "Satellite", "OpenStreetMap"),
+      overlayGroups = c("Zones", "Subzones Variants", "BEC WMS", "Labels"),
       position = "topright") %>%
     leaflet::addMiniMap(toggleDisplay = TRUE)
 })

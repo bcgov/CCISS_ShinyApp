@@ -98,9 +98,11 @@ cm_bcg_fplot <- function(data) {
   }
   plotly::plot_ly(data = data, x = ~FuturePeriod,
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
-                  color = ~BGC.pred, colors = color_ref) %>%
-    plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
-                   barmode = 'stack', legend = l, hovermode = 'x unified')
+                  color = ~BGC.pred, colors = color_ref,
+                  text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
+                  texttemplate = "%{text}", hovertemplate = "%{y}") %>%
+    plotly::layout(yaxis = list(title = "", tickformat = ".1%"), xaxis = list(showspikes = FALSE),
+                   barmode = 'stack', legend = l, hovermode = "x unified")
 }
 
 #' @param ... a list of numeric vector, column names will be used as color. This
