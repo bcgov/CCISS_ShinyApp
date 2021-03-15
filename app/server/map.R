@@ -19,8 +19,9 @@ plugins <- {
     htmltools::htmlDependency(
       name = "leaflet.vectorgrid",
       version = "1.3.0",
+      stylesheet = "lfx-slider.css",
       src = system.file("htmlwidgets", package = "bccciss"),
-      script = c("lfx-vgrid-prod.js")
+      script = c("lfx-vgrid-prod.js", "lfx-slider.js")
     )
   )
 }
@@ -38,8 +39,28 @@ addVectorGridTilesDev <- function(map) {
     function(el, x, data) {
       ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
       ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
+      
+      updateOpacity = function(value) {
+        L.bec_layer_opacity = parseFloat(value);
+      }
+      
+      var opacityslider = L.control.slider(updateOpacity, {
+        id:"opacity_slider",
+        orientation:"horizontal",
+        position:"bottomleft",
+        logo:"O",
+        max:1,
+        step:0.01,
+        syncSlider:true,
+        size:"250px",
+        value:0.65,
+        showValue:true
+      })
+      
+      opacityslider.addTo(this)
+      
       var vectorTileOptions=function(layerName, layerId, activ,
-                             lfPane, colorMap, prop, id, opacity) {
+                             lfPane, colorMap, prop, id) {
         return {
           vectorTileLayerName: layerName,
           interactive: activ, // makes it able to trigger js events like click
@@ -48,8 +69,8 @@ addVectorGridTilesDev <- function(map) {
               return {
                 weight: 0,
                 fillColor: colorMap[properties[prop]],
-                fillOpacity: opacity,
-                fill: true
+                fill: true,
+                fillOpacity: L.bec_layer_opacity
               }
             }
           },
@@ -64,12 +85,12 @@ addVectorGridTilesDev <- function(map) {
       var zLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
-                          "tilePane", zoneColors, "ZONE", "OBJECTID", 0.85)
+                          "tilePane", zoneColors, "ZONE", "OBJECTID")
       )
       var subzLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
-                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID", 0.5)
+                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
       )
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
@@ -102,7 +123,7 @@ addVectorGridTilesDev <- function(map) {
             weight: 1,
             color: "#555",
             fillColor: subzoneColors[properties.MAP_LABEL],
-            fillOpacity: 0.75,
+            fillOpacity: 1,
             fill: true
           }
           subzLayer.setFeatureStyle(properties.OBJECTID, style);
@@ -125,26 +146,30 @@ output$bec_map <- renderLeaflet({
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addTiles(urlTemplate = "https://api.mapbox.com/styles/v1/meztez/ckm9qzg1u2grj17n1qo25bt1r/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWV6dGV6IiwiYSI6ImNrbTlqcGRsbzFpcjUycHJ0aXhnNWVjczMifQ.b-5f6EiF8dtdzATV1xyOnQ",
+                      attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+                      group = "Hillshade",
+                      options = leaflet::pathOptions(pane = "mapPane")) %>%
     addVectorGridTilesDev() %>%
     leaflet::addWMSTiles(baseUrl = wms$bec_wms$baseUrl,
                          layers = wms$bec_wms$layers,
                          options = wms$bec_wms$options, group = "BEC WMS",
                          attribution = wms$bec_wms$attribution) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
+                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    leaflet::addTiles(urlTemplate = "https://api.mapbox.com/styles/v1/meztez/ckm9qe3ts2g5w17qswd6qodjj/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWV6dGV6IiwiYSI6ImNrbTlqcGRsbzFpcjUycHJ0aXhnNWVjczMifQ.b-5f6EiF8dtdzATV1xyOnQ",
+                      attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+                      group = "Mapbox Labels",
+                      options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::hideGroup("Zones") %>%
     leaflet::hideGroup("BEC WMS") %>%
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Labels",
-                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
-    leaflet::addMeasure(
-      position = "bottomleft",
-      primaryLengthUnit = "meters",
-      secondaryLengthUnit = "kilometers",
-      primaryAreaUnit = "sqmeters") %>%
+    leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
     leaflet::addLayersControl(
-      baseGroups = c("Positron", "Satellite", "OpenStreetMap"),
-      overlayGroups = c("Zones", "Subzones Variants", "BEC WMS", "Labels"),
+      baseGroups = c("Positron", "Satellite", "OpenStreetMap", "Hillshade"),
+      overlayGroups = c("Zones", "Subzones Variants", "BEC WMS", "Positron Labels", "Mapbox Labels"),
       position = "topright") %>%
-    leaflet::addMiniMap(toggleDisplay = TRUE)
+    leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
 })
 
 # Map methods
