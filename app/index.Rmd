@@ -73,7 +73,7 @@ SPECIES SUITABILITY
 Inputs {.sidebar data-width=200}
 -------------------------------------
 
-### Site reference
+#### Site reference
 
 ```{r}
 uiOutput("ss_site_ref_select")
@@ -119,7 +119,7 @@ BGC FUTURES
 Inputs {.sidebar data-width=200}
 -------------------------------------
 
-### Site reference
+#### Site reference
 
 ```{r}
 uiOutput("bgc_site_ref_select")
@@ -139,7 +139,21 @@ uiOutput("bgc_futures")
 EXPORT
 =====================================
 
+Inputs {.sidebar data-width=300}
+-------------------------------------
+
+#### Report filter
+
+```{r}
+uiOutput("downloadUIfilter")
+
+```
+
 Export a report on selected points.
+-------------------------------------
+
+### Export a report on selected points
+
 ```{r}
 uiOutput("downloadUI")
 ```

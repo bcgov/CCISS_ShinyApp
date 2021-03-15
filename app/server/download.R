@@ -1,14 +1,39 @@
+output$downloadUIfilter <- renderUI({
+  withProgress({
+    cciss_summary <- cciss_summary()
+    cciss_raw <- cciss_raw()
+    if (is.null(cciss_raw) || is.null(cciss_summary)) {
+      return(NULL)
+    }
+    incProgress(1)
+    siteseries <- sort(unique(c(cciss_raw$`Site Series`, cciss_summary$`Site Series`)))
+    selectInput(
+      "report_site_series_filter",
+      label = "Filter Site Series (default all)",
+      choices = siteseries,
+      multiple = TRUE,
+      selected = siteseries
+    ) 
+  }, min = 0, max = 2, value = 1, message = "Processing", detail = "...")
+})
+
 output$downloadUI <- renderUI({
-  bgc <- bgc_react()
-  if (is.null(bgc)) {
-    return(span("Add points to generate report."))
-  }
-  style <- "max-width: 300px; width:100%; height: 40px !important;"
-  list(
-    textInput("report_name", "Name", value = "report"),
-    selectInput("report_format", "Format", c("html", "pdf")),
-    downloadButton("report_download", "Download", icon = icon("download"), style = style)
-  )
+  withProgress({
+    bgc <- bgc_react()
+    if (is.null(bgc)) {
+      return(span("Add points to generate report."))
+    }
+    style <- "max-width: 300px; width:100%; height: 40px !important;"
+    cciss_summary <- cciss_summary()
+    cciss_raw <- cciss_raw()
+    incProgress(1)
+    siteseries <- sort(unique(c(cciss_raw$`Site Series`, cciss_summary$`Site Series`)))
+    list(
+      textInput("report_name", "Name", value = "report"),
+      selectInput("report_format", "Format", c("html", "pdf")),
+      downloadButton("report_download", "Download", icon = icon("download"), style = style)
+    ) 
+  }, min = 0, max = 2, value = 1, message = "Processing", detail = "...")
 })
 
 output$report_download <- downloadHandler(
