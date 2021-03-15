@@ -1,19 +1,5 @@
 # Map main
 
-wms <- list(bec_wms = 
-  list(
-    #WMS config for BEC layer (for greater visual precision at higher zoom level)
-    baseUrl = "https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY/ows?",
-    layers = "pub:WHSE_FOREST_VEGETATION.BEC_BIOGEOCLIMATIC_POLY",
-    options = leaflet::WMSTileOptions(
-      format = "image/png",
-      crs = leaflet::leafletCRS(crsClass = "L.CRS.EPSG4326"),
-      transparent = TRUE,
-      style = "1409_1410"),
-    attribution = '<a href="https://catalogue.data.gov.bc.ca/dataset/bec-map">BEC Map</a>'
-  )
-)
-
 plugins <- {
   list(vgplugin = 
     htmltools::htmlDependency(
@@ -35,6 +21,7 @@ addVectorGridTilesDev <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   # This is a custom javascript to enable VectorGrid with Shiny
   # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
+  # It also adds a slider control for the layers opacity
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
       ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
@@ -48,7 +35,7 @@ addVectorGridTilesDev <- function(map) {
         id:"opacity_slider",
         orientation:"horizontal",
         position:"bottomleft",
-        logo:"O",
+        logo:\'<img src="www/opacity.png" />\',
         max:1,
         step:0.01,
         syncSlider:true,
@@ -142,6 +129,8 @@ output$bec_map <- renderLeaflet({
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterNoLabels, group = "DarkMatter",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
@@ -151,23 +140,21 @@ output$bec_map <- renderLeaflet({
                       group = "Hillshade",
                       options = leaflet::pathOptions(pane = "mapPane")) %>%
     addVectorGridTilesDev() %>%
-    leaflet::addWMSTiles(baseUrl = wms$bec_wms$baseUrl,
-                         layers = wms$bec_wms$layers,
-                         options = wms$bec_wms$options, group = "BEC WMS",
-                         attribution = wms$bec_wms$attribution) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
+                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterOnlyLabels, group = "DarkMatter Labels",
                               options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::addTiles(urlTemplate = "https://api.mapbox.com/styles/v1/meztez/ckm9qe3ts2g5w17qswd6qodjj/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWV6dGV6IiwiYSI6ImNrbTlqcGRsbzFpcjUycHJ0aXhnNWVjczMifQ.b-5f6EiF8dtdzATV1xyOnQ",
                       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
                       group = "Mapbox Labels",
                       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::hideGroup("Zones") %>%
-    leaflet::hideGroup("BEC WMS") %>%
-    leaflet::hideGroup("Positron Labels") %>%
+    leaflet::hideGroup("DarkMatter Labels") %>%
+    leaflet::hideGroup("Mapbox Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
     leaflet::addLayersControl(
-      baseGroups = c("Positron", "Satellite", "OpenStreetMap", "Hillshade"),
-      overlayGroups = c("Zones", "Subzones Variants", "BEC WMS", "Positron Labels", "Mapbox Labels"),
+      baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
+      overlayGroups = c("Zones", "Subzones Variants", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
     leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
 })
@@ -182,7 +169,8 @@ clear_mk <- function() {
 draw_mk <- function(data = uData$points) {
   non_na_idx <- which(!is.na(data$Long) & !is.na(data$Lat))
   leaflet::addMarkers(
-    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat, popup = ~popups, label = ~ID
+    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat,
+    popup = ~popups, label = ~ID
   )
 }
 

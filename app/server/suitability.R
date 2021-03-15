@@ -40,9 +40,7 @@ observeEvent(input$current_siteref_ss, priority = 50, {
         selectInput(
           "select_site_series",
           label = "Site Series",
-          choices = siteseries,
-          multiple = TRUE,
-          selected = siteseries[1]
+          choices = siteseries
       ))
       incProgress(2, message = "Done", detail = "")
     }, min = 0, max = 2, message = "CCISS", detail = "processing...")
