@@ -77,6 +77,7 @@ Inputs {.sidebar data-width=200}
 
 ```{r}
 uiOutput("ss_site_ref_select")
+uiOutput("ss_select_series")
 uiOutput("ss_legend")
 
 ```
