@@ -1,48 +1,25 @@
-# Proxy objects
-DT_proxy <- DT::dataTableProxy("points_table")
-
 # Input management ----
-
-## Points dataframe
-uData <- session$userData
-
-uData$points <- uData$basepoints <- data.table(
-  ID = character(),
-  Site = character(),
-  Lat = numeric(),
-  Long = numeric(),
-  Elev = numeric(),
-  BGC = character(),
-  popups = character()
-)
-
-uData$pts_col <- 1L:ncol(uData$basepoints)
-## Exclude popups column
-uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 1L)
-
 output$points_table <- DT::renderDataTable({
+  pts <- userpoints$dt
   DT::datatable(
-    uData$points[,uData$pts_show_col, with = FALSE], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "175px", scrollCollapse = FALSE),
+    pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
+    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
     editable = list(target = "row", disable = list(columns = c(1,5)))
   )
 })
 
-## DT methods
-update_DT <- function() {
-  DT::replaceData(DT_proxy, uData$points[,uData$pts_show_col, with = FALSE], clearSelection = "all", rownames = FALSE)
-}
-
 ## Points update logic
 update_ID <- function() {
-  uData$points[is.na(ID), ID := as.character(seq_len(nrow(uData$points))[is.na(uData$points$ID)])]
+  pts <- userpoints$dt
+  pts[is.na(ID), ID := as.character(seq_len(nrow(pts))[is.na(pts$ID)])]
+  userpoints$dt <- pts
 }
 
 new_points <- function(points) {
-  beg <- nrow(points)
-  withProgress(min = 0, max = 3, detail = "Adding points ...", {
-    setProgress(1, message = "Fetch points details")
+  withProgress(message = "Processing..", detail = "New points", {
+    beg <- nrow(points)
     points <- points[!is.na(Long) & !is.na(Lat)]
+    if (nrow(points) == 0) return(uData$basepoints)
     points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
     res <- dbGetBecInfo(pool, points[, list(Long, Lat)])
     points[, BGC := res$bgc_label]
@@ -50,7 +27,6 @@ new_points <- function(points) {
     # TODO
     # Fetch elevation from where?
     # points[is.na(Elevevation), Elev := bcmaps::cded(...)]
-    setProgress(2, message = "Create popup info")
     onbcland <- res$onbcland
     popups <- res[, onbcland := NULL][, 
       paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
@@ -58,29 +34,27 @@ new_points <- function(points) {
     points[, popups := sapply(popups, HTML)]
     points <- points[!is.na(BGC) & onbcland]
     points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
-    setProgress(3, message = "Done")
-  })
-  end <- nrow(points)
-  if (beg != end) {
-    showModal(
-      modalDialog(
-        title = "Warning",
-        paste("Points outside of coverage zones were dropped or not updated." ),
-        easyClose = TRUE
+    end <- nrow(points)
+    if (beg != end) {
+      showModal(
+        modalDialog(
+          title = "Warning",
+          paste("Points outside of coverage zones were dropped or not updated." ),
+          easyClose = TRUE
+        )
       )
-    )
-  } else {
-    removeModal()
-  }
-  return(points)
+    } else {
+      removeModal()
+    }
+    return(points)
+  })
 }
 
 insert_points <- function(points) {
   if (nrow(points)) {
-    uData$points <- rbindlist(list(uData$points, points), fill = TRUE)
+    userpoints$dt <- rbindlist(list(userpoints$dt, points), fill = TRUE)
     update_ID()
-    update_DT()
-    draw_mk(tail(uData$points, nrow(points)))
+    draw_mk(tail(userpoints$dt, nrow(points)))
   }
 }
 
@@ -117,16 +91,14 @@ insert_points_file <- function(datapath){
 
 ## Add a point logic
 observeEvent(input$add_button,{
-  uData$points <- rbindlist(list(uData$points, data.table(ID=NA_integer_)), fill = TRUE)
+  userpoints$dt <- rbindlist(list(userpoints$dt, data.table(ID=NA_integer_)), fill = TRUE)
   update_ID()
-  update_DT()
 })
 
 ## Delete selected points logic
 observeEvent(input$delete_button,{
-  if(length(input$points_table_rows_selected)>=1) {
-    uData$points <- uData$points[-input$points_table_rows_selected]
-    update_DT()
+  if (length(input$points_table_rows_selected)>=1) {
+    userpoints$dt <- userpoints$dt[-input$points_table_rows_selected]
     clear_mk()
     draw_mk()
   } else {
@@ -142,8 +114,7 @@ observeEvent(input$delete_button,{
 
 ## Clear all points logic
 observeEvent(input$clear_button,{
-  uData$points <- uData$basepoints
-  update_DT()
+  userpoints$dt <- uData$basepoints
   clear_mk()
 })
 
@@ -159,10 +130,16 @@ observeEvent(input$points_table_cell_edit, {
     BGC = as.character(1)
   )
   points <- new_points(points)
+  # Using a copy to trigger reactive change in `userpoints$dt`
+  pts <- copy(userpoints$dt)
   if (nrow(points)) {
-    set(uData$points, i = info$row[1], j = uData$pts_col, value = points)
+    set(pts, i = info$row[1], j = uData$pts_col, value = points)
+    userpoints$dt <- pts
     clear_mk()
     draw_mk()
+  } else {
+    # When the point is invalid, only keep the user provided ID
+    set(pts, i = info$row[1], j = 1L, value = as.character(info$value[1]))
+    userpoints$dt <- pts
   }
-  update_DT()
 })
