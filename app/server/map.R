@@ -35,11 +35,12 @@ addVectorGridTilesDev <- function(map) {
         id:"opacity_slider",
         orientation:"horizontal",
         position:"bottomleft",
-        logo:\'<img src="www/opacity.png" />\',
+        logo:\'<img src="www/opacity.svg" />\',
         max:1,
         step:0.01,
         syncSlider:true,
         size:"250px",
+        // Starting opacity value for bec map layers
         value:0.65,
         showValue:true
       })
@@ -110,7 +111,7 @@ addVectorGridTilesDev <- function(map) {
             weight: 1,
             color: "#555",
             fillColor: subzoneColors[properties.MAP_LABEL],
-            fillOpacity: 1,
+            fillOpacity: 0.1,
             fill: true
           }
           subzLayer.setFeatureStyle(properties.OBJECTID, style);
@@ -150,7 +151,7 @@ output$bec_map <- renderLeaflet({
                       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::hideGroup("Zones") %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
-    leaflet::hideGroup("Mapbox Labels") %>%
+    leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
@@ -166,15 +167,17 @@ clear_mk <- function() {
   leaflet::clearMarkers(map_proxy)
 }
 
-draw_mk <- function(data = uData$points) {
+draw_mk <- function(data = userpoints$dt) {
   non_na_idx <- which(!is.na(data$Long) & !is.na(data$Lat))
-  leaflet::addMarkers(
-    map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat,
-    popup = ~popups, label = ~ID
-  )
+  if (length(non_na_idx)) {
+    leaflet::addMarkers(
+      map_proxy, data = data[i = non_na_idx], lng = ~Long, lat = ~Lat,
+      popup = ~popups, label = ~ID
+    )
+  }
 }
 
-set_map_bound <- function(data = uData$points) {
+set_map_bound <- function(data = userpoints$dt) {
   bbox <- st_as_sf(data[, list(Long, Lat)], coords = 1L:2L, crs = 4326) %>%
     sf::st_transform(3005) %>%
     sf::st_buffer(units::as_units(1, "km"), nQuadSegs = 3) %>%
