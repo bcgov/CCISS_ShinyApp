@@ -32,10 +32,16 @@ output$detailed_feas <- DT::renderDataTable({
   siteref <- input$siteref_feas
   siteseries <- input$site_series_feas
   cciss_detailed <- uData$cciss_detailed
+  feas_filter <- input$filter_feas
   if (is.null(cciss_detailed)) return(NULL)
   cciss_detailed <- cciss_detailed[SiteRef == siteref & `Site Series` %in% siteseries]
+  if (feas_filter == "a") {
+    cciss_detailed <- cciss_detailed[MeanSuit < 4]
+  } else if (feas_filter == "f") {
+    cciss_detailed <- cciss_detailed[`Projected Feasibility` %chin% c("1", "2", "3")]
+  }
   DT::datatable(
-    cciss_detailed[, SiteRef := NULL], escape = FALSE, rownames = FALSE,
+    cciss_detailed[, `:=`(SiteRef = NULL, MeanSuit = NULL)], escape = FALSE, rownames = FALSE,
     options = list(
       columnDefs = list(
         list(className = 'dt-center', targets = 2:6),

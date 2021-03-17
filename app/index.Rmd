@@ -99,7 +99,7 @@ Inputs {.sidebar data-width=230}
 ```{r}
 selectInput("siteref_feas", label = "Sites:", choices = character())
 selectInput("site_series_feas", label = "Site Series", choices = character())
-selectInput("filter_feas", label = "Site Series Filter", choices = c("All" = "a", "Feasible" = "f"))
+selectInput("filter_feas", label = "Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
 ```
 
 Legend
