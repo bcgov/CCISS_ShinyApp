@@ -55,8 +55,9 @@ cciss_detailed <- function(cciss) {
   withProgress(message = "Processing...", detail = "Feasibility detailed", {
     detailed <- cciss$Raw
     period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+    current = 2000
     detailed[, `:=`(
-      NewSuit = round(NewSuit, 0),
+      NewSuitRound = round(NewSuit, 0),
       SuitDiff = round(SuitDiff, 0),
       FeasSVG = feasibility_svg(`1`, `2`, `3`, `X`),
       Period = period_map[as.character(FuturePeriod)]
@@ -73,20 +74,27 @@ cciss_detailed <- function(cciss) {
         paste(svgs, collapse = "<br/>")
       },
       # Use silviculture
-      "Chief Forester Recommended Suitability" = Curr[FuturePeriod == 2000],
-      # TODO :
-      # How do you determine projected feasibility and what logic drive round flag color vs SuitDiff
-      "Projected Feasibility" = NewSuit[FuturePeriod == 2000],
+      "Chief Forester Recommended Suitability" = {
+        cfr <- Curr[FuturePeriod == current]
+        cfr <- as.character(cfr)
+        if (length(cfr)) cfr else "X"
+      },
+      "Projected Feasibility" = {
+        pf <- NewSuitRound[FuturePeriod == current]
+        pf <- as.character(pf)
+        if (length(pf)) pf else "X"
+      },
       # TODO :
       # Validate trend logic
-      "Continuing Trend at Mid Rotation (2040-2070)" = feasibility_trend(NewSuit),
-      ModAgree = mean(ModAgree, na.rm = TRUE)
+      "Continuing Trend at Mid Rotation (2040-2070)" = feasibility_trend(NewSuitRound),
+      MeanSuit = mean(NewSuit, na.rm = TRUE),
+      OrderSuit = {
+        s <- NewSuit[FuturePeriod == current]
+        if (length(s)) s else 4
+      }
     ), by=c("SiteRef", "SS_NoSpace", "Spp")]
-    # some do not have a current value, setting it to 4
-    detailed[is.na(`Chief Forester Recommended Suitability`), `Chief Forester Recommended Suitability` := 4]
-    detailed[is.na(`Projected Feasibility`), `Projected Feasibility` := 4]
-    setorder(detailed, SiteRef, SS_NoSpace, `Chief Forester Recommended Suitability`, `Projected Feasibility`, -ModAgree)
-    detailed[, c("Spp", "SS_NoSpace", "ModAgree") := NULL]
+    setorder(detailed, SiteRef, SS_NoSpace, OrderSuit, MeanSuit, `Tree Species`)
+    detailed[, c("Spp", "SS_NoSpace", "OrderSuit") := NULL]
     return(detailed)
   })
 }
