@@ -1,3 +1,25 @@
+@font-face{font-family:BCSans;font-style:normal;font-weight:400;src:url(BCSans-Regular.woff2) format("woff2"),url(BCSans-Regular.woff) format("woff")}@font-face{font-family:BCSans;font-weight:500 700;src:url(BCSans-Bold.woff2) format("woff2"),url(BCSans-Bold.woff) format("woff")}
+
+/* Prevent map from collapsing on mobile */
+
 #bec_map {
   min-height: 400px;
+}
+
+/* Replace Search logo with a scalable vector graphic */
+
+.leaflet-control-search .search-button {
+  background: url(search.svg) no-repeat 2px 2px #fff !important;
+}
+
+/* Fix navbar flex with bslib generated theme */
+
+ul.nav.navbar-nav {
+  flex: auto !important;
+  -webkit-flex: auto !important;
+}
+
+/* Fix DT / Flexdashboard container cut off */
+.chart-stage-flex {
+  overflow: scroll !important;
 }
