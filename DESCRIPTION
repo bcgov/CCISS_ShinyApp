@@ -17,18 +17,14 @@ Imports:
     RPostgres,
     dplyr,
     matrixStats,
-    rmarkdown,
-    htmltools,
-    htmlwidgets,
     leaflet,
     leaflet.extras,
     analogsea,
     DT,
-    flexdashboard,
+    flexdashboard (>= 0.5.2.90),
     plotly,
     pool
 Suggests:
-    shiny,
     bcdata,
     bcmaps,
     usethis

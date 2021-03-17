@@ -7,14 +7,13 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     css: www/style.css
-#     theme: yeti
-# runtime: shiny_prerendered
     theme:
       version: 4
       bootswatch: yeti
       primary: "#003366"
-      base_font: "BCSans"
 runtime: shiny_prerendered
+#     theme : yeti
+# runtime: shiny
 ---
 
 ```{r global, include=FALSE}
@@ -52,17 +51,16 @@ Inputs {.sidebar data-width=550}
 Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
 
 ```{r}
+# Generate results
+actionButton("generate_results", label = "Generate results", icon = icon("plus-square"))
 # Actions on points
+actionButton("upload_button", "Upload", icon("upload"))
 actionButton("add_button", "Add", icon("plus"))
 actionButton("delete_button", "Delete", icon("trash-alt"))
-actionButton("upload_button", "Upload", icon("upload"))
 actionButton("clear_button", "Clear", icon("broom"))
 
 # Points
 DT::DTOutput("points_table", width="100%")
-
-# Generate results
-actionButton("generate_results", label = "Generate results", icon = icon("plus-square"))
 
 # Control results
 splitLayout(
@@ -99,7 +97,7 @@ Inputs {.sidebar data-width=230}
 ```{r}
 selectInput("siteref_feas", label = "Sites:", choices = character())
 selectInput("site_series_feas", label = "Site Series", choices = character())
-selectInput("filter_feas", label = "Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
+selectInput("filter_feas", label = "Detailed Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
 ```
 
 Legend
@@ -204,7 +202,7 @@ Shiny app information {data-navmenu="ABOUT"}
 Shiny host: `r system("hostname", intern = TRUE)`  
 Database host: `r Sys.getenv("BCGOV_HOST")`  
 Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`  
-Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp/tree/code_with_us)  
+Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp)  
   
 Copyright 2021 Province of British Columbia  
   
@@ -223,6 +221,7 @@ tags$script(HTML('
 ```
 
 ```{r server, context = "server"}
+# bslib::bs_themer()
 source("./server/common.R", local = TRUE)
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
