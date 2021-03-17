@@ -21,7 +21,7 @@
 #' @param SSPred A data.table. Predictions input.
 #' @param suit A data.table. Suitability.
 #' @param rules A data.table. Set of rules.
-#' @param feasFlag A data.table. Flag depending on suitability differential.
+#' @param feasFlag A data.table. Flag depending on feasibility differential.
 #' @details What the function does
 #' @return What the function returns
 #' @importFrom matrixStats rowMaxs

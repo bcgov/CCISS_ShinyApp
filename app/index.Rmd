@@ -6,9 +6,15 @@ output:
     vertical_layout: fill
     logo: www/logo.svg
     favicon: www/favicon.ico
-    theme: yeti
     css: www/style.css
+    theme: yeti
 runtime: shiny_prerendered
+#     theme:
+#       version: 4
+#       bootswatch: yeti
+#       primary: "#003366"
+#       base_font: "BCSans"
+# runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}
@@ -37,25 +43,42 @@ bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
 ```
 
-
 BEC MAP
-=====================================  
+=====================================
 
-Inputs {.sidebar data-width=450}
+Inputs {.sidebar data-width=550}
 -------------------------------------
 
-#### Points
-<hr>  
 Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
 
 ```{r}
+# Actions on points
 actionButton("add_button", "Add", icon("plus"))
 actionButton("delete_button", "Delete", icon("trash-alt"))
 actionButton("upload_button", "Upload", icon("upload"))
 actionButton("clear_button", "Clear", icon("broom"))
+
+# Points
 DT::DTOutput("points_table", width="100%")
-selectInput("rcp_scenario", "RCP Scenario:", selected = "rcp45", c("4.5" = "rcp45", "8.5" = "rcp85"), multiple = TRUE, width = 150)
-radioButtons("aggregation", "Multiple Point Aggregation:", c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE"), inline = TRUE)
+
+# Generate results
+actionButton("generate_results", label = "Generate results", icon = icon("plus-square"))
+
+# Control results
+splitLayout(
+  checkboxGroupInput(
+    "rcp_scenario",
+    "RCP Scenario:",
+    selected = "rcp45",
+    c("4.5 W/m2" = "rcp45", "8.5 W/m2" = "rcp85")
+  ),
+  radioButtons(
+    "aggregation",
+    "Multiple Point Aggregation:",
+    c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE")
+  )
+)
+
 ```
 
 [How the CCISS tool works](./#section-how-the-cciss-tool-works)
@@ -67,36 +90,45 @@ leafletOutput("bec_map", height = "auto")
 
 ```
 
-SPECIES SUITABILITY
-=====================================     
+FEASIBILITY
+=====================================  
 
-Inputs {.sidebar data-width=200}
+Inputs {.sidebar data-width=230}
 -------------------------------------
-
-#### Site reference
-
+  
 ```{r}
-uiOutput("ss_site_ref_select")
-uiOutput("ss_select_series")
-uiOutput("ss_legend")
-
+selectInput("siteref_feas", label = "Sites:", choices = character())
+selectInput("site_series_feas", label = "Site Series", choices = character())
+selectInput("filter_feas", label = "Site Series Filter", choices = c("All" = "a", "Feasible" = "f"))
 ```
 
-Species Suitability {.tabset}
+Legend
+```{r}
+HTML(
+  paste0(
+    '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+    c("limegreen", "deepskyblue", "gold", "grey"),
+    '" /><span>&nbsp;',
+    c("Primary", "Secondary", "Tertiary", "Not Suitable"),
+    '</span>',
+    collapse = "<br />"
+  )
+)
+```
+
+Species Feasibility {.tabset}
 -------------------------------------
 
 ### Summary
 
 ```{r}
-uiOutput("species_suitability_summary")
-
+DT::DTOutput("summary_feas", width = "100%", height = "auto")
 ```
 
 ### Detailed
 
 ```{r}
-uiOutput("species_suitability_detailed")
-
+DT::DTOutput("detailed_feas", width = "100%", height = "auto")
 ```
    
 SILVICULTURE
@@ -116,37 +148,33 @@ Forest Region:
 BGC FUTURES
 =====================================
 
-Inputs {.sidebar data-width=200}
+Inputs {.sidebar data-width=230}
 -------------------------------------
-
-#### Site reference
-
+  
 ```{r}
-uiOutput("bgc_site_ref_select")
+selectInput("siteref_bgc_fut", label = "Sites:", choices = character())
 
 ```
 
 BGC Futures: ratio of models predicting BGC
 -------------------------------------
 
-### Ratio of Models Predicting BGC `r textOutput("current_futures_bgc", inline = TRUE)`
+### Ratio of Models Predicting BGC `r textOutput("current_bgc_fut", inline = TRUE)`
 
 ```{r}
-uiOutput("bgc_futures")
-
+plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 ```
 
 EXPORT
 =====================================
 
-Inputs {.sidebar data-width=300}
+Inputs {.sidebar data-width=230}
 -------------------------------------
-
-#### Report filter
-
+  
 ```{r}
-uiOutput("downloadUIfilter")
-
+actionButton("report_filter_all", label = "Check All", icon("check"))
+actionButton("report_filter_none", label = "Uncheck All", icon("ban"))
+checkboxGroupInput("report_filter", label = "Filter Site Series", choices = character())
 ```
 
 Export a report on selected points.
@@ -155,7 +183,10 @@ Export a report on selected points.
 ### Export a report on selected points
 
 ```{r}
-uiOutput("downloadUI")
+dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
+textInput("report_name", "Name", value = "report")
+selectInput("report_format", "Format", c("html", "pdf"))
+span(downloadButton("report_download", "Download", style = dl_style), id = "download_span")
 ```
 
 How the CCISS tool works {data-navmenu="ABOUT"} 
@@ -179,11 +210,24 @@ Copyright 2021 Province of British Columbia
   
 [LICENSE](http://www.apache.org/licenses/LICENSE-2.0)
 
+```{r}
+tags$script(HTML('
+  Shiny.addCustomMessageHandler("jsCode",
+    function(message) {
+      console.log(message)
+      eval(message.code);
+    }
+  );'
+))
+
+```
+
 ```{r server, context = "server"}
 source("./server/common.R", local = TRUE)
+source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
-source("./server/suitability.R", local = TRUE)
+source("./server/feasibility.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 ```
