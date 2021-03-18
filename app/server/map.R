@@ -178,7 +178,6 @@ draw_mk <- function(data = userpoints$dt) {
 }
 
 set_map_bound <- function(data = userpoints$dt) {
-  browser()
   bbox <- dbBbox(pool, data, 1000)
   leaflet::fitBounds(map_proxy, bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]])
 }

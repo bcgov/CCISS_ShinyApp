@@ -3,8 +3,8 @@ output$points_table <- DT::renderDataTable({
   pts <- userpoints$dt
   DT::datatable(
     pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5, scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
-    editable = list(target = "row", disable = list(columns = c(1,5)))
+    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
+                   scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE)
   )
 })
 
@@ -19,21 +19,33 @@ new_points <- function(points) {
   withProgress(message = "Processing..", detail = "New points", {
     beg <- nrow(points)
     points <- points[!is.na(Long) & !is.na(Lat)]
-    if (nrow(points) == 0) return(uData$basepoints)
-    points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
-    res <- dbPointInfo(pool, points)
-    points[, `:=`(
-      BGC = res$bgc_label,
-      Site = res$site_no,
-      Elev = paste(res$elevation_m, "m")
-    )]
-    onbcland <- res$onbcland
-    popups <- res[, onbcland := NULL][, 
-      paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
-      by=1:NROW(res)]$V1
-    points[, popups := sapply(popups, HTML)]
-    points <- points[!is.na(BGC) & onbcland]
-    points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
+    if (nrow(points) == 0L) {
+      points <- uData$basepoints
+    } else {
+      points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
+      res <- dbPointInfo(pool, points)
+      points[, `:=`(
+        BGC = res$bgc_label,
+        Site = res$site_no,
+        # Only replace when not provided
+        Elev = {
+          x <- points$Elev;
+          if (is.null(x)) {
+            res$elevation_m
+          } else {
+            x[is.na(x)] <- res$elevation_m[is.na(x)];
+            x
+          }
+        }
+      )]
+      onbcland <- res$onbcland
+      popups <- res[, onbcland := NULL][, 
+                                        paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
+                                        by=1:NROW(res)]$V1
+      points[, popups := sapply(popups, HTML)]
+      points <- points[!is.na(BGC) & onbcland]
+      points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
+    }
     end <- nrow(points)
     if (beg != end) {
       showModal(
@@ -90,9 +102,27 @@ insert_points_file <- function(datapath){
 }
 
 ## Add a point logic
-observeEvent(input$add_button,{
-  userpoints$dt <- rbindlist(list(userpoints$dt, data.table(ID=NA_integer_)), fill = TRUE)
-  update_ID()
+observeEvent(input$add_dialog,{
+  showModal(
+    modalDialog(
+      span("Enter point information"),
+      textInput("add_point_id", label = "ID", placeholder = "My point", width = "220px"),
+      numericInput("add_point_lat", label = "Latitude", value = 54, width = "160px", min = -48, max = -65, step = 0.001),
+      numericInput("add_point_long", label = "Longitude", value = -122, width = "160px", min = -140, max = -110, step = 0.001),
+      numericInput("add_point_elev", label = "Elevation", value = 100, width = "160px", min = -500, max = 5000, step = 1),
+      actionButton("add_point_submit", label = "Add point", icon("plus"))
+    )
+  )
+})
+
+observeEvent(input$add_point_submit, {
+  ID <- input$add_point_id
+  ID[ID==""] <- NA_character_
+  Lat <- as.numeric(input$add_point_lat)
+  Long <- as.numeric(input$add_point_long)
+  Elev <- as.numeric(input$add_point_elev)
+  points <- new_points(data.table(ID = ID, Lat = Lat, Long = Long, Elev = Elev))
+  insert_points(points)
 })
 
 ## Delete selected points logic

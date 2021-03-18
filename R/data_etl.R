@@ -32,15 +32,18 @@ dbPointInfo <- function(con, points) {
   Long <- .subset2(points, "Long")
   Lat <- .subset2(points, "Lat")
   
+  # Some elevation rasters extent overlap. I'm taking the maximum elevation value per points
+  # From the test I've done, they all share the same values.
   elev_info_sql <- paste0("
     WITH pts4269 AS (
       ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 4269) geom", collapse = "\n UNION ALL \n") ,"
     )
     
-    SELECT ROUND(CAST(ST_Value(dem.rast, pts.geom) as NUMERIC), 2) elevation_m
+    SELECT MAX(ROUND(CAST(ST_Value(dem.rast, pts.geom) as NUMERIC), 2)) elevation_m
     FROM bc_elevation dem
     CROSS JOIN pts4269 pts
     WHERE ST_Intersects(dem.rast, pts.geom)
+    GROUP BY pts
   ")
   
   

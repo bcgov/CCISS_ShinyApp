@@ -47,6 +47,7 @@ observeEvent(input$generate_results, priority = 100, {
   # Use ui injected javascript to show download button and hide generate button
   session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', true)"))
+  updateActionButton(inputId = "generate_results", label = "Refresh results")
 })
 
 generateState <- function() {
