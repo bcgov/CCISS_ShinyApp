@@ -107,7 +107,6 @@ cciss_detailed <- function(cciss) {
 bgc_fut_plotly <- function(data) {
   l <- list(
     font = list(
-      family = "BCSans",
       size = 12,
       color = "#000"),
     bgcolor = "#E2E2E2",
@@ -128,7 +127,9 @@ bgc_fut_plotly <- function(data) {
                   text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
                   texttemplate = "%{text}", hovertemplate = "%{y}") %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
-                   xaxis = list(showspikes = FALSE, title = list(text = "Period")),
+                   xaxis = list(showspikes = FALSE, title = list(text = "Period"),
+                                ticktext = unname(tail(period_map, 4)),
+                                tickvals = names(tail(period_map, 4))),
                    barmode = 'stack', legend = l, hovermode = "x unified")
 }
 
