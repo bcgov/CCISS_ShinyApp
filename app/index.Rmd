@@ -48,14 +48,14 @@ BEC MAP
 Inputs {.sidebar data-width=550}
 -------------------------------------
 
-Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
+###### Points of interest
 
 ```{r}
 # Actions on points
-actionButton("upload_button", "Upload", icon("upload"))
-actionButton("add_dialog", "Add", icon("plus"))
-actionButton("delete_button", "Delete", icon("trash-alt"))
-actionButton("clear_button", "Clear", icon("broom"))
+actionButton("upload_button", "Upload", icon("upload"), width="129px")
+actionButton("add_dialog", "Add", icon("plus"), width="129px")
+actionButton("delete_button", "Delete", icon("trash-alt"), width="129px")
+actionButton("clear_button", "Clear", icon("broom"), width="129px")
 
 # Points
 DT::DTOutput("points_table", width="100%")
@@ -80,8 +80,11 @@ actionButton("generate_results", label = "Generate results", icon = icon("plus-s
              style = "width:100%; background-color:#003366; color: #FFF")
 
 ```
-  
-[How the CCISS tool works](./#section-how-the-cciss-tool-works)
+
+###### Instructions
+Click on the map or use table to add points.  
+To edit cells, double click a row.  
+Hit Ctrl+Enter to submit new values.
 
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
