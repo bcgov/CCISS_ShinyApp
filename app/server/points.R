@@ -75,8 +75,21 @@ insert_points <- function(points) {
 observeEvent(input$upload_button,{
   showModal(
     modalDialog(
-      fileInput(inputId = "points_upload", label =  "Upload points in a delimited files",
-                accept = c(".csv", ".txt"), buttonLabel = "Browse...", placeholder = "My points")
+      title = "Upload points",
+      fileInput(inputId = "points_upload", label =  "Delimited file (csv, txt)",
+                accept = c(".csv", ".txt"), buttonLabel = "Browse...", placeholder = "My points"),
+      span("The app will detect the first case-insensitive column names that match",
+           tags$code("id"), ",",
+           tags$code("latitude"), ",",
+           tags$code("longitude"), ",",
+           tags$code("elevation"), ".",
+           "Short names are also supported",
+           tags$code("id"), ",",
+           tags$code("lat"), ",",
+           tags$code("long/lng"), ",",
+           tags$code("elev"), "."
+      ),
+      easyClose = TRUE
     )
   )
 })
@@ -111,7 +124,8 @@ observeEvent(input$add_dialog,{
       numericInput("add_point_lat", label = "Latitude", value = 54, width = "160px", min = -48, max = -65, step = 0.001),
       numericInput("add_point_long", label = "Longitude", value = -122, width = "160px", min = -140, max = -110, step = 0.001),
       numericInput("add_point_elev", label = "Elevation", value = 100, width = "160px", min = -500, max = 5000, step = 1),
-      actionButton("add_point_submit", label = "Add point", icon("plus"))
+      actionButton("add_point_submit", label = "Add point", icon("plus")),
+      easyClose = TRUE
     )
   )
 })
