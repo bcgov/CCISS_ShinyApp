@@ -81,12 +81,12 @@ observeEvent(input$upload_button,{
       span("The app will detect the first case-insensitive column names that match",
            tags$code("id"), ",",
            tags$code("latitude"), ",",
-           tags$code("longitude"), ",",
+           tags$code("longitude"), "and",
            tags$code("elevation"), ".",
            "Short names are also supported",
            tags$code("id"), ",",
            tags$code("lat"), ",",
-           tags$code("long/lng"), ",",
+           tags$code("long/lng"), "and",
            tags$code("elev"), "."
       ),
       easyClose = TRUE
