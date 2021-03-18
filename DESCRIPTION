@@ -11,7 +11,6 @@ License: Apache License (== 2)
 Encoding: UTF-8
 Depends: 
     data.table,
-    sf,
     R (>= 3.5.0)
 Imports: 
     RPostgres,
@@ -27,7 +26,8 @@ Imports:
 Suggests:
     bcdata,
     bcmaps,
-    usethis
+    usethis,
+    sf
 Remotes:
     bcgov/bcdata,
     bcgov/bcmaps,

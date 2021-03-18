@@ -152,7 +152,7 @@ output$bec_map <- renderLeaflet({
     leaflet::hideGroup("Zones") %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
-    leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE)) %>%
+    leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
       overlayGroups = c("Zones", "Subzones Variants", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
@@ -178,13 +178,9 @@ draw_mk <- function(data = userpoints$dt) {
 }
 
 set_map_bound <- function(data = userpoints$dt) {
-  bbox <- st_as_sf(data[, list(Long, Lat)], coords = 1L:2L, crs = 4326) %>%
-    sf::st_transform(3005) %>%
-    sf::st_buffer(units::as_units(1, "km"), nQuadSegs = 3) %>%
-    sf::st_transform(4326) %>%
-    sf::st_bbox() %>%
-    unname()
-  leaflet::fitBounds(map_proxy, bbox[1], bbox[2], bbox[3], bbox[4])
+  browser()
+  bbox <- dbBbox(pool, data, 1000)
+  leaflet::fitBounds(map_proxy, bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]])
 }
 
 ## Map click logic
