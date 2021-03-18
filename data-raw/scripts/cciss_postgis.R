@@ -16,26 +16,56 @@ con <- RPostgres::dbConnect(
 
 dbSendQuery(con, "CREATE EXTENSION postgis;")
 
+# For production performance it is more efficient to split
+# complex polygons  and rely on index. Both tables where this
+# is applied are only used to fetch information.
+splitpoly <- function(con, table, geom = "geometry") {
+  # Split polygons for faster intersect lookup
+  fields <- dbListFields(con, table)
+  fields_no_geo <- paste(fields[!fields %chin% geom], collapse = ", ")
+  fields <- paste(fields, collapse = ", ")
+  dbSendQuery(con, glue("
+  with complex_areas_to_subdivide as (
+    delete from {table}
+    where ST_NPoints({geom}) > 255
+    returning {fields}
+  )
+  insert into {table} ({fields})
+    select
+        {fields_no_geo},
+        ST_Subdivide({geom}, 255) as {geom}
+    from complex_areas_to_subdivide;
+  ", fields = fields, fields_no_geo = fields_no_geo, geom = geom, table = table))
+}
+
+indextb <- function(con, table, geom = "geometry") {
+  # Drop existing index
+  try({
+    dbSendQuery(con, glue("
+      DROP INDEX {tb}_geom_idx;
+    ", tb = table))
+  })
+  # Create index and vacuum
+  dbSendQuery(con, glue("
+    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
+  ", tb = table, geom = geom, type = type))
+  dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = table))  
+}
+
 bec <- bec()
 names(bec) <- tolower(names(bec))
 st_write(bec, con, "bec_info")
-dbSendQuery(con, glue("
-    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
-  ", tb = "bec_info", geom = "geometry"))
-dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "bec_info"))
+splitpoly(con, "bec_info")
+indextb(con, "bec_info")
 
 bcb_hres <- bc_bound_hres()
 names(bcb_hres) <- tolower(names(bcb_hres))
 st_write(bcb_hres, con, "bcb_hres")
-dbSendQuery(con, glue("
-    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
-  ", tb = "bcb_hres", geom = "geometry"))
-dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "bcb_hres"))
+splitpoly(con, "bcb_hres")
+indextb(con, "bcb_hres")
 
-dbSendQuery(con, glue("
-    CREATE INDEX {tb}_geom_idx ON {tb} USING GIST ({geom});
-  ", tb = "hex_grid", geom = "geom"))
-dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "hex_grid"))
+# Additional missing index
+indextb(con, "hex_grid", geom = "geom")
 
 dbSendQuery(con, glue("
     CREATE INDEX {tb}_idx ON {tb} USING BTREE ({idx});

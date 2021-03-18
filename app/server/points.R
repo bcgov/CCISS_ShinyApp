@@ -21,12 +21,12 @@ new_points <- function(points) {
     points <- points[!is.na(Long) & !is.na(Lat)]
     if (nrow(points) == 0) return(uData$basepoints)
     points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
-    res <- dbGetBecInfo(pool, points[, list(Long, Lat)])
-    points[, BGC := res$bgc_label]
-    points[, Site := dbGetHexID(pool, points[, list(Long, Lat)])]
-    # TODO
-    # Fetch elevation from where?
-    # points[is.na(Elevevation), Elev := bcmaps::cded(...)]
+    res <- dbPointInfo(pool, points)
+    points[, `:=`(
+      BGC = res$bgc_label,
+      Site = res$site_no,
+      Elev = paste(res$elevation_m, "m")
+    )]
     onbcland <- res$onbcland
     popups <- res[, onbcland := NULL][, 
       paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),

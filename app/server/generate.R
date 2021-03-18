@@ -11,11 +11,8 @@ observeEvent(input$generate_results, priority = 100, {
   rcp            <- uData$rcp            <- input$rcp_scenario
   pts            <- uData$pts            <- userpoints$dt
   
-  # Remove non valid points and only keep Long, Lat
-  valid_pts <- pts[!is.na(Long) & !is.na(Lat), list(Long, Lat)]
-  
   # Results from processing
-  bgc            <- uData$bgc            <- bgc(pool, avg, rcp, valid_pts)
+  bgc            <- uData$bgc            <- bgc(pool, pts$Site, avg, rcp)
   cciss          <- uData$cciss          <- cciss(bgc)
   cciss_summary  <- uData$cciss_summary  <- cciss_summary(cciss)
   cciss_detailed <- uData$cciss_detailed <- cciss_detailed(cciss)
