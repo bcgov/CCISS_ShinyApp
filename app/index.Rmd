@@ -177,11 +177,13 @@ EXPORT
 
 Inputs {.sidebar data-width=230}
 -------------------------------------
-  
+
+###### Filter
+
 ```{r}
-actionButton("report_filter_all", label = "Check All", icon("check"))
-actionButton("report_filter_none", label = "Uncheck All", icon("ban"))
-checkboxGroupInput("report_filter", label = "Filter Site Series", choices = character())
+actionButton("report_filter_all", label = "Check All", width = 100)
+actionButton("report_filter_none", label = "Uncheck All", width = 100)
+checkboxGroupInput("report_filter", label = "Site Series", choices = character())
 ```
 
 Export a report on selected points.
