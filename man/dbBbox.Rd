@@ -7,7 +7,7 @@
 dbBbox(con, points, buffer)
 }
 \arguments{
-\item{con}{An active postgre DBI connection.}
+\item{con}{An active postgres DBI connection.}
 
 \item{points}{A data.frame with two columns representing longitude
 (Long) and latitude (Lat) with GPS values (EPSG:4326)}
