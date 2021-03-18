@@ -98,14 +98,16 @@ FEASIBILITY
 
 Inputs {.sidebar data-width=230}
 -------------------------------------
-  
+
+###### Filters  
+
 ```{r}
 selectInput("siteref_feas", label = "Sites:", choices = character())
 selectInput("site_series_feas", label = "Site Series", choices = character())
 selectInput("filter_feas", label = "Detailed Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
 ```
 
-Legend
+###### Legend
 ```{r}
 HTML(
   paste0(
@@ -153,7 +155,9 @@ BGC FUTURES
 
 Inputs {.sidebar data-width=230}
 -------------------------------------
-  
+
+###### Filter
+
 ```{r}
 selectInput("siteref_bgc_fut", label = "Sites:", choices = character())
 
