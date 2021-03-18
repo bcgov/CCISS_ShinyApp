@@ -15,117 +15,142 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#' Pull HexIDs (SiteNo) from lat long inputs
-#' @param con An active postgre DBI connection.
-#' @param points A data.frame with two columns representing longitude and latitude
-#' GPS values (EPSG:4326)
-#' @details Get hex IDs for provided geolocations.
-#' @return A vector of hex IDs,
-#' @import sf
+#' Pull points info from lat long inputs
+#' @param con An active postgres DBI connection.
+#' @param points A data.frame with two columns representing longitude
+#'  (Long) and latitude (Lat) with GPS values (EPSG:4326) 
+#' @return BEC Information, Site Reference Hex Grid Number and elevation in meter
 #' @importFrom RPostgres dbGetQuery
-#' @return BEC Information about features
 #' @export
-dbGetHexID <- function(con, points) {
+dbPointInfo <- function(con, points) {
   
-  txt <- st_as_sf(points, coords = 1L:2L, crs = 4326) %>%
-    st_transform(3005) %>%
-    st_geometry() %>%
-    st_as_text()
+  # It is more efficient for the query optimizer to do
+  # each join in a separate sql, better use of index and caching
+  # geometry have been optimized (split polygons) for the
+  # whole function to return under 50ms
   
-  hexid_sql <- paste0("
+  Long <- .subset2(points, "Long")
+  Lat <- .subset2(points, "Lat")
   
-  SELECT cast(siteno as text) siteref
-  FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
-  LEFT JOIN hex_grid
-  ON ST_Intersects(pts.geom, hex_grid.geom)
-  
+  elev_info_sql <- paste0("
+    WITH pts4269 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 4269) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT ROUND(CAST(ST_Value(dem.rast, pts.geom) as NUMERIC), 2) elevation_m
+    FROM bc_elevation dem
+    CROSS JOIN pts4269 pts
+    WHERE ST_Intersects(dem.rast, pts.geom)
   ")
   
-  return(RPostgres::dbGetQuery(con, hexid_sql)[,1])
-}
-
-#' Pull bec_info from lat long inputs
-#' @inheritParams dbGetHexID
-#' @return BEC Information about features
-#' @export
-dbGetBecInfo <- function(con, points) {
-  
-  txt <- st_as_sf(points, coords = 1L:2L, crs = 4326L) %>%
-    st_transform(3005) %>%
-    st_geometry() %>%
-    st_as_text()
   
   bec_info_sql <- paste0("
-  
-  SELECT zone,
-         subzone,
-         variant,
-         phase,
-         natural_disturbance,
-         map_label,
-         bgc_label,
-         zone_name,
-         subzone_name,
-         variant_name,
-         phase_name,
-         natural_disturbance_name,
-         feature_area_sqm,
-         feature_length_m,
-         feature_area,
-         feature_length,
-         bcb_hres.objectid is NOT NULL onbcland
-  FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
-  LEFT JOIN bec_info
-  ON ST_Intersects(pts.geom, bec_info.geometry)
-  LEFT JOIN bcb_hres
-  ON ST_Intersects(pts.geom, bcb_hres.geometry)
+    WITH pts3005 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 3005) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT bec.zone,
+           bec.subzone,
+           bec.variant,
+           bec.phase,
+           bec.natural_disturbance,
+           bec.map_label,
+           bec.bgc_label,
+           bec.zone_name,
+           bec.subzone_name,
+           bec.variant_name,
+           bec.phase_name,
+           bec.natural_disturbance_name,
+           bec.feature_area_sqm,
+           bec.feature_length_m
+    FROM pts3005 pts
+    LEFT JOIN bec_info bec
+    ON ST_Intersects(pts.geom, bec.geometry)
   ")
+  
+  site_ref_sql <- paste0("
+    WITH pts3005 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 3005) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT cast(hgrid.siteno as text) site_no
+    FROM pts3005 pts 
+    LEFT JOIN hex_grid hgrid
+    ON ST_Intersects(pts.geom, hgrid.geom)
+  ")
+  
+  bc_land_sql <- paste0("
+    WITH pts3005 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 3005) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT bcb_hres.objectid is NOT NULL onbcland
+    FROM pts3005 pts
+    LEFT JOIN bcb_hres
+    ON ST_Within(pts.geom, bcb_hres.geometry)
+  ")
+  
+  res1 <- setDT(RPostgres::dbGetQuery(con, bec_info_sql))
+  res2 <- setDT(RPostgres::dbGetQuery(con, elev_info_sql))
+  res3 <- setDT(RPostgres::dbGetQuery(con, site_ref_sql))
+  res4 <- setDT(RPostgres::dbGetQuery(con, bc_land_sql))
+  
+  return(cbind(res1, res2, res3, res4))  
+}
 
-  return(setDT(RPostgres::dbGetQuery(con, bec_info_sql)))  
+# Use the database, it is faster than R native sf functions
+# The buffer is to make sure points are not at the edge of the map
+#' Buffered bounding box
+#' @return a bounding box 1km around points
+#' @inheritParams dbPointInfo
+#' @param buffer A numeric. Buffer distance in km.
+#' @export
+dbBbox <- function(con, points, buffer) {
+  Long <- .subset2(points, "Long")
+  Lat <- .subset2(points, "Lat")
+  bbox_sql <- paste0("
+    WITH pts3005 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 3005) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT st_xmin(box),
+           st_ymin(box),
+           st_xmax(box),
+           st_ymax(box)
+    FROM (
+      SELECT ST_Extent(st_transform(st_buffer(pts.geom, ", buffer, ", 3), 4326)) box
+      FROM pts3005 pts
+    ) box
+  ")
+  unname(RPostgres::dbGetQuery(con, bbox_sql))
 }
 
 #' Pull CCISS from a vector of SiteNo
-#' @param con An active postgre DBI connection.
-#' @param points A data.frame with two columns representing longitude and latitude
-#' GPS values (EPSG:4326)
+#' @param con An active postgres DBI connection.
+#' @param siteno A character vector of siteno.
 #' @param avg A boolean. 
 #' @param scn A character string. Scenario name. Either `rcp45` or `rcp85`.
 #' @details Get CCISS for provided SiteNo.
 #' @return A data.table containing CCISS information for each provided SiteNo.
-#' @import sf
 #' @importFrom RPostgres dbGetQuery
 #' @export
-dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
+dbGetCCISS <- function(con, siteno, avg, scn = c("rcp45","rcp85")){
 
-  txt <- st_as_sf(points, coords = 1L:2L, crs = 4326) %>%
-    st_transform(3005) %>%
-    st_geometry() %>%
-    st_as_text()
-  
   groupby = "siteno"
   if (isTRUE(avg)) {
     groupby = "bgc"
   }
     
   cciss_sql <- paste0("
-  WITH siteno AS (
-  
-    SELECT DISTINCT siteno
-    FROM (", paste0("SELECT st_pointfromtext('", txt, "', 3005) geom", collapse = "\n UNION ALL \n") ,") pts
-    INNER JOIN hex_grid
-    ON ST_Intersects(pts.geom, hex_grid.geom)
-  
-  ), cciss AS (
-  
+  WITH cciss AS (
     SELECT futureperiod,
            cciss_future.siteno,
            bgc,
            bgc_pred,
            gcm
     FROM cciss_future
-    JOIN siteno
-      ON siteno.siteno = cciss_future.siteno
-    WHERE scenario IN ('", paste(scn, collapse = "','"), "')
+    WHERE scenario IN ('", paste(scn, collapse = "','"), "') and
+          siteno IN (", paste(unique(siteno), collapse = ","), ")
     
     UNION ALL
     
@@ -141,8 +166,7 @@ dbGetCCISS <- function(con, points, avg, scn = c("rcp45","rcp85")){
              WHEN 'Current91' THEN 'Current'
            END gcm
     FROM cciss_historic
-    JOIN siteno
-      ON siteno.siteno = cciss_historic.siteno
+    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   
   ), cciss_count_den AS (
   

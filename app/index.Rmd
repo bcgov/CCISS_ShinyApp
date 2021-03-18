@@ -13,7 +13,7 @@ output:
       primary: "#003366"
 runtime: shiny_prerendered
 #     theme : yeti
-# runtime: shiny
+# runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}

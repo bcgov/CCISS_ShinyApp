@@ -9,8 +9,8 @@ dbGetCCISS(con, points, avg, scn = c("rcp45", "rcp85"))
 \arguments{
 \item{con}{An active postgre DBI connection.}
 
-\item{points}{A data.frame with two columns representing longitude and latitude
-GPS values (EPSG:4326)}
+\item{points}{A data.frame with two columns representing longitude
+(Long) and latitude (Lat) with GPS values (EPSG:4326)}
 
 \item{avg}{A boolean.}
 

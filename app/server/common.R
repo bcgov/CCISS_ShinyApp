@@ -20,9 +20,10 @@ uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 1L)
 userpoints <- reactiveValues(dt = uData$basepoints)
 
 # Data
-bgc <- function(con, avg, rcp, pts) {
+bgc <- function(con, siteno, avg, rcp) {
+  siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
-    dbGetCCISS(con, pts, avg, rcp)
+    dbGetCCISS(con, siteno, avg, rcp)
   })
 }
 
@@ -51,10 +52,11 @@ cciss_summary <- function(cciss) {
   })
 }
 
+period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+
 cciss_detailed <- function(cciss) {
   withProgress(message = "Processing...", detail = "Feasibility detailed", {
     detailed <- cciss$Raw
-    period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
     current = 2000
     detailed[, `:=`(
       NewSuitRound = round(NewSuit, 0),
@@ -105,7 +107,6 @@ cciss_detailed <- function(cciss) {
 bgc_fut_plotly <- function(data) {
   l <- list(
     font = list(
-      family = "BCSans",
       size = 12,
       color = "#000"),
     bgcolor = "#E2E2E2",
@@ -125,7 +126,10 @@ bgc_fut_plotly <- function(data) {
                   color = ~BGC.pred, colors = color_ref,
                   text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
                   texttemplate = "%{text}", hovertemplate = "%{y}") %>%
-    plotly::layout(yaxis = list(title = "", tickformat = ".1%"), xaxis = list(showspikes = FALSE),
+    plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
+                   xaxis = list(showspikes = FALSE, title = list(text = "Period"),
+                                ticktext = unname(tail(period_map, 4)),
+                                tickvals = names(tail(period_map, 4))),
                    barmode = 'stack', legend = l, hovermode = "x unified")
 }
 
@@ -156,7 +160,8 @@ feasibility_svg <- function(..., width = 220, height = 14, colors = c("limegreen
   svg <- paste0('<rect x="', pos_x, '" y="0" width="', width_el, '" height="', height,'" style="fill: ', rep(colors, each = row_x), '" /><text text-anchor="middle" style="font: 600 ', height / 2 + 2, 'px Arial" x="', pos_text, '" y="', height * 0.75, '">', xtxt, '</text>')
   svg <- vapply(1:row_x, function(i) {
     paste0('<svg viewBox="0 0 ', width,' ', height,'" x="0px" y="0px" width="', width,'px" height="', height,'px">',
-           paste0(svg[seq(i, by = row_x, length.out = col_x)], collapse = ""),
+           # Also drop 0 width rect
+           paste0(svg[seq(i, by = row_x, length.out = col_x)][width_el[i, ]>0], collapse = ""),
            '</svg>')
   }, character(1))
   return(svg)
