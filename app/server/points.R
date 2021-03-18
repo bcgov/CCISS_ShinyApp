@@ -4,7 +4,8 @@ output$points_table <- DT::renderDataTable({
   DT::datatable(
     pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
     options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
-                   scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE)
+                   scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
+    editable = list(target = "row", disable = list(columns = c(1,5)))
   )
 })
 
@@ -50,8 +51,8 @@ new_points <- function(points) {
     if (beg != end) {
       showModal(
         modalDialog(
-          title = "Warning",
-          paste("Points outside of coverage zones were dropped or not updated." ),
+          title = "Points dropped",
+          paste("Points with invalid geometry or outside coverage zone are dropped."),
           easyClose = TRUE
         )
       )
