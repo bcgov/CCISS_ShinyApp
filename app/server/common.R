@@ -121,15 +121,15 @@ bgc_fut_plotly <- function(data) {
     names(col) <- colors$classification
     col
   }
-  plotly::plot_ly(data = data[FuturePeriod > "1975"], x = ~FuturePeriod,
+  plotly::plot_ly(data = data, x = ~FuturePeriod,
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                   color = ~BGC.pred, colors = color_ref,
                   text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
                   texttemplate = "%{text}", hovertemplate = "%{y}") %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
-                                ticktext = unname(tail(period_map, 4)),
-                                tickvals = names(tail(period_map, 4))),
+                                ticktext = unname(period_map),
+                                tickvals = names(period_map)),
                    barmode = 'stack', legend = l, hovermode = "x unified")
 }
 
@@ -141,6 +141,8 @@ bgc_fut_plotly <- function(data) {
 #' ncol x.
 #' @return an svg image of feasibility prediction, one per row in data.frame
 feasibility_svg <- function(..., width = 220, height = 14, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
+  # TODO
+  # Maybe optimize
   x <- list(...)
   col_x <- length(x)
   x <- matrix(unlist(x), ncol = col_x)

@@ -1,5 +1,5 @@
 ---
-title: "CCISS BEC"
+title: "CCISS"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -51,11 +51,9 @@ Inputs {.sidebar data-width=550}
 Click on the map to add points or enter data below. Double click row to edit. Ctrl+Enter to confim.
 
 ```{r}
-# Generate results
-actionButton("generate_results", label = "Generate results", icon = icon("plus-square"))
 # Actions on points
 actionButton("upload_button", "Upload", icon("upload"))
-actionButton("add_button", "Add", icon("plus"))
+actionButton("add_dialog", "Add", icon("plus"))
 actionButton("delete_button", "Delete", icon("trash-alt"))
 actionButton("clear_button", "Clear", icon("broom"))
 
@@ -77,8 +75,12 @@ splitLayout(
   )
 )
 
-```
+# Generate results
+actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
+             style = "width:100%; background-color:#003366; color: #FFF")
 
+```
+  
 [How the CCISS tool works](./#section-how-the-cciss-tool-works)
 
 Biogeoclimatic Zones + Subzones Variants Map
