@@ -1,3 +1,6 @@
+# Basic shiny app to debug components by using browser() and debug() statements
+# without rmarkdown and styling overhead
+
 library(shiny)
 
 suppressPackageStartupMessages({

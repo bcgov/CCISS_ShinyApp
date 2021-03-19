@@ -64,7 +64,7 @@ new_points <- function(points) {
 }
 
 insert_points <- function(points) {
-  if (nrow(points)) {
+  if (nrow(points) > 0) {
     userpoints$dt <- rbindlist(list(userpoints$dt, points), fill = TRUE)
     update_ID()
     draw_mk(tail(userpoints$dt, nrow(points)))
@@ -100,12 +100,57 @@ observeEvent(input$points_upload,{
 
 insert_points_file <- function(datapath){
   # Columns detection using regular expression, hopefully column names have a match
-  points <- fread(datapath)
+  events <- function(e) {
+    showModal(
+      modalDialog(
+        title = "Invalid file",
+        paste("Your file could not be read, please select another file."),
+        easyClose = TRUE
+      )
+    )
+    return(NULL)
+  }
+  points <- tryCatch({ fread(datapath) }, error = events, warning = events)
+  
+  if (is.null(points)) { return(NULL) }
+  
+  if (nrow(points) == 0) {
+    showModal(
+      modalDialog(
+        title = "No point in file",
+        paste("Your file has no rows."),
+        easyClose = TRUE
+      )
+    )
+    return(NULL)
+  }
+  
   nm <- names(points)
   id_j <- head(grep("^id", nm, ignore.case = TRUE), 1)
   lat_j <- head(grep("^lat|latitude", nm, ignore.case = TRUE), 1)
   lng_j <- head(grep("^lng|^long|longitude", nm, ignore.case = TRUE), 1)
   ele_j <- head(grep("^elev|elevation", nm, ignore.case = TRUE), 1)
+  
+  if (length(lat_j) > 0 && length(lng_j) > 0) {
+    showModal(
+      modalDialog(
+        title = "Column detection",
+        "Using columns",
+        span(tags$code(nm[id_j]), tags$code(nm[lat_j]),tags$code(nm[lng_j]), tags$code(nm[ele_j])),
+        easyClose = TRUE
+      )
+    )
+  } else {
+    showModal(
+      modalDialog(
+        title = "Column detection",
+        "Could not find latitude and longitude pair.",
+        easyClose = TRUE
+      )
+    )
+    return(NULL)
+  }
+
   cln_j <- function(j) {if (length(j) > 0) {as.numeric(points[[j]])} else {NA_real_}}
   clc_j <- function(j) {if (length(j) > 0) {as.character(points[[j]])} else {NA_character_}}
   points <- data.table(ID = clc_j(id_j), Long = cln_j(lng_j), Lat = cln_j(lat_j),

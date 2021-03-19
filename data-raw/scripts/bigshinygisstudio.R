@@ -1,3 +1,5 @@
+# Build a VM with postgis, shiny server and r/rstudio on Digital Ocean
+
 library(analogsea)
 library(bccciss)
 
