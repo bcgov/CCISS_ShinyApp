@@ -1,3 +1,6 @@
+# Add required bec and bc_hres_bounds to database
+# add index and split geometries
+
 library(RPostgres)
 library(bcmaps)
 library(sf)
@@ -71,6 +74,8 @@ dbSendQuery(con, glue("
     CREATE INDEX {tb}_idx ON {tb} USING BTREE ({idx});
   ", tb = "cciss_historic", idx = "siteno"))
 dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "cciss_historic"))
+
+# Add provided forest regions
 
 
 
