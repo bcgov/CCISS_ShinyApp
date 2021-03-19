@@ -12,6 +12,13 @@ V1 <- fread("./data-raw/data_tables/Variables_ClimateBC.csv", key = "Code")
 zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key = "classification")
 subzones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Subzone_Colours.csv", key = "classification")
 
+# StockingStds
+
+crosswalk <- fread("./data-raw/data_tables/StockingStds/Crosswalk.csv", key = "Modeled")
+stocking_info_v10 <- fread("./data-raw/data_tables/StockingStds/StockingInfo_v10.csv", key = c("Region", "ZoneSubzone", "SiteSeries", "Standard"))
+stocking_standards_v11 <- fread("./data-raw/data_tables/StockingStds/StockStands_v11.csv", key = c("Region", "ZoneSubzone", "SS_NoSpace", "Species", "Suitability", "PreferredAcceptable", "Standard"))
+stocking_height_v10 <- fread("./data-raw/data_tables/StockingStds/StockingHeight_v10.csv", key = c("Region", "ZoneSubzone", "SiteSeries", "Standard", "Species"))
+
 use_data(E1, S1, R1, F1, T1, V1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE)
 # see version in ?usethis::use_data, if you all use R 3.5 and up. You should bump to version 3
 # use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE, version = 3)

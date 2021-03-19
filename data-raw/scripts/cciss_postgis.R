@@ -25,7 +25,7 @@ dbSendQuery(con, "CREATE EXTENSION postgis;")
 splitpoly <- function(con, table, geom = "geometry") {
   # Split polygons for faster intersect lookup
   fields <- dbListFields(con, table)
-  fields_no_geo <- paste(fields[!fields %chin% geom], collapse = ", ")
+  fields_no_geo <- paste(fields[!fields %in% geom], collapse = ", ")
   fields <- paste(fields, collapse = ", ")
   dbSendQuery(con, glue("
   with complex_areas_to_subdivide as (
@@ -45,7 +45,7 @@ indextb <- function(con, table, geom = "geometry") {
   # Drop existing index
   try({
     dbSendQuery(con, glue("
-      DROP INDEX {tb}_geom_idx;
+      DROP INDEX IF EXISTS {tb}_geom_idx;
     ", tb = table))
   })
   # Create index and vacuum
@@ -76,8 +76,18 @@ dbSendQuery(con, glue("
 dbSendQuery(con, glue("VACUUM ANALYZE {tb};", tb = "cciss_historic"))
 
 # Add provided forest regions
+t <- file.path(tempdir(), "frb")
+dir.create(t)
+unzip("./data-raw/data_tables/StockingStds/ForestRegionBoundaries.zip",exdir = t)
+frb <- st_read(file.path(t, "ForestRegionBoundaries.gpkg"))
+names(frb) <- tolower(names(frb))
+st_write(frb, con, "bc_forest_regions")
+splitpoly(con, "bc_forest_regions", geom = "geom")
+indextb(con, "bc_forest_regions", geom = "geom")
 
-
+# leaflet::leaflet(st_transform(frb, 4326)) %>% 
+#   leaflet::addProviderTiles("CartoDB.Positron") %>% 
+#   leaflet::addPolygons(color = "orange", weight = 2)
 
 # Testing intersects speed (should be below 30ms)
 
