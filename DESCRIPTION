@@ -27,7 +27,8 @@ Suggests:
     bcdata,
     bcmaps,
     usethis,
-    sf
+    sf,
+    readxl
 Remotes:
     bcgov/bcdata,
     bcgov/bcmaps,
