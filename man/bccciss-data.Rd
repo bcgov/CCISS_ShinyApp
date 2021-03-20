@@ -3,11 +3,13 @@
 \docType{data}
 \name{bccciss-data}
 \alias{bccciss-data}
-\alias{bec_info}
 \alias{E1}
 \alias{F1}
+\alias{footnotes}
 \alias{R1}
 \alias{S1}
+\alias{silvics}
+\alias{stocking_standards}
 \alias{subzones_colours_ref}
 \alias{T1}
 \alias{V1}
