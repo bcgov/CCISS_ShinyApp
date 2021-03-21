@@ -86,6 +86,15 @@ setkey(stocking_standards, Region, ZoneSubzone, SS_NoSpace, Species)
 # Recheck for dups
 dupPairs(stocking_standards)
 # All good
+# Replace non ascii characters in SiteSeriesName and trim
+# Remove extras spaces
+stocking_standards[, SiteSeriesName := {
+  x <- chartr("\U2013\U2019\U0024\U00A0","-'  ", SiteSeriesName)
+  x <- trimws(x)
+  x <- gsub("\\s+;", ";", x)
+  x <- gsub("\\s{2,}", " ", x)
+  x
+}]
 
 # Notes
 footnotes <- read_xlsx("./data-raw/data_tables/StockingStds/Revised Reference Guide Footnotes.xlsx", "Sheet1")
