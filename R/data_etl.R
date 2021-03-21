@@ -93,12 +93,24 @@ dbPointInfo <- function(con, points) {
     ON ST_Within(pts.geom, bcb_hres.geometry)
   ")
   
+  bc_forest_region <- paste0("
+    WITH pts3005 AS (
+      ", paste0("SELECT st_transform(st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326), 3005) geom", collapse = "\n UNION ALL \n") ,"
+    )
+    
+    SELECT region_ref forest_region
+    FROM pts3005 pts
+    LEFT JOIN bc_forest_regions
+    ON ST_Within(pts.geom, bc_forest_regions.geom)                       
+  ")
+  
   res1 <- setDT(RPostgres::dbGetQuery(con, bec_info_sql))
   res2 <- setDT(RPostgres::dbGetQuery(con, elev_info_sql))
   res3 <- setDT(RPostgres::dbGetQuery(con, site_ref_sql))
   res4 <- setDT(RPostgres::dbGetQuery(con, bc_land_sql))
+  res5 <- setDT(RPostgres::dbGetQuery(con, bc_forest_region))
   
-  return(cbind(res1, res2, res3, res4))  
+  return(cbind(res1, res2, res3, res4, res5))  
 }
 
 # Use the database, it is faster than R native sf functions

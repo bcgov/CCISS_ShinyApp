@@ -9,13 +9,14 @@ uData$basepoints <- data.table(
   Long = numeric(),
   Elev = numeric(),
   BGC = character(),
+  ForestRegion = character(),
   popups = character()
 )
 
 # All columns indexes
 uData$pts_col <- 1L:ncol(uData$basepoints)
 # Exclude popups column, column indexes to show in the UI
-uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 1L)
+uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
 
 userpoints <- reactiveValues(dt = uData$basepoints)
 
@@ -32,16 +33,33 @@ cciss <- function(bgc) {
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1)
 }
 
-cciss_summary <- function(cciss) {
+cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
   withProgress(message = "Processing...", detail = "Feasibility summary", {
     summary <- cciss$Summary
-    # TODO
-    # Validate how they want the table to look like
+    # Append region
+    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
+    summary$Region <- pts$ForestRegion[match(summary$SiteRef, region_map)]
+    summary$ZoneSubzone <- pts$BGC[match(summary$SiteRef, region_map)]
+    # Append Chief Forester Recommended Suitability
+    summary[
+      SS, 
+      CFRS := i.Suitability,
+      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+    ]
+    summary$Curr <- as.character(summary$CFRS)
+    # Replaces 4 and NA with X
+    summary[is.na(Curr), Curr := "X"]
+    summary$NewSuit <- as.character(summary$NewSuit)
+    summary[NewSuit > "3", NewSuit := "X"]
+    summary$Region <- NULL
+    summary$ZoneSubzone <- NULL
+    summary$CFRS <- NULL
+    # Add Tree english name
     summary[, Spp := T1[Spp, paste(TreeCode, EnglishName, sep = ": ")]]
+    # Rename columns
     setnames(
       summary,
       names(summary),
-      # Using &nbsp; as using DT::datatable options to set column width breaks display
       c("SiteRef", "Site Series", "Tree Species",
         "Chief Forester Recommended Suitability", "Projected Feasibility", "Flag",
         "Projected Feasibility 2025", "Fail Risk 2025",
@@ -54,9 +72,26 @@ cciss_summary <- function(cciss) {
 
 period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
 
-cciss_detailed <- function(cciss) {
+cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
   withProgress(message = "Processing...", detail = "Feasibility detailed", {
     detailed <- cciss$Raw
+    # Append region
+    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
+    detailed$Region <- pts$ForestRegion[match(detailed$SiteRef, region_map)]
+    detailed$ZoneSubzone <- pts$BGC[match(detailed$SiteRef, region_map)]
+    # Append Chief Forester Recommended Suitability
+    detailed[
+      SS, 
+      CFRS := i.Suitability,
+      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+    ]
+    detailed$Curr <- as.character(detailed$CFRS)
+    # Replaces 4 and NA with X
+    detailed[is.na(Curr), Curr := "X"]
+    detailed$Region <- NULL
+    detailed$ZoneSubzone <- NULL
+    detailed$CFRS <- NULL
+    # Append visuals
     current = 2000
     detailed[, `:=`(
       NewSuitRound = round(NewSuit, 0),
@@ -78,7 +113,6 @@ cciss_detailed <- function(cciss) {
       # Use silviculture
       "Chief Forester Recommended Suitability" = {
         cfr <- Curr[FuturePeriod == current]
-        cfr <- as.character(cfr)
         if (length(cfr)) cfr else "X"
       },
       "Projected Feasibility" = {

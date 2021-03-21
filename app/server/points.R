@@ -26,7 +26,8 @@ new_points <- function(points) {
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
       res <- dbPointInfo(pool, points)
       points[, `:=`(
-        BGC = res$bgc_label,
+        BGC = res$map_label,
+        ForestRegion = res$forest_region,
         Site = res$site_no,
         # Only replace when not provided
         Elev = {
