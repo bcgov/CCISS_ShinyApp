@@ -14,8 +14,8 @@ observeEvent(input$generate_results, priority = 100, {
   # Results from processing
   bgc            <- uData$bgc            <- bgc(pool, pts$Site, avg, rcp)
   cciss          <- uData$cciss          <- cciss(bgc)
-  cciss_summary  <- uData$cciss_summary  <- cciss_summary(cciss)
-  cciss_detailed <- uData$cciss_detailed <- cciss_detailed(cciss)
+  cciss_summary  <- uData$cciss_summary  <- cciss_summary(cciss, pts, avg)
+  cciss_detailed <- uData$cciss_detailed <- cciss_detailed(cciss, pts, avg)
   
   # UI select choices
   siteseries_all <- uData$siteseries_all <- sort(
