@@ -35,7 +35,8 @@ cciss <- function(bgc) {
 
 cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
   withProgress(message = "Processing...", detail = "Feasibility summary", {
-    summary <- cciss$Summary
+    # use a copy to avoid modifying the original object
+    summary <- copy(cciss$Summary)
     # Append region
     region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
     summary$Region <- pts$ForestRegion[match(summary$SiteRef, region_map)]
@@ -74,7 +75,8 @@ period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "
 
 cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
   withProgress(message = "Processing...", detail = "Feasibility detailed", {
-    detailed <- cciss$Raw
+    # use a copy to avoid modifying the original object
+    detailed <- copy(cciss$Raw)
     # Append region
     region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
     detailed$Region <- pts$ForestRegion[match(detailed$SiteRef, region_map)]

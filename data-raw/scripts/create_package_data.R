@@ -107,33 +107,18 @@ silvics_resist <- setDT(read_xlsx("./data-raw/data_tables/StockingStds/EcoSilvic
 names(silvics_resist) <- c("Life form", "Tree code", "Tree species", "Snow Resistance Class", "Wind Resistance Class",
                            "Fire Risk Class", "Insect Risk Class", "Fungi Risk Class", "Other Risk Class")
 
-silvics <- merge(
-  x = silvics_tol,
-  y = silvics_regen[, .(`tree species`, `reproduction capacity`, `seed dissemination capacity`, `potential for regeneration`, `potential for regeneration in the open`, `potential for initial growth rate (over 5 years)`)],
-  by.x = "Tree species",
-  by.y = "tree species",
-  all.x = TRUE
-)
-
-silvics <- merge(
-  x = silvics,
-  y = silvics_mature[, .(`Tree species`, `response of advance regeneration to release`, `self- pruning capacity in dense stands`, `crown spatial requirements`, `light conditions beneath closed-canopy, mature stands`, `potential productivity`, longevity)],
-  by = "Tree species",
-  all.x = TRUE
-)
-
-silvics <- merge(
-  x = silvics,
-  y = silvics_resist[, .(`Tree species`, `Snow Resistance Class`, `Wind Resistance Class`, `Fire Risk Class`,`Insect Risk Class`,`Fungi Risk Class`,`Other Risk Class`)],
-  by = "Tree species",
-  all.x = TRUE
-)
-
-names(silvics) <- tools::toTitleCase(names(silvics))
+names(silvics_tol) <- tools::toTitleCase(names(silvics_tol))
+names(silvics_regen) <- tools::toTitleCase(names(silvics_regen))
+names(silvics_mature) <- tools::toTitleCase(names(silvics_mature))
+names(silvics_resist) <- tools::toTitleCase(names(silvics_resist))
 names(footnotes) <- tools::toTitleCase(names(footnotes))
 names(stocking_standards) <- tools::toTitleCase(names(stocking_standards))
 
-use_data(E1, S1, R1, F1, T1, V1, zones_colours_ref, subzones_colours_ref, stocking_standards, footnotes, silvics, overwrite = TRUE)
+use_data(E1, S1, R1, F1, T1, V1,
+         zones_colours_ref, subzones_colours_ref,
+         stocking_standards, footnotes,
+         silvics_tol, silvics_regen, silvics_mature, silvics_resist,
+         overwrite = TRUE)
 # see version in ?usethis::use_data, if you all use R 3.5 and up. You should bump to version 3
 # use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE, version = 3)
 
