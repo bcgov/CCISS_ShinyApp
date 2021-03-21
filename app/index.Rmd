@@ -7,13 +7,13 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     css: www/style.css
-    theme:
-      version: 4
-      bootswatch: yeti
-      primary: "#003366"
-runtime: shiny_prerendered
-#     theme : yeti
+#     theme:
+#       version: 4
+#       bootswatch: yeti
+#       primary: "#003366"
 # runtime: shiny_prerendered
+    theme : yeti
+runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}
@@ -139,16 +139,88 @@ DT::DTOutput("detailed_feas", width = "100%", height = "auto")
 SILVICULTURE
 =====================================     
 
-### Silviculture
+Inputs {.sidebar data-width=230}
+-------------------------------------
 
-Site Series
-{insert name of site series}
+###### Filters  
 
-Forest Region:
-    
 ```{r}
+selectInput("siteref_silv", label = "Sites:", choices = character())
+selectInput("site_series_silv", label = "Site Series", choices = character())
 ```
 
+Silviculture {.tabset}
+-------------------------------------
+
+### Silviculture
+
+```{r}
+uiOutput("silviculture")
+```
+
+### Tolerance
+
+```{r}
+tags$h5("Tolerance comparisons")
+DT::datatable(
+  silvics_tol, rownames = FALSE, width = "100%", height = "auto", 
+  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
+                 searching = FALSE, pageLength = nrow(silvics_tol),
+                 columnDefs = list(
+                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_tol))-1)[-3])
+                 )
+  )
+)
+tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+```
+
+### Resistance
+
+```{r}
+tags$h5("Resistance and potential risk comparisons")
+DT::datatable(
+  silvics_resist, rownames = FALSE, width = "100%", height = "auto", 
+  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
+                 searching = FALSE, pageLength = nrow(silvics_resist),
+                 columnDefs = list(
+                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_resist))-1)[-3])
+                 )
+  )
+)
+tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+```
+
+### Regeneration stage
+
+```{r}
+tags$h5("Comparison of silvical characteristics; regeneration stage")
+DT::datatable(
+  silvics_regen, rownames = FALSE, width = "100%", height = "auto", 
+  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
+                 searching = FALSE, pageLength = nrow(silvics_regen),
+                 columnDefs = list(
+                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_regen))-1)[-3])
+                 )
+  )
+)
+tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+```
+
+### Maturing stage
+
+```{r}
+tags$h5("Comparison of silvical characteristics; maturing stage")
+DT::datatable(
+  silvics_mature, rownames = FALSE, width = "100%", height = "auto", 
+  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
+                 searching = FALSE, pageLength = nrow(silvics_mature),
+                 columnDefs = list(
+                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_mature))-1)[-3])
+                 )
+  )
+)
+tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+```
 
 BGC FUTURES
 =====================================
@@ -175,15 +247,18 @@ plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 EXPORT
 =====================================
 
-Inputs {.sidebar data-width=230}
+Inputs {.sidebar data-width=400}
 -------------------------------------
 
 ###### Filter
 
 ```{r}
-actionButton("report_filter_all", label = "Check All")
-actionButton("report_filter_none", label = "Uncheck All")
-checkboxGroupInput("report_filter", label = "Site Series", choices = character())
+actionButton("report_filter_all", label = "Check All", icon = icon("check"))
+actionButton("report_filter_none", label = "Uncheck All", icon = icon("ban"))
+div(
+  checkboxGroupInput("report_filter", label = "Site Series", choices = character(), width = 380),
+  style = "line-height: 1.5; color: #222; background-color: #fff; margin: 10px 0px 10px 0px; padding: 0px 10px 0px 10px"
+)
 ```
 
 Export a report on selected points.

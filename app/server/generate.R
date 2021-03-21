@@ -18,9 +18,12 @@ observeEvent(input$generate_results, priority = 100, {
   cciss_detailed <- uData$cciss_detailed <- cciss_detailed(cciss, pts, avg)
   
   # UI select choices
-  siteseries_all <- uData$siteseries_all <- sort(
-    unique(c(cciss_detailed$`Site Series`, cciss_summary$`Site Series`))
+  ssa <- sort(unique(c(cciss_detailed$`Site Series`, cciss_summary$`Site Series`)))
+  names(ssa) <- paste(
+    ssa,
+    stocking_standards$SiteSeriesName[match(ssa, stocking_standards$SS_NoSpace)]
   )
+  siteseries_all <- uData$siteseries_all <- ssa
   siterefs       <- uData$siterefs       <- unique(bgc$SiteRef)
   if (!isTRUE(avg)) {
     # ordering choices to match order in points table and create a name for each choice
@@ -31,18 +34,18 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Dynamic UI select choices that depends on previous select choice
   siteref <- head(siterefs, 1)
-  siteseries <- sort(
-    unique(
-      c(cciss_detailed[SiteRef == siteref]$`Site Series`,
-        cciss_summary[SiteRef == siteref]$`Site Series`
-      )
-    )
-  )
+  siteseries <- {
+    x <- c(cciss_detailed[SiteRef == siteref]$`Site Series`, cciss_summary[SiteRef == siteref]$`Site Series`)
+    x <- unique(x)
+    x <- sort(x)
+  }
+  
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
-  updateSelectInput(inputId = "site_series_feas", choices = siteseries)
+  updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
+  updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
   updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
-  
   
   # Use ui injected javascript to show download button and hide generate button
   session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
