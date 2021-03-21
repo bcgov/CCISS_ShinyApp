@@ -72,10 +72,25 @@ stocking_standards$Height.y <- NULL
 stocking_standards[, Footnotes := list(list({x <- do.call(c, .SD); x[!x %chin% c(NA, "")]})), by=1:NROW(stocking_standards), .SDcols = FN1:FN5]
 stocking_standards[, c("FN1","FN2","FN3","FN4","FN5") := NULL]
 
+# add-in crosswalk rows to complete standards dataset
+# Gettings standards that would be substitute according to crosswalk
+a <- stocking_standards[ZoneSubzone %chin% crosswalk$Tables]
+# Generate all possible BGC that would use a substitute
+a <- a[crosswalk, on = c(ZoneSubzone = "Tables"), allow.cartesian = TRUE, nomatch = NULL]
+# Checking if any of those already have a match in the standards table
+nrow(stocking_standards[a, on = c(Region = "Region", ZoneSubzone = "Modeled", SS_NoSpace = "SS_NoSpace", Species = "Species"), nomatch = NULL])
+# Does not seems like it, so it is safe to add all of them
+a[, `:=`(ZoneSubzone = Modeled, Modeled = NULL)]
+stocking_standards <- rbindlist(list(stocking_standards, a))
+setkey(stocking_standards, Region, ZoneSubzone, SS_NoSpace, Species)
+# Recheck for dups
+dupPairs(stocking_standards)
+# All good
+
 # Notes
 footnotes <- read_xlsx("./data-raw/data_tables/StockingStds/Revised Reference Guide Footnotes.xlsx", "Sheet1")
 setDT(footnotes)
-footnotes <- notes[Remove %chin% c(NA, "")]
+footnotes <- footnotes[Remove %chin% c(NA, "")]
 footnotes[, `Restrictive Footnote` := !`Restrictive Footnote` %chin% c(NA, "")]
 footnotes[, `Advisory Footnote` := !`Advisory Footnote` %chin% c(NA, "")]
 footnotes[, `Geographic Restriction` := !`Geographic Restriction` %chin% c(NA, "")]
