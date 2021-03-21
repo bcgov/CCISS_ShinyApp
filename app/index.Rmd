@@ -52,10 +52,10 @@ Inputs {.sidebar data-width=550}
 
 ```{r}
 # Actions on points
-actionButton("upload_button", "Upload", icon("upload"), width="129px")
-actionButton("add_dialog", "Add", icon("plus"), width="129px")
-actionButton("delete_button", "Delete", icon("trash-alt"), width="129px")
-actionButton("clear_button", "Clear", icon("broom"), width="129px")
+actionButton("upload_button", "Upload", icon("upload"), width=120)
+actionButton("add_dialog", "Add", icon("plus"), width=120)
+actionButton("delete_button", "Delete", icon("trash-alt"), width=120)
+actionButton("clear_button", "Clear", icon("broom"), width=120)
 
 # Points
 DT::DTOutput("points_table", width="100%")
@@ -181,8 +181,8 @@ Inputs {.sidebar data-width=230}
 ###### Filter
 
 ```{r}
-actionButton("report_filter_all", label = "Check All", width = 100)
-actionButton("report_filter_none", label = "Uncheck All", width = 100)
+actionButton("report_filter_all", label = "Check All")
+actionButton("report_filter_none", label = "Uncheck All")
 checkboxGroupInput("report_filter", label = "Site Series", choices = character())
 ```
 
