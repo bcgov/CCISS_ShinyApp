@@ -7,13 +7,13 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     css: www/style.css
-#     theme:
-#       version: 4
-#       bootswatch: yeti
-#       primary: "#003366"
-# runtime: shiny_prerendered
-    theme : yeti
+    theme:
+      version: 4
+      bootswatch: yeti
+      primary: "#003366"
 runtime: shiny_prerendered
+#     theme : yeti
+# runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}
