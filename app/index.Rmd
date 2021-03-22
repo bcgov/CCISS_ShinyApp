@@ -7,13 +7,13 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     css: www/style.css
-    theme:
-      version: 4
-      bootswatch: yeti
-      primary: "#003366"
-runtime: shiny_prerendered
-#     theme : yeti
+#     theme:
+#       version: 4
+#       bootswatch: yeti
+#       primary: "#003366"
 # runtime: shiny_prerendered
+    theme : yeti
+runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}
@@ -147,6 +147,7 @@ Inputs {.sidebar data-width=230}
 ```{r}
 selectInput("siteref_silv", label = "Sites:", choices = character())
 selectInput("site_series_silv", label = "Site Series", choices = character())
+selectInput("filter_silv", label = "Species Feasibility", choices = c("Feasible Only" = "f", "All" = "a"))
 ```
 
 Silviculture {.tabset}
@@ -156,17 +157,6 @@ Silviculture {.tabset}
 
 ```{r}
 uiOutput("silviculture_block")
-# Ref template for other tables
-silv_ref_dt <- function(dt) {
-  DT::datatable(dt, rownames = FALSE, width = "100%", height = "auto", 
-                options = list(
-                  scrollCollapse = FALSE, lengthChange = FALSE, searching = FALSE,
-                  pageLength = nrow(dt), columnDefs = list(
-                     list(className = 'dt-center', targets = (seq_len(ncol(dt))-1)[-3])
-                  )
-                )
-  )
-}
 klinka <- tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
 ```
 
@@ -174,7 +164,7 @@ klinka <- tags$small("From Klinka et al. 2000. Ecological and Silvical Character
 
 ```{r}
 tags$h5("Tolerance comparisons")
-silv_ref_dt(silvics_tol)
+DT::DTOutput("silvics_tol_dt", width = "100%", height = "auto")
 klinka
 ```
 
@@ -182,7 +172,7 @@ klinka
 
 ```{r}
 tags$h5("Resistance and potential risk comparisons")
-silv_ref_dt(silvics_resist)
+DT::DTOutput("silvics_resist_dt", width = "100%", height = "auto")
 klinka
 ```
 
@@ -190,7 +180,7 @@ klinka
 
 ```{r}
 tags$h5("Comparison of silvical characteristics; regeneration stage")
-silv_ref_dt(silvics_regen)
+DT::DTOutput("silvics_regen_dt", width = "100%", height = "auto")
 klinka
 ```
 
@@ -198,7 +188,7 @@ klinka
 
 ```{r}
 tags$h5("Comparison of silvical characteristics; maturing stage")
-silv_ref_dt(silvics_mature)
+DT::DTOutput("silvics_mature_dt", width = "100%", height = "auto")
 klinka
 ```
 

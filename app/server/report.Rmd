@@ -4,7 +4,8 @@ author: "BCGOV"
 date: "3/10/2021"
 output: html_document
 params:
-  points: NA
+  uData: NA
+  site_series_filter: NA
 ---
 
 ```{r setup, include=FALSE}
