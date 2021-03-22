@@ -15,10 +15,10 @@ observeEvent(input$generate_results, priority = 100, {
   bgc            <- uData$bgc            <- bgc(pool, pts$Site, avg, rcp)
   cciss          <- uData$cciss          <- cciss(bgc)
   cciss_summary  <- uData$cciss_summary  <- cciss_summary(cciss, pts, avg)
-  cciss_detailed <- uData$cciss_detailed <- cciss_detailed(cciss, pts, avg)
+  cciss_results <- uData$cciss_results <- cciss_results(cciss, pts, avg)
   
   # UI select choices
-  ssa <- sort(unique(c(cciss_detailed$`Site Series`, cciss_summary$`Site Series`)))
+  ssa <- sort(unique(c(cciss_results$`Site Series`, cciss_summary$`Site Series`)))
   names(ssa) <- paste(
     ssa,
     stocking_standards$SiteSeriesName[match(ssa, stocking_standards$SS_NoSpace)]
@@ -35,7 +35,7 @@ observeEvent(input$generate_results, priority = 100, {
   # Dynamic UI select choices that depends on previous select choice
   siteref <- head(siterefs, 1)
   siteseries <- {
-    x <- c(cciss_detailed[SiteRef == siteref]$`Site Series`, cciss_summary[SiteRef == siteref]$`Site Series`)
+    x <- c(cciss_results[SiteRef == siteref]$`Site Series`, cciss_summary[SiteRef == siteref]$`Site Series`)
     x <- unique(x)
     x <- sort(x)
   }
