@@ -1,3 +1,25 @@
+# Reusing Shiny session userData environment
+uData <- session$userData
+
+# Points dataframe
+uData$basepoints <- data.table(
+  ID = character(),
+  Site = character(),
+  Lat = numeric(),
+  Long = numeric(),
+  Elev = numeric(),
+  BGC = character(),
+  ForestRegion = character(),
+  popups = character()
+)
+
+# All columns indexes
+uData$pts_col <- 1L:ncol(uData$basepoints)
+# Exclude popups column, column indexes to show in the UI
+uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
+
+userpoints <- reactiveValues(dt = uData$basepoints)
+
 # Input management ----
 output$points_table <- DT::renderDataTable({
   pts <- userpoints$dt
