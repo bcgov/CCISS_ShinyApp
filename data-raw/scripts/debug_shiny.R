@@ -72,9 +72,8 @@ ui <- fixedPage(
     )
   ),
   
+  DT::DTOutput("results_feas"),
   DT::DTOutput("summary_feas"),
-  
-  DT::DTOutput("detailed_feas"),
   
   selectInput("siteref_bgc_fut", label = "Sites:", choices = character()),
   textOutput("current_bgc_fut", inline = TRUE),

@@ -30,7 +30,7 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
     summary[is.na(Curr), Curr := "X"]
     summary$NewSuit <- as.character(summary$NewSuit)
     summary[NewSuit > "3", NewSuit := "X"]
-    # Removing these columns as we will use the one in the detailed cciss
+    # Removing these columns as we will use the one in the results cciss
     # to determine silviculture information
     summary$Region <- NULL
     summary$ZoneSubzone <- NULL
@@ -55,33 +55,33 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
 
 period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
 
-cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
-  withProgress(message = "Processing...", detail = "Feasibility detailed", {
+cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
+  withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
-    detailed <- copy(cciss$Raw)
+    results <- copy(cciss$Raw)
     # Append region
     region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-    detailed$Region <- pts$ForestRegion[match(detailed$SiteRef, region_map)]
-    detailed$ZoneSubzone <- pts$BGC[match(detailed$SiteRef, region_map)]
+    results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
+    results$ZoneSubzone <- pts$BGC[match(results$SiteRef, region_map)]
     # Append Chief Forester Recommended Suitability
-    detailed[
+    results[
       SS, 
       CFRS := as.character(i.Suitability),
       on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
     ]
     # Replaces 4 and NA with X
-    detailed[is.na(CFRS), CFRS := "X"]
+    results[is.na(CFRS), CFRS := "X"]
     # Append visuals
     current = 2000
-    detailed[, `:=`(
+    results[, `:=`(
       NewSuitRound = round(NewSuit, 0),
       SuitDiff = round(SuitDiff, 0),
       FeasSVG = feasibility_svg(`1`, `2`, `3`, `X`),
       Period = period_map[as.character(FuturePeriod)]
     )]
     default_svg <- feasibility_svg(0,0,0,1)
-    setorder(detailed, SiteRef, SS_NoSpace, Spp, FuturePeriod)
-    detailed <- detailed[, list(
+    setorder(results, SiteRef, SS_NoSpace, Spp, FuturePeriod)
+    results <- results[, list(
       "Site Series" = SS_NoSpace,
       "Tree Species" = T1[unique(Spp), paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
       "&nbsp;&nbsp;Period&nbsp;&nbsp;" = paste(period_map, collapse = "<br/>"),
@@ -109,8 +109,8 @@ cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
         if (length(s)) s else 4
       }
     ), by=c("Region", "ZoneSubzone", "SiteRef", "SS_NoSpace", "Spp")]
-    setorder(detailed, SiteRef, SS_NoSpace, OrderSuit, MeanSuit, `Tree Species`)
-    return(detailed)
+    setorder(results, SiteRef, SS_NoSpace, OrderSuit, MeanSuit, `Tree Species`)
+    return(results)
   })
 }
 
@@ -211,8 +211,8 @@ sppnotes <- function(spp, notes) {
 }
 
 # Function to create a Standards block for each Standard in the site serie
-standardblocks <- function(siteref, siteserie, cciss_detailed) {
-  sc <- cciss_detailed[
+standardblocks <- function(siteref, siteserie, cciss_results) {
+  sc <- cciss_results[
     SiteRef %in% siteref & SS_NoSpace %in% siteserie,
     c("Region", "ZoneSubzone", "SS_NoSpace", "Projected Feasibility", "Spp")
   ]
