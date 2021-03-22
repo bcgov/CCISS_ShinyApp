@@ -52,11 +52,15 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
     summary[is.na(Curr), Curr := "X"]
     summary$NewSuit <- as.character(summary$NewSuit)
     summary[NewSuit > "3", NewSuit := "X"]
+    # Removing these columns as we will use the one in the detailed cciss
+    # to determine silviculture information
     summary$Region <- NULL
     summary$ZoneSubzone <- NULL
     summary$CFRS <- NULL
     # Add Tree english name
-    summary[, Spp := T1[Spp, paste(TreeCode, EnglishName, sep = ": ")]]
+    summary[, Spp := T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")]]
+    # Order
+    setorder(summary, SiteRef, NewSuit, Curr, Spp)
     # Rename columns
     setnames(
       summary,
@@ -84,15 +88,11 @@ cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
     # Append Chief Forester Recommended Suitability
     detailed[
       SS, 
-      CFRS := i.Suitability,
+      CFRS := as.character(i.Suitability),
       on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
     ]
-    detailed$Curr <- as.character(detailed$CFRS)
     # Replaces 4 and NA with X
-    detailed[is.na(Curr), Curr := "X"]
-    detailed$Region <- NULL
-    detailed$ZoneSubzone <- NULL
-    detailed$CFRS <- NULL
+    detailed[is.na(CFRS), CFRS := "X"]
     # Append visuals
     current = 2000
     detailed[, `:=`(
@@ -114,7 +114,7 @@ cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
       },
       # Use silviculture
       "Chief Forester Recommended Suitability" = {
-        cfr <- Curr[FuturePeriod == current]
+        cfr <- CFRS[FuturePeriod == current]
         if (length(cfr)) cfr else "X"
       },
       "Projected Feasibility" = {
@@ -130,9 +130,8 @@ cciss_detailed <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
         s <- NewSuit[FuturePeriod == current]
         if (length(s)) s else 4
       }
-    ), by=c("SiteRef", "SS_NoSpace", "Spp")]
+    ), by=c("Region", "ZoneSubzone", "SiteRef", "SS_NoSpace", "Spp")]
     setorder(detailed, SiteRef, SS_NoSpace, OrderSuit, MeanSuit, `Tree Species`)
-    detailed[, c("Spp", "SS_NoSpace", "OrderSuit") := NULL]
     return(detailed)
   })
 }
@@ -219,4 +218,132 @@ feasibility_trend <- function(x) {
     return(trends[3])
   }
   return(trends[4])
+}
+
+# Silviculture UI Element
+
+# Function to format Species with footnotes
+sppnotes <- function(spp, notes) {
+  ret <- vector("list", length(spp))
+  for (i in seq_len(length(spp))) {
+    fn <- paste0(sort(as.integer(unique(unlist(notes[i])))), collapse = ",")
+    ret[[i]] <- tags$span(spp[i], tags$sup(fn, .noWS = htmltools:::noWSOptions), if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
+  }
+  do.call(span, ret)
+}
+
+# Function to create a Standards block for each Standard in the site serie
+standardblocks <- function(siteref, siteserie, cciss_detailed) {
+  sc <- cciss_detailed[
+    SiteRef %in% siteref & SS_NoSpace %in% siteserie,
+    c("Region", "ZoneSubzone", "SS_NoSpace", "Projected Feasibility", "Spp")
+  ]
+  sc[, pf := `Projected Feasibility`]
+  ss <- stocking_standards[
+    Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
+  ]
+  do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
+}
+
+# Function to create a formatted Standard block
+standardblock <- function(std, ss, sc) {
+  ss <- ss[Standard %in% std]
+  sc <- sc[Spp %in% ss$Species]
+  si <- stocking_info[Standard == std]
+  sh <- stocking_height[Standard == std]
+  list(
+    tags$small("Site Series"),
+    tags$p(tags$b(paste(si$ZoneSubzone, si$SiteSeries, sep = "/"), si$SiteSeriesName)),
+    tags$small("Forest Region"),
+    tags$p(tags$b(si$Region)),
+    splitLayout(
+      cellArgs = list(style = "overflow:visible"),
+      div(
+        tags$small(tags$b("Regeneration")),
+        tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+        splitLayout(
+          span(
+            tags$span(tags$b("Standards ID")), tags$br(),
+            tags$span("Primary"), tags$br(),
+            tags$span("Preferred (p)"), tags$br(),
+            tags$span("Secondary"), tags$br(),
+            tags$span("Acceptable (a)"), tags$br(),
+            tags$span("Tertiary")
+          ),
+          span(
+            tags$span(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "))), tags$br(),
+            ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes)], tags$br(),
+            ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes)], tags$br(),
+            ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes)], tags$br(),
+            ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes)], tags$br(),
+            ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes)]
+          ),
+          span(
+            tags$span(tags$b("Climate Change")), tags$br(),
+            tags$span(paste(sc[!is.na(Spp) & pf %in% "1", unique(Spp)], collapse = ", ")), tags$br(),
+            tags$span(""), tags$br(),
+            tags$span(paste(sc[!is.na(Spp) & pf %in% "2", unique(Spp)], collapse = ", ")), tags$br(),
+            tags$span(""), tags$br(),
+            tags$span(paste(sc[!is.na(Spp) & pf %in% "3", unique(Spp)], collapse = ", "))
+          )
+        ),
+        tags$br(),
+        tags$small(tags$b("Footnotes")),
+        tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+        {
+          fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
+          fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
+          fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+          do.call(span, fnshiny)
+        }
+      ),
+      span(
+        tags$small(tags$b("Stocking (i) - well spaced/ha")),
+        tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+        splitLayout(
+          cellWidths = c("20%","20%","20%", "40%"),
+          span(
+            tags$span(tags$b("Target")), tags$br(),
+            tags$span(si$StockingTarget)
+          ),
+          span(
+            tags$span(tags$b("Min pa")), tags$br(),
+            tags$span(si$StockingMINpa)
+          ),
+          span(
+            tags$span(tags$b("Min p")), tags$br(),
+            tags$span(si$StockingMINp)
+          ),
+          span(
+            tags$span(tags$b("Regen Delay (max yrs)")), tags$br(),
+            tags$span(si$StockingDelay)
+          )
+        ),
+        tags$br(),
+        tags$small(tags$b("Free Growing Guide")),
+        tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+        splitLayout(
+          cellWidths = c("23%", "23%", "27%", "27%"),
+          span(
+            tags$span(tags$b("Earliest (yrs)")), tags$br(),
+            tags$span(si$AssessmentEarliest)
+          ),
+          span(
+            tags$span(tags$b("Latest(yrs)")), tags$br(),
+            tags$span(si$AssessmentLatest)
+          ),
+          span(
+            tags$span(tags$b("Min Height (m)")), tags$br(),
+            tags$span(sh[!Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
+          ),
+          span(
+            tags$span(tags$b("Min Height (m)")), tags$br(),
+            tags$span(sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
+          )
+        )
+      )
+    ),
+    tags$br(),
+    tags$hr(style= "padding: 0; margin: 0 0 15px 0; height: 1px; background-color: #dee2e6; border: 0px")
+  )
 }

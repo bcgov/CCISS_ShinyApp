@@ -25,6 +25,7 @@ stocking_info_v10[ , Standard := as.numeric(Standard)]
 setkey(stocking_info_v10, "Standard")
 # Remove standards with no matching Standard in main table
 stocking_info_v10 <- stocking_info_v10[!is.na(Standard) & Standard %in% stocking_standards_v11$Standard]
+stocking_height_v10 <- stocking_height_v10[!is.na(Standard) & Standard %in% stocking_standards_v11$Standard]
 
 # Duplicated pairs
 dupPairs <- function(data) {
@@ -44,34 +45,11 @@ stocking_standards_v11 <- remDups(stocking_standards_v11)
 stocking_info_v10 <- remDups(stocking_info_v10)
 stocking_height_v10 <- remDups(stocking_height_v10)
 
-# Stocking standards all together
-stocking_standards <- merge(
-  x = stocking_standards_v11,
-  y = stocking_info_v10[,.(SiteSeriesName, Standard, StockingTarget, StockingMINpa, StockingMINp, StockingDelay, AssessmentEarliest, AssessmentLatest, Flag)],
-  by = "Standard",
-  all.x = TRUE
-)
 
-stocking_standards <- merge(
-  x = stocking_standards,
-  y = stocking_height_v10[,.(Standard, Species, Height)],
-  by = c("Standard", "Species"),
-  all.x = TRUE
-)
-
-stocking_standards <- merge(
-  x = stocking_standards,
-  y = stocking_height_v10[Species == "Others",.(Standard, Height)],
-  by = "Standard",
-  all.x = TRUE
-)
-
-stocking_standards[, Height := {x <- Height.x; x[is.na(x)] <- Height.y[is.na(x)]; x}]
-stocking_standards$Height.x <- NULL
-stocking_standards$Height.y <- NULL
-stocking_standards[, Footnotes := list(list({x <- do.call(c, .SD); x[!x %chin% c(NA, "")]})), by=1:NROW(stocking_standards), .SDcols = FN1:FN5]
+# Stocking standards formatting
+stocking_standards <- copy(stocking_standards_v11)
+stocking_standards[, Footnotes := list(list({x <- unname(do.call(c, .SD)); x[!x %chin% c(NA, "")]})), by=1:NROW(stocking_standards), .SDcols = FN1:FN5]
 stocking_standards[, c("FN1","FN2","FN3","FN4","FN5") := NULL]
-
 # add-in crosswalk rows to complete standards dataset
 # Gettings standards that would be substitute according to crosswalk
 a <- stocking_standards[ZoneSubzone %chin% crosswalk$Tables]
@@ -81,14 +59,30 @@ a <- a[crosswalk, on = c(ZoneSubzone = "Tables"), allow.cartesian = TRUE, nomatc
 nrow(stocking_standards[a, on = c(Region = "Region", ZoneSubzone = "Modeled", SS_NoSpace = "SS_NoSpace", Species = "Species"), nomatch = NULL])
 # Does not seems like it, so it is safe to add all of them
 a[, `:=`(ZoneSubzone = Modeled, Modeled = NULL)]
+k <- key(stocking_standards)
 stocking_standards <- rbindlist(list(stocking_standards, a))
-setkey(stocking_standards, Region, ZoneSubzone, SS_NoSpace, Species)
+setkeyv(stocking_standards, k)
 # Recheck for dups
 dupPairs(stocking_standards)
-# All good
+
+
+# Stocking height formatting
+stocking_height <- copy(stocking_height_v10[,.(Standard, Species, Height)])
+# add-in species instead of others by merging with stock standards and removing dups as
+# they will occurs in a , which comes later in the order
+a <- stocking_height["Others", on = .(Species)][stocking_standards, on = c(Standard = "Standard"), nomatch = NULL]
+a <- a[, Species := i.Species][, .(Standard, Species, Height)]
+stocking_height <- rbindlist(list(stocking_height[Species != "Others"], a))
+stocking_height <- stocking_height[!duplicated(stocking_height)]
+# flag heights where there is a Species with a suit 1,2,3, or PrefAccept in P,A
+stocking_height[stocking_standards, Flag := !is.na(i.Species), on = c(Standard = "Standard", Species = "Species")]
+
+
+# Stocking info formatting
 # Replace non ascii characters in SiteSeriesName and trim
 # Remove extras spaces
-stocking_standards[, SiteSeriesName := {
+stocking_info <- copy(stocking_info_v10)
+stocking_info[, SiteSeriesName := {
   x <- chartr("\U2013\U2019\U0024\U00A0","-'  ", SiteSeriesName)
   x <- trimws(x)
   x <- gsub("\\s+;", ";", x)
@@ -122,10 +116,12 @@ names(silvics_mature) <- tools::toTitleCase(names(silvics_mature))
 names(silvics_resist) <- tools::toTitleCase(names(silvics_resist))
 names(footnotes) <- tools::toTitleCase(names(footnotes))
 names(stocking_standards) <- tools::toTitleCase(names(stocking_standards))
+names(stocking_info) <- tools::toTitleCase(names(stocking_info))
+names(stocking_height) <- tools::toTitleCase(names(stocking_height))
 
 use_data(E1, S1, R1, F1, T1, V1,
          zones_colours_ref, subzones_colours_ref,
-         stocking_standards, footnotes,
+         stocking_standards, stocking_info, stocking_height, footnotes,
          silvics_tol, silvics_regen, silvics_mature, silvics_resist,
          overwrite = TRUE)
 # see version in ?usethis::use_data, if you all use R 3.5 and up. You should bump to version 3

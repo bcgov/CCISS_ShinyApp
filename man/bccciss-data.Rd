@@ -12,6 +12,8 @@
 \alias{silvics_regen}
 \alias{silvics_resist}
 \alias{silvics_tol}
+\alias{stocking_height}
+\alias{stocking_info}
 \alias{stocking_standards}
 \alias{subzones_colours_ref}
 \alias{T1}
