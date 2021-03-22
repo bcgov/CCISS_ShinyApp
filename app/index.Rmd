@@ -7,13 +7,13 @@ output:
     logo: www/logo.svg
     favicon: www/favicon.ico
     css: www/style.css
-#     theme:
-#       version: 4
-#       bootswatch: yeti
-#       primary: "#003366"
-# runtime: shiny_prerendered
-    theme : yeti
+    theme:
+      version: 4
+      bootswatch: yeti
+      primary: "#003366"
 runtime: shiny_prerendered
+#     theme : yeti
+# runtime: shiny_prerendered
 ---
 
 ```{r global, include=FALSE}
@@ -155,71 +155,51 @@ Silviculture {.tabset}
 ### Silviculture
 
 ```{r}
-uiOutput("silviculture")
+uiOutput("silviculture_block")
+# Ref template for other tables
+silv_ref_dt <- function(dt) {
+  DT::datatable(dt, rownames = FALSE, width = "100%", height = "auto", 
+                options = list(
+                  scrollCollapse = FALSE, lengthChange = FALSE, searching = FALSE,
+                  pageLength = nrow(dt), columnDefs = list(
+                     list(className = 'dt-center', targets = (seq_len(ncol(dt))-1)[-3])
+                  )
+                )
+  )
+}
+klinka <- tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
 ```
 
 ### Tolerance
 
 ```{r}
 tags$h5("Tolerance comparisons")
-DT::datatable(
-  silvics_tol, rownames = FALSE, width = "100%", height = "auto", 
-  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
-                 searching = FALSE, pageLength = nrow(silvics_tol),
-                 columnDefs = list(
-                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_tol))-1)[-3])
-                 )
-  )
-)
-tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+silv_ref_dt(silvics_tol)
+klinka
 ```
 
 ### Resistance
 
 ```{r}
 tags$h5("Resistance and potential risk comparisons")
-DT::datatable(
-  silvics_resist, rownames = FALSE, width = "100%", height = "auto", 
-  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
-                 searching = FALSE, pageLength = nrow(silvics_resist),
-                 columnDefs = list(
-                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_resist))-1)[-3])
-                 )
-  )
-)
-tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+silv_ref_dt(silvics_resist)
+klinka
 ```
 
 ### Regeneration stage
 
 ```{r}
 tags$h5("Comparison of silvical characteristics; regeneration stage")
-DT::datatable(
-  silvics_regen, rownames = FALSE, width = "100%", height = "auto", 
-  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
-                 searching = FALSE, pageLength = nrow(silvics_regen),
-                 columnDefs = list(
-                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_regen))-1)[-3])
-                 )
-  )
-)
-tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+silv_ref_dt(silvics_regen)
+klinka
 ```
 
 ### Maturing stage
 
 ```{r}
 tags$h5("Comparison of silvical characteristics; maturing stage")
-DT::datatable(
-  silvics_mature, rownames = FALSE, width = "100%", height = "auto", 
-  options = list(scrollCollapse = FALSE, lengthChange = FALSE, 
-                 searching = FALSE, pageLength = nrow(silvics_mature),
-                 columnDefs = list(
-                   list(className = 'dt-center', targets = (seq_len(ncol(silvics_mature))-1)[-3])
-                 )
-  )
-)
-tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+silv_ref_dt(silvics_mature)
+klinka
 ```
 
 BGC FUTURES
@@ -247,7 +227,7 @@ plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 EXPORT
 =====================================
 
-Inputs {.sidebar data-width=400}
+Inputs {.sidebar data-width=420}
 -------------------------------------
 
 ###### Filter
@@ -256,7 +236,7 @@ Inputs {.sidebar data-width=400}
 actionButton("report_filter_all", label = "Check All", icon = icon("check"))
 actionButton("report_filter_none", label = "Uncheck All", icon = icon("ban"))
 div(
-  checkboxGroupInput("report_filter", label = "Site Series", choices = character(), width = 380),
+  checkboxGroupInput("report_filter", label = "Site Series", choices = character(), width = 400),
   style = "line-height: 1.5; color: #222; background-color: #fff; margin: 10px 0px 10px 0px; padding: 0px 10px 0px 10px"
 )
 ```
@@ -313,6 +293,7 @@ source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
 source("./server/feasibility.R", local = TRUE)
+source("./server/silviculture.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 ```
