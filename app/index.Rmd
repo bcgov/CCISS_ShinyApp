@@ -147,7 +147,7 @@ Inputs {.sidebar data-width=230}
 ```{r}
 selectInput("siteref_silv", label = "Sites:", choices = character())
 selectInput("site_series_silv", label = "Site Series", choices = character())
-selectInput("filter_silv", label = "Species Feasibility", choices = c("Feasible Only" = "f", "All" = "a"))
+selectInput("filter_silv", label = "Tree Species", choices = c("Feasible Species" = "f", "All Species" = "a"))
 ```
 
 Silviculture {.tabset}
