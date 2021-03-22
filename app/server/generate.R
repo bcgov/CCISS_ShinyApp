@@ -51,6 +51,7 @@ observeEvent(input$generate_results, priority = 100, {
   session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', true)"))
   updateActionButton(inputId = "generate_results", label = "Refresh results")
+  saveRDS(uData, "uData.rds")
 })
 
 generateState <- function() {

@@ -1,25 +1,3 @@
-# Reusing Shiny session userData environment
-uData <- session$userData
-
-# Points dataframe
-uData$basepoints <- data.table(
-  ID = character(),
-  Site = character(),
-  Lat = numeric(),
-  Long = numeric(),
-  Elev = numeric(),
-  BGC = character(),
-  ForestRegion = character(),
-  popups = character()
-)
-
-# All columns indexes
-uData$pts_col <- 1L:ncol(uData$basepoints)
-# Exclude popups column, column indexes to show in the UI
-uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
-
-userpoints <- reactiveValues(dt = uData$basepoints)
-
 # Data
 bgc <- function(con, siteno, avg, rcp) {
   siteno <- siteno[!is.na(siteno)]
@@ -229,7 +207,7 @@ sppnotes <- function(spp, notes) {
     fn <- paste0(sort(as.integer(unique(unlist(notes[i])))), collapse = ",")
     ret[[i]] <- tags$span(spp[i], tags$sup(fn, .noWS = htmltools:::noWSOptions), if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
-  do.call(span, ret)
+  do.call(tags$td, ret)
 }
 
 # Function to create a Standards block for each Standard in the site serie
@@ -261,30 +239,37 @@ standardblock <- function(std, ss, sc) {
       div(
         tags$small(tags$b("Regeneration")),
         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
-        splitLayout(
-          span(
-            tags$span(tags$b("Standards ID")), tags$br(),
-            tags$span("Primary"), tags$br(),
-            tags$span("Preferred (p)"), tags$br(),
-            tags$span("Secondary"), tags$br(),
-            tags$span("Acceptable (a)"), tags$br(),
-            tags$span("Tertiary")
+        tags$table(
+          width = "100%",
+          tags$tr(
+            tags$td(tags$b("Standards ID")),
+            tags$td(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "))),
+            tags$td(tags$b("Climate Change"))
           ),
-          span(
-            tags$span(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "))), tags$br(),
-            ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes)], tags$br(),
-            ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes)], tags$br(),
-            ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes)], tags$br(),
-            ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes)], tags$br(),
-            ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes)]
+          tags$tr(
+            tags$td("Primary"),
+            ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes)],
+            tags$td(paste(sc[!is.na(Spp) & pf %in% "1", unique(Spp)], collapse = ", "))
           ),
-          span(
-            tags$span(tags$b("Climate Change")), tags$br(),
-            tags$span(paste(sc[!is.na(Spp) & pf %in% "1", unique(Spp)], collapse = ", ")), tags$br(),
-            tags$span(""), tags$br(),
-            tags$span(paste(sc[!is.na(Spp) & pf %in% "2", unique(Spp)], collapse = ", ")), tags$br(),
-            tags$span(""), tags$br(),
-            tags$span(paste(sc[!is.na(Spp) & pf %in% "3", unique(Spp)], collapse = ", "))
+          tags$tr(
+            tags$td("Preferred (p)"),
+            ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes)],
+            tags$td("")
+          ),
+          tags$tr(
+            tags$td("Secondary"),
+            ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes)],
+            tags$td(paste(sc[!is.na(Spp) & pf %in% "2", unique(Spp)], collapse = ", "))
+          ),
+          tags$tr(
+            tags$td("Acceptable (a)"),
+            ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes)],
+            tags$span("")
+          ),
+          tags$tr(
+            tags$td("Tertiary"),
+            ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes)],
+            tags$td(paste(sc[!is.na(Spp) & pf %in% "3", unique(Spp)], collapse = ", "))
           )
         ),
         tags$br(),
@@ -300,45 +285,37 @@ standardblock <- function(std, ss, sc) {
       span(
         tags$small(tags$b("Stocking (i) - well spaced/ha")),
         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
-        splitLayout(
-          cellWidths = c("20%","20%","20%", "40%"),
-          span(
-            tags$span(tags$b("Target")), tags$br(),
-            tags$span(si$StockingTarget)
+        tags$table(
+          width = "100%",
+          tags$tr(
+            tags$td(tags$b("Target")),
+            tags$td(tags$b("Min pa")),
+            tags$td(tags$b("Min p")),
+            tags$td(tags$b("Regen Delay (max yrs)"))
           ),
-          span(
-            tags$span(tags$b("Min pa")), tags$br(),
-            tags$span(si$StockingMINpa)
-          ),
-          span(
-            tags$span(tags$b("Min p")), tags$br(),
-            tags$span(si$StockingMINp)
-          ),
-          span(
-            tags$span(tags$b("Regen Delay (max yrs)")), tags$br(),
-            tags$span(si$StockingDelay)
+          tags$tr(
+            tags$td(si$StockingTarget),
+            tags$td(si$StockingMINpa),
+            tags$td(si$StockingMINp),
+            tags$td(si$StockingDelay)
           )
         ),
         tags$br(),
         tags$small(tags$b("Free Growing Guide")),
         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
-        splitLayout(
-          cellWidths = c("23%", "23%", "27%", "27%"),
-          span(
-            tags$span(tags$b("Earliest (yrs)")), tags$br(),
-            tags$span(si$AssessmentEarliest)
+        tags$table(
+          width = "100%",
+          tags$tr(
+            tags$td(tags$b("Earliest (yrs)")),
+            tags$td(tags$b("Latest(yrs)")),
+            tags$td(tags$b("Min Height (m)")),
+            tags$td(tags$b("Min Height (m)"))
           ),
-          span(
-            tags$span(tags$b("Latest(yrs)")), tags$br(),
-            tags$span(si$AssessmentLatest)
-          ),
-          span(
-            tags$span(tags$b("Min Height (m)")), tags$br(),
-            tags$span(sh[!Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
-          ),
-          span(
-            tags$span(tags$b("Min Height (m)")), tags$br(),
-            tags$span(sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
+          tags$tr(
+            tags$td(si$AssessmentEarliest),
+            tags$td(si$AssessmentLatest),
+            tags$td(sh[!Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")]),
+            tags$td(sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
           )
         )
       )
