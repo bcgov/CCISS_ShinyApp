@@ -254,7 +254,19 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
   
 [Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
 
-Shiny app information {data-navmenu="ABOUT"} 
+Model information {data-navmenu="ABOUT"}
+=====================================
+
+### Current versions of Information Tables, Maps, and Models used in this App
+
+```{r}
+div(
+  tableOutput("modelsinfo"),
+  plotly::plotlyOutput("timings", width = "100%")
+)
+```
+
+Shiny App Information {data-navmenu="ABOUT"} 
 =====================================
 
 Shiny host: `r system("hostname", intern = TRUE)`  
