@@ -324,3 +324,32 @@ standardblock <- function(std, ss, sc) {
     tags$hr(style= "padding: 0; margin: 0 0 15px 0; height: 1px; background-color: #dee2e6; border: 0px")
   )
 }
+
+# Timings functions
+tic <- function(split = "unnamed block", var = numeric()) {
+  name <- substitute(var)
+  var <- c(var, `names<-`(.Internal(Sys.time()), split))
+  if (is.name(name)) {
+    name <- as.character(name)
+    assign(name, var, parent.frame(), inherits = TRUE)
+  }
+  return(invisible(var))
+}
+
+toc <- function(var) {
+  # timings into milliseconds
+  timings <- (c(var, .Internal(Sys.time()))[-1] - var) * 1000L
+  df <- data.frame(split = names(var), timings = timings)
+  # the donut plot
+  plotly::plot_ly(data = df, labels = ~split, values = ~timings,
+                  textposition = 'inside',
+                  texttemplate = "%{value:.0f}ms",
+                  hovertemplate = "<extra></extra>%{label}") %>%
+    plotly::add_pie(hole = 0.6) %>%
+    plotly::add_annotations(text = paste(round(sum(timings), 0), "ms"),
+                            showarrow = FALSE, yanchor = "middle", xanchor = "middle",
+                            font = list(size = 40)) %>%
+    plotly::layout(title = "", showlegend = FALSE,
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+}

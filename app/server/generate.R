@@ -1,4 +1,6 @@
 observeEvent(input$generate_results, priority = 100, {
+  
+  ticker <- tic("Save Map Inputs")
   # On generate click, we are taking a snapshot of the current points
   # and calculating results. All relevant results will be stored in the
   # userdata environment for further reuse. User has the ability to update
@@ -12,12 +14,18 @@ observeEvent(input$generate_results, priority = 100, {
   pts            <- uData$pts            <- userpoints$dt
   
   # Results from processing
+  tic("Fetch CCISS Data from DB", ticker)
   bgc            <- uData$bgc            <- bgc(pool, pts$Site, avg, rcp)
+  tic("Process CCISS data", ticker)
   cciss          <- uData$cciss          <- cciss(bgc)
+  tic("Format CCISS Results", ticker)
+  cciss_results  <- uData$cciss_results  <- cciss_results(cciss, pts, avg)
+  tic("Format CCISS Summary", ticker)
   cciss_summary  <- uData$cciss_summary  <- cciss_summary(cciss, pts, avg)
-  cciss_results <- uData$cciss_results <- cciss_results(cciss, pts, avg)
+  
   
   # UI select choices
+  tic("Determine UI choices", ticker)
   ssa <- sort(unique(c(cciss_results$`Site Series`, cciss_summary$`Site Series`)))
   names(ssa) <- paste(
     ssa,
@@ -40,6 +48,7 @@ observeEvent(input$generate_results, priority = 100, {
     x <- sort(x)
   }
   
+  tic("Populate UI choices", ticker)
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
@@ -48,10 +57,19 @@ observeEvent(input$generate_results, priority = 100, {
   updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
   
   # Use ui injected javascript to show download button and hide generate button
+  tic("Inject javascript", ticker)
   session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', true)"))
   updateActionButton(inputId = "generate_results", label = "Refresh results")
-  saveRDS(uData, "uData.rds")
+  
+  tocker <- toc(ticker)
+  
+  # Render models info + timings in About
+  output$modelsinfo <- renderTable({models_info}, )
+  output$timings <- plotly::renderPlotly({
+    tocker
+  })
+  
 })
 
 generateState <- function() {

@@ -6,6 +6,7 @@
 \alias{E1}
 \alias{F1}
 \alias{footnotes}
+\alias{models_info}
 \alias{R1}
 \alias{S1}
 \alias{silvics_mature}

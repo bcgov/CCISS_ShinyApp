@@ -119,10 +119,16 @@ names(stocking_standards) <- tools::toTitleCase(names(stocking_standards))
 names(stocking_info) <- tools::toTitleCase(names(stocking_info))
 names(stocking_height) <- tools::toTitleCase(names(stocking_height))
 
+
+# models informations
+models_info <- fread("./data-raw/data_tables/CCISS_DataTable_Versions.csv")
+models_info[, Date := as.character(Date)]
+
 use_data(E1, S1, R1, F1, T1, V1,
          zones_colours_ref, subzones_colours_ref,
          stocking_standards, stocking_info, stocking_height, footnotes,
          silvics_tol, silvics_regen, silvics_mature, silvics_resist,
+         models_info,
          overwrite = TRUE)
 # see version in ?usethis::use_data, if you all use R 3.5 and up. You should bump to version 3
 # use_data(E1, S1, R1, F1, zones_colours_ref, subzones_colours_ref, overwrite = TRUE, version = 3)
