@@ -40,6 +40,9 @@ onStop(function() {
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
+mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
+mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
+mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
 ```
 
 BEC MAP
@@ -241,7 +244,7 @@ Export a report on selected points.
 ```{r}
 dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
 textInput("report_name", "Name", value = "report")
-selectInput("report_format", "Format", c("html", "pdf"))
+selectInput("report_format", "Format", c("html", "pdf", "rds"))
 span(downloadButton("report_download", "Download", style = dl_style), id = "download_span")
 ```
 

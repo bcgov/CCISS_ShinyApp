@@ -16,21 +16,29 @@ output$report_download <- downloadHandler(
     paste(input$report_name, input$report_format, sep = ".")
   },
   content = function(file) {
-    # Copy the report file to a temporary directory before processing it, in
-    # case we don't have write permissions to the current working dir (which
-    # can happen when deployed).
-    tempReport <- file.path(tempdir(), "report.Rmd")
-    file.copy("./server/report.Rmd", tempReport, overwrite = TRUE)
-    # Set up parameters to pass to Rmd document
-    params <- list(userdata = uData)
     
-    # Knit the document, passing in the `params` list, and eval it in a
-    # child of the global environment (this isolates the code in the document
-    # from the code in this app).
-    rmarkdown::render(tempReport, output_file = file,
-                      output_format = paste(input$report_format, "document", sep = "_"),
-                      params = params,
-                      envir = new.env(parent = globalenv())
-    )
+    if (input$report_format == "rds") {
+      # rds only returns R serialized data
+      saveRDS(uData, file)
+      
+    } else {
+      
+      # Copy the report file to a temporary directory before processing it, in
+      # case we don't have write permissions to the current working dir (which
+      # can happen when deployed).
+      tempReport <- file.path(tempdir(), "report.Rmd")
+      file.copy("./server/report.Rmd", tempReport, overwrite = TRUE)
+      # Set up parameters to pass to Rmd document
+      params <- list(userdata = uData, site_series_filter = input$report_filter)
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        output_format = paste(input$report_format, "document", sep = "_"),
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    }
   }
 )
