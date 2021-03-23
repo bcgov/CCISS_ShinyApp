@@ -1,6 +1,3 @@
-# Reusing Shiny session userData environment
-uData <- session$userData
-
 # Points dataframe
 uData$basepoints <- data.table(
   ID = character(),

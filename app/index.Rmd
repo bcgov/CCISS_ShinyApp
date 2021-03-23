@@ -168,33 +168,41 @@ klinka <- tags$small("From Klinka et al. 2000. Ecological and Silvical Character
 ### Tolerance
 
 ```{r}
-tags$h5("Tolerance comparisons")
-DT::DTOutput("silvics_tol_dt", width = "100%", height = "auto")
-klinka
+div(style = "width:100%; height:auto",
+  tags$h5("Tolerance comparisons"),
+  DT::DTOutput("silvics_tol_dt", width = "100%", height = "auto"),
+  klinka
+)
 ```
 
 ### Resistance
 
 ```{r}
-tags$h5("Resistance and potential risk comparisons")
-DT::DTOutput("silvics_resist_dt", width = "100%", height = "auto")
-klinka
+div(style = "width:100%; height:auto",
+  tags$h5("Resistance and potential risk comparisons"),
+  DT::DTOutput("silvics_resist_dt", width = "100%", height = "auto"),
+  klinka
+)
 ```
 
 ### Regeneration stage
 
 ```{r}
-tags$h5("Comparison of silvical characteristics; regeneration stage")
-DT::DTOutput("silvics_regen_dt", width = "100%", height = "auto")
-klinka
+div(style = "width:100%; height:auto",
+  tags$h5("Comparison of silvical characteristics; regeneration stage"),
+  DT::DTOutput("silvics_regen_dt", width = "100%", height = "auto"),
+  klinka
+)
 ```
 
 ### Maturing stage
 
 ```{r}
-tags$h5("Comparison of silvical characteristics; maturing stage")
-DT::DTOutput("silvics_mature_dt", width = "100%", height = "auto")
-klinka
+div(style = "width:100%; height:auto",
+  tags$h5("Comparison of silvical characteristics; maturing stage"),
+  DT::DTOutput("silvics_mature_dt", width = "100%", height = "auto"),
+  klinka
+)
 ```
 
 BGC FUTURES
@@ -295,7 +303,8 @@ tags$script(HTML('
 
 ```{r server, context = "server"}
 # bslib::bs_themer()
-source("./server/common.R", local = TRUE)
+# Reusing Shiny session userData environment
+uData <- session$userData
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)

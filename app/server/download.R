@@ -17,6 +17,8 @@ output$report_download <- downloadHandler(
   },
   content = function(file) {
     
+    uData$site_series_filter <- input$report_filter
+    
     if (input$report_format == "rds") {
       # rds only returns R serialized data
       saveRDS(uData, file)
@@ -28,8 +30,10 @@ output$report_download <- downloadHandler(
       # can happen when deployed).
       tempReport <- file.path(tempdir(), "report.Rmd")
       file.copy("./server/report.Rmd", tempReport, overwrite = TRUE)
+      file.copy("./server/www", tempReport, recursive = TRUE, overwrite = TRUE)
       # Set up parameters to pass to Rmd document
-      params <- list(userdata = uData, site_series_filter = input$report_filter)
+      
+      params <- list(userdata = uData)
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document

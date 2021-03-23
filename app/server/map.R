@@ -1,3 +1,147 @@
+# Map vector tiling
+plugins <- {
+  list(vgplugin = 
+         htmltools::htmlDependency(
+           name = "leaflet.vectorgrid",
+           version = "1.3.0",
+           src = system.file("htmlwidgets", package = "bccciss"),
+           script = "lfx-vgrid-prod.js"
+         ),
+       sliderplugin = htmltools::htmlDependency(
+         name = "leaflet.slider",
+         version = "1.0.0",
+         stylesheet = "lfx-slider.css",
+         src = system.file("htmlwidgets", package = "bccciss"),
+         script = "lfx-slider.js"
+       )
+  )
+}
+uData$plugins <- plugins
+
+registerPlugin <- function(map, plugin) {
+  map$dependencies <- c(map$dependencies, list(plugin))
+  map
+}
+uData$registerPlugin <- registerPlugin
+
+addVectorGridTilesDev <- function(map, app = TRUE) {
+  map <- registerPlugin(map, plugins$vgplugin)
+  if (app) {
+    map <- registerPlugin(map, plugins$sliderplugin)
+  }
+  # This is a custom javascript to enable VectorGrid with Shiny
+  # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
+  # It also adds a slider control for the layers opacity
+  map <- htmlwidgets::onRender(map, paste0('
+    function(el, x, data) {
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
+      
+      L.bec_layer_opacity = 0.65
+      
+      var vectorTileOptions=function(layerName, layerId, activ,
+                             lfPane, colorMap, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: activ, // makes it able to trigger js events like click
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0,
+                fillColor: colorMap[properties[prop]],
+                fill: true,
+                fillOpacity: L.bec_layer_opacity
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+              return f.properties[id];
+          }
+        }
+        
+      };
+      
+      var zLayer = L.vectorGrid.protobuf(
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
+                          "tilePane", zoneColors, "ZONE", "OBJECTID")
+      )
+      var subzLayer = L.vectorGrid.protobuf(
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
+                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
+      )
+      this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
+      this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+      
+      ', if (app) {'
+      
+      var highlight
+		  var clearHighlight = function() {
+		  	if (highlight) {
+		  		subzLayer.resetFeatureStyle(highlight);
+		  	}
+		  	highlight = null;
+		  }
+      
+      // Zone
+      
+      zLayer.bindTooltip(function(e) {
+        return e.properties.ZONE
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      // Subzones
+      
+      subzLayer.bindTooltip(function(e) {
+        return e.properties.MAP_LABEL
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      subzLayer.on("mouseover", function(e) {
+        if (e.layer.properties) {
+          var properties = e.layer.properties
+  			  highlight = properties.OBJECTID
+  			  var style = {
+            weight: 1,
+            color: "#555",
+            fillColor: subzoneColors[properties.MAP_LABEL],
+            fillOpacity: 0.1,
+            fill: true
+          }
+          subzLayer.setFeatureStyle(properties.OBJECTID, style);
+        }
+      })
+      subzLayer.on("mouseout", function(e) {
+        clearHighlight();
+      })
+      
+      updateOpacity = function(value) {
+        L.bec_layer_opacity = parseFloat(value);
+      }
+      
+      var opacityslider = L.control.slider(updateOpacity, {
+        id:"opacity_slider",
+        orientation:"horizontal",
+        position:"bottomleft",
+        logo:\'<img src="www/opacity.svg" />\',
+        max:1,
+        step:0.01,
+        syncSlider:true,
+        size:"250px",
+        // Starting opacity value for bec map layers
+        value:0.65,
+        showValue:true
+      })
+      
+      opacityslider.addTo(this)
+      
+      '} else {''}, '
+    }'
+  ))
+  map
+}
+uData$addVectorGridTilesDev <- addVectorGridTilesDev
+
 # Map main
 output$bec_map <- renderLeaflet({
   leaflet::leaflet() %>%
