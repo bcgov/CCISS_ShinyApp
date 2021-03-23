@@ -8,45 +8,28 @@ output:
     mode: selfcontained
 params:
   userdata: NA
-  site_series_filter: NA
 ---
 
 ```{r setup, include=FALSE}
 suppressPackageStartupMessages({
   library(bccciss)
   library(leaflet)
-  library(RPostgres)
   library(plotly)
   library(knitr)
   library(htmltools)
-  library(png)
-  library(shiny)
 })
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
-# For testing
-userdata <- readRDS("C:/Repos/CCISS_ShinyApp/app/server/userdata.rds")
-site_series_filter <- userdata$siteseries_all
-# End for testing
-
-# Database connection
-con <- RPostgres::dbConnect(
-  drv = RPostgres::Postgres(),
-  dbname = Sys.getenv("BCGOV_DB"),
-  host = Sys.getenv("BCGOV_HOST"),
-  port = 5432, 
-  user = Sys.getenv("BCGOV_USR"),
-  password = Sys.getenv("BCGOV_PWD")
-)
+# # For testing
+# userdata <- readRDS("C:/Repos/CCISS_ShinyApp/app/server/userdata.rds")
+# site_series_filter <- userdata$siteseries_all
+# # End for testing
 
 # Env variable for map
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
-
-# Source common
-source("common.R")
 ```
 
 ```{r points, results='asis', out.width="100%"}
@@ -57,7 +40,6 @@ knitr::kable(caption = "User points of interest", userdata$pts[,list(ID, Site, L
 data_points <- userdata$pts[!is.na(Long) & !is.na(Lat)]
 bbox <- dbBbox(con, data_points, 1)
 leaflet::leaflet() %>%
-  leaflet::setMaxBounds(bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]]) %>%
   leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
   addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
   leaflet::addTiles(

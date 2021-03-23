@@ -93,11 +93,12 @@ ui <- fixedPage(
 )
 
 server <- function(input, output, session) {
-  source("./server/common.R", local = TRUE)
+  uData <- session$userData
   source("./server/generate.R", local = TRUE)
   source("./server/points.R", local = TRUE)
   source("./server/map.R", local = TRUE)
   source("./server/feasibility.R", local = TRUE)
+  source("./server/silviculture.R", local = TRUE)
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
   
