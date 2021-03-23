@@ -234,9 +234,8 @@ standardblock <- function(std, ss, sc) {
     tags$p(tags$b(paste(si$ZoneSubzone, si$SiteSeries, sep = "/"), si$SiteSeriesName)),
     tags$small("Forest Region"),
     tags$p(tags$b(si$Region)),
-    splitLayout(
-      cellArgs = list(style = "overflow:visible"),
-      div(
+    div(class = "shiny-split-layout",
+      div(style = "width:50%; overflow:visible",
         tags$small(tags$b("Regeneration")),
         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
         tags$table(
@@ -282,7 +281,7 @@ standardblock <- function(std, ss, sc) {
           do.call(span, fnshiny)
         }
       ),
-      span(
+      div(style = "width:50%; overflow:visible",
         tags$small(tags$b("Stocking (i) - well spaced/ha")),
         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
         tags$table(
@@ -323,6 +322,147 @@ standardblock <- function(std, ss, sc) {
     tags$br(),
     tags$hr(style= "padding: 0; margin: 0 0 15px 0; height: 1px; background-color: #dee2e6; border: 0px")
   )
+}
+
+# Map vector tiling
+plugins <- {
+  list(vgplugin = 
+         htmltools::htmlDependency(
+           name = "leaflet.vectorgrid",
+           version = "1.3.0",
+           src = system.file("htmlwidgets", package = "bccciss"),
+           script = "lfx-vgrid-prod.js"
+         ),
+       sliderplugin = htmltools::htmlDependency(
+         name = "leaflet.slider",
+         version = "1.0.0",
+         stylesheet = "lfx-slider.css",
+         src = system.file("htmlwidgets", package = "bccciss"),
+         script = "lfx-slider.js"
+       )
+  )
+}
+
+registerPlugin <- function(map, plugin) {
+  map$dependencies <- c(map$dependencies, list(plugin))
+  map
+}
+
+addVectorGridTilesDev <- function(map, app = TRUE) {
+  map <- registerPlugin(map, plugins$vgplugin)
+  if (app) {
+    map <- registerPlugin(map, plugins$sliderplugin)
+  }
+  # This is a custom javascript to enable VectorGrid with Shiny
+  # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
+  # It also adds a slider control for the layers opacity
+  map <- htmlwidgets::onRender(map, paste0('
+    function(el, x, data) {
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
+      
+      L.bec_layer_opacity = 0.65
+      
+      var vectorTileOptions=function(layerName, layerId, activ,
+                             lfPane, colorMap, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: activ, // makes it able to trigger js events like click
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0,
+                fillColor: colorMap[properties[prop]],
+                fill: true,
+                fillOpacity: L.bec_layer_opacity
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+              return f.properties[id];
+          }
+        }
+        
+      };
+      
+      var zLayer = L.vectorGrid.protobuf(
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
+                          "tilePane", zoneColors, "ZONE", "OBJECTID")
+      )
+      var subzLayer = L.vectorGrid.protobuf(
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
+                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
+      )
+      this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
+      this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+      
+      ', if (app) {'
+      
+      var highlight
+		  var clearHighlight = function() {
+		  	if (highlight) {
+		  		subzLayer.resetFeatureStyle(highlight);
+		  	}
+		  	highlight = null;
+		  }
+      
+      // Zone
+      
+      zLayer.bindTooltip(function(e) {
+        return e.properties.ZONE
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      // Subzones
+      
+      subzLayer.bindTooltip(function(e) {
+        return e.properties.MAP_LABEL
+      }, {sticky: true, textsize: "10px", opacity: 1})
+      
+      subzLayer.on("mouseover", function(e) {
+        if (e.layer.properties) {
+          var properties = e.layer.properties
+  			  highlight = properties.OBJECTID
+  			  var style = {
+            weight: 1,
+            color: "#555",
+            fillColor: subzoneColors[properties.MAP_LABEL],
+            fillOpacity: 0.1,
+            fill: true
+          }
+          subzLayer.setFeatureStyle(properties.OBJECTID, style);
+        }
+      })
+      subzLayer.on("mouseout", function(e) {
+        clearHighlight();
+      })
+      
+      updateOpacity = function(value) {
+        L.bec_layer_opacity = parseFloat(value);
+      }
+      
+      var opacityslider = L.control.slider(updateOpacity, {
+        id:"opacity_slider",
+        orientation:"horizontal",
+        position:"bottomleft",
+        logo:\'<img src="www/opacity.svg" />\',
+        max:1,
+        step:0.01,
+        syncSlider:true,
+        size:"250px",
+        // Starting opacity value for bec map layers
+        value:0.65,
+        showValue:true
+      })
+      
+      opacityslider.addTo(this)
+      
+      '} else {''}, '
+    }'
+  ))
+  map
 }
 
 # Timings functions

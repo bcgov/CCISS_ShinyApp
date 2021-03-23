@@ -69,7 +69,6 @@ observeEvent(input$generate_results, priority = 100, {
   output$timings <- plotly::renderPlotly({
     tocker
   })
-  
 })
 
 generateState <- function() {

@@ -1,37 +1,131 @@
 ---
 title: "CCISS Report"
-author: "BCGOV"
-date: "3/10/2021"
-output: html_document
+author: "BC GOV"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    self_contained: yes
+    mode: selfcontained
 params:
-  uData: NA
+  userdata: NA
   site_series_filter: NA
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages({
+  library(bccciss)
+  library(leaflet)
+  library(RPostgres)
+  library(plotly)
+  library(knitr)
+  library(htmltools)
+  library(png)
+  library(shiny)
+})
+opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
+
+# For testing
+userdata <- readRDS("C:/Repos/CCISS_ShinyApp/app/server/userdata.rds")
+site_series_filter <- userdata$siteseries_all
+# End for testing
+
+# Database connection
+con <- RPostgres::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+# Env variable for map
+bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
+bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
+mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
+
+# Source common
+source("common.R")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-params$points
+```{r points, results='asis', out.width="100%"}
+knitr::kable(caption = "User points of interest", userdata$pts[,list(ID, Site, Lat, Long, Elev, BGC)])
 ```
 
-## Quotes test
-
-"Quotes"
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r maps, out.width="100%", results='asis'}
+data_points <- userdata$pts[!is.na(Long) & !is.na(Lat)]
+bbox <- dbBbox(con, data_points, 1)
+leaflet::leaflet() %>%
+  leaflet::setMaxBounds(bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]]) %>%
+  leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
+  addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
+  leaflet::addTiles(
+    urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
+    attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+    options = leaflet::tileOptions(zIndex = 600)) %>%
+  leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat, popup = ~popups, label = ~ID)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r loop0, results='asis'}
+htmltools::tagList(
+  lapply(unique(userdata$bgc$SiteRef), function(siteref) {
+    siteseries <- sort(
+      unique(
+        c(userdata$cciss_results[SiteRef == siteref]$`Site Series`,
+          userdata$cciss_summary[SiteRef == siteref]$`Site Series`
+        )
+      )
+    )
+    siteseries <- siteseries[siteseries %in% site_series_filter]
+    htmltools::tagList(
+      lapply(siteseries, function(siteserie) {
+        cciss_results <- userdata$cciss_results[SiteRef == siteref & `Site Series` == siteserie & `Projected Feasibility` %chin% c("1", "2", "3"), -c("SiteRef", "MeanSuit", "Region", "ZoneSubzone",
+                                        "SS_NoSpace", "Spp", "OrderSuit")]
+        cciss_summary <- userdata$cciss_summary[SiteRef == siteref & `Site Series` == siteserie, -c("SiteRef")]
+        htmltools::tagList(
+          DT::datatable(cciss_results, escape = FALSE, rownames = FALSE, options = list(
+            scrollCollapse = FALSE, lengthChange = FALSE, autoWidth = TRUE,
+            pageLength = nrow(cciss_results), searching = FALSE, columnDefs = list(
+              list(className = 'dt-center', targets = 2:6), list(width = "10%", targets = 4:6)
+            )
+          )),
+          DT::datatable(cciss_summary, escape = FALSE, rownames = FALSE, options = list(
+            scrollCollapse = FALSE, lengthChange = FALSE, autoWidth = TRUE,
+            pageLength = nrow(cciss_summary), searching = FALSE, columnDefs = list(
+              list(className = 'dt-center', targets = 2:10), list(width = "130px", targets = 1)
+            )
+          )),
+          standardblocks(siteref, siteserie, userdata$cciss_results)
+        )
+      }),
+      tags$br(),
+      bgc_fut_plotly(userdata$bgc[SiteRef == siteref])
+    )
+  })
+)
+```
+
+Silviculture references from Klinka
+
+```{r silref1 , results='asis', out.width="100%"}
+knitr::kable(silvics_tol, caption = "Tolerance")
+```
+
+```{r silref2 , results='asis', out.width="100%"}
+knitr::kable(silvics_resist, caption = "Resistance")
+```
+
+```{r silref3 , results='asis', out.width="100%"}
+knitr::kable(silvics_regen, caption = "Regeneration")
+```
+
+```{r silref4 , results='asis', out.width="100%"}
+knitr::kable(silvics_mature, caption = "Mature")
+```
+
+Configuration
+
+```{r modelinfo, results='asis', out.width="100%"}
+knitr::kable(models_info, caption = "Model information")
+```
