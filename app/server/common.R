@@ -343,7 +343,7 @@ toc <- function(var) {
   # the donut plot
   plotly::plot_ly(data = df, labels = ~split, values = ~timings,
                   textposition = 'inside',
-                  texttemplate = "%{value:.0f}ms",
+                  texttemplate = "%{value:.0f} ms",
                   hovertemplate = "<extra></extra>%{label}") %>%
     plotly::add_pie(hole = 0.6) %>%
     plotly::add_annotations(text = paste(round(sum(timings), 0), "ms"),
