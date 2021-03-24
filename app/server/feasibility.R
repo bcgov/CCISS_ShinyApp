@@ -1,3 +1,4 @@
+# Update site series selector when site ref is modified
 observeEvent(input$siteref_feas, priority = 50, {
   if (is.null(uData$cciss_results) | is.null(uData$cciss_summary)) return(NULL)
   siteref <- input$siteref_feas
@@ -13,6 +14,8 @@ output$summary_feas <- DT::renderDataTable({
   cciss_summary_dt(cciss_summary, siteref, siteserie)
 })
 
+# Dual utility function to format dt, app mode and report mode use different
+# format. Report has no javascript, just a plain table.
 cciss_summary_dt <- function(data, siteref, siteserie, app = TRUE) {
   data <- data[SiteRef == siteref & `Site Series` %in% siteserie, -c("SiteRef")]
   if (isTRUE(app)) {
@@ -39,6 +42,8 @@ output$results_feas <- DT::renderDataTable({
   cciss_results_dt(cciss_results, siteref, siteserie, feas_filter)
 })
 
+# Dual utility function to format dt, app mode and report mode use different
+# format. Report has no javascript, just a plain table.
 cciss_results_dt <- function(data, siteref, siteserie, filter, app = TRUE) {
   if (filter == "a") {
     data <- data[MeanSuit < 4]

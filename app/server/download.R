@@ -1,5 +1,6 @@
 # See generate.R file for `report_filter`  filter update
 
+# Tells the app to hide the download button on load. It will show once points are added
 session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').hide()"))
 
 observeEvent(input$report_filter_all,{

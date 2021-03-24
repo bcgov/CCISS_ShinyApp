@@ -1,11 +1,13 @@
 # `siteref_bgc_fut` Sites select update in generate.R at the same time
 
+# Update the label telling which BGC is displayed
 output$current_bgc_fut <- renderText({
   siteref <- input$siteref_bgc_fut
   if (is.null(uData$bgc)) return(NULL)
   uData$bgc[SiteRef == siteref, unique(BGC)]
 })
 
+# Update the BGC futures plit
 output$bgc_fut_plot <- plotly::renderPlotly({
   siteref <- input$siteref_bgc_fut
   if (is.null(uData$bgc)) return(NULL)

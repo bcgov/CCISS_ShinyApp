@@ -1,4 +1,4 @@
-# Map vector tiling
+# Map vector tiling plugin + opacity slider plugin
 plugins <- {
   list(vgplugin = 
          htmltools::htmlDependency(
@@ -24,6 +24,8 @@ registerPlugin <- function(map, plugin) {
 }
 uData$registerPlugin <- registerPlugin
 
+# Use VectorGrid to display ZoneSubZone layers and do some highlighting
+# App mode is more interactive, report mode is static
 addVectorGridTilesDev <- function(map, app = TRUE) {
   map <- registerPlugin(map, plugins$vgplugin)
   if (app) {
@@ -187,6 +189,7 @@ clear_mk <- function() {
   leaflet::clearMarkers(map_proxy)
 }
 
+# Draw markers on the proxy map
 draw_mk <- function(data = userpoints$dt) {
   non_na_idx <- which(!is.na(data$Long) & !is.na(data$Lat))
   if (length(non_na_idx)) {
@@ -199,12 +202,13 @@ draw_mk <- function(data = userpoints$dt) {
 
 set_map_bound <- function(data = userpoints$dt) {
   if (nrow(data) > 0) {
+    # Uses a 1000m buffer around points
     bbox <- dbBbox(pool, data, 1000)
     leaflet::fitBounds(map_proxy, bbox[[1]], bbox[[2]], bbox[[3]], bbox[[4]]) 
   }
 }
 
-## Map click logic
+## Map click logic, on click add point
 observeEvent(input$bec_map_click, {
   pos <- input$bec_map_click
   points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
