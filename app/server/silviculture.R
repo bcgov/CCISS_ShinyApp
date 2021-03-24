@@ -102,7 +102,7 @@ standardblock <- function(std, ss, sc) {
     tags$small("Forest Region"),
     tags$p(tags$b(si$Region)),
     div(class = "shiny-split-layout", style = "white-space: nowrap;",
-        div(style = "width:50%; overflow:visible",
+        div(style = "width:50%; overflow:visible; display: inline-block; vertical-align: top; box-sizing: border-box",
             tags$small(tags$b("Regeneration")),
             tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
             tags$table(
@@ -130,7 +130,7 @@ standardblock <- function(std, ss, sc) {
               tags$tr(
                 tags$td("Acceptable (a)"),
                 ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes)],
-                tags$span("")
+                tags$td("")
               ),
               tags$tr(
                 tags$td("Tertiary"),
@@ -148,7 +148,7 @@ standardblock <- function(std, ss, sc) {
               do.call(span, fnshiny)
             }
         ),
-        div(style = "width:50%; overflow:visible",
+        div(style = "width:50%; overflow:visible; display: inline-block; vertical-align: top; box-sizing: border-box",
             tags$small(tags$b("Stocking (i) - well spaced/ha")),
             tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
             tags$table(
