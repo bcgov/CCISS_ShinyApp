@@ -44,6 +44,7 @@ output$report_download <- downloadHandler(
                           envir = new.env(parent = globalenv())
         )
       })
+      
     }
   }
 )

@@ -13,14 +13,19 @@ output$summary_feas <- DT::renderDataTable({
   cciss_summary_dt(cciss_summary, siteref, siteserie)
 })
 
-cciss_summary_dt <- function(data, siteref, siteserie) {
+cciss_summary_dt <- function(data, siteref, siteserie, app = TRUE) {
   data <- data[SiteRef == siteref & `Site Series` %in% siteserie, -c("SiteRef")]
-  DT::datatable(data, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
-    scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
-    searching = FALSE, pageLength = nrow(data), paging = FALSE, columnDefs = list(
-      list(className = 'dt-center', targets = 2:10), list(width = "130px", targets = 1)
-    )
-  ))
+  if (isTRUE(app)) {
+    DT::datatable(data, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
+      scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
+      searching = FALSE, pageLength = nrow(data), paging = FALSE, columnDefs = list(
+        list(className = 'dt-center', targets = 2:10), list(width = "130px", targets = 1)
+      )
+    ))
+  } else {
+    tableHTML::tableHTML(data, escape = FALSE, rownames = FALSE, border = 0) %>%
+      tableHTML::add_css_column(css = list("text-align", "center"), columns = 3:11)
+  }
 }
 uData$cciss_summary_dt <- cciss_summary_dt
 
@@ -34,7 +39,7 @@ output$results_feas <- DT::renderDataTable({
   cciss_results_dt(cciss_results, siteref, siteserie, feas_filter)
 })
 
-cciss_results_dt <- function(data, siteref, siteserie, filter) {
+cciss_results_dt <- function(data, siteref, siteserie, filter, app = TRUE) {
   if (filter == "a") {
     data <- data[MeanSuit < 4]
   } else if (filter == "f") {
@@ -42,11 +47,16 @@ cciss_results_dt <- function(data, siteref, siteserie, filter) {
   }
   data <- data[SiteRef == siteref & `Site Series` %in% siteserie,
                -c("SiteRef", "MeanSuit", "Region", "ZoneSubzone", "SS_NoSpace", "Spp", "OrderSuit")]
-  DT::datatable(data, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
-    scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
-    searching = FALSE, pageLength = nrow(data), paging = FALSE, columnDefs = list(
-      list(className = 'dt-center', targets = 2:6), list(width = "10%", targets = 4:6)
-    )
-  ))
+  if (isTRUE(app)) {
+    DT::datatable(data, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
+      scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
+      searching = FALSE, pageLength = nrow(data), paging = FALSE, columnDefs = list(
+        list(className = 'dt-center', targets = 2:6), list(width = "10%", targets = 4:6)
+      )
+    ))
+  } else {
+    tableHTML::tableHTML(data, escape = FALSE, rownames = FALSE, border = 0) %>%
+      tableHTML::add_css_column(css = list("text-align", "center"), columns = 3:7)
+  }
 }
 uData$cciss_results_dt <- cciss_results_dt

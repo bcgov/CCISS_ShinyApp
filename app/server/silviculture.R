@@ -49,17 +49,22 @@ output$silvics_mature_dt <- DT::renderDT({
 })
 
 # Ref template for other tables
-silv_ref_dt <- function(silv, data, siteref, siteserie, filter) {
+silv_ref_dt <- function(silv, data, siteref, siteserie, filter, app = TRUE) {
   if (filter == "f") {
     data <- data[SiteRef %in% siteref & `Site Series` %in% siteserie]
     silv <- silv[`Tree Code` %in% data[`Projected Feasibility` %chin% c("1", "2", "3"), Spp]]
   }
-  DT::datatable(silv, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
-    scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
-    searching = FALSE, pageLength = nrow(silv), paging = FALSE, columnDefs = list(
-      list(className = 'dt-center', targets = (seq_len(ncol(silv))-1)[-3])
-    )
-  ))
+  if (isTRUE(app)) {
+    DT::datatable(silv, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
+      scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
+      searching = FALSE, pageLength = nrow(silv), paging = FALSE, columnDefs = list(
+        list(className = 'dt-center', targets = (seq_len(ncol(silv))-1)[-3])
+      )
+    ))
+  } else {
+    tableHTML::tableHTML(silv, rownames = FALSE, escape = FALSE, border = 0) %>%
+      tableHTML::add_css_column(css = list("text-align", "center"), columns = c(1:2, 4:ncol(silv)))
+  }
 }
 uData$silv_ref_dt <- silv_ref_dt
 
