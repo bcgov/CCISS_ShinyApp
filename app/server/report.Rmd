@@ -20,10 +20,13 @@ suppressPackageStartupMessages({
 })
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
-userdata <- readRDS("../../report.rds")
-for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
+# Debug mode
+# userdata <- readRDS("../../report.rds")
+# for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
+
+# Deployment mode
 # assign in current environment
-# for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
+for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
 
 # Env variable for map
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
