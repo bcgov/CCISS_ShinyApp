@@ -110,7 +110,7 @@ standardblock <- function(std, ss, sc) {
       # Report formatting gray out the first row, so faking a row
       tags$tr(height = 0),         
       tags$tr(
-        tags$td(width = "50%", style = "vertical-align: top",
+        tags$td(width = "50%", style = "vertical-align: top; padding:0;",
           tags$small(tags$b("Regeneration")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -156,7 +156,7 @@ standardblock <- function(std, ss, sc) {
             do.call(span, fnshiny)
           }
         ),
-        tags$td(width = "50%", style = "vertical-align: top",
+        tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px;",
           tags$small(tags$b("Stocking (i) - well spaced/ha")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(

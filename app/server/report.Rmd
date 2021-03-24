@@ -20,8 +20,10 @@ suppressPackageStartupMessages({
 })
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
+userdata <- readRDS("../../report.rds")
+for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
 # assign in current environment
-for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
+# for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
 
 # Env variable for map
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
@@ -32,16 +34,17 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 
 <style type="text/css">
   tbody {white-space: nowrap;}
-  h2 {border-top:3px solid}
+  h2 {border-top:3px solid;}
+  .main-content {max-width: none !important; padding:1rem 1rem !important}
+  .main-content table {width: auto !important;}
+  .centered {margin-left:auto !important; margin-right:auto !important}
+  .page-breaker {page-break-before:always;}
 </style>
-  
-| Parameters | User selections |
-| :------------------- | :------------- |
-| Representative Concentration Pathways | `r paste(rcp, collapse = " and ")` |
-| Number of Points Considered | `r nrow(pts)` |
-|  Averaged? | `r avg` |
-|  Date | `r Sys.Date()` |
-|  Time | `r format(Sys.time(), "%H:%M", usetz = TRUE)` |
+
+```{r parameters, results='asis'}
+p <- data.table("Parameters" = c("Representative Concentration Pathways", "Number of Points Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, Sys.Date(), format(Sys.time(), "%H:%M", usetz = TRUE)))
+knitr::kable(p, row.names = FALSE, escape = FALSE, caption = "Setup", table.attr = "class=\"centered\"", format = "html")
+```
 
 ```{r map, out.width="100%", results='asis'}
 data_points <- pts[!is.na(Long) & !is.na(Lat)]
@@ -61,18 +64,19 @@ htmltools::tagList(
     siteseries <- siteseries_list[[siteref]]
     siteseries <- siteseries[siteseries %in% site_series_filter]
     htmltools::tagList(
-      tags$h2(paste("Site reference:", siteref)),
+      tags$h2(class = "page-breaker", paste("Site reference:", siteref)),
       mapply(FUN = function(siteserie, nm) {
         htmltools::tagList(
-          tags$h3(paste("Site Serie", nm)),
+          tags$h3(class = {if (siteserie != siteseries[1]) {"page-breaker"}}, paste("Site Serie", nm)),
           tags$h4("Feasible Species"),
           cciss_results_dt(cciss_results, siteref, siteserie, filter = "f", app = FALSE),
-          tags$h4("Summary of Results"),
+          tags$h4(class = "page-breaker", "Summary of Results"),
           cciss_summary_dt(cciss_summary, siteref, siteserie, app = FALSE),
+          tags$h4(class = "page-breaker", "Silviculture"),
           standardblocks(cciss_results, siteref, siteserie)
         )
       }, siteseries, names(siteseries)),
-      tags$h3(paste("Ratio of Models Predicting BGC", bgc[SiteRef %in% siteref]$BGC[1])),
+      tags$h3(class = "page-breaker", paste("Ratio of Models Predicting BGC", bgc[SiteRef %in% siteref]$BGC[1])),
       bgc_fut_plotly(bgc, siteref, period_map),
     )
   })
@@ -102,7 +106,7 @@ htmltools::tagList(
 <!-- silv_ref_dt(silvics_mature, filter = "a", app = FALSE) -->
 <!-- ``` -->
 
-### Appendix
+<h3 class="page-breaker">Appendix</h3>
 
 ```{r legend}
 tags$span(
@@ -122,11 +126,11 @@ tags$span(
 ```
 
 ```{r points, results='asis', out.width="100%"}
-knitr::kable(caption = "User points of interest", pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)])
+knitr::kable(caption = "User points of interest", pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)], table.attr = "class=\"centered\"", format = "html")
 ```
 
 ```{r modelinfo, results='asis', out.width="100%"}
-knitr::kable(models_info, caption = "Model information")
+knitr::kable(models_info, caption = "Model information", table.attr = "class=\"centered\"", format = "html")
 ```
 
 <!-- Logo -->
