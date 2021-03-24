@@ -26,7 +26,7 @@ observeEvent(input$generate_results, priority = 100, {
   
   # UI select choices
   tic("Determine UI choices", ticker)
-  siterefs        <- uData$siterefs        <- unique(bgc$SiteRef)
+  siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$`Site Series`))
@@ -52,6 +52,7 @@ observeEvent(input$generate_results, priority = 100, {
     siterefs <- pts[Site %in% siterefs,
       {x <- Site; names(x) <- paste(ID, Site, sep = " / "); return(x)}
     ]
+    uData$siterefs <- siterefs
   }
   
   # Dynamic UI select choices that depends on previous select choice

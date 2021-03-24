@@ -22,7 +22,8 @@ Imports:
     DT,
     flexdashboard (>= 0.5.2.90),
     plotly,
-    pool
+    pool,
+    prettydoc
 Suggests:
     bcdata,
     bcmaps,

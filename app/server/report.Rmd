@@ -1,9 +1,8 @@
 ---
 title: "CCISS Report"
-author: "BC GOV"
-date: "`r Sys.Date()`"
-output: 
-  html_document:
+output:
+  prettydoc::html_pretty:
+    theme: cayman
     self_contained: yes
     mode: selfcontained
 params:
@@ -20,10 +19,8 @@ suppressPackageStartupMessages({
 })
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
-# # For testing
-# userdata <- readRDS("C:/Repos/CCISS_ShinyApp/app/server/userdata.rds")
-# site_series_filter <- userdata$siteseries_all
-# # End for testing
+# assign in current environment
+for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
 
 # Env variable for map
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
@@ -32,13 +29,31 @@ mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 ```
 
-```{r points, results='asis', out.width="100%"}
-knitr::kable(caption = "User points of interest", userdata$pts[,list(ID, Site, Lat, Long, Elev, BGC)])
+```{r, echo=FALSE}
+htmltools::img(src = knitr::image_uri("www/logo.svg"), 
+               alt = 'logo', 
+               style = 'position:absolute; top:10px; left:10px;padding:10px;')
 ```
 
+<span style="color:white; position: absolute; top:16px; padding:10px; left: 190px; font-size:0.5em; font-weight:800">Ministry of Forests, Lands, Natural<br />Resource Operations & Rural Development<br />Climate Change and Integrated Planning Branch</span>
+
+<style type="text/css">
+  div.datatables { height: auto !important; page-break-after: always;}
+  .newpage { page-break-after: always; }
+  h2 { page-break-before: always; border-top:3px solid}
+</style>
+
+  
+| Parameters | User selections |
+| :------------------- | :------------- |
+| Representative Concentration Pathways | `r paste(rcp, collapse = " and ")` |
+| Number of Points Considered | `r nrow(pts)` |
+|  Averaged? | `r avg` |
+|  Date | `r Sys.Date()` |
+|  Time | `r format(Sys.time(), "%H:%M", usetz = TRUE)` |
+
 ```{r maps, out.width="100%", results='asis'}
-data_points <- userdata$pts[!is.na(Long) & !is.na(Lat)]
-bbox <- dbBbox(con, data_points, 1)
+data_points <- pts[!is.na(Long) & !is.na(Lat)]
 leaflet::leaflet() %>%
   leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
   addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
@@ -46,67 +61,62 @@ leaflet::leaflet() %>%
     urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
     attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
     options = leaflet::tileOptions(zIndex = 600)) %>%
-  leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat, popup = ~popups, label = ~ID)
+  leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat)
 ```
 
-```{r loop0, results='asis'}
+```{r reports, results='asis', out.height="auto"}
 htmltools::tagList(
-  lapply(unique(userdata$bgc$SiteRef), function(siteref) {
-    siteseries <- sort(
-      unique(
-        c(userdata$cciss_results[SiteRef == siteref]$`Site Series`,
-          userdata$cciss_summary[SiteRef == siteref]$`Site Series`
-        )
-      )
-    )
+  lapply(names(siteseries_list), function(siteref) {
+    siteseries <- siteseries_list[[siteref]]
     siteseries <- siteseries[siteseries %in% site_series_filter]
     htmltools::tagList(
+      tags$h2(paste("Site reference:", siteref)),
       lapply(siteseries, function(siteserie) {
-        cciss_results <- userdata$cciss_results[SiteRef == siteref & `Site Series` == siteserie & `Projected Feasibility` %chin% c("1", "2", "3"), -c("SiteRef", "MeanSuit", "Region", "ZoneSubzone",
-                                        "SS_NoSpace", "Spp", "OrderSuit")]
-        cciss_summary <- userdata$cciss_summary[SiteRef == siteref & `Site Series` == siteserie, -c("SiteRef")]
         htmltools::tagList(
-          DT::datatable(cciss_results, escape = FALSE, rownames = FALSE, options = list(
-            scrollCollapse = FALSE, lengthChange = FALSE, autoWidth = TRUE,
-            pageLength = nrow(cciss_results), searching = FALSE, columnDefs = list(
-              list(className = 'dt-center', targets = 2:6), list(width = "10%", targets = 4:6)
-            )
-          )),
-          DT::datatable(cciss_summary, escape = FALSE, rownames = FALSE, options = list(
-            scrollCollapse = FALSE, lengthChange = FALSE, autoWidth = TRUE,
-            pageLength = nrow(cciss_summary), searching = FALSE, columnDefs = list(
-              list(className = 'dt-center', targets = 2:10), list(width = "130px", targets = 1)
-            )
-          )),
-          standardblocks(siteref, siteserie, userdata$cciss_results)
+          tags$h3(paste("Site Serie", siteserie)),
+          tags$h4("Feasible Species"),
+          cciss_results_dt(cciss_results, siteref, siteserie, filter = "f"),
+          tags$h4("Summary of Results"),
+          cciss_summary_dt(cciss_summary, siteref, siteserie),
+          standardblocks(cciss_results, siteref, siteserie),
+          tags$hr(class = "newpage", style = "height:0;border:0")
         )
       }),
-      tags$br(),
-      bgc_fut_plotly(userdata$bgc[SiteRef == siteref])
+      tags$h3(paste("Ratio of Models Predicting BGC", bgc[SiteRef %in% siteref]$BGC[1])),
+      bgc_fut_plotly(bgc, siteref, period_map),
     )
   })
 )
 ```
 
-Silviculture references from Klinka
+<!-- ## Silviculture reference -->
+<!-- <small>Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species</small> -->
 
-```{r silref1 , results='asis', out.width="100%"}
-knitr::kable(silvics_tol, caption = "Tolerance")
+<!-- ### Tolerance comparisons -->
+<!-- ```{r silref1 , results='asis', out.width="100%"} -->
+<!-- silv_ref_dt(silvics_tol, filter = "a") -->
+<!-- ``` -->
+
+<!-- ### Resistance and potential risk comparisons -->
+<!-- ```{r silref2 , results='asis', out.width="100%"} -->
+<!-- silv_ref_dt(silvics_resist, filter = "a") -->
+<!-- ``` -->
+
+<!-- ### Comparison of silvical characteristics; regeneration stage -->
+<!-- ```{r silref3 , results='asis', out.width="100%"} -->
+<!-- silv_ref_dt(silvics_regen, filter = "a") -->
+<!-- ``` -->
+
+<!-- ### Maturing stage -->
+<!-- ```{r silref4 , results='asis', out.width="100%"} -->
+<!-- silv_ref_dt(silvics_mature, filter = "a") -->
+<!-- ``` -->
+
+### Annexe
+
+```{r points, results='asis', out.width="100%"}
+knitr::kable(caption = "User points of interest", pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)])
 ```
-
-```{r silref2 , results='asis', out.width="100%"}
-knitr::kable(silvics_resist, caption = "Resistance")
-```
-
-```{r silref3 , results='asis', out.width="100%"}
-knitr::kable(silvics_regen, caption = "Regeneration")
-```
-
-```{r silref4 , results='asis', out.width="100%"}
-knitr::kable(silvics_mature, caption = "Mature")
-```
-
-Configuration
 
 ```{r modelinfo, results='asis', out.width="100%"}
 knitr::kable(models_info, caption = "Model information")
