@@ -1,4 +1,6 @@
-## Here I'm leveraging bcgov existing packages to obtain map data.
+# This file is used to create the tileserver on Digital Ocean
+# and create tiles from shape file.
+# Here I'm leveraging bcgov existing packages to obtain map data.
 library(bcmaps)
 library(sf)
 library(analogsea)

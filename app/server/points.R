@@ -35,6 +35,8 @@ update_ID <- function() {
   userpoints$dt <- pts
 }
 
+# All new point go through this processing step to fetch additionnal information
+# and create popups
 new_points <- function(points) {
   withProgress(message = "Processing..", detail = "New points", {
     beg <- nrow(points)
@@ -48,7 +50,7 @@ new_points <- function(points) {
         BGC = res$map_label,
         ForestRegion = res$forest_region,
         Site = res$site_no,
-        # Only replace when not provided
+        # Only replace elevation with DEM when not provided by the user
         Elev = {
           x <- points$Elev;
           if (is.null(x)) {
@@ -59,6 +61,7 @@ new_points <- function(points) {
           }
         }
       )]
+      # We will reuse this information to make sure points are inside BC
       onbcland <- res$onbcland
       popups <- res[, onbcland := NULL][, 
                                         paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
@@ -68,6 +71,7 @@ new_points <- function(points) {
       points <- rbindlist(list(uData$basepoints, points), fill = TRUE)
     }
     end <- nrow(points)
+    # If points were dropped, alert user
     if (beg != end) {
       showModal(
         modalDialog(

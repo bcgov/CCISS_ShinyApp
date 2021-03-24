@@ -6,7 +6,9 @@ observeEvent(input$generate_results, priority = 100, {
   # userdata environment for further reuse. User has the ability to update
   # results on demand instead of on app state change. This reduce the load
   # on the app and give some room in case computation get more costly
-  # in the future.
+  # in the future. Shared functions will be stored in userdata environment
+  # as well as they will be reused to build report. uData is an alias for
+  # the userdata environment.
   
   # Input from the app
   avg             <- uData$avg             <- as.logical(input$aggregation)
@@ -67,7 +69,7 @@ observeEvent(input$generate_results, priority = 100, {
   updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
   updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
   
-  # Use ui injected javascript to show download button and hide generate button
+  # Use UI injected javascript to show download button and hide generate button
   tic("Inject javascript", ticker)
   session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', true)"))
@@ -95,11 +97,12 @@ generateState <- function() {
   }
 }
 
+# These are the triggers to check if we need to change button state
 observeEvent(userpoints$dt, {generateState()})
 observeEvent(input$aggregation, {generateState()})
 observeEvent(input$rcp_scenario, {generateState()})
 
-# Data
+# Data processing
 bgc <- function(con, siteno, avg, rcp) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
@@ -131,7 +134,7 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
     summary[is.na(Curr), Curr := "X"]
     summary$NewSuit <- as.character(summary$NewSuit)
     summary[NewSuit > "3", NewSuit := "X"]
-    # Removing these columns as we will use the one in the results cciss
+    # Removing these columns as we will use the one in the results
     # to determine silviculture information
     summary$Region <- NULL
     summary$ZoneSubzone <- NULL
@@ -154,6 +157,7 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
   })
 }
 
+# This map is used to determine output labels from raw period
 uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
 
 cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
@@ -172,16 +176,18 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
     ]
     # Replaces 4 and NA with X
     results[is.na(CFRS), CFRS := "X"]
-    # Append visuals
-    current = 2000
+    # Append custom generated feasibility svg bars
+    current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
       NewSuitRound = round(NewSuit, 0),
       SuitDiff = round(SuitDiff, 0),
       FeasSVG = feasibility_svg(`1`, `2`, `3`, `X`),
       Period = period_map[as.character(FuturePeriod)]
     )]
+    # Use a default svg feasibility bar when no information
     default_svg <- feasibility_svg(0,0,0,1)
     setorder(results, SiteRef, SS_NoSpace, Spp, FuturePeriod)
+    # Finalize fields content with proper naming
     results <- results[, list(
       "Site Series" = SS_NoSpace,
       "Tree Species" = T1[unique(Spp), paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
@@ -205,6 +211,7 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
       # Validate trend logic
       "Continuing Trend at Mid Rotation (2040-2070)" = feasibility_trend(NewSuitRound),
       MeanSuit = mean(NewSuit, na.rm = TRUE),
+      # Use a non-rounded suit for ordering
       OrderSuit = {
         s <- NewSuit[FuturePeriod == current]
         if (length(s)) s else 4
@@ -244,7 +251,7 @@ feasibility_svg <- function(..., width = 220, height = 14, colors = c("limegreen
   svg <- paste0('<rect x="', pos_x, '" y="0" width="', width_el, '" height="', height,'" style="fill: ', rep(colors, each = row_x), '" /><text text-anchor="middle" style="font: 600 ', height / 2 + 2, 'px Arial" x="', pos_text, '" y="', height * 0.75, '">', xtxt, '</text>')
   svg <- vapply(1:row_x, function(i) {
     paste0('<svg viewBox="0 0 ', width,' ', height,'" x="0px" y="0px" width="', width,'px" height="', height,'px">',
-           # Also drop 0 width rect
+           # Also drop 0 width rect with the second [] group
            paste0(svg[seq(i, by = row_x, length.out = col_x)][width_el[i, ]>0], collapse = ""),
            '</svg>')
   }, character(1))
@@ -252,32 +259,32 @@ feasibility_svg <- function(..., width = 220, height = 14, colors = c("limegreen
 }
 
 # Replace trend image with svg so they can be embedded
-reorder_two <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
-
-swap_vertical <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-
+stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
+swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
 trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-
 trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 144 464 144 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,368,169.37,246.63a32,32,0,0,1,45.26,0l50.74,50.74a32,32,0,0,0,45.26,0L448,160" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-
-trends <- list(swap_vertical, trending_up, trending_down, reorder_two)
 
 #' Return a feasibility trend icon
 #' @param x A numeric vector.
 #' @return a trend icon
 feasibility_trend <- function(x) {
+  # shifted compare mod = Xi+1 - Xi
   mod <- head(x, -1) - tail(x, -1)
+  # Increase and decrease
   if (any(mod > 0) & any(mod < 0)) {
-    return(trends[[1]])
+    return(swap_up_down)
+  # Increase no decrease
   } else if (any(mod > 0)) {
-    return(trends[[2]])
+    return(trending_up)
+  # Decrease no increanse
   } else if (any(mod < 0)) {
-    return(trends[[3]])
+    return(trending_down)
   }
-  return(trends[[4]])
+  # Neither increase nor decrease
+  return(stable)
 }
 
-# Timings functions
+# Timings functions to build the "donut"
 tic <- function(split = "unnamed block", var = numeric()) {
   name <- substitute(var)
   var <- c(var, `names<-`(.Internal(Sys.time()), split))
@@ -289,7 +296,7 @@ tic <- function(split = "unnamed block", var = numeric()) {
 }
 
 toc <- function(var) {
-  # timings into milliseconds
+  # timings in milliseconds
   timings <- (c(var, .Internal(Sys.time()))[-1] - var) * 1000L
   df <- data.frame(split = names(var), timings = timings)
   # the donut plot
