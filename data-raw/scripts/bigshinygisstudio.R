@@ -104,11 +104,11 @@ analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
 server <- analogsea::droplets()$BigShinyGisStudio
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/CCISS_ShinyAPP', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
 analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/cciss/index.Rmd")
-analogsea::droplet_ssh(server, "rm /srv/shiny-server/cciss/index.html")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
