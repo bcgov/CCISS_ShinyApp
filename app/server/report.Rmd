@@ -31,10 +31,8 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 ```
 
 <style type="text/css">
-  table { page-break-after: always;}
   tbody {white-space: nowrap;}
-  .newpage { page-break-after: always; }
-  h2 { page-break-before: always; border-top:3px solid}
+  h2 {border-top:3px solid}
 </style>
   
 | Parameters | User selections |
@@ -64,17 +62,16 @@ htmltools::tagList(
     siteseries <- siteseries[siteseries %in% site_series_filter]
     htmltools::tagList(
       tags$h2(paste("Site reference:", siteref)),
-      lapply(siteseries, function(siteserie) {
+      mapply(FUN = function(siteserie, nm) {
         htmltools::tagList(
-          tags$h3(paste("Site Serie", siteserie)),
+          tags$h3(paste("Site Serie", nm)),
           tags$h4("Feasible Species"),
           cciss_results_dt(cciss_results, siteref, siteserie, filter = "f", app = FALSE),
           tags$h4("Summary of Results"),
           cciss_summary_dt(cciss_summary, siteref, siteserie, app = FALSE),
-          standardblocks(cciss_results, siteref, siteserie),
-          tags$hr(class = "newpage", style = "height:0;border:0")
+          standardblocks(cciss_results, siteref, siteserie)
         )
-      }),
+      }, siteseries, names(siteseries)),
       tags$h3(paste("Ratio of Models Predicting BGC", bgc[SiteRef %in% siteref]$BGC[1])),
       bgc_fut_plotly(bgc, siteref, period_map),
     )
@@ -106,6 +103,23 @@ htmltools::tagList(
 <!-- ``` -->
 
 ### Appendix
+
+```{r legend}
+tags$span(
+  "Legend: ",
+  htmltools::HTML(
+    paste0(
+      '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+      c("limegreen", "deepskyblue", "gold", "grey"),
+      '" /><span>&nbsp;',
+      c("Primary", "Secondary", "Tertiary", "Not Suitable"),
+      '</span>',
+      collapse = "&nbsp;&nbsp;&nbsp;"
+    )
+  )
+)
+
+```
 
 ```{r points, results='asis', out.width="100%"}
 knitr::kable(caption = "User points of interest", pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)])
