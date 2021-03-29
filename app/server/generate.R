@@ -83,7 +83,7 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Render models info + timings in About
   output$modelsinfo <- function() {
-    knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover table-info"') 
+    knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover table-centered"') 
   }
   output$timings <- plotly::renderPlotly({
     tocker
