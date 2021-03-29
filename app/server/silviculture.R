@@ -12,70 +12,70 @@ output$silviculture_block <- renderUI({
   standardblocks(cciss_results, siteref, siteserie)
 })
 
-output$silvics_tol_dt <- DT::renderDT({
+output$silvics_tol_dt <- function() {
   cciss_results <- uData$cciss_results
   siteref <- input$siteref_silv
   siteserie <- input$site_series_silv
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
-  silv_ref_dt(silvics_tol, cciss_results, siteref, siteserie, silv_filter)
-})
+  silv_ref_dt(silvics_tol, cciss_results, siteref, siteserie, silv_filter,
+              title = "Tolerance comparisons")
+}
 
-output$silvics_resist_dt <- DT::renderDT({
+output$silvics_resist_dt <- function() {
   cciss_results <- uData$cciss_results
   siteref <- input$siteref_silv
   siteserie <- input$site_series_silv
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
-  silv_ref_dt(silvics_resist, cciss_results, siteref, siteserie, silv_filter)
-})
+  silv_ref_dt(silvics_resist, cciss_results, siteref, siteserie, silv_filter,
+              title = "Resistance and potential risk comparisons" )
+}
 
-output$silvics_regen_dt <- DT::renderDT({
+output$silvics_regen_dt <- function() {
   siteref <- input$siteref_silv
   siteserie <- input$site_series_silv
   cciss_results <- uData$cciss_results
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
-  silv_ref_dt(silvics_regen, cciss_results, siteref, siteserie, silv_filter)
-})
+  silv_ref_dt(silvics_regen, cciss_results, siteref, siteserie, silv_filter,
+              title = "Comparison of silvical characteristics; regeneration stage")
+}
 
-output$silvics_mature_dt <- DT::renderDT({
+output$silvics_mature_dt <- function() {
   cciss_results <- uData$cciss_results
   siteref <- input$siteref_silv
   siteserie <- input$site_series_silv
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
-  silv_ref_dt(silvics_mature, cciss_results, siteref, siteserie, silv_filter)
-})
+  silv_ref_dt(silvics_mature, cciss_results, siteref, siteserie, silv_filter,
+              title = "Comparison of silvical characteristics; maturing stage")
+}
 
 # Ref template for other tables
-silv_ref_dt <- function(silv, data, siteref, siteserie, filter, app = TRUE) {
+silv_ref_dt <- function(silv, data, siteref, siteserie, filter, format = "html", title = "") {
   if (filter == "f") {
-    data <- data[SiteRef %in% siteref & `Site Series` %in% siteserie]
-    silv <- silv[`Tree Code` %in% data[`Projected Feasibility` %chin% c("1", "2", "3"), Spp]]
+    data <- data[SiteRef %in% siteref & SS_NoSpace %in% siteserie]
+    silv <- silv[`Tree Code` %in% data[ProjFeas %chin% c("1", "2", "3"), Spp]]
   }
-  if (isTRUE(app)) {
-    DT::datatable(silv, escape = FALSE, rownames = FALSE, options = list(info = FALSE,
-      scrollCollapse = FALSE, lengthChange = FALSE, ordering = FALSE, autoWidth = TRUE, 
-      searching = FALSE, pageLength = nrow(silv), paging = FALSE, columnDefs = list(
-        list(className = 'dt-center', targets = (seq_len(ncol(silv))-1)[-3])
-      )
-    ))
-  } else {
-    tableHTML::tableHTML(silv, rownames = FALSE, escape = FALSE, border = 0) %>%
-      tableHTML::add_css_column(css = list("text-align", "center"), columns = c(1:2, 4:ncol(silv)))
-  }
+  colalign <- rep("c", length.out = ncol(silv))
+  colalign[3] <- "l"
+  knitr::kable(silv, format = format, escape = FALSE, align = colalign, table.attr = 'class="table table-hover"',
+               caption = paste(title ,"<br />", "From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
+  )
 }
 uData$silv_ref_dt <- silv_ref_dt
 
 # Silviculture UI Element
 
 # Function to format Species with footnotes
-sppnotes <- function(spp, notes) {
+sppnotes <- function(spp, notes, textstyle) {
   ret <- vector("list", length(spp))
   for (i in seq_len(length(spp))) {
     fn <- paste0(sort(as.integer(unique(unlist(notes[i])))), collapse = ",")
-    ret[[i]] <- tags$span(spp[i], tags$sup(fn, .noWS = htmltools:::noWSOptions), if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
+    ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
+                          tags$sup(fn, .noWS = htmltools:::noWSOptions),
+                          if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
   do.call(tags$td, ret)
 }
@@ -85,9 +85,8 @@ uData$sppnotes <- sppnotes
 standardblocks <- function(data, siteref, siteserie) {
   sc <- data[
     SiteRef %in% siteref & SS_NoSpace %in% siteserie,
-    c("Region", "ZoneSubzone", "SS_NoSpace", "Projected Feasibility", "Spp")
+    list(Region, ZoneSubzone, SS_NoSpace, ProjFeas, Spp)
   ]
-  sc[, pf := `Projected Feasibility`]
   ss <- stocking_standards[
     Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
   ]
@@ -98,19 +97,22 @@ uData$standardblocks <- standardblocks
 # Function to create a formatted Standard block
 standardblock <- function(std, ss, sc) {
   ss <- ss[Standard %in% std]
-  sc <- sc[Spp %in% ss$Species]
+  ss[, TextStyle := ""]
+  ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ProjFeas))]
+  setnafill(ss, fill = 4L, cols = "ProjFeas")
+  ss[Suitability < ProjFeas, TextStyle := "color:blue"]
+  ss[Suitability > ProjFeas, TextStyle := "color:orange"]
+  ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
-    tags$small("Site Series"),
-    tags$p(tags$b(paste(si$ZoneSubzone, si$SiteSeries, sep = "/"), si$SiteSeriesName)),
-    tags$small("Forest Region"),
-    tags$p(tags$b(si$Region)),
     tags$table(width = "100%", style = "white-space: nowrap;",
       # Report formatting gray out the first row, so faking a row
       tags$tr(height = 0),         
       tags$tr(
         tags$td(width = "50%", style = "vertical-align: top; padding:0;",
+          tags$small("Site Series"),
+          tags$p(tags$b(paste(si$ZoneSubzone, si$SiteSeries, sep = "/"), si$SiteSeriesName)),
           tags$small(tags$b("Regeneration")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -122,28 +124,28 @@ standardblock <- function(std, ss, sc) {
             ),
             tags$tr(
               tags$td("Primary"),
-              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes)],
-              tags$td(paste(sc[!is.na(Spp) & pf %in% "1", unique(Spp)], collapse = ", "))
+              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ProjFeas %in% "1", unique(Spp)], collapse = ", "))
             ),
             tags$tr(
               tags$td("Preferred (p)"),
-              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes)],
+              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
               tags$td("")
             ),
             tags$tr(
               tags$td("Secondary"),
-              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes)],
-              tags$td(paste(sc[!is.na(Spp) & pf %in% "2", unique(Spp)], collapse = ", "))
+              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ProjFeas %in% "2", unique(Spp)], collapse = ", "))
             ),
             tags$tr(
               tags$td("Acceptable (a)"),
-              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes)],
+              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
               tags$td("")
             ),
             tags$tr(
               tags$td("Tertiary"),
-              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes)],
-              tags$td(paste(sc[!is.na(Spp) & pf %in% "3", unique(Spp)], collapse = ", "))
+              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ProjFeas %in% "3", unique(Spp)], collapse = ", "))
             )
           ),
           tags$br(),
@@ -157,6 +159,8 @@ standardblock <- function(std, ss, sc) {
           }
         ),
         tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px;",
+          tags$small("Forest Region"),
+          tags$p(tags$b(si$Region)),
           tags$small(tags$b("Stocking (i) - well spaced/ha")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -195,8 +199,7 @@ standardblock <- function(std, ss, sc) {
         )
       )
     ),
-    tags$br(),
-    tags$hr(style= "padding: 0; margin: 0 0 15px 0; height: 1px; background-color: #dee2e6; border: 0px")
+    tags$br()
   )
 }
 uData$standardblock <- standardblock

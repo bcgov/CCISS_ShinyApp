@@ -13,7 +13,7 @@ output:
       primary: "#003366"
 runtime: shiny_prerendered
 #     theme : yeti
-# runtime: shiny_prerendered
+# runtime: shiny
 ---
 
 ```{r global, include=FALSE}
@@ -130,15 +130,14 @@ Species Feasibility {.tabset}
 ### Results
 
 ```{r}
-DT::DTOutput("results_feas", width = "100%", height = "auto")
+tableOutput("results_feas")
 ```
 
 ### Summary of Results
 
 ```{r}
-DT::DTOutput("summary_feas", width = "100%", height = "auto")
+tableOutput("summary_feas")
 ```
-
 
    
 SILVICULTURE
@@ -162,47 +161,30 @@ Silviculture {.tabset}
 
 ```{r}
 uiOutput("silviculture_block")
-klinka <- tags$small("From Klinka et al. 2000. Ecological and Silvical Characteristics of Tree Species")
 ```
 
 ### Tolerance
 
 ```{r}
-div(style = "width:100%; height:auto",
-  tags$h5("Tolerance comparisons"),
-  DT::DTOutput("silvics_tol_dt", width = "100%", height = "auto"),
-  klinka
-)
+tableOutput("silvics_tol_dt")
 ```
 
 ### Resistance
 
 ```{r}
-div(style = "width:100%; height:auto",
-  tags$h5("Resistance and potential risk comparisons"),
-  DT::DTOutput("silvics_resist_dt", width = "100%", height = "auto"),
-  klinka
-)
+tableOutput("silvics_resist_dt")
 ```
 
 ### Regeneration stage
 
 ```{r}
-div(style = "width:100%; height:auto",
-  tags$h5("Comparison of silvical characteristics; regeneration stage"),
-  DT::DTOutput("silvics_regen_dt", width = "100%", height = "auto"),
-  klinka
-)
+tableOutput("silvics_regen_dt")
 ```
 
 ### Maturing stage
 
 ```{r}
-div(style = "width:100%; height:auto",
-  tags$h5("Comparison of silvical characteristics; maturing stage"),
-  DT::DTOutput("silvics_mature_dt", width = "100%", height = "auto"),
-  klinka
-)
+tableOutput("silvics_mature_dt")
 ```
 
 BGC FUTURES
@@ -251,9 +233,18 @@ Export a report on selected points.
 
 ```{r}
 dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
-textInput("report_name", "Name", value = "report")
-selectInput("report_format", "Format", c("html", "rds"))
-span(downloadButton("report_download", "Download", style = dl_style), id = "download_span")
+splitLayout(
+  div(
+    selectInput("report_format", "Format", c("html", "pdf")),
+    textInput("report_name", "Name", value = "report"),
+    span(downloadButton("report_download", "Download", style = dl_style), id = "download_report_span")
+  ),
+  div(
+    selectInput("data_format", "Data Format", c("csv", "rds")),
+    span(downloadButton("data_download", "Download Data", style = dl_style), id = "download_data_span")
+  ) 
+)
+
 ```
 
 How the CCISS tool works {data-navmenu="ABOUT"} 

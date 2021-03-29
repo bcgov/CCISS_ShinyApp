@@ -190,9 +190,9 @@ observeEvent(input$add_dialog,{
     modalDialog(
       span("Enter point information"),
       textInput("add_point_id", label = "ID", placeholder = "My point", width = "220px"),
-      numericInput("add_point_lat", label = "Latitude", value = 54, width = "160px", min = -48, max = -65, step = 0.001),
+      numericInput("add_point_lat", label = "Latitude", value = 54, width = "160px", min = 48, max = 65, step = 0.001),
       numericInput("add_point_long", label = "Longitude", value = -122, width = "160px", min = -140, max = -110, step = 0.001),
-      numericInput("add_point_elev", label = "Elevation", value = 100, width = "160px", min = -500, max = 5000, step = 1),
+      numericInput("add_point_elev", label = "Elevation", value = NULL, width = "160px", min = -500, max = 5000, step = 1),
       actionButton("add_point_submit", label = "Add point", icon("plus")),
       easyClose = TRUE
     )

@@ -1,5 +1,3 @@
-@font-face{font-family:BCSans;font-style:normal;font-weight:400;src:url(BCSans-Regular.woff2) format("woff2"),url(BCSans-Regular.woff) format("woff")}@font-face{font-family:BCSans;font-weight:500 700;src:url(BCSans-Bold.woff2) format("woff2"),url(BCSans-Bold.woff) format("woff")}
-
 /* Prevent map from collapsing on mobile */
 
 #bec_map {
@@ -19,7 +17,10 @@ ul.nav.navbar-nav {
   -webkit-flex: auto !important;
 }
 
-/* Fix DT / Flexdashboard container cut off */
-.chart-stage-flex {
-  overflow: scroll !important;
+.table tbody {
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle !important;
 }
