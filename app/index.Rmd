@@ -307,6 +307,6 @@ output$shinyinfo <- function() {
               paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
               as.character(tags$a(href = "http://www.apache.org/licenses/LICENSE-2.0", "Apache 2.0 LICENSE")))
   )
-  knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-info"', escape = FALSE)
+  knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-centered"', escape = FALSE)
 }
 ```
