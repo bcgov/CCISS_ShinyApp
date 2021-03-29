@@ -24,3 +24,9 @@ ul.nav.navbar-nav {
 .table td {
   vertical-align: middle !important;
 }
+
+table.table-info {
+  margin-left:auto !important;
+  margin-right:auto !important;
+  width:auto !important;
+}

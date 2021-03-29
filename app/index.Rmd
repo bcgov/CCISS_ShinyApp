@@ -271,14 +271,9 @@ div(
 Shiny App Information {data-navmenu="ABOUT"} 
 =====================================
 
-Shiny host: `r system("hostname", intern = TRUE)`  
-Database host: `r Sys.getenv("BCGOV_HOST")`  
-Tiles source: `r Sys.getenv("BCGOV_TILESERVER")`  
-Github: [bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp)  
-  
-Copyright 2021 Province of British Columbia  
-  
-[LICENSE](http://www.apache.org/licenses/LICENSE-2.0)
+```{r}
+tableOutput("shinyinfo")
+```
 
 ```{r}
 tags$script(HTML('
@@ -303,4 +298,15 @@ source("./server/feasibility.R", local = TRUE)
 source("./server/silviculture.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
+output$shinyinfo <- function() {
+  app_info <- data.table(
+    Information = c("Shiny host","Database host","Tiles source","Tileserver","Github","Copyright","License"),
+    Value = c(system("hostname", intern = TRUE), Sys.getenv("BCGOV_HOST"), Sys.getenv("BCGOV_TILESERVER"),
+              strsplit(Sys.getenv("BCGOV_TILESERVER"), split = "data")[[1]][1],
+              as.character(tags$a(href = "https://github.com/bcgov/CCISS_ShinyApp", "bcgov/CCISS_ShinyApp")),
+              paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
+              as.character(tags$a(href = "http://www.apache.org/licenses/LICENSE-2.0", "Apache 2.0 LICENSE")))
+  )
+  knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-info"', escape = FALSE)
+}
 ```
