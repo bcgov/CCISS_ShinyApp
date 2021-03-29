@@ -20,11 +20,21 @@ output$report_download <- downloadHandler(
   content = function(file) {
     uData$site_series_filter <- input$report_filter
     withProgress(min = 0, max = 2, value = 1, message = "Processing report", {
+
+      if (input$report_format == "html") {
+        reportmd <- "reporthtml.Rmd"
+      } else if (input$report_format == "pdf") {
+        reportmd <- "reportpdf.Rmd"
+      } else {
+        # Non known format return NULL
+        return(NULL)
+      }
+      
       # Copy the report file to a temporary directory before processing it, in
       # case we don't have write permissions to the current working dir (which
       # can happen when deployed).
-      tempReport <- file.path(tempdir(), "report.Rmd")
-      file.copy("./server/report.Rmd", tempReport, overwrite = TRUE)
+      tempReport <- file.path(tempdir(), reportmd)
+      file.copy(file.path("./server", reportmd), tempReport, overwrite = TRUE)
       file.copy("./server/www", tempReport, recursive = TRUE, overwrite = TRUE)
       # Set up parameters to pass to Rmd document
       

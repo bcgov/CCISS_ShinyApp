@@ -235,12 +235,12 @@ Export a report on selected points.
 dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
 splitLayout(
   div(
-    selectInput("report_format", "Format", c("html", "pdf")),
     textInput("report_name", "Name", value = "report"),
+    radioButtons("report_format", "Format", c("html", "pdf"), inline = TRUE),
     span(downloadButton("report_download", "Download", style = dl_style), id = "download_report_span")
   ),
   div(
-    selectInput("data_format", "Data Format", c("csv", "rds")),
+    radioButtons("data_format", "Data Format", c("csv", "rds"), inline = TRUE),
     span(downloadButton("data_download", "Download Data", style = dl_style), id = "download_data_span")
   ) 
 )
