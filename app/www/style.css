@@ -30,3 +30,8 @@ table.table-centered {
   margin-right:auto !important;
   width:auto !important;
 }
+
+/* Reduce selectize font size */
+.selectize-dropdown, .selectize-input {
+  font-size: 0.65em !important;
+}

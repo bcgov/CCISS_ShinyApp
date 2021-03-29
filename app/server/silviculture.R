@@ -29,7 +29,7 @@ output$silvics_resist_dt <- function() {
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
   silv_ref_dt(silvics_resist, cciss_results, siteref, siteserie, silv_filter,
-              title = "Resistance and potential risk comparisons" )
+              title = "Resistance and potential risk comparisons")
 }
 
 output$silvics_regen_dt <- function() {
@@ -98,21 +98,23 @@ uData$standardblocks <- standardblocks
 standardblock <- function(std, ss, sc) {
   ss <- ss[Standard %in% std]
   ss[, TextStyle := ""]
+  
+  # Some logic to flag specie with different Suitability than CCISS
   ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ProjFeas))]
   setnafill(ss, fill = 4L, cols = "ProjFeas")
   ss[Suitability < ProjFeas, TextStyle := "color:blue"]
   ss[Suitability > ProjFeas, TextStyle := "color:orange"]
   ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
+  
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
+    tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
     tags$table(width = "100%", style = "white-space: nowrap;",
       # Report formatting gray out the first row, so faking a row
       tags$tr(height = 0),         
       tags$tr(
         tags$td(width = "50%", style = "vertical-align: top; padding:0;",
-          tags$small("Site Series"),
-          tags$p(tags$b(paste(si$ZoneSubzone, si$SiteSeries, sep = "/"), si$SiteSeriesName)),
           tags$small(tags$b("Regeneration")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -159,8 +161,6 @@ standardblock <- function(std, ss, sc) {
           }
         ),
         tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px;",
-          tags$small("Forest Region"),
-          tags$p(tags$b(si$Region)),
           tags$small(tags$b("Stocking (i) - well spaced/ha")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -198,8 +198,7 @@ standardblock <- function(std, ss, sc) {
           )
         )
       )
-    ),
-    tags$br()
+    )
   )
 }
 uData$standardblock <- standardblock
