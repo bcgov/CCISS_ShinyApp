@@ -49,6 +49,7 @@ output$data_download <- downloadHandler(
   content = function(file) {
     if (input$data_format == "rds") {
       # rds only returns R serialized data
+      uData$site_series_filter <- input$report_filter
       saveRDS(uData, file)
     } else if (input$data_format == "csv") {
       fwrite(uData$cciss_results[, -c("PredFeasSVG", "MidRotTrend")], file)
