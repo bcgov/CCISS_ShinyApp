@@ -45,7 +45,7 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 </style>
 
 ```{r parameters, results='asis'}
-p <- data.table("Parameters" = c("Representative Concentration Pathways", "Number of Points Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, Sys.Date(), format(Sys.time(), "%H:%M", usetz = TRUE)))
+p <- data.table("Parameters" = c("Representative Concentration Pathways", "Number of Points Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
 knitr::kable(p, row.names = FALSE, escape = FALSE, caption = "Setup", table.attr = "class=\"centered\"", format = "html")
 ```
 
