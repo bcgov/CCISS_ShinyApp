@@ -31,7 +31,7 @@ observeEvent(input$generate_results, priority = 100, {
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   
   ssl <- lapply(siterefs, function(sr) {
-    ss <- sort(unique(cciss_results[SiteRef %in% sr]$`Site Series`))
+    ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
     names(ss) <- paste(
       ss,
       stocking_info$SiteSeriesName[match(ss, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
@@ -40,7 +40,7 @@ observeEvent(input$generate_results, priority = 100, {
   })
   names(ssl) <- siterefs
   
-  ssa <- sort(unique(cciss_results$`Site Series`))
+  ssa <- sort(unique(cciss_results$SS_NoSpace))
   names(ssa) <- paste(
     ssa,
     stocking_info$SiteSeriesName[match(ssa, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
@@ -71,8 +71,12 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Use UI injected javascript to show download button and hide generate button
   tic("Inject javascript", ticker)
-  session$sendCustomMessage(type="jsCode", list(code= "$('#download_span').show()"))
-  session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', true)"))
+  session$sendCustomMessage(type="jsCode", list(
+    code= "$('#download_report_span').show()"))
+  session$sendCustomMessage(type="jsCode", list(
+    code= "$('#download_data_span').show()"))
+  session$sendCustomMessage(type="jsCode", list(
+    code= "$('#generate_results').prop('disabled', true)"))
   updateActionButton(inputId = "generate_results", label = "Refresh results")
   
   tocker <- toc(ticker)
@@ -115,7 +119,7 @@ cciss <- function(bgc) {
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1)
 }
 
-cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
+cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility summary", {
     # use a copy to avoid modifying the original object
     summary <- copy(cciss$Summary)
@@ -126,33 +130,21 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards) {
     # Append Chief Forester Recommended Suitability
     summary[
       SS, 
-      CFRS := i.Suitability,
-      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+      CFSuitability := as.character(i.Suitability),
+      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species"),
     ]
-    summary$Curr <- as.character(summary$CFRS)
-    # Replaces 4 and NA with X
-    summary[is.na(Curr), Curr := "X"]
-    summary$NewSuit <- as.character(summary$NewSuit)
-    summary[NewSuit > "3", NewSuit := "X"]
-    # Removing these columns as we will use the one in the results
-    # to determine silviculture information
-    summary$Region <- NULL
-    summary$ZoneSubzone <- NULL
-    summary$CFRS <- NULL
-    # Add Tree english name
-    summary[, Spp := T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")]]
+    summary[is.na(CFSuitability), CFSuitability := "X"]
+    current = names(period_map)[match("Current", period_map)]
+    # Format for printing
+    summary[, `:=`(
+      Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
+      ProjFeas = NewSuit,
+      Period = paste0(period_map[names(period_map) > current], collapse = "<br />"),
+      FutProjFeas = paste0(Suit2025, "<br />", Suit2055, "<br />", Suit2085),
+      FailRisk = paste0(FailRisk2025, "<br />", FailRisk2055, "<br />", FailRisk2085)
+    )]
     # Order
     setorder(summary, SiteRef, NewSuit, Curr, Spp)
-    # Rename columns
-    setnames(
-      summary,
-      names(summary),
-      c("SiteRef", "Site Series", "Tree Species",
-        "Chief Forester Recommended Suitability", "Projected Feasibility", "Flag",
-        "Projected Feasibility 2025", "Fail Risk 2025",
-        "Projected Feasibility 2055", "Fail Risk 2055",
-        "Projected Feasibility 2085", "Fail Risk 2085")
-    )
     return(summary)
   })
 }
@@ -164,6 +156,16 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
+    # dcast (pivot)
+    results <- dcast(results, SiteRef + SS_NoSpace + Spp ~ FuturePeriod,
+                     value.var = c("Curr", "NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
+    setnafill(results, fill = 0, cols = c(
+      "1_1975","2_1975","3_1975","X_1975",
+      "1_2000","2_2000","3_2000","X_2000",
+      "1_2025","2_2025","3_2025","X_2025",
+      "1_2055","2_2055","3_2055","X_2055",
+      "1_2085","2_2085","3_2085","X_2085"
+    ))
     # Append region
     region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
     results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
@@ -171,53 +173,32 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
     # Append Chief Forester Recommended Suitability
     results[
       SS, 
-      CFRS := as.character(i.Suitability),
+      CFSuitability := as.character(i.Suitability),
       on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
     ]
-    # Replaces 4 and NA with X
-    results[is.na(CFRS), CFRS := "X"]
-    # Append custom generated feasibility svg bars
+    results[is.na(CFSuitability), CFSuitability := "X"]
+    # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
-      NewSuitRound = round(NewSuit, 0),
-      SuitDiff = round(SuitDiff, 0),
-      FeasSVG = feasibility_svg(`1`, `2`, `3`, `X`),
-      Period = period_map[as.character(FuturePeriod)]
+      Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
+      Period = paste0(period_map, collapse = "<br />"),
+      PredFeasSVG = paste0(
+        feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`), "<br />",
+        feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`), "<br />",
+        feasibility_svg(`1_2025`,`2_2025`,`3_2025`,`X_2025`), "<br />",
+        feasibility_svg(`1_2055`,`2_2055`,`3_2055`,`X_2055`), "<br />",
+        feasibility_svg(`1_2085`,`2_2085`,`3_2085`,`X_2085`)
+      ),
+      ProjFeas = {
+        x <- as.character(round(NewSuit_2000))
+        x[x %in% c(NA, "4")] <- "X"
+        x
+      },
+      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_2000, "T2" = NewSuit_2025,
+                                                 "T3" = NewSuit_2055, "T4" = NewSuit_2085)),
+      MeanSuit = rowMeans(data.table(NewSuit_2000, NewSuit_2025, NewSuit_2055, NewSuit_2085), na.rm = TRUE)
     )]
-    # Use a default svg feasibility bar when no information
-    default_svg <- feasibility_svg(0,0,0,1)
-    setorder(results, SiteRef, SS_NoSpace, Spp, FuturePeriod)
-    # Finalize fields content with proper naming
-    results <- results[, list(
-      "Site Series" = SS_NoSpace,
-      "Tree Species" = T1[unique(Spp), paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
-      "&nbsp;&nbsp;Period&nbsp;&nbsp;" = paste(period_map, collapse = "<br/>"),
-      "Predicted Feasibility" =  {
-        svgs <- FeasSVG[match(period_map, Period)]
-        svgs[is.na(svgs)] <- default_svg
-        paste(svgs, collapse = "<br/>")
-      },
-      # Use silviculture
-      "Chief Forester Recommended Suitability" = {
-        cfr <- CFRS[FuturePeriod == current]
-        if (length(cfr)) cfr else "X"
-      },
-      "Projected Feasibility" = {
-        pf <- NewSuitRound[FuturePeriod == current]
-        pf <- as.character(pf)
-        if (length(pf)) pf else "X"
-      },
-      # TODO :
-      # Validate trend logic
-      "Continuing Trend at Mid Rotation (2040-2070)" = feasibility_trend(NewSuitRound),
-      MeanSuit = mean(NewSuit, na.rm = TRUE),
-      # Use a non-rounded suit for ordering
-      OrderSuit = {
-        s <- NewSuit[FuturePeriod == current]
-        if (length(s)) s else 4
-      }
-    ), by=c("Region", "ZoneSubzone", "SiteRef", "SS_NoSpace", "Spp")]
-    setorder(results, SiteRef, SS_NoSpace, OrderSuit, MeanSuit, `Tree Species`)
+    setorder(results, SiteRef, SS_NoSpace, NewSuit_2000, MeanSuit, na.last = TRUE)
     return(results)
   })
 }
@@ -229,59 +210,72 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
 #' @param colors character vector of colors to use for svg, same length as
 #' ncol x.
 #' @return an svg image of feasibility prediction, one per row in data.frame
-feasibility_svg <- function(..., width = 220, height = 14, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
-  # TODO
-  # Maybe optimize by using a fixed template?
+feasibility_svg <- function(..., width = 220L, height = 14L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
   x <- list(...)
   col_x <- length(x)
   x <- matrix(unlist(x), ncol = col_x)
   row_x <- nrow(x)
   row_cumsums <- matrixStats::rowCumsums(x)
-  if (row_x <= 1) {
-    pos_x <- c(row_x, row_cumsums[,-col_x]) * width
-  } else {
-    pos_x <- cbind(integer(row_x), row_cumsums[,-col_x]) * width
-  }
+  # When cumsum is zero at X just output a 100% grey bar
+  x[which(row_cumsums[,4L] == 0L), 4L] <- 1L
+  pos_x <- row_cumsums
+  pos_x[, 1L] <- 0L 
+  pos_x[, 2L:4L] <- row_cumsums[, 1L:3L] * width
   width_el <- x * width
   pos_text <- width_el / 2 + pos_x
+  xdt <- data.table("x" = x, "pos_x" = pos_x, "width_el" = width_el, "pos_text" = pos_text)
+  xdt[,paste0(
+    '<svg viewBox="0 0 ', width,' ', height,'" x="0px" y="0px" width="', width,'px" height="', height,'px">',
+    pfsvg(x.V1, pos_x.V1, width_el.V1, pos_text.V1, height, colors[1L]),
+    pfsvg(x.V2, pos_x.V2, width_el.V2, pos_text.V2, height, colors[2L]),
+    pfsvg(x.V3, pos_x.V3, width_el.V3, pos_text.V3, height, colors[3L]),
+    pfsvg(x.V4, pos_x.V4, width_el.V4, pos_text.V4, height, colors[4L]),
+    '</svg>'
+  )]
+}
+
+pfsvg <- function(x, pos_x, width_el, pos_text, height, color) {
   # Format svg text
-  xtxt <- paste0(round(100*x,0), "%")
+  xtxt <- paste0(round(100*x), "%")
   # Avoid printing values lower than 7.5% as they are unreadable
-  xtxt[which(unlist(x) < 0.065)] <- ""
-  svg <- paste0('<rect x="', pos_x, '" y="0" width="', width_el, '" height="', height,'" style="fill: ', rep(colors, each = row_x), '" /><text text-anchor="middle" style="font: 600 ', height / 2 + 2, 'px Arial" x="', pos_text, '" y="', height * 0.75, '">', xtxt, '</text>')
-  svg <- vapply(1:row_x, function(i) {
-    paste0('<svg viewBox="0 0 ', width,' ', height,'" x="0px" y="0px" width="', width,'px" height="', height,'px">',
-           # Also drop 0 width rect with the second [] group
-           paste0(svg[seq(i, by = row_x, length.out = col_x)][width_el[i, ]>0], collapse = ""),
-           '</svg>')
-  }, character(1))
-  return(svg)
+  xtxt[which(x < 0.065)] <- ""
+  svgs <- rep("", length.out = length(x))
+  gzw <- width_el > 0
+  svgs[gzw] <- paste0(
+    '<rect x="', pos_x[gzw], '" y="0" width="', width_el[gzw], '" height="', height,
+    '" style="fill: ', color, '" /><text text-anchor="middle" style="font: 600 ', height / 2 + 2,
+    'px Arial" x="', pos_text[gzw], '" y="', height * 0.75, '">', xtxt[gzw], '</text>'
+  )
+  svgs
 }
 
 # Replace trend image with svg so they can be embedded
-stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
 swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
 trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 144 464 144 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,368,169.37,246.63a32,32,0,0,1,45.26,0l50.74,50.74a32,32,0,0,0,45.26,0L448,160" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
+trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
+stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
+trends <- c(swap_up_down, trending_up, trending_down, stable)
 
 #' Return a feasibility trend icon
-#' @param x A numeric vector.
+#' @param x A data.table.
 #' @return a trend icon
 feasibility_trend <- function(x) {
   # shifted compare mod = Xi+1 - Xi
-  mod <- head(x, -1) - tail(x, -1)
-  # Increase and decrease
-  if (any(mod > 0) & any(mod < 0)) {
-    return(swap_up_down)
-  # Increase no decrease
-  } else if (any(mod > 0)) {
-    return(trending_up)
-  # Decrease no increanse
-  } else if (any(mod < 0)) {
-    return(trending_down)
-  }
-  # Neither increase nor decrease
-  return(stable)
+  mod <- x[, -4] - x[, -1]
+  trend <- apply(mod, 1, function(x) {
+    if (isTRUE(any(x > 0) & any(x < 0))) {
+      return(1L)
+      # Increase no decrease
+    } else if (isTRUE(any(x > 0))) {
+      return(2L)
+      # Decrease no increanse
+    } else if (isTRUE(any(x < 0))) {
+      return(3L)
+    }
+    # Neither increase nor decrease
+    return(4L)
+  })
+  trends[trend]
 }
 
 # Timings functions to build the "donut"

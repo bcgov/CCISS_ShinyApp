@@ -23,8 +23,7 @@ Imports:
     flexdashboard (>= 0.5.2.90),
     plotly,
     pool,
-    prettydoc,
-    tableHTML
+    prettydoc
 Suggests:
     bcdata,
     bcmaps,
