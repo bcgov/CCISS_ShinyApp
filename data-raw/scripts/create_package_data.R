@@ -122,7 +122,7 @@ names(stocking_height) <- tools::toTitleCase(names(stocking_height))
 
 # models informations
 models_info <- fread("./data-raw/data_tables/CCISS_DataTable_Versions.csv")
-models_info[, Date := as.character(Date)]
+models_info[, Date := as.character(Date, format = "%Y/%m/%d")]
 
 use_data(E1, S1, R1, F1, T1, V1,
          zones_colours_ref, subzones_colours_ref,
