@@ -218,6 +218,7 @@ Inputs {.sidebar data-width=420}
 ###### Filter
 
 ```{r}
+selectInput("report_filter_feas", label = "Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
 actionButton("report_filter_all", label = "Check All", icon = icon("check"))
 actionButton("report_filter_none", label = "Uncheck All", icon = icon("ban"))
 div(

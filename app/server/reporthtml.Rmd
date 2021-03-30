@@ -99,7 +99,7 @@ htmltools::tagList(
         htmltools::tagList(
           tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, " / ", 
                   "Site Series: ", tags$b(siteserie, .noWS = c("before", "after")), gsub(siteserie, "", nm), .noWS = "inside"),
-          HTML(cciss_results_dt(cciss_results, siteref, siteserie, filter = "f")),
+          HTML(cciss_results_dt(cciss_results, siteref, siteserie, filter = feasibility_filter)),
         )
       }, siteseries, names(siteseries))
     )
