@@ -20,7 +20,7 @@ output$report_download <- downloadHandler(
   content = function(file) {
     uData$site_series_filter <- input$report_filter
     uData$feasibility_filter <- input$report_filter_feas
-    withProgress(min = 0, max = 2, value = 1, message = "Processing report", {
+    withProgress(min = 0, max = 4, value = 1, message = "Processing report", {
 
       if (input$report_format == "html") {
         reportmd <- "reporthtml.Rmd"
@@ -40,6 +40,8 @@ output$report_download <- downloadHandler(
       
       params <- list(userdata = uData)
       
+      incProgress(1, message = "Generate document")
+      
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
       # from the code in this app).
@@ -48,6 +50,7 @@ output$report_download <- downloadHandler(
                           params = params,
                           envir = new.env(parent = globalenv())
         )
+        incProgress(2, message = "Done")
       } else if (input$report_format == "pdf") {
         has_chrome <- tryCatch({
           pagedown::find_chrome()
@@ -56,9 +59,10 @@ output$report_download <- downloadHandler(
         if (has_chrome) {
           htmlreport <- rmarkdown::render(
             tempReport, params = params, envir = new.env(parent = globalenv()))
+          incProgress(1, message = "Print document to PDF")
           pagedown::chrome_print(input = htmlreport, output = file, timeout = 120,
-                                 extra_args = c("--disable-gpu", "--no-sandbox"),
-                                 async = TRUE)
+                                 extra_args = c("--disable-gpu", "--no-sandbox"))
+          incProgress(1, message = "Done")
         } else {
           showModal(
             modalDialog(
