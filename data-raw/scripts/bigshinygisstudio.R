@@ -72,6 +72,7 @@ bccciss:::install_nginx(server, config = "./data-raw/config/bsgs/nginx.conf", na
 # Install Shiny App
 
 # system dependencies
+# Install chromium to support pdf printing
 analogsea::debian_apt_get_install(server,
                                   "git",
                                   "libaio1",
@@ -99,8 +100,12 @@ analogsea::debian_apt_get_install(server,
                                   "libfribidi-dev",
                                   "texlive",
                                   "texlive-extra-utils",
-                                  "texlive-latex-extra")
+                                  "texlive-latex-extra",
+                                  "chromium-browser")
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
+
+
+
 
 # upload app to server
 server <- analogsea::droplets()$BigShinyGisStudio

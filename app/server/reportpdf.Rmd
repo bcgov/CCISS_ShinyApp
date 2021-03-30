@@ -1,5 +1,5 @@
 ---
-title: "CCISS REPORT"
+title: CCISS REPORT 
 output:
   prettydoc::html_pretty:
     theme: cayman
@@ -20,7 +20,7 @@ suppressPackageStartupMessages({
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
 # Debug mode
-# userdata <- readRDS("../../report.rds")
+# userdata <- readRDS("../../cciss_export.rds")
 # for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
 
 # Deployment mode
@@ -32,49 +32,52 @@ bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
-```
 
-<style type="text/css">
-  h2 {font-weight:900 !important; margin-top: 2em !important}
-  .bordered {border-top:3px solid !important;}
-  .main-content {max-width: none !important; padding:3rem 3rem !important}
-  .table {width: auto !important;}
-  .table tbody {white-space: nowrap;}
-  .table td {vertical-align: middle !important;}
-  table.table-centered {margin-left:auto !important; margin-right:auto !important}
-</style>
-
-```{r section1, results='asis'}
-tags$h2("1. SITE LOCATION")
-```
-
-```{r map, out.width="100%", results='asis'}
-data_points <- pts[!is.na(Long) & !is.na(Lat)]
-leaflet::leaflet() %>%
+# Map Creation
+domap <- function(mappts) {
+  
+  mappts <- mappts[!is.na(Long) & !is.na(Lat)]
+  
+  leaflet::leaflet(height = "220px") %>%
   leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
   addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
   leaflet::addTiles(
     urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
     attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
     options = leaflet::tileOptions(zIndex = 600)) %>%
-  leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat)
-```
+  leaflet::addMarkers(data = mappts, lng = ~Long, lat = ~Lat)
+  
+}
 
-```{r section2, results='asis'}
-tags$h2("2. REPORT OPTIONS")
-```
+# Define the reference for points lookup
+pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
 
-```{r parameters, results='asis'}
-p <- data.table("Parameters" = c("Representative Concentration Pathways", "Number of Points Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
-knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table table-hover table-centered\"", format = "html")
-```
+# Selected options
+p <- data.table("Parameters" = c("Representative<br />Concentration Pathways", "Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
+opt_tb <- HTML(knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table-centered\"", format = "html"))
 
-```{r section3, results='asis'}
-tags$h2("3. CCISS TREE FEASIBILITY")
-```
+# Model information
+models_info_tb <- tags$div(style = "display: flex",
+  tags$div(style = "flex: 0 0 46%",
+    HTML(
+      knitr::kable(
+        models_info[seq_len(ceiling(nrow(models_info) / 2))],
+        format = "html",
+        table.attr = 'class="table table-hover table-centered"')
+    )
+  ),
+  tags$div(style = "flex: 0 0 46%",
+    HTML(
+      knitr::kable(
+        models_info[-seq_len(ceiling(nrow(models_info) / 2))],
+        format = "html",
+        table.attr = 'class="table table-hover table-centered"')
+    )
+  )
+)
 
-```{r legend}
-tags$span(
+# Feasibility legend
+legend <- tags$span(
   "Legend: ",
   htmltools::HTML(
     paste0(
@@ -87,123 +90,85 @@ tags$span(
     )
   )
 )
+
+# Recompute svg with smaller height
+cciss_results[, PredFeasSVG := paste0(
+        feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`, height = 11), "<br />",
+        feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`, height = 11), "<br />",
+        feasibility_svg(`1_2025`,`2_2025`,`3_2025`,`X_2025`, height = 11), "<br />",
+        feasibility_svg(`1_2055`,`2_2055`,`3_2055`,`X_2055`, height = 11), "<br />",
+        feasibility_svg(`1_2085`,`2_2085`,`3_2085`,`X_2085`, height = 11)
+      )
+]
 ```
 
-```{r feasibility_reports, results='asis', out.height="auto"}
+<style type="text/css">
+  table, tbody, thead {line-height:1 !important}
+  .page-header {text-align:right !important}
+  h5, h6 {margin:1em 0 1em 0 !important; padding:0 !important}
+  .page-breaker-before {page-break-before: always}
+  .bordered {border-top:3px solid !important;}
+  .main-content {max-width: none !important; padding:0 !important}
+  .table {width: auto !important;}
+  .table tbody {white-space: nowrap;}
+  thead, tbody {font-size: 0.75em !important;}
+  .table td {vertical-align: middle !important;}
+  table.table-centered, .bgc_future {margin-left:auto !important; margin-right:auto !important}
+</style>
+
+```{r siteloop, results='asis'}
 htmltools::tagList(
   lapply(names(siteseries_list), function(siteref) {
     siteseries <- siteseries_list[[siteref]]
     siteseries <- siteseries[siteseries %in% site_series_filter]
+    data_points <- pts[pts_ref %in% siteref]
     htmltools::tagList(
+      tags$div(class = if (siteref != names(siteseries_list)[1]) {"page-breaker-before"} else {""},
+               style = "display: flex",
+        tags$div(style = "flex: 0 0 50%; padding-right: 1em",
+          tags$h5("SITE LOCATION ",
+                  tags$b(siteref, .noWS = c("before", "after")),
+                  if (avg) {" AVERAGED"} else {""}),
+          domap(data_points)
+        ),
+        tags$div(style = "flex: 0 0 50%",
+          tags$h5("REPORT OPTIONS"),
+          opt_tb
+        )
+      ),
+      tags$h5(class = "bordered", "PREDICTED BGC FUTURES"),
+      tags$div(class = "bgc_future",
+        bgc_fut_plotly(bgc, siteref, period_map, height = 350)
+      ),
+      tags$h5("SITE GEOREFERENCING"),
+      HTML(
+        knitr::kable(
+          data_points[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)],
+          format = "html"
+        )
+      ),
+      tags$h5("MODEL INFORMATION"),
+      models_info_tb,
       mapply(FUN = function(siteserie, nm) {
         htmltools::tagList(
-          tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, " / ", 
-                  "Site Series: ", tags$b(siteserie, .noWS = c("before", "after")), gsub(siteserie, "", nm), .noWS = "inside"),
+          tags$h5(class = "page-breaker-before",
+            "SITE ",
+            tags$b(siteref, .noWS = c("before", "after")),
+            if (avg) {" AVERAGED"} else {""}, " / ", 
+            "SERIES ",
+            tags$b(siteserie, .noWS = c("before", "after")),
+            gsub(siteserie, "", nm), .noWS = "inside"
+          ),
+          tags$h6("CCISS TREE FEASIBILITY"),
+          legend,
           HTML(cciss_results_dt(cciss_results, siteref, siteserie, filter = "f")),
+          tags$h6("STOCKING STANDARDS"),
+          standardblocks(cciss_results, siteref, siteserie)
         )
       }, siteseries, names(siteseries))
     )
   })
 )
-```
-
-```{r section4, results='asis'}
-tags$h2(class = "bordered", "4. STOCKING STANDARDS")
-```
-
-```{r stocking_standards, results='asis', out.height="auto"}
-htmltools::tagList(
-  lapply(names(siteseries_list), function(siteref) {
-    siteseries <- siteseries_list[[siteref]]
-    siteseries <- siteseries[siteseries %in% site_series_filter]
-    htmltools::tagList(
-      mapply(FUN = function(siteserie, nm) {
-        htmltools::tagList(
-          tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, " / ", 
-                  "Site Series: ", tags$b(siteserie, .noWS = c("before", "after")), gsub(siteserie, "", nm), .noWS = "inside"),
-          standardblocks(cciss_results, siteref, siteserie),
-        )
-      }, siteseries, names(siteseries))
-    )
-  })
-)
-```
-
-```{r section5, results='asis'}
-tags$h2(class = "bordered", "5. PREDICTED BGC FUTURES")
-```
-
-```{r bgc_futures, results='asis', out.height="auto"}
-htmltools::tagList(
-  lapply(names(siteseries_list), function(siteref) {
-    htmltools::tagList(
-      tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, .noWS = "inside"),
-      bgc_fut_plotly(bgc, siteref, period_map)
-    )
-  })
-)
-```
-
-```{r section6, results='asis'}
-tags$h2("6. MODEL INFORMATION")
-```
-
-```{r modelinfo, results='asis', out.width="100%"}
-knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover table-centered"')
-```
-
-```{r section7, results='asis'}
-tags$h2("7. DATA POINT GEOREFERENCING")
-```
-
-```{r points, results='asis', out.width="100%"}
-knitr::kable(pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)], table.attr = "class=\"table table-hover table-centered\"", format = "html")
-```
-
-```{r appendix, results='asis'}
-tags$h1(class = "bordered", "APPENDIX")
-```
-
-```{r appendix_a, results='asis'}
-tags$h2("A. SUMMARY OF RESULTS")
-```
-
-```{r summary_reports, results='asis', out.height="auto"}
-htmltools::tagList(
-  lapply(names(siteseries_list), function(siteref) {
-    siteseries <- siteseries_list[[siteref]]
-    siteseries <- siteseries[siteseries %in% site_series_filter]
-    htmltools::tagList(
-      mapply(FUN = function(siteserie, nm) {
-        htmltools::tagList(
-          tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, " / ", 
-                  "Site Series: ", tags$b(siteserie, .noWS = c("before", "after")), gsub(siteserie, "", nm), .noWS = "inside"),
-          HTML(cciss_summary_dt(cciss_summary, siteref, siteserie)),
-        )
-      }, siteseries, names(siteseries))
-    )
-  })
-)
-```
-
-```{r appendix_b, results='asis'}
-tags$h2("B. SILVICULTURE REFERENCE")
-```
-
-```{r silref1 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_tol, filter = "a", title = "Tolerance comparisons")
-```
-
-```{r silref2 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_resist, filter = "a", title = "Resistance and potential risk comparisons")
-```
-
-```{r silref3 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_regen, filter = "a", title = "Comparison of silvical characteristics; regeneration stage")
-```
-
-```{r silref4 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_mature, filter = "a", title = "Comparison of silvical characteristics; maturing stage")
 ```
 
 <!-- Logo -->
