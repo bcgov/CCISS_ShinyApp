@@ -161,7 +161,7 @@ htmltools::tagList(
           ),
           tags$h6("CCISS TREE FEASIBILITY"),
           legend,
-          HTML(cciss_results_dt(cciss_results, siteref, siteserie, filter = "f")),
+          HTML(cciss_results_dt(cciss_results, siteref, siteserie, filter = feasibility_filter)),
           tags$h6("STOCKING STANDARDS"),
           standardblocks(cciss_results, siteref, siteserie)
         )
