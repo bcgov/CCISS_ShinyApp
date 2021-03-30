@@ -70,15 +70,56 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
+<div id="installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">bcciss</span><span class="op">)</span>
-<span class="fu">launch_app</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"bcgov/CCISS_ShinyApp"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="run-locally" class="section level3">
+<h3 class="hasAnchor">
+<a href="#run-locally" class="anchor"></a>Run locally</h3>
+<ul>
+<li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
+</li>
+<li>Clone repository</li>
+<li>Setup environment variables</li>
+<li>Open <code>./app/index.Rmd</code>
+</li>
+<li>Click on <code>Run Document</code>
+</li>
+</ul>
+</div>
+<div id="deploy-to-shinyappsio" class="section level3">
+<h3 class="hasAnchor">
+<a href="#deploy-to-shinyappsio" class="anchor"></a>Deploy to shinyapps.io</h3>
+<ul>
+<li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
+</li>
+<li>Clone repository</li>
+<li>Create an <code>.Renviron</code> file in <code>./app</code> and provide nessary values</li>
+<li>Open <code>./app/index.Rmd</code>
+</li>
+<li>
+<a href="https://shiny.rstudio.com/articles/shinyapps.html">Deploy to Shinyapps.io</a> using RStudio publish button</li>
+<li>Select <code>.Renviron</code>, <code>index.Rmd</code>, <code>www</code>, <code>server</code> only</li>
+</ul>
+<p><img src="data-raw/screenshots/rstudioreference.png"></p>
+</div>
+<div id="renviron" class="section level3">
+<h3 class="hasAnchor">
+<a href="#renviron" class="anchor"></a>.Renviron</h3>
+<p>The app requires the following environment variables.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="va">BCGOV_USR=</span>{<span class="ex">postgres</span> user}</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="va">BCGOV_PWD=</span>{<span class="ex">postgres</span> password}</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="va">BCGOV_DB=</span>{<span class="ex">postgres</span> database}</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="va">BCGOV_HOST=</span>{<span class="ex">postgres</span> host}</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="va">BCGOV_TILESERVER=</span>{<span class="ex">tileserver</span> gl x, y, z url template}</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="va">BCGOV_TILELAYER=</span>{<span class="ex">tileserver</span> layer}</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="va">BCGOV_MAPBOX_TOKEN=</span>{<span class="ex">mapbox</span> api key}</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="va">BCGOV_MAPBOX_LABELS_STYLE=</span>{<span class="ex">mapbox</span> labels style ref user/styleref}</span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="va">BCGOV_MAPBOX_HILLSHADE_STYLE=</span>{<span class="ex">mapbox</span> hillshade style ref user/styleref}</span></code></pre></div>
+</div>
 </div>
 <div id="repository-structure" class="section level2">
 <h2 class="hasAnchor">
