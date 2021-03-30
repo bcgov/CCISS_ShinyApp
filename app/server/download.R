@@ -55,7 +55,9 @@ output$report_download <- downloadHandler(
         if (has_chrome) {
           htmlreport <- rmarkdown::render(
             tempReport, params = params, envir = new.env(parent = globalenv()))
-          pagedown::chrome_print(input = htmlreport, output = file, timeout = 120)
+          pagedown::chrome_print(input = htmlreport, output = file, timeout = 120,
+                                 extra_args = c("--disable-gpu", "--no-sandbox"),
+                                 async = TRUE)
         } else {
           showModal(
             modalDialog(
