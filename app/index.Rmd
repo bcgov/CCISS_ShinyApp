@@ -301,8 +301,8 @@ source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 output$shinyinfo <- function() {
   app_info <- data.table(
-    Information = c("Shiny host","Database host","Tiles source","Tileserver","Github","Copyright","License"),
-    Value = c(system("hostname", intern = TRUE), Sys.getenv("BCGOV_HOST"), Sys.getenv("BCGOV_TILESERVER"),
+    Information = c("Shiny host","Tiles source","Tileserver","Github","Copyright","License"),
+    Value = c(system("hostname", intern = TRUE), Sys.getenv("BCGOV_TILESERVER"),
               strsplit(Sys.getenv("BCGOV_TILESERVER"), split = "data")[[1]][1],
               as.character(tags$a(href = "https://github.com/bcgov/CCISS_ShinyApp", "bcgov/CCISS_ShinyApp")),
               paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
