@@ -39,4 +39,4 @@ LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-SystemRequirements: chromium
+SystemRequirements: chromium-browser
