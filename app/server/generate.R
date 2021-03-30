@@ -1,5 +1,5 @@
 observeEvent(input$generate_results, priority = 100, {
-  
+
   ticker <- tic("Save Map Inputs")
   # On generate click, we are taking a snapshot of the current points
   # and calculating results. All relevant results will be stored in the
@@ -161,6 +161,15 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
     # dcast (pivot)
     results <- dcast(results, SiteRef + SS_NoSpace + Spp ~ FuturePeriod,
                      value.var = c("Curr", "NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
+    # Required columns, set them if not created by dcast (safety)
+    reqj <- c(
+      "1_1975","2_1975","3_1975","X_1975", "NewSuit_1975",
+      "1_2000","2_2000","3_2000","X_2000", "NewSuit_2000",
+      "1_2025","2_2025","3_2025","X_2025", "NewSuit_2025",
+      "1_2055","2_2055","3_2055","X_2055", "NewSuit_2055",
+      "1_2085","2_2085","3_2085","X_2085", "NewSuit_2085"
+    )
+    set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
     setnafill(results, fill = 0, cols = c(
       "1_1975","2_1975","3_1975","X_1975",
       "1_2000","2_2000","3_2000","X_2000",
@@ -235,6 +244,7 @@ feasibility_svg <- function(..., width = 220L, height = 14L, colors = c("limegre
     '</svg>'
   )]
 }
+uData$feasibility_svg <- feasibility_svg
 
 pfsvg <- function(x, pos_x, width_el, pos_text, height, color) {
   # Format svg text
@@ -250,6 +260,7 @@ pfsvg <- function(x, pos_x, width_el, pos_text, height, color) {
   )
   svgs
 }
+uData$pfsvg <- pfsvg
 
 # Replace trend image with svg so they can be embedded
 swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'

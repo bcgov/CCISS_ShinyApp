@@ -17,7 +17,7 @@ output$bgc_fut_plot <- plotly::renderPlotly({
 # Graph
 
 #' @param data BGC data.table
-bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map) {
+bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map, ...) {
   data <- data[SiteRef == siteref]
   l <- list(
     font = list(
@@ -27,7 +27,7 @@ bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map) {
     bordercolor = "#FFFFFF",
     borderwidth = 2,
     orientation = 'h',
-    y = 1.1,
+    y = 1.25,
     x = -0.05)
   color_ref <- {
     colors <- subzones_colours_ref[unique(data$BGC.pred)]
@@ -39,7 +39,7 @@ bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map) {
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                   color = ~BGC.pred, colors = color_ref,
                   text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
-                  texttemplate = "%{text}", hovertemplate = "%{y}") %>%
+                  texttemplate = "%{text}", hovertemplate = "%{y}", ...) %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
                                 ticktext = unname(period_map),

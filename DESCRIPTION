@@ -23,7 +23,8 @@ Imports:
     flexdashboard (>= 0.5.2.90),
     plotly,
     pool,
-    prettydoc
+    prettydoc,
+    pagedown
 Suggests:
     bcdata,
     bcmaps,
@@ -38,3 +39,4 @@ LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+SystemRequirements: chromium

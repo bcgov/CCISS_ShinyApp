@@ -43,6 +43,8 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
   suitVotes <- data.table::dcast(suitMerge, SiteRef + Spp + FuturePeriod + SS_NoSpace ~ Feasible, 
                                  value.var = "SSprob", fun.aggregate = sum)
+  # Fill with 0 if columns does not exist, encountered the error at SiteRef 3104856 
+  set(suitVotes, j = as.character(1:5)[!as.character(1:5) %in% names(suitVotes)], value = 0)
   suitVotes[,VoteSum := `1`+`2`+`3`+`4`+`5`]
   suitVotes[,X := 1 - VoteSum]
   suitVotes[,VoteSum := NULL]

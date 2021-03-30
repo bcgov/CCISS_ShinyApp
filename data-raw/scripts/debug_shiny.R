@@ -22,20 +22,25 @@ pool <- dbPool(
 )
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
+mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
+mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
+mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
+
 curr_wd <- getwd()
 setwd("./app/")
 
+dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
+
 ui <- fixedPage(
   # Actions on points
-  actionButton("add_button", "Add", icon("plus")),
-  actionButton("delete_button", "Delete", icon("trash-alt")),
-  actionButton("upload_button", "Upload", icon("upload")),
-  actionButton("clear_button", "Clear", icon("broom")),
+  actionButton("upload_button", "Upload", icon("upload"), width=120),
+  actionButton("add_dialog", "Add", icon("plus"), width=120),
+  actionButton("delete_button", "Delete", icon("trash-alt"), width=120),
+  actionButton("clear_button", "Clear", icon("broom"), width=120),
   
   # Points
   DT::DTOutput("points_table", width="100%"),
-  actionButton("generate_results", label = "Generate results", icon = icon("plus-square")),
-  
   
   # Control results
   splitLayout(
@@ -52,36 +57,58 @@ ui <- fixedPage(
     )
   ),
   
+  # Generate results
+  actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
+               style = "width:100%; background-color:#003366; color: #FFF"),
+  
+  
   leafletOutput("bec_map"),
   
   selectInput("siteref_feas", label = "Sites:", choices = character()),
   selectInput("site_series_feas", label = "Site Series", choices = character()),
-  span("Averaged:"),
-  textOutput("avg_feas", inline = TRUE),
-  span("RCP Scenario:"),
-  textOutput("rcp_feas", inline = TRUE),
-  span("Legend"),
-  HTML(
-    paste0(
-      '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-      c("limegreen", "deepskyblue", "gold", "grey"),
-      '"><span>&nbsp;',
-      c("Primary", "Secondary", "Tertiary", "Not Suitable"),
-      '</span>',
-      collapse = "<br />"
-    )
-  ),
+  selectInput("filter_feas", label = "Feasibility", choices = c("All" = "a", "Feasible Only" = "f")),
   
-  DT::DTOutput("results_feas"),
-  DT::DTOutput("summary_feas"),
+  tableOutput("results_feas"),
+  tableOutput("summary_feas"),
+  
+  selectInput("siteref_silv", label = "Sites:", choices = character()),
+  selectInput("site_series_silv", label = "Site Series", choices = character()),
+  selectInput("filter_silv", label = "Tree Species", choices = c("Feasible Species" = "f", "All Species" = "a")),
+  
+  uiOutput("silviculture_block"),
+  tableOutput("silvics_tol_dt"),
+  
+  tableOutput("silvics_resist_dt"),
+  tableOutput("silvics_regen_dt"),
+  tableOutput("silvics_mature_dt"),
   
   selectInput("siteref_bgc_fut", label = "Sites:", choices = character()),
-  textOutput("current_bgc_fut", inline = TRUE),
+  
   plotly::plotlyOutput("bgc_fut_plot"),
-
-  textInput("report_name", "Name", value = "report"),
-  selectInput("report_format", "Format", c("html", "pdf")),
-  span(downloadButton("report_download", "Download", style = "max-width: 300px; width:100%; height: 40px !important;"), id = "download_span"),
+  
+  actionButton("report_filter_all", label = "Check All", icon = icon("check")),
+  actionButton("report_filter_none", label = "Uncheck All", icon = icon("ban")),
+  div(
+    checkboxGroupInput("report_filter", label = "Site Series", choices = character(), width = 400),
+    style = "line-height: 1.5; color: #222; background-color: #fff; margin: 10px 0px 10px 0px; padding: 0px 10px 0px 10px"
+  ),
+  
+  splitLayout(
+    div(
+      textInput("report_name", "Name", value = "report"),
+      radioButtons("report_format", "Format", c("html", "pdf"), inline = TRUE),
+      span(downloadButton("report_download", "Download", style = dl_style), id = "download_report_span")
+    ),
+    div(
+      radioButtons("data_format", "Data Format", c("csv", "rds"), inline = TRUE),
+      span(downloadButton("data_download", "Download Data", style = dl_style), id = "download_data_span")
+    ) 
+  ),
+  div(
+    tableOutput("modelsinfo"),
+    plotly::plotlyOutput("timings", width = "100%")
+  ),
+  tableOutput("shinyinfo"),
   tags$script(HTML('
   Shiny.addCustomMessageHandler("jsCode",
     function(message) {
@@ -90,9 +117,12 @@ ui <- fixedPage(
     }
   );'
   ))
+  
 )
 
 server <- function(input, output, session) {
+  # bslib::bs_themer()
+  # Reusing Shiny session userData environment
   uData <- session$userData
   source("./server/generate.R", local = TRUE)
   source("./server/points.R", local = TRUE)
@@ -101,6 +131,17 @@ server <- function(input, output, session) {
   source("./server/silviculture.R", local = TRUE)
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
+  output$shinyinfo <- function() {
+    app_info <- data.table(
+      Information = c("Shiny host","Database host","Tiles source","Tileserver","Github","Copyright","License"),
+      Value = c(system("hostname", intern = TRUE), Sys.getenv("BCGOV_HOST"), Sys.getenv("BCGOV_TILESERVER"),
+                strsplit(Sys.getenv("BCGOV_TILESERVER"), split = "data")[[1]][1],
+                as.character(tags$a(href = "https://github.com/bcgov/CCISS_ShinyApp", "bcgov/CCISS_ShinyApp")),
+                paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
+                as.character(tags$a(href = "http://www.apache.org/licenses/LICENSE-2.0", "Apache 2.0 LICENSE")))
+    )
+    knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-centered"', escape = FALSE)
+  }
   
   onStop(function() {
     poolClose(pool)

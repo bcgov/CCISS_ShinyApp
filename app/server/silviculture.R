@@ -77,6 +77,7 @@ sppnotes <- function(spp, notes, textstyle) {
                           tags$sup(fn, .noWS = htmltools:::noWSOptions),
                           if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
+  ret[["style"]] <- "white-space:normal;"
   do.call(tags$td, ret)
 }
 uData$sppnotes <- sppnotes
@@ -149,16 +150,7 @@ standardblock <- function(std, ss, sc) {
               ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
               tags$td(paste(sc[!is.na(Spp) & ProjFeas %in% "3", unique(Spp)], collapse = ", "))
             )
-          ),
-          tags$br(),
-          tags$small(tags$b("Footnotes")),
-          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
-          {
-            fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
-            fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
-            fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-            do.call(span, fnshiny)
-          }
+          )
         ),
         tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px;",
           tags$small(tags$b("Stocking (i) - well spaced/ha")),
@@ -196,6 +188,19 @@ standardblock <- function(std, ss, sc) {
               tags$td(style = "white-space: normal;", sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
             )
           )
+        )
+      ),
+      tags$tr(height = 0),
+      tags$tr(
+        tags$td(colspan = "2", style = "white-space:normal;",
+          tags$small(tags$b("Footnotes")),
+          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+          {
+            fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
+            fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
+            fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+            do.call(span, fnshiny)
+          }
         )
       )
     )

@@ -35,7 +35,6 @@ output$report_download <- downloadHandler(
       # can happen when deployed).
       tempReport <- file.path(tempdir(), reportmd)
       file.copy(file.path("./server", reportmd), tempReport, overwrite = TRUE)
-      file.copy("./server/www", tempReport, recursive = TRUE, overwrite = TRUE)
       # Set up parameters to pass to Rmd document
       
       params <- list(userdata = uData)
@@ -43,10 +42,30 @@ output$report_download <- downloadHandler(
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
       # from the code in this app).
-      rmarkdown::render(tempReport, output_file = file,
-                        params = params,
-                        envir = new.env(parent = globalenv())
-      )
+      if (input$report_format == "html") {
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      } else if (input$report_format == "pdf") {
+        has_chrome <- tryCatch({
+          pagedown::find_chrome()
+          TRUE
+        }, error = function(e) {FALSE})
+        if (has_chrome) {
+          htmlreport <- rmarkdown::render(
+            tempReport, params = params, envir = new.env(parent = globalenv()))
+          pagedown::chrome_print(input = htmlreport, output = file, timeout = 120)
+        } else {
+          showModal(
+            modalDialog(
+              title = "PDF Rendering",
+              paste("Chromium could not be found on this host."),
+              easyClose = TRUE
+            )
+          )
+        }
+      }
     })
   }
 )
