@@ -9,15 +9,45 @@ There are two development tasks.
 
 ## Usage
 
-```r
-library(bcciss)
-launch_app()
-```
-
-## Installation
+### Installation
 
 ```r
 remotes::install_github("bcgov/CCISS_ShinyApp")
+```
+
+### Run locally
+
+ - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
+ - Clone repository
+ - Setup environment variables
+ - Open  `./app/index.Rmd`
+ - Click on `Run Document`
+
+### Deploy to shinyapps.io
+
+ - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
+ - Clone repository
+ - Create an `.Renviron` file in `./app` and provide nessary values
+ - Open `./app/index.Rmd`
+ - [Deploy to Shinyapps.io](https://shiny.rstudio.com/articles/shinyapps.html) using RStudio publish button
+ - Select `.Renviron`, `index.Rmd`, `www`, `server` only
+
+<img src='data-raw/screenshots/rstudioreference.png' />
+
+### .Renviron
+
+The app requires the following environment variables.
+
+```bash
+BCGOV_USR={postgres user}
+BCGOV_PWD={postgres password}
+BCGOV_DB={postgres database}
+BCGOV_HOST={postgres host}
+BCGOV_TILESERVER={tileserver gl x, y, z url template}
+BCGOV_TILELAYER={tileserver layer}
+BCGOV_MAPBOX_TOKEN={mapbox api key}
+BCGOV_MAPBOX_LABELS_STYLE={mapbox labels style ref user/styleref}
+BCGOV_MAPBOX_HILLSHADE_STYLE={mapbox hillshade style ref user/styleref}
 ```
 
 ## Repository structure
