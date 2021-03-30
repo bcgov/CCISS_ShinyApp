@@ -103,8 +103,8 @@ standardblock <- function(std, ss, sc) {
   # Some logic to flag specie with different Suitability than CCISS
   ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ProjFeas))]
   setnafill(ss, fill = 4L, cols = "ProjFeas")
-  ss[Suitability < ProjFeas, TextStyle := "color:blue"]
-  ss[Suitability > ProjFeas, TextStyle := "color:orange"]
+  ss[Suitability > ProjFeas, TextStyle := "color:blue"]
+  ss[Suitability < ProjFeas, TextStyle := "color:orange"]
   ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
   
   si <- stocking_info[Standard == std]
