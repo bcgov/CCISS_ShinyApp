@@ -113,9 +113,8 @@ standardblock <- function(std, ss, sc) {
     tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
     tags$table(width = "100%", style = "white-space: nowrap;",
       # Report formatting gray out the first row, so faking a row
-      tags$tr(height = 0),         
       tags$tr(
-        tags$td(width = "50%", style = "vertical-align: top; padding:0;",
+        tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:none",
           tags$small(tags$b("Regeneration")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -152,7 +151,7 @@ standardblock <- function(std, ss, sc) {
             )
           )
         ),
-        tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px;",
+        tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px; background-color:white; border:none",
           tags$small(tags$b("Stocking (i) - well spaced/ha")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
           tags$table(
@@ -190,9 +189,8 @@ standardblock <- function(std, ss, sc) {
           )
         )
       ),
-      tags$tr(height = 0),
       tags$tr(
-        tags$td(colspan = "2", style = "white-space:normal;",
+        tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
           tags$small(tags$b("Footnotes")),
           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
           {
