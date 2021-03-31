@@ -27,7 +27,7 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
 
  - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
  - Clone repository
- - Create an `.Renviron` file in `./app` and provide nessary values
+ - Create an `.Renviron` file in `./app` and provide necessary values
  - Open `./app/index.Rmd`
  - [Deploy to Shinyapps.io](https://shiny.rstudio.com/articles/shinyapps.html) using RStudio publish button
  - Select `.Renviron`, `index.Rmd`, `www`, `server` only
