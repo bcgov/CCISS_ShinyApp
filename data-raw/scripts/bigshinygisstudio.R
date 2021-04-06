@@ -1,15 +1,16 @@
 # Build a VM with postgis, shiny server and r/rstudio on Digital Ocean
 
+# remotes::install_github("sckott/analogsea")
 library(analogsea)
 library(bccciss)
 
-rstudio_user = "meztez"
-rstudio_password = .rs.api.askForPassword("Choose a password for RStudio Server")
-postgis_password = .rs.api.askForPassword("Choose a password for PostGis database")
+# rstudio_user = "meztez"
+# rstudio_password = .rs.api.askForPassword("Choose a password for RStudio Server")
+# postgis_password = .rs.api.askForPassword("Choose a password for PostGis database")
 
 # Machine setup
-# server <- droplet_create("BigShinyGisStudio", size = "s-4vcpu-8gb-intel", region = "tor1",
-#                          image = "docker-20-04", tags = c("bccciss", "shiny", "rstudio", "postgis"), wait = TRUE)
+# server <- droplet_create("shiny-server", region = "tor1",
+#                          image = "ubuntu-20-04-x64", tags = c("bccciss", "shiny-server"), wait = TRUE)
 server <- droplet(id=server$id)
 analogsea::debian_add_swap(server)
 bccciss:::setup_firewall(server)
@@ -25,27 +26,27 @@ analogsea::debian_install_r(server, rprofile = "options(repos=c('RSPM'='https://
 
 # Install RStudio (port 8787, proxied via nginx)
 analogsea::debian_apt_get_install(server, "gdebi-core", "libapparmor1")
-analogsea::droplet_ssh(server,
-  "wget -q https://www.rstudio.org/download/latest/stable/server/bionic/rstudio-server-latest-amd64.deb",
-  "sudo gdebi rstudio-server-*-amd64.deb --non-interactive",
-  "rm rstudio-server-*-amd64.deb",
-  sprintf("adduser %s --disabled-password --gecos \"\"", rstudio_user),
-  sprintf("echo \"%s:%s\" | chpasswd", rstudio_user, rstudio_password)
-)
+# analogsea::droplet_ssh(server,
+#   "wget -q https://www.rstudio.org/download/latest/stable/server/bionic/rstudio-server-latest-amd64.deb",
+#   "sudo gdebi rstudio-server-*-amd64.deb --non-interactive",
+#   "rm rstudio-server-*-amd64.deb",
+#   sprintf("adduser %s --disabled-password --gecos \"\"", rstudio_user),
+#   sprintf("echo \"%s:%s\" | chpasswd", rstudio_user, rstudio_password)
+# )
 
 # Install Pandoc
 analogsea::droplet_ssh(server,
-  "wget https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-1-amd64.deb",
-  "sudo gdebi  pandoc-2.11.4-1-amd64.deb --non-interactive",
-  "rm pandoc-2.11.4-1-amd64.deb"
+  "wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-1-amd64.deb",
+  "sudo gdebi pandoc-2.13-1-amd64.deb --non-interactive",
+  "rm pandoc-2.13-1-amd64.deb"
 )
 
 # Setup a Postgis database using docker (localhost port 5432) and R RPostgres
 # analogsea::droplet_ssh(server,
 #   sprintf("docker run --name cciss-postgis -p 5432:5432 -e POSTGRES_PASSWORD=%s -d postgis/postgis", postgis_password)
 # )
-analogsea::debian_apt_get_install(server, "--reinstall", "libpq-dev")
-analogsea::droplet_ssh(server, "R -e \"install.packages('RPostgres')\"")
+# analogsea::debian_apt_get_install(server, "--reinstall", "libpq-dev")
+# analogsea::droplet_ssh(server, "R -e \"install.packages('RPostgres')\"")
 
 # Connect from RStudio or Shiny app on server using
 # con <- RPostgres::dbConnect(
@@ -65,7 +66,7 @@ analogsea::droplet_ssh(server,
   "rm shiny-server-*-amd64.deb")
 
 # Setup nginx
-bccciss:::install_nginx(server, config = "./data-raw/config/bsgs/nginx.conf", name = "BSGS")
+bccciss:::install_nginx(server, config = "./data-raw/config/bsgs/nginx.conf", name = "shiny-server")
 
 # utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/rstudio"))
 
@@ -104,11 +105,8 @@ analogsea::debian_apt_get_install(server,
                                   "chromium-browser")
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
-
-
-
 # upload app to server
-server <- analogsea::droplets()$BigShinyGisStudio
+server <- analogsea::droplets()$shiny-server
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss")
