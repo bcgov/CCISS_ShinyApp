@@ -1,12 +1,12 @@
 ---
-title: "CCISS"
+title: "The Climate Change Informed Species Selection (CCISS) Tool"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
     vertical_layout: fill
     logo: www/logo.svg
     favicon: www/favicon.ico
-    css: www/style.css
+    #css: www/style.css
     theme:
       version: 4
       bootswatch: yeti
@@ -45,7 +45,7 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
 ```
 
-BEC MAP
+SELECT SITES
 =====================================
 
 Inputs {.sidebar data-width=550}
@@ -55,10 +55,10 @@ Inputs {.sidebar data-width=550}
 
 ```{r}
 # Actions on points
-actionButton("upload_button", "Upload", icon("upload"), width=120)
-actionButton("add_dialog", "Add", icon("plus"), width=120)
-actionButton("delete_button", "Delete", icon("trash-alt"), width=120)
-actionButton("clear_button", "Clear", icon("broom"), width=120)
+actionButton("upload_button", "Upload CSV", icon("upload"), width=120)
+actionButton("add_dialog", "Enter New", icon("plus"), width=120)
+actionButton("delete_button", "Selected", icon("trash-alt"), width=120)
+actionButton("clear_button", "Clear All", icon("broom"), width=120)
 
 # Points
 DT::DTOutput("points_table", width="100%")
@@ -96,7 +96,7 @@ leafletOutput("bec_map", height = "auto")
 
 ```
 
-FEASIBILITY
+FEASIBILITY REPORT
 =====================================  
 
 Inputs {.sidebar data-width=230}
@@ -124,23 +124,23 @@ HTML(
 )
 ```
 
-Species Feasibility {.tabset}
+Tree Feasibility Ratings{.tabset}
 -------------------------------------
 
-### Results
+### Summary Results
 
 ```{r}
 tableOutput("results_feas")
 ```
 
-### Summary of Results
+### Detail Results
 
 ```{r}
 tableOutput("summary_feas")
 ```
 
    
-SILVICULTURE
+SILVICULTURE INFO
 =====================================     
 
 Inputs {.sidebar data-width=230}
@@ -154,10 +154,10 @@ selectInput("site_series_silv", label = "Site Series", choices = character())
 selectInput("filter_silv", label = "Tree Species", choices = c("Feasible Species" = "f", "All Species" = "a"))
 ```
 
-Silviculture {.tabset}
+Silvics & Ecology {.tabset}
 -------------------------------------
 
-### Silviculture
+### Chief Forester Reference Guide
 
 ```{r}
 uiOutput("silviculture_block")
@@ -200,7 +200,7 @@ selectInput("siteref_bgc_fut", label = "Sites:", choices = character())
 
 ```
 
-BGC Futures: ratio of models predicting BGC
+BGC Futures: ratio of future models predicting BGC
 -------------------------------------
 
 ### Ratio of Models Predicting BGC `r textOutput("current_bgc_fut", inline = TRUE)`
@@ -218,7 +218,7 @@ Inputs {.sidebar data-width=420}
 ###### Filter
 
 ```{r}
-selectInput("report_filter_feas", label = "Feasibility", choices = c("All" = "a", "Feasible Only" = "f"))
+selectInput("report_filter_feas", label = "Tree Species", choices = c("All" = "a", "Feasible Only" = "f"))
 actionButton("report_filter_all", label = "Check All", icon = icon("check"))
 actionButton("report_filter_none", label = "Uncheck All", icon = icon("ban"))
 div(
@@ -227,7 +227,7 @@ div(
 )
 ```
 
-Export a report on selected points.
+Export a Digital Report or Dataset for Analyzed Sites
 -------------------------------------
 
 ### Export a report on selected points
@@ -236,9 +236,9 @@ Export a report on selected points.
 dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
 splitLayout(
   div(
-    textInput("report_name", "Name", value = "report"),
-    radioButtons("report_format", "Format", c("html", "pdf"), inline = TRUE),
-    span(downloadButton("report_download", "Download", style = dl_style), id = "download_report_span")
+    textInput("report_name", "Name for Report", value = "report"),
+    radioButtons("report_format", "Report Format", c("html", "pdf"), inline = TRUE),
+    span(downloadButton("report_download", "Produce Report", style = dl_style), id = "download_report_span")
   ),
   div(
     radioButtons("data_format", "Data Format", c("csv", "rds"), inline = TRUE),
@@ -251,7 +251,7 @@ splitLayout(
 How the CCISS tool works {data-navmenu="ABOUT"} 
 =====================================
 
-The Climate Change Informed Species Selection Decision Aid provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
+The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
 
 The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate- and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near- and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/ silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will different regions and elevations of a BGC.  
   
