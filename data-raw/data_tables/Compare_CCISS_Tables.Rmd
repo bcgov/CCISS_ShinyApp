@@ -1,0 +1,139 @@
+---
+title: "TreeSpeciesRanking"
+author: "William H MacKenzie"
+date: "02/10/2019"
+output: html_document
+---
+
+# Tree Species Environmental Suitability  - March 16, 2019
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+require (RGtk2)
+require(plyr)
+require (rChoiceDialogs)
+require (data.table)
+require(doBy)
+require (utils)
+require(labdsv)
+require(tools )
+require(svDialogs)
+require(tcltk)
+require(randomForest)
+require(foreach)
+require(dplyr)
+require(reshape2)
+require(reshape)
+require(doParallel)
+require(caret)
+require(C50)
+require (stringr)
+require(UBL)
+require(dostats)
+require(ordinalForest)
+require(tidyverse)
+require(ggplot2)
+require (RGtk2)
+
+require (rgdal)
+require(mapview)
+require(sf)
+require(tmap)
+require(tidyverse)
+require(rmapshaper)
+require(rgeos)
+require(raster)
+require(devtools)
+#require(cleangeo)
+
+options(stringsAsFactors = FALSE)
+## set up some folder location variables
+outputs <- ("./outputs/") # location of model outputs 
+inputs <- ("./inputs/") 
+DB_share <- ("C:/Users/whmacken/Dropbox (WorkingFiles_Telus)/CCISS paper/Inputdata/")
+DB_share2 <- ("C:/Users/whmacken/Dropbox (WorkingFiles_Telus)/Suitability Review/")
+```
+
+## Import All BGC table, Edatopic table extract to create SS to Use table
+
+Table contains all site units for western north america.
+```{r import relevant tables, include=FALSE}
+##import WNA spatial file and extract units
+
+BGCs <- fread("D:/CommonTables/BECdb/All_BGCs_v11_20.csv", data.table = FALSE)
+BGC.list<- unique(BGCs$Map_Label)
+BGC_USA <- BGCs %>% filter(Source == "USA_2019")
+BGC_AB <- BGCs %>% filter(Source == "AB_2018")
+BGC_BC <- BGCs %>% filter(Source == "BGCv11")
+
+##Import SS tables
+SS <- fread("D:/CommonTables/BECdb/WNA_SSeries_v11_20.csv", data.table = FALSE)
+SS_BGC <- unique(SS$BGC)
+SS.list  <- unique(SS$SS_NoSpace)
+
+##Import Edatopic tables
+#SS_Use <- fread(paste0(DB_share,"SiteSeries_Use_CCISSpaper_24Mar2020.csv"))
+#SS_Use.list  <- unique(SS_Use$BGC)
+
+##Import feasibility
+ESuit <- fread(paste0(DB_share2,"Feasibility_v11_21.csv"), data.table = FALSE)
+ESuit_BGCs <- unique(ESuit$BGC)
+
+#ESuit_CCISS <- fread(paste0(DB_share,"ESuit_CCISSPaper_new.csv"))
+#ESuit_BGCs <- unique(ESuit_CCISS$BGC)
+
+##Import Edatopic tables
+Eda <- fread("D:/CommonTables/BECdb/Edatopic_v11_20.csv", data.table = FALSE)
+Eda_BGC  <- unique(Eda$BGC)
+SS <- Eda %>% dplyr::select(Source, BGC, SS_NoSpace) %>% distinct()
+write.csv(SS, "D:/CommonTables/BECdb/WNA_SSeries_v11_update.csv")
+Eda_USA <- Eda %>% filter(Source == "USA_2019") 
+Eda_BGC_USA  <- unique(Eda_USA$SS_NoSpace)
+# Eda2 <- Eda %>% filter(Edatopic %in% c("B2", "C4", "D6"), is.na(Special)) %>% dplyr::select(Source, BGC, SS_NoSpace, Edatopic) %>% distinct() %>% left_join(.,SS_Use)
+## Are there site series with no edatopic? or vis versa
+```
+
+
+```{r compare tables in order, include=FALSE}
+
+##1 Do all BGCs have Site Series?
+
+##2 Do all Site Series have edatopic space?
+
+##3 Are all edatopic positions accounted for?
+
+##4 Do all site units have feasibility ratihngs assigned
+
+compareSS_EDA <- anti_join(SS, Eda , by = "SS_NoSpace")
+compareSS_EDA 
+compareEDA_SS <- anti_join(Eda, SS, by = "SS_NoSpace")
+compareEDA_SS 
+
+# ###Compare to list of BGCs modelled
+compareA <- anti_join(BGCs, SS, by = c("Map_Label" = "BGC"))
+compareA ## this will show where mapped BGCs have no Site Series data
+compareB <- anti_join(SS,BGCs,  by = c("BGC" ="Map_Label"))
+compareB ##this will show where Site Series data are not associated with a mapped BGC (probably in need of an update)
+#compare1 <- anti_join(SS, ESuit , by = c("BGC" = "BGC"))
+
+compareBGC_EDA <- anti_join(BGCs, Eda , by = c("Map_Label" = "BGC"))
+compareBGC_EDA ##BGCs with no edatopic information
+compareBGC_EDA <- anti_join(Eda , BGCs, by = c("BGC" = "Map_Label"))
+compareEDA_BGC ##Edatopic not associated with a BGC
+
+
+
+
+
+#compare3 <- anti_join(BGCs, mapped, by = c("Map_Label" = "mapped"))
+#compare3 <- anti_join( mapped, BGCs, by = c("mapped" = "Map_Label" ))
+#compare4 <- anti_join(BGCs, SS_Use, by = c("Map_Label" = "BGC"))
+#compare4 <- anti_join(SS_Use,BGCs,  by = c("BGC" ="Map_Label"))
+# compare2 <- anti_join(SS_Use, BGC_Use,  by = c("BGC" = "Map_Label" ))
+# # Edatopic <- fread("D:/CommonTables/BECdb/Edatopic_v11_20.csv")
+# # compare3 <- anti_join(BGC_Use, Edatopic, by = c("Map_Label" = "BGC"))
+
+
+```
+
