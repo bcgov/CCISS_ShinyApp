@@ -4,7 +4,7 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v11_22.csv")
+E1 <- fread("./data-raw/data_tables/Edatopic_v11_23.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v11_23.csv")
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
