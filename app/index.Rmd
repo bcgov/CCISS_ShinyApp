@@ -1,5 +1,5 @@
 ---
-title: "The Climate Change Informed Species Selection (CCISS) Tool"
+title: "The Climate Change Informed Species Selection (CCISS) Tool: v12"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -68,8 +68,8 @@ splitLayout(
   checkboxGroupInput(
     "rcp_scenario",
     "RCP Scenario:",
-    selected = "rcp45",
-    c("4.5 W/m2" = "rcp45", "8.5 W/m2" = "rcp85")
+    selected = "ssp585",
+    c("1.26 W/m2" = "ssp126", "2.45 W/m2" = "ssp245", "3.7 W/m2" = "ssp370", "5.85 W/m2" = "ssp585")
   ),
   radioButtons(
     "aggregation",

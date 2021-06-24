@@ -140,6 +140,13 @@ dbBbox <- function(con, points, buffer) {
   unname(RPostgres::dbGetQuery(con, bbox_sql))
 }
 
+drv <- dbDriver("Postgres")
+con <- dbConnect(drv, user = "postgres", password = "jujL6cB3Wm9y", host = "138.197.168.220", 
+                 port = 5432, dbname = "cciss")
+
+sites <- 6305115:6305125
+
+test <- dbGetCCISS(con, sites, FALSE, scn = "ssp370")
 #' Pull CCISS from a vector of SiteNo
 #' @param con An active postgres DBI connection.
 #' @param siteno A character vector of siteno.
@@ -149,21 +156,22 @@ dbBbox <- function(con, points, buffer) {
 #' @return A data.table containing CCISS information for each provided SiteNo.
 #' @importFrom RPostgres dbGetQuery
 #' @export
-dbGetCCISS <- function(con, siteno, avg, scn = c("rcp45","rcp85")){
+dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp585")){
 
   groupby = "siteno"
   if (isTRUE(avg)) {
     groupby = "bgc"
   }
-    
+  
+  ##cciss_future is now test_future  
   cciss_sql <- paste0("
   WITH cciss AS (
     SELECT futureperiod,
-           cciss_future.siteno,
+           test_future.siteno,
            bgc,
            bgc_pred,
            gcm
-    FROM cciss_future
+    FROM test_future
     WHERE scenario IN ('", paste(scn, collapse = "','"), "') and
           siteno IN (", paste(unique(siteno), collapse = ","), ")
     
@@ -173,14 +181,14 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("rcp45","rcp85")){
              WHEN 'Normal61' THEN '1975'
              WHEN 'Current91' THEN '2000'
            END futureperiod,
-           cciss_historic.siteno,
+           test_historic.siteno,
            bgc,
            bgc_pred,
            CASE period
              WHEN 'Normal61' THEN 'Historic'
              WHEN 'Current91' THEN 'Current'
            END gcm
-    FROM cciss_historic
+    FROM test_historic
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   
   ), cciss_count_den AS (

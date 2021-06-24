@@ -15,8 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-#dat = dat; Edatope = E1
+E1 <- fread("~/CommonTables/Edatopic_v12_3.csv")
+E1[Special == "", Special := NA]
+E1[Codes == "", Codes := NA]
+E1 <- E1[Edatopic != "",]
+BGC = test; Edatope = E1
 
 #' EDA Topic Overlap
 #' @param BGC BGC
@@ -64,7 +67,8 @@ edatopicOverlap <- function(BGC,Edatope){
   FutBGC[,BGC.prop := NULL]
  
   setkey(CurrBGC,SiteRef,FuturePeriod, BGC,BGC.pred, Edatopic)
-  new <- dplyr::left_join(CurrBGC,FutBGC)#  was merge with, all = T bit failing with some predictions make sure not causing issue
+  new <- FutBGC[CurrBGC]
+  #new <- dplyr::left_join(CurrBGC,FutBGC)#  was merge with, all = T bit failing with some predictions make sure not causing issue
   setkey(new, SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
   ##new <- new[complete.cases(new),]
   
@@ -109,7 +113,7 @@ edatopicOverlap <- function(BGC,Edatope){
   combAll[,BGC.prop := NULL]
   combAll <- temp[combAll]
   combAll[,SSprob := SSratio*BGC.prop]
-  combALL <- combAll[!duplicated(combAll),]
+  combAll <- combAll[!duplicated(combAll),]
   
   return(combAll)
 }

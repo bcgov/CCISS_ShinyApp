@@ -152,7 +152,9 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
 }
 
 # This map is used to determine output labels from raw period
-uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+#uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
+
 
 cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
