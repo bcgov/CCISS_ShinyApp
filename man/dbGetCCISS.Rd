@@ -4,7 +4,7 @@
 \alias{dbGetCCISS}
 \title{Pull CCISS from a vector of SiteNo}
 \usage{
-dbGetCCISS(con, siteno, avg, scn = c("rcp45", "rcp85"))
+dbGetCCISS(con, siteno, avg, scn = c("ssp126", "ssp245", "ssp370", "ssp585"))
 }
 \arguments{
 \item{con}{An active postgres DBI connection.}

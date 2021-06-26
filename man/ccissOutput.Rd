@@ -2,7 +2,7 @@
 % Please edit documentation in R/feasibility.R
 \name{ccissOutput}
 \alias{ccissOutput}
-\title{EDA Topic Overlap}
+\title{ccissOutput}
 \usage{
 ccissOutput(SSPred, suit, rules, feasFlag)
 }
@@ -19,7 +19,7 @@ ccissOutput(SSPred, suit, rules, feasFlag)
 What the function returns
 }
 \description{
-EDA Topic Overlap
+ccissOutput
 }
 \details{
 What the function does

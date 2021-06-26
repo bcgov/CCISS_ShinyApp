@@ -140,13 +140,13 @@ dbBbox <- function(con, points, buffer) {
   unname(RPostgres::dbGetQuery(con, bbox_sql))
 }
 
-drv <- dbDriver("Postgres")
-con <- dbConnect(drv, user = "postgres", password = "jujL6cB3Wm9y", host = "138.197.168.220", 
-                 port = 5432, dbname = "cciss")
+# drv <- dbDriver("Postgres")
+# con <- dbConnect(drv, user = "postgres", password = "jujL6cB3Wm9y", host = "138.197.168.220", 
+#                  port = 5432, dbname = "cciss")
+# 
+# sites <- 6305115:6305125
+# test <- dbGetCCISS(con, sites, FALSE, scn = "ssp370")
 
-sites <- 6305115:6305125
-
-test <- dbGetCCISS(con, sites, FALSE, scn = "ssp370")
 #' Pull CCISS from a vector of SiteNo
 #' @param con An active postgres DBI connection.
 #' @param siteno A character vector of siteno.
@@ -226,6 +226,6 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
 
   setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-  
+  print(dat)
   return(dat)
 }
