@@ -143,10 +143,9 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
   map
 }
 uData$addVectorGridTilesDev <- addVectorGridTilesDev
-
 # Map main
 output$bec_map <- renderLeaflet({
-  leaflet::leaflet() %>%
+  leaflet::leaflet(tOut) %>%
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
@@ -179,6 +178,7 @@ output$bec_map <- renderLeaflet({
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
       overlayGroups = c("Zones", "Subzones Variants", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
+    leaflet::addPolygons(color = "purple") %>% 
     leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
 })
 

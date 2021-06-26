@@ -69,7 +69,7 @@ splitLayout(
     "rcp_scenario",
     "RCP Scenario:",
     selected = "ssp585",
-    c("1.26 W/m2" = "ssp126", "2.45 W/m2" = "ssp245", "3.7 W/m2" = "ssp370", "5.85 W/m2" = "ssp585")
+    c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585")
   ),
   radioButtons(
     "aggregation",
@@ -292,6 +292,8 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
+library(sf)
+tOut <- st_read("./TileOutline.gpkg")
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)

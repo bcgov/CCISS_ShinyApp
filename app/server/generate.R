@@ -141,7 +141,8 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
     summary[, `:=`(
       Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
       ProjFeas = NewSuit,
-      Period = paste0(period_map[names(period_map) > current], collapse = "<br />"),
+      Period = "Establishment<br />Mid Rotation<br />Long Rotation",
+      #Period = paste0(period_map[names(period_map) > current], collapse = "<br />"),
       FutProjFeas = paste0(Suit2025, "<br />", Suit2055, "<br />", Suit2085),
       FailRisk = paste0(FailRisk2025, "<br />", FailRisk2055, "<br />", FailRisk2085)
     )]
@@ -167,17 +168,19 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
     reqj <- c(
       "1_1975","2_1975","3_1975","X_1975", "NewSuit_1975",
       "1_2000","2_2000","3_2000","X_2000", "NewSuit_2000",
-      "1_2025","2_2025","3_2025","X_2025", "NewSuit_2025",
-      "1_2055","2_2055","3_2055","X_2055", "NewSuit_2055",
-      "1_2085","2_2085","3_2085","X_2085", "NewSuit_2085"
+      "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
+      "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
+      "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
+      "1_2081","2_2081","3_2081","X_2081", "NewSuit_2081"
     )
     set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
     setnafill(results, fill = 0, cols = c(
       "1_1975","2_1975","3_1975","X_1975",
       "1_2000","2_2000","3_2000","X_2000",
-      "1_2025","2_2025","3_2025","X_2025",
-      "1_2055","2_2055","3_2055","X_2055",
-      "1_2085","2_2085","3_2085","X_2085"
+      "1_2021","2_2021","3_2021","X_2021",
+      "1_2041","2_2041","3_2041","X_2041",
+      "1_2061","2_2061","3_2061","X_2061",
+      "1_2081","2_2081","3_2081","X_2081"
     ))
     # Append region
     region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
@@ -198,18 +201,19 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
       PredFeasSVG = paste0(
         feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`), "<br />",
         feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`), "<br />",
-        feasibility_svg(`1_2025`,`2_2025`,`3_2025`,`X_2025`), "<br />",
-        feasibility_svg(`1_2055`,`2_2055`,`3_2055`,`X_2055`), "<br />",
-        feasibility_svg(`1_2085`,`2_2085`,`3_2085`,`X_2085`)
+        feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
+        feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
+        feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
+        feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
       ),
       ProjFeas = {
         x <- as.character(round(NewSuit_2000))
         x[x %in% c(NA, "4")] <- "X"
         x
       },
-      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_2000, "T2" = NewSuit_2025,
-                                                 "T3" = NewSuit_2055, "T4" = NewSuit_2085)),
-      MeanSuit = rowMeans(data.table(NewSuit_2000, NewSuit_2025, NewSuit_2055, NewSuit_2085), na.rm = TRUE)
+      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_2000, "T2" = NewSuit_2021,
+                                                 "T3" = NewSuit_2041, "T4" = NewSuit_2061,"T5" = NewSuit_2081)),
+      MeanSuit = rowMeans(data.table(NewSuit_2000, NewSuit_2021, NewSuit_2041, NewSuit_2061, NewSuit_2081), na.rm = TRUE)
     )]
     setorder(results, SiteRef, SS_NoSpace, NewSuit_2000, MeanSuit, na.last = TRUE)
     return(results)

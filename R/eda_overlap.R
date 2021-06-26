@@ -15,11 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-E1 <- fread("~/CommonTables/Edatopic_v12_3.csv")
-E1[Special == "", Special := NA]
-E1[Codes == "", Codes := NA]
-E1 <- E1[Edatopic != "",]
-BGC = test; Edatope = E1
+# E1 <- fread("~/CommonTables/Edatopic_v12_3.csv")
+# E1[Special == "", Special := NA]
+# E1[Codes == "", Codes := NA]
+# E1 <- E1[Edatopic != "",]
+# save(E1,file = "./data/E1.rda")
+# BGC = test; Edatope = E1
 
 #' EDA Topic Overlap
 #' @param BGC BGC
@@ -114,6 +115,6 @@ edatopicOverlap <- function(BGC,Edatope){
   combAll <- temp[combAll]
   combAll[,SSprob := SSratio*BGC.prop]
   combAll <- combAll[!duplicated(combAll),]
-  
+  print("Done EDA")
   return(combAll)
 }

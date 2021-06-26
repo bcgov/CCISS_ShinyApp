@@ -48,9 +48,9 @@ NumericVector FeasSuit(NumericMatrix x,IntegerVector Curr, NumericVector vals, N
 // [[Rcpp::export(rng=false)]]
 NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector Curr){
   NumericVector res(NewSuit.size());
-  if(NewSuit.size() == 4){
+  if(NewSuit.size() == 5){
     res[0] = Curr[0] - NewSuit[0];
-    for(int i = 1; i < 4; i++){
+    for(int i = 1; i < 5; i++){
       res[i] = NewSuit[i-1] - NewSuit[i];
     }
   }else{
@@ -61,7 +61,7 @@ NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector 
       res[0] = 4 - NewSuit[0];
     }
     if(n > 1){
-      if((Year[1] - Year[0]) == 30){
+      if((Year[1] - Year[0]) == 20){
         res[1] = NewSuit[0] - NewSuit[1];
       }else{
         res[1] = 4 - NewSuit[1];

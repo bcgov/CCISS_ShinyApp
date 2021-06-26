@@ -16,9 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SSPred <- combAll
-suit <- fread("~/CommonTables/Feasibility_v12_3.csv")
-setnames(suit, old = "SppVar", new = "Spp")
+# SSPred <- combAll
+# suit <- fread("~/CommonTables/Feasibility_v12_3.csv")
+# setnames(suit, old = "SppVar", new = "Spp")
+# F1 <- suit
+# save(F1,file = "./data/F1.rda")
 #' ccissOutput
 #' @param SSPred A data.table. Predictions input.
 #' @param suit A data.table. Suitability.
@@ -129,65 +131,70 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   
   datMid <- datMid[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datMid2 <- datMid
-  datMid2 <- datMid2 %>% dplyr::mutate(Suit2055 = `1` +(`2` * 2 ) + (`3` * 3) + (X * 4)) %>% dplyr::mutate (change2055 = Curr- Suit2055) %>% 
-    dplyr::mutate(dplyr::across(Suit2055, round, 0)) %>% dplyr::mutate(Suit2055 = sub('4', 'X', Suit2055))
+  datMid2[,Suit2055 := `1`+(`2`*2)+(`3`*3)+(X*4)]
+  datMid2[,change2055 := Curr - Suit2055]
+  datMid2[,Suit2055 := round(Suit2055,0)]
+  datMid2[,Trajectory2055 := fifelse(change2055 >=1.5, "Strongly Improving", 
+                                    fifelse(change2055>=.5 & change2055<1.5, "Improving",
+                                           fifelse(change2055 >= -.5 & change2055 <.5, "Stable",
+                                                  fifelse(change2055>= -1.5 & change2055 <= -.5, "Declining", "Strongly Declining"))))]
   
-  datMid2 <- datMid2 %>% dplyr::mutate(Trajectory2055 = 
-                                  ifelse(change2055 >=1.5, "Strongly Improving", 
-                                         ifelse(change2055>=.5 & change2055<1.5, "Improving",
-                                                ifelse(change2055 >= -.5 & change2055 <.5, "Stable",
-                                                       ifelse(change2055>= -1.5 & change2055 <= -.5, "Declining", "Strongly Declining")))))
-  datMid2 <- datMid2 %>% dplyr::mutate(FailRisk2055 = 
-                                  ifelse(X>.5, "High", 
-                                         ifelse(X>.2 & X<.5, "Increased", "Normal")))
-  datMid3 <- datMid2 %>% dplyr::select(SiteRef,SS_NoSpace,Spp, Curr, Suit2055,
-                                       Trajectory2055, FailRisk2055)
+  datMid2[,FailRisk2055 := fifelse(X>.5, "High", 
+                                  fifelse(X>.2 & X<.5, "Increased", "Normal"))]
+  datMid3 <- datMid2[,.(SiteRef,SS_NoSpace,Spp, Curr, Suit2055,
+                        Trajectory2055, FailRisk2055)]
   
   ###end rotation (2085) compare to historic (trending down or up - flag where becoming unsuitable)
-  datLong <- suitVotes[FuturePeriod == 2085,]
+  datLong <- suitVotes[FuturePeriod == 2081,]
   
   datLong <- datLong[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datLong2 <- datLong
-  datLong2 <- datLong2 %>% dplyr::mutate(Suit2085 = `1` +(`2` * 2 ) + (`3` * 3) + (X * 4)) %>% dplyr::mutate (change2085 = Curr- Suit2085) %>% 
-    dplyr::mutate(dplyr::across(Suit2085, round, 0))%>% dplyr::mutate(Suit2085 = sub('4', 'X', Suit2085))
-  datLong2 <- datLong2 %>% dplyr::mutate(Trajectory2085 = 
-                                  ifelse(change2085 >=1.5, "Strongly Improving", 
-                                         ifelse(change2085>=.5 & change2085<1.5, "Improving",
-                                                ifelse(change2085 >= -.5 & change2085 <.5, "Stable",
-                                                       ifelse(change2085>= -1.5 & change2085 <= -.5, "Declining", "Strongly Declining")))))
-  datLong2 <- datLong2 %>% dplyr::mutate(FailRisk2085 = 
-                                  ifelse(X>.5, "High", 
-                                         ifelse(X>.2 & X<.5, "Increased", "Normal")))
+  datLong2[,Suit2085 := `1`+(`2`*2)+(`3`*3)+(X*4)]
+  datLong2[,change2085 := Curr - Suit2085]
+  datLong2[,Suit2085 := round(Suit2085,0)]
   
-  datLong3 <- datLong2 %>% dplyr::select(SiteRef,SS_NoSpace,Spp,Curr, Suit2085, Trajectory2085, FailRisk2085)
+  datLong2[,Trajectory2085 := fifelse(change2085 >=1.5, "Strongly Improving", 
+                                     fifelse(change2085>=.5 & change2085<1.5, "Improving",
+                                             fifelse(change2085 >= -.5 & change2085 <.5, "Stable",
+                                                     fifelse(change2085>= -1.5 & change2085 <= -.5, "Declining", "Strongly Declining"))))]
   
-  summOut <- dplyr::full_join(datFeas_final, datEarly3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'))
-   summOut <- dplyr::full_join(summOut, datMid3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'))
- summOut <- dplyr::full_join(summOut, datLong3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr')) %>% dplyr::filter(!Flag == 'NotIn')
- summOut <-  summOut %>% dplyr::select (-SuitDiff, -Trajectory2025, -Trajectory2055,-Trajectory2085)
-   ### merge in rulesets
-  # ruleSub <- rules[Type == "PeriodTraj",]
-  # suitVotes[ruleSub, PeriodTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
-  # ruleSub <- rules[Type == "Risk",]
-  # suitVotes[ruleSub, Risk := i.Label, on = .(X < mx, X >= mn)]
-  # ruleSub <- rules[Type == "ModAgr",]
-  # suitVotes[ruleSub, ModAgrClass := i.Label, on = .(ModAgree < mx, ModAgree >= mn)]
-  # 
-  # ruleSub <- rules[Type == "OverallTraj",]
-  # datMid[ruleSub, OverallTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
-  # datMid[Bifurc == T, OverallTraj := "Bifurcating"]
-  # 
-  # ruleSub <- rules[Type == "EstabRisk",]
-  # datFeas[ruleSub, Estab.Risk := i.Label, on = .(FeasEstab < mx, FeasEstab >= mn)]
-  # 
-  # temp1 <- datFeas[,.(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
-  # temp2 <- datMid[,.(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
-  # summOut <- merge(temp1,temp2, by = c("SiteRef","Spp","SS_NoSpace"), all = T)
-  # summOut <- summOut[complete.cases(summOut),]
-  # summOut[NewSuit > 3.5,NewSuit := 4]
-  # summOut[Curr > 3.5,Curr := 4]
-  # 
-  # suitVotes[,`:=`(ModAgree = NULL,NewSuit = NULL,SuitDiff = NULL)]
+  datLong2[,FailRisk2085 := fifelse(X>.5, "High", 
+                                   fifelse(X>.2 & X<.5, "Increased", "Normal"))]
+  datLong3 <- datLong2[,.(SiteRef,SS_NoSpace,Spp,Curr, Suit2085, Trajectory2085, FailRisk2085)]
+  
+  summOut <- merge(datFeas_final, datEarly3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'),all = T)
+  summOut <- merge(summOut, datMid3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'), all = T)
+  summOut <- merge(summOut, datLong3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'), all = T)
+  summOut <- summOut[Flag != "NotIn",!c("SuitDiff","Trajectory2025","Trajectory2055","Trajectory2085")]
+  summOut[,`:=`(Suit2025 = as.character(Suit2025),
+                Suit2055 = as.character(Suit2055),
+                Suit2085 = as.character(Suit2085))]
+  summOut[,c("Suit2025","Suit2055","Suit2085") := lapply(.SD,function(x){fifelse(x == 4,"X",x)}), 
+          .SDcols = c("Suit2025","Suit2055","Suit2085") ]
+  print("Done Feas")
   return(list(Summary = summOut, Raw = suitVotes))
 }
 
+### merge in rulesets
+# ruleSub <- rules[Type == "PeriodTraj",]
+# suitVotes[ruleSub, PeriodTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
+# ruleSub <- rules[Type == "Risk",]
+# suitVotes[ruleSub, Risk := i.Label, on = .(X < mx, X >= mn)]
+# ruleSub <- rules[Type == "ModAgr",]
+# suitVotes[ruleSub, ModAgrClass := i.Label, on = .(ModAgree < mx, ModAgree >= mn)]
+# 
+# ruleSub <- rules[Type == "OverallTraj",]
+# datMid[ruleSub, OverallTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
+# datMid[Bifurc == T, OverallTraj := "Bifurcating"]
+# 
+# ruleSub <- rules[Type == "EstabRisk",]
+# datFeas[ruleSub, Estab.Risk := i.Label, on = .(FeasEstab < mx, FeasEstab >= mn)]
+# 
+# temp1 <- datFeas[,.(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
+# temp2 <- datMid[,.(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
+# summOut <- merge(temp1,temp2, by = c("SiteRef","Spp","SS_NoSpace"), all = T)
+# summOut <- summOut[complete.cases(summOut),]
+# summOut[NewSuit > 3.5,NewSuit := 4]
+# summOut[Curr > 3.5,Curr := 4]
+# 
+# suitVotes[,`:=`(ModAgree = NULL,NewSuit = NULL,SuitDiff = NULL)]
