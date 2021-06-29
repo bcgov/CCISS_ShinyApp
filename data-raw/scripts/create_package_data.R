@@ -4,8 +4,27 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v11_23.csv")
-S1 <- fread("./data-raw/data_tables/Feasibility_v11_23.csv")
+E1 <- fread("./data-raw/data_tables/Edatopic_v12_5.csv")
+S1 <- fread("./data-raw/data_tables/Feasibility_v12_7.csv")
+S1[,Confirmed := NULL]
+S1 <- S1[!is.na(Feasible),]
+setnames(S1, old = "SppVar",new = "Spp")
+S1[Spp %in% c("Fdi","Fdc"),Spp := "Fd"]
+S1[Spp %in% c("Pli","Plc"),Spp := "Pl"]
+S1[Spp %in% c("Sw","Se","Sxw"),Spp := "Sx"]
+S1[Spp %in% c("Ss", "Sxl","Sxs"),Spp := "Ss"]
+S1[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
+S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
+S1 <- S1[Spp != "X",]
+save(S1, file = "./data/S1.rda")
+
+SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_6.csv")
+SS <- SS[,.(SS_NoSpace,SpecialCode)]
+SS <- SS[SpecialCode != "",]
+E1 <- SS[E1, on = "SS_NoSpace"]
+setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
+use_data(S1,E1)
+
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
 T1 <- fread("./data-raw/data_tables/Tree speciesand codes_2.0_2May2019.csv", key = "TreeCode")

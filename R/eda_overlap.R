@@ -32,10 +32,10 @@
 #' @importFrom stats complete.cases na.omit
 #' @export
 edatopicOverlap <- function(BGC,Edatope){
-  SS <- Edatope[is.na(Special),.(BGC,SS_NoSpace,Edatopic)]
+  SS <- Edatope[is.na(SpecialCode),.(BGC,SS_NoSpace,Edatopic)]
   SS <- unique(SS)
   BGC <- unique(BGC)
-  SSsp <- Edatope[!is.na(Codes),.(BGC,SS_NoSpace,Codes)]
+  SSsp <- Edatope[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
   SSsp <- unique(SSsp)
   
   ##Special site series edatopes
@@ -46,8 +46,8 @@ edatopicOverlap <- function(BGC,Edatope){
   setnames(FutBGC, old = c("BGC","SS_NoSpace","i.BGC"), 
            new = c("BGC.pred","SS.pred","BGC"))
   FutBGC <- FutBGC[!is.na(SS.pred),]
-  setkey(FutBGC, SiteRef, FuturePeriod, BGC,BGC.pred, Codes)
-  setkey(CurrBGC,SiteRef,FuturePeriod, BGC,BGC.pred, Codes)
+  setkey(FutBGC, SiteRef, FuturePeriod, BGC,BGC.pred, SpecialCode)
+  setkey(CurrBGC,SiteRef,FuturePeriod, BGC,BGC.pred, SpecialCode)
   # "CWHvh2" BGC gives out Join results in 258 rows; more than 135 = nrow(x)+nrow(i), I'm
   # setting it to allow.cartesian, might need to investigate.
   new <- CurrBGC[FutBGC, allow.cartesian=TRUE]
