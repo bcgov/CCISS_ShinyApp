@@ -7,18 +7,19 @@ output$current_bgc_fut <- renderText({
   uData$bgc[SiteRef == siteref, unique(BGC)]
 })
 
-# Update the BGC futures plit
+# Update the BGC futures plot
 output$bgc_fut_plot <- plotly::renderPlotly({
   siteref <- input$siteref_bgc_fut
-  if (is.null(uData$bgc)) return(NULL)
-  bgc_fut_plotly(uData$bgc, siteref)
+  sseries <- input$ss_bgc_fut
+  if (is.null(uData$sspreds)) return(NULL)
+  bgc_fut_plotly(uData$sspreds, siteref, sseries)
 })
 
 # Graph
 
 #' @param data BGC data.table
-bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map, ...) {
-  data <- data[SiteRef == siteref]
+bgc_fut_plotly <- function(data, siteref, sseries, period_map = uData$period_map, ...) {
+  data <- data[SiteRef == siteref & SS_NoSpace == sseries]
   l <- list(
     font = list(
       size = 12,
@@ -38,7 +39,7 @@ bgc_fut_plotly <- function(data, siteref, period_map = uData$period_map, ...) {
   plotly::plot_ly(data = data, x = ~FuturePeriod,
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                   color = ~BGC.pred, colors = color_ref,
-                  text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 20),
+                  text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),
                   texttemplate = "%{text}", hovertemplate = "%{y}", ...) %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
