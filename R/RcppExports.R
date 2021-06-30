@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 combCurr <- function(dat, wt) {
-    .Call(`_bccciss_combCurr`, dat, wt)
+    .Call(`_ccissdev_combCurr`, dat, wt)
 }
 
 NewSuitNoCurr <- function(x, vals) {
-    .Call(`_bccciss_NewSuitNoCurr`, x, vals)
+    .Call(`_ccissdev_NewSuitNoCurr`, x, vals)
 }
 
 FeasSuit <- function(x, Curr, vals, CurrAdj) {
-    .Call(`_bccciss_FeasSuit`, x, Curr, vals, CurrAdj)
+    .Call(`_ccissdev_FeasSuit`, x, Curr, vals, CurrAdj)
 }
 
 stepDiff <- function(Year, NewSuit, Curr) {
-    .Call(`_bccciss_stepDiff`, Year, NewSuit, Curr)
+    .Call(`_ccissdev_stepDiff`, Year, NewSuit, Curr)
 }
 
 ModelDir <- function(x, Curr, dir) {
-    .Call(`_bccciss_ModelDir`, x, Curr, dir)
+    .Call(`_ccissdev_ModelDir`, x, Curr, dir)
 }
 
 bifurcTrend <- function(Imp, Decl) {
-    .Call(`_bccciss_bifurcTrend`, Imp, Decl)
+    .Call(`_ccissdev_bifurcTrend`, Imp, Decl)
 }
 

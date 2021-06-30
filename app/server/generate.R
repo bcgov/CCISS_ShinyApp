@@ -132,7 +132,7 @@ cciss <- function(bgc) {
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 
 ## function for creating summary table
-cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
+cciss_summary <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility summary", {
     # use a copy to avoid modifying the original object
     summary <- copy(cciss$Summary)
@@ -168,7 +168,7 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
 uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
 ##function for creating full results table
-cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
+cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)

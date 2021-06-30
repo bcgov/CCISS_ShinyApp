@@ -1,10 +1,10 @@
 # This file is used to create the tileserver on Digital Ocean
 # and create tiles from shape file.
 # Here I'm leveraging bcgov existing packages to obtain map data.
-library(bcmaps)
 library(sf)
 library(analogsea)
-library(bccciss)
+library(ccissdev)
+library(data.table)
 
 options("bcdata.chunk-limit" = 100)
 out_dir <- "./data-raw/shp"
@@ -13,20 +13,11 @@ keep <- c("MAP_LABEL", "ZONE", "OBJECTID")
 layer <- "BECMap"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
-## Go take a long walk outside, this took about 3h on my laptop.
-## It is probably faster to do it in database
-bcmaps::bec(ask = FALSE) %>%
-  ## Using Hi-Res boundaries map to carve out
-  ## BC coastline from BEC Map
-  st_intersection(bcmaps::bc_bound_hres()) %>%
-  ## Set CRS for tippecanoe
-  st_transform(4326) %>%
-  # Keep only the relevant info for styling,
-  # info will be retrieved from postgis
-  # `[` is a pipeable way to use x[i] , see ?`[`
-  `[`(keep) %>%
-  st_write(dsn = file.path(out_dir, shp_name), layer = layer, overwrite = TRUE)
-
+bgcMap <- st_read("~/CommonTables/WNA_BGC_v12_21May2021.gpkg")
+bgcInfo <- fread("~/CommonTables/All_BGCs_Info_v12_2.csv") 
+BCbgc <- bgcInfo[DataSet == "BC",BGC]
+bgcMap <- bgcMap[bgcMap$BGC %in% BCbgc,]
+st_write(bgcMap,"~/CommonTables/BC_BGCv12.gpkg")
 # Digital Ocean provisioning - Setup your SSH keys in your accounts before running these.
 # tileserver <- setup_docklet()
 # Or Reuse an existing droplet

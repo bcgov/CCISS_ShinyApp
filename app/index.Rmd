@@ -18,7 +18,7 @@ runtime: shiny_prerendered
 
 ```{r global, include=FALSE}
 suppressPackageStartupMessages({
-  library(bccciss)
+  library(ccissdev)
   library(shiny)
   library(leaflet)
   library(DT)

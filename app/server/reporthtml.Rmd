@@ -11,7 +11,7 @@ params:
 
 ```{r setup, include=FALSE}
 suppressPackageStartupMessages({
-  library(bccciss)
+  library(ccissdev)
   library(leaflet)
   library(plotly)
   library(knitr)
