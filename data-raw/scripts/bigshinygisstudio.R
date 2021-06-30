@@ -2,6 +2,7 @@
 
 # remotes::install_github("sckott/analogsea")
 library(analogsea)
+Sys.setenv(DO_PAT="eb7c70d2f1be5520afc05730da30c771705d1bca873a7d7f32513a0fcde11e66")
 library(bccciss)
 
 # rstudio_user = "meztez"
@@ -9,8 +10,8 @@ library(bccciss)
 # postgis_password = .rs.api.askForPassword("Choose a password for PostGis database")
 
 # Machine setup
-# server <- droplet_create("shiny-server", region = "tor1",
-#                          image = "ubuntu-20-04-x64", tags = c("bccciss", "shiny-server"), wait = TRUE)
+server <- droplet_create("forestvision-server", region = "tor1",
+                         image = "ubuntu-20-04-x64", tags = c("oldgrowth", "shiny-server"), wait = TRUE)
 server <- droplet(id=server$id)
 analogsea::debian_add_swap(server)
 bccciss:::setup_firewall(server)
@@ -22,7 +23,7 @@ analogsea::droplet_ssh(server, c(
   "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9"
 ))
 analogsea::debian_apt_get_update(server)
-analogsea::debian_install_r(server, rprofile = "options(repos=c('RSPM'='https://packagemanager.rstudio.com/cran/__linux__/focal/latest','CRAN'='https://cloud.r-project.org/'))")
+analogsea::debian_install_r(server)
 
 # Install RStudio (port 8787, proxied via nginx)
 analogsea::debian_apt_get_install(server, "gdebi-core", "libapparmor1")
@@ -106,11 +107,11 @@ analogsea::debian_apt_get_install(server,
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
-server <- analogsea::droplets()$shiny-server
-analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
-analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
-analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss")
-analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/CCISS_ShinyAPP', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
+server <- analogsea::droplets()$`shiny-server`
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss12")
+analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss12")
+analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss12")
+analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
 analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/cciss/index.Rmd")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/cciss")
