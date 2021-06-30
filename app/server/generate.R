@@ -29,6 +29,7 @@ observeEvent(input$generate_results, priority = 100, {
   # UI select choices
   tic("Determine UI choices", ticker)
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
+  ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
@@ -64,6 +65,7 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Populate UI choices", ticker)
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
   updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
@@ -116,11 +118,20 @@ bgc <- function(con, siteno, avg, rcp) {
   })
 }
 
+#bgc <- dbGetCCISS(pool,siteno = 6487469,avg = F, scn = "ssp370")
+
 cciss <- function(bgc) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
+  setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
+  SSPred2 <- SSPred[,.(SSLab = paste(SS.pred,collapse = "<br>")), 
+                    by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
+  uData$sspreds <- SSPred2
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1)
 }
 
+#SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
+
+## function for creating summary table
 cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility summary", {
     # use a copy to avoid modifying the original object
@@ -156,7 +167,7 @@ cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
 uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
-
+##function for creating full results table
 cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object

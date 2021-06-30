@@ -197,7 +197,7 @@ Inputs {.sidebar data-width=230}
 
 ```{r}
 selectInput("siteref_bgc_fut", label = "Sites:", choices = character())
-
+selectInput("ss_bgc_fut",label = "Site Series:", choices = character())
 ```
 
 BGC Futures: ratio of future models predicting BGC
