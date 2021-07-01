@@ -2,8 +2,8 @@
 
 # remotes::install_github("sckott/analogsea")
 library(analogsea)
-Sys.setenv(DO_PAT="eb7c70d2f1be5520afc05730da30c771705d1bca873a7d7f32513a0fcde11e66")
-library(bccciss)
+Sys.setenv(DO_PAT="eae4166ed2fac0e3c41660fe26a009bb0176ab8bceeaf753faf5189f58a06520")
+library(ccissdev)
 
 # rstudio_user = "meztez"
 # rstudio_password = .rs.api.askForPassword("Choose a password for RStudio Server")
@@ -108,15 +108,16 @@ analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
 server <- analogsea::droplets()$`shiny-server`
-analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss12")
-analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss12")
-analogsea::droplet_upload(server, "~/.Renviron", "/srv/shiny-server/cciss12")
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/ccissdev")
+analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/ccissdev")
+analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
-analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/cciss/index.Rmd")
-analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/cciss")
-analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/cciss")
+analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/ccissdev/index.Rmd")
+analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
+analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
+analogsea::droplet_upload(server, "./app/TileOutline.gpkg", "/srv/shiny-server/ccissdev/TileOutline.gpkg")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 
 
-utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/shiny/cciss"))
+utils::browseURL(paste0("http://", analogsea:::droplet_ip_safe(server), "/shiny/ccissdev"))
