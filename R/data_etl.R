@@ -178,16 +178,24 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     UNION ALL
     
     SELECT CASE period
-             WHEN 'Normal61' THEN '1975'
              WHEN 'Current91' THEN '2000'
            END futureperiod,
            test_historic.siteno,
            bgc,
            bgc_pred,
            CASE period
-             WHEN 'Normal61' THEN 'Historic'
              WHEN 'Current91' THEN 'Current'
            END gcm
+    FROM test_historic
+    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+    
+    UNION ALL
+    
+    SELECT '1975' as futureperiod,
+            test_historic.siteno,
+            bgc,
+            bgc as bgc_pred,
+            'Historic' as gcm
     FROM test_historic
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   
@@ -226,6 +234,6 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
 
   setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-  print(dat)
+  #print(dat)
   return(dat)
 }
