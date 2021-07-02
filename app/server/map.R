@@ -39,7 +39,8 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
       ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
       ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
       
-      L.bec_layer_opacity = 0.65
+      console.log(subzoneColors);
+      L.bec_layer_opacity = 0.65;
       
       var vectorTileOptions=function(layerName, layerId, activ,
                              lfPane, colorMap, prop, id) {
@@ -73,7 +74,8 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
                           "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
-      )
+      );
+      console.log(subzLayer);
       this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
       

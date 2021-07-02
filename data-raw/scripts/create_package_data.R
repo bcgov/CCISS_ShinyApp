@@ -30,8 +30,8 @@ F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
 T1 <- fread("./data-raw/data_tables/Tree speciesand codes_2.0_2May2019.csv", key = "TreeCode")
 V1 <- fread("./data-raw/data_tables/Variables_ClimateBC.csv", key = "Code")
 zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key = "classification")
-subzones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Subzone_Colours.csv", key = "classification")
-
+subzones_colours_ref <- fread("./data-raw/data_tables/WNAv12_3_SubzoneCols.csv", key = "classification")
+save(subzones_colours_ref, file = "./data/subzones_colours_ref.rda")
 # StockingStds
 stocking_standards_v11 <- fread("./data-raw/data_tables/StockingStds/StockStands_v11.csv", key = c("Region", "ZoneSubzone", "SS_NoSpace", "Species"), colClasses = c("Standard" = "numeric"))
 stocking_info_v10 <- fread("./data-raw/data_tables/StockingStds/StockingInfo_v10.csv", key = "Standard", colClasses = c("Standard" = "numeric"))
