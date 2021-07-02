@@ -118,7 +118,7 @@ bgc <- function(con, siteno, avg, rcp) {
   })
 }
 
-#bgc <- dbGetCCISS2(pool,siteno = c(6487469,6476772),avg = F, scn = "ssp370")
+#bgc <- dbGetCCISS2(pool,siteno = c(6665984),avg = F, scn = "ssp370")
 
 cciss <- function(bgc) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)

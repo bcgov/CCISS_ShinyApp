@@ -111,7 +111,7 @@ server <- analogsea::droplets()$`shiny-server`
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/ccissdev")
-analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
+analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = FALSE, dependencies = FALSE, force = TRUE)\"")
 analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/ccissdev/index.Rmd")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
