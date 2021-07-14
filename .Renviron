@@ -1,5 +1,5 @@
 BCGOV_USR="postgres"
-BCGOV_PWD="jujL6cB3Wm9y"
+BCGOV_PWD="postgres"
 BCGOV_DB="cciss"
 BCGOV_HOST="138.197.168.220"
 BCGOV_TILESERVER="http://159.203.20.90/data/BC_BGC/{z}/{x}/{y}.pbf"
