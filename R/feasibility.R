@@ -73,9 +73,9 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   earlyWt <- 0.35   ## weight in summary given to the 2010-2040 climate change period
 
   colNms <- c("1","2","3","X")
-  datFeas <- suitVotes[FuturePeriod %in% c(1975 ,2000, 2021),]
+  datFeas <- suitVotes[FuturePeriod %in% c(1961 ,1991, 2021),]
   #datFeas[FuturePeriod == 1975, (colNms) := lapply(.SD,"*",histWt), .SDcols = colNms]
-  datFeas[FuturePeriod == 2000, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]##Write c function
+  datFeas[FuturePeriod == 1991, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]##Write c function
   datFeas[FuturePeriod == 2021, (colNms) := lapply(.SD,"*",earlyWt), .SDcols = colNms]
 
   datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]

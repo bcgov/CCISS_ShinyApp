@@ -108,6 +108,8 @@ analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
 server <- analogsea::droplets()$`shiny-server`
+reset_ssh_sessions()
+analogsea::droplet_ssh(server,"rm -R /srv/shiny-server/ccissdev/.Renviron")
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/ccissdev")

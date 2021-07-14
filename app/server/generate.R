@@ -118,7 +118,7 @@ bgc <- function(con, siteno, avg, rcp) {
   })
 }
 
-#bgc <- dbGetCCISS2(pool,siteno = c(6665984),avg = F, scn = "ssp370")
+# bgc <- dbGetCCISS(pool,siteno = c(6665984),avg = F, scn = "ssp370")
 
 cciss <- function(bgc) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
@@ -165,7 +165,7 @@ cciss_summary <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
 
 # This map is used to determine output labels from raw period
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
-uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
+uData$period_map <- c("1961" = "Historic", "1991" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
 ##function for creating full results table
 cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
@@ -177,8 +177,8 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
                      value.var = c("Curr", "NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
     # Required columns, set them if not created by dcast (safety)
     reqj <- c(
-      "1_1975","2_1975","3_1975","X_1975", "NewSuit_1975",
-      "1_2000","2_2000","3_2000","X_2000", "NewSuit_2000",
+      "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
+      "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
       "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
       "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
       "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
@@ -186,8 +186,8 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
     )
     set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
     setnafill(results, fill = 0, cols = c(
-      "1_1975","2_1975","3_1975","X_1975",
-      "1_2000","2_2000","3_2000","X_2000",
+      "1_1961","2_1961","3_1961","X_1961",
+      "1_1991","2_1991","3_1991","X_1991",
       "1_2021","2_2021","3_2021","X_2021",
       "1_2041","2_2041","3_2041","X_2041",
       "1_2061","2_2061","3_2061","X_2061",
@@ -210,23 +210,23 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
       Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
       Period = paste0(period_map, collapse = "<br />"),
       PredFeasSVG = paste0(
-        feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`), "<br />",
-        feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`), "<br />",
+        feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
+        feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
         feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
         feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
         feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
         feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
       ),
       ProjFeas = {
-        x <- as.character(round(NewSuit_2000))
+        x <- as.character(round(NewSuit_1991))
         x[x %in% c(NA, "4")] <- "X"
         x
       },
-      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_2000, "T2" = NewSuit_2021,
+      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_1991, "T2" = NewSuit_2021,
                                                  "T3" = NewSuit_2041, "T4" = NewSuit_2061,"T5" = NewSuit_2081)),
-      MeanSuit = rowMeans(data.table(NewSuit_2000, NewSuit_2021, NewSuit_2041, NewSuit_2061, NewSuit_2081), na.rm = TRUE)
+      MeanSuit = rowMeans(data.table(NewSuit_1991, NewSuit_2021, NewSuit_2041, NewSuit_2061, NewSuit_2081), na.rm = TRUE)
     )]
-    setorder(results, SiteRef, SS_NoSpace, NewSuit_2000, MeanSuit, na.last = TRUE)
+    setorder(results, SiteRef, SS_NoSpace, NewSuit_1991, MeanSuit, na.last = TRUE)
     return(results)
   })
 }

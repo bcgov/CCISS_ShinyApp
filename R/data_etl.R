@@ -145,7 +145,7 @@ dbBbox <- function(con, points, buffer) {
 #                  port = 5432, dbname = "cciss")
 # 
 # sites <- 6305115:6305125
-# test <- dbGetCCISS(con, sites, FALSE, scn = "ssp370")
+# test <- dbGetCCISS(pool, 6518114, FALSE, scn = "ssp370")
 
 #' Pull CCISS from a vector of SiteNo
 #' @param con An active postgres DBI connection.
@@ -177,21 +177,7 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     
     UNION ALL
     
-    SELECT CASE period
-             WHEN 'Current91' THEN '2000'
-           END futureperiod,
-           test_historic.siteno,
-           bgc,
-           bgc_pred,
-           CASE period
-             WHEN 'Current91' THEN 'Current'
-           END gcm
-    FROM test_historic
-    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
-    
-    UNION ALL
-    
-    SELECT '1975' as futureperiod,
+    SELECT '1961' as futureperiod,
             test_historic.siteno,
             bgc,
             bgc as bgc_pred,
@@ -229,6 +215,15 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
   
+  UNION ALL
+  
+  SELECT cast(siteno as text) siteref,
+          period as futureperiod,
+          bgc,
+          bgc_pred,
+          prob as bgc_prop
+  FROM test_prob
+  WHERE siteno in (", paste(unique(siteno), collapse = ","), ")
   ")
   
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
