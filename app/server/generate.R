@@ -118,7 +118,7 @@ bgc <- function(con, siteno, avg, rcp) {
   })
 }
 
-# bgc <- dbGetCCISS(pool,siteno = c(6665984),avg = F, scn = "ssp370")
+bgc <- dbGetCCISS(pool,siteno = c(6665984),avg = F, scn = "ssp370")
 
 cciss <- function(bgc) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
@@ -172,9 +172,10 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
+    sumResults <- copy(cciss$Summary)
     # dcast (pivot)
-    results <- dcast(results, SiteRef + SS_NoSpace + Spp ~ FuturePeriod,
-                     value.var = c("Curr", "NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
+    results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
+                     value.var = c("NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
     # Required columns, set them if not created by dcast (safety)
     reqj <- c(
       "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
@@ -203,6 +204,15 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
       CFSuitability := as.character(i.Suitability),
       on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
     ]
+    # Append summary vars
+    results[
+      sumResults, 
+      `:=`(EstabFeas = i.NewSuit,
+           MidRotTrend = i.Trajectory2055,
+           Risk60 = i.FailRisk2085,
+           Risk80 = i.FailRisk2100),
+      on = c("SiteRef","SS_NoSpace","Spp")
+    ]
     results[is.na(CFSuitability), CFSuitability := "X"]
     # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
@@ -217,11 +227,6 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
         feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
         feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
       ),
-      ProjFeas = {
-        x <- as.character(round(NewSuit_1991))
-        x[x %in% c(NA, "4")] <- "X"
-        x
-      },
       MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_1991, "T2" = NewSuit_2021,
                                                  "T3" = NewSuit_2041, "T4" = NewSuit_2061,"T5" = NewSuit_2081)),
       MeanSuit = rowMeans(data.table(NewSuit_1991, NewSuit_2021, NewSuit_2041, NewSuit_2061, NewSuit_2081), na.rm = TRUE)
