@@ -138,7 +138,7 @@ htmltools::tagList(
   lapply(names(siteseries_list), function(siteref) {
     htmltools::tagList(
       tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, .noWS = "inside"),
-      bgc_fut_plotly(bgc, siteref, period_map)
+      bgc_fut_plotly(sspreds, siteref, siteseries_list[[siteref]][1], period_map)
     )
   })
 )

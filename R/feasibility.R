@@ -118,29 +118,49 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   datEarly <- datEarly[,.(SiteRef,SS_NoSpace,Spp, Suit2025,
                             Trajectory2025, FailRisk2025)]
   
-   ###mid rotation (2055) compare to historic (trending down or up - flag where becoming unsuitable)
+  ###mid rotation trend using 41-60 and 61-80
+  wt41 <- 0.6
+  wt61 <- 0.4
+  datRot <- suitVotes[FuturePeriod %in% c(2041,2061),]
+  datRot[FuturePeriod == 2041, (colNms) := lapply(.SD,"*",wt41), .SDcols = colNms]
+  datRot[FuturePeriod == 2061, (colNms) := lapply(.SD,"*",wt61), .SDcols = colNms]
+  datRot <- datRot[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot[,Xadj := rowSums(.SD), .SDcols = colNms]
+  datRot[,X2 := X + (1-Xadj)]
+  ##calculate bifurcating
+  colNms2 <- c("1","2","3","X2")
+  datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms2]
+  datRot[,Stable := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Stable"),.SDcols = colNms2]
+  datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms2]
+  datRot[,Bifurc := bifurcTrend(Imp = Improve, Decl = Decline, cutoff = 0.2)]
+  
+  datRot[,MidSuit := `1`+(`2`*2)+(`3`*3)+(X2*4)]
+  datRot[datFeas, SuitEstab := i.NewSuitFrac, on = c("SiteRef","SS_NoSpace","Spp")] ##comparing to calculated establishment feasibility
+  datRot[,ChangeMid := SuitEstab - MidSuit]
+  datRot[,TrendMid := fifelse(ChangeMid >=1.5, "Strongly Improving", 
+                                    fifelse(ChangeMid>=.5 & ChangeMid<1.5, "Improving",
+                                            fifelse(ChangeMid >= -.5 & ChangeMid <.5, "Stable",
+                                                    fifelse(ChangeMid>= -1.5 & ChangeMid <= -.5, "Declining", "Strongly Declining"))))]
+  datRot[Bifurc == T, TrendMid := "Bifurcating"] 
+  datRot <- datRot[!is.na(TrendMid),.(SiteRef,SS_NoSpace,Spp,TrendMid)] ##final
+  
+  ###mid rotation (2041-2060) compare to historic (trending down or up - flag where becoming unsuitable)
   datMid <- suitVotes[FuturePeriod == 2041,]
   datMid <- datMid[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datMid[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
-  datMid[,Stable := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Stable"),.SDcols = colNms]
-  datMid[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
-  datMid[,Bifurc := bifurcTrend(Imp = Improve, Decl = Decline)]
   
   datMid[,Suit2055 := `1`+(`2`*2)+(`3`*3)+(X*4)]
-  datMid[datFeas, SuitEstab := i.NewSuitFrac, on = c("SiteRef","SS_NoSpace","Spp")] ##comparing to calculated establishment feasibility
-  datMid[,change2055 := SuitEstab - Suit2055]
+  datMid[,change2055 := Curr - Suit2055]
   datMid[,Suit2055 := round(Suit2055,0)]
   datMid[,Trajectory2055 := fifelse(change2055 >=1.5, "Strongly Improving", 
                                     fifelse(change2055>=.5 & change2055<1.5, "Improving",
                                            fifelse(change2055 >= -.5 & change2055 <.5, "Stable",
                                                   fifelse(change2055>= -1.5 & change2055 <= -.5, "Declining", "Strongly Declining"))))]
-  datMid[Bifurc == T, Trajectory2055 := "Bifurcating"]
   datMid[,FailRisk2055 := fifelse(X>.5, "High", 
                                   fifelse(X>.2 & X<.5, "Increased", "Normal"))]
   datMid <- datMid[,.(SiteRef,SS_NoSpace,Spp, Suit2055,
                         Trajectory2055, FailRisk2055)]
   
-  ###end rotation (2085) compare to historic (trending down or up - flag where becoming unsuitable)
+  ###60 yr rotation (2061-2080) compare to historic (trending down or up - flag where becoming unsuitable)
   datLong <- suitVotes[FuturePeriod == 2061,]
   datLong <- datLong[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datLong[,Suit2085 := `1`+(`2`*2)+(`3`*3)+(X*4)]
@@ -177,6 +197,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   summOut <- merge(summOut, datMid, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
   summOut <- merge(summOut, datLong, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
   summOut <- merge(summOut, datEnd, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
+  summOut[datRot, Trajectory2055 := i.TrendMid, on = c('SiteRef','SS_NoSpace','Spp')]
   summOut <- summOut[Flag != "NotIn",!c("SuitDiff","Trajectory2025","Trajectory2085","Trajectory2100")]
   summOut[,`:=`(Suit2025 = as.character(Suit2025),
                 Suit2055 = as.character(Suit2055),

@@ -7,19 +7,25 @@ output$current_bgc_fut <- renderText({
   uData$bgc[SiteRef == siteref, unique(BGC)]
 })
 
+observeEvent(input$siteref_bgc_fut,{
+  siteseries_list <- uData$siteseries_list
+  siteseries <- siteseries_list[[input$siteref_bgc_fut]]
+  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
+})
+
 # Update the BGC futures plot
 output$bgc_fut_plot <- plotly::renderPlotly({
   siteref <- input$siteref_bgc_fut
   sseries <- input$ss_bgc_fut
   if (is.null(uData$sspreds)) return(NULL)
-  bgc_fut_plotly(uData$sspreds, siteref, sseries)
+  bgc_fut_plotly(copy(uData$sspreds), siteref, sseries)
 })
 
 # Graph
 
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, period_map = uData$period_map, ...) {
-  data <- data[SiteRef == siteref & SS_NoSpace == sseries]
+  data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
   l <- list(
     font = list(
       size = 12,

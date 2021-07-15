@@ -65,13 +65,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // bifurcTrend
-LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl);
-RcppExport SEXP _ccissdev_bifurcTrend(SEXP ImpSEXP, SEXP DeclSEXP) {
+LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl, double cutoff);
+RcppExport SEXP _ccissdev_bifurcTrend(SEXP ImpSEXP, SEXP DeclSEXP, SEXP cutoffSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< NumericVector >::type Imp(ImpSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type Decl(DeclSEXP);
-    rcpp_result_gen = Rcpp::wrap(bifurcTrend(Imp, Decl));
+    Rcpp::traits::input_parameter< double >::type cutoff(cutoffSEXP);
+    rcpp_result_gen = Rcpp::wrap(bifurcTrend(Imp, Decl, cutoff));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -82,7 +83,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ccissdev_FeasSuit", (DL_FUNC) &_ccissdev_FeasSuit, 4},
     {"_ccissdev_stepDiff", (DL_FUNC) &_ccissdev_stepDiff, 3},
     {"_ccissdev_ModelDir", (DL_FUNC) &_ccissdev_ModelDir, 3},
-    {"_ccissdev_bifurcTrend", (DL_FUNC) &_ccissdev_bifurcTrend, 2},
+    {"_ccissdev_bifurcTrend", (DL_FUNC) &_ccissdev_bifurcTrend, 3},
     {NULL, NULL, 0}
 };
 

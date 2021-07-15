@@ -21,7 +21,7 @@ cciss_summary_dt <- function(data, siteref, siteserie, format = "html") {
                list(Species, CFSuitability, ProjFeas, Flag, Period, FutProjFeas, FailRisk)]
   knitr::kable(
     data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
-    col.names = c("Tree Species", "Chief Forester Recommended Suitability",
+    col.names = c("Tree Species", "CFRG Suitability",
                   "Projected Feasibility", "Flag", "Period",
                   "Future Projected Feasibility", "Fail Risk"),
     table.attr = 'class="table table-hover"')
@@ -42,17 +42,21 @@ output$results_feas <- function() {
 # format. Report has no javascript, just a plain table.
 cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") {
   if (filter == "a") {
-    data <- data[MeanSuit < 4 | CFSuitability %chin% c("1", "2", "3")]
+    data <- data[EstabFeas < 4 | CFSuitability %chin% c("1", "2", "3")]
   } else if (filter == "f") {
-    data <- data[ProjFeas %chin% c("1", "2", "3") | CFSuitability %chin% c("1", "2", "3")]
+    data <- data[EstabFeas %chin% c("1", "2", "3") | CFSuitability %chin% c("1", "2", "3")]
   }
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               list(Species, Period, PredFeasSVG, CFSuitability, ProjFeas, MidRotTrend)]
+               list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, MidRotSVG, Risk60, Risk80)]
+  for(i in c("Curr","EstabFeas","Risk60","Risk80")){ ##set NA to X
+    data[is.na(get(i)), (i) := "X"]
+  }
+    
   knitr::kable(
-    data, format = format, align = c("l","c","c","c","c","c"), escape = FALSE,
-    col.names = c("Tree Species", "Period", "Predicted Feasibility",
-                  "Chief Forester Recommended Suitability", "Projected Feasibility",
-                  "Continuing Trend at Mid Rotation (2040-2070)"),
+    data, format = format, align = c("l","c","c","c","c","c","c","c","c"), escape = FALSE,
+    col.names = c("Tree Species", "Period", "Modelled Feasibility",
+                  "CFRG Suitability", "Historic Feasibility","Establishment Feas",
+                  "Trend to Rotation","60 yr risk", "80 yr risk"),
     table.attr = 'class="table table-hover"')
 }
 uData$cciss_results_dt <- cciss_results_dt
