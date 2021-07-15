@@ -106,11 +106,11 @@ NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
 }
 
 // [[Rcpp::export(rng=false)]]
-LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl){
+LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl, double cutoff){
   int n = Imp.size();
   LogicalVector res(n);
   for(int i = 0; i < n; i++){
-    if(Imp[i] >= 25 && Decl[i] >= 25){
+    if(Imp[i] >= cutoff && Decl[i] >= cutoff){
       res[i] = true;
     }else{
       res[i] = false;
