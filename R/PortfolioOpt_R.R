@@ -52,7 +52,7 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
 .set_target <- function(mean_returns, cov_matrix){
   num_ass <- length(mean_returns)
   eq_constr <- function(x) sum(x) - 1
-  min_var_w <- slsqp(x0 = rep(1/num_ass,num_ass),fn = portfolio_volatility,
+  min_var_w <- slsqp(x0 = rep(1/num_ass,num_ass),fn = .portfolio_volatility,
                      lower = rep(0,num_ass), upper = rep(1,num_ass),
                      heq = eq_constr, mean_returns = mean_returns, cov_matrix = cov_matrix)
   min_var <- .portfolio_return(min_var_w$par,mean_returns)
@@ -69,7 +69,7 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
   eq_constr_ret <- function(x){
     return(c(sum(mean_returns*x)-target_ret,sum(x)-1))
   }
-  result <- slsqp(x0 = rep(1/num_ass,num_ass),fn = portfolio_volatility,
+  result <- slsqp(x0 = rep(1/num_ass,num_ass),fn = .portfolio_volatility,
                   lower = bounds$minWt, upper = bounds$maxWt,
                   heq = eq_constr_ret, mean_returns = mean_returns, 
                   cov_matrix = cov_matrix)

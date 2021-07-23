@@ -123,6 +123,7 @@ bgc <- function(con, siteno, avg, rcp) {
 cciss <- function(bgc) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
+  uData$eda_out <- SSPred
   SSPred2 <- SSPred[,.(SSLab = paste(SS.pred,collapse = "<br>")), 
                     by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   uData$sspreds <- SSPred2
