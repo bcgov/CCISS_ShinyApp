@@ -70,13 +70,14 @@ splitLayout(
   checkboxGroupInput(
     "rcp_scenario",
     "RCP Scenario:",
-    selected = "ssp585",
+    selected = c("ssp126","ssp245","ssp370"),
     c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585")
   ),
   radioButtons(
     "aggregation",
     "Multiple Point Aggregation:",
-    c("Individual" = "FALSE", "Averaged by BGC Zone" = "TRUE")
+    c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
+    selected = "TRUE"
   )
 )
 

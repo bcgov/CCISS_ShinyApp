@@ -203,6 +203,12 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     FROM cciss
     GROUP BY ", groupby, ", futureperiod, bgc, bgc_pred
   
+  ), curr_temp AS (
+    SELECT ", groupby, " siteref,
+           COUNT(distinct siteno) n
+    FROM test_prob
+    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+    GROUP BY ", groupby, "
   )
   
   SELECT cast(a.siteref as text) siteref,
@@ -216,14 +222,17 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
    AND a.futureperiod = b.futureperiod
   
   UNION ALL
-  
-  SELECT cast(siteno as text) siteref,
+
+  SELECT cast(", groupby, " as text) siteref,
           period as futureperiod,
           bgc,
           bgc_pred,
-          prob as bgc_prop
-  FROM test_prob
+          SUM(prob)/b.n bgc_prop
+  FROM test_prob a
+  JOIN curr_temp b
+    ON a.",groupby," = b.siteref
   WHERE siteno in (", paste(unique(siteno), collapse = ","), ")
+  GROUP BY ", groupby, ",period,b.n, bgc, bgc_pred
   ")
   
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
@@ -232,3 +241,4 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
   #print(dat)
   return(dat)
 }
+
