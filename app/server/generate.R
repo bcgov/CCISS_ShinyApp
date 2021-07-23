@@ -30,6 +30,7 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Determine UI choices", ticker)
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
+  bgc_opts <- unique(uData$bgc$BGC)
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
@@ -69,6 +70,7 @@ observeEvent(input$generate_results, priority = 100, {
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
   updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
+  updateSelectInput(inputId = "port_bgc", choices = bgc_opts, select = bgc_opts[1])
   updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
   
   # Use UI injected javascript to show download button and hide generate button

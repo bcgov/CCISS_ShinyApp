@@ -39,6 +39,17 @@ pool <- dbPool(
 onStop(function() {
   poolClose(pool)
 })
+poolclim <- dbPool(
+    drv = RPostgres::Postgres(),
+    dbname = "bgc_climate_data",
+    host = Sys.getenv("BCGOV_HOST"),
+    port = 5432, 
+    user = Sys.getenv("BCGOV_USR"),
+    password = Sys.getenv("BCGOV_PWD")
+  )
+  onStop(function() {
+    poolClose(poolclim)
+  })
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
@@ -221,19 +232,21 @@ Inputs {.sidebar data-width=230}
 ###### Data Options
 
 ```{r}
+selectInput("port_bgc",label = "Select BGC:", choices = character())
+radioButtons("port_ss",label = "Select Site Postion:",choices = c("B2","Zonal","D6"), selected = "Zonal")
 treeOpts <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","Dr","Mb")
 selectInput("tree_species",label = "Included Species:", choices = treeOpts, selected = treeOpts, multiple = T)
 selectInput("time_periods",label = "Time Periods:", 
             choices = c("1961-1990" = 1961,"1991-2020" = 1991, "2021-2040" = 2021,
                         "2041-2060" = 2041,"2061-2080" = 2061,"2081-2100" = 2081),
             selected = c(1961,1991,2021,2041,2061), multiple = T)
-radioButtons(
-    "fut_scn",
-    "RCP Scenario:",
-    selected = "ssp370",
-    c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585"),
-    
-  )
+# radioButtons(
+#     "fut_scn",
+#     "RCP Scenario:",
+#     selected = "ssp370",
+#     c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585"),
+#     
+#   )
 ```
 
 ###### Portfolio Parameters
@@ -342,7 +355,7 @@ tags$script(HTML('
 uData <- session$userData
 library(sf)
 tOut <- st_read("./TileOutline.gpkg")
-portFlag <- reactiveVal()
+portfolio_results <- reactiveValues(data = NULL)
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
