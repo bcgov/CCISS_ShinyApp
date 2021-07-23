@@ -18,6 +18,17 @@ S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
 
+SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
+SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
+SIBEC <- rbind(SIBEC, SIBECnew)
+###import SI data (currently from BART)
+SIBEC <- SIBEC[,c("SS_NoSpace","Spp","SIPred")] %>% set_colnames(c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
+save(SIBEC,file = "./data/SIBEC.rda")
+
+TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in package data
+TreeCols <- TreeCols[HexColour != "",]
+save(TreeCols, file = "./data/TreeCols.rda")
+
 SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_6.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]

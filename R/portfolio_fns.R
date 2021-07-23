@@ -99,16 +99,17 @@ dbGetClimSum <- function(con,BGC,Scn){
   climVarCurr <- climVarCurr[stat != "stdev",]
   climVar <- rbind(climVarCurr,climVarFut)
   climVar[,period := as.numeric(substr(period,1,4))]
-  return(climVar)
+  return(list(Mean = climVar,SD = climVarSD))
 }
 
 #' Simulate Climate for Portfolio
 #' @export
 
-simulateClimate <- function(climVar){ ##package function
+simulateClimate <- function(climInfo){ ##package function
   climParams <- list()
   simResults <- data.table()
-  
+  climVar <- climInfo$Mean
+  climVarSD <- climInfo$SD
   for(cvar in c("CMD","Tmin_sp","Tmax_sm")){
     climSub <- climVar[climvar == cvar,.(value = mean(value)), by = .(period)]
     climSD <- climVarSD[climvar == cvar,value]
@@ -161,12 +162,15 @@ dbGetSppLimits <- function(con,SuitTable,Trees){
 #' @importFrom dplyr mutate 
 #' @export
 
-run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,SNum,Trees,TimePeriods,BGC){
+run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
+                          TimePeriods,selectBGC,SuitProb,returnValue,sppLimits,minAccept,boundDat){
+  nSpp <- length(Trees)
+  treeList <- Trees
   allSitesSpp <- foreach(SNum = SiteList, .combine = rbind) %do% {
                            ##simulate climate
                            simResults <- simulateClimate(climVar)
                            SS.sum <- cleanData(SSPredAll,SIBEC,SuitTable,SNum, Trees, 
-                                               timePer = timePeriods,selectBGC = selectBGC)
+                                               timePer = TimePeriods,selectBGC = selectBGC)
                            if(any(is.na(SS.sum$MeanSuit))){
                              warning("Missing Suitability in unit ",
                                      BGC,", sitenumber ",SNum," for ",
@@ -174,7 +178,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,SNum,Trees,
                              SS.sum$MeanSuit[is.na(SS.sum$MeanSuit)] <- 4
                            }
                            SS.sum[,FuturePeriod := as.numeric(FuturePeriod)]
-                           if(length(timePeriods) == 1){
+                           if(length(TimePeriods) == 1){
                              temp <- SS.sum
                              temp$FuturePeriod <- SS.sum$FuturePeriod[1]+85
                              SS.sum <- rbind(SS.sum, temp)
@@ -233,8 +237,9 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,SNum,Trees,
   }
   
   ##preprocess for plotting
+  BGC <- selectBGC
   efAll <- allSitesSpp
-  efAll <- dcast(efAll,Return ~ Spp, fun.aggregate = function(x){sum(x)/(length(SL))})
+  efAll <- dcast(efAll,Return ~ Spp, fun.aggregate = function(x){sum(x)/(length(SiteList))})
   efAll <- na.omit(efAll)
   #efAll$RealRet <- efAll$RealRet/max(efAll$RealRet) ##standardise return
   RetCurve <- approx(efAll$RealRet,efAll$Sd,xout = returnValue)
@@ -247,7 +252,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,SNum,Trees,
   ret90Props <- t(ret90Props) %>% as.data.frame() %>% 
     mutate(Spp = rownames(.)) %>% set_colnames(c("Set_Return","Spp"))
   maxSharpe$SSCurrent <- selectBGC
-  maxSharpe$Unit <- BGC
+  maxSharpe$Unit <- selectBGC
   maxSharpe$Set_Return <- ret90Props$Set_Return
   maxSharpe$Set_Return[maxSharpe$Spp == "Sd"] <- ret90
   setDT(maxSharpe)
@@ -259,8 +264,9 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,SNum,Trees,
 
 #' Plot Efficient Frontier
 #' @import ggplot2
+#' @import ggthemes
 #' @export
-ef_plot <- function(efAll,intDat){
+ef_plot <- function(efAll,intDat,colScale){
   # efAll <- outAll$GraphDat
   # intDat <- outAll$MaxS
   efAll$variable <- factor(efAll$variable, levels = sort(unique(as.character(efAll$variable))))

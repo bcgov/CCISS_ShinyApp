@@ -25,6 +25,8 @@ suppressPackageStartupMessages({
   library(RPostgres)
   library(plotly)
   library(pool)
+  library(ggplot2)
+  library(ggthemes)
 })
 pool <- dbPool(
   drv = RPostgres::Postgres(),
@@ -209,6 +211,51 @@ BGC Futures: ratio of future models predicting BGC
 plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 ```
 
+SPECIES PORTFOLIO
+=====================================
+
+Inputs {.sidebar data-width=230}
+-------------------------------------
+
+###### Data Options
+
+```{r}
+treeOpts <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","Dr","Mb")
+selectInput("tree_species",label = "Included Species:", choices = treeOpts, selected = treeOpts, multiple = T)
+selectInput("time_periods",label = "Time Periods:", 
+            choices = c("1961-1990" = 1961,"1991-2020" = 1991, "2021-2040" = 2021,
+                        "2041-2060" = 2041,"2061-2080" = 2061,"2081-2100" = 2081),
+            selected = c(1961,1991,2021,2041,2061), multiple = T)
+radioButtons(
+    "fut_scn",
+    "RCP Scenario:",
+    selected = "ssp370",
+    c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585"),
+    
+  )
+```
+
+###### Portfolio Parameters
+
+```{r}
+sliderInput("return_level","Specified Return:", min = 0.5, max = 1,value = 0.9)
+sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 0.01)
+sliderInput("prob_pest","Probability of Pest Outbreak:", min = 0, max = 0.1, value = 0.02)
+actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-square"),
+             style = "width:100%; background-color:#003366; color: #FFF")
+```
+
+
+Portfolio Results
+-------------------------------------
+
+### Efficient Frontier
+
+```{r}
+plotOutput("efficient_frontier", width = "100%", height = "auto")
+```
+
+
 EXPORT
 =====================================
 
@@ -294,6 +341,7 @@ tags$script(HTML('
 uData <- session$userData
 library(sf)
 tOut <- st_read("./TileOutline.gpkg")
+portFlag <- reactiveVal()
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
@@ -301,6 +349,7 @@ source("./server/feasibility.R", local = TRUE)
 source("./server/silviculture.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
+source("./server/generate_portfolio.R", local = TRUE)
 output$shinyinfo <- function() {
   app_info <- data.table(
     Information = c("Shiny host","Tiles source","Tileserver","Github","Copyright","License"),
