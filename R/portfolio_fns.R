@@ -71,7 +71,7 @@ edatopicSubset <- function(SSPredOrig, eda, pos = "Zonal"){
     SSPredFull <- SSPredOrig[grep("01",SSPredOrig$SS_NoSpace),]
   }else{
     edaSub <- eda[Edatopic == pos,]
-    SSPredFull <- SSPredOrig[SS_NoSpace %in% edaSub$SS.pred,]
+    SSPredFull <- SSPredOrig[SS_NoSpace %in% edaSub$SS_NoSpace,]
   }
   SSPredFull[,BGC_analysis := gsub("/.*","", SS_NoSpace)]
   SSPredFull <- SSPredFull[,c("MergedBGC", "SS.pred", "SSprob", "SS_NoSpace", 
@@ -163,7 +163,8 @@ dbGetSppLimits <- function(con,SuitTable,Trees){
 #' @export
 
 run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
-                          TimePeriods,selectBGC,SuitProb,returnValue,sppLimits,minAccept,boundDat){
+                          TimePeriods,selectBGC,SuitProb,returnValue,sppLimits,
+                          minAccept,boundDat,ProbPest){
   nSpp <- length(Trees)
   treeList <- Trees
   allSitesSpp <- foreach(SNum = SiteList, .combine = rbind) %do% {
@@ -204,7 +205,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                annualDat <- data.table("Growth" = s[["y"]], "MeanDead" = p[["y"]], "NoMort" = m[["y"]], "Suit" = r[["y"]]) ##create working data
                                annualDat <- cbind(simResults,annualDat)
                                limits <- sppLimits[Spp == treeList[k],]
-                               Returns <- SimGrowth(DF = annualDat,ProbPest = 0.005,
+                               Returns <- SimGrowth(DF = annualDat,ProbPest = ProbPest,
                                                        cmdMin = limits[[1]],cmdMax = limits[[2]],
                                                        tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.08)
                                tmpR <- c(0,Returns)
