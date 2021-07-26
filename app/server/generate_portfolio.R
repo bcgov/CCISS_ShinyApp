@@ -11,6 +11,27 @@ makeColScale <- function(Trees){
   return(colScale)
 }
 
+##update possible species
+observeEvent(input$port_bgc,{
+  if(input$generate_results > 0){
+    suitTrees <- copy(uData$cciss_summary)
+    #print(colnames(suitTrees))
+    suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
+    suitTrees <- unique(suitTrees)
+    tree_opts <- suitTrees[BGC == input$port_bgc,Spp]
+    updateSelectInput(inputId = "tree_species",
+                      choices = tree_opts,selected = tree_opts)
+  }
+ 
+})
+
+output$setbounds <- renderRHandsontable({
+  Trees <- input$tree_species
+  boundDat <- data.table(Spp = Trees)
+  boundDat[,`:=`(minWt = 0, maxWt = 1)]
+  rhandsontable(boundDat)
+})
+
 observeEvent(input$generate_portfolio,{
   timePeriods <- input$time_periods
   returnValue <- input$return_level
@@ -22,13 +43,12 @@ observeEvent(input$generate_portfolio,{
   FutScn <- "ssp245"
   #EdaPos <- input$eda_pos
   SiteList <- uData$pts$Site
+  boundDat <- hot_to_r(input$setbounds)
   ##setup climate_data connection
   
   withProgress(message = "Optimising...", detail = "Lots of calculations...", {
     #Trees <- treeList <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","Dr","Mb")
     SuitProb <- data.frame("Suit" = c(1,2,3,4), "ProbDead" = c(0.1,0.5,1,4), "NoMort" = c(95,85,75,50))
-    boundDat <- data.table(Spp = Trees)
-    boundDat[,`:=`(minWt = 0, maxWt = 1)]
     #timePeriods = c(1961,1991,2021,2041,2061)
     #returnValue = 0.9
     #FutScn <- "ssp370"
