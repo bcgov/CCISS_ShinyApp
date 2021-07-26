@@ -28,9 +28,20 @@ observeEvent(input$generate_results, priority = 100, {
   
   # UI select choices
   tic("Determine UI choices", ticker)
+  
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   bgc_opts <- unique(uData$bgc$BGC)
+  
+  ##prepare tree choices for portfolio selection
+  suitTrees <- copy(cciss_summary)
+  #print(colnames(suitTrees))
+  suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
+  suitTrees <- unique(suitTrees)
+  tree_opts <- suitTrees[BGC == bgc_opts[1],Spp]
+  updateSelectInput(inputId = "tree_species",
+                    choices = tree_opts,selected = tree_opts)
+  uData$tree_opts <- suitTrees
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))

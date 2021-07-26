@@ -27,6 +27,7 @@ suppressPackageStartupMessages({
   library(pool)
   library(ggplot2)
   library(ggthemes)
+  library(rhandsontable)
 })
 pool <- dbPool(
   drv = RPostgres::Postgres(),
@@ -226,7 +227,7 @@ plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 SPECIES PORTFOLIO
 =====================================
 
-Inputs {.sidebar data-width=230}
+Inputs {.sidebar data-width=300}
 -------------------------------------
 
 ###### Data Options
@@ -252,8 +253,9 @@ selectInput("time_periods",label = "Time Periods:",
 ###### Portfolio Parameters
 
 ```{r}
+rHandsontableOutput("setbounds")
 sliderInput("return_level","Specified Return:", min = 0.5, max = 1,value = 0.9)
-sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 0.01)
+sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 0.05)
 sliderInput("prob_pest","Probability of Pest Outbreak:", min = 0, max = 0.1, value = 0.02)
 actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
