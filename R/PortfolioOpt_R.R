@@ -33,6 +33,8 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
       break
     }
   }
+  
+  target <- .set_target(mean_returns,cov_matrix)
   frontier_weights <- setnames(data.table(matrix(nrow = 0, ncol = length(sppUse))),sppUse)
   frontier_sd <- numeric(length = length(target))
   for(i in 1:length(target)){
@@ -51,7 +53,9 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
 #' @noRd
 .set_target <- function(mean_returns, cov_matrix){
   num_ass <- length(mean_returns)
-  eq_constr <- function(x) sum(x) - 1
+  eq_constr <- function(x){
+    sum(x) - 1
+  } 
   min_var_w <- slsqp(x0 = rep(1/num_ass,num_ass),fn = .portfolio_volatility,
                      lower = rep(0,num_ass), upper = rep(1,num_ass),
                      heq = eq_constr, mean_returns = mean_returns, cov_matrix = cov_matrix)
@@ -67,7 +71,9 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
   num_ass <- length(mean_returns)
   ##set constraints
   eq_constr_ret <- function(x){
-    return(c(sum(mean_returns*x)-target_ret,sum(x)-1))
+    temp <- c(sum(mean_returns*x)-target_ret,sum(x)-1)
+    if(any(is.na(temp))) return(NULL)
+    return(temp)
   }
   result <- slsqp(x0 = rep(1/num_ass,num_ass),fn = .portfolio_volatility,
                   lower = bounds$minWt, upper = bounds$maxWt,
