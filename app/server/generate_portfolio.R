@@ -19,6 +19,7 @@ observeEvent(input$port_bgc,{
     suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
     suitTrees <- unique(suitTrees)
     tree_opts <- suitTrees[BGC == input$port_bgc,Spp]
+    tree_opts <- tree_opts[tree_opts != "Ac"]
     updateSelectInput(inputId = "tree_species",
                       choices = tree_opts,selected = tree_opts)
   }
@@ -82,13 +83,14 @@ observeEvent(input$generate_portfolio,{
     incProgress()
     
     SL <- SiteList
-    numTimes <- as.integer(10/length(SL))
+    numTimes <- as.integer(25/length(SL))
     SL <- rep(SL, each = numTimes)
     port_results <- run_portfolio(SL,climVar,SSPredAll,SIBEC,SuitTable,
                                   Trees,timePeriods,selectBGC,SuitProb,returnValue,
                                   sppLimits,minAccept,boundDat,ProbPest)
     incProgress(amount = 0.6)
     print("Done Portfolio")
+    print(port_results$raw)
     portfolio_results$data <- port_results
   })
   
@@ -99,8 +101,24 @@ output$efficient_frontier <- renderPlot({
   
   colScale <- makeColScale(input$tree_species)
   dat <- copy(portfolio_results$data)
-  print("About to Plot")
   print(ef_plot(dat$raw,dat$summary,colScale))
 })
 
+output$port_table <- renderTable({
+  if(is.null(portfolio_results$data)) return(NULL)
+  dat <- copy(portfolio_results$data)
+  temp <- dat$summary
+  temp <- temp[!Spp %chin% c("RealRet","Sd"),.(Spp,Sharpe_Opt,Set_Return)]
+  setnames(temp,c("Species","Sharpe","SetReturn"))
+  temp
+})
+
+output$port_sssum <- renderDT({
+  if(is.null(portfolio_results$data)) return(NULL)
+  dat <- copy(portfolio_results$data$ssdat)
+  dat <- melt(dat, id.vars = c("Spp","FuturePeriod"))
+  dat2 <- dcast(dat, Spp + FuturePeriod ~ variable, fun.aggregate = mean)
+  setnames(dat2, old = "FuturePeriod",new = "Period")
+  formatRound(datatable(dat2,caption = "Mean SI and Feasibility"),columns = "MeanSI")
+})
 

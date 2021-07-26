@@ -213,6 +213,7 @@ Inputs {.sidebar data-width=230}
 ```{r}
 selectInput("siteref_bgc_fut", label = "Sites:", choices = character())
 selectInput("ss_bgc_fut",label = "Site Series:", choices = character())
+sliderInput("min_ssoverlap",label = "Min Site Series Overlap", min = 0.05,max = 0.25,value = 0.1)
 ```
 
 BGC Futures: ratio of future models predicting BGC
@@ -262,7 +263,7 @@ actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-sq
 ```
 
 
-Portfolio Results
+Row
 -------------------------------------
 
 ### Efficient Frontier
@@ -271,6 +272,14 @@ Portfolio Results
 plotOutput("efficient_frontier", width = "100%", height = "auto")
 ```
 
+### Optimised Weights
+
+```{r}
+fillCol(
+  tableOutput("port_table"),
+  DTOutput("port_sssum")
+)
+```
 
 EXPORT
 =====================================

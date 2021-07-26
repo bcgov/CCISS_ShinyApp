@@ -57,8 +57,9 @@ cleanData <- function(SSPredAll,SIBEC,SuitTable,SNum,Trees,timePer,selectBGC){
   SS.sum <- SS.sum[FuturePeriod %in% timePer,]
   ###not sure what we were doing here?
   SS.sum[MeanSuit == 4, MeanSI := 5]
-  SS.sum[MeanSuit == 5, MeanSI := 0]
+  SS.sum[MeanSuit == 5, MeanSI := 5]
   SS.sum[MeanSuit == 5, MeanSuit := 4]
+  SS.sum[MeanSI == 0, MeanSI := 5]
   SS.sum <- unique(SS.sum)
   setorder(SS.sum,Spp,FuturePeriod)
   return(SS.sum)
@@ -167,11 +168,13 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                           minAccept,boundDat,ProbPest){
   nSpp <- length(Trees)
   treeList <- Trees
+  ss_sum_save <- data.table()
   allSitesSpp <- foreach(SNum = SiteList, .combine = rbind) %do% {
                            ##simulate climate
                            simResults <- simulateClimate(climVar)
                            SS.sum <- cleanData(SSPredAll,SIBEC,SuitTable,SNum, Trees, 
                                                timePer = TimePeriods,selectBGC = selectBGC)
+                           ss_sum_save <- rbind(ss_sum_save,SS.sum, fill = T)
                            if(any(is.na(SS.sum$MeanSuit))){
                              warning("Missing Suitability in unit ",
                                      BGC,", sitenumber ",SNum," for ",
@@ -260,7 +263,8 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
   efAll <- efAll[,-c("Return","Sharpe")]
   efAll <- melt(efAll, id.vars = "Sd")
   efAll$Unit <- BGC
-  return(list(raw = efAll,summary = maxSharpe))
+  efAll <- efAll[is.finite(Sd),]
+  return(list(raw = efAll,summary = maxSharpe,ssdat = ss_sum_save))
 }
 
 #' Plot Efficient Frontier
@@ -280,7 +284,7 @@ ef_plot <- function(efAll,intDat,colScale){
                linetype = "dashed", size = .75)+
     geom_line(data = efAll[efAll$variable == "RealRet",], 
               aes(x = Sd, y = value,colour = "black"),linetype = "F1",size = .75)+
-    scale_colour_identity(name = "", guide = 'legend', labels = c("Return","MaxSharpe","90%"))+
+    scale_colour_identity(name = "", guide = 'legend', labels = c("Return","MaxSharpe","SetReturn"))+
     scale_x_reverse() +
     xlab("Max Return --> Minimized Risk")+
     ylab("Portfolio Ratio")+
