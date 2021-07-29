@@ -1,5 +1,5 @@
 ---
-title: "The Climate Change Informed Species Selection (CCISS) Tool: v12"
+title: "The Climate Change Informed Species Selection Tool: v12"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -238,10 +238,9 @@ selectInput("port_bgc",label = "Select BGC:", choices = character())
 radioButtons("port_ss",label = "Select Site Postion:",choices = c("B2","Zonal","D6"), selected = "Zonal")
 treeOpts <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","Dr","Mb")
 selectInput("tree_species",label = "Included Species:", choices = treeOpts, selected = treeOpts, multiple = T)
-selectInput("time_periods",label = "Time Periods:", 
-            choices = c("1961-1990" = 1961,"1991-2020" = 1991, "2021-2040" = 2021,
-                        "2041-2060" = 2041,"2061-2080" = 2061,"2081-2100" = 2081),
-            selected = c(1961,1991,2021,2041,2061), multiple = T)
+radioButtons("port_length",label = "Optimisation Period (Rotation Length):",
+             choiceNames = c("Current Period","20 Year","40 Year","60 Year","80 Year"),
+             choiceValues = c(1991,2021,2041,2061,2081))
 # radioButtons(
 #     "fut_scn",
 #     "RCP Scenario:",
@@ -275,10 +274,8 @@ plotOutput("efficient_frontier", width = "100%", height = "auto")
 ### Optimised Weights
 
 ```{r}
-fillCol(
-  tableOutput("port_table"),
-  DTOutput("port_sssum")
-)
+actionButton("show_sssum",label = "Show Site Index and Feasibility")
+tableOutput("port_table")
 ```
 
 EXPORT

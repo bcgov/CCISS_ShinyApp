@@ -169,7 +169,10 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
   nSpp <- length(Trees)
   treeList <- Trees
   ss_sum_save <- data.table()
+  simOut <- data.table()
+  it = 0
   allSitesSpp <- foreach(SNum = SiteList, .combine = rbind) %do% {
+                           it = it+1
                            ##simulate climate
                            simResults <- simulateClimate(climVar)
                            SS.sum <- cleanData(SSPredAll,SIBEC,SuitTable,SNum, Trees, 
@@ -233,6 +236,9 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                       new = c("Sd","RealRet","Sharpe"))
                              ef[,Return := 1:20]
                              
+                             returns[,iter := it]
+                             simOut <- rbind(simOut,returns, fill = T)
+                             
                              eff_front2 <- ef
                              eff_front2[,RealRet := RealRet/max(RealRet)]
                              eff_front2[,SiteNo := SNum]
@@ -264,7 +270,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
   efAll <- melt(efAll, id.vars = "Sd")
   efAll$Unit <- BGC
   efAll <- efAll[is.finite(Sd),]
-  return(list(raw = efAll,summary = maxSharpe,ssdat = ss_sum_save))
+  return(list(raw = efAll,summary = maxSharpe,ssdat = ss_sum_save,simulated = simOut))
 }
 
 #' Plot Efficient Frontier
