@@ -34,7 +34,7 @@ output$setbounds <- renderRHandsontable({
 })
 
 observeEvent(input$generate_portfolio,{
-  timePeriods <- input$time_periods
+  timePeriods <- input$port_length
   returnValue <- input$return_level
   Trees <- treeList <- input$tree_species
   minAccept <- input$min_accept
@@ -46,6 +46,9 @@ observeEvent(input$generate_portfolio,{
   SiteList <- uData$pts$Site
   boundDat <- hot_to_r(input$setbounds)
   ##setup climate_data connection
+  allPeriods <- c(1961,1991,2021,2041,2061,2081)
+  selectPer <- which(allPeriods == timePeriods)
+  timePeriods <- allPeriods[1:selectPer]
   
   withProgress(message = "Optimising...", detail = "Lots of calculations...", {
     #Trees <- treeList <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","Dr","Mb")
@@ -90,7 +93,7 @@ observeEvent(input$generate_portfolio,{
                                   sppLimits,minAccept,boundDat,ProbPest)
     incProgress(amount = 0.6)
     print("Done Portfolio")
-    print(port_results$raw)
+    #print(port_results$raw)
     portfolio_results$data <- port_results
   })
   
@@ -107,6 +110,7 @@ output$efficient_frontier <- renderPlot({
 output$port_table <- renderTable({
   if(is.null(portfolio_results$data)) return(NULL)
   dat <- copy(portfolio_results$data)
+  print(dat$simulated)
   temp <- dat$summary
   temp <- temp[!Spp %chin% c("RealRet","Sd"),.(Spp,Sharpe_Opt,Set_Return)]
   setnames(temp,c("Species","Sharpe","SetReturn"))
@@ -122,3 +126,10 @@ output$port_sssum <- renderDT({
   formatRound(datatable(dat2,caption = "Mean SI and Feasibility"),columns = "MeanSI")
 })
 
+observeEvent(input$show_sssum,{
+  showModal(modalDialog(
+    h2("Site Index and Feasibility Values"),
+    DTOutput("port_sssum"),
+    size = "l"
+  ))
+})
