@@ -10,10 +10,15 @@ run_portfolio(
   SSPredAll,
   SIBEC,
   SuitTable,
-  SNum,
   Trees,
   TimePeriods,
-  BGC
+  selectBGC,
+  SuitProb,
+  returnValue,
+  sppLimits,
+  minAccept,
+  boundDat,
+  ProbPest
 )
 }
 \description{

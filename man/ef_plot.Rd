@@ -4,7 +4,7 @@
 \alias{ef_plot}
 \title{Plot Efficient Frontier}
 \usage{
-ef_plot(efAll, intDat)
+ef_plot(efAll, intDat, colScale)
 }
 \description{
 Plot Efficient Frontier

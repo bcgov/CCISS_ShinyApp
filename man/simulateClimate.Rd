@@ -4,7 +4,7 @@
 \alias{simulateClimate}
 \title{Simulate Climate for Portfolio}
 \usage{
-simulateClimate(climVar)
+simulateClimate(climInfo)
 }
 \description{
 Simulate Climate for Portfolio
