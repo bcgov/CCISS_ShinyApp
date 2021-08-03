@@ -107,6 +107,16 @@ output$efficient_frontier <- renderPlot({
   print(ef_plot(dat$raw,dat$summary,colScale))
 })
 
+output$growth_sim <- renderPlot({
+  if(is.null(portfolio_results$data)) return(NULL)
+  dat <- copy(portfolio_results$data$simulated)
+  dat[,It := as.factor(It)]
+  dat <- dat[It == input$sim_group,]
+  ggplot(dat, aes(x = Year, y = Returns, color = Spp)) +
+    geom_line() +
+    theme_few()
+})
+
 output$port_table <- renderTable({
   if(is.null(portfolio_results$data)) return(NULL)
   dat <- copy(portfolio_results$data)

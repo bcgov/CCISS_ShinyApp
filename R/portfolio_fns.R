@@ -216,8 +216,9 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                                        tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.08)
                                tmpR <- c(0,Returns)
                                assets <- Returns - tmpR[-length(tmpR)]
-                               temp <- data.frame(Spp = rep(treeList[k],101), 
-                                                  Year = 1:101, Returns = Returns)
+                               temp <- data.frame(Spp = treeList[k], 
+                                                  Year = 1:101, It = it, Returns = Returns)
+                               simOut <- rbind(simOut,temp,fill = T)
                                output <- cbind(output, assets)
                              } ## for each tree species
                              
@@ -235,9 +236,6 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                              setnames(ef,old = c("frontier_sd","return","sharpe"),
                                       new = c("Sd","RealRet","Sharpe"))
                              ef[,Return := 1:20]
-                             
-                             returns[,iter := it]
-                             simOut <- rbind(simOut,returns, fill = T)
                              
                              eff_front2 <- ef
                              eff_front2[,RealRet := RealRet/max(RealRet)]
