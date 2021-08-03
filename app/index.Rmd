@@ -225,7 +225,7 @@ BGC Futures: ratio of future models predicting BGC
 plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 ```
 
-SPECIES PORTFOLIO
+SPECIES PORTFOLIO {data-orientation=columns}
 =====================================
 
 Inputs {.sidebar data-width=300}
@@ -259,6 +259,7 @@ sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 
 sliderInput("prob_pest","Probability of Pest Outbreak:", min = 0, max = 0.1, value = 0.02)
 actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
+sliderInput("sim_group", "Select Simulation to Plot: ", min = 1, max = 25, value = 1, step = 1)
 ```
 
 
@@ -271,13 +272,25 @@ Row
 plotOutput("efficient_frontier", width = "100%", height = "auto")
 ```
 
+### Growth Simulations
+
+```{r}
+plotOutput("growth_sim",  width = "100%", height = "auto")
+```
+
+Row
+-------------------------------------
+
 ### Optimised Weights
 
 ```{r}
-actionButton("show_sssum",label = "Show Site Index and Feasibility")
 tableOutput("port_table")
-sliderInput("sim_group", "Select Simulation: ", min = 1, max = 25, value = 1, step = 1)
-plotOutput("growth_sim")
+```
+
+### Site Index and Feasibility
+
+```{r}
+DTOutput("port_sssum")
 ```
 
 EXPORT
