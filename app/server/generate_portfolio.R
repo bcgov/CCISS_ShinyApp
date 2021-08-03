@@ -114,7 +114,8 @@ output$growth_sim <- renderPlot({
   dat <- dat[It == input$sim_group,]
   ggplot(dat, aes(x = Year, y = Returns, color = Spp)) +
     geom_line() +
-    theme_few()
+    theme_few() + 
+    expand_limits(y = 0)
 })
 
 output$port_table <- renderTable({
