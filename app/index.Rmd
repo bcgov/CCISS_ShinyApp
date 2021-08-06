@@ -378,6 +378,8 @@ tags$script(HTML('
 uData <- session$userData
 library(sf)
 tOut <- st_read("./TileOutline.gpkg")
+tOut2 <- st_read("./RCB_Outline.gpkg")
+tOut <- st_union(tOut,tOut2)
 portfolio_results <- reactiveValues(data = NULL)
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)

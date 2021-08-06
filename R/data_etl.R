@@ -177,12 +177,12 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     
     UNION ALL
     
-    SELECT '1961' as futureperiod,
-            test_historic.siteno,
+    SELECT DISTINCT '1961' as futureperiod,
+            test_prob.siteno,
             bgc,
             bgc as bgc_pred,
             'Historic' as gcm
-    FROM test_historic
+    FROM test_prob
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   
   ), cciss_count_den AS (
@@ -238,6 +238,7 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
 
   setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
+  dat <- unique(dat) ##should fix database so not necessary
   #print(dat)
   return(dat)
 }
