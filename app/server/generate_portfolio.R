@@ -121,7 +121,6 @@ output$growth_sim <- renderPlot({
 output$port_table <- renderTable({
   if(is.null(portfolio_results$data)) return(NULL)
   dat <- copy(portfolio_results$data)
-  print(dat$simulated)
   temp <- dat$summary
   temp <- temp[!Spp %chin% c("RealRet","Sd"),.(Spp,Sharpe_Opt,Set_Return)]
   setnames(temp,c("Species","Sharpe","SetReturn"))
