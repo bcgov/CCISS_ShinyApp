@@ -172,8 +172,9 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
            bgc_pred,
            gcm
     FROM test_future
-    WHERE scenario IN ('", paste(scn, collapse = "','"), "') and
-          siteno IN (", paste(unique(siteno), collapse = ","), ")
+    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+    AND scenario IN ('", paste(scn, collapse = "','"), "')
+    AND futureperiod IN ('2021','2041','2061','2081')
     
     UNION ALL
     
