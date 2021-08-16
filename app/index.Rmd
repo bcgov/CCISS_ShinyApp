@@ -27,6 +27,7 @@ suppressPackageStartupMessages({
   library(pool)
   library(ggplot2)
   library(ggthemes)
+  library(kableExtra)
   library(rhandsontable)
 })
 pool <- dbPool(
@@ -92,7 +93,22 @@ splitLayout(
     selected = "TRUE"
   )
 )
+```
 
+#### Session Paramters
+
+```{r}
+h6("Establishment Feasibility Weights")
+splitLayout(
+  numericInput("wt961","1961-1990", value = 0.3, min = 0, max = 1,step = 0.05),
+  numericInput("wt991","1991-2020", value = 0.35, min = 0, max = 1,step = 0.05),
+  numericInput("wt21","2021-2040", value = 0.35, min = 0, max = 1,step = 0.05)
+)
+h6("Mid Rotation Weights")
+splitLayout(
+  numericInput("wt41","2041-2060", value = 0.6, min = 0, max = 1,step = 0.05),
+  numericInput("wt61","2061-2080", value = 0.4, min = 0, max = 1,step = 0.05)
+)
 # Generate results
 actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
@@ -108,7 +124,6 @@ Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
 ```{r}
 leafletOutput("bec_map", height = "auto")
-
 ```
 
 FEASIBILITY REPORT
