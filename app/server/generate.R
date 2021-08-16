@@ -14,12 +14,22 @@ observeEvent(input$generate_results, priority = 100, {
   avg             <- uData$avg             <- as.logical(input$aggregation)
   rcp             <- uData$rcp             <- input$rcp_scenario
   pts             <- uData$pts             <- userpoints$dt
+
+  #session params
+  estabWt <- as.numeric(c(input$wt961,input$wt991,input$wt21))
+  estabWt <- estabWt/sum(estabWt)
+  uData$estabWt <- estabWt
+  print(estabWt)
+  
+  midWt <- as.numeric(c(input$wt41,input$wt61))
+  midWt <- uData$midWt <- midWt/sum(midWt)
+  print(midWt)
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
   bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, rcp)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc)
+  cciss           <- uData$cciss           <- cciss(bgc,estabWt,midWt)
   tic("Format CCISS Results", ticker)
   cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
   tic("Format CCISS Summary", ticker)
@@ -131,18 +141,16 @@ bgc <- function(con, siteno, avg, rcp) {
   })
 }
 
-##bgc <- dbGetCCISS(pool,siteno = c(4532735,4546791,4548548),avg = T, scn = "ssp370")
+#bgc <- dbGetCCISS(pool,siteno = c(4532735,4546791,4548548),avg = T, scn = "ssp370")
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
-cciss <- function(bgc) {
+cciss <- function(bgc,estabWt,midWt) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- SSPred
-  SSPred2 <- SSPred[,.(SSLab = paste(SS.pred,collapse = "<br>")), 
-                    by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
-  uData$sspreds <- SSPred2
-  ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1)
+  ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
+              histWeights = estabWt, midWeights = midWt)
 }
 
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]

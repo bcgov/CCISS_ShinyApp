@@ -31,7 +31,7 @@
 #' @importFrom matrixStats rowMaxs
 #' @importFrom dplyr select everything mutate across full_join filter
 #' @export
-ccissOutput <- function(SSPred,suit,rules,feasFlag){
+ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,midWeights){
  ### generate raw feasibility ratios
   suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
   ## replace the coast/interior divisions of species
@@ -68,9 +68,9 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   #suitVotes2 <- suitVotes %>% dplyr::select(SiteRef, Spp, FuturePeriod, SS_NoSpace, Curr, NewSuit, dplyr::everything() )
   
   ##Generate summary feasibility from raw proportions
-  histWt <- 0.3
-  currWt <- 0.35    ## weight in summary given to the modern climate change period
-  earlyWt <- 0.35   ## weight in summary given to the 2010-2040 climate change period
+  histWt <- histWeights[1]
+  currWt <- histWeights[2]    ## weight in summary given to the modern climate change period
+  earlyWt <- histWeights[3]   ## weight in summary given to the 2010-2040 climate change period
 
   colNms <- c("1","2","3","X")
   datFeas <- suitVotes[FuturePeriod %in% c(1961 ,1991, 2021),]
@@ -119,8 +119,8 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
                             Trajectory2025, FailRisk2025)]
   
   ###mid rotation trend using 41-60 and 61-80
-  wt41 <- 0.6
-  wt61 <- 0.4
+  wt41 <- midWeights[1]
+  wt61 <- midWeights[2]
   datRot <- suitVotes[FuturePeriod %in% c(2041,2061),]
   datRot[FuturePeriod == 2041, (colNms) := lapply(.SD,"*",wt41), .SDcols = colNms]
   datRot[FuturePeriod == 2061, (colNms) := lapply(.SD,"*",wt61), .SDcols = colNms]

@@ -27,6 +27,7 @@ output$bgc_fut_plot <- plotly::renderPlotly({
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
   data <- data[allOverlap > minallow,]
+  data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   data[,Lab := paste(SS.pred,round(allOverlap,digits = 2),sep = ": ")]
   data <- data[,.(SSLab = paste(Lab,collapse = "<br>")), 
                     by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
