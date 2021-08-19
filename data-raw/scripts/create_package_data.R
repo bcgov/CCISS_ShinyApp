@@ -4,8 +4,8 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v12_5.csv")
-S1 <- fread("./data-raw/data_tables/Feasibility_v12_7.csv")
+E1 <- fread("~/CommonTables/Edatopic_v12_6.csv")
+S1 <- fread("~/CommonTables/Feasibility_v12_8.csv")
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
@@ -18,7 +18,18 @@ S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
 
-SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_6.csv")
+SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
+SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
+SIBEC <- rbind(SIBEC, SIBECnew)
+###import SI data (currently from BART)
+SIBEC <- SIBEC[,c("SS_NoSpace","Spp","SIPred")] %>% set_colnames(c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
+save(SIBEC,file = "./data/SIBEC.rda")
+
+TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in package data
+TreeCols <- TreeCols[HexColour != "",]
+save(TreeCols, file = "./data/TreeCols.rda")
+
+SS <- fread("~/CommonTables/WNA_SSeries_v12_6.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
@@ -30,8 +41,8 @@ F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
 T1 <- fread("./data-raw/data_tables/Tree speciesand codes_2.0_2May2019.csv", key = "TreeCode")
 V1 <- fread("./data-raw/data_tables/Variables_ClimateBC.csv", key = "Code")
 zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key = "classification")
-subzones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Subzone_Colours.csv", key = "classification")
-
+subzones_colours_ref <- fread("./data-raw/data_tables/WNAv12_3_SubzoneCols.csv", key = "classification")
+save(subzones_colours_ref, file = "./data/subzones_colours_ref.rda")
 # StockingStds
 stocking_standards_v11 <- fread("./data-raw/data_tables/StockingStds/StockStands_v11.csv", key = c("Region", "ZoneSubzone", "SS_NoSpace", "Species"), colClasses = c("Standard" = "numeric"))
 stocking_info_v10 <- fread("./data-raw/data_tables/StockingStds/StockingInfo_v10.csv", key = "Standard", colClasses = c("Standard" = "numeric"))

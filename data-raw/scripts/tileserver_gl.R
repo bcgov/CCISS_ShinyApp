@@ -25,7 +25,7 @@ st_write(dat,dsn = out_dir,layer = layer,driver = "ESRI Shapefile",overwrite = T
 # Digital Ocean provisioning - Setup your SSH keys in your accounts before running these.
 # tileserver <- setup_docklet()
 # Or Reuse an existing droplet
-tileserver <- droplets()[["tileserver-gl"]]
+tileserver <- droplets()[["tileserver-wna"]]
 # About 5-6h
 remote_shp_tiles(tileserver,
                  "-z18 --simplification=10 --force --coalesce-densest-as-needed --extend-zooms-if-still-dropping --detect-shared-borders",
