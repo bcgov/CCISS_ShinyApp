@@ -7,19 +7,31 @@ output$current_bgc_fut <- renderText({
   uData$bgc[SiteRef == siteref, unique(BGC)]
 })
 
+observeEvent(input$siteref_bgc_fut,{
+  siteseries_list <- uData$siteseries_list
+  siteseries <- siteseries_list[[input$siteref_bgc_fut]]
+  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
+})
+
 # Update the BGC futures plot
 output$bgc_fut_plot <- plotly::renderPlotly({
   siteref <- input$siteref_bgc_fut
   sseries <- input$ss_bgc_fut
-  if (is.null(uData$sspreds)) return(NULL)
-  bgc_fut_plotly(uData$sspreds, siteref, sseries)
+  minallow <- input$min_ssoverlap
+  if (is.null(uData$eda_out)) return(NULL)
+  bgc_fut_plotly(copy(uData$eda_out), siteref, sseries, minallow)
 })
 
 # Graph
 
 #' @param data BGC data.table
-bgc_fut_plotly <- function(data, siteref, sseries, period_map = uData$period_map, ...) {
-  data <- data[SiteRef == siteref & SS_NoSpace == sseries]
+bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
+  data <- data[allOverlap > minallow,]
+  data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
+  data[,Lab := paste(SS.pred,round(allOverlap,digits = 2),sep = ": ")]
+  data <- data[,.(SSLab = paste(Lab,collapse = "<br>")), 
+                    by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
+  data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
   l <- list(
     font = list(
       size = 12,

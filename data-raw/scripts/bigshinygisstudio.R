@@ -108,14 +108,17 @@ analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
 # upload app to server
 server <- analogsea::droplets()$`shiny-server`
+reset_ssh_sessions()
+#analogsea::droplet_ssh(server,"rm -R /srv/shiny-server/ccissdev/.Renviron")
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/ccissdev")
-analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = TRUE, dependencies = TRUE, force = TRUE)\"")
+analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-Research/CCISS_ShinyApp_v12', upgrade = FALSE, dependencies = FALSE, force = TRUE)\"")
 analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/ccissdev/index.Rmd")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/TileOutline.gpkg", "/srv/shiny-server/ccissdev/TileOutline.gpkg")
+analogsea::droplet_upload(server, "./app/RCB_Outline.gpkg", "/srv/shiny-server/ccissdev/RCB_Outline.gpkg")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 

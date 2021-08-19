@@ -21,7 +21,7 @@ cciss_summary_dt <- function(data, siteref, siteserie, format = "html") {
                list(Species, CFSuitability, ProjFeas, Flag, Period, FutProjFeas, FailRisk)]
   knitr::kable(
     data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
-    col.names = c("Tree Species", "Chief Forester Recommended Suitability",
+    col.names = c("Tree Species", "CFRG Suitability",
                   "Projected Feasibility", "Flag", "Period",
                   "Future Projected Feasibility", "Fail Risk"),
     table.attr = 'class="table table-hover"')
@@ -42,17 +42,28 @@ output$results_feas <- function() {
 # format. Report has no javascript, just a plain table.
 cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") {
   if (filter == "a") {
-    data <- data[MeanSuit < 4 | CFSuitability %chin% c("1", "2", "3")]
+    for(i in c("NewSuit_1991","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
+      data[is.na(get(i)), (i) := 4]
+    }
+    data <- data[(NewSuit_1991+NewSuit_2021+NewSuit_2041+NewSuit_2061+NewSuit_2081) < 24,]
   } else if (filter == "f") {
-    data <- data[ProjFeas %chin% c("1", "2", "3") | CFSuitability %chin% c("1", "2", "3")]
+    data <- data[Curr %in% c(1,2,3),]
   }
+  
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               list(Species, Period, PredFeasSVG, CFSuitability, ProjFeas, MidRotTrend)]
-  knitr::kable(
-    data, format = format, align = c("l","c","c","c","c","c"), escape = FALSE,
-    col.names = c("Tree Species", "Period", "Predicted Feasibility",
-                  "Chief Forester Recommended Suitability", "Projected Feasibility",
-                  "Continuing Trend at Mid Rotation (2040-2070)"),
-    table.attr = 'class="table table-hover"')
+               list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, MidRotSVG, Risk60, Risk80)]
+  
+  for(i in c("Curr","EstabFeas","Risk60","Risk80")){ ##set NA to X
+    data[is.na(get(i)), (i) := "X"]
+  }
+    
+  tempTable <- knitr::kable(
+    data, format = format, align = c("l","c","c","c","c","c","c","c","c"), escape = FALSE,
+    col.names = c("Tree Species", "Period", "Modelled Feasibility",
+                  "CFRG", "Ecological","Establishment",
+                  "Trend to Rotation","60 Year", "80 Year"),
+    table.attr = 'class="table table-hover"') %>%
+    add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic Feasibility" = 2, 
+                       "Predicted Feasibility" = 2, "Future Risk" = 2))
 }
 uData$cciss_results_dt <- cciss_results_dt
