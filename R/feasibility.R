@@ -74,19 +74,21 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,midWeights){
 
   colNms <- c("1","2","3","X")
   datFeas <- suitVotes[FuturePeriod %in% c(1961 ,1991, 2021),]
+
   datFeas[FuturePeriod == 1961, (colNms) := lapply(.SD,"*",histWt), .SDcols = colNms]
   datFeas[FuturePeriod == 1991, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]
   datFeas[FuturePeriod == 2021, (colNms) := lapply(.SD,"*",earlyWt), .SDcols = colNms]
 
   datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   ## ADD VARIABLE THAT IS 1-SUM OF 1-4 COLUMNS THAN ADD VALUE TO x COLUMN TO ACCOUNT FOR nULL FUTURES AND MAKE ROW SUM = 1
+
   datFeas[,Xadj := rowSums(.SD), .SDcols = colNms]
   datFeas[,X2 := X + (1-Xadj)]
    ## THEN VARIABLE THAT IS SUM OF COL1 + COL2*2, COL3*3, COL 'X'* 4 and then round(0) for establishment feasibility
   datFeas[,NewSuitFrac := `1`+(`2`*2)+(`3`*3)+(X2*4)]
   datFeas[,NewSuit := round(NewSuitFrac,0)]
   datFeas[,`:=`(X = NULL,Xadj = NULL)]
- 
+
   #datFeas[,FeasEstab := `1`+`2`+0.75*`3`] 
   # datFeas[,NewSuit := round(NewSuit, digits = 0)]
   datFeas[NewSuit >= 4,NewSuit := 10]
