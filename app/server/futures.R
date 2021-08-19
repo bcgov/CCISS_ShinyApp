@@ -18,6 +18,7 @@ output$bgc_fut_plot <- plotly::renderPlotly({
   siteref <- input$siteref_bgc_fut
   sseries <- input$ss_bgc_fut
   minallow <- input$min_ssoverlap
+  update_flag()
   if (is.null(uData$eda_out)) return(NULL)
   bgc_fut_plotly(copy(uData$eda_out), siteref, sseries, minallow)
 })

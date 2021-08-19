@@ -73,40 +73,6 @@ all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rc
 all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
 all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
-
-gcm_amchart <- amBarChart(
-  data = gcm_weight,
-  category = "gcm", values = "weight",
-  draggable = TRUE,
-  columnWidth = 80,
-  tooltip =
-    "[bold]{valueY}[/]",
-  xAxis = list(title = amText(text = "GCM"),
-               labels = amAxisLabels(fontSize = 10,rotation = 90)),
-  yAxis = list(
-    title = amText(text = "Weight", color = "maroon"),
-    labels = amAxisLabels(fontSize = 10),
-    gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
-  ),
-  yLimits = c(0, 1),
-  valueFormatter = "#.##",
-  theme = "dataviz")
-
-rcp_amchart <- amBarChart(
-  data = rcp_weight,
-  category = "rcp", values = "weight",
-  draggable = TRUE,
-  tooltip =
-    "[bold]{valueY}[/]",
-  xAxis = list(title = amText(text = "Scenario")),
-  yAxis = list(
-    title = amText(text = "Weight", color = "maroon"),
-    labels = amAxisLabels(fontSize = 10),
-    gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
-  ),
-  yLimits = c(0, 1),
-  valueFormatter = "#.##",
-  theme = "dataviz")
 ```
 
 SELECT SITES
@@ -419,11 +385,15 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
+
 library(sf)
 tOut <- st_read("./TileOutline.gpkg")
 tOut2 <- st_read("./RCB_Outline.gpkg")
 tOut <- st_union(tOut,tOut2)
 portfolio_results <- reactiveValues(data = NULL)
+session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),midWt = c(0.5,0.5),
+                             modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
+update_flag <- reactiveVal(0)
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
@@ -434,13 +404,41 @@ source("./server/download.R", local = TRUE)
 source("./server/generate_portfolio.R", local = TRUE)
 
 ##default session parameters
-uData$session_params <- list(estabWt = c(0.3,0.35,0.35),midWt = c(0.5,0.5),
-                             modelWt = all_weight)
 output$rcp_select <- renderAmChart4({
-  rcp_amchart
+  amBarChart(
+    data = session_params$rcpWt,
+    category = "rcp", values = "weight",
+    draggable = TRUE,
+    tooltip =
+      "[bold]{valueY}[/]",
+    xAxis = list(title = amText(text = "Scenario")),
+    yAxis = list(
+      title = amText(text = "Weight", color = "maroon"),
+      labels = amAxisLabels(fontSize = 10),
+      gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
+    ),
+    yLimits = c(0, 1),
+    valueFormatter = "#.##",
+    theme = "dataviz")
 })
 output$gcm_select <- renderAmChart4({
-  gcm_amchart
+  amBarChart(
+    data = session_params$gcmWt,
+    category = "gcm", values = "weight",
+    draggable = TRUE,
+    columnWidth = 80,
+    tooltip =
+      "[bold]{valueY}[/]",
+    xAxis = list(title = amText(text = "GCM"),
+                 labels = amAxisLabels(fontSize = 10,rotation = 90)),
+    yAxis = list(
+      title = amText(text = "Weight", color = "maroon"),
+      labels = amAxisLabels(fontSize = 10),
+      gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
+    ),
+    yLimits = c(0, 1),
+    valueFormatter = "#.##",
+    theme = "dataviz")
 })
 
 observeEvent(input$sesh_params,{
@@ -448,14 +446,14 @@ observeEvent(input$sesh_params,{
     h2("Adjust Session Parameters"),
     h6("Establishment Feasibility Weights"),
     splitLayout(
-      numericInput("wt961","1961-1990", value = 0.3, min = 0, max = 1,step = 0.05),
-      numericInput("wt991","1991-2020", value = 0.35, min = 0, max = 1,step = 0.05),
-      numericInput("wt21","2021-2040", value = 0.35, min = 0, max = 1,step = 0.05)
+      numericInput("wt961","1961-1990", value = session_params$estabWt[1], min = 0, max = 1,step = 0.05),
+      numericInput("wt991","1991-2020", value = session_params$estabWt[2], min = 0, max = 1,step = 0.05),
+      numericInput("wt21","2021-2040", value = session_params$estabWt[3], min = 0, max = 1,step = 0.05)
     ),
     h6("Mid Rotation Weights"),
     splitLayout(
-      numericInput("wt41","2041-2060", value = 0.5, min = 0, max = 1,step = 0.05),
-      numericInput("wt61","2061-2080", value = 0.5, min = 0, max = 1,step = 0.05)
+      numericInput("wt41","2041-2060", value = session_params$midWt[1], min = 0, max = 1,step = 0.05),
+      numericInput("wt61","2061-2080", value = session_params$midWt[2], min = 0, max = 1,step = 0.05)
     ),
     h6("GCM Weights"),
     p("Click and drag bars to adjust weights"),
@@ -475,7 +473,7 @@ observeEvent(input$adj_params,{
   estabWt <- as.numeric(c(input$wt961,input$wt991,input$wt21))
   estabWt <- estabWt/sum(estabWt)
   midWt <- as.numeric(c(input$wt41,input$wt61))
-  midWt <- uData$midWt <- midWt/sum(midWt)
+  midWt <- midWt/sum(midWt)
   
   gcm_weight <- as.data.table(input$gcm_select)
   setnames(gcm_weight,c("gcm","weight"))
@@ -485,8 +483,9 @@ observeEvent(input$adj_params,{
   all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
   all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
   all_weight[,weight := wgcm*wrcp]
-  uData$session_params <- list(estabWt = estabWt,midWt = midWt,
-                             modelWt = all_weight)
+  session_params$estabWt <- estabWt
+  session_params$midWt <- midWt; session_params$modelWt <- all_weight;
+  session_params$rcpWt <- rcp_weight; session_params$gcmWt <- gcm_weight
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
   removeModal()
 })

@@ -32,6 +32,7 @@ uData$cciss_summary_dt <- cciss_summary_dt
 output$results_feas <- function() {
   siteref <- input$siteref_feas
   siteserie <- input$site_series_feas
+  update_flag()
   cciss_results <- copy(uData$cciss_results)
   feas_filter <- input$filter_feas
   if (is.null(cciss_results)) return(NULL)

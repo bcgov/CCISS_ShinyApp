@@ -15,17 +15,16 @@ observeEvent(input$generate_results, priority = 100, {
   rcp             <- uData$rcp             <- input$rcp_scenario
   pts             <- uData$pts             <- userpoints$dt
   
-  params <- uData$session_params
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
-  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, params$modelWt)
+  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc,params$estabWt,params$midWt)
+  cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$midWt)
   tic("Format CCISS Results", ticker)
   cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
   tic("Format CCISS Summary", ticker)
   cciss_summary   <- uData$cciss_summary   <- cciss_summary(cciss, pts, avg)
-  
+  update_flag(update_flag() + 1) ##make sure things recalculate
   
   # UI select choices
   tic("Determine UI choices", ticker)
