@@ -118,6 +118,7 @@ analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/ccissdev
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/TileOutline.gpkg", "/srv/shiny-server/ccissdev/TileOutline.gpkg")
+analogsea::droplet_upload(server, "./app/RCB_Outline.gpkg", "/srv/shiny-server/ccissdev/RCB_Outline.gpkg")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 

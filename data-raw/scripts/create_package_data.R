@@ -4,8 +4,8 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v12_5.csv")
-S1 <- fread("./data-raw/data_tables/Feasibility_v12_7.csv")
+E1 <- fread("~/CommonTables/Edatopic_v12_6.csv")
+S1 <- fread("~/CommonTables/Feasibility_v12_8.csv")
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
@@ -29,7 +29,7 @@ TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in pack
 TreeCols <- TreeCols[HexColour != "",]
 save(TreeCols, file = "./data/TreeCols.rda")
 
-SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_6.csv")
+SS <- fread("~/CommonTables/WNA_SSeries_v12_6.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
