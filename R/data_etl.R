@@ -151,18 +151,19 @@ dbBbox <- function(con, points, buffer) {
 #' @param con An active postgres DBI connection.
 #' @param siteno A character vector of siteno.
 #' @param avg A boolean. 
-#' @param scn A character string. Scenario name. Either `rcp45` or `rcp85`.
+#' @param modWeights A data table of gcm and rcp weights.
 #' @details Get CCISS for provided SiteNo.
 #' @return A data.table containing CCISS information for each provided SiteNo.
 #' @importFrom RPostgres dbGetQuery
 #' @export
-dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp585")){
+dbGetCCISS <- function(con, siteno, avg, modWeights){
 
   groupby = "siteno"
   if (isTRUE(avg)) {
     groupby = "bgc"
   }
-  
+  modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
+  weights <- paste(modWeights$comb,collapse = ",")
   ##cciss_future is now test_future  
   cciss_sql <- paste0("
   WITH cciss AS (
@@ -170,27 +171,20 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
            test_future.siteno,
            bgc,
            bgc_pred,
-           gcm
+           test_future.gcm,
+           w.weight
     FROM test_future
+    JOIN (values ",weights,") 
+    AS w(gcm,scenario,weight)
+    ON test_future.gcm = w.gcm AND test_future.scenario = w.scenario
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
-    AND scenario IN ('", paste(scn, collapse = "','"), "')
     AND futureperiod IN ('2021','2041','2061','2081')
-    
-    UNION ALL
-    
-    SELECT DISTINCT '1961' as futureperiod,
-            test_prob.siteno,
-            bgc,
-            bgc as bgc_pred,
-            'Historic' as gcm
-    FROM test_prob
-    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   
   ), cciss_count_den AS (
   
     SELECT ", groupby, " siteref,
            futureperiod,
-           COUNT(siteno) n
+           SUM(weight) w
     FROM cciss
     GROUP BY ", groupby, ", futureperiod
   
@@ -200,7 +194,7 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
            futureperiod,
            bgc,
            bgc_pred,
-           COUNT(siteno) n
+           SUM(weight) w
     FROM cciss
     GROUP BY ", groupby, ", futureperiod, bgc, bgc_pred
   
@@ -216,11 +210,12 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
          a.futureperiod,
          a.bgc,
          a.bgc_pred,
-         a.n/cast(b.n as float) bgc_prop
+         a.w/cast(b.w as float) bgc_prop
   FROM cciss_count_num a
   JOIN cciss_count_den b
     ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
+   WHERE a.w <> 0
   
   UNION ALL
 
@@ -234,6 +229,17 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
     ON a.",groupby," = b.siteref
   WHERE siteno in (", paste(unique(siteno), collapse = ","), ")
   GROUP BY ", groupby, ",period,b.n, bgc, bgc_pred
+  
+  UNION ALL
+
+  SELECT DISTINCT 
+            cast(", groupby, " as text) siteref,
+            '1961' as futureperiod,
+            bgc,
+            bgc as bgc_pred,
+            cast(1 as numeric) bgc_prop
+    FROM test_prob
+    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   ")
   
   dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
@@ -244,3 +250,16 @@ dbGetCCISS <- function(con, siteno, avg, scn = c("ssp126","ssp245","ssp370","ssp
   return(dat)
 }
 
+# cciss_sql <- paste0("
+#     SELECT futureperiod,
+#            test_future.siteno,
+#            bgc,
+#            bgc_pred,
+#            test_future.gcm,
+#            w.weight
+#     FROM test_future
+#     JOIN (values ",weights,") 
+#     AS w(gcm,scenario,weight)
+#     ON test_future.gcm = w.gcm AND test_future.scenario = w.scenario
+#     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+#     AND futureperiod IN ('2021','2041','2061','2081')")

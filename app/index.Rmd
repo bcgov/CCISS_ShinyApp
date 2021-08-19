@@ -27,6 +27,7 @@ suppressPackageStartupMessages({
   library(pool)
   library(ggplot2)
   library(ggthemes)
+  library(rAmCharts4)
   library(kableExtra)
   library(rhandsontable)
 })
@@ -58,6 +59,54 @@ if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env 
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
+
+### create parameter input charts
+gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
+"GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
+"MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+                         weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
+
+rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
+                         weight = c(0.8,1,0.8,0))
+
+all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+all_weight[,weight := wgcm*wrcp]
+
+gcm_amchart <- amBarChart(
+  data = gcm_weight,
+  category = "gcm", values = "weight",
+  draggable = TRUE,
+  columnWidth = 80,
+  tooltip =
+    "[bold]{valueY}[/]",
+  xAxis = list(title = amText(text = "GCM"),
+               labels = amAxisLabels(fontSize = 10,rotation = 90)),
+  yAxis = list(
+    title = amText(text = "Weight", color = "maroon"),
+    labels = amAxisLabels(fontSize = 10),
+    gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
+  ),
+  yLimits = c(0, 1),
+  valueFormatter = "#.##",
+  theme = "dataviz")
+
+rcp_amchart <- amBarChart(
+  data = rcp_weight,
+  category = "rcp", values = "weight",
+  draggable = TRUE,
+  tooltip =
+    "[bold]{valueY}[/]",
+  xAxis = list(title = amText(text = "Scenario")),
+  yAxis = list(
+    title = amText(text = "Weight", color = "maroon"),
+    labels = amAxisLabels(fontSize = 10),
+    gridLines = amLine(color = "orange", width = 1, opacity = 0.4)
+  ),
+  yLimits = c(0, 1),
+  valueFormatter = "#.##",
+  theme = "dataviz")
 ```
 
 SELECT SITES
@@ -79,36 +128,15 @@ actionButton("clear_button", "Clear All", icon("broom"), width=120)
 DT::DTOutput("points_table", width="100%")
 
 # Control results
-splitLayout(
-  checkboxGroupInput(
-    "rcp_scenario",
-    "RCP Scenario:",
-    selected = c("ssp126","ssp245","ssp370"),
-    c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585")
-  ),
-  radioButtons(
-    "aggregation",
-    "Multiple Point Aggregation:",
-    c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
-    selected = "TRUE"
-  )
+radioButtons(
+  "aggregation",
+  "Multiple Point Aggregation:",
+  c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
+  selected = "TRUE"
 )
-```
 
-#### Session Paramters
-
-```{r}
-h6("Establishment Feasibility Weights")
-splitLayout(
-  numericInput("wt961","1961-1990", value = 0.3, min = 0, max = 1,step = 0.05),
-  numericInput("wt991","1991-2020", value = 0.35, min = 0, max = 1,step = 0.05),
-  numericInput("wt21","2021-2040", value = 0.35, min = 0, max = 1,step = 0.05)
-)
-h6("Mid Rotation Weights")
-splitLayout(
-  numericInput("wt41","2041-2060", value = 0.6, min = 0, max = 1,step = 0.05),
-  numericInput("wt61","2061-2080", value = 0.4, min = 0, max = 1,step = 0.05)
-)
+actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h"),
+             style = "width:100%; background-color:#8f0e7e; color: #FFF")
 # Generate results
 actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
@@ -404,6 +432,65 @@ source("./server/silviculture.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 source("./server/generate_portfolio.R", local = TRUE)
+
+##default session parameters
+uData$session_params <- list(estabWt = c(0.3,0.35,0.35),midWt = c(0.5,0.5),
+                             modelWt = all_weight)
+output$rcp_select <- renderAmChart4({
+  rcp_amchart
+})
+output$gcm_select <- renderAmChart4({
+  gcm_amchart
+})
+
+observeEvent(input$sesh_params,{
+  showModal(modalDialog(
+    h2("Adjust Session Parameters"),
+    h6("Establishment Feasibility Weights"),
+    splitLayout(
+      numericInput("wt961","1961-1990", value = 0.3, min = 0, max = 1,step = 0.05),
+      numericInput("wt991","1991-2020", value = 0.35, min = 0, max = 1,step = 0.05),
+      numericInput("wt21","2021-2040", value = 0.35, min = 0, max = 1,step = 0.05)
+    ),
+    h6("Mid Rotation Weights"),
+    splitLayout(
+      numericInput("wt41","2041-2060", value = 0.5, min = 0, max = 1,step = 0.05),
+      numericInput("wt61","2061-2080", value = 0.5, min = 0, max = 1,step = 0.05)
+    ),
+    h6("GCM Weights"),
+    p("Click and drag bars to adjust weights"),
+    amChart4Output("gcm_select",width = "790px"),
+    h6("Scenario Weights"),
+    amChart4Output("rcp_select"),
+    footer = tagList(
+      modalButton("Cancel"),
+      actionButton("adj_params","OK!",
+                   style = "background-color:#1d8f0e; color: #FFF")
+    ),
+    size = "l"
+    ))
+})
+
+observeEvent(input$adj_params,{
+  estabWt <- as.numeric(c(input$wt961,input$wt991,input$wt21))
+  estabWt <- estabWt/sum(estabWt)
+  midWt <- as.numeric(c(input$wt41,input$wt61))
+  midWt <- uData$midWt <- midWt/sum(midWt)
+  
+  gcm_weight <- as.data.table(input$gcm_select)
+  setnames(gcm_weight,c("gcm","weight"))
+  rcp_weight <- as.data.table(input$rcp_select)
+  setnames(rcp_weight,c("rcp","weight"))
+  all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+  all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+  all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+  all_weight[,weight := wgcm*wrcp]
+  uData$session_params <- list(estabWt = estabWt,midWt = midWt,
+                             modelWt = all_weight)
+  session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
+  removeModal()
+})
+
 output$shinyinfo <- function() {
   app_info <- data.table(
     Information = c("Shiny host","Tiles source","Tileserver","Github","Copyright","License"),

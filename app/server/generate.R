@@ -14,22 +14,13 @@ observeEvent(input$generate_results, priority = 100, {
   avg             <- uData$avg             <- as.logical(input$aggregation)
   rcp             <- uData$rcp             <- input$rcp_scenario
   pts             <- uData$pts             <- userpoints$dt
-
-  #session params
-  estabWt <- as.numeric(c(input$wt961,input$wt991,input$wt21))
-  estabWt <- estabWt/sum(estabWt)
-  uData$estabWt <- estabWt
-  print(estabWt)
   
-  midWt <- as.numeric(c(input$wt41,input$wt61))
-  midWt <- uData$midWt <- midWt/sum(midWt)
-  print(midWt)
-  
+  params <- uData$session_params
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
-  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, rcp)
+  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, params$modelWt)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc,estabWt,midWt)
+  cciss           <- uData$cciss           <- cciss(bgc,params$estabWt,params$midWt)
   tic("Format CCISS Results", ticker)
   cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
   tic("Format CCISS Summary", ticker)
@@ -134,14 +125,14 @@ observeEvent(input$aggregation, {generateState()})
 observeEvent(input$rcp_scenario, {generateState()})
 
 # Data processing
-bgc <- function(con, siteno, avg, rcp) {
+bgc <- function(con, siteno, avg, modWeights) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
-    dbGetCCISS(con, siteno, avg, rcp)
+    dbGetCCISS(con, siteno, avg, modWeights = modWeights)
   })
 }
 
-#bgc <- dbGetCCISS(pool,siteno = c(4532735,4546791,4548548),avg = T, scn = "ssp370")
+# bgc <- dbGetCCISS(pool,siteno = c(4532735,4546791,4548548),avg = F, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
