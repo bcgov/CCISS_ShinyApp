@@ -32,7 +32,7 @@
 #' @importFrom stats complete.cases na.omit
 #' @export
 edatopicOverlap <- function(BGC,Edatope){
-  SS <- Edatope[is.na(SpecialCode),.(BGC,SS_NoSpace,Edatopic)]
+  SS <- Edatope[,.(BGC,SS_NoSpace,Edatopic)]
   SS <- unique(SS)
   BGC <- unique(BGC)
   SSsp <- Edatope[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
@@ -51,6 +51,7 @@ edatopicOverlap <- function(BGC,Edatope){
   # "CWHvh2" BGC gives out Join results in 258 rows; more than 135 = nrow(x)+nrow(i), I'm
   # setting it to allow.cartesian, might need to investigate.
   new <- CurrBGC[FutBGC, allow.cartesian=TRUE]
+  new <- new[!is.na(SS_NoSpace),] ##this removes special site series that don't align
   SSsp.out <- new[,.(allOverlap = 1/.N,SS.pred,BGC.prop), keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
   
   ##regular site series edatopes
@@ -68,8 +69,7 @@ edatopicOverlap <- function(BGC,Edatope){
   FutBGC[,BGC.prop := NULL]
  
   setkey(CurrBGC,SiteRef,FuturePeriod, BGC,BGC.pred, Edatopic)
-  new <- FutBGC[CurrBGC]
-  #new <- dplyr::left_join(CurrBGC,FutBGC)#  was merge with, all = T bit failing with some predictions make sure not causing issue
+  new <- FutBGC[CurrBGC, allow.cartesian = T]
   setkey(new, SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
   ##new <- new[complete.cases(new),]
   
@@ -79,7 +79,6 @@ edatopicOverlap <- function(BGC,Edatope){
   SS.out2 <- new[,.(SS.Curr = length(unique(Edatopic)), BGC = unique(BGC.prop)), 
                  keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
   comb <- SS.out2[SS.out]
-  #comb <- comb %>% tidyr::drop_na()
   
   ###reverse overlap
   SS.out.rev <- new[,.(SS.prob = .N), 
@@ -92,21 +91,24 @@ edatopicOverlap <- function(BGC,Edatope){
   comb[,SSProb := SS.prob/SS.Curr]
   combRev[,SSProbRev := SS.prob/SS.Curr]
   combAll <- merge(comb,combRev,by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"))
-  combAll <-combAll[!(combAll$BGC == combAll$BGC.pred  &  combAll$SS_NoSpace != combAll$SS.pred),] ### removes overlap where past BGC = future BGC
+  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != SS.pred),] ### removes overlap where past BGC = future BGC
   combAll[,allOverlap := SSProb*SSProbRev]
   setnames(combAll, old = "BGC.1.x",new = "BGC.prop")
   combAll <- combAll[,.(SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace, 
                         allOverlap, SS.pred, BGC.prop)]
-  combAll <- rbind(combAll, SSsp.out)
-  combAll <- combAll[!is.na(SS_NoSpace),] %>% dplyr::distinct()
+  combAll <- merge(combAll,SSsp.out,
+                   by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
+  combAll[!is.na(allOverlap.y),`:=`(allOverlap.x = allOverlap.y,BGC.prop.x = BGC.prop.y)]
+  combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
+  setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  combAll <- unique(combAll[!is.na(SS_NoSpace),])
 
   
   ##add in BGC probability
-  combAll <- combAll[stats::complete.cases(combAll),]
+  combAll <- na.omit(combAll)
   combAll[,SSratio := allOverlap/sum(allOverlap), by = .(SiteRef, FuturePeriod, BGC, BGC.pred,SS_NoSpace)] ##should check this?
   setorder(combAll, SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace)
   
-  combAll <- unique(combAll)
   setkey(combAll, SiteRef, FuturePeriod, BGC,BGC.pred)
   temp <- unique(combAll[,.(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)])
   temp[,BGC.prop := BGC.prop/sum(BGC.prop), by = .(SiteRef,FuturePeriod,BGC)]
