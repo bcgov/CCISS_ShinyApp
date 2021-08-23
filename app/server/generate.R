@@ -12,7 +12,6 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Input from the app
   avg             <- uData$avg             <- as.logical(input$aggregation)
-  rcp             <- uData$rcp             <- input$rcp_scenario
   pts             <- uData$pts             <- userpoints$dt
   
   # Results from processing
@@ -131,7 +130,7 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-# bgc <- dbGetCCISS(pool,siteno = c(4532735,4546791,4548548),avg = F, modWeights = all_weight)
+#bgc <- dbGetCCISS(pool,siteno = 3140263, avg = F, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
