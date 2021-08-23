@@ -228,13 +228,13 @@ sliderInput("min_ssoverlap",label = "Min Site Series Overlap", min = 0.05,max = 
 BGC Futures: ratio of future models predicting BGC
 -------------------------------------
 
-### Ratio of Models Predicting BGC `r textOutput("current_bgc_fut", inline = TRUE)`
+### Ratio of Model Predictions of future BGCs and aligned site series `r textOutput("current_bgc_fut", inline = TRUE)`
 
 ```{r}
 plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 ```
 
-SPECIES PORTFOLIO {data-orientation=columns}
+SPECIES PORTFOLIO *Draft* {data-orientation=columns}
 =====================================
 
 Inputs {.sidebar data-width=300}
