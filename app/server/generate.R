@@ -18,11 +18,10 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Fetch CCISS Data from DB", ticker)
   bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$midWt)
+  cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$futWt)
   tic("Format CCISS Results", ticker)
   cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
   update_flag(update_flag() + 1) ##make sure things recalculate
-  
   # UI select choices
   tic("Determine UI choices", ticker)
   
@@ -31,9 +30,8 @@ observeEvent(input$generate_results, priority = 100, {
   bgc_opts <- unique(uData$bgc$BGC)
   
   #prepare tree choices for portfolio selection
-  suitTrees <- copy(uData$cciss$Summary)
-  #print(colnames(suitTrees))
-  suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = SS_NoSpace)] ##need to fix this
+  suitTrees <- copy(cciss_results)
+  suitTrees <- suitTrees[EstabFeas %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)] ##need to fix this
   suitTrees <- unique(suitTrees)
   tree_opts <- suitTrees[BGC == bgc_opts[1],Spp]
   updateSelectInput(inputId = "tree_species",
@@ -100,6 +98,7 @@ observeEvent(input$generate_results, priority = 100, {
   output$timings <- plotly::renderPlotly({
     tocker
   })
+  print("done generate")
 })
 
 generateState <- function() {
@@ -128,16 +127,16 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-#bgc <- dbGetCCISS(pool,siteno = 3140263, avg = F, modWeights = all_weight)
+#bgc <- dbGetCCISS(pool,siteno = 4629842, avg = F, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
-cciss <- function(bgc,estabWt,midWt) {
+cciss <- function(bgc,estabWt,futWt) {
   SSPred <- edatopicOverlap(bgc, Edatope = E1)
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- SSPred
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
-              histWeights = estabWt, futureWeights = rep(0.25,4))
+              histWeights = estabWt, futureWeights = futWt)
 }
 
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]

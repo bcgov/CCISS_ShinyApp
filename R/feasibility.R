@@ -105,19 +105,17 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
            dplyr::mutate(NewSuit = sub('10', 'X', NewSuit)) 
   
   ###mid rotation trend using 41-60 and 61-80 - used for bifurcation
-  wt41 <- 0.5
-  wt61 <- 0.5
-  datRot <- suitVotes[FuturePeriod %in% c(2041,2061),]
-  datRot[FuturePeriod == 2041, (colNms) := lapply(.SD,"*",wt41), .SDcols = colNms]
-  datRot[FuturePeriod == 2061, (colNms) := lapply(.SD,"*",wt61), .SDcols = colNms]
-  datRot <- datRot[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  # wt41 <- 0.5
+  # wt61 <- 0.5
+  datRot <- suitVotes[FuturePeriod %in% c(2061,2081),]
+  # datRot[FuturePeriod == 2041, (colNms) := lapply(.SD,"*",wt41), .SDcols = colNms]
+  # datRot[FuturePeriod == 2061, (colNms) := lapply(.SD,"*",wt61), .SDcols = colNms]
+  datRot <- datRot[,lapply(.SD, mean),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datRot[,Xadj := rowSums(.SD), .SDcols = colNms]
-  datRot[,X2 := X + (1-Xadj)]
   ##calculate bifurcating
-  colNms2 <- c("1","2","3","X2")
-  datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms2]
-  datRot[,Stable := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Stable"),.SDcols = colNms2]
-  datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms2]
+  datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
+  datRot[,Stable := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Stable"),.SDcols = colNms]
+  datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
   datRot[,Bifurc := bifurcTrend(Imp = Improve, Decl = Decline, cutoff = 0.2)]
   datRot[,ModAgr := max(Improve,Stable,Decline), by = 1:nrow(datRot)]
   datRot[,ModAgr := round(ModAgr, digits = 2)]
@@ -130,8 +128,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*4)]
   datFuture[ccissWt, Weight := i.Weight, on = "FuturePeriod"]
-  datFuture[,NewSuit := NewSuit * Weight]
-  datFuture <- datFuture[,.(ccissSuit = sum(NewSuit)), 
+  datFuture <- datFuture[,.(ccissSuit = weighted.mean(NewSuit,Weight)), 
                          by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datFuture[,ccissSuit := round(ccissSuit)]
   

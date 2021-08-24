@@ -148,11 +148,11 @@ HTML(
 )
 ```
 
-SPECIES FEASIBILITY
-===================================== 
+CCISS Report
+-------------------------------------
 
 ```{r}
-tableOutput("results_feas")
+column(12, align="center", tableOutput("results_feas"))
 ```
 
 
@@ -383,7 +383,7 @@ tOut <- st_read("./TileOutline.gpkg")
 tOut2 <- st_read("./RCB_Outline.gpkg")
 tOut <- st_union(tOut,tOut2)
 portfolio_results <- reactiveValues(data = NULL)
-session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),midWt = c(0.5,0.5),
+session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
                              modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
 update_flag <- reactiveVal(0)
 source("./server/generate.R", local = TRUE)
@@ -438,14 +438,16 @@ observeEvent(input$sesh_params,{
     h2("Adjust Session Parameters"),
     h6("Establishment Feasibility Weights"),
     splitLayout(
-      numericInput("wt961","1961-1990", value = session_params$estabWt[1], min = 0, max = 1,step = 0.05),
-      numericInput("wt991","1991-2020", value = session_params$estabWt[2], min = 0, max = 1,step = 0.05),
-      numericInput("wt21","2021-2040", value = session_params$estabWt[3], min = 0, max = 1,step = 0.05)
+      numericInput("hwt961","1961-1990", value = session_params$estabWt[1], min = 0, max = 1,step = 0.05),
+      numericInput("hwt991","1991-2020", value = session_params$estabWt[2], min = 0, max = 1,step = 0.05),
+      numericInput("hwt21","2021-2040", value = session_params$estabWt[3], min = 0, max = 1,step = 0.05)
     ),
-    h6("Mid Rotation Weights"),
+    h6("Future Period Weights"),
     splitLayout(
-      numericInput("wt41","2041-2060", value = session_params$midWt[1], min = 0, max = 1,step = 0.05),
-      numericInput("wt61","2061-2080", value = session_params$midWt[2], min = 0, max = 1,step = 0.05)
+      numericInput("wt21","2021-2040", value = session_params$futWt[1], min = 0, max = 1,step = 0.05),
+      numericInput("wt41","2041-2060", value = session_params$futWt[2], min = 0, max = 1,step = 0.05),
+      numericInput("wt61","2061-2080", value = session_params$futWt[3], min = 0, max = 1,step = 0.05),
+      numericInput("wt81","2081-2100", value = session_params$futWt[4], min = 0, max = 1,step = 0.05)
     ),
     h6("GCM Weights"),
     p("Click and drag bars to adjust weights"),
@@ -462,10 +464,10 @@ observeEvent(input$sesh_params,{
 })
 
 observeEvent(input$adj_params,{
-  estabWt <- as.numeric(c(input$wt961,input$wt991,input$wt21))
+  estabWt <- as.numeric(c(input$hwt961,input$hwt991,input$hwt21))
   estabWt <- estabWt/sum(estabWt)
-  midWt <- as.numeric(c(input$wt41,input$wt61))
-  midWt <- midWt/sum(midWt)
+  futWt <- as.numeric(c(input$wt21,input$wt41,input$wt61,input$wt81))
+  futWt <- futWt/sum(futWt)
   
   gcm_weight <- as.data.table(input$gcm_select)
   setnames(gcm_weight,c("gcm","weight"))
@@ -476,7 +478,7 @@ observeEvent(input$adj_params,{
   all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
   all_weight[,weight := wgcm*wrcp]
   session_params$estabWt <- estabWt
-  session_params$midWt <- midWt; session_params$modelWt <- all_weight;
+  session_params$futWt <- futWt; session_params$modelWt <- all_weight;
   session_params$rcpWt <- rcp_weight; session_params$gcmWt <- gcm_weight
   session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
   removeModal()

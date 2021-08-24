@@ -1,6 +1,6 @@
 # Update site series selector when site ref is modified
 observeEvent(input$siteref_feas, priority = 50, {
-  if (is.null(uData$cciss_results) | is.null(uData$cciss_summary)) return(NULL)
+  if (is.null(uData$cciss_results)) return(NULL)
   siteref <- input$siteref_feas
   updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
 })
@@ -54,10 +54,10 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
                list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, modAgr)]
   
-  for(i in c("Curr","EstabFeas","Risk60","Risk80")){ ##set NA to X
+  for(i in c("Curr","EstabFeas")){ ##set NA to X
     data[is.na(get(i)), (i) := "X"]
   }
-    
+  
   tempTable <- knitr::kable(
     data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
     col.names = c("Tree Species", "Period", "Modelled Feasibility",
