@@ -14,9 +14,9 @@ makeColScale <- function(Trees){
 ##update possible species
 observeEvent(input$port_bgc,{
   if(input$generate_results > 0){
-    suitTrees <- copy(uData$cciss_summary)
+    suitTrees <- copy(uData$cciss_results)
     #print(colnames(suitTrees))
-    suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
+    suitTrees <- suitTrees[EstabFeas %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
     suitTrees <- unique(suitTrees)
     tree_opts <- suitTrees[BGC == input$port_bgc,Spp]
     tree_opts <- tree_opts[tree_opts != "Ac"]
