@@ -5,28 +5,28 @@ observeEvent(input$siteref_feas, priority = 50, {
   updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
 })
 
-# CCISS Summary of results
-output$summary_feas <- function() {
-  siteref <- input$siteref_feas
-  siteserie <- input$site_series_feas
-  cciss_summary <- uData$cciss_summary
-  if (is.null(cciss_summary)) return(NULL)
-  cciss_summary_dt(cciss_summary, siteref, siteserie)
-}
-
-# Dual utility function to format dt, app mode and report mode use different
-# format. Report has no javascript, just a plain table.
-cciss_summary_dt <- function(data, siteref, siteserie, format = "html") {
-  data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               list(Species, CFSuitability, ProjFeas, Flag, Period, FutProjFeas, FailRisk)]
-  knitr::kable(
-    data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
-    col.names = c("Tree Species", "CFRG Suitability",
-                  "Projected Feasibility", "Flag", "Period",
-                  "Future Projected Feasibility", "Fail Risk"),
-    table.attr = 'class="table table-hover"')
-}
-uData$cciss_summary_dt <- cciss_summary_dt
+# # CCISS Summary of results
+# output$summary_feas <- function() {
+#   siteref <- input$siteref_feas
+#   siteserie <- input$site_series_feas
+#   cciss_summary <- uData$cciss_summary
+#   if (is.null(cciss_summary)) return(NULL)
+#   cciss_summary_dt(cciss_summary, siteref, siteserie)
+# }
+# 
+# # Dual utility function to format dt, app mode and report mode use different
+# # format. Report has no javascript, just a plain table.
+# cciss_summary_dt <- function(data, siteref, siteserie, format = "html") {
+#   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
+#                list(Species, CFSuitability, ProjFeas, Flag, Period, FutProjFeas, FailRisk)]
+#   knitr::kable(
+#     data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
+#     col.names = c("Tree Species", "CFRG Suitability",
+#                   "Projected Feasibility", "Flag", "Period",
+#                   "Future Projected Feasibility", "Fail Risk"),
+#     table.attr = 'class="table table-hover"')
+# }
+# uData$cciss_summary_dt <- cciss_summary_dt
 
 # CCISS Results
 output$results_feas <- function() {
@@ -52,19 +52,19 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   }
   
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, MidRotSVG, Risk60, Risk80)]
+               list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, modAgr)]
   
   for(i in c("Curr","EstabFeas","Risk60","Risk80")){ ##set NA to X
     data[is.na(get(i)), (i) := "X"]
   }
     
   tempTable <- knitr::kable(
-    data, format = format, align = c("l","c","c","c","c","c","c","c","c"), escape = FALSE,
+    data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
     col.names = c("Tree Species", "Period", "Modelled Feasibility",
-                  "CFRG", "Ecological","Establishment",
-                  "Trend to Rotation","60 Year", "80 Year"),
+                  "CFRG", "Environmental","Establishment",
+                  "Future (cciss)","Model Agreement"),
     table.attr = 'class="table table-hover"') %>%
-    add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic Feasibility" = 2, 
-                       "Predicted Feasibility" = 2, "Future Risk" = 2))
+    add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
+                       "Projected Feasibility" = 2, " " = 1))
 }
 uData$cciss_results_dt <- cciss_results_dt

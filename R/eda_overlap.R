@@ -91,7 +91,6 @@ edatopicOverlap <- function(BGC,Edatope){
   comb[,SSProb := SS.prob/SS.Curr]
   combRev[,SSProbRev := SS.prob/SS.Curr]
   combAll <- merge(comb,combRev,by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"))
-  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != SS.pred),] ### removes overlap where past BGC = future BGC
   combAll[,allOverlap := SSProb*SSProbRev]
   setnames(combAll, old = "BGC.1.x",new = "BGC.prop")
   combAll <- combAll[,.(SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace, 
@@ -101,6 +100,7 @@ edatopicOverlap <- function(BGC,Edatope){
   combAll[!is.na(allOverlap.y),`:=`(allOverlap.x = allOverlap.y,BGC.prop.x = BGC.prop.y)]
   combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
   setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != SS.pred),] ### removes overlap where past BGC = future BGC
   combAll <- unique(combAll[!is.na(SS_NoSpace),])
 
   
