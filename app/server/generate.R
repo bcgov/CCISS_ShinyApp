@@ -21,8 +21,6 @@ observeEvent(input$generate_results, priority = 100, {
   cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$midWt)
   tic("Format CCISS Results", ticker)
   cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
-  tic("Format CCISS Summary", ticker)
-  cciss_summary   <- uData$cciss_summary   <- cciss_summary(cciss, pts, avg)
   update_flag(update_flag() + 1) ##make sure things recalculate
   
   # UI select choices
@@ -32,10 +30,10 @@ observeEvent(input$generate_results, priority = 100, {
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   bgc_opts <- unique(uData$bgc$BGC)
   
-  ##prepare tree choices for portfolio selection
-  suitTrees <- copy(cciss_summary)
+  #prepare tree choices for portfolio selection
+  suitTrees <- copy(uData$cciss$Summary)
   #print(colnames(suitTrees))
-  suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)]
+  suitTrees <- suitTrees[NewSuit %in% c(1,2,3,4),.(Spp, BGC = SS_NoSpace)] ##need to fix this
   suitTrees <- unique(suitTrees)
   tree_opts <- suitTrees[BGC == bgc_opts[1],Spp]
   updateSelectInput(inputId = "tree_species",
@@ -139,43 +137,10 @@ cciss <- function(bgc,estabWt,midWt) {
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- SSPred
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
-              histWeights = estabWt, midWeights = midWt)
+              histWeights = estabWt, futureWeights = rep(0.25,4))
 }
 
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
-
-## function for creating summary table
-cciss_summary <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
-  withProgress(message = "Processing...", detail = "Feasibility summary", {
-    # use a copy to avoid modifying the original object
-    summary <- copy(cciss$Summary)
-    # Append region
-    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-    summary$Region <- pts$ForestRegion[match(summary$SiteRef, region_map)]
-    summary$ZoneSubzone <- pts$BGC[match(summary$SiteRef, region_map)]
-    # Append Chief Forester Recommended Suitability
-    summary[
-      SS, 
-      CFSuitability := as.character(i.Suitability),
-      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species"),
-    ]
-    summary[is.na(CFSuitability), CFSuitability := "X"]
-    current = names(period_map)[match("Current", period_map)]
-    # Format for printing
-    summary[, `:=`(
-      Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
-      ProjFeas = NewSuit,
-      Period = "2021-2040<br />2041-2060<br />2061-2080<br />2081-2100",
-      #Period = paste0(period_map[names(period_map) > current], collapse = "<br />"),
-      FutProjFeas = paste0(Suit2025, "<br />", Suit2055, "<br />", Suit2085,"<br />", Suit2100),
-      FailRisk = paste0(FailRisk2025, "<br />", FailRisk2055, "<br />", FailRisk2085,"<br />", FailRisk2100)
-    )]
-    # Order
-    setorder(summary, SiteRef, ProjFeas, Species)
-    return(summary)
-  })
-}
-
 # This map is used to determine output labels from raw period
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
 uData$period_map <- c("1961" = "Historic", "1991" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
@@ -191,12 +156,9 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
     sumResults <- copy(cciss$Summary)
-    # dcast (pivot)
-    midRotID <- data.table(MidRotTrend = c("Strongly Improving","Improving","Stable","Declining","Strongly Declining","Bifurcating",NA_character_),
-                        MidRotSVG = c(trending_up,trending_up,stable,trending_down,trending_down,swap_up_down,stable))
-    
+
     results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
-                     value.var = c("NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
+                     value.var = c("NewSuit", "1", "2", "3", "X"))
     # Required columns, set them if not created by dcast (safety)
     reqj <- c(
       "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
@@ -229,16 +191,9 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
     results[
       sumResults, 
       `:=`(EstabFeas = i.NewSuit,
-           MidRotTrend = i.Trajectory2055,
-           Risk60 = i.FailRisk2085,
-           Risk80 = i.FailRisk2100),
+           ccissFeas = i.ccissSuit,
+           modAgr = i.ModAgr),
       on = c("SiteRef","SS_NoSpace","Spp")
-    ]
-    ## Append SVG for mid rot trend
-    results[
-      midRotID,
-      MidRotSVG := i.MidRotSVG,
-      on = "MidRotTrend"
     ]
     
     results[is.na(CFSuitability), CFSuitability := "X"]
@@ -258,7 +213,7 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
       )
     )]
     
-    setorder(results, SiteRef, SS_NoSpace, EstabFeas, MidRotSVG, Risk60, Risk80, na.last = TRUE)
+    setorder(results, SiteRef, SS_NoSpace, EstabFeas, ccissFeas, na.last = TRUE)
     return(results)
   })
 }

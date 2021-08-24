@@ -148,22 +148,14 @@ HTML(
 )
 ```
 
-Tree Feasibility Ratings{.tabset}
--------------------------------------
-
-### Summary Results
+SPECIES FEASIBILITY
+===================================== 
 
 ```{r}
 tableOutput("results_feas")
 ```
 
-### Detail Results
 
-```{r}
-tableOutput("summary_feas")
-```
-
-   
 SILVICULTURE INFO
 =====================================     
 

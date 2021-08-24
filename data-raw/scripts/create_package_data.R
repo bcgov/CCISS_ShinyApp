@@ -174,3 +174,11 @@ writeLines(c(
 paste("#' @aliases", paste(gsub("\\.rda", "", dir("./data")), collapse = " ")),
 "NULL"
 ), "./R/z_data.R")
+
+
+##check edatopic data
+eda <- fread("~/CommonTables/Edatopic_v12_6.csv")
+posPosition <- as.data.table(expand.grid(SNR = c("A","B","C","D","E"),SMR = 0:7,BGC = unique(eda$BGC)))
+posPosition[,Edatopic := paste0(SNR,SMR)]
+t1 <- eda[posPosition,on = c("BGC","Edatopic")]
+missed <- t1[is.na(SS_NoSpace),.(BGC,Edatopic)]
