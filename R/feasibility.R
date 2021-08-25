@@ -87,7 +87,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   datFeas[,Xadj := rowSums(.SD), .SDcols = colNms]
   datFeas[,X2 := X + (1-Xadj)]
    ## THEN VARIABLE THAT IS SUM OF COL1 + COL2*2, COL3*3, COL 'X'* 4 and then round(0) for establishment feasibility
-  datFeas[,NewSuitFrac := `1`+(`2`*2)+(`3`*3)+(X2*4)]
+  datFeas[,NewSuitFrac := `1`+(`2`*2)+(`3`*3)+(X2*5)]
   datFeas[,NewSuit := round(NewSuitFrac,0)]
   datFeas[,`:=`(X = NULL,Xadj = NULL)]
 
@@ -105,28 +105,23 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
            dplyr::mutate(NewSuit = sub('10', 'X', NewSuit)) 
   
   ###mid rotation trend using 41-60 and 61-80 - used for bifurcation
-  # wt41 <- 0.5
-  # wt61 <- 0.5
-  datRot <- suitVotes[FuturePeriod %in% c(2061,2081),]
-  # datRot[FuturePeriod == 2041, (colNms) := lapply(.SD,"*",wt41), .SDcols = colNms]
-  # datRot[FuturePeriod == 2061, (colNms) := lapply(.SD,"*",wt61), .SDcols = colNms]
-  datRot <- datRot[,lapply(.SD, mean),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datRot[,Xadj := rowSums(.SD), .SDcols = colNms]
+  datRot <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
+  
   ##calculate bifurcating
   datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
-  datRot[,Stable := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Stable"),.SDcols = colNms]
   datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
-  datRot[,Bifurc := bifurcTrend(Imp = Improve, Decl = Decline, cutoff = 0.2)]
-  datRot[,ModAgr := max(Improve,Stable,Decline), by = 1:nrow(datRot)]
-  datRot[,ModAgr := round(ModAgr, digits = 2)]
   
-  datRot <- datRot[!is.na(ModAgr),.(SiteRef,SS_NoSpace,Spp,ModAgr,Bifurc)] ##final
+  datRot <- datRot[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
+  datRot[,Trend := paste0(Improve,":",Decline)]
+  datRot[,MaxAgr := rowMaxs(as.matrix(.SD)),.SDcols = c("Improve","Decline")]
+  datRot <- datRot[,.(SiteRef,SS_NoSpace,Spp,Trend,MaxAgr)] ##final
   
 ###################################################################
   datFuture <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
   datFuture <- datFuture[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
-  datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*4)]
+  datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
   datFuture[ccissWt, Weight := i.Weight, on = "FuturePeriod"]
   datFuture <- datFuture[,.(ccissSuit = weighted.mean(NewSuit,Weight)), 
                          by = .(SiteRef,SS_NoSpace,Spp,Curr)]
@@ -139,9 +134,10 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   #summOut <- summOut[Flag != "NotIn",]
   summOut[,`:=`(Curr = as.character(Curr),
                 ccissSuit = as.character(ccissSuit))]
-  summOut[,c("Curr","ccissSuit") := lapply(.SD,function(x){fifelse(x == 4,"X",x)}), 
+  summOut[,c("Curr","ccissSuit") := lapply(.SD,function(x){fifelse(x >= 4,"X",x)}), 
           .SDcols = c("Curr","ccissSuit")]
-  summOut[is.na(NewSuit),NewSuit := "X"]
+  summOut[is.na(NewSuit) | NewSuit == 4,NewSuit := "X"]
+  summOut[NewSuit == "X" & ccissSuit %in% c("1","2","3"), NewSuit := "Trial"]
   summOut <- summOut[!is.na(ccissSuit),]
   print("Done Feas")
   return(list(Summary = summOut, Raw = suitVotes))

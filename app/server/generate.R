@@ -114,6 +114,23 @@ generateState <- function() {
   }
 }
 
+##put selections into reactive list
+observeEvent(input$siteref_feas,{selected_site$siteref <- input$siteref_feas})
+observeEvent(input$site_series_feas,{selected_site$ss <- input$site_series_feas})
+observeEvent(input$siteref_bgc_fut,{selected_site$siteref <- input$siteref_bgc_fut})
+observeEvent(input$ss_bgc_fut,{selected_site$ss <- input$ss_bgc_fut})
+observeEvent(input$siteref_silv,{selected_site$siteref <- input$siteref_silv})
+observeEvent(input$site_series_silv,{selected_site$ss <- input$site_series_silv})
+
+observe({
+  updateSelectInput(session,"siteref_feas",selected = selected_site$siteref)
+  updateSelectInput(session,"site_series_feas",selected = selected_site$ss)
+  updateSelectInput(session,"siteref_bgc_fut",selected = selected_site$siteref)
+  updateSelectInput(session,"ss_bgc_fut",selected = selected_site$ss)
+  updateSelectInput(session,"siteref_silv",selected = selected_site$siteref)
+  updateSelectInput(session,"site_series_silv",selected = selected_site$ss)
+})
+
 # These are the triggers to check if we need to change button state
 observeEvent(userpoints$dt, {generateState()})
 observeEvent(input$aggregation, {generateState()})
@@ -191,7 +208,8 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
       sumResults, 
       `:=`(EstabFeas = i.NewSuit,
            ccissFeas = i.ccissSuit,
-           modAgr = i.ModAgr),
+           Trend = i.Trend,
+           MaxAgr = i.MaxAgr),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
@@ -224,7 +242,7 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
 #' @param colors character vector of colors to use for svg, same length as
 #' ncol x.
 #' @return an svg image of feasibility prediction, one per row in data.frame
-feasibility_svg <- function(..., width = 220L, height = 14L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
+feasibility_svg <- function(..., width = 220L, height = 18L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
   x <- list(...)
   col_x <- length(x)
   x <- matrix(unlist(x), ncol = col_x)

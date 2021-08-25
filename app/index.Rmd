@@ -386,6 +386,8 @@ portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
                              modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
 update_flag <- reactiveVal(0)
+selected_site <- reactiveValues(siteref = NULL, ss = NULL)
+
 source("./server/generate.R", local = TRUE)
 source("./server/points.R", local = TRUE)
 source("./server/map.R", local = TRUE)
