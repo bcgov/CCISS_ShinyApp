@@ -88,7 +88,7 @@ output$data_download <- downloadHandler(
       uData$site_series_filter <- input$report_filter
       saveRDS(uData, file)
     } else if (input$data_format == "csv") {
-      fwrite(uData$cciss_results[, -c("PredFeasSVG", "MidRotTrend")], file)
+      fwrite(uData$cciss_results[, -c("PredFeasSVG")], file)
     }
   }
 )

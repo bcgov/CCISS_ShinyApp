@@ -4,8 +4,8 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("~/CommonTables/Edatopic_v12_6.csv")
-S1 <- fread("~/CommonTables/Feasibility_v12_8.csv")
+E1 <- fread("./data-raw/data_tables/Edatopic_v12_8.csv")
+S1 <- fread("./data-raw/data_tables/Feasibility_v12_8.csv")
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
@@ -34,11 +34,12 @@ SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
-use_data(S1,E1)
+use_data(S1,E1,overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
-T1 <- fread("./data-raw/data_tables/Tree speciesand codes_2.0_2May2019.csv", key = "TreeCode")
+T1 <- fread("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv", key = "TreeCode")
+use_data(T1,overwrite = T)
 V1 <- fread("./data-raw/data_tables/Variables_ClimateBC.csv", key = "Code")
 zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key = "classification")
 subzones_colours_ref <- fread("./data-raw/data_tables/WNAv12_3_SubzoneCols.csv", key = "classification")

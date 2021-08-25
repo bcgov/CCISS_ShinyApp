@@ -37,9 +37,7 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
       ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
-      ', paste0("var zoneColors = {", paste0("'", zones_colours_ref$classification, "':'", zones_colours_ref$colour,"'", collapse = ","), "}"), '
-      
-      console.log(subzoneColors);
+
       L.bec_layer_opacity = 0.65;
       
       var vectorTileOptions=function(layerName, layerId, activ,
@@ -65,19 +63,42 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
         
       };
       
-      var zLayer = L.vectorGrid.protobuf(
-        "', bcgov_tileserver, '",
-        vectorTileOptions("bec_z", "', bcgov_tilelayer, '", true,
-                          "tilePane", zoneColors, "ZONE", "OBJECTID")
-      )
       var subzLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
                           "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
       );
-      console.log(subzLayer);
-      this.layerManager.addLayer(zLayer, "tile", "bec_z", "Zones")
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+      
+      //Now districts regions
+      var vectorTileOptionsDist=function(layerName, layerId, activ,
+                                     lfPane, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: true, // makes it able to trigger js events like click
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0.5,
+                color: "#000000",
+                fill: false,
+                fillOpacity: 0
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+            return f.properties[id];
+          }
+        }
+      };
+      var distLayer = L.vectorGrid.protobuf(
+        "', district_tileserver, '",
+        vectorTileOptionsDist("Districts", "', district_tilelayer, '", true,
+                          "tilePane", "dist_code", "dist_code")
+      )
+      this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
+      // end districts
       
       ', if (app) {'
       
@@ -88,12 +109,6 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
 		  	}
 		  	highlight = null;
 		  }
-      
-      // Zone
-      
-      zLayer.bindTooltip(function(e) {
-        return e.properties.ZONE
-      }, {sticky: true, textsize: "10px", opacity: 1})
       
       // Subzones
       
@@ -178,7 +193,7 @@ output$bec_map <- renderLeaflet({
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
-      overlayGroups = c("Zones", "Subzones Variants", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
+      overlayGroups = c("Zones", "Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
     leaflet::addPolygons(color = "purple") %>% 
     leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
