@@ -158,22 +158,15 @@ NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector 
 NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
   int n = x.nrow();
   NumericVector res(n);
-  NumericVector temp(4);
+  NumericVector temp(5);
   NumericVector temp2;
   double curr_suit;
   if(dir == "Improve"){
     for(int i = 0; i < n; i++){
       temp = x(i,_);
       temp.push_front(0);
-      curr_suit = Curr[i] - 1;
-      res[i] = sum(temp[Range(0,curr_suit)]);
-    }
-  }else if(dir == "Stable"){
-    for(int i = 0; i < n; i++){
-      temp = x(i,_);
-      temp.push_front(0);
       curr_suit = Curr[i];
-      res[i] = temp[curr_suit];
+      res[i] = sum(temp[Range(0,curr_suit)]);
     }
   }else{
     for(int i = 0; i < n; i++){
@@ -187,16 +180,16 @@ NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
   return(res);
 }
 
-// [[Rcpp::export(rng=false)]]
-LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl, double cutoff){
-  int n = Imp.size();
-  LogicalVector res(n);
-  for(int i = 0; i < n; i++){
-    if(Imp[i] >= cutoff && Decl[i] >= cutoff){
-      res[i] = true;
-    }else{
-      res[i] = false;
-    }
-  }
-  return(res);
-}
+// // [[Rcpp::export(rng=false)]]
+// LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl, double cutoff){
+//   int n = Imp.size();
+//   LogicalVector res(n);
+//   for(int i = 0; i < n; i++){
+//     if(Imp[i] >= cutoff && Decl[i] >= cutoff){
+//       res[i] = true;
+//     }else{
+//       res[i] = false;
+//     }
+//   }
+//   return(res);
+// }

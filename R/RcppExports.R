@@ -29,7 +29,3 @@ ModelDir <- function(x, Curr, dir) {
     .Call(`_ccissdev_ModelDir`, x, Curr, dir)
 }
 
-bifurcTrend <- function(Imp, Decl, cutoff) {
-    .Call(`_ccissdev_bifurcTrend`, Imp, Decl, cutoff)
-}
-

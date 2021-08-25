@@ -2,21 +2,21 @@
 
 # Update the label telling which BGC is displayed
 output$current_bgc_fut <- renderText({
-  siteref <- input$siteref_bgc_fut
+  siteref <- selected_site$siteref
   if (is.null(uData$bgc)) return(NULL)
   uData$bgc[SiteRef == siteref, unique(BGC)]
 })
 
 observeEvent(input$siteref_bgc_fut,{
   siteseries_list <- uData$siteseries_list
-  siteseries <- siteseries_list[[input$siteref_bgc_fut]]
-  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
+  siteseries <- siteseries_list[[selected_site$siteref]]
+  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = selected_site$ss)
 })
 
 # Update the BGC futures plot
 output$bgc_fut_plot <- plotly::renderPlotly({
-  siteref <- input$siteref_bgc_fut
-  sseries <- input$ss_bgc_fut
+  siteref <- selected_site$siteref
+  sseries <- selected_site$ss
   minallow <- input$min_ssoverlap
   update_flag()
   if (is.null(uData$eda_out)) return(NULL)
