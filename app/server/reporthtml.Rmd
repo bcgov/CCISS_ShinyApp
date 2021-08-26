@@ -61,12 +61,8 @@ leaflet::leaflet() %>%
 ```
 
 ```{r section2, results='asis'}
-tags$h2("2. REPORT OPTIONS")
-```
-
-```{r parameters, results='asis'}
-p <- data.table("Parameters" = c("Representative Concentration Pathways", "Number of Points Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
-knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table table-hover table-centered\"", format = "html")
+tags$h2("2. SESSION PARAMETERS")
+tags$p("Coming soon...")
 ```
 
 ```{r section3, results='asis'}
@@ -138,7 +134,7 @@ htmltools::tagList(
   lapply(names(siteseries_list), function(siteref) {
     htmltools::tagList(
       tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, .noWS = "inside"),
-      bgc_fut_plotly(sspreds, siteref, siteseries_list[[siteref]][1], period_map)
+      bgc_fut_plotly(eda_out, siteref, siteseries_list[[siteref]][1],0.1, period_map)
     )
   })
 )
@@ -162,28 +158,6 @@ knitr::kable(pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = E
 
 ```{r appendix, results='asis'}
 tags$h1(class = "bordered", "APPENDIX")
-```
-
-```{r appendix_a, results='asis'}
-tags$h2("A. SUMMARY OF RESULTS")
-```
-
-```{r summary_reports, results='asis', out.height="auto"}
-htmltools::tagList(
-  lapply(names(siteseries_list), function(siteref) {
-    siteseries <- siteseries_list[[siteref]]
-    siteseries <- siteseries[siteseries %in% site_series_filter]
-    htmltools::tagList(
-      mapply(FUN = function(siteserie, nm) {
-        htmltools::tagList(
-          tags$h3("Report site: ", tags$b(siteref, .noWS = c("before", "after")), if (avg) {" averaged"} else {""}, " / ", 
-                  "Site Series: ", tags$b(siteserie, .noWS = c("before", "after")), gsub(siteserie, "", nm), .noWS = "inside"),
-          HTML(cciss_summary_dt(cciss_summary, siteref, siteserie)),
-        )
-      }, siteseries, names(siteseries))
-    )
-  })
-)
 ```
 
 ```{r appendix_b, results='asis'}

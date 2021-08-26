@@ -1,12 +1,12 @@
 observeEvent(input$siteref_silv, priority = 50, {
   if (is.null(uData$cciss_results) | is.null(uData$cciss_summary)) return(NULL)
-  siteref <- input$siteref_silv
+  siteref <- selected_site$siteref
   updateSelectInput(inputId = "site_series_silv", choices = uData$siteseries_list[[siteref]])
 })
 
 output$silviculture_block <- renderUI({
-  siteref <- input$siteref_silv
-  siteserie <- input$site_series_silv
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
   cciss_results <- uData$cciss_results
   if (is.null(cciss_results)) return(NULL)
   standardblocks(cciss_results, siteref, siteserie)
@@ -14,8 +14,8 @@ output$silviculture_block <- renderUI({
 
 output$silvics_tol_dt <- function() {
   cciss_results <- uData$cciss_results
-  siteref <- input$siteref_silv
-  siteserie <- input$site_series_silv
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
   silv_ref_dt(silvics_tol, cciss_results, siteref, siteserie, silv_filter,
@@ -24,8 +24,8 @@ output$silvics_tol_dt <- function() {
 
 output$silvics_resist_dt <- function() {
   cciss_results <- uData$cciss_results
-  siteref <- input$siteref_silv
-  siteserie <- input$site_series_silv
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
   silv_ref_dt(silvics_resist, cciss_results, siteref, siteserie, silv_filter,
@@ -33,8 +33,8 @@ output$silvics_resist_dt <- function() {
 }
 
 output$silvics_regen_dt <- function() {
-  siteref <- input$siteref_silv
-  siteserie <- input$site_series_silv
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
   cciss_results <- uData$cciss_results
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
@@ -44,8 +44,8 @@ output$silvics_regen_dt <- function() {
 
 output$silvics_mature_dt <- function() {
   cciss_results <- uData$cciss_results
-  siteref <- input$siteref_silv
-  siteserie <- input$site_series_silv
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
   silv_filter <- input$filter_silv
   if (is.null(cciss_results)) return(NULL)
   silv_ref_dt(silvics_mature, cciss_results, siteref, siteserie, silv_filter,
