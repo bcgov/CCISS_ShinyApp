@@ -61,6 +61,7 @@ if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env 
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
+source("./server/LeafletSource.R")
 
 ### create parameter input charts
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
@@ -83,38 +84,60 @@ SELECT SITES
 Inputs {.sidebar data-width=550}
 -------------------------------------
 
-###### Points of interest
+##### Add Individual Points On Map
+Click on the map or use table to add points.  
+To edit cells, double click a row.  
+Hit Ctrl+Enter to submit new values.
 
 ```{r}
-# Actions on points
-actionButton("upload_button", "Upload CSV", icon("upload"), width=120)
-actionButton("add_dialog", "Enter New", icon("plus"), width=120)
-actionButton("delete_button", "Selected", icon("trash-alt"), width=120)
-actionButton("clear_button", "Clear All", icon("broom"), width=120)
-
 # Points
 DT::DTOutput("points_table", width="100%")
 
-# Control results
-radioButtons(
-  "aggregation",
-  "Multiple Point Aggregation:",
-  c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
-  selected = "TRUE"
-)
+actionButton("add_dialog", "Enter New", icon("plus"), width=120)
+actionButton("delete_button", "Selected", icon("trash-alt"), width=120)
+actionButton("clear_button", "Clear All", icon("broom"), width=120)
+```
 
+##### Upload CSV of Points
+xxxx
+
+```{r}
+# Actions on points
+actionButton("upload_button", "Upload CSV", icon("upload"), 
+             style = "width:100%; background-color:#8f0e7e; color: #FFF")
+```
+
+##### Preselected Points by Area
+Check either BGC or District, then click desired area on map. 
+
+```{r}
+checkboxGroupInput(
+      "preselected",
+      "Preselected Points By:",
+      c("BGC","District"),
+      inline = T
+    )
+```
+
+##### Ready to Go!
+
+```{r}
 actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h"),
              style = "width:100%; background-color:#8f0e7e; color: #FFF")
+
+radioButtons(
+      "aggregation",
+      "Multiple Point Aggregation:",
+      c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
+      selected = "TRUE"
+    )
 # Generate results
 actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
 
 ```
 
-###### Instructions
-Click on the map or use table to add points.  
-To edit cells, double click a row.  
-Hit Ctrl+Enter to submit new values.
+
 
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
@@ -373,6 +396,10 @@ tags$script(HTML('
   );'
 ))
 
+# tags$script(HTML(
+#   jscode_bgc
+# ))
+
 ```
 
 ```{r server, context = "server"}
@@ -440,6 +467,8 @@ output$gcm_select <- renderAmChart4({
 observeEvent(input$sesh_params,{
   showModal(modalDialog(
     h2("Adjust Session Parameters"),
+    # Control results
+    
     h6("Establishment Feasibility Weights"),
     splitLayout(
       numericInput("hwt961","1961-1990", value = session_params$estabWt[1], min = 0, max = 1,step = 0.05),
