@@ -55,6 +55,8 @@ poolclim <- dbPool(
   })
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
+district_tileserver <- "http://159.203.20.90/data/Districts/{z}/{x}/{y}.pbf"
+district_tilelayer <- "Districts"
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
@@ -241,7 +243,7 @@ treeOpts <- c("Py","Fd","At","Pl","Sx","Bl","Cw","Hw","Pw","Ss","Lw","Ba","Hm","
 selectInput("tree_species",label = "Included Species:", choices = treeOpts, selected = treeOpts, multiple = T)
 radioButtons("port_length",label = "Optimisation Period (Rotation Length):",
              choiceNames = c("Current Period","20 Year","40 Year","60 Year","80 Year"),
-             choiceValues = c(1991,2021,2041,2061,2081))
+             choiceValues = c(1991,2021,2041,2061,2081),selected = 2081)
 # radioButtons(
 #     "fut_scn",
 #     "RCP Scenario:",
