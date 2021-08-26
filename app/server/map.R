@@ -69,7 +69,7 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
                           "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
       );
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
-      
+      console.log(subzLayer);
       //Now districts regions
       var vectorTileOptionsDist=function(layerName, layerId, activ,
                                      lfPane, prop, id) {
@@ -117,9 +117,11 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
       }, {sticky: true, textsize: "10px", opacity: 1})
       
       subzLayer.on("mouseover", function(e) {
+        console.log(e);
         if (e.layer.properties) {
           var properties = e.layer.properties
-  			  highlight = properties.OBJECTID
+          console.log(e.layer);
+  			  highlight = properties.OBJECTID;
   			  var style = {
             weight: 1,
             color: "#555",
@@ -132,7 +134,7 @@ addVectorGridTilesDev <- function(map, app = TRUE) {
       })
       subzLayer.on("mouseout", function(e) {
         clearHighlight();
-      })
+      });
       
       updateOpacity = function(value) {
         L.bec_layer_opacity = parseFloat(value);
@@ -187,13 +189,12 @@ output$bec_map <- renderLeaflet({
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
-    leaflet::hideGroup("Zones") %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
-      overlayGroups = c("Zones", "Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
+      overlayGroups = c("Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
     leaflet::addPolygons(color = "purple") %>% 
     leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
