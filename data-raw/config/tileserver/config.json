@@ -41,7 +41,7 @@
       "mbtiles": "districts.mbtiles"
     },
     "BC_BGC": {
-      "mbtiles": "bcbgc.mbtiles"
+      "mbtiles": "bcbgc_old.mbtiles"
     }
   }
 }
