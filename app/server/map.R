@@ -1,170 +1,167 @@
-# Map vector tiling plugin + opacity slider plugin
-plugins <- {
-  list(vgplugin = 
-         htmltools::htmlDependency(
-           name = "leaflet.vectorgrid",
-           version = "1.3.0",
-           src = system.file("htmlwidgets", package = "ccissdev"),
-           script = "lfx-vgrid-prod.js"
-         ),
-       sliderplugin = htmltools::htmlDependency(
-         name = "leaflet.slider",
-         version = "1.0.0",
-         stylesheet = "lfx-slider.css",
-         src = system.file("htmlwidgets", package = "ccissdev"),
-         script = "lfx-slider.js"
-       )
-  )
-}
-uData$plugins <- plugins
-
-registerPlugin <- function(map, plugin) {
-  map$dependencies <- c(map$dependencies, list(plugin))
-  map
-}
-uData$registerPlugin <- registerPlugin
-
-# Use VectorGrid to display ZoneSubZone layers and do some highlighting
-# App mode is more interactive, report mode is static
-addVectorGridTilesDev <- function(map, app = TRUE) {
-  map <- registerPlugin(map, plugins$vgplugin)
-  if (app) {
-    map <- registerPlugin(map, plugins$sliderplugin)
-  }
-  # This is a custom javascript to enable VectorGrid with Shiny
-  # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
-  # It also adds a slider control for the layers opacity
-  map <- htmlwidgets::onRender(map, paste0('
-    function(el, x, data) {
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
-
-      L.bec_layer_opacity = 0.65;
-      
-      var vectorTileOptions=function(layerName, layerId, activ,
-                             lfPane, colorMap, prop, id) {
-        return {
-          vectorTileLayerName: layerName,
-          interactive: activ, // makes it able to trigger js events like click
-          vectorTileLayerStyles: {
-            [layerId]: function(properties, zoom) {
-              return {
-                weight: 0,
-                fillColor: colorMap[properties[prop]],
-                fill: true,
-                fillOpacity: L.bec_layer_opacity
-              }
-            }
-          },
-          pane : lfPane,
-          getFeatureId: function(f) {
-              return f.properties[id];
-          }
-        }
-        
-      };
-      
-      var subzLayer = L.vectorGrid.protobuf(
-        "', bcgov_tileserver, '",
-        vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
-                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
-      );
-      this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
-      console.log(subzLayer);
-      //Now districts regions
-      var vectorTileOptionsDist=function(layerName, layerId, activ,
-                                     lfPane, prop, id) {
-        return {
-          vectorTileLayerName: layerName,
-          interactive: true, // makes it able to trigger js events like click
-          vectorTileLayerStyles: {
-            [layerId]: function(properties, zoom) {
-              return {
-                weight: 0.5,
-                color: "#000000",
-                fill: false,
-                fillOpacity: 0
-              }
-            }
-          },
-          pane : lfPane,
-          getFeatureId: function(f) {
-            return f.properties[id];
-          }
-        }
-      };
-      var distLayer = L.vectorGrid.protobuf(
-        "', district_tileserver, '",
-        vectorTileOptionsDist("Districts", "', district_tilelayer, '", true,
-                          "tilePane", "dist_code", "dist_code")
-      )
-      this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
-      // end districts
-      
-      ', if (app) {'
-      
-      var highlight
-		  var clearHighlight = function() {
-		  	if (highlight) {
-		  		subzLayer.resetFeatureStyle(highlight);
-		  	}
-		  	highlight = null;
-		  }
-      
-      // Subzones
-      
-      subzLayer.bindTooltip(function(e) {
-        return e.properties.MAP_LABEL
-      }, {sticky: true, textsize: "10px", opacity: 1})
-      
-      subzLayer.on("mouseover", function(e) {
-        console.log(e);
-        if (e.layer.properties) {
-          var properties = e.layer.properties
-          console.log(e.layer);
-  			  highlight = properties.OBJECTID;
-  			  var style = {
-            weight: 1,
-            color: "#555",
-            fillColor: subzoneColors[properties.MAP_LABEL],
-            fillOpacity: 0.1,
-            fill: true
-          }
-          subzLayer.setFeatureStyle(properties.OBJECTID, style);
-        }
-      })
-      subzLayer.on("mouseout", function(e) {
-        clearHighlight();
-      });
-      
-      updateOpacity = function(value) {
-        L.bec_layer_opacity = parseFloat(value);
-      }
-      
-      var opacityslider = L.control.slider(updateOpacity, {
-        id:"opacity_slider",
-        orientation:"horizontal",
-        position:"bottomleft",
-        logo:\'<img src="www/opacity.svg" />\',
-        max:1,
-        step:0.01,
-        syncSlider:true,
-        size:"250px",
-        // Starting opacity value for bec map layers
-        value:0.65,
-        showValue:true
-      })
-      
-      opacityslider.addTo(this)
-      
-      '} else {''}, '
-    }'
-  ))
-  map
-}
-uData$addVectorGridTilesDev <- addVectorGridTilesDev
+# # Map vector tiling plugin + opacity slider plugin
+# plugins <- {
+#   list(vgplugin =
+#          htmltools::htmlDependency(
+#            name = "leaflet.vectorgrid",
+#            version = "1.3.0",
+#            src = system.file("htmlwidgets", package = "ccissdev"),
+#            script = "lfx-vgrid-prod.js"
+#          ),
+#        sliderplugin = htmltools::htmlDependency(
+#          name = "leaflet.slider",
+#          version = "1.0.0",
+#          stylesheet = "lfx-slider.css",
+#          src = system.file("htmlwidgets", package = "ccissdev"),
+#          script = "lfx-slider.js"
+#        )
+#   )
+# }
+# uData$plugins <- plugins
+# 
+# registerPlugin <- function(map, plugin) {
+#   map$dependencies <- c(map$dependencies, list(plugin))
+#   map
+# }
+# uData$registerPlugin <- registerPlugin
+# 
+# # Use VectorGrid to display ZoneSubZone layers and do some highlighting
+# # App mode is more interactive, report mode is static
+# addVectorGridTilesDev <- function(map, app = TRUE) {
+#   map <- registerPlugin(map, plugins$vgplugin)
+#   if (app) {
+#     map <- registerPlugin(map, plugins$sliderplugin)
+#   }
+#   # This is a custom javascript to enable VectorGrid with Shiny
+#   # https://leaflet.github.io/Leaflet.VectorGrid/vectorgrid-api-docs.html
+#   # It also adds a slider control for the layers opacity
+#   map <- htmlwidgets::onRender(map, paste0('
+#     function(el, x, data) {
+#       ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+# 
+#       L.bec_layer_opacity = 0.65;
+#       
+#       var vectorTileOptions=function(layerName, layerId, activ,
+#                              lfPane, colorMap, prop, id) {
+#         return {
+#           vectorTileLayerName: layerName,
+#           interactive: true, // makes it able to trigger js events like click
+#           vectorTileLayerStyles: {
+#             [layerId]: function(properties, zoom) {
+#               return {
+#                 weight: 0,
+#                 fillColor: colorMap[properties[prop]],
+#                 fill: true,
+#                 fillOpacity: L.bec_layer_opacity
+#               }
+#             }
+#           },
+#           pane : lfPane,
+#           getFeatureId: function(f) {
+#               return f.properties[id];
+#           }
+#         }
+#         
+#       };
+#       
+#       var subzLayer = L.vectorGrid.protobuf(
+#         "', bcgov_tileserver, '",
+#         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
+#                           "tilePane", subzoneColors, "MAP_LABEL", "MAP_LABEL")
+#       );
+#       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants")
+#       console.log(subzLayer);
+#       //Now districts regions
+#       var vectorTileOptionsDist=function(layerName, layerId, activ,
+#                                      lfPane, prop, id) {
+#         return {
+#           vectorTileLayerName: layerName,
+#           interactive: true, // makes it able to trigger js events like click
+#           vectorTileLayerStyles: {
+#             [layerId]: function(properties, zoom) {
+#               return {
+#                 weight: 0.5,
+#                 color: "#000000",
+#                 fill: false,
+#                 fillOpacity: 0
+#               }
+#             }
+#           },
+#           pane : lfPane,
+#           getFeatureId: function(f) {
+#             return f.properties[id];
+#           }
+#         }
+#       };
+#       var distLayer = L.vectorGrid.protobuf(
+#         "', district_tileserver, '",
+#         vectorTileOptionsDist("Districts", "', district_tilelayer, '", true,
+#                           "tilePane", "dist_code", "dist_code")
+#       )
+#       this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
+#       // end districts
+#       
+#       ', if (app) {'
+#       
+#       var highlight;
+# 		  var clearHighlight = function() {
+# 		  	if (highlight) {
+# 		  		subzLayer.resetFeatureStyle(highlight);
+# 		  	}
+# 		  	highlight = null;
+# 		  }
+#       
+#       // Subzones
+#       
+#       subzLayer.bindTooltip(function(e) {
+#         return e.properties.MAP_LABEL
+#       }, {sticky: true, textsize: "10px", opacity: 1})
+#       
+#       subzLayer.on("mouseover", function(e) {
+#           var properties = e.layer.properties
+#           console.log(e.layer);
+#   			  highlight = properties.MAP_LABEL;
+#   			  var style = {
+#             weight: 1,
+#             color: "#555",
+#             fillColor: subzoneColors[properties.MAP_LABEL],
+#             fillOpacity: 0.4,
+#             fill: true
+#           }
+#           subzLayer.setFeatureStyle(properties.MAP_LABEL, style);
+#       })
+#       subzLayer.on("mouseout", function(e) {
+#         clearHighlight();
+#       });
+#       
+#       updateOpacity = function(value) {
+#         L.bec_layer_opacity = parseFloat(value);
+#       }
+#       
+#       var opacityslider = L.control.slider(updateOpacity, {
+#         id:"opacity_slider",
+#         orientation:"horizontal",
+#         position:"bottomleft",
+#         logo:\'<img src="www/opacity.svg" />\',
+#         max:1,
+#         step:0.01,
+#         syncSlider:true,
+#         size:"250px",
+#         // Starting opacity value for bec map layers
+#         value:0.65,
+#         showValue:true
+#       })
+#       
+#       opacityslider.addTo(this)
+#       
+#       '} else {''}, '
+#     }'
+#   ))
+#   map
+# }
+# uData$addVectorGridTilesDev <- addVectorGridTilesDev
 # Map main
 output$bec_map <- renderLeaflet({
-  leaflet::leaflet(tOut) %>%
+  leaflet::leaflet() %>%
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
@@ -179,7 +176,6 @@ output$bec_map <- renderLeaflet({
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
       group = "Hillshade",
       options = leaflet::pathOptions(pane = "mapPane")) %>%
-    addVectorGridTilesDev() %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
                               options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterOnlyLabels, group = "DarkMatter Labels",
@@ -189,6 +185,8 @@ output$bec_map <- renderLeaflet({
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    addBGC() %>%
+    #invokeMethod(data = subzones_colours_ref, method = "addBGCTiles", ~classification, ~colour) %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
@@ -196,7 +194,7 @@ output$bec_map <- renderLeaflet({
       baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
       overlayGroups = c("Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
-    leaflet::addPolygons(color = "purple") %>% 
+    ##leaflet::addPolygons(color = "purple") %>% 
     leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
 })
 
@@ -228,7 +226,24 @@ set_map_bound <- function(data = userpoints$dt) {
 
 ## Map click logic, on click add point
 observeEvent(input$bec_map_click, {
-  pos <- input$bec_map_click
-  points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
-  insert_points(points)
+  if(is.null(input$preselected)){
+    print("In BGC Click")
+    pos <- input$bec_map_click
+    points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
+    insert_points(points)
+  }
+})
+
+observeEvent(input$preselected,{
+  if(!is.null(input$preselected)){
+    if(!any(input$preselected %in% c("BGC","District"))){
+      session$sendCustomMessage("typeFlag","click")
+    }else{
+      session$sendCustomMessage("typeFlag","select")
+    }
+  }
+})
+
+observeEvent(input$bgc_click,{
+  print(input$bgc_click)
 })
