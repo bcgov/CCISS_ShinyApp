@@ -29,7 +29,7 @@ TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in pack
 TreeCols <- TreeCols[HexColour != "",]
 save(TreeCols, file = "./data/TreeCols.rda")
 
-SS <- fread("~/CommonTables/WNA_SSeries_v12_6.csv")
+SS <- fread("~/CommonTables/WNA_SSeries_v12_8.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
@@ -178,7 +178,8 @@ paste("#' @aliases", paste(gsub("\\.rda", "", dir("./data")), collapse = " ")),
 
 
 ##check edatopic data
-eda <- fread("~/CommonTables/Edatopic_v12_6.csv")
+#eda <- fread("~/CommonTables/Edatopic_v12_8.csv")
+eda <- E1
 posPosition <- as.data.table(expand.grid(SNR = c("A","B","C","D","E"),SMR = 0:7,BGC = unique(eda$BGC)))
 posPosition[,Edatopic := paste0(SNR,SMR)]
 t1 <- eda[posPosition,on = c("BGC","Edatopic")]
