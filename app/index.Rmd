@@ -205,7 +205,7 @@ tableOutput("silvics_regen_dt")
 tableOutput("silvics_mature_dt")
 ```
 
-BGC FUTURES
+BEC FUTURES
 =====================================
 
 Inputs {.sidebar data-width=230}
@@ -219,7 +219,7 @@ selectInput("ss_bgc_fut",label = "Site Series:", choices = character())
 sliderInput("min_ssoverlap",label = "Min Site Series Overlap", min = 0.05,max = 0.25,value = 0.1)
 ```
 
-BGC Futures: ratio of future models predicting BGC
+BEC Futures: ratio of predicted BGC with aligned site series from all selected climate model/scenarios
 -------------------------------------
 
 ### Ratio of Model Predictions of future BGCs and aligned site series `r textOutput("current_bgc_fut", inline = TRUE)`
