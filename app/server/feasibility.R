@@ -70,6 +70,6 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
                        "Projected Feasibility" = 2, "Trend" = 1)) %>%
     column_spec(4:8,extra_css = "vertical-align:middle;") %>%
-    kable_styling(full_width = F, font_size = 14)
+    kable_styling(full_width = F, font_size = 16) ##14
 }
 uData$cciss_results_dt <- cciss_results_dt
