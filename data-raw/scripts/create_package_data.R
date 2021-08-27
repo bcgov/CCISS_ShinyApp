@@ -29,7 +29,7 @@ TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in pack
 TreeCols <- TreeCols[HexColour != "",]
 save(TreeCols, file = "./data/TreeCols.rda")
 
-SS <- fread("~/CommonTables/WNA_SSeries_v12_8.csv")
+SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_8.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
