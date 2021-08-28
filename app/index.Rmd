@@ -1,5 +1,5 @@
 ---
-title: "The Climate Change Informed Species Selection Tool: v12"
+title: "The Climate Change Informed Species Selection Tool"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -111,12 +111,15 @@ actionButton("upload_button", "Upload CSV", icon("upload"),
 Check either BGC or District, then click desired area on map. 
 
 ```{r}
-checkboxGroupInput(
+radioButtons(
       "preselected",
       "Preselected Points By:",
-      c("BGC","District"),
+      choiceNames =  c("None", "BGC","BGC and District"),
+      choiceValues = c("N","BGC","BGC_Dist"),
       inline = T
     )
+splitLayout(actionButton("clear_highlight","Clear Selections"),
+            textOutput("bgc_click_show"))
 ```
 
 ##### Ready to Go!

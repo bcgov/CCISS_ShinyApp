@@ -9,6 +9,7 @@
 \alias{models_info}
 \alias{R1}
 \alias{S1}
+\alias{SIBEC}
 \alias{silvics_mature}
 \alias{silvics_regen}
 \alias{silvics_resist}
@@ -18,6 +19,7 @@
 \alias{stocking_standards}
 \alias{subzones_colours_ref}
 \alias{T1}
+\alias{TreeCols}
 \alias{V1}
 \alias{zones_colours_ref}
 \title{Data to be included in bccciss package}

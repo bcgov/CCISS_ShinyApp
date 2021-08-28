@@ -226,7 +226,7 @@ set_map_bound <- function(data = userpoints$dt) {
 
 ## Map click logic, on click add point
 observeEvent(input$bec_map_click, {
-  if(is.null(input$preselected)){
+  if(input$preselected == "N"){
     print("In BGC Click")
     pos <- input$bec_map_click
     points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
@@ -235,15 +235,21 @@ observeEvent(input$bec_map_click, {
 })
 
 observeEvent(input$preselected,{
-  if(!is.null(input$preselected)){
-    if(!any(input$preselected %in% c("BGC","District"))){
-      session$sendCustomMessage("typeFlag","click")
-    }else{
-      session$sendCustomMessage("typeFlag","select")
-    }
+  print(input$preselected)
+  if(input$preselected == "BGC" | input$preselected == "BGC_Dist"){
+    session$sendCustomMessage("typeFlag","select")
+  }else{
+    session$sendCustomMessage("typeFlag","click")
   }
 })
 
 observeEvent(input$bgc_click,{
-  print(input$bgc_click)
+  uData$bgc_select <- input$bgc_click
+  output$bgc_click_show <- renderText({
+    c("Selected BGCs:",input$bgc_click)
+  })
+})
+
+observeEvent(input$clear_highlight,{
+  session$sendCustomMessage("clearBGC","puppy")
 })

@@ -15,7 +15,11 @@ uData$pts_col <- 1L:ncol(uData$basepoints)
 # Exclude popups column, column indexes to show in the UI
 uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
 
-userpoints <- reactiveValues(dt = uData$basepoints)
+userpoints <- reactiveValues(dt = uData$basepoints,bgc_pts = NULL)
+
+observeEvent(input$bgc_click,{
+  session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
+})
 
 # Input management ----
 output$points_table <- DT::renderDataTable({

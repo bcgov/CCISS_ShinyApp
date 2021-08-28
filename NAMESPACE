@@ -3,6 +3,7 @@
 export(ccissOutput)
 export(cleanData)
 export(dbBbox)
+export(dbGetBGC)
 export(dbGetCCISS)
 export(dbGetClimSum)
 export(dbGetSppLimits)

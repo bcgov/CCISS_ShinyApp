@@ -4,7 +4,7 @@
 \alias{ccissOutput}
 \title{ccissOutput}
 \usage{
-ccissOutput(SSPred, suit, rules, feasFlag, histWeights, midWeights)
+ccissOutput(SSPred, suit, rules, feasFlag, histWeights, futureWeights)
 }
 \arguments{
 \item{SSPred}{A data.table. Predictions input.}

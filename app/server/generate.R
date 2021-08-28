@@ -11,8 +11,18 @@ observeEvent(input$generate_results, priority = 100, {
   # the userdata environment.
   
   # Input from the app
-  avg             <- uData$avg             <- as.logical(input$aggregation)
-  pts             <- uData$pts             <- userpoints$dt
+  if(input$preselected != "N"){
+    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = "DCC", maxPoints = 100)
+    userpoints$bgc_pts <- pointNums
+    print("finished getting sitenos")
+    avg <- uData$avg <- TRUE
+    pts <- uData$pts <- data.table(Site = pointNums)
+    #print(pts$Site)
+  }else{
+    avg             <- uData$avg             <- as.logical(input$aggregation)
+    pts             <- uData$pts             <- userpoints$dt
+  }
+  
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
@@ -20,7 +30,7 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Process CCISS data", ticker)
   cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$futWt)
   tic("Format CCISS Results", ticker)
-  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
+  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg, type = input$preselected)
   update_flag(update_flag() + 1) ##make sure things recalculate
   # UI select choices
   tic("Determine UI choices", ticker)
@@ -135,6 +145,7 @@ observe({
 observeEvent(userpoints$dt, {generateState()})
 observeEvent(input$aggregation, {generateState()})
 observeEvent(input$rcp_scenario, {generateState()})
+#observeEvent(userdata$bgc_dt,{generateState()})
 
 # Data processing
 bgc <- function(con, siteno, avg, modWeights) {
@@ -167,7 +178,7 @@ trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30p
 trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
 stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
 ##function for creating full results table
-cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
+cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
@@ -194,9 +205,15 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
       "1_2081","2_2081","3_2081","X_2081"
     ))
     # Append region
-    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-    results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
-    results$ZoneSubzone <- pts$BGC[match(results$SiteRef, region_map)]
+    if(type == "N"){
+      region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
+      results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
+      results$ZoneSubzone <- pts$BGC[match(results$SiteRef, region_map)]
+    }else{
+      results[,ZoneSubzone := SiteRef]
+      results[BGCRegions, Region := i.Region, on = "ZoneSubzone"]
+    }
+    
     # Append Chief Forester Recommended Suitability
     results[
       SS, 
@@ -234,6 +251,7 @@ cciss_results <- function(cciss, pts, avg, SS = ccissdev::stocking_standards, pe
     return(results)
   })
 }
+
 
 #' @param ... a list of numeric vector, column names will be used as color. This
 #' function assumes that x rowSums are all equal to 1 and that there is no NA values.

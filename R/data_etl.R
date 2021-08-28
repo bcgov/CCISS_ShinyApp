@@ -147,6 +147,25 @@ dbBbox <- function(con, points, buffer) {
 # sites <- 6305115:6305125
 # test <- dbGetCCISS(pool, 6518114, FALSE, scn = "ssp370")
 
+#' Get sitenos for preselected points in BGC/district
+#' @param con postgres DBI connection
+#' @param bgc A character specifying BGC
+#' @param district A character specifying district or NULL
+#' @param maxPoints Integer - max number of points
+#' @details Get siteno for BGC and District.
+#' @return a vector of sitenumbers
+#' @importFrom RPostgres dbGetQuery
+#' @export
+dbGetBGC <- function(con,bgc,district = NULL,maxPoints){
+  if(is.null(district)){
+    query <- paste0("select siteno from bgc_points where bgc IN ('",paste(bgc,collapse = "','"),"') limit ",maxPoints)
+  }else{
+    query <- paste0("select siteno from bgc_points where bgc IN ('",paste(bgc,collapse = "','"),"') and dist_code = '",district,"' limit ",maxPoints)
+  }
+  dat <- RPostgres::dbGetQuery(con, query)$siteno
+  return(dat)
+}
+
 #' Pull CCISS from a vector of SiteNo
 #' @param con An active postgres DBI connection.
 #' @param siteno A character vector of siteno.
