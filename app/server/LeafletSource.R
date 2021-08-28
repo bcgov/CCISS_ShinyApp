@@ -31,108 +31,6 @@ addPlugin <- function(map) {
   map
 }
 
-# jscode_bgc <- paste0('window.LeafletWidget.methods.addBGCTiles = function(BGC,Colour) {
-#       var subzoneColors = {};
-#       BGC.forEach((bec,i) => {
-#         const col = Colour[i];
-#         subzoneColors[bec] = col;
-#       });
-#       
-#       var map = this;
-#       var vectorTileOptions=function(layerName, layerId, activ,
-#                                      lfPane, colorMap, prop, id) {
-#         return {
-#           vectorTileLayerName: layerName,
-#           interactive: true, // makes it able to trigger js events like click
-#           vectorTileLayerStyles: {
-#             [layerId]: function(properties, zoom) {
-#               return {
-#                 weight: 0,
-#                 fillColor: colorMap[properties[prop]],
-#                 fill: true,
-#                 fillOpacity: 1
-#               };
-#             }
-#           },
-#           pane : lfPane,
-#           getFeatureId: function(f) {
-#             return f.properties[id];
-#           }
-#         };
-#       };
-#       
-#       var subzLayer = L.vectorGrid.protobuf(
-#         "', bcgov_tileserver, '",
-#         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
-#                           "tilePane", subzoneColors, "MAP_LABEL", "MAP_LABEL")
-#       );
-#       //console.log(subzLayer);
-#       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants");
-#       
-#       subzLayer.on("mouseover", function(e){
-#         Shiny.setInputValue("bgc_click",e.layer.properties.MAP_LABEL);
-#         var properties = e.layer.properties;
-#   			  highlight = properties.MAP_LABEL;
-#   			  var style = {
-#             weight: 1,
-#             color: "#fc036f",
-#             fillColor: subzoneColors[properties.MAP_LABEL],
-#             fillOpacity: 1,
-#             fill: true
-#           };
-#           subzLayer.setFeatureStyle(properties.MAP_LABEL, style);
-#       });
-#       
-#       
-#       var highlight;
-# 		  var clearHighlight = function() {
-# 		  	if (highlight) {
-# 		  		subzLayer.resetFeatureStyle(highlight);
-# 		  	}
-# 		  	highlight = null;
-# 		  };
-# 		  
-#       subzLayer.on("mouseout", function(e) {
-#         clearHighlight();
-#       });
-# 		  
-#       subzLayer.bindTooltip(function(e) {
-#         return tooltipLabs[e.properties.MAP_LABEL];
-#       }, {sticky: true, textsize: "10px", opacity: 1});
-#       subzLayer.bringToFront();
-#       
-#       //Now districts regions
-#       var vectorTileOptionsDist=function(layerName, layerId, activ,
-#                                      lfPane, prop, id) {
-#         return {
-#           vectorTileLayerName: layerName,
-#           interactive: true, 
-#           vectorTileLayerStyles: {
-#             [layerId]: function(properties, zoom) {
-#               return {
-#                 weight: 0.5,
-#                 color: "#000000",
-#                 fill: false,
-#                 fillOpacity: 0
-#               }
-#             }
-#           },
-#           pane : lfPane,
-#           getFeatureId: function(f) {
-#             return f.properties[id];
-#           }
-#         }
-#       };
-#       var distLayer = L.vectorGrid.protobuf(
-#         "', district_tileserver, '",
-#         vectorTileOptionsDist("Districts", "', district_tilelayer, '", true,
-#                           "tilePane", "dist_code", "dist_code")
-#       )
-#       this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
-#       // end districts
-#       
-#     };')
-
 addBGC <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   map <- registerPlugin(map, plugins$sliderplugin)
@@ -211,9 +109,11 @@ addBGC <- function(map) {
       
       Shiny.addCustomMessageHandler("typeFlag", function(val){
         if(val == "click"){
+          console.log("click");
           flag = true;
           subzLayer.resetFeatureStyle(selectHighlight);
         }else{
+          console.log("highlight");
           flag = false;
         }
       });
@@ -226,15 +126,27 @@ addBGC <- function(map) {
             fillOpacity: 1,
             fill: true
       };
-
+      
+      var bgcHL;
+      var selectedNames = [];
+      var selectedBGC = [];
       subzLayer.on("click", function(e){
         if(!flag){
-          var properties = e.layer.properties;
-          subzLayer.resetFeatureStyle(selectHighlight);
-          selectHighlight = properties.OBJECTID;
-          Shiny.setInputValue("bgc_click",e.layer.properties.MAP_LABEL);
-          subzLayer.setFeatureStyle(properties.OBJECTID, styleHL);
+          selectedBGC.push(e.layer.properties.OBJECTID);
+          selectedNames.push(e.layer.properties.MAP_LABEL);
+          Shiny.setInputValue("bgc_click",selectedNames);
+  			  bgcHL = e.layer.properties.OBJECTID;
+          subzLayer.setFeatureStyle(bgcHL, styleHL);
         }
+      });
+      
+      Shiny.addCustomMessageHandler("clearBGC",function(x){
+        selectedBGC.forEach((ID) => {
+          subzLayer.resetFeatureStyle(ID);
+        });
+        selectedBGC = [];
+        selectedNames = [];
+        Shiny.setInputValue("bgc_click",selectedNames);
       });
       
             //Now districts regions
