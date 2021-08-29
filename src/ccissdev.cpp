@@ -166,6 +166,9 @@ NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
       temp = x(i,_);
       temp.push_front(0);
       curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
       res[i] = sum(temp[Range(0,curr_suit)]);
     }
   }else{
@@ -173,6 +176,9 @@ NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
       temp = x(i,_);
       temp.push_back(0);
       curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
       res[i] = sum(temp[Range(curr_suit,4)]);
     }
   }
