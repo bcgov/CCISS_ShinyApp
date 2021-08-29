@@ -84,7 +84,26 @@ SELECT SITES
 Inputs {.sidebar data-width=550}
 -------------------------------------
 
-##### Add Individual Points On Map
+```{r}
+wellPanel(
+  splitLayout(
+    actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h")),
+
+radioButtons(
+      "aggregation",
+      "Multiple Point Aggregation:",
+      c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
+      selected = "TRUE"
+    )
+  )
+)
+hr(style = "border-top: 1px solid #8f0e7e;")
+```
+
+---
+
+##### Click to Add Points on Map
+
 Click on the map or use table to add points.  
 To edit cells, double click a row.  
 Hit Ctrl+Enter to submit new values.
@@ -96,44 +115,49 @@ DT::DTOutput("points_table", width="100%")
 actionButton("add_dialog", "Enter New", icon("plus"), width=120)
 actionButton("delete_button", "Selected", icon("trash-alt"), width=120)
 actionButton("clear_button", "Clear All", icon("broom"), width=120)
+hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
-##### Upload CSV of Points
-xxxx
+---
+
+##### Upload CSV File
+
+Upload a csv file with latitude and longitude values for your points of interest.
+
 
 ```{r}
 # Actions on points
 actionButton("upload_button", "Upload CSV", icon("upload"), 
              style = "width:100%; background-color:#8f0e7e; color: #FFF")
+hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
-##### Preselected Points by Area
-Check either BGC or District, then click desired area on map. 
+---
+
+##### Click on BGC for preselected points by: 
 
 ```{r}
-radioButtons(
+
+  radioButtons(
       "preselected",
-      "Preselected Points By:",
+      label = NULL,
       choiceNames =  c("None", "BGC","BGC and District"),
       choiceValues = c("N","BGC","BGC_Dist"),
       inline = T
     )
 splitLayout(actionButton("clear_highlight","Clear Selections"),
             textOutput("bgc_click_show"))
+
+
+hr(style = "border-top: 1px solid #8f0e7e;")
 ```
+
+---
 
 ##### Ready to Go!
 
 ```{r}
-actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h"),
-             style = "width:100%; background-color:#8f0e7e; color: #FFF")
 
-radioButtons(
-      "aggregation",
-      "Multiple Point Aggregation:",
-      c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
-      selected = "TRUE"
-    )
 # Generate results
 actionButton("generate_results", label = "Generate results", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
