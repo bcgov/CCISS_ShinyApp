@@ -99,15 +99,15 @@ radioButtons(
 )
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
-##### Add Points of Interest to Map 
-###### Use one of the 3 methods below
+
 ---
+##### Add Points of Interest Using One of the 3 Methods Below
 
-###### 1. Click on Map to Add Points
+###### 1. Enter Lat/Long or Click on Map to Add Points
 
-Click on the map or use table to add points.  
-To edit cells, double click a row.  
-Hit Ctrl+Enter to submit new values.
+Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate 
+To edit location information, double click a row.  
+Hit Generate/Refresh Button at bottom to run projects.
 
 ```{r}
 # Points
@@ -121,23 +121,9 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 
 ---
 
-###### 2. Upload a CSV File contain points of interests
+###### 2. Generate summary using preselected points by BGC or BGC+Distict:
 
-Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) will your points of interest.
-
-
-```{r}
-# Actions on points
-actionButton("upload_button", "Upload CSV", icon("upload"), 
-             style = "width:100%; background-color:#8f0e7e; color: #FFF")
-hr(style = "border-top: 1px solid #8f0e7e;")
-```
-
----
-
-###### 3. Generate summary using preselected points by:
-Choose option to use points across an entire BGC subzone/variant or on points in a Forest District by BGC
-
+Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District
 ```{r}
 
   radioButtons(
@@ -151,6 +137,19 @@ splitLayout(actionButton("clear_highlight","Clear Selections"),
             textOutput("bgc_click_show"))
 
 
+hr(style = "border-top: 1px solid #8f0e7e;")
+```
+
+---
+###### 3. Upload a CSV file contain points of interests
+
+Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.
+
+
+```{r}
+# Actions on points
+actionButton("upload_button", "Upload CSV", icon("upload"), 
+             style = "width:100%; background-color:#8f0e7e; color: #FFF")
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
