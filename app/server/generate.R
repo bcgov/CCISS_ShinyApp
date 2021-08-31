@@ -12,11 +12,12 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Input from the app
   if(input$preselected != "N"){
-    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = "DCC", maxPoints = 100)
+    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 100)
     userpoints$bgc_pts <- pointNums
     print("finished getting sitenos")
     avg <- uData$avg <- TRUE
     pts <- uData$pts <- data.table(Site = pointNums)
+    uData$dist_select <- NULL
     #print(pts$Site)
   }else{
     avg             <- uData$avg             <- as.logical(input$aggregation)

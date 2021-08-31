@@ -105,7 +105,6 @@ addBGC <- function(map) {
       subzLayer.bindTooltip(function(e) {
         return e.properties.MAP_LABEL
       }, {sticky: true, textsize: "10px", opacity: 1});
-      subzLayer.bringToFront();
       
       Shiny.addCustomMessageHandler("typeFlag", function(val){
         if(val == "click"){
@@ -149,6 +148,11 @@ addBGC <- function(map) {
         Shiny.setInputValue("bgc_click",selectedNames);
       });
       
+      Shiny.addCustomMessageHandler("selectBGC",function(x){
+        distLayer.resetFeatureStyle(distHL);
+        subzLayer.bringToFront();
+      });
+      
             //Now districts regions
       var vectorTileOptionsDist=function(layerName, layerId, activ,
                                      lfPane, prop, id) {
@@ -160,7 +164,7 @@ addBGC <- function(map) {
               return {
                 weight: 0.5,
                 color: "#000000",
-                fill: false,
+                fill: true,
                 fillOpacity: 0
               }
             }
@@ -177,7 +181,28 @@ addBGC <- function(map) {
                           "tilePane", "dist_code", "dist_code")
       )
       this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
+      
+      Shiny.addCustomMessageHandler("selectDist",function(x){
+        distLayer.bringToFront();
+      });
+      
+      var distHL;
+      distLayer.on("click", function(e){
+        distLayer.resetFeatureStyle(distHL);
+        distHL = e.layer.properties.dist_code;
+        Shiny.setInputValue("dist_click",distHL);
+        distLayer.setFeatureStyle(distHL, styleHL);
+        subzLayer.bringToFront();
+        flag = false;
+      });
+      
+      distLayer.bindTooltip(function(e) {
+        return e.properties.dist_code;
+      }, {sticky: true, textsize: "10px", opacity: 1});
+      
       // end districts
+      
+      subzLayer.bringToFront();
       
       updateOpacity = function(value) {
         L.bec_layer_opacity2 = parseFloat(value);

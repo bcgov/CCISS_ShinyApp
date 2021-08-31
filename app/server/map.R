@@ -161,7 +161,7 @@
 # uData$addVectorGridTilesDev <- addVectorGridTilesDev
 # Map main
 output$bec_map <- renderLeaflet({
-  leaflet::leaflet() %>%
+  leaflet::leaflet(noDat) %>%
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
@@ -186,6 +186,7 @@ output$bec_map <- renderLeaflet({
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     addBGC() %>%
+    addPolygons(fillColor = "gray",fillOpacity = 0.8) %>%
     #invokeMethod(data = subzones_colours_ref, method = "addBGCTiles", ~classification, ~colour) %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
@@ -236,9 +237,14 @@ observeEvent(input$bec_map_click, {
 
 observeEvent(input$preselected,{
   print(input$preselected)
-  if(input$preselected == "BGC" | input$preselected == "BGC_Dist"){
+  if(input$preselected == "BGC_Dist"){
+    session$sendCustomMessage("selectDist","puppy")
+  }else if(input$preselected == "BGC"){
+    session$sendCustomMessage("selectBGC","puppy")
     session$sendCustomMessage("typeFlag","select")
   }else{
+    session$sendCustomMessage("clearBGC","puppy")
+    session$sendCustomMessage("selectBGC","puppy")
     session$sendCustomMessage("typeFlag","click")
   }
 })
@@ -248,6 +254,10 @@ observeEvent(input$bgc_click,{
   output$bgc_click_show <- renderText({
     c("Selected BGCs:",input$bgc_click)
   })
+})
+
+observeEvent(input$dist_click,{
+  uData$dist_select <- input$dist_click
 })
 
 observeEvent(input$clear_highlight,{
