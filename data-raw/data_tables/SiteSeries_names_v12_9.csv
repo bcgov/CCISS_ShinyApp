@@ -1,0 +1,1680 @@
+BGxh1/102,Py – Antelope-brush – Bluebunch wheatgrass
+BGxh1/103,Py(Fd) – Rabbit-brush – Bluebunch wheatgrass
+BGxh1/110,Py – Sumac – Mock-orange
+BGxh1/Fm01,Act – Snowberry – Rose
+BGxh1/Fm06,ActCw – Dogwood – Lady fern
+BGxh2/102,Py – Rabbit-brush – Three-awn
+BGxh2/110,Fd(Py) – Snowberry – Oregon-grape
+BGxh2/Ff05,At – Dogwood – Nootka rose
+BGxh2/Fm01,Act – Snowberry – Rose
+BGxh2/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+BGxh3/110,Fd – Bluebunch wheatgrass – Step moss
+BGxh3/111,Fd – Rocky Mountain juniper – Bluebunch wheatgrass
+BGxh3/112,Act – Snowberry – Rose
+BGxh3/113,Act(Fd) – Douglas maple – Snowberry
+BGxw1/102,Py – Rabbit-brush – Bluebunch wheatgrass
+BGxw1/110,FdPy – Rough fescue – Bluebunch wheatgrass
+BGxw1/111,Fd – Snowberry – Step moss
+BGxw1/112$6B.1,At – Snowberry – Kentucky bluegrass
+BGxw1/Ff04,At – Snowberry – Nootka rose
+BGxw1/Fm01,Cottonwood – Snowberry – Rose
+BGxw1/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+BGxw2/110,Fd – Rocky Mountain juniper – Bluebunch wheatgrass
+BGxw2/111,Fd – Bluebunch wheatgrass – Step moss
+BGxw2/112,Act – Snowberry – Rose
+BGxw2/113,Fd – Pinegrass – Feathermoss
+BGxw2/114,At – Douglas maple – Western snowberry
+BGxw2/115,At – Prairie rose – Western snowberry
+BWBSdk/101,Sw – Soopolallie – Step moss
+BWBSdk/101a,Sw – Soopolallie – Step moss; Mesic phase
+BWBSdk/101b,Sw – Soopolallie – Step moss; Subhygric phase
+BWBSdk/102,Pl – Kinnikinnick – Lingonberry
+BWBSdk/103,SwPl – Soopolallie – Toad-flax
+BWBSdk/104,Sb – Labrador tea – Step moss
+BWBSdk/104a,Sb – Labrador tea – Step moss; Freely drained phase
+BWBSdk/104b,Sw – Soopolallie – Step moss; Imperfectly drained phase
+BWBSdk/110,Sw – Currant – Horsetail
+BWBSdk/111,Sw – Mountain alder – Horsetail
+BWBSdk/112,AcbSw – Mountain alder – Dogwood
+BWBSdk/Wb03,Sb – Lingonberry – Peat moss
+BWBSdk/Wb09,Sb – Horsetail – Peat moss
+BWBSdk/Wb11,Sb – Buckbean – Peat moss
+BWBSdk/Ws15,SwSb – Labrador tea – Glow moss
+BWBSmk/101,Sw – Lingonberry – Step moss
+BWBSmk/102,Pl – Kinnikinnick – Lingonberry
+BWBSmk/103,SwPl – Soopolallie – Fuzzy-spiked wildrye
+BWBSmk/104,Sb – Labrador tea – Step moss
+BWBSmk/104a,Sb – Labrador tea – Step moss; Freely drained phase
+BWBSmk/104b,Sb – Labrador tea – Step moss; Imperfectly/poorly drained phase
+BWBSmk/110,Sw – Currant – Horsetail
+BWBSmk/111,Sw – Mountain alder – Horsetail
+BWBSmk/112,AcbSw – Mountain alder – Dogwood
+BWBSmk/Wb03,Sb – Lingonberry – Peat moss
+BWBSmk/Wb05,Sb – Water sedge – Peat moss
+BWBSmk/Wb09,Sb – Common horsetail – Peat moss
+BWBSmk/Ws15,SwSb – Labrador tea – Glow moss
+BWBSmw/101,Sw – Trailing raspberry – Step moss
+BWBSmw/102,Pl – Kinnikinnick – Lingonberry
+BWBSmw/103,SwPl – Soopolallie – Fuzzy-spiked wildrye
+BWBSmw/104,Sb – Labrador tea – Step moss
+BWBSmw/110,Sw – Oak fern – Sarsaparilla
+BWBSmw/111,Sw – Currant – Horsetail
+BWBSmw/112,AcbSw – Mountain alder – Dogwood
+BWBSmw/Wb01,Sb – Creeping snowberry – Sphagnum
+BWBSmw/Wb03,Sb – Lingonberry – Peat moss
+BWBSmw/Wb05,Sb – Water sedge – Peat moss
+BWBSmw/Wb09,Sb – Common horsetail – Peat moss
+BWBSmw/Ws15,SwSb – Labrador tea – Glow moss
+BWBSwk1/101,SwBl – Huckleberry – Feathermoss
+BWBSwk1/102,Pl – Lingonberry – Reindeer lichen
+BWBSwk1/103,SwPl – Soopollalie – Showy aster
+BWBSwk1/104,Sb – Huckleberry – Lingonberry
+BWBSwk1/110,Sw – Currant – Horsetail
+BWBSwk1/111,Sb – Horsetail – Step moss
+BWBSwk1/Wb09,Sb – Common horsetail – Peat moss
+BWBSwk2/101,SwBl – Huckleberry – Feathermoss
+BWBSwk2/102,Pl – Lingonberry – Reindeer lichen
+BWBSwk2/103,SwPl – Soopolallie – Fuzzy-spiked wildrye
+BWBSwk2/104,Sb – Huckleberry – Lingonberry
+BWBSwk2/110,Sw – Currant – Bluebells
+BWBSwk2/111,Sw – Currant – Horsetail
+BWBSwk3/101,SwBl – Huckleberry – Feathermoss
+BWBSwk3/102,Pl – Crowberry – Lingonberry
+BWBSwk3/103,Sb – Huckleberry – Lingonberry
+BWBSwk3/110,Sw – Currant – Horsetail
+BWBSwk3/111,Sb – Horsetail – Step moss
+CDFmm/01,Fd – Salal
+CDFmm/02,FdPl – Arbutus
+CDFmm/03,Fd – Oniongrass
+CDFmm/04,FdBg – Oregon-grape
+CDFmm/05,CwFd – Kindbergia
+CDFmm/06,CwBg – Foamflower
+CDFmm/07,Cw – Snowberry
+CDFmm/08,Act – Red-osier dogwood
+CDFmm/09,Act – Willow
+CDFmm/10,Pl – Sphagnum
+CDFmm/11,Cw – Skunk cabbage
+CDFmm/12,Cw – Vanilla-leaf
+CDFmm/13,Cw – Indian plum
+CDFmm/14,Cw – Slough sedge
+CWHdm/01,Hw – Flat moss
+CWHdm/02,FdPl – Cladina
+CWHdm/03,FdHw – Salal
+CWHdm/04,Fd – Sword fern
+CWHdm/05,Cw – Sword fern
+CWHdm/06,HwCw – Deer fern
+CWHdm/07,Cw – Foamflower
+CWHdm/08,Ss -Salmonberry
+CWHdm/09,Act – Red-osier dogwood
+CWHdm/10,Act – Willow
+CWHdm/11,Pl – Sphagnum
+CWHdm/12,CwSs – Skunk cabbage
+CWHdm/13,Cw – Salmonberry
+CWHdm/14,Cw – Black twinberry
+CWHdm/15,Cw – Slough sedge
+CWHds1/01,HwFd – Cat's-tail moss
+CWHds1/02,FdPl – Kinnikinnick
+CWHds1/03,FdHw – Falsebox
+CWHds1/04,Fd – Fairybells
+CWHds1/05,Cw – Solomon's-seal
+CWHds1/06,Hw – Queen's cup
+CWHds1/07,Cw – Devil's club
+CWHds1/08,Ss – Salmonberry
+CWHds1/09,Act – Red-osier dogwood
+CWHds1/10,Act – Willow
+CWHds1/11,Pl – Sphagnum
+CWHds1/12,CwSs – Skunk cabbage
+CWHds2/01,HwFd – Cat's-tail moss
+CWHds2/02,FdPl – Kinnikinnick
+CWHds2/03,FdHw – Falsebox
+CWHds2/04,Fd – Fairybells
+CWHds2/05,Cw – Solomon's-seal
+CWHds2/06,Hw – Queen's cup
+CWHds2/07,Cw – Devil's club
+CWHds2/08,Ss – Salmonberry
+CWHds2/09,Act – Red-osier dogwood
+CWHds2/10,Act – Willow
+CWHds2/11,Pl – Sphagnum
+CWHds2/12,CwSs – Skunk cabbage
+CWHmm1/01,HwBa – Pipecleaner moss
+CWHmm1/02,FdHw – Salal
+CWHmm1/03,HwCw – Salal
+CWHmm1/04,CwHw – Sword fern
+CWHmm1/05,BaCw – Foamflower
+CWHmm1/06,HwBa – Deer fern
+CWHmm1/07,BaCw – Salmonberry
+CWHmm1/08,Ss – Salmonberry
+CWHmm1/09,Act – Red-osier dogwood
+CWHmm1/10,Act – Willow
+CWHmm1/11,Pl – Sphagnum
+CWHmm1/12,CwSs – Skunk cabbage
+CWHmm2/01,HwBa – Pipecleaner moss
+CWHmm2/02,FdHw – Salal
+CWHmm2/03,HwCw – Salal
+CWHmm2/04,CwHw – Sword fern
+CWHmm2/05,BaCw – Foamflower
+CWHmm2/06,HwBa – Deer fern
+CWHmm2/07,CwYc – Goldthread
+CWHmm2/08,BaCw – Salmonberry
+CWHmm2/09,Pl – Sphagnum
+CWHmm2/10,CwYc – Skunk cabbage
+CWHms1/01,HwBa – Step moss
+CWHms1/02,FdPl – Kinnikinnick
+CWHms1/03,FdHw – Falsebox
+CWHms1/04,BaCw – Oak fern
+CWHms1/05,HwBa – Queen's cup
+CWHms1/06,BaCw – Devil's club
+CWHms1/07,Ss – Salmonberry
+CWHms1/08,Act – Red-osier dogwood
+CWHms1/09,Act – Willow
+CWHms1/10,Pl – Sphagnum
+CWHms1/11,CwSs – Skunk cabbage
+CWHms2/01,HwBa – Step moss
+CWHms2/02,FdPl – Kinnikinnick
+CWHms2/03,FdHw – Falsebox
+CWHms2/04,BaCw – Oak fern
+CWHms2/05,HwBa – Queen's cup
+CWHms2/06,BaCw – Devil's club
+CWHms2/07,Ss – Salmonberry
+CWHms2/08,Act – Red-osier dogwood
+CWHms2/09,Act – Willow
+CWHms2/10,Pl – Sphagnum
+CWHms2/11,CwSs – Skunk cabbage
+CWHvh1/01,CwHw – Salal
+CWHvh1/02,PlYc – Rhacomitrium
+CWHvh1/03,CwYc – Salal
+CWHvh1/04,HwSs – Lanky moss
+CWHvh1/05,CwSs – Sword fern
+CWHvh1/06,CwSs – Foamflower
+CWHvh1/07,CwSs – Devil's club
+CWHvh1/08,Ss – Lily-of-the-valley
+CWHvh1/09,Ss – Trisetum
+CWHvh1/10,Dr – Lily-of-the-valley
+CWHvh1/11,CwYc – Goldthread
+CWHvh1/12,PlYc – Sphagnum
+CWHvh1/13,CwSs – Skunk cabbage
+CWHvh1/14,Ss – Salal
+CWHvh1/15,Ss – Kindbergia
+CWHvh1/16,Ss – Reedgrass
+CWHvh1/17,Ss – Sword fern
+CWHvh1/18,Ss – Slough sedge
+CWHvh1/19,Ss – Pacific crab apple
+CWHvh2/01,CwHw – Salal
+CWHvh2/01a,CwHw – Salal; Mineral
+CWHvh2/01b,CwHw – Salal; Lithic
+CWHvh2/01c,CwHw – Salal; Peaty
+CWHvh2/02,PlYc – Rhacomitrium
+CWHvh2/03,CwYc – Salal
+CWHvh2/03a,CwYc – Salal; Mineral
+CWHvh2/03b,CwYc – Salal; Lithic
+CWHvh2/04,HwSs – Lanky moss
+CWHvh2/04a,HwSs – Lanky moss; Mineral
+CWHvh2/04b,HwSs – Lanky moss; Lithic
+CWHvh2/05,CwSs – Sword fern
+CWHvh2/05a,CwSs – Sword fern; Mineral
+CWHvh2/05b,CwSs – Sword fern; Lithic
+CWHvh2/06,CwSs – Foamflower
+CWHvh2/07,CwSs – Devil's club
+CWHvh2/07a,CwSs – Devil's club; Mineral
+CWHvh2/07b,CwSs – Devil's club; Lithic
+CWHvh2/08,Ss – Lily-of-the-valley
+CWHvh2/09,Ss – Trisetum
+CWHvh2/10,Dr – Lily-of-the-valley
+CWHvh2/11,CwYc – Goldthread
+CWHvh2/12,PlYc – Sphagnum
+CWHvh2/13,CwSs – Skunk cabbage
+CWHvh2/13a,CwSs – Skunk cabbage; Mineral
+CWHvh2/13b,CwSs – Skunk cabbage; Peaty
+CWHvh2/14,Ss – Salal
+CWHvh2/15,Ss – Kindbergia
+CWHvh2/16,Ss – Reedgrass
+CWHvh2/17,Ss – Sword fern
+CWHvh2/18,Ss – Slough sedge
+CWHvh2/19,Ss – Pacific crab apple
+CWHvh3/101,CwHw – Salal  – Deer fern 
+CWHvh3/101a,CwHw – Salal  – Deer fern; Mineral phase
+CWHvh3/101b,CwHw – Salal  – Deer fern; Lithic phase
+CWHvh3/101c,CwHw – Salal  – Deer fern; Peaty phase
+CWHvh3/102,PlYc – Crowberry – Rock moss 
+CWHvh3/103,Ss – Salal  
+CWHvh3/103.1,Ss – Salal ; typic variation
+CWHvh3/103.2,Ss – Salal ; reedgrass variation
+CWHvh3/104,SsHw – Oregon beaked moss 
+CWHvh3/105,HwSs – Lanky moss  
+CWHvh3/105a,HwSs – Lanky moss; Mineral phase
+CWHvh3/105b,HwSs – Lanky moss; Lithic phase
+CWHvh3/106,CwSs – Sword fern  
+CWHvh3/106a,CwSs – Sword fern; Mineral phase
+CWHvh3/106b,CwSs – Sword fern; Lithic phase
+CWHvh3/106c,CwSs – Sword fern; Limestone phase
+CWHvh3/110,CwSs – Foamflower  
+CWHvh3/110a,CwSs – Foamflower; Colluvial/morainal phase
+CWHvh3/110b,CwSs – Foamflower; Alluvial fan phase
+CWHvh3/110c,CwSs – Foamflower; Limestone phase
+CWHvh3/111,Ss – False lily-of-the-Valley 
+CWHvh3/112,Ss – Trisetum 
+CWHvh3/113,Dr – Trisetum
+CWHvh3/114,CwSs – Devil’s club 
+CWHvh3/115,CwYc – Salal – Goldthread 
+CWHvh3/116,Ss – Pacific crab apple – Slough sedge 
+CWHvh3/117,CwSs – Skunk cabbage  
+CWHvh3/117a,CwSs – Skunk cabbage; Mineral phase
+CWHvh3/117b,CwSs – Skunk cabbage; Organic phase
+CWHvh3/Wb53,Shore pine – Yellow-cedar – Tufted clubrush
+CWHvh3/Wb53.1,Shore pine – Yellow-cedar – Tufted clubrush; wooded variation
+CWHvh3/Wb53.2,Shore pine – Yellow-cedar – Tufted clubrush; tall shrub variation
+CWHvm1/01,HwBa – Blueberry
+CWHvm1/01a,HwBa – Blueberry; Mineral
+CWHvm1/01b,HwBa – Blueberry; Lithic
+CWHvm1/01s,HwBa – Blueberry; Salal
+CWHvm1/02,HwPl – Cladina
+CWHvm1/03,HwCw – Salal
+CWHvm1/04,CwHw – Sword fern
+CWHvm1/05,BaCw – Foamflower
+CWHvm1/06,HwBa – Deer fern
+CWHvm1/06a,HwBa – Deer fern; Mineral
+CWHvm1/06b,HwBa – Deer fern; Lithic
+CWHvm1/06s,HwBa – Deer fern; Salal
+CWHvm1/07,BaCw – Salmonberry
+CWHvm1/08,BaSs – Devil's club
+CWHvm1/09,Ss – Salmonberry
+CWHvm1/10,Act – Red-osier dogwood
+CWHvm1/11,Act – Willow
+CWHvm1/12,CwYc – Goldthread
+CWHvm1/13,Pl – Sphagnum
+CWHvm1/14,CwSs – Skunk cabbage
+CWHvm1/15,YcHm – Skunk cabbage
+CWHvm2/01,HwBa – Blueberry
+CWHvm2/01a,HwBa – Blueberry; Mineral
+CWHvm2/01b,HwBa – Blueberry; Lithic
+CWHvm2/02,HwPl – Cladina
+CWHvm2/03,HwCw – Salal
+CWHvm2/04,CwHw – Sword fern
+CWHvm2/05,BaCw – Foamflower
+CWHvm2/06,HwBa – Deer fern
+CWHvm2/07,BaCw – Salmonberry
+CWHvm2/08,BaSs – Devil's club
+CWHvm2/09,CwYc – Goldthread
+CWHvm2/10,Pl – Sphagnum
+CWHvm2/11,CwSs – Skunk cabbage
+CWHvm2/11,CwYc – Skunk cabbage
+CWHvm2/12,YcHm – Skunk cabbage
+CWHwh1/101,HwSs – Lanky moss 
+CWHwh1/101a,HwSs – Lanky moss; Mesic phase
+CWHwh1/101b,HwSs – Lanky moss; Moister phase
+CWHwh1/102,CwHw – Salal – Oregon beaked moss
+CWHwh1/103,Ss – Salal  
+CWHwh1/103.1,Ss – Salal ; typic variation
+CWHwh1/103.2,Ss – Salal; reedgrass variation
+CWHwh1/104,SsHw – Oregon beaked moss
+CWHwh1/105,CwSs – Sword fern  
+CWHwh1/105a,CwSs – Sword fern; Colluvial/morainal phase
+CWHwh1/105b,CwSs – Sword fern; Limestone phase
+CWHwh1/110,CwHw – Salal – Deer fern
+CWHwh1/110a,CwHw – Salal – Deer fern; Podzolic phase
+CWHwh1/110b,CwHw – Salal – Deer fern; Gleysolic/organic phase
+CWHwh1/111,CwSs – Foamflower 
+CWHwh1/111a,CwSs – Foamflower; Colluvial/morainal phase
+CWHwh1/111b,CwSs – Foamflower; Alluvial fan phase
+CWHwh1/111c,CwSs – Foamflower; Limestone phase
+CWHwh1/112,Ss – Lily-of-the-valley 
+CWHwh1/113,Ss – Trisetum 
+CWHwh1/114,Dr – Trisetum 
+CWHwh1/115,CwYc – Salal – Goldthread 
+CWHwh1/116,CwSs – Snake liverwort  
+CWHwh1/117,Ss – Pacific crab apple – Slough sedge
+CWHwh1/118,CwSs – Skunk cabbage  
+CWHwh1/118a,CwSs – Skunk cabbage; Mineral phase 
+CWHwh1/118b,CwSs – Skunk cabbage; Organic phase 
+CWHwh1/Wb51,Shore pine – Crowberry – Tough Peat moss
+CWHwh1/Wb51.1,Shore pine – Crowberry – Tough Peat moss; tall shrub variation
+CWHwh1/Wb51.2,Shore pine – Crowberry – Tough Peat moss; wooded variation
+CWHwh1/Wb53,Shore pine – Yellow-cedar – Tufted clubrush
+CWHwh1/Wb53.1,Shore pine – Yellow-cedar – Tufted clubrush; wooded variation
+CWHwh1/Wb53.2,Shore pine – Yellow-cedar – Tufted clubrush; tall shrub variation
+CWHwh2/101,HwSs – Lanky moss  
+CWHwh2/101a,HwSs – Lanky moss; Mesic phase
+CWHwh2/101b,HwSs – Lanky moss; Drier phase
+CWHwh2/101c,HwSs – Lanky moss; Moister phase
+CWHwh2/110,SsYc – Oak fern 
+CWHwh2/111,YcHm – Goldthread  
+CWHwh2/112,SsYc – Hellebore – Snake liverwort  
+CWHwh2/112a,SsYc – Hellebore – Snake liverwort; Hygric phase
+CWHwh2/112b,SsYc – Hellebore – Snake liverwort ; Subhydric phase
+CWHwh2/Wb53,Shore pine – Yellow-cedar – Tufted clubrush
+CWHwm/01,HwSs – Blueberry
+CWHwm/01a,HwSs – Blueberry; Mineral
+CWHwm/01b,HwSs – Blueberry; Lithic
+CWHwm/02,HwSs – Step moss
+CWHwm/03,SsHw – Oak fern
+CWHwm/04,SsHw – Devil's club
+CWHwm/05,Ss – Salmonberry
+CWHwm/06,Act – Red-osier dogwood
+CWHwm/07,Act – Willow
+CWHwm/08,Hw – Sphagnum
+CWHwm/09,Ss – Skunk cabbage
+CWHwm/10,Pl – Sphagnum
+CWHws1/01,HwBa – Bramble
+CWHws1/01a,HwBa – Bramble; Typic
+CWHws1/01b,HwBa – Bramble; Glaciofluvial
+CWHws1/02,Pl – Kinnikinnick
+CWHws1/03,HwPl – Feathermoss
+CWHws1/03a,HwPl – Feathermoss; Typic
+CWHws1/03b,HwPl – Feathermoss; Glaciofluvial
+CWHws1/04,BaCw – Oak fern
+CWHws1/05,HwBa – Queen's cup
+CWHws1/06,BaCw – Devil's club
+CWHws1/07,Ss – Salmonberry
+CWHws1/08,Act – Red-osier dogwood
+CWHws1/09,Act – Willow
+CWHws1/10,Pl – Sphagnum
+CWHws1/11,CwSs – Skunk cabbage
+CWHws2/01,HwBa – Bramble
+CWHws2/02,Pl – Kinnikinnick
+CWHws2/03,HwPl – Feathermoss
+CWHws2/04,BaCw – Oak fern
+CWHws2/05,HwBa – Queen's cup
+CWHws2/06,BaCw – Devil's club
+CWHws2/07,Ss – Salmonberry
+CWHws2/08,Act – Red-osier dogwood
+CWHws2/09,Act – Willow
+CWHws2/10,Pl – Sphagnum
+CWHws2/11,CwSs – Skunk cabbage
+CWHxm1/01,HwFd – Kindbergia
+CWHxm1/02,FdPl – Cladina
+CWHxm1/03,FdHw – Salal
+CWHxm1/04,Fd – Sword fern
+CWHxm1/05,Cw – Sword fern
+CWHxm1/06,HwCw – Deer fern
+CWHxm1/07,Cw – Foamflower
+CWHxm1/08,Ss – Salmonberry
+CWHxm1/09,Act – Red-osier dogwood
+CWHxm1/10,Act – Willow
+CWHxm1/11,Pl – Sphagnum
+CWHxm1/12,CwSs – Skunk cabbage
+CWHxm1/13,Cw – Salmonberry
+CWHxm1/14,Cw – Black twinberry
+CWHxm1/15,Cw – Slough sedge
+CWHxm2/01,HwFd – Kindbergia
+CWHxm2/02,FdPl – Cladina
+CWHxm2/03,FdHw – Salal
+CWHxm2/04,Fd – Sword fern
+CWHxm2/05,Cw – Sword fern
+CWHxm2/06,HwCw – Deer fern
+CWHxm2/07,Cw – Foamflower
+CWHxm2/08,Ss – Salmonberry
+CWHxm2/09,Act – Red-osier dogwood
+CWHxm2/10,Act – Willow
+CWHxm2/11,Pl – Sphagnum
+CWHxm2/12,CwSs – Skunk cabbage
+CWHxm2/13,Cw – Salmonberry
+CWHxm2/14,Cw – Black twinberry
+CWHxm2/15,Cw – Slough sedge
+ESSFdc1/101,BlSe – Rhododendron – Valerian
+ESSFdc1/102,BlPl – Huckleberry
+ESSFdc1/103,BlPl – Falsebox – Grouseberry
+ESSFdc1/104,Bl – Rhododendron – Grouseberry
+ESSFdc1/110,BlSe – Rhododendron – Hellebore
+ESSFdc1/111,Bl – Valerian – Foamflower
+ESSFdc1/112,Se – Horsetail – Globeflower
+ESSFdc1/112a,Se – Horsetail – Globeflower; Riparian phase
+ESSFdc1/112b,Se – Valerian – Horsetail; Swamp phase
+ESSFdc1/Wb07,Pine – Water sedge – Peat moss
+ESSFdc1/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFdc2/101,BlSe – Rhododendron – Valerian
+ESSFdc2/102,Pl – Juniper – Pinegrass
+ESSFdc2/103,Pl – Pinegrass – Grouseberry
+ESSFdc2/104,BlPl – Huckleberry – Grouseberry
+ESSFdc2/104a,BlPl – Huckleberry – Grouseberry
+ESSFdc2/104b,BlPl – Huckleberry – Grouseberry
+ESSFdc2/110,SxwBl – Trapper's tea – Grouseberry
+ESSFdc2/111,BlSe – Valerian – Globeflower
+ESSFdc2/112,Se – Horsetail – Valerian
+ESSFdcp/Ro08,Whitebark pine – Juniper – Kinnikinnick
+ESSFdcw/101,Bl – Sitka valerian
+ESSFdcw/101,Bl – Valerian – Wood–rush
+ESSFdcw/102,Bl – Juniper – Grouseberry
+ESSFdcw/102,BlPa – Grouseberry
+ESSFdcw/103,Bl – Rhododendron – Grouseberry
+ESSFdcw/103,Rhododendron – Grouseberry
+ESSFdcw/110,Bl – Globeflower – Arrow-leaved groundsel
+ESSFdcw/110,Bl – Valerian – Hellebore – Globeflower
+ESSFdcw/Ro08,Whitebark pine – Juniper – Kinnikinnick
+ESSFdcw/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFdh1/101,BlBa – Huckleberry – Feathermoss
+ESSFdh1/102,FdBl – Huckleberry – Rock moss
+ESSFdh1/103,BlPl – Falsebox – Grouseberry
+ESSFdh1/104,FdPl – Falsebox – Pinegrass
+ESSFdh1/110,SxwBl –  Gooseberry – Oak fern
+ESSFdh1/111,SxwBl – Horsetail – Oak fern
+ESSFdk1/101,BlSe – Azalea
+ESSFdk1/102,PlFd – Juniper – Douglas maple
+ESSFdk1/103,BlPl – Grouseberry
+ESSFdk1/104,BlPl – Azalea – Grouseberry
+ESSFdk1/110,BlSe – Azalea – Foamflower
+ESSFdk1/111,Se – Horsetail – Bluejoint
+ESSFdk1/111a,Se – Horsetail – Bluejoint; Riparian phase
+ESSFdk1/111b,Se – Horsetail – Bluejoint; Swamp phase
+ESSFdk1/Wb15,Spruce – Labrador tea – Peat moss
+ESSFdk1/Wb16,Spruce – Trapper’s tea – Peat moss
+ESSFdk1/Ws08,Subalpine fir – Sitka valerian – Common horsetail
+ESSFdk2/101,BlSe – Azalea – Feathermoss
+ESSFdk2/102,PlFd – Juniper – Douglas maple
+ESSFdk2/103,PlBl – Juniper – Showy aster
+ESSFdk2/104,BlPl – Azalea – Grouseberry
+ESSFdk2/110,BlSe – Azalea – Oak fern
+ESSFdk2/111,BlSe – Azalea – Foamflower
+ESSFdk2/112,SeBl – Horsetail – Feathermoss
+ESSFdk2/112a,SeBl – Horsetail – Feathermoss; Riparian phase
+ESSFdk2/112b,SeBl – Horsetail – Feathermoss; Swamp phase
+ESSFdk2/Wb15,Spruce – Labrador tea – Peat moss
+ESSFdk2/Ws08,Subalpine fir – Sitka valerian – Common horsetail
+ESSFdkw/101,BlSe – Grouseberry – Leafy liverwort
+ESSFdkw/101.1,BlSe – Grouseberry – Leafy liverwort
+ESSFdkw/101.2,BlSe – Rhododendeon – Grouseberry 
+ESSFdkw/102,BlLa – Grouseberry
+ESSFdkw/103,BlSePa – Grouseberry
+ESSFdkw/110,BlSe – Grouseberry – Valerian
+ESSFmc/01,Bl – Huckleberry – Leafy liverwort
+ESSFmc/01a,Bl – Huckleberry – Leafy liverwort; Medium-textured
+ESSFmc/01b,Bl – Huckleberry – Leafy liverwort; Fine-textured
+ESSFmc/02,BlPl – Juniper – Cladonia
+ESSFmc/03,Bl – Huckleberry – Crowberry
+ESSFmc/04,Bl – Huckleberry – Heron's-bill
+ESSFmc/05,Bl – Huckleberry – Thimbleberry
+ESSFmc/06,Bl – Oak fern – Heron's-bill
+ESSFmc/07,Bl – Devil's club – Lady fern
+ESSFmc/08,Bl – Valerian – Sickle moss
+ESSFmc/09,Bl – Horsetail – Glow moss
+ESSFmc/10,Bl – Horsetail – Leafy moss
+ESSFmc/11,Pl – Few-flowered sedge – Peat moss
+ESSFmcw/101,Bl – Huckleberry – (Valerian) – Heron’s-bill
+ESSFmcw/101a,Bl – Huckleberry – (Valerian) – Heron’s-bill; Mesic phase
+ESSFmcw/101b,Bl – Huckleberry – (Valerian) – Heron’s-bill; Submesic phase
+ESSFmcw/102,Bl(Pa) – Crowberry – Heron’s-bill
+ESSFmcw/103,Bl – Heather – Leafy liverwort
+ESSFmcw/110,Bl – Valerian – Leafy liverwort
+ESSFmcw/111,Bl – Leatherleaf saxifrage – Leafy moss
+ESSFmh/101,BlSe – Rhododendron – Foamflower
+ESSFmh/102,FdPl – Juniper – Falsebox
+ESSFmh/103,BlFd – Huckleberry – Falsebox
+ESSFmh/104,BlPl – Falsebox – Grouseberry
+ESSFmh/105,BlCwLw – Queen's cup
+ESSFmh/110,Bl – Rhododendron – Oak fern
+ESSFmh/111,BlSe – Lady fern – Oak fern
+ESSFmh/112,SeBl – Horsetail – Arrow–leaved groundsel
+ESSFmh/112a,SeBl – Horsetail – Arrow–leaved groundsel; Riparian phase
+ESSFmh/112b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFmh/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFmk/01,BlHm – Twistedstalk
+ESSFmk/02,BlPa – Cladonia
+ESSFmk/02a,BlPa – Cladonia; Lithic
+ESSFmk/02b,BlPa – Cladonia; Fluvial
+ESSFmk/03,BlHm – Cladonia
+ESSFmk/04,BlHm – Oak fern
+ESSFmk/05,Bl – Devil's club – Lady fern
+ESSFmk/06,Bl – Horsetail – Leafy moss
+ESSFmk/07,Bl – Lady fern – Horsetail
+ESSFmkw/101,Bl(Hm) – Huckleberry – (Twistedstalk) – Heron’s-bill
+ESSFmkw/102,BlPa(Hm) – Huckleberry – Clad lichens
+ESSFmkw/103,BlHm – Heather – Leafy liverwort
+ESSFmkw/104,BlHm – Huckleberry – Blueberry
+ESSFmkw/110,Bl(Hm) – Huckleberry – Valerian – Leafy moss
+ESSFmkw/111,Bl – Valerian – Sitka burnet – Horsetail
+ESSFmm1/01,Bl – Azalea – Gooseberry
+ESSFmm1/02,Bl – Huckleberry – Feathermoss
+ESSFmm1/03,BlPl – Cladina
+ESSFmm1/04,Bl – Azalea – Rhododendron
+ESSFmm1/05,Bl – Oak fern – Bramble
+ESSFmm1/06,Bl – Devil's club – Lady fern
+ESSFmm1/07,Bl – Labrador tea – Horsetail
+ESSFmm3/101,Bl – Azalea – Bramble
+ESSFmm3/102,BlFd – Juniper – Clad lichen
+ESSFmm3/103,Bl – Huckleberry – Clad lichen
+ESSFmm3/104,Bl – Azalea– Feathermoss
+ESSFmm3/110,BlSe – Azalea – Oak fern
+ESSFmm3/111,BlSe – Valerian – Leafy liverwort
+ESSFmm3/112,Se – Horsetail – Valerian
+ESSFmv1/01,Bl – Rhododendron – Feathermoss
+ESSFmv1/02,Pl – Huckleberry – Cladonia
+ESSFmv1/03,Bl – Huckleberry – Feathermoss
+ESSFmv1/04,Bl – Huckleberry – Gooseberry
+ESSFmv1/05,Bl – Horsetail – Glow moss
+ESSFmv2/01,Bl – Rhododendron – Feathermoss
+ESSFmv2/02,Bl – Lingonberry
+ESSFmv2/03,BlSb – Labrador tea
+ESSFmv2/04,Bl – Oak fern – Knight's plume
+ESSFmv2/05,Bl – Devil's club – Rhododendron
+ESSFmv2/06,Bl – Alder – Horsetail
+ESSFmv3/01,Bl – Rhododendron – Feathermoss
+ESSFmv3/02,BlPl – Crowberry – Cladina
+ESSFmv3/03,BlSb – Labrador tea
+ESSFmv3/04,Bl – Oak fern – Knight's plume
+ESSFmv3/05,Bl – Devil's club – Rhododendron
+ESSFmv3/06,Sxw – Huckleberry – High bush-cranberry
+ESSFmv3/07,Bl – Horsetail – Feathermoss
+ESSFmv3/08,BlPl – Rhododendron
+ESSFmv4/01,Bl – Rhododendron – Feathermoss
+ESSFmv4/02,BlPl – Crowberry – Cladina
+ESSFmv4/03,BlSb – Labrador tea
+ESSFmv4/04,Bl – Rhododendron – Horsetail
+ESSFmv4/05,Bl – Alder – Horsetail
+ESSFmw/01,BlBa – Rhododendron
+ESSFmw/02,BlPl – Juniper – Rhacomitrium
+ESSFmw/03,Fd – Falsebox – Pinegrass
+ESSFmw/04,Bl – Huckleberry – Falsebox
+ESSFmw/05,BlBa – Azalea – Pipecleaner moss
+ESSFmw/06,Bl – Gooseberry – Valerian
+ESSFmw/07,BlBa – Oak fern – Lady fern
+ESSFmw/08,Bl – Gooseberry – Horsetail
+ESSFmw1/101,BlBa – Rhododendron – Five-leaved bramble
+ESSFmw1/101.1,BlBa – Rhododendron – Five-leaved bramble
+ESSFmw1/101.2,BlBa – Five-leaved bramble – Pipecleaner moss
+ESSFmw1/102,PlBl – Grousberry – Rock moss
+ESSFmw1/102.1,PlBl – Grousberry – Rock moss
+ESSFmw1/102.2,Bl – Huckleberry – Rock moss
+ESSFmw1/103,BlPl – Falsebox – Grouseberry
+ESSFmw1/104,FdPl – Falsebox – Pinegrass
+ESSFmw1/105,BlBa – Huckleberry – Heron's-bill moss
+ESSFmw1/110,Bl – Valerian – Foamflower
+ESSFmw1/111,Se – Horsetail – Valerian
+ESSFmww/101,Bl – Rhododendron – Sitka valerian
+ESSFmww/102,BlPa – Arnica – Rock moss
+ESSFmww/103,BlPa – Black huckleberry – Partridge-foot
+ESSFmww/110,Bl  – Sitka valerian – Globeflower
+ESSFvc/01,BlHm – Rhododendron – Oak fern
+ESSFvc/02,BlHm – Rhododendron – Leafy liverwort
+ESSFvc/03,BlHm – Rhododendron – Pipecleaner moss
+ESSFvc/04,BlHm – Devil's club – Lady fern
+ESSFvc/05,BlHm – Horsetail
+ESSFvv/01,Bl – Rhododendron – Foamflower
+ESSFvv/02,Bl – Huckleberry – Mountain liverwort
+ESSFvv/03,BlHm – Rhododendron – Mountain liverwort
+ESSFvv/04,Bl – Valerian – Groundsel
+ESSFwc2/01,Bl – Azalea – Oak fern
+ESSFwc2/02,Pl – Huckleberry – Cladonia
+ESSFwc2/03,Bl – Huckleberry – Arnica
+ESSFwc2/04,Bl – Rhododendron – Heron's-bill
+ESSFwc2/05,Bl – Azalea – Feathermoss
+ESSFwc2/06,Bl – Valerian – Oak fern
+ESSFwc2/07,Bl – Devil's club – Lady fern
+ESSFwc2/08,Bl – Horsetail – Sphagnum
+ESSFwc2/09,Pl – Dwarf blueberry – Sphagnum
+ESSFwc3/01,Bl – Rhododendron – Oak fern
+ESSFwc3/02,Bl – Rhododendron – Queen's cup
+ESSFwc3/03,Bl – Globeflower – Horsetail
+ESSFwc3/04,Pl – Few-flowered sedge – Peat moss
+ESSFwc4/101,Bl – Rhododendron – Oak fern
+ESSFwc4/102,BlPa – Huckleberry – Clad lichen
+ESSFwc4/103,Bl – Rhododendron – Huckleberry – Heron's-bill moss
+ESSFwc4/103a,Bl – Rhododendron – Huckleberry – Heron's-bill moss; Subxeric phase
+ESSFwc4/103b,Bl – Rhododendron – Huckleberry – Heron's-bill moss; Submesic phase
+ESSFwc4/110,BlSe – Lady fern – Oak fern
+ESSFwc4/111,Bl – Valerian – Foamflower
+ESSFwc4/112,Se – Horsetail – Valerian
+ESSFwc4/112a,Se – Horsetail – Valerian; Riparian phase
+ESSFwc4/112b,Se – Valerian – Horsetail; Swamp phase
+ESSFwcw/101,Bl – Rhododendron – Valerian
+ESSFwcw/102,BlPa – Huckleberry – Clad lichen
+ESSFwcw/103,Bl – Rhododendron – Wood-rush
+ESSFwcw/104,Bl – Mountain-heather
+ESSFwcw/104.1,Bl – Mountain-heather – Wood-rush
+ESSFwcw/104.2,Bl – Mountain-heather – Partridge-foot
+ESSFwcw/104.3,Bl – Mountain-heather – Mountain sagewort 
+ESSFwcw/110,Bl – Valerian – Hellebore – Globeflower
+ESSFwcw/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFwh1/101,BlHw – Rhododendron – Foamflower
+ESSFwh1/102,Bl – Huckleberry – Rock moss
+ESSFwh1/103,BlFd – Huckleberry – Falsebox
+ESSFwh1/104,BlHw – Huckleberry – Pipecleaner moss
+ESSFwh1/110,Se – Devil's club – Lady fern
+ESSFwh1/110.1,Se – Devil's club – Lady fern
+ESSFwh1/110.2,Se – Lady fern – Oak fern
+ESSFwh1/111,SeBl – Horsetail – Canby's lovage
+ESSFwh1/111a,SeBl – Horsetail – Canby's lovage; Riparian phase
+ESSFwh1/111b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFwh2/101,BlHw – Rhododendron – Foamflower
+ESSFwh2/102,Bl – Huckleberry – Rock moss
+ESSFwh2/103,Bl – Huckleberry – Falsebox
+ESSFwh2/104,BlHw – Huckleberry – Pipecleaner moss
+ESSFwh2/110,BlSe – Azalea – Oak fern
+ESSFwh2/111,Se – Devil's club – Lady fern
+ESSFwh2/112,SeBl – Horsetail – Canby's lovage
+ESSFwh2/112a,SeBl – Horsetail – Canby's lovage; Riparian phase
+ESSFwh2/112b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFwh3/101,BlHw – Rhododendron – Foamflower
+ESSFwh3/102,BlFd – Bear-grass – Rock moss
+ESSFwh3/103,BlPl – Huckleberry – Bear-grass
+ESSFwh3/104,Bl – Rhododendron – Bear-grass – Pipecleaner moss
+ESSFwh3/104.1,Bl – Rhododendron – Bear-grass – Pipecleaner moss
+ESSFwh3/104.2,Bl – Rhododendron – Pipecleaner moss
+ESSFwh3/110,Bl – Rhododendron – Oak fern
+ESSFwh3/111,Se – Devil's club – Lady fern
+ESSFwh3/112,SeBl – Horsetail – Canby's lovage
+ESSFwh3/112a,SeBl – Horsetail – Canby's lovage; Riparian phase
+ESSFwh3/112b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFwk1/01,Bl – Oak fern – Brachythecium
+ESSFwk1/02,Bl – Huckleberry – Feathermoss
+ESSFwk1/03,Bl – Oak fern – Knight's plume
+ESSFwk1/04,Bl – Twinberry – Lady fern
+ESSFwk1/05,Bl – Devil's club – Lady fern
+ESSFwk1/06,Bl – Horsetail – Sphagnum
+ESSFwk1/07,Bl – Lady fern – Horsetail
+ESSFwk2/01,Bl – Oak fern – Knight's plume
+ESSFwk2/02,Bl – Oak fern – Sarsaparilla
+ESSFwk2/03,Bl – Oak fern – Bluebells
+ESSFwk2/04,Bl – Devil's club – Rhododendron
+ESSFwk2/05,Bl – Rhododendron – Lady fern
+ESSFwk2/06,Bl – Horsetail – Sphagnum
+ESSFwm1/101,Bl – Rhododendron – Azalea – Foamflower
+ESSFwm1/102,BlFd – Douglas maple
+ESSFwm1/103,Bl – Huckleberry – Falsebox
+ESSFwm1/104,Bl – Rhododendron – Azalea
+ESSFwm1/110,BlSe – Azalea – Oak fern
+ESSFwm1/111,Bl – Arrow-leaved groundsel – Canby's lovage
+ESSFwm1/112,SeBl – Horsetail – Canby's lovage
+ESSFwm1/Ws08,Subalpine fir – Sitka valerian – Common horsetail
+ESSFwm2/101,Bl – Rhododendron – Azalea – Foamflower
+ESSFwm2/102,BlPa – Huckleberry – Clad lichen
+ESSFwm2/103,Bl – Azalea – Rhododendron 
+ESSFwm2/104,Bl – Rhododendron – Huckleberry – Heron's-bill moss
+ESSFwm2/110,BlSe – Azalea – Oak fern
+ESSFwm2/111,Bl – Arrow-leaved groundsel – Canby's lovage
+ESSFwm2/112,SeBl – Horsetail – Canby's lovage
+ESSFwm2/112a,SeBl – Horsetail – Canby's lovage; Riparian phase
+ESSFwm2/112b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFwm3/101,Bl – Rhododendron – Azalea – Foamflower
+ESSFwm3/102,Bl – Huckleberry – Bear-grass
+ESSFwm3/103,BlSe – Rhododendron – Bear-grass
+ESSFwm3/104,Bl – Rhododendron – Huckleberry – Heron's-bill moss
+ESSFwm3/105,BlSe – Bear-grass – Arnica
+ESSFwm3/110,Bl – Rhododendron – Foamflower – Arnica
+ESSFwm3/111,Bl – Arrow-leaved groundsel – Canby's lovage
+ESSFwm3/112,SeBl – Horsetail – Canby's lovage
+ESSFwm3/112a,SeBl – Horsetail – Canby's lovage; Riparian phase
+ESSFwm3/112b,SeBl – Horsetail – Canby's lovage; Swamp phase
+ESSFwm4/101,Bl – Rhododendron – Azalea – Foamflower
+ESSFwm4/102,BlPl – Low bilberry – Bear-grass
+ESSFwm4/102a,BlPl – Low bilberry – Bear-grass; Xeric phase
+ESSFwm4/102b,BlPl – Low bilberry – Bear-grass; Subxeric phase
+ESSFwm4/103,Bl – Azalea – Low bilberry
+ESSFwm4/103.1,Bl – Azalea – Low bilberry
+ESSFwm4/103.2,Bl – Azalea – Bear-grass
+ESSFwm4/110,BlSe – Azalea – Oak fern
+ESSFwm4/111,Bl – Arrow-leaved groundsel – Canby's lovage
+ESSFwm4/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFwmw/101,Bl – Rhododendron – Wood-rush
+ESSFwmw/102,BlLa – Heron's-bill moss
+ESSFwmw/103,Bl(La) – Huckleberry – Grouseberry
+ESSFwmw/110,Bl – Valerian – Hellebore – Globeflower
+ESSFwmw/Ws08.2,Engelmann spruce – Subalpine fir – Horsetail – Canby's Lovage
+ESSFwv/01,BlHm – Azalea
+ESSFwv/02,BlPl – Cladonia
+ESSFwv/03,BlHm – Feathermoss
+ESSFwv/04,BlHm – Heron's-bill
+ESSFwv/05,Bl – Oak fern – Heron's-bill
+ESSFwv/06,Bl – Devil's club – Lady fern
+ESSFwv/07,Bl – Valerian – Sickle moss
+ESSFwv/08,Bl – Horsetail – Glow moss
+ESSFwv/09,Bl – Lady fern – Horsetail
+ESSFwvw/101,Bl – Huckleberry – Bramble – (Oakfern)
+ESSFwvw/102,Bl – Huckleberry – Bunchberry – Feathermoss
+ESSFwvw/103,BlHm – Heather – Leafy liverwort
+ESSFwvw/104,Bl – Huckleberry – Partridgefoot
+ESSFwvw/105,BlHm – Huckleberry – Blueberry
+ESSFwvw/110,Bl – Huckleberry – Valerian – Leafy moss
+ESSFwvw/111,Bl – Valerian – Horsetail – Leafy moss
+ESSFxc/01,Bl – Grouseberry – Valerian
+ESSFxc/02,Pl – Juniper – Lupine
+ESSFxc/05,Bl – Grouseberry – Cladonia
+ESSFxc/06,Bl – Rhododendron – Grouseberry
+ESSFxc/07,Bl – Gooseberry – Foamflower
+ESSFxc/08,Bl – Horsetail – Glow moss
+ESSFxc/11,Sxw – Common horsetail – Leafy moss
+ESSFxc1/101,BlSe – Grouseberry – Valerian
+ESSFxc1/102,Pl – Grouseberry – Rockmoss
+ESSFxc1/103,Pl – Juniper – Pinegrass
+ESSFxc1/104,BlPl – Grouseberry – Clad lichen
+ESSFxc1/105,PlSxw – Trapper's tea – Grouseberry
+ESSFxc1/110,Bl – Rhododendron – Grouseberry
+ESSFxc1/111,BlSe – Valerian – Globeflower
+ESSFxc1/112,Se – Horsetail – Bluejoint
+ESSFxc1/113,Se – Rocky Mountain sedge – Valerian
+ESSFxc2/101,BlSe – Grouseberry – Valerian
+ESSFxc2/102,Pl – Juniper – Pinegrass
+ESSFxc2/103,BlPl – Huckleberry – Grouseberry
+ESSFxc2/103a,BlPl – Huckleberry – Grouseberry; Typic phase
+ESSFxc2/103b,BlPl – Huckleberry – Grouseberry; Lithic phase
+ESSFxc2/110,Bl – Rhododendron – Grouseberry
+ESSFxc2/111,BlSe – Valerian – Globeflower
+ESSFxc2/112,Se – Horsetail – Bluejoint
+ESSFxc2/Ws12,Spruce – Rocky Mountain sedge – Glow moss
+ESSFxcw/101,BlSe – Grouseberry – Lupine
+ESSFxcw/102,PaPl – Juniper – Selaginella
+ESSFxcw/103,PlSe – Juniper – Grouseberry
+ESSFxcw/110,BlSe – Valerian – Globeflower
+ESSFxv1/01,Bl – Arnica – Cladonia
+ESSFxv1/02,BlPa – Juniper – Cladonia
+ESSFxv1/03,Pl – Cladonia – Stereocaulon
+ESSFxv1/04,BlPa – Juniper – Grouseberry
+ESSFxv1/05,BlPa – Arnica – Twinflower
+ESSFxv1/06,Bl – Rhododendron – Crowberry
+ESSFxv1/07,Bl – Valerian – Arnica
+ESSFxv1/08,Bl – Horsetail – Glow moss
+ESSFxv1/09,Bl – Twinberry – Hellebore
+ESSFxv2/01,Bl – Arnica – Cladonia
+ESSFxv2/02,BlPa – Juniper – Cladonia
+ESSFxv2/03,BlPa – Kinnikinnick
+ESSFxv2/04,BlPa – Juniper – Kinnikinnick
+ESSFxv2/05,BlPa – Grouseberry
+ESSFxv2/06,Bl – Rhododendron – Crowberry
+ESSFxv2/07,Bl – Lousewort – Glow moss
+ESSFxv2/08,Bl – Horsetail – Glow moss
+ESSFxv2/09,Se – Trapper's tea – Glow moss
+ESSFxv2/10,Se – Willow – Glow moss
+ICHdk/01,CwSxw – Falsebox – Wintergreen
+ICHdk/02,CwSxw – Soopolallie
+ICHdk/02a,CwSxw – Soopolallie; Typic
+ICHdk/02b,CwSxw – Soopolallie; Shallow
+ICHdk/03,CwSxw – Falsebox – Soopolallie
+ICHdk/04,CwSxw – Falsebox – Feathermoss
+ICHdk/05,CwSxw – Thimbleberry
+ICHdk/06,CwSxw – Raspberry – Oak fern
+ICHdk/07,Sxw – Twinberry – Oak fern
+ICHdk/08,Sxw – Devil's club – Lady fern
+ICHdk/09,Sxw – Horsetail
+ICHdm/101,HwCw – Queen's cup – Pipecleaner moss
+ICHdm/102,Fd – Snowberry – Oregon-grape
+ICHdm/102a,Fd – Snowberry – Oregon-grape; Xeric phase
+ICHdm/102b,Fd – Snowberry – Oregon-grape; Subxeric phase
+ICHdm/103,Pl(Lw) – Pinegrass – Grouseberry
+ICHdm/110,CwHw – Oak fern
+ICHdm/111,CwHw – Devil's club – Lady fern
+ICHdm/112,SxwCw – Horsetail – Lady fern
+ICHdm/Fm01,Cottonwood – Snowberry – Rose
+ICHdm/Fm02,Cottonwood – Spruce – Dogwood
+ICHdm/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHdm/Rt07,Aspen – Juniper – Rocktripe
+ICHdm/Rt07.1,Aspen – Juniper – Rocktripe
+ICHdw1/101,CwFd – Prince's pine – Twinflower
+ICHdw1/102,FdPy – Pinegrass – Rock moss
+ICHdw1/103,Fd(Py) – Douglas maple – Pinegrass
+ICHdw1/104,FdCw – Douglas maple – Prince's pine
+ICHdw1/110,CwHw – Oak fern
+ICHdw1/111,CwHw – Devil's club – Lady fern
+ICHdw1/112,CwHw – Horsetail – Lady fern
+ICHdw1/113,CwSxw – Skunk cabbage
+ICHdw1/Fm01,Cottonwood – Snowberry – Rose
+ICHdw1/Fm02,Cottonwood – Spruce – Dogwood
+ICHdw1/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHdw4/101,CwFd – Prince's pine – Twinflower
+ICHdw4/102,FdPl – Juniper – Kinnikinnick
+ICHdw4/103,Fd – Douglas maple – Pinegrass
+ICHdw4/104,FdCw – Douglas maple – Prince's pine
+ICHdw4/110,CwHw – Devil's club – Lady fern
+ICHdw4/111,CwHw – Horsetail – Lady fern
+ICHdw4/112,CwSxw – Skunk cabbage
+ICHdw4/Fm01,Cottonwood – Snowberry – Rose
+ICHdw4/Fm02,Cottonwood – Spruce – Dogwood
+ICHdw4/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHmc1/01,Hw – Step moss
+ICHmc1/01a,Hw – Step moss; Mesic
+ICHmc1/01b,Hw – Step moss; Submesic
+ICHmc1/02,HwPl – Kinnikinnick – Cladonia
+ICHmc1/03,HwBl – Oak fern
+ICHmc1/04,HwBl – Devil's club
+ICHmc1/05,ActSx – Dogwood
+ICHmc1/06,Hw – Azalea – Skunk cabbage
+ICHmc1/07,Pl – Bog rosemary – Peat moss
+ICHmc1a/01,HwBa – Bramble
+ICHmc1a/01a,HwBa – Bramble; Mesic
+ICHmc1a/01b,HwBa – Bramble; Submesic
+ICHmc1a/02,HwBa – Oak fern
+ICHmc1a/03,HwBa – Devil's club – Lady fern
+ICHmc2/01,Hw – Step moss
+ICHmc2/01.1,Hw – Step moss; Hw (Cw) Variation
+ICHmc2/01.2,Hw – Step moss; BlSx Variation
+ICHmc2/01a,Hw – Step moss; Mesic
+ICHmc2/01a.1,Hw – Step moss; Mesic; Hw (Cw) Variation
+ICHmc2/01a.2,Hw – Step moss; Mesic; BlSx Variation
+ICHmc2/01b,Hw – Step moss; Submesic
+ICHmc2/01b.1,Hw – Step moss; Submesic; Hw (Cw) Variation
+ICHmc2/01b.2,Hw – Step moss; Submesic; BlSx Variation
+ICHmc2/02,HwPl – Kinnikinnick – Cladonia
+ICHmc2/03,HwCw – Oak fern
+ICHmc2/04,CwHw – Devil's club – Oak fern
+ICHmc2/05,Sx – Devil's club – Lady fern
+ICHmc2/06,ActSx – Dogwood
+ICHmc2/06a,ActSx – Dogwood; High-bench
+ICHmc2/06b,ActSx – Dogwood; Medium-bench
+ICHmc2/07,CwSx – Horsetail – Skunk cabbage
+ICHmc2/08,SbSx – Scrub birch – Sedge
+ICHmc2/09,Hw – Cloudberry – Peat moss
+ICHmc2/10,Sb – Soft-leaved sedge – Peat moss
+ICHmc2/11,Sb – Buckbean – Peat moss
+ICHmc2/12,Sb – Skunk cabbage – Peat moss
+ICHmk1/101,CwSxw – Falsebox
+ICHmk1/102,Fd – Penstemon – Pinegrass
+ICHmk1/103,Fd – Juniper – Pinegrass
+ICHmk1/104,Sxw(Lw) – Grouseberry – Feather moss
+ICHmk1/105,FdLw – Falsebox – Pinegrass
+ICHmk1/110,CwSxw – Gooseberry – Foamflower
+ICHmk1/111,SxwCw – Devil's club – Oak fern
+ICHmk1/112,Sxw(Cw) – Horsetail  – Oak fern
+ICHmk2/01,CwSxw – Falsebox – Knight's plume
+ICHmk2/02,Fd – Juniper – Pinegrass
+ICHmk2/03,Fd – Falsebox – Pinegrass
+ICHmk2/04,CwSxw – Douglas maple – Fairybells
+ICHmk2/05,CwSxw – Oak fern – Bunchberry
+ICHmk2/06,Sxw – Horsetail
+ICHmk3/01,CwSxw – Falsebox – Knight's plume
+ICHmk3/02,FdCw – Wavy-leaved moss
+ICHmk3/03,CwSxw – Soopolallie
+ICHmk3/04,CwSxw – Oak fern – Cat's-tail moss
+ICHmk3/05,SxwCw – Oak fern
+ICHmk3/06,CwHw – Devil's club – Lady fern
+ICHmk3/07,CwSxw – Devil's club – Horsetail
+ICHmk3/08,Pl  – Water sedge – Peat moss
+ICHmk4/101,CwSxw – Falsebox
+ICHmk4/102,Fd – Snowberry – Oregon-grape
+ICHmk4/102a,Fd – Snowberry – Oregon-grape; Xeric phase
+ICHmk4/102b,Fd – Snowberry – Oregon-grape; Subxeric phase
+ICHmk4/103,Fd – Douglas maple – Falsebox
+ICHmk4/110,CwSxw – Oak fern
+ICHmk4/111,CwSxw – Devil's club
+ICHmk4/112,SxwBl – Horsetail
+ICHmk4/Fm01,Cottonwood – Snowberry – Rose
+ICHmk4/Fm02,Cottonwood – Spruce – Dogwood
+ICHmk4/Ws07,Spruce – Common horsetail – Leafy moss
+ICHmk4/Ws07.2,Spruce – Common horsetail – Soft-leaved sedge – Leafy moss
+ICHmk5/101,CwSxw – Falsebox
+ICHmk5/102,Fd – Juniper – Douglas maple
+ICHmk5/103,Fd – Juniper – Pinegrass – Showy aster
+ICHmk5/104,Fd – Pinegrass – Showy aster
+ICHmk5/110,CwSxw – Devil's club – Oak fern
+ICHmk5/111,SxwBl – Dogwood – Sarsaparilla
+ICHmk5/112,SxwBl(Cw) – Horsetail
+ICHmm/01,HwCw – Spruce – Step moss
+ICHmm/02,CwSxw – Soopolallie
+ICHmm/03,HwCw – Step moss
+ICHmm/04,CwHw – Oak fern
+ICHmm/05,CwHw – Devil's club – Oak fern
+ICHmm/06,CwSxw – Devil's club – Horsetail
+ICHmm/07,SbPl – Bog-laurel – Sphagnum
+ICHmm/08,CwSxw – Skunk cabbage – Sphagnum
+ICHmw1/01,HwCw – Falsebox – Feathermoss
+ICHmw1/02,Pl – Juniper – Twinflower
+ICHmw1/03,HwCw – Falsebox – Pipecleaner moss
+ICHmw1/04,CwFd – Soopolallie – Douglas maple
+ICHmw1/05,CwHw – Devil's club – Lady fern
+ICHmw1/06,CwHw – Oval-leaved blueberry – Oak fern
+ICHmw1/07,CwHw – Horsetail
+ICHmw2/101,HwCw – Falsebox
+ICHmw2/102,Fd(Pl) – Falsebox – Pinegrass
+ICHmw2/103,Fd – Douglas maple – Falsebox
+ICHmw2/104,FdCw – Falsebox – Prince's pine
+ICHmw2/110,CwHw – Oak fern
+ICHmw2/111,CwHw – Devil's club – Lady fern
+ICHmw2/111.1,CwHw – Devil's club – Lady fern
+ICHmw2/111.2,CwHw – Lady fern – Oak fern
+ICHmw2/112,Sxw(Hw) – Huckleberry – Oak fern
+ICHmw2/113,CwHw – Horsetail – Lady fern
+ICHmw2/114,CwSxw – Skunk cabbage
+ICHmw2/Fm01,Cottonwood – Snowberry – Rose
+ICHmw2/Fm02,Cottonwood – Spruce – Dogwood
+ICHmw2/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHmw3/01,HwCw – Falsebox – Feathermoss
+ICHmw3/02,Fd – Juniper – Cladina
+ICHmw3/03,Fd – Pinegrass – Feathermoss
+ICHmw3/04,CwFd – Soopolallie – Twinflower
+ICHmw3/05,CwFd – Falsebox
+ICHmw3/06,CwHw – Oak fern
+ICHmw3/07,CwHw – Devil's club – Lady fern
+ICHmw3/08,CwSxw – Skunk cabbage
+ICHmw3/10,Sb – Buckbean – Peat moss
+ICHmw4/101,HwCw – Falsebox
+ICHmw4/102,FdPl – Juniper – Kinnikinnick
+ICHmw4/103,Fd – Douglas maple – Falsebox
+ICHmw4/104,FdCw – Falsebox – Prince's pine
+ICHmw4/104.1,FdCw – Falsebox – Prince's pine
+ICHmw4/104.2,FdCw – Falsebox – Bear-grass
+ICHmw4/110,CwHw – Oak fern
+ICHmw4/111,Sxw(Hw) – Huckleberry – Oak fern
+ICHmw4/112,CwHw – Devil's club – Lady fern
+ICHmw4/113,SxwBl – Devil's club – Lady fern
+ICHmw4/114,SxwCw – Horsetail – Lady fern
+ICHmw4/Fm01,Cottonwood – Snowberry – Rose
+ICHmw4/Fm02,Cottonwood – Spruce – Dogwood
+ICHmw4/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHmw5/101,HwCw – Falsebox
+ICHmw5/102,FdPl – Juniper – Kinnikinnick
+ICHmw5/103,Fd – Douglas maple – Falsebox
+ICHmw5/104,FdCw – Falsebox – Prince's pine
+ICHmw5/110,CwHw – Oak fern
+ICHmw5/111,CwHw – Devil's club – Lady fern
+ICHmw5/111.1,CwHw – Devil's club – Lady fern
+ICHmw5/111.2,CwHw – Lady fern – Oak fern
+ICHmw5/112,Sxw(Hw) – Huckleberry – Oak fern
+ICHmw5/113,CwSxw – Skunk cabbage
+ICHmw5/Fm01,Cottonwood – Snowberry – Rose
+ICHmw5/Fm02,Cottonwood – Spruce – Dogwood
+ICHvc/01,HwBl – Devil's club
+ICHvc/01.1,HwBl – Devil's club; Hw Variation
+ICHvc/01.2,HwBl – Devil's club; Bl Variation
+ICHvc/02,Hw – Step moss
+ICHvc/02.1,Hw – Step moss; Hw Variation
+ICHvc/02.2,Hw – Step moss; Bl Variation
+ICHvc/03,Sx – Devil's club
+ICHvc/03a,Sx – Devil's club; Fluvial
+ICHvc/03b,Sx – Devil's club; Morainal
+ICHvc/04,Sx – Devil's club – Dogwood
+ICHvc/05,ActSx – Dogwood
+ICHvc/06,Sx – Horsetail
+ICHvc/07,Hw – Cloudberry – Peat moss
+ICHvk1/01,CwHw – Devil's club – Lady fern
+ICHvk1/02,HwCw – Falsebox – Feathermoss
+ICHvk1/03,CwHw – Oak fern – Foamflower
+ICHvk1/03,HwCw – Falsebox – Feathermoss
+ICHvk1/04,CwHw – Oak fern – Spiny wood fern
+ICHvk1/05,CwSxw – Devil's club – Horsetail
+ICHvk1/06,CwSxw – Skunk cabbage
+ICHvk2/01,CwHw – Devil's club – Lady fern
+ICHvk2/02,HwCw – Cladonia
+ICHvk2/03,HwCw – Step moss
+ICHvk2/04,CwHw – Oak fern
+ICHvk2/05,Cw – Devil's club – Ostrich fern
+ICHvk2/06,CwSxw – Skunk cabbage
+ICHvk2/07,Sb – Sphagnum
+ICHvk2/08,Pl – Bog rosemary – Peat moss
+ICHvk2/09,Sb – Buckbean – Peat moss
+ICHvk2/10,Sb – Skunk cabbage – Peat moss
+ICHwc/01,HwBl – Oak fern
+ICHwc/02,HwPl – Feathermoss – Cladonia
+ICHwc/03,Hw – Step moss
+ICHwc/04,HwBl – Devil's club
+ICHwc/05,Sx – Devil's club
+ICHwc/06,ActSx – Dogwood
+ICHwc/07,HwSx – Blueberry – Sphagnum
+ICHwc/08,Sx – Horsetail
+ICHwc/09,Hw – Cloudberry – Peat moss
+ICHwc/10,Pl  – Water sedge – Peat moss
+ICHwk1/01,CwHw – Oak fern
+ICHwk1/02,PlHw – Velvet-leaved blueberry
+ICHwk1/02,Rhacomitrium – Cladonia
+ICHwk1/03,HwCw – Step moss
+ICHwk1/03,PlHw – Velvet-leaved blueberry
+ICHwk1/04,HwCw – Falsebox – Feathermoss
+ICHwk1/05,CwHw – Devil's club – Lady fern
+ICHwk1/06,CwSxw – Devil's club – Horsetail
+ICHwk1/07,Act – Dogwood – Twinberry
+ICHwk1/07,CwSxw – Skunk cabbage
+ICHwk1/08,CwSxw – Skunk cabbage
+ICHwk2/01,CwHw – Oak fern
+ICHwk2/01a,CwHw – Oak fern; Typic
+ICHwk2/01b,CwHw – Oak fern; Moist
+ICHwk2/02,HwCw – Cladonia
+ICHwk2/03,CwFd – Juniper – Falsebox
+ICHwk2/04,HwCw – Step moss
+ICHwk2/05,SxwCw – Oak fern
+ICHwk2/06,Sxw – Twinberry – Oak fern
+ICHwk2/07,CwHw – Devil's club – Lady fern
+ICHwk2/08,CwSxw – Skunk cabbage
+ICHwk2/09,Pl  – Water sedge – Peat moss
+ICHwk2/10,Pl – Few-flowered sedge – Peat moss
+ICHwk3/01,CwHw – Oak fern
+ICHwk3/02,Hw – Azalea – Cladonia
+ICHwk3/03,CwSxw – Prince's pine – Cat's-tail moss
+ICHwk3/04,HwCw – Stepmoss
+ICHwk3/05,CwHw – Devil's club – Lady fern
+ICHwk3/06,CwSxw – Devil's club – Horsetail
+ICHwk3/07,Hw – Wood horsetail – Sphagnum
+ICHwk3/08,PlSb – Sedge – Sphagnum
+ICHwk3/09,CwSxw – Skunk cabbage
+ICHwk3/10,Pl – Bog rosemary – Peat moss
+ICHwk3/11,Sb – Buckbean – Peat moss
+ICHwk4/01,CwHw – Oak fern
+ICHwk4/01a,CwHw – Oak fern; Typic
+ICHwk4/01b,CwHw – Oak fern; Moist
+ICHwk4/02,HwCw – Cladonia
+ICHwk4/03,CwSxw – Soopolallie
+ICHwk4/04,CwSxw – Velvet-leaved blueberry
+ICHwk4/05,HwCw – Step moss
+ICHwk4/06,Sxw – Twinberry – Oak fern
+ICHwk4/07,CwHw – Devil's club – Lady fern
+ICHwk4/08,Sxw – Devil's club – Lady fern
+ICHwk4/10,ActSxw – Red-osier dogwood
+ICHxm1/101,CwFd – Spirea – Falsebox
+ICHxm1/102,Py(Fd) – Penstemon – Bluebunch wheatgrass
+ICHxm1/103,FdPy – Oregon-grape – Pinegrass
+ICHxm1/104,Fd – Spirea – Pinegrass
+ICHxm1/104.1,Fd – Spirea – Pinegrass
+ICHxm1/104.2,Fd – Oceanspray – Pinegrass
+ICHxm1/110,Cw(Fd) – Thimbleberry – Sarsaparilla
+ICHxm1/111,Cw – Devil's club – Baneberry
+ICHxm1/112,CwSxw – Skunk cabbage
+ICHxw/101,CwFd – Hazelnut – Sarsaparilla
+ICHxw/102,FdPy – Oceanspray – Bluebunch wheatgrass
+ICHxw/103,FdPy – Oregon-grape – Pinegrass
+ICHxw/104,Fd(Py) – Douglas maple – Pinegrass
+ICHxw/110,CwHw – Foamflower
+ICHxw/111,CwHw – Oak fern
+ICHxw/112,CwHw – Horsetail – Lady fern
+ICHxw/113,CwSxw – Skunk cabbage
+ICHxw/Fm01,Cottonwood – Snowberry – Rose
+ICHxwa/101,CwFd – Hazelnut – Sarsaparilla
+ICHxwa/102,FdPy – Oceanspray – Bluebunch wheatgrass
+ICHxwa/103,FdPy – Oregon-grape – Pinegrass
+ICHxwa/104,Fd(Py) – Douglas maple – Pinegrass
+ICHxwa/110,CwHw – Foamflower
+ICHxwa/111,CwHw – Oak fern
+ICHxwa/112,CwHw – Horsetail – Lady fern
+ICHxwa/113,CwSxw – Skunk cabbage
+ICHxwa/Fm01,Cottonwood – Snowberry – Rose
+IDFdh/101,FdLw – Ninebark – Pinegrass
+IDFdh/102,PyFd – Ninebark – Desert-parsley
+IDFdh/103,PyFd – Snowberry – Bluebunch wheatgrass
+IDFdh/104,FdPy – Snowberry – Pinegrass
+IDFdh/110,Fd(Lw) – Douglas maple – Sarsaparilla
+IDFdh/111,Sxw – Douglas maple – Oak fern
+IDFdk1/101,FdPl – Pinegrass – Feathermoss
+IDFdk1/102,Fd – Juniper – Kinnikinnick
+IDFdk1/103,Fd(Py) – Bluebunch wheatgrass – Pinegrass
+IDFdk1/104,Fd(Pl) – Pinegrass – Kinnikinnick
+IDFdk1/105,Pl – Pinegrass – Grouseberry – Kinnikinnick
+IDFdk1/110,SxwFd  – Gooseberry – Feathermoss
+IDFdk1/110$6B.1,At – Snowberry – Kentucky bluegrass
+IDFdk1/111,Sxw – Dogwood – Horsetail
+IDFdk1/Fm02,Balsam Poplar – Spruce – Mountain alder – Dogwood
+IDFdk1/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+IDFdk2/101,FdPl – Pinegrass – Feathermoss
+IDFdk2/102,Fd – Juniper – Kinnikinnick
+IDFdk2/103,FdPy – Spirea – Bluebunch wheatgrass
+IDFdk2/104,Fd(Pl) – Pinegrass – Kinnikinnick
+IDFdk2/105,Pl – Pinegrass – Grouseberry – Kinnikinnick
+IDFdk2/110,Sxw(Fd) – Dogwood – Gooseberry
+IDFdk2/111,Sxw – Dogwood – Horsetail
+IDFdk2/Fm02,Balsam Poplar – Spruce – Mountain alder – Dogwood
+IDFdk3/01,FdPl – Pinegrass – Feathermoss
+IDFdk3/02,Fd – Juniper – Kinnikinnick
+IDFdk3/03,Fd – Juniper – Peltigera
+IDFdk3/04,Fd – Bluebunch wheatgrass – Needlegrass
+IDFdk3/05,Fd – Feathermoss – Step moss
+IDFdk3/06,Fd – Pinegrass – Aster
+IDFdk3/07,SxwFd – Prickly rose – Sedge
+IDFdk3/08,SxwFd – Prickly rose – Sarsaparilla
+IDFdk3/09,Sxw – Horsetail – Glow moss
+IDFdk4/01,FdPl – Pinegrass – Feathermoss
+IDFdk4/02,Fd – Juniper – Peltigera
+IDFdk4/03,Fd – Juniper – Saskatoon
+IDFdk4/04,Fd – Juniper – Pasture sage
+IDFdk4/05,Fd – Bluebunch wheatgrass – Pinegrass
+IDFdk4/06,Pl – Kinnikinnick – Cladonia
+IDFdk4/07,Fd – Feathermoss – Step moss
+IDFdk4/08,Sxw – Scrub birch – Feathermoss
+IDFdk4/09,Sxw – Feathermoss – Brachythecium
+IDFdk4/10,Sxw – Horsetail – Glow moss
+IDFdk5/101,FdPl – Pinegrass – Feathermoss
+IDFdk5/102,Fd – Juniper – Pinegrass 
+IDFdk5/103,Fd – Saskatoon – Bluebunch wheatgrass
+IDFdk5/104,Fd – Spirea – Pinegrass – Kinnikinnick
+IDFdk5/110,Sxw(Fd) – Dogwood – Bunchberry
+IDFdk5/111,Sxw – Dogwood – Horsetail
+IDFdk5/111a,Sxw – Dogwood – Horsetail; Riparian phase
+IDFdk5/111b,Sxw – Dogwood – Horsetail; Swamp phase
+IDFdk5/Fm01,Cottonwood – Snowberry – Rose
+IDFdk5/Fm02,Cottonwood – Spruce – Dogwood
+IDFdk5/Fm07,Aspen – Dogwood – Sarsaparilla
+IDFdk5/Ws07,Spruce – Common horsetail – Leafy moss
+IDFdk5/Ws07.2,Spruce – Common horsetail – Soft-leaved sedge – Leafy moss
+IDFdm1/101,Fd(Lw) – Pinegrass – Twinflower
+IDFdm1/102,PyFd – Bluebunch wheatgrass – Kinnikinnick
+IDFdm1/103,FdPy – Bluebunch wheatgrass – Pinegrass
+IDFdm1/104,Fd(Lw) – Pinegrass – Kinnikinnick
+IDFdm1/110,SwxFd – Snowberry – Sarsaparilla
+IDFdm1/111,Sxw(Fd) – Dogwood – Gooseberry
+IDFdm1/112,Sxw – Dogwood – Horsetail
+IDFdm2/101,Fd(Lw) – Pinegrass – Twinflower
+IDFdm2/102,Fd – Rocky Mountain juniper – Kinnikinnick
+IDFdm2/103,Fd(Py) – Bluebunch wheatgrass – Pinegrass
+IDFdm2/104,Fd(Lw) – Pinegrass – Kinnikinnick
+IDFdm2/104.1,Fd(Lw) – Pinegrass – Kinnikinnick
+IDFdm2/104.2,LwFd(Pl) – Pinegrass
+IDFdm2/110,FdLwSxw – Pinegrass
+IDFdm2/111,SxwFd – Snowberry – Sarsaparilla
+IDFdm2/112,Sxw – Dogwood – Horsetail
+IDFdm2/112a,Sxw – Dogwood – Horsetail; Riparian 
+IDFdm2/112b,Sxw – Dogwood – Horsetail; Swamp phase
+IDFdm2/Fm01,Cottonwood – Snowberry – Rose
+IDFdm2/Fm02,Cottonwood – Spruce – Dogwood
+IDFdm2/Fm07,Aspen – Dogwood – Sarsaparilla
+IDFdm2/Ws07,Spruce – Common horsetail – Leafy moss
+IDFdm2/Ws07.2,Spruce – Common horsetail – Soft-leaved sedge – Leafy moss
+IDFmw2/01,FdCw – Falsebox – Prince's pine
+IDFmw2/02,Fd – Snowberry – Bluebunch wheatgrass
+IDFmw2/03,Fd – Pinegrass – Feathermoss
+IDFmw2/04,CwSxw – Oak fern
+IDFww/01,FdCw – Hazelnut
+IDFww/02,FdPl – Peltigera
+IDFww/03,Fd – Falsebox – Feathermoss
+IDFww/04,Fd – Douglas maple – Fairybells
+IDFww/05,CwFd – Vine maple
+IDFww/06,Cw – Devil's club – Lady fern
+IDFww/07,CwSx – Skunk cabbage
+IDFxh1/101,Fd(Py) – Pinegrass
+IDFxh1/102,Py(Fd) – Bluebunch wheatgrass – Selaginella
+IDFxh1/102.1,Py(Fd) – Bluebunch wheatgrass – Selaginella
+IDFxh1/102.2,Py(Fd) – Mock-orange – Bluebunch wheatgrass
+IDFxh1/103,FdPy – Pinegrass – Rough fescue
+IDFxh1/104,FdPy – Bluebunch wheatgrass – Balsamroot
+IDFxh1/105,Fd(Py) – Bluebunch wheatgrass – Pinegrass
+IDFxh1/106,FdPy – Rough fescue – Balsamroot
+IDFxh1/110,Fd(Py) – Snowberry – Oregon-grape
+IDFxh1/111,SxwFd – Dogwood – Douglas maple
+IDFxh1/111.1,SxwFd – Dogwood – Douglas maple
+IDFxh1/111.2,CwFd – Douglas maple – Sarasparilla
+IDFxh1/112,Sxw – Dogwood – Horsetail
+IDFxh1/Ff04,At – Snowberry – Nootka rose
+IDFxh1/Ff05,At – Dogwood – Nootka rose
+IDFxh1/Fm01,Cottonwood – Snowberry – Rose
+IDFxh1/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+IDFxh2/101,Fd(Py) – Pinegrass
+IDFxh2/102,PyFd – Bluebunch wheatgrass – Selaginella
+IDFxh2/103,FdPy – Bluebunch wheatgrass – Balsamroot
+IDFxh2/104,Fd – Bluebunch wheatgrass – Rough fescue
+IDFxh2/110,Fd – Feathermoss – Step moss
+IDFxh2/111,Fd – Snowberry – Oregon-grape
+IDFxh2/112,SxwFd – Dogwood – Douglas maple
+IDFxh2/113,Sxw – Dogwood – Horsetail
+IDFxh2/Fm01,Cottonwood – Snowberry – Rose
+IDFxh2/Fm02,Balsam Poplar – Spruce – Mountain alder – Dogwood
+IDFxh2/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+IDFxk/101,Fd – Rocky Mountain juniper – Pinegrass
+IDFxk/102,Fd – Rocky Mountain juniper – Bluebunch wheatgrass
+IDFxk/102a,Fd – Rocky Mountain juniper – Bluebunch wheatgrass; Xeric phase
+IDFxk/102b,Fd – Rocky Mountain juniper – Bluebunch wheatgrass; Subxeric phase
+IDFxk/103,Fd – Rocky Mountain juniper – Kinnikinnick
+IDFxk/110,Fd – Feathermoss – Step moss
+IDFxk/111,At – Prairie rose – Pinegrass
+IDFxk/112,SxwFd – Dogwood – Sarsaparilla
+IDFxk/113,Sxw – Dogwood – Horsetail; Subxeric phase
+IDFxk/Fm01,Cottonwood – Snowberry – Rose
+IDFxk/Fm02,Cottonwood – Spruce – Dogwood
+IDFxk/Fm07,Aspen – Dogwood – Sarsaparilla
+IDFxm/01,Fd – Pinegrass – Feathermoss
+IDFxm/01a,Fd – Pinegrass – Feathermoss; Typic
+IDFxm/01b,Fd – Pinegrass – Feathermoss; Cold
+IDFxm/02,Fd – Bluebunch wheatgrass – Penstemon
+IDFxm/02a,Fd – Bluebunch wheatgrass – Penstemon; Typic
+IDFxm/02b,Fd – Bluebunch wheatgrass – Penstemon; Shallow
+IDFxm/03,Fd – Juniper – Cladonia
+IDFxm/04,Fd – Bluebunch wheatgrass – Pasture sage
+IDFxm/05,Fd – Feathermoss – Step moss
+IDFxm/06,Fd – Ricegrass – Feathermoss
+IDFxm/07,Fd – Prickly rose – Sarsaparilla
+IDFxm/08,Sxw – Snowberry – Prickly rose
+IDFxm/09,Sxw – Horsetail
+IDFxm/10,At – Prairie rose – Pinegrass
+IDFxw/01,Fd – Juniper – Bluebunch wheatgrass
+IDFxw/02,FdPy – Bluebunch wheatgrass – Pinegrass
+IDFxw/03,FdPy – Western snowberry – Bluebunch wheatgrass
+IDFxw/04,FdPy – Bluebunch wheatgrass – Balsamroot
+IDFxw/05,Fd – Feathermoss
+IDFxw/06,Sxw – Water birch
+IDFxw/07,Sxw – Prickly rose – Coltsfoot
+IDFxx1/101,FdPy – Pinegrass – Bluebunch wheatgrass
+IDFxx1/102,Py – Mock-orange – Bluebunch wheatgrass
+IDFxx1/103,Py – Bluebunch wheatgrass – Balsamroot
+IDFxx1/104,Py – Bluebunch wheatgrass – Rough fescue
+IDFxx1/110,Fd – Ninebark – Pinegrass
+IDFxx1/111,??At – Snowberry – Pinegrass
+IDFxx2/101,FdPy – Pinegrass – Bluebunch wheatgrass
+IDFxx2/101.1,FdPy – Pinegrass – Bluebunch wheatgrass
+IDFxx2/101.2,FdPy – Pinegrass
+IDFxx2/102,Py – Mock-orange – Bluebunch wheatgrass
+IDFxx2/103,Py(Fd) – Antelope-brush – Bluebunch wheatgrass
+IDFxx2/104,Py – Bluebunch wheatgrass – Rough fescue
+IDFxx2/110,Fd – Feathermoss – Step moss
+IDFxx2/111,FdLw – Snowberry – Pinegrass
+IDFxx2/112,Sxw – Dogwood – Horsetail
+IDFxx2/112a,Sxw – Dogwood – Horsetail; Flood phase
+IDFxx2/112b,Sxw – Dogwood – Horsetail; Swamp phase
+IDFxx2/Fm01,Cottonwood – Snowberry – Rose
+IDFxx2/Fm02,Cottonwood – Spruce – Dogwood
+IDFxx2/Fm07,Aspen – Dogwood – Sarsaparilla
+MHmm1/01,HmBa – Blueberry
+MHmm1/02,HmBa – Mountain-heather
+MHmm1/03,BaHm – Oak fern
+MHmm1/04,HmBa – Bramble
+MHmm1/05,BaHm – Twistedstalk
+MHmm1/06,HmYc – Deer-cabbage
+MHmm1/07,YcHm – Hellebore
+MHmm1/08,HmYc – Sphagnum
+MHmm1/09,YcHm – Skunk cabbage
+MHmm2/01,HmBa – Blueberry
+MHmm2/02,HmBa – Mountain-heather
+MHmm2/03,BaHm – Oak fern
+MHmm2/04,HmBa – Bramble
+MHmm2/05,BaHm – Twistedstalk
+MHmm2/06,HmYc – Deer-cabbage
+MHmm2/07,YcHm – Hellebore
+MHmm2/08,HmYc – Sphagnum
+MHmm2/09,YcHm – Skunk cabbage
+MHwh/101,HmSs – Blueberry  
+MHwh/101a,HmSs – Blueberry; Mesic phase
+MHwh/101b,HmSs – Blueberry; Drier phase
+MHwh/101c,HmSs – Blueberry; Moister phase 
+MHwh/102,YcHm – Crowberry – Mountain-heather 
+MHwh/110,HmSs – Reedgrass – Lanky moss 
+MHwh/111,HmSs – Reedgrass – Deer-cabbage 
+MHwh/Wb53,Shore pine – Yellow-cedar – Tufted clubrush
+MHwh1/01,HmSs – Blueberry
+MHwh1/02,HmYc – Mountain-heather
+MHwh1/03,SsHm – Reedgrass
+MHwh1/04,HmYc – Goldthread
+MHwh1/05,YcHm – Twistedstalk
+MHwh1/06,HmYc – Deer-cabbage
+MHwh1/07,YcHm – Hellebore
+MHwh1/08,HmYc – Sphagnum
+MHwh1/09,YcHm – Skunk cabbage
+MSdc1/01,Sxw – Wintergreen – Feathermoss
+MSdc1/02,FdPl – Juniper
+MSdc1/03,Pl – Spirea – Pinegrass
+MSdc1/04,Sxw – Gooseberry
+MSdc2/01,Sxw – Wintergreen – Feathermoss
+MSdc2/02,FdBl – Spirea – Stonecrop
+MSdc2/03,FdBl – Soopolallie – Kinnikinnick
+MSdc2/04,PlBl – Soopolallie – Kinnikinnick
+MSdc2/05,Sxw – Rhododendron – Crowberry
+MSdc2/06,Sxw – Twinberry – Reedgrass
+MSdc2/07,Sxw – Gooseberry
+MSdc2/08,Sxw – Horsetail – Leafy moss
+MSdk/101,SxwFd – Bunchberry – Feathermoss
+MSdk/102,Fd – Juniper – Douglas maple
+MSdk/103,FdPl – Juniper – Pinegrass
+MSdk/104,SxwPl – Labrador tea – Feathermoss
+MSdk/105,FdPl – Pinegrass – Twinflower
+MSdk/110,SxwBl – Azalea – Bunchberry
+MSdk/110.1,SxwBl – Azalea – Bunchberry
+MSdk/110.2,CwSxw – Bunchberry – Mitreworts
+MSdk/111,SxwBl – Horsetail
+MSdk/111a,SxwBl – Horsetail; Riparian phase
+MSdk/111b,SxwBl – Horsetail; Swamp phase
+MSdk/112,Sxw – Labrador tea – Peat moss
+MSdk/112a,Sxw – Labrador tea – Peat moss; Riparian phase
+MSdk/112b,Sxw – Labrador tea – Peat moss; Bog phase
+MSdk/Fm01,Cottonwood – Snowberry – Rose
+MSdk/Fm02,Cottonwood – Spruce – Dogwood
+MSdk/Wb15,Spruce – Labrador tea – Peat moss
+MSdk/Ws07,Spruce – Common horsetail – Leafy moss
+MSdk/Ws07.1,Spruce – Common horsetail – Leafy moss
+MSdk/Ws07.2,Spruce – Common horsetail – Soft-leaved sedge – Leafy moss
+MSdm1/101,Sxw – Falsebox – Feather moss
+MSdm1/102,Fd – Douglas maple – Pentsemon
+MSdm1/103,Fd(Lw) – Pinegrass – Kinnikinnick
+MSdm1/103a,Fd(Lw) – Pinegrass – Kinnikinnick; Subxeric phase
+MSdm1/103b,Fd(Lw) – Pinegrass – Kinnikinnick; Submesic phase
+MSdm1/104,Pl(Lw) – Pinegrass – Grouseberry
+MSdm1/110,SxwBl – Trapper's tea – Grouseberry
+MSdm1/111,SxwBl – Gooseberry
+MSdm1/112,SxwBl – Gooseberry – Oak fern
+MSdm1/113,Sxw(Bl) – Horsetail
+MSdm1/113a,Sxw(Bl) – Horsetail; Riparian phase
+MSdm1/113b,Sxw(Bl) – Horsetail; Swamp phase
+MSdm2/101,Sxw – Falsebox – Feathermoss
+MSdm2/102,FdPl – Juniper – Kinnikinnick
+MSdm2/103,FdPl – Falsebox – Pinegrass
+MSdm2/104,Pl – Pinegrass – Grouseberry
+MSdm2/105,PlSxw – Trapper's tea – Grouseberry
+MSdm2/110,SxwBl – Trapper's tea – Bramble
+MSdm2/111,SxwBl – Gooseberry
+MSdm2/112,Sxw – Devil's club
+MSdm2/113,SxwBl – Horsetail
+MSdv/01,Pl – Soopolallie – Twinflower
+MSdv/02,Pl – Penstemon – Balsamroot
+MSdv/02a,Pl – Penstemon – Balsamroot; Shallow
+MSdv/02b,Pl – Penstemon – Balsamroot; South slope
+MSdv/03,Pl – Short-awned ricegrass – Peltigera
+MSdv/04,Pl – Saskatoon – Kinnikinnick
+MSdv/05,Pl – Soopolallie – Heron's-bill
+MSdv/06,Sxw – Twinberry – Reedgrass
+MSdv/07,Sxw – Dwarf blueberry – Crowberry
+MSdv/08,Sxw – Soopolallie – Scouring-rush
+MSdv/09,Sxw – Horsetail – Leafy moss
+MSdw/101,Sxw – Arnica – Pinegrass
+MSdw/102,Fd – Juniper
+MSdw/103,Fd(LwPl) – Pinegrass
+MSdw/104,Pl(Lw) – Pinegrass – Twinflower
+MSdw/104.1,Pl(Lw) – Pinegrass – Twinflower
+MSdw/104.2,Pl(Lw) – Pinegrass – Grouseberry
+MSdw/110,SxwBl – Azalea – Bunchberry
+MSdw/110.1,SxwBl – Azalea – Bunchberry
+MSdw/110.2,CwSxw – Bunchberry – Mitreworts
+MSdw/111,Sxw – Horsetail
+MSdw/111a,Sxw – Horsetail; Riparian phase
+MSdw/111b,Sxw – Horsetail; Swamp phase
+MSdw/112,Sxw – Trapper's tea – Peat moss
+MSdw/112.1,Sxw – Trapper's tea – Peat moss; Typic variation
+MSdw/112.2,Sxw – Trapper's tea – Peat moss; Labrador tea variation
+MSdw/Fm01,Cottonwood – Snowberry – Rose
+MSdw/Fm02,Cottonwood – Spruce – Dogwood
+MSdw/Wb15,Spruce – Labrador tea – Peat moss
+MSdw/Wb16,Spruce – Trapper’s tea – Peat moss
+MSdw/Ws07,Spruce – Common horsetail – Leafy moss
+MSdw/Ws07.1,Spruce – Common horsetail – Leafy moss
+MSdw/Ws07.2,Spruce – Common horsetail – Soft-leaved sedge – Leafy moss
+MSxk1/101,Pl – Pinegrass – Grouseberry – Feathermoss
+MSxk1/102,Pl – Grouseberry – Clad lichen
+MSxk1/103,Pl – Grouseberry – Kinnikinnick – Clad lichen
+MSxk1/104,Pl – Grouseberry – Feathermoss
+MSxk1/105,PlSxw – Trapper's tea – Grouseberry
+MSxk1/110,SxwBl – Trapper's tea – Bramble
+MSxk1/111,SxwBl – Gooseberry
+MSxk1/112,Sxw – Horsetail – Soft-leaved sedge
+MSxk1/113,Sxw – Rocky Mountain sedge – Leafy moss
+MSxk1/Wb07,Pl  – Water sedge – Peat moss
+MSxk2/101,Pl – Pinegrass – Grouseberry – Feathermoss
+MSxk2/102,Pl – Grouseberry – Clad lichen
+MSxk2/103,Pl – Grouseberry – Kinnikinnick – Clad lichen
+MSxk2/104,FdPl – Pinegrass – Twinflower
+MSxk2/105,Pl – Juniper – Grouseberry – Feathermoss
+MSxk2/106,PlSxw – Trapper's tea – Grouseberry
+MSxk2/110,SxwBl – Trapper's tea – Bunchberry
+MSxk2/111,SxwBl – Gooseberry
+MSxk2/112,Sxw – Horsetail – Soft-leaved sedge
+MSxk2/Wb07,Pl  – Water sedge – Peat moss
+MSxv/01,Pl – Grouseberry – Feathermoss
+MSxv/02,Pl – Fescue – Stereocaulon
+MSxv/03,Pl – Kinnikinnick – Cladonia
+MSxv/03a,Pl – Kinnikinnick – Cladonia; Typic
+MSxv/03b,Pl – Kinnikinnick – Cladonia; Shallow
+MSxv/04,Pl – Grouseberry – Kinnikinnick
+MSxv/05,Pl – Trapper's tea – Crowberry
+MSxv/06,Sxw – Crowberry – Knight's plume
+MSxv/07,Sxw – Crowberry – Glow moss
+MSxv/08,Sxw – Horsetail – Crowberry
+MSxv/09,Sxw – Labrador tea – Willow
+MSxv/10,Sb – Soft-leaved sedge – Peat moss
+PPxh1/101,Py – Bluebunch wheatgrass – Rough fescue
+PPxh1/102,Py(Fd) – Bluebunch wheatgrass – Selaginella
+PPxh1/103,Py – Antelope-brush – Bluebunch wheatgrass
+PPxh1/104,Py – Bluebunch wheatgrass – Balsamroot
+PPxh1/110,FdPy – Pinegrass
+PPxh1/111,Fd(Py) – Snowberry – Oregon-grape
+PPxh1/Ff04,At – Snowberry – Nootka rose
+PPxh1/Ff05,At – Dogwood – Nootka rose
+PPxh1/Fm01,Cottonwood – Snowberry – Rose
+PPxh1/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+PPxh1/Fm06,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+PPxh2/101,Py – Bluebunch wheatgrass – Rough fescue
+PPxh2/102,PyFd – Bluebunch wheatgrass – Selaginella
+PPxh2/103,Py – Rabbit-brush – Bluebunch wheatgrass
+PPxh2/103a,Py – Rabbit-brush – Bluebunch wheatgrass; Warm  phase
+PPxh2/103b,Py – Rabbit-brush – Bluebunch wheatgrass; Cool phase
+PPxh2/110,Fd – Feathermoss – Step moss
+PPxh2/110.1,Fd – Feathermoss – Step moss
+PPxh2/110.2,Fd – Bluebunch wheatgrass – Rough fescue
+PPxh2/111,Fd – Douglas maple – Saskatoon
+PPxh2/Ff04,At – Snowberry – Nootka rose
+PPxh2/Fm01,Cottonwood – Snowberry – Rose
+PPxh2/Fm05,Cottonwood – Douglas-fir – Douglas maple – Snowberry
+SBPSdc/01,Pl – Juniper – Feathermoss
+SBPSdc/02,Pl – Kinnikinnick – Cladonia
+SBPSdc/02a,Pl – Kinnikinnick – Cladonia; Typic
+SBPSdc/02b,Pl – Kinnikinnick – Cladonia; Shallow
+SBPSdc/03,Pl – Kinnikinnick – Feathermoss
+SBPSdc/03a,Pl – Kinnikinnick – Feathermoss; Typic
+SBPSdc/03b,Pl – Kinnikinnick – Feathermoss; Sand
+SBPSdc/04,PlSb – Feathermoss
+SBPSdc/05,Sxw – Scrub birch – Feathermoss
+SBPSdc/06,Sxw – Horsetail – Meadowrue
+SBPSdc/07,Sb – Scrub birch – Sedge
+SBPSdc/08,Sxw – Horsetail – Glow moss
+SBPSmc/01,Pl – Feathermoss – Cladina
+SBPSmc/01a,Pl – Feathermoss – Cladina; Mesic
+SBPSmc/01b,Pl – Feathermoss – Cladina; Submesic
+SBPSmc/02,Pl – Kinnikinnick – Cladonia
+SBPSmc/03,SbPl – Feathermoss
+SBPSmc/04,Sxw – Scrub birch – Feathermoss
+SBPSmc/05,Sxw – Horsetail
+SBPSmc/06,Sxw – Horsetail – Glow moss
+SBPSmc/07,SbSxw – Scrub birch – Sedge
+SBPSmc/08,Sb  – Creeping-snowberry – Peat moss
+SBPSmk/01,Pl – Pinegrass – Arnica
+SBPSmk/02,Pl – Cladonia – Haircap moss
+SBPSmk/03,Fd – Pinegrass – Aster
+SBPSmk/04,Pl – Pinegrass – Feathermoss
+SBPSmk/04a,Pl – Pinegrass – Feathermoss; Typic
+SBPSmk/04b,Pl – Pinegrass – Feathermoss; Sand
+SBPSmk/05,SxwFd – Step moss
+SBPSmk/06,Sxw – Twinberry
+SBPSmk/07,Sxw – Horsetail – Glow moss
+SBPSmk/08,SbSxw – Scrub birch – Sedge
+SBPSxc/01,Pl – Kinnikinnick – Feathermoss
+SBPSxc/02,Pl – Kinnikinnick – Cladonia
+SBPSxc/02a,Pl – Kinnikinnick – Cladonia; Typic
+SBPSxc/02b,Pl – Kinnikinnick – Cladonia; Sand
+SBPSxc/02c,Pl – Kinnikinnick – Cladonia; Shallow
+SBPSxc/03,Sxw – Scrub birch – Fen moss
+SBPSxc/04,Sxw – Scrub birch – Feathermoss
+SBPSxc/05,Sxw – Horsetail – Glow moss
+SBPSxc/06,Sxw – Horsetail – Meadowrue
+SBSdh1/01,SxwFd – Ricegrass
+SBSdh1/02,Pl – Velvet-leaved blueberry – Cladonia
+SBSdh1/03,FdPl – Pinegrass – Feathermoss
+SBSdh1/04,Pl – Pinegrass – Feathermoss
+SBSdh1/05,Pl – Labrador tea – Velvet-leaved blueberry
+SBSdh1/06,SxwFd – Thimbleberry
+SBSdh1/07,Sxw – Horsetail
+SBSdh1/08,Sb – Scrub birch – Sedge
+SBSdk/01,Sxw – Spirea – Purple peavine
+SBSdk/01a,Sxw – Spirea – Purple peavine; Fine-textured
+SBSdk/01b,Sxw – Spirea – Purple peavine; Coarse-textured
+SBSdk/02,Pl – Juniper – Ricegrass
+SBSdk/03,Pl – Feathermoss – Cladina
+SBSdk/04,Fd – Soopolallie – Feathermoss
+SBSdk/05,Sxw – Spirea – Feathermoss
+SBSdk/06,Sxw – Twinberry – Coltsfoot
+SBSdk/07,Sxw – Horsetail
+SBSdk/07a,Sxw – Horsetail; Freely drained
+SBSdk/07b,Sxw – Horsetail; Poorly drained
+SBSdk/08,Act – Dogwood – Prickly rose
+SBSdk/08a,Act – Dogwood – Prickly rose; High-bench
+SBSdk/08b,Act – Dogwood – Prickly rose; Medium-bench
+SBSdk/09,Sb – Creeping-snowberry – Sphagnum
+SBSdk/10,Sb – Soft-leaved sedge – Sphagnum
+SBSdk/50,At – Anenome
+SBSdw1/01,SxwFd – Pinegrass
+SBSdw1/02,FdPl – Cladonia
+SBSdw1/03,Fd – Saskatoon – Pinegrass
+SBSdw1/04,Pl – Pinegrass – Feathermoss
+SBSdw1/05,SxwFd – Ricegrass
+SBSdw1/06,SxwFd – Thimbleberry
+SBSdw1/07,Sxw – Twinberry – Coltsfoot
+SBSdw1/08,Sxw – Twinberry – Oak fern
+SBSdw1/09,Sxw – Horsetail – Glow moss
+SBSdw2/01,SxwFd – Pinegrass
+SBSdw2/02,FdPl – Cladonia
+SBSdw2/03,Pl – Kinnikinnick – Wavy-leaved moss
+SBSdw2/04,Fd – Pinegrass – Aster
+SBSdw2/05,SxwFd – Cat's-tail moss
+SBSdw2/06,Pl – Pinegrass – Feathermoss
+SBSdw2/07,PlSb – Feathermoss
+SBSdw2/08,Sxw – Twinberry
+SBSdw2/09,Sxw – Devil's club – Knight's plume
+SBSdw2/10,Sxw – Horsetail
+SBSdw2/11,Sb – Soft-leaved sedge – Sphagnum
+SBSdw2/12,Sb – Buckbean – Peat moss
+SBSdw3/01,SxwFd – Pinegrass
+SBSdw3/02,FdPl – Cladonia
+SBSdw3/03,Pl – Feathermoss – Cladina
+SBSdw3/04,SxwFd – Ricegrass
+SBSdw3/05,PlSb – Feathermoss
+SBSdw3/06,Sxw – Pink spirea – Prickly rose
+SBSdw3/07,Sxw – Twinberry
+SBSdw3/08,Sxw – Oak fern
+SBSdw3/09,Sxw – Horsetail – Glow moss
+SBSdw3/10,Sb – Soft-leaved sedge – Sphagnum
+SBSdw3/11,Sb – Water sedge – Peat moss
+SBSdw3/12,Sb – Common horsetail – Peat moss
+SBSmc1/01,Sxw – Huckleberry
+SBSmc1/01a,Sxw – Huckleberry; Typic
+SBSmc1/01b,Sxw – Huckleberry; Shallow
+SBSmc1/01c,Sxw – Huckleberry; Sand
+SBSmc1/02,Pl – Cladonia – Haircap moss
+SBSmc1/03,Fd – Pinegrass – Aster
+SBSmc1/04,Sxw – Huckleberry – Labrador tea
+SBSmc1/05,Sxw – Spirea – Glow moss
+SBSmc1/06,Sxw – Oak fern
+SBSmc1/07,Sxw – Devil's club – Step moss
+SBSmc1/08,Sxw – Horsetail – Glow moss
+SBSmc2/01,Sxw – Huckleberry
+SBSmc2/01a,Sxw – Huckleberry; Mesic; fine-textured
+SBSmc2/01a,Sxw – Huckleberry; Typic
+SBSmc2/01b,Sxw – Huckleberry; Mesic; coarse-textured
+SBSmc2/01b,Sxw – Huckleberry; Shallow
+SBSmc2/01c,Sxw – Huckleberry; Submesic
+SBSmc2/02,Pl – Huckleberry – Cladonia
+SBSmc2/02a,Pl – Huckleberry – Cladonia; Typic
+SBSmc2/02b,Pl – Huckleberry – Cladonia; Sand
+SBSmc2/03,SbPl – Feathermoss
+SBSmc2/04,Sxw – Huckleberry – Dwarf blueberry
+SBSmc2/05,Sxw – Twinberry – Coltsfoot
+SBSmc2/06,Sxw – Oak fern
+SBSmc2/07,Sxw – Scrub birch – Feathermoss
+SBSmc2/08,Sxw – Twinberry – Oak fern
+SBSmc2/09,Sxw – Devil's club
+SBSmc2/09a,Sxw – Devil's club; Fluvial
+SBSmc2/09b,Sxw – Devil's club; Morainal
+SBSmc2/10,Sxw – Horsetail
+SBSmc2/10a,Sxw – Horsetail; Fluvial
+SBSmc2/10b,Sxw – Horsetail; Lacustrine/morainal
+SBSmc2/11,Sxw – Horsetail – Glow moss
+SBSmc2/12,SbSxw – Scrub birch – Sedge
+SBSmc2/13,Sb – Soft-leaved sedge – Peat moss
+SBSmc2/14,Sb – Common horsetail – Peat moss
+SBSmc2/15,Pl – Few-flowered sedge – Peat moss
+SBSmc2/16,Sb – Buckbean – Peat moss
+SBSmc3/01,Sxw – Huckleberry
+SBSmc3/02,Pl – Juniper – Dwarf blueberry
+SBSmc3/03,Pl – Feathermoss – Cladina
+SBSmc3/04,Sxw – Huckleberry – Soopolallie
+SBSmc3/05,Sb – Huckleberry – Spirea
+SBSmc3/06,SbPl – Feathermoss
+SBSmc3/07,Sxw – Twinberry
+SBSmc3/08,Sxw – Horsetail
+SBSmc3/09,SbSxw – Scrub birch – Sedge
+SBSmh/01,SxwFd – Hazelnut
+SBSmh/02,FdPl – Cladonia
+SBSmh/03,FdPl – Velvet-leaved blueberry – Cladonia
+SBSmh/04,Fd – Douglas maple – Step moss
+SBSmh/05,SxwFd – Feathermoss
+SBSmh/06,SxwFd – Coltsfoot
+SBSmh/07,SxwEp – Devil's club
+SBSmh/08,Sxw – Ostrich fern
+SBSmh/09,Sxw – Horsetail – Glow moss
+SBSmk1/01,Sxw – Huckleberry – High bush-cranberry
+SBSmk1/02,Pl – Cladina – Step moss
+SBSmk1/03,Pl – Feathermoss – Cladina
+SBSmk1/04,SxwFd – Knight's plume
+SBSmk1/05,SxwFd – Toad-flax
+SBSmk1/06,Sb – Huckleberry – Spirea
+SBSmk1/07,Sxw – Oak fern
+SBSmk1/08,Sxw – Devil's club
+SBSmk1/09,Sxw – Horsetail
+SBSmk1/09a,Sxw – Horsetail; Fluvial
+SBSmk1/09b,Sxw – Horsetail; Organic
+SBSmk1/10,Sb – Scrub birch – Sedge
+SBSmk2/01,Sxw – Huckleberry – High bush-cranberry
+SBSmk2/02,Pl – Feathermoss – Cladina
+SBSmk2/03,Sxw – Huckleberry – Soopolallie
+SBSmk2/04,Sb – Huckleberry – Spirea
+SBSmk2/05,Sxw – Oak fern
+SBSmk2/06,Sxw – Horsetail
+SBSmk2/07,Sb – Water sedge – Peat moss
+SBSmm/01,Sxw – Falsebox – Knight's plume
+SBSmm/02,Pl – Huckleberry – Cladonia
+SBSmm/03,PlFd – Juniper
+SBSmm/04,Pl – Soopolallie – Pinegrass
+SBSmm/05,Sxw – Soopolallie – Falsebox
+SBSmm/06,Sxw – Huckleberry – Falsebox
+SBSmm/07,Sxw – Oak fern
+SBSmm/08,Sxw – Horsetail
+SBSmm/10,Sb – Water sedge – Peat moss
+SBSmw/01,SxwFd – Falsebox
+SBSmw/02,FdBl – Huckleberry
+SBSmw/03,Pl – Huckleberry – Velvet-leaved blueberry
+SBSmw/04,SxwFd – Knight's plume
+SBSmw/05,Sxw – Pink spirea
+SBSmw/06,Sxw – Oak fern
+SBSmw/07,Sxw – Twinberry – Oak fern
+SBSmw/08,Sxw – Devil's club
+SBSmw/09,Sxw – Horsetail
+SBSmw/10,SbSxw – Scrub birch – Sedge
+SBSmw/11,Pl – Huckleberry – Knight's plume
+SBSmw/12,Sxw – Pink spirea – Sphagnum
+SBSmw/13,Sxw – Mountain alder – Lady fern
+SBSmw/14,Sb  – Creeping-snowberry – Peat moss
+SBSmw/15,Sb – Soft-leaved sedge – Peat moss
+SBSmw/16,Sb – Common horsetail – Peat moss
+SBSvk/01,Sxw – Devil's club
+SBSvk/02,Pl – Huckleberry – Velvet-leaved blueberry
+SBSvk/03,SxwFd – Thimbleberry
+SBSvk/04,Sxw – Oak fern
+SBSvk/05,Sxw – Devil's club – Spiny wood fern
+SBSvk/06,Sxw – Horsetail
+SBSvk/07,Sxw – Devil's club – Ostrich fern
+SBSvk/08,SbPl – Bog-laurel – Sphagnum
+SBSvk/09,Pl – Huckleberry – Cladina
+SBSvk/10,Sxw – Skunk cabbage
+SBSvk/12,ActBl – Devil's club
+SBSvk/13,Sb – Skunk cabbage – Peat moss
+SBSwk1/01,Sxw – Oak fern
+SBSwk1/02,Pl – Huckleberry – Cladina
+SBSwk1/03,Pl – Huckleberry – Velvet-leaved blueberry
+SBSwk1/04,SxwFd – Knight's plume
+SBSwk1/05,Sxw – Huckleberry – High bush-cranberry
+SBSwk1/06,Sxw – Pink spirea – Oak fern
+SBSwk1/07,Sxw – Twinberry – Oak fern
+SBSwk1/08,Sxw – Devil's club
+SBSwk1/09,Sxw – Horsetail
+SBSwk1/10,Sxw – Devil's club – Lady fern
+SBSwk1/11,SbSxw – Scrub birch – Sedge
+SBSwk1/12,SbPl – Feathermoss
+SBSwk1/13,ActSxw – Red-osier dogwood
+SBSwk1/14,Pl – Bog rosemary – Peat moss
+SBSwk1/15,Sb – Common horsetail – Peat moss
+SBSwk1/16,Sb – Buckbean – Peat moss
+SBSwk1/17,Sb – Skunk cabbage – Peat moss
+SBSwk2/01,Sxw – Oak fern
+SBSwk2/02,Pl – Huckleberry – Cladina
+SBSwk2/03,Sxw – Huckleberry – High bush-cranberry
+SBSwk2/04,SbPl – Feathermoss
+SBSwk2/05,Sxw – Devil's club
+SBSwk2/06,Sxw – Horsetail
+SBSwk2/07,Lt – Water sedge – Fen Moss
+SBSwk3/01,Sxw – Oak fern
+SBSwk3/02,Pl – Huckleberry – Cladina
+SBSwk3/03,SxwFd – Purple peavine
+SBSwk3/04,Sxw – Huckleberry – High bush-cranberry
+SBSwk3/05,Sb – Labrador tea
+SBSwk3/06,Sxw – Twinberry – Coltsfoot
+SBSwk3/07,Sxw – Devil's club
+SBSwk3/08,Sxw – Horsetail
+SBSwk3a/01,Sxw – Dogwood – Fairybells
+SBSwk3a/02,Pl – Huckleberry – Cladina
+SBSwk3a/03,SxwFd – Purple peavine
+SBSwk3a/04,SxwFd – Birch-leaved spirea – Feathermoss
+SBSwk3a/05,Sb – Labrador tea
+SBSwk3a/06,Sxw – Twinberry – Coltsfoot
+SBSwk3a/07,Sxw – Devil's club
+SBSwk3a/08,Sxw – Horsetail
+SS_NoSpace,SiteSeriesLongName
+SWBmk/01,Sw – Grey-leaved willow – Scrub birch
+SWBmk/02,Sw – Scrub birch – Cladina
+SWBmk/03,Sw – Juniper – Wildrye
+SWBmk/04,Sw – Arctic lupine – Step moss
+SWBmk/05,Sw – Willow – Crowberry
+SWBmk/06,Sw – Willow – Step moss
+SWBmk/07,Sw – Scrub birch – Bluejoint
+SWBmk/08,Sw – Shrubby cinquefoil – Horsetail
+SWBmk/09,Sw – Horsetail – Sphagnum
