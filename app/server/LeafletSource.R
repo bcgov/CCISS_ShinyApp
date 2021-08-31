@@ -67,22 +67,22 @@ addBGC <- function(map) {
       var subzLayer = L.vectorGrid.protobuf(
         "', bcgov_tileserver, '",
         vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
-                          "tilePane", subzoneColors, "MAP_LABEL", "OBJECTID")
+                          "tilePane", subzoneColors, "BGC", "BGC")
       )
       this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants");
       
       subzLayer.on("mouseover", function(e){
         if(flag){
           var properties = e.layer.properties;
-  			  highlight = properties.OBJECTID;
+  			  highlight = properties.BGC;
   			  var style = {
             weight: 1,
             color: "#fc036f",
-            fillColor: subzoneColors[properties.MAP_LABEL],
+            fillColor: subzoneColors[properties.BGC],
             fillOpacity: 1,
             fill: true
           };
-          subzLayer.setFeatureStyle(properties.OBJECTID, style);
+          subzLayer.setFeatureStyle(properties.BGC, style);
         }
         
       });
@@ -103,7 +103,7 @@ addBGC <- function(map) {
       });
       
       subzLayer.bindTooltip(function(e) {
-        return e.properties.MAP_LABEL
+        return e.properties.BGC;
       }, {sticky: true, textsize: "10px", opacity: 1});
       
       Shiny.addCustomMessageHandler("typeFlag", function(val){
@@ -131,10 +131,10 @@ addBGC <- function(map) {
       var selectedBGC = [];
       subzLayer.on("click", function(e){
         if(!flag){
-          selectedBGC.push(e.layer.properties.OBJECTID);
-          selectedNames.push(e.layer.properties.MAP_LABEL);
+          selectedBGC.push(e.layer.properties.BGC);
+          selectedNames.push(e.layer.properties.BGC);
           Shiny.setInputValue("bgc_click",selectedNames);
-  			  bgcHL = e.layer.properties.OBJECTID;
+  			  bgcHL = e.layer.properties.BGC;
           subzLayer.setFeatureStyle(bgcHL, styleHL);
         }
       });
