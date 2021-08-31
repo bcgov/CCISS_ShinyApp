@@ -6,7 +6,7 @@ library(usethis)
 library(readxl)
 E1 <- fread("./data-raw/data_tables/Edatopic_v12_9.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v12_9.csv")
-N1 <- fread("./data-raw/data_tables/WNA_SSeries_v12_9.csv")
+N1 <- fread("./data-raw/data_tables/SiteSeries_names_v12_9.csv")
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
