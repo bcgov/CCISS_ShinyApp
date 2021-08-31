@@ -99,10 +99,11 @@ radioButtons(
 )
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
-
+##### Add Points of Interest to Map 
+###### Use one of the 3 methods below
 ---
 
-##### Click to Add Points on Map
+###### 1. Click on Map to Add Points
 
 Click on the map or use table to add points.  
 To edit cells, double click a row.  
@@ -120,9 +121,9 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 
 ---
 
-##### Upload CSV File
+###### 2. Upload a CSV File contain points of interests
 
-Upload a csv file with latitude and longitude values for your points of interest.
+Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) will your points of interest.
 
 
 ```{r}
@@ -134,7 +135,8 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 
 ---
 
-##### Click on BGC for preselected points by: 
+###### 3. Generate summary using preselected points by:
+Choose option to use points across an entire BGC subzone/variant or on points in a Forest District by BGC
 
 ```{r}
 
