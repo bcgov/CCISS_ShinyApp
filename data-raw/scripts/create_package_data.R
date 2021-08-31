@@ -4,8 +4,9 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v12_8.csv")
-S1 <- fread("./data-raw/data_tables/Feasibility_v12_8.csv")
+E1 <- fread("./data-raw/data_tables/Edatopic_v12_9.csv")
+S1 <- fread("./data-raw/data_tables/Feasibility_v12_9.csv")
+N1 <- fread("./data-raw/data_tables/WNA_SSeries_v12_9.csv")
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
@@ -29,7 +30,7 @@ TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in pack
 TreeCols <- TreeCols[HexColour != "",]
 save(TreeCols, file = "./data/TreeCols.rda")
 
-SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_8.csv")
+SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_9.csv")
 SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
@@ -155,7 +156,7 @@ names(stocking_height) <- tools::toTitleCase(names(stocking_height))
 models_info <- fread("./data-raw/data_tables/CCISS_DataTable_Versions.csv")
 models_info[, Date := as.character(Date, format = "%Y/%m/%d")]
 
-use_data(E1, S1, R1, F1, T1, V1,
+use_data(E1, S1, N1, R1, F1, T1, V1,
          zones_colours_ref, subzones_colours_ref,
          stocking_standards, stocking_info, stocking_height, footnotes,
          silvics_tol, silvics_regen, silvics_mature, silvics_resist,
