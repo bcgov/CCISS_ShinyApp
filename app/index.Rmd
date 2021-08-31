@@ -435,9 +435,8 @@ tags$script(HTML('
 uData <- session$userData
 
 library(sf)
-tOut <- st_read("./TileOutline.gpkg")
-tOut2 <- st_read("./RCB_Outline.gpkg")
-tOut <- st_union(tOut,tOut2)
+noDat <- st_read("./NoData.gpkg")
+
 portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
                              modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)

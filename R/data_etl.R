@@ -186,18 +186,18 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   ##cciss_future is now test_future  
   cciss_sql <- paste0("
   WITH cciss AS (
-    SELECT futureperiod,
-           test_future.siteno,
+    SELECT substring(futureperiod,1,4) futureperiod,
+           cciss_future12.siteno,
            bgc,
            bgc_pred,
-           test_future.gcm,
+           cciss_future12.gcm,
            w.weight
-    FROM test_future
+    FROM cciss_future12
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
-    ON test_future.gcm = w.gcm AND test_future.scenario = w.scenario
+    ON cciss_future12.gcm = w.gcm AND cciss_future12.scenario = w.scenario
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
-    AND futureperiod IN ('2021','2041','2061','2081')
+    AND substring(futureperiod,1,4) IN ('2021','2041','2061','2081')
   
   ), cciss_count_den AS (
   
@@ -220,7 +220,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   ), curr_temp AS (
     SELECT ", groupby, " siteref,
            COUNT(distinct siteno) n
-    FROM test_prob
+    FROM cciss_prob12
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
     GROUP BY ", groupby, "
   )
@@ -243,7 +243,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
           bgc,
           bgc_pred,
           SUM(prob)/b.n bgc_prop
-  FROM test_prob a
+  FROM cciss_prob12 a
   JOIN curr_temp b
     ON a.",groupby," = b.siteref
   WHERE siteno in (", paste(unique(siteno), collapse = ","), ")
@@ -257,7 +257,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
             bgc,
             bgc as bgc_pred,
             cast(1 as numeric) bgc_prop
-    FROM test_prob
+    FROM cciss_prob12
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   ")
   
