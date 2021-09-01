@@ -100,7 +100,7 @@ radioButtons(
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
----
+
 ##### Add Points of Interest Using One of the 3 Methods Below
 
 ###### 1. Enter Lat/Long or Click on Map to Add Points
@@ -119,7 +119,6 @@ actionButton("clear_button", "Clear All", icon("broom"), width=120)
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
----
 
 ###### 2. Generate summary using preselected points by BGC or BGC+Distict:
 
@@ -129,7 +128,7 @@ Click BGC on map to use points across an entire BGC subzone/variant or only BGCs
   radioButtons(
       "preselected",
       label = NULL,
-      choiceNames =  c("None", "BGC","BGC and District"),
+      choiceNames =  c("None", "BGC","District then BGC"),
       choiceValues = c("N","BGC","BGC_Dist"),
       inline = T
     )
@@ -140,7 +139,6 @@ splitLayout(actionButton("clear_highlight","Clear Selections"),
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
----
 ###### 3. Upload a CSV file contain points of interests
 
 Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.
