@@ -53,7 +53,7 @@ observeEvent(input$generate_results, priority = 100, {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
     names(ss) <- paste(
       ss,
-      stocking_info$SiteSeriesName[match(ss, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
+      N1$SiteSeriesLongName[match(ss, N1$SS_NoSpace)]
     )
     ss
   })
