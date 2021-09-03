@@ -1,4 +1,3 @@
-SS_NoSpace,SiteSeriesLongName
 BGxh1/102,Py – Antelope-brush – Bluebunch wheatgrass
 BGxh1/103,Py(Fd) – Rabbit-brush – Bluebunch wheatgrass
 BGxh1/110,Py – Sumac – Mock-orange
@@ -808,6 +807,15 @@ ICHdw1/113,CwSxw – Skunk cabbage
 ICHdw1/Fm01,Cottonwood – Snowberry – Rose
 ICHdw1/Fm02,Cottonwood – Spruce – Dogwood
 ICHdw1/Fm04,Cottonwood – Redcedar – Dogwood – Lady fern 
+ICHdw3/01,HwCw – Falsebox – Feathermoss
+ICHdw3/02,Fd – Juniper – Cladina
+ICHdw3/03,Fd – Pinegrass – Feathermoss
+ICHdw3/04,CwFd – Soopolallie – Twinflower
+ICHdw3/05,CwFd – Falsebox
+ICHdw3/06,CwHw – Oak fern
+ICHdw3/07,CwHw – Devil's club – Lady fern
+ICHdw3/08,CwSxw – Skunk cabbage
+ICHdw3/10,Sb – Buckbean – Peat moss
 ICHdw4/101,CwFd – Prince's pine – Twinflower
 ICHdw4/102,FdPl – Juniper – Kinnikinnick
 ICHdw4/103,Fd – Douglas maple – Pinegrass
@@ -1669,6 +1677,7 @@ SBSwk3a/05,Sb – Labrador tea
 SBSwk3a/06,Sxw – Twinberry – Coltsfoot
 SBSwk3a/07,Sxw – Devil's club
 SBSwk3a/08,Sxw – Horsetail
+SS_NoSpace,SiteSeriesLongName
 SWBmk/01,Sw – Grey-leaved willow – Scrub birch
 SWBmk/02,Sw – Scrub birch – Cladina
 SWBmk/03,Sw – Juniper – Wildrye
