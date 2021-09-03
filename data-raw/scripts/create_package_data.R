@@ -18,7 +18,7 @@ S1[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
 S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
-
+use_data(N1,overwrite = T)
 SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
 SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
 SIBEC <- rbind(SIBEC, SIBECnew)
