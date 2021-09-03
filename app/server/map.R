@@ -258,6 +258,9 @@ observeEvent(input$bgc_click,{
 
 observeEvent(input$dist_click,{
   uData$dist_select <- input$dist_click
+  output$dist_click_show <- renderText({
+    c("Selected District:",input$dist_click)
+  })
 })
 
 observeEvent(input$clear_highlight,{

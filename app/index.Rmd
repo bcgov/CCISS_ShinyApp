@@ -132,10 +132,10 @@ Click BGC on map to use points across an entire BGC subzone/variant or only BGCs
       choiceValues = c("N","BGC","BGC_Dist"),
       inline = T
     )
-splitLayout(actionButton("clear_highlight","Clear Selections"),
-            textOutput("bgc_click_show"))
-
-
+textOutput("bgc_click_show")
+textOutput("dist_click_show")
+actionButton("clear_highlight","Clear Selections")
+            
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
