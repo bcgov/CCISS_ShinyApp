@@ -18,7 +18,7 @@ S1[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
 S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
-
+use_data(N1,overwrite = T)
 SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
 SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
 SIBEC <- rbind(SIBEC, SIBECnew)
@@ -35,7 +35,7 @@ SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
-use_data(S1,E1,overwrite = T)
+use_data(S1,E1,N1,overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
