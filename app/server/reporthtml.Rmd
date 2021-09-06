@@ -52,12 +52,14 @@ tags$h2("1. SITE LOCATION")
 data_points <- pts[!is.na(Long) & !is.na(Lat)]
 leaflet::leaflet() %>%
   leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
-  addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
+  addBGC_report(bgcSelect = c("SBSdk","SBSmc2"),distSelect = NULL) %>%
   leaflet::addTiles(
     urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
     attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
     options = leaflet::tileOptions(zIndex = 600)) %>%
   leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat)
+
+#session$sendCustomMessage("highlight_bec",c("SBSdk","SBSmc2"))
 ```
 
 ```{r section2, results='asis'}
