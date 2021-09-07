@@ -321,7 +321,9 @@ addBGC_report <- function(map,bgcSelect,distSelect) {
       this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
       
       if(bgcHL){
-        console.log("In bgcHL");
+        if(!Array.isArray(bgcHL)){
+          bgcHL = [bgcHL];
+        }
         bgcHL.forEach((ID) => {
           subzLayer.setFeatureStyle(ID,styleHL);
         })
