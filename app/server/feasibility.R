@@ -5,29 +5,6 @@ observeEvent(input$siteref_feas, priority = 50, {
   updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
 })
 
-# # CCISS Summary of results
-# output$summary_feas <- function() {
-#   siteref <- input$siteref_feas
-#   siteserie <- input$site_series_feas
-#   cciss_summary <- uData$cciss_summary
-#   if (is.null(cciss_summary)) return(NULL)
-#   cciss_summary_dt(cciss_summary, siteref, siteserie)
-# }
-# 
-# # Dual utility function to format dt, app mode and report mode use different
-# # format. Report has no javascript, just a plain table.
-# cciss_summary_dt <- function(data, siteref, siteserie, format = "html") {
-#   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-#                list(Species, CFSuitability, ProjFeas, Flag, Period, FutProjFeas, FailRisk)]
-#   knitr::kable(
-#     data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
-#     col.names = c("Tree Species", "CFRG Suitability",
-#                   "Projected Feasibility", "Flag", "Period",
-#                   "Future Projected Feasibility", "Fail Risk"),
-#     table.attr = 'class="table table-hover"')
-# }
-# uData$cciss_summary_dt <- cciss_summary_dt
-
 # CCISS Results
 output$results_feas <- function() {
   siteref <- selected_site$siteref
@@ -50,8 +27,8 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   }else if (filter == "f"){
     data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3) | ccissFeas %in% c(1,2,3),]
   }
-  data <- data[!is.na(Trend) & !is.na(MaxAgr),]
-  data[,Trend := cell_spec(Trend,"html", color = fifelse(MaxAgr < 65,'red','black'))]
+  data <- data[!is.na(Trend),]
+  data[,Trend := cell_spec(Trend,"html", color = fifelse(Improve > 67,'green',fifelse(Improve < 33, "red","purple")))]
   #data[,Period := cell_spec(Period,font_size = 12)]
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
                list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, Trend)]
