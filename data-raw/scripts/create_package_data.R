@@ -7,6 +7,8 @@ library(readxl)
 E1 <- fread("./data-raw/data_tables/Edatopic_v12_10.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v12_10.csv")
 N1 <- fread("./data-raw/data_tables/SiteSeries_names_v12_10.csv")
+N1[,SiteSeriesLongName := gsub("\x96","-",SiteSeriesLongName)]
+use_data(N1,overwrite = T)
 SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_10.csv")
 
 S1[,Confirmed := NULL]

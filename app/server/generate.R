@@ -23,7 +23,7 @@ observeEvent(input$generate_results, priority = 100, {
     avg             <- uData$avg             <- as.logical(input$aggregation)
     pts             <- uData$pts             <- userpoints$dt
   }
-  
+  uData$session_params <- reactiveValuesToList(session_params) 
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)

@@ -53,8 +53,8 @@ domap <- function(mappts) {
 pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
 
 # Selected options
-p <- data.table("Parameters" = c("Representative<br />Concentration Pathways", "Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
-opt_tb <- HTML(knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table-centered\"", format = "html"))
+# p <- data.table("Parameters" = c("Representative<br />Concentration Pathways", "Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
+# opt_tb <- HTML(knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table-centered\"", format = "html"))
 
 # Model information
 models_info_tb <- tags$div(style = "display: flex",
