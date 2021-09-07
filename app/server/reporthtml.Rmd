@@ -44,6 +44,7 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
   table.table-centered {margin-left:auto !important; margin-right:auto !important}
 </style>
 
+
 ```{r section1, results='asis'}
 tags$h2("1. SITE LOCATION")
 ```
@@ -82,24 +83,32 @@ tags$h2("2. SESSION PARAMETERS")
 ```
 
 ```{r}
-tagList(
-  tags$h4("General Parameters"),
-  knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T),
-  # tags$h4("Time Period Weights"),
-  # datTP <- data.table(TimePeriods = c("1960-1991","1991-2020","2021-2040","2041-2060","2061-2080","2081-2100"),
-  #                     Estab_Weights = c(session_params$estabWt),rep(0,3),
-  #                     Future_Weights = c(0,0,session_params$futWt)),
-  # datTP <- melt(datTP, id.var = "TimePeriods",variable.name = "Summary"),
-  # datTP <- dcast(datTP,Summary ~ TimePeriods, fun.aggregate = "mean"),
-  #knitr::kable(datTP),
-  tags$h4("GCM Weights"),
-  knitr::kable(session_params$gcmWt),
-  tags$h4("Scenario Weights"),
-  knitr::kable(session_params$rcpWt)
-)
-
-
+tags$h4("General Parameters")
+knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T)
 ```
+
+```{r}
+  tags$h4("Time Period Weights")
+  datTP <- data.table(TimePeriods = c("1960-1991","1991-2020","2021-2040","2041-2060","2061-2080","2081-2100"),
+                      Estab_Weights = c(session_params$estabWt,rep(0,3)),
+                      Future_Weights = c(0,0,session_params$futWt))
+  datTP <- melt(datTP, id.var = "TimePeriods",variable.name = "Summary")
+  datTP <- dcast(datTP,Summary ~ TimePeriods)
+  knitr::kable(datTP)
+```
+
+
+```{r}
+  tags$h4("GCM Weights")
+  knitr::kable(session_params$gcmWt)
+```
+
+
+```{r}
+  tags$h4("Scenario Weights")
+  knitr::kable(session_params$rcpWt)
+```
+
 
 ```{r section3, results='asis'}
 tags$h2("3. CCISS TREE FEASIBILITY")

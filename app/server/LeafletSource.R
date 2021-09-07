@@ -138,6 +138,8 @@ addBGC <- function(map) {
           Shiny.setInputValue("bgc_click",selectedNames);
   			  bgcHL = e.layer.properties.BGC;
           subzLayer.setFeatureStyle(bgcHL, styleHL);
+        }else{
+          Shiny.setInputValue("bgc_point_click",e.layer.properties.BGC);
         }
       });
       
