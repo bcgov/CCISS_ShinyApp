@@ -24,19 +24,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // SimGrowth
-NumericVector SimGrowth(DataFrame DF, double ProbPest, double cmdMin, double cmdMax, double tempMin, double tempMax, double climLoss);
-RcppExport SEXP _ccissdev_SimGrowth(SEXP DFSEXP, SEXP ProbPestSEXP, SEXP cmdMinSEXP, SEXP cmdMaxSEXP, SEXP tempMinSEXP, SEXP tempMaxSEXP, SEXP climLossSEXP) {
+NumericVector SimGrowth(DataFrame DF, double cmdMin, double cmdMax, double tempMin, double tempMax, double climLoss);
+RcppExport SEXP _ccissdev_SimGrowth(SEXP DFSEXP, SEXP cmdMinSEXP, SEXP cmdMaxSEXP, SEXP tempMinSEXP, SEXP tempMaxSEXP, SEXP climLossSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type DF(DFSEXP);
-    Rcpp::traits::input_parameter< double >::type ProbPest(ProbPestSEXP);
     Rcpp::traits::input_parameter< double >::type cmdMin(cmdMinSEXP);
     Rcpp::traits::input_parameter< double >::type cmdMax(cmdMaxSEXP);
     Rcpp::traits::input_parameter< double >::type tempMin(tempMinSEXP);
     Rcpp::traits::input_parameter< double >::type tempMax(tempMaxSEXP);
     Rcpp::traits::input_parameter< double >::type climLoss(climLossSEXP);
-    rcpp_result_gen = Rcpp::wrap(SimGrowth(DF, ProbPest, cmdMin, cmdMax, tempMin, tempMax, climLoss));
+    rcpp_result_gen = Rcpp::wrap(SimGrowth(DF, cmdMin, cmdMax, tempMin, tempMax, climLoss));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -102,7 +101,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ccissdev_gs2gw", (DL_FUNC) &_ccissdev_gs2gw, 3},
-    {"_ccissdev_SimGrowth", (DL_FUNC) &_ccissdev_SimGrowth, 7},
+    {"_ccissdev_SimGrowth", (DL_FUNC) &_ccissdev_SimGrowth, 6},
     {"_ccissdev_combCurr", (DL_FUNC) &_ccissdev_combCurr, 2},
     {"_ccissdev_NewSuitNoCurr", (DL_FUNC) &_ccissdev_NewSuitNoCurr, 2},
     {"_ccissdev_FeasSuit", (DL_FUNC) &_ccissdev_FeasSuit, 4},
