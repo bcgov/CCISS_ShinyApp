@@ -31,12 +31,17 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   data[,Trend := cell_spec(Trend,"html", color = fifelse(Improve > 67,'green',fifelse(Improve < 33, "red","purple")))]
   #data[,Period := cell_spec(Period,font_size = 12)]
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               list(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, Trend)]
+               .(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, Trend)]
   data[,Curr := as.character(Curr)]
   data[Curr == 4,Curr := "X"]
   for(i in c("Curr","EstabFeas")){ ##set NA to X
     data[is.na(get(i)), (i) := "X"]
   }
+  data[Curr != "X", Curr := paste0("E", Curr)]
+  data[!EstabFeas %in% c("X","Trial"), EstabFeas := paste0("E", EstabFeas)]
+  data[ccissFeas != "X", ccissFeas := paste0("E", ccissFeas)]
+  # data[,lapply(.SD, function(x){cell_spec(x,font_size = 24)}),
+  #      .SDcols = c("CFSuitability","Curr","EstabFeas","ccissFeas")]
   
   tempTable <- knitr::kable(
     data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
@@ -46,7 +51,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     table.attr = 'class="table table-hover"') %>%
     add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
                        "Projected Feasibility" = 2, "Trend" = 1)) %>%
-    column_spec(4:8,extra_css = "vertical-align:middle;") %>%
+    column_spec(4:8,bold = T, extra_css = "vertical-align:middle;") %>%
     kable_styling(full_width = F, font_size = 16) ##14
 }
 uData$cciss_results_dt <- cciss_results_dt

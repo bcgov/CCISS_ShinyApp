@@ -62,7 +62,7 @@ observeEvent(input$generate_results, priority = 100, {
   ssa <- sort(unique(cciss_results$SS_NoSpace))
   names(ssa) <- paste(
     ssa,
-    stocking_info$SiteSeriesName[match(ssa, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
+    N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
 
   siteseries_list <- uData$siteseries_list <- ssl
