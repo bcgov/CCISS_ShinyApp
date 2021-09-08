@@ -5,7 +5,7 @@
 
 #include <Rcpp.h>
 using namespace Rcpp;
-
+using namespace std;
 // Portfolio simulation
 
 // [[Rcpp::export]]
@@ -18,8 +18,9 @@ NumericVector gs2gw(NumericVector x, double a, double b){
   return(out);
 }
 
+
 // [[Rcpp::export]]
-NumericVector SimGrowth(DataFrame DF, double ProbPest, double cmdMin, 
+NumericVector SimGrowth(DataFrame DF, double cmdMin, 
                         double cmdMax, double tempMin, double tempMax, double climLoss){
   NumericVector Growth = DF["Growth"]; //convert to vectors
   NumericVector NoMort  = DF["NoMort"];
@@ -70,14 +71,7 @@ NumericVector SimGrowth(DataFrame DF, double ProbPest, double cmdMin,
       climDead = nTrees;
     }
     nTrees = nTrees - climDead;
-    if(Rcpp::runif(1,0,1)[0] <= ProbPest){//pest outbreak
-      percentRuin = rgamma(1, Ruin[i], 0.07)[0];
-      if(percentRuin > 1){
-        percentRuin = 1;
-      }
-      numDead = percentRuin*nTrees;
-      nTrees = nTrees - numDead;
-    }else if(Rcpp::runif(1,0,100)[0] > NoMort[i]){//regular environmental loss
+    if(Rcpp::runif(1,0,100)[0] > NoMort[i]){//regular environmental loss
       percentDead = Rcpp::rgamma(1, 1.5, MeanDead[i])[0];
       numDead = (percentDead/100)*prevTrees;
       nTrees = nTrees - numDead;

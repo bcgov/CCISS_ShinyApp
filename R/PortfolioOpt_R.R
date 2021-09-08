@@ -75,7 +75,10 @@ optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
     if(any(is.na(temp))) return(NULL)
     return(temp)
   }
-  result <- slsqp(x0 = rep(1/num_ass,num_ass),fn = .portfolio_volatility,
+  start <- rep(1/num_ass,num_ass)
+  start <- pmin(start,bounds$maxWt)
+  start <- pmax(start,bounds$minWt)
+  result <- slsqp(x0 = start,fn = .portfolio_volatility,
                   lower = bounds$minWt, upper = bounds$maxWt,
                   heq = eq_constr_ret, mean_returns = mean_returns, 
                   cov_matrix = cov_matrix)
