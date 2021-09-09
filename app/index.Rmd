@@ -308,10 +308,8 @@ radioButtons("port_length",label = "Optimisation Period (Rotation Length):",
 rHandsontableOutput("setbounds")
 sliderInput("return_level","Specified Return:", min = 0.5, max = 1,value = 0.9)
 sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 0.05)
-sliderInput("prob_pest","Probability of Pest Outbreak:", min = 0, max = 0.1, value = 0.02)
 actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
-sliderInput("sim_group", "Select Simulation to Plot: ", min = 1, max = 25, value = 1, step = 1)
 ```
 
 

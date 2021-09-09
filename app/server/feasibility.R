@@ -47,7 +47,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
     col.names = c("Tree Species", "Period", "Modelled Feasibility",
                   "CFRG", "Environmental","Establishment",
-                  "Future (cciss)","Improve/Same:Decline"),
+                  "Future (cciss)","Improve/Same:Decline/Unsuitable"),
     table.attr = 'class="table table-hover"') %>%
     add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
                        "Projected Feasibility" = 2, "Trend" = 1)) %>%
