@@ -23,12 +23,15 @@ S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
 use_data(N1,overwrite = T)
-SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
+SIBEC <- fread("~/SIBEC_Modelled/PredSI_Sept2021_2.csv") 
+setnames(SIBEC,old = "SppVar", new = "Spp")
 SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
 SIBEC <- rbind(SIBEC, SIBECnew)
 ###import SI data (currently from BART)
-SIBEC <- SIBEC[,c("SS_NoSpace","Spp","SIPred")] %>% set_colnames(c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
-save(SIBEC,file = "./data/SIBEC.rda")
+setcolorder(SIBEC,c("SS_NoSpace","Spp","SIPred"))
+setnames(SIBEC,c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
+SIBEC <- unique(SIBEC)
+use_data(SIBEC, overwrite = T)
 
 TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in package data
 TreeCols <- TreeCols[HexColour != "",]
