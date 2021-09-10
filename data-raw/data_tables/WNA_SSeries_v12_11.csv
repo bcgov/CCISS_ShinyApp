@@ -53,36 +53,36 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,BGxh1,BGxh1/102,,
 ,,BECv12,BGxh1,BGxh1/103,,
 ,,BECv12,BGxh1,BGxh1/110,,
-,,BECv12,BGxh1,BGxh1/Fm01,Flood,Fm
-,,BECv12,BGxh1,BGxh1/Fm06,Flood,Fm
+,,BECv12,BGxh1,BGxh1/Fm01,Mid fluvial bench,Fm
+,,BECv12,BGxh1,BGxh1/Fm06,Mid fluvial bench,Fm
 ,,BECv10,BGxh1,BGxh1/Gg,,
 ,,BECv12,BGxh2,BGxh2/102,,
 ,,BECv12,BGxh2,BGxh2/110,,
-,,BECv12,BGxh2,BGxh2/Fm01,Flood,Fm
-,,BECv12,BGxh2,BGxh2/Fm05,Flood,Fm
-,,BECv12,BGxh2,BGxh2/Fm06,Flood,Fm
+,,BECv12,BGxh2,BGxh2/Fm01,Mid fluvial bench,Fm
+,,BECv12,BGxh2,BGxh2/Fm05,Mid fluvial bench,Fm
+,,BECv12,BGxh2,BGxh2/Fm06,Mid fluvial bench,Fm
 ,,BECv10,BGxh2,BGxh2/Gg,,
 ,,BECv10,BGxh2,BGxh2/Gs,,
 ,,BECv10,BGxh3,BGxh3/110,Cool aspects/cold air,CAS
 ,,BECv10,BGxh3,BGxh3/111,,
-,,BECv10,BGxh3,BGxh3/112,Flood,Fm
-,,BECv10,BGxh3,BGxh3/113,Flood,Fm
+,,BECv10,BGxh3,BGxh3/112,Mid fluvial bench,Fm
+,,BECv10,BGxh3,BGxh3/113,Mid fluvial bench,Fm
 ,,BECv10,BGxh3,BGxh3/Gg,,
 ,,BECv10,BGxh3,BGxh3/Ro,,
 ,,BECv12,BGxw1,BGxw1/102,,
 ,,BECv12,BGxw1,BGxw1/110,,
 ,,BECv12,BGxw1,BGxw1/111,,
 ,,BECv10,BGxw1,BGxw1/Ff04,,
-,,BECv12,BGxw1,BGxw1/Fm01,Flood,Fm
-,,BECv12,BGxw1,BGxw1/Fm05,Flood,Fm
+,,BECv12,BGxw1,BGxw1/Fm01,Mid fluvial bench,Fm
+,,BECv12,BGxw1,BGxw1/Fm05,Mid fluvial bench,Fm
 ,,BECv10,BGxw1,BGxw1/Gg,,
 ,,BECv10,BGxw1,BGxw1/Ro,,
 ,,BECv10,BGxw2,BGxw2/101,,
 ,,BECv10,BGxw2,BGxw2/110,Cool aspects/cold air,CAS
 ,,BECv10,BGxw2,BGxw2/111,Cool aspects/cold air,CAS
-,,BECv10,BGxw2,BGxw2/112,Flood,Fm
+,,BECv10,BGxw2,BGxw2/112,Mid fluvial bench,Fm
 ,,BECv10,BGxw2,BGxw2/113,,
-,,BECv10,BGxw2,BGxw2/114,Subirrigated,SI
+,,BECv10,BGxw2,BGxw2/114,,
 ,,BECv10,BGxw2,BGxw2/115,,
 ,,BECv10,BGxw2,BGxw2/Gg,,
 ,,BECv10,BGxw2,BGxw2/Ro,,
@@ -259,7 +259,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,p,BECv10,BWBSmk,BWBSmk/104a,Cool aspects/cold air,CA
 ,p,BECv10,BWBSmk,BWBSmk/104b,Cool aspects/cold air,CA
 ,,BECv10,BWBSmk,BWBSmk/110,,
-,,BECv10,BWBSmk,BWBSmk/111,High bench,Fh
+,,BECv10,BWBSmk,BWBSmk/111,High fluvial bench,Fh
 ,,BECv10,BWBSmk,BWBSmk/112,Mid fluvial bench,Fm
 ,,BECv10,BWBSmk,BWBSmk/Gg,Insolation,IN2
 ,,BECv10,BWBSmk,BWBSmk/Ro,,
@@ -322,7 +322,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,AB_2018,BWBSuf,BWBSuf/l,,
 ,,AB_2018,BWBSuf,BWBSuf/m,,
 ,,AB_2018,BWBSuf,BWBSuf/Ro,,
-,,BECv10,BWBSvk,BWBSvk/d,,
+,,BECv10,BWBSvk,BWBSvk/x,,
 ,,BECv10,BWBSvk,BWBSvk/h,,
 ,,BECv10,BWBSvk,BWBSvk/m,,
 ,,BECv10,BWBSwk1,BWBSwk1/101,,
@@ -330,7 +330,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,BWBSwk1,BWBSwk1/103,Insolation,IN
 ,,BECv10,BWBSwk1,BWBSwk1/104,Cool aspects/cold air,CA
 ,,BECv10,BWBSwk1,BWBSwk1/110,,
-,,BECv10,BWBSwk1,BWBSwk1/111,cold air ,CA
+,,BECv10,BWBSwk1,BWBSwk1/111,Cold air influence,CA
 ,,BECv10,BWBSwk1,BWBSwk1/Ro,,
 ,,BECv10,BWBSwk2,BWBSwk2/101,,
 ,,BECv10,BWBSwk2,BWBSwk2/102,,
@@ -338,7 +338,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,BWBSwk2,BWBSwk2/104,Cool aspects/cold air,CA
 ,,BECv10,BWBSwk2,BWBSwk2/110,,
 ,,BECv10,BWBSwk2,BWBSwk2/111,High fluvial bench,Fh
-,,BECv10,BWBSwk2,BWBSwk2/Gg,,IN2
+,,BECv10,BWBSwk2,BWBSwk2/Gg,Insolation,IN2
 ,,BECv10,BWBSwk2,BWBSwk2/Ro,,
 ,,BECv10,BWBSwk3,BWBSwk3/101,,
 ,,BECv10,BWBSwk3,BWBSwk3/102,,
@@ -362,9 +362,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CDFmm,CDFmm/09,Low fluvial bench,Fl
 ,,BECv10,CDFmm,CDFmm/10,,
 ,,BECv10,CDFmm,CDFmm/11,,
-,,BECv10,CDFmm,CDFmm/12,,
-,,BECv10,CDFmm,CDFmm/13,,
-,,BECv10,CDFmm,CDFmm/14,,
+,,BECv10,CDFmm,CDFmm/12,Fluctuating Water Table,FWT
+,,BECv10,CDFmm,CDFmm/13,Fluctuating Water Table,FWT
+,,BECv10,CDFmm,CDFmm/14,Fluctuating Water Table,FWT
 ,,USA_2019,CDFmm_OR,CDFmm_OR/101,,
 ,,USA_2019,CDFmm_OR,CDFmm_OR/102,,
 ,,USA_2019,CDFmm_OR,CDFmm_OR/103,,
@@ -460,9 +460,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHdm,CWHdm/10,Low fluvial bench,Fl
 ,,BECv10,CWHdm,CWHdm/11,,
 ,,BECv10,CWHdm,CWHdm/12,,
-,,BECv10,CWHdm,CWHdm/13,,
-,,BECv10,CWHdm,CWHdm/14,,
-,,BECv10,CWHdm,CWHdm/15,,
+,,BECv10,CWHdm,CWHdm/13,Fluctuating Water Table,FWT
+,,BECv10,CWHdm,CWHdm/14,Fluctuating Water Table,FWT
+,,BECv10,CWHdm,CWHdm/15,Fluctuating Water Table,FWT
 ,,USA_2019,CWHdm_OR,CWHdm_OR/101,,
 ,,USA_2019,CWHdm_OR,CWHdm_OR/102,,
 ,,USA_2019,CWHdm_OR,CWHdm_OR/103,,
@@ -600,11 +600,11 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHvh1,CWHvh1/11,,
 ,,BECv10,CWHvh1,CWHvh1/12,,
 ,,BECv10,CWHvh1,CWHvh1/13,,
-,,BECv10,CWHvh1,CWHvh1/14,,
-,,BECv10,CWHvh1,CWHvh1/15,,
-,,BECv10,CWHvh1,CWHvh1/16,,
-,,BECv10,CWHvh1,CWHvh1/17,,
-,,BECv10,CWHvh1,CWHvh1/18,,
+,,BECv10,CWHvh1,CWHvh1/14,Salt Spray,SS
+,,BECv10,CWHvh1,CWHvh1/15,Salt Spray,SS
+,,BECv10,CWHvh1,CWHvh1/16,Salt Spray,SS
+,,BECv10,CWHvh1,CWHvh1/17,Salt Spray,SS
+,,BECv10,CWHvh1,CWHvh1/18,Salt Spray,SS
 ,s,BECv10,CWHvh2,CWHvh2/01,,
 ,p,BECv10,CWHvh2,CWHvh2/01a,,
 ,p,BECv10,CWHvh2,CWHvh2/01b,,
@@ -631,12 +631,12 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,s,BECv10,CWHvh2,CWHvh2/13,,
 ,p,BECv10,CWHvh2,CWHvh2/13a,,
 ,p,BECv10,CWHvh2,CWHvh2/13b,,
-,,BECv10,CWHvh2,CWHvh2/14,,
-,,BECv10,CWHvh2,CWHvh2/15,,
-,,BECv10,CWHvh2,CWHvh2/16,,
-,,BECv10,CWHvh2,CWHvh2/17,,
-,,BECv10,CWHvh2,CWHvh2/18,,
-,,BECv10,CWHvh2,CWHvh2/19,,
+,,BECv10,CWHvh2,CWHvh2/14,Salt Spray,SS
+,,BECv10,CWHvh2,CWHvh2/15,Salt Spray,SS
+,,BECv10,CWHvh2,CWHvh2/16,Salt Spray,SS
+,,BECv10,CWHvh2,CWHvh2/17,Salt Spray,SS
+,,BECv10,CWHvh2,CWHvh2/18,Salt Spray,SS
+,,BECv10,CWHvh2,CWHvh2/19,Salt Spray,SS
 ,s,BECv10,CWHvh3,CWHvh3/101,,
 ,p,BECv11,CWHvh3,CWHvh3/101a,,
 ,p,BECv11,CWHvh3,CWHvh3/101b,,
@@ -655,7 +655,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,p,BECv10,CWHvh2,CWHvh3/106c,,
 ,s,BECv10,CWHvh2,CWHvh3/110,,
 ,p,BECv10,CWHvh2,CWHvh3/110a,,
-,p,BECv10,CWHvh2,CWHvh3/110b,Flood,Fh
+,p,BECv10,CWHvh2,CWHvh3/110b,High fluvial bench,Fh
 ,p,BECv10,CWHvh2,CWHvh3/110c,,
 ,,BECv10,CWHvh3,CWHvh3/111,High fluvial bench,Fh
 ,,BECv10,CWHvh3,CWHvh3/112,Mid fluvial bench,Fm
@@ -738,7 +738,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,p,BECv10,CWHwh1,CWHwh1/110b,,
 ,s,BECv10,CWHwh1,CWHwh1/111,,
 ,p,BECv10,CWHwh1,CWHwh1/111a,,
-,p,BECv10,CWHwh1,CWHwh1/111b,Flood,Fh
+,p,BECv10,CWHwh1,CWHwh1/111b,High fluvial bench,Fh
 ,p,BECv10,CWHwh1,CWHwh1/111c,,
 ,,BECv10,CWHwh1,CWHwh1/112,High fluvial bench,Fh
 ,,BECv10,CWHwh1,CWHwh1/113,Mid fluvial bench,Fm
@@ -757,7 +757,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHwh2,CWHwh2/110,,
 ,,BECv10,CWHwh2,CWHwh2/111,,
 ,s,BECv10,CWHwh2,CWHwh2/112,,
-,p,BECv11,CWHwh2,CWHwh2/112a,Flood,Fh
+,p,BECv11,CWHwh2,CWHwh2/112a,High fluvial bench,Fh
 ,p,BECv11,CWHwh2,CWHwh2/112b,,
 ,,BECv11,CWHwh2,CWHwh2/Ro,,
 ,s,BECv10,CWHwm,CWHwm/01,,
@@ -827,9 +827,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHxm1,CWHxm1/10,Low fluvial bench,Fl
 ,,BECv10,CWHxm1,CWHxm1/11,,
 ,,BECv10,CWHxm1,CWHxm1/12,,
-,,BECv10,CWHxm1,CWHxm1/13,,
-,,BECv10,CWHxm1,CWHxm1/14,,
-,,BECv10,CWHxm1,CWHxm1/15,,
+,,BECv10,CWHxm1,CWHxm1/13,Fluctating water table,FWT
+,,BECv10,CWHxm1,CWHxm1/14,Fluctating water table,FWT
+,,BECv10,CWHxm1,CWHxm1/15,Fluctating water table,FWT
 ,,BECv10,CWHxm2,CWHxm2/01,,
 ,,BECv10,CWHxm2,CWHxm2/02,,
 ,,BECv10,CWHxm2,CWHxm2/03,,
@@ -842,9 +842,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHxm2,CWHxm2/10,Low fluvial bench,Fl
 ,,BECv10,CWHxm2,CWHxm2/11,,
 ,,BECv10,CWHxm2,CWHxm2/12,,
-,,BECv10,CWHxm2,CWHxm2/13,,
-,,BECv10,CWHxm2,CWHxm2/14,,
-,,BECv10,CWHxm2,CWHxm2/15,,
+,,BECv10,CWHxm2,CWHxm2/13,Fluctating water table,FWT
+,,BECv10,CWHxm2,CWHxm2/14,Fluctating water table,FWT
+,,BECv10,CWHxm2,CWHxm2/15,Fluctating water table,FWT
 ,,AB_2020,ESSFabC,ESSFabC/a,,
 ,,AB_2020,ESSFabC,ESSFabC/b,,
 ,,AB_2020,ESSFabC,ESSFabC/c,,
@@ -945,7 +945,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,ESSFdk1,ESSFdk1/104,,
 ,,BECv11,ESSFdk1,ESSFdk1/110,,
 ,s,BECv11,ESSFdk1,ESSFdk1/111,,
-,p,BECv11,ESSFdk1,ESSFdk1/111a,Flood,Fh
+,p,BECv11,ESSFdk1,ESSFdk1/111a,High fluvial bench,Fh
 ,p,BECv11,ESSFdk1,ESSFdk1/111b,,
 ,,BECv11,ESSFdk1,ESSFdk1/Ro,,
 ,,BECv11,ESSFdk2,ESSFdk2/101,,
@@ -955,7 +955,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,ESSFdk2,ESSFdk2/110,,
 ,,BECv11,ESSFdk2,ESSFdk2/111,,
 ,s,BECv11,ESSFdk2,ESSFdk2/112,,
-,p,BECv11,ESSFdk2,ESSFdk2/112a,Flood,Fh
+,p,BECv11,ESSFdk2,ESSFdk2/112a,High fluvial bench,Fh
 ,p,BECv11,ESSFdk2,ESSFdk2/112b,,
 ,,BECv11,ESSFdk2,ESSFdk2/Ro,,
 ,,BECv10,ESSFdkp,ESSFdkp/00,,
@@ -1002,7 +1002,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFmc,ESSFmc/05,,
 ,,BECv10,ESSFmc,ESSFmc/06,,
 ,,BECv10,ESSFmc,ESSFmc/07,,
-,,BECv10,ESSFmc,ESSFmc/08,snow,SN
+,,BECv10,ESSFmc,ESSFmc/08,Late Snow,SN
 ,,BECv10,ESSFmc,ESSFmc/09,,
 ,,BECv10,ESSFmc,ESSFmc/10,,
 ,,BECv10,ESSFmcp,ESSFmcp/00,,
@@ -1010,7 +1010,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,p,BECv12,ESSFmcw,ESSFmcw/101a,,
 ,p,BECv12,ESSFmcw,ESSFmcw/101b,,
 ,,BECv12,ESSFmcw,ESSFmcw/102,,
-,,BECv12,ESSFmcw,ESSFmcw/103,snow,SN
+,,BECv12,ESSFmcw,ESSFmcw/103,Late Snow,SN
 ,,BECv12,ESSFmcw,ESSFmcw/110,,
 ,,BECv12,ESSFmcw,ESSFmcw/111,,
 ,,BECv12,ESSFmcw,ESSFmcw/Ro,,
@@ -1037,7 +1037,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFmkp,ESSFmkp/00,,
 ,,BECv12,ESSFmkw,ESSFmkw/101,,
 ,,BECv12,ESSFmkw,ESSFmkw/102,,
-,,BECv12,ESSFmkw,ESSFmkw/103,snow,SN
+,,BECv12,ESSFmkw,ESSFmkw/103,Late Snow,SN
 ,,BECv12,ESSFmkw,ESSFmkw/104,,
 ,,BECv12,ESSFmkw,ESSFmkw/110,,
 ,,BECv12,ESSFmkw,ESSFmkw/111,,
@@ -1143,7 +1143,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,ESSFmww,ESSFmww/102,,
 ,,BECv12,ESSFmww,ESSFmww/103,,
 ,,BECv12,ESSFmww,ESSFmww/110,,
-,,BECv10,ESSFun,ESSFun/d,,
+,,BECv10,ESSFun,ESSFun/x,,
 ,,BECv10,ESSFun,ESSFun/h,,
 ,,BECv10,ESSFun,ESSFun/m,,
 ,,BECv10,ESSFunp,ESSFunp/00,,
@@ -1179,7 +1179,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwc2,ESSFwc2/Ro,,
 ,,BECv10,ESSFwc3,ESSFwc3/01,,
 ,,BECv10,ESSFwc3,ESSFwc3/02,,
-,,BECv10,ESSFwc3,ESSFwc3/03,snow,SN
+,,BECv10,ESSFwc3,ESSFwc3/03,Late Snow,SN
 ,,BECv10,ESSFwc3,ESSFwc3/Ro,,
 ,,BECv10,ESSFwc4,ESSFwc4/101,,
 ,,BECv10,ESSFwc4,ESSFwc4/102,,
@@ -1189,14 +1189,14 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwc4,ESSFwc4/110,,
 ,,BECv10,ESSFwc4,ESSFwc4/111,,
 ,s,BECv10,ESSFwc4,ESSFwc4/112,,
-,p,BECv10,ESSFwc4,ESSFwc4/112a,Flood,Fh
+,p,BECv10,ESSFwc4,ESSFwc4/112a,High fluvial bench,Fh
 ,p,BECv10,ESSFwc4,ESSFwc4/112b,,
 ,,BECv10,ESSFwc4,ESSFwc4/Ro,,
 ,,BECv10,ESSFwcp,ESSFwcp/00,,
 ,,BECv10,ESSFwcw,ESSFwcw/101,,
 ,,BECv10,ESSFwcw,ESSFwcw/102,,
 ,,BECv10,ESSFwcw,ESSFwcw/103,,
-,,BECv10,ESSFwcw,ESSFwcw/104,snow,SN
+,,BECv10,ESSFwcw,ESSFwcw/104,Late Snow,SN
 ,,BECv10,ESSFwcw,ESSFwcw/110,,
 ,,BECv10,ESSFwcw,ESSFwcw/Ro,,
 ,,USA_2019,ESSFwh_MT,ESSFwh_MT/101,,
@@ -1210,7 +1210,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwh1,ESSFwh1/104,,
 ,,BECv10,ESSFwh1,ESSFwh1/110,,
 ,s,BECv10,ESSFwh1,ESSFwh1/111,,
-,p,BECv10,ESSFwh1,ESSFwh1/111a,Flood,Fh
+,p,BECv10,ESSFwh1,ESSFwh1/111a,High fluvial bench,Fh
 ,p,BECv10,ESSFwh1,ESSFwh1/111b,,
 ,,BECv10,ESSFwh1,ESSFwh1/Ro,,
 ,,BECv10,ESSFwh2,ESSFwh2/101,,
@@ -1220,7 +1220,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwh2,ESSFwh2/110,,
 ,,BECv10,ESSFwh2,ESSFwh2/111,,
 ,s,BECv10,ESSFwh2,ESSFwh2/112,,
-,p,BECv10,ESSFwh2,ESSFwh2/112a,Flood,Fh
+,p,BECv10,ESSFwh2,ESSFwh2/112a,High fluvial bench,Fh
 ,p,BECv10,ESSFwh2,ESSFwh2/112b,,
 ,,BECv10,ESSFwh2,ESSFwh2/Ro,,
 ,,BECv10,ESSFwh3,ESSFwh3/101,,
@@ -1230,7 +1230,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwh3,ESSFwh3/110,,
 ,,BECv10,ESSFwh3,ESSFwh3/111,,
 ,s,BECv10,ESSFwh3,ESSFwh3/112,,
-,p,BECv10,ESSFwh3,ESSFwh3/112a,Flood,Fh
+,p,BECv10,ESSFwh3,ESSFwh3/112a,High fluvial bench,Fh
 ,p,BECv10,ESSFwh3,ESSFwh3/112b,,
 ,,BECv10,ESSFwh3,ESSFwh3/Ro,,
 ,,BECv10,ESSFwk1,ESSFwk1/01,,
@@ -1269,7 +1269,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwm2,ESSFwm2/110,,
 ,,BECv10,ESSFwm2,ESSFwm2/111,,
 ,s,BECv10,ESSFwm2,ESSFwm2/112,,
-,p,BECv10,ESSFwm2,ESSFwm2/112a,Flood,Fh
+,p,BECv10,ESSFwm2,ESSFwm2/112a,High fluvial bench,Fh
 ,p,BECv10,ESSFwm2,ESSFwm2/112b,,
 ,,BECv10,ESSFwm2,ESSFwm2/Ro,,
 ,,BECv10,ESSFwm3,ESSFwm3/101,,
@@ -1280,7 +1280,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwm3,ESSFwm3/110,,
 ,,BECv10,ESSFwm3,ESSFwm3/111,,
 ,s,BECv10,ESSFwm3,ESSFwm3/112,,
-,p,BECv10,ESSFwm3,ESSFwm3/112a,Flood,Fh
+,p,BECv10,ESSFwm3,ESSFwm3/112a,High fluvial bench,Fh
 ,p,BECv10,ESSFwm3,ESSFwm3/112b,,
 ,,BECv10,ESSFwm3,ESSFwm3/Ro,,
 ,,BECv10,ESSFwm4,ESSFwm4/101,,
@@ -1310,9 +1310,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ESSFwvp,ESSFwvp/00,,
 ,,BECv12,ESSFwvw,ESSFwvw/101,,
 ,,BECv12,ESSFwvw,ESSFwvw/102,,
-,,BECv12,ESSFwvw,ESSFwvw/103,snow,SN
+,,BECv12,ESSFwvw,ESSFwvw/103,Late Snow,SN
 ,,BECv12,ESSFwvw,ESSFwvw/104,,
-,,BECv12,ESSFwvw,ESSFwvw/105,Cold aspect,CAS
+,,BECv12,ESSFwvw,ESSFwvw/105,Cool aspects/cold air,CAS
 ,,BECv12,ESSFwvw,ESSFwvw/110,,
 ,,BECv12,ESSFwvw,ESSFwvw/111,,
 ,,BECv12,ESSFwvw,ESSFwvw/Ro,,
@@ -1333,7 +1333,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,ESSFxc1,ESSFxc1/103,,
 ,,BECv12,ESSFxc1,ESSFxc1/104,,
 ,,BECv12,ESSFxc1,ESSFxc1/105,,
-,,BECv12,ESSFxc1,ESSFxc1/110,Cold aspect,CAS
+,,BECv12,ESSFxc1,ESSFxc1/110,Cool aspects/cold air,CAS
 ,,BECv12,ESSFxc1,ESSFxc1/111,,
 ,,BECv12,ESSFxc1,ESSFxc1/112,,
 ,,BECv12,ESSFxc1,ESSFxc1/113,,
@@ -1343,7 +1343,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,s,BECv12,ESSFxc2,ESSFxc2/103,,
 ,p,BECv12,ESSFxc2,ESSFxc2/103a,,
 ,p,BECv12,ESSFxc2,ESSFxc2/103b,,
-,,BECv12,ESSFxc2,ESSFxc2/110,Cold aspect,CAS
+,,BECv12,ESSFxc2,ESSFxc2/110,Cool aspects/cold air,CAS
 ,,BECv12,ESSFxc2,ESSFxc2/111,,
 ,,BECv12,ESSFxc2,ESSFxc2/112,,
 ,,BECv10,ESSFxc2,ESSFxc2/Gg,,
@@ -1494,9 +1494,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHdm,ICHdm/110,,
 ,,BECv10,ICHdm,ICHdm/111,,
 ,,BECv10,ICHdm,ICHdm/112,Cold air influence,CA
-,,BECv10,ICHdm,ICHdm/Fm01,,Fm
-,,BECv10,ICHdm,ICHdm/Fm02,,Fm
-,,BECv10,ICHdm,ICHdm/Fm04,,Fm
+,,BECv10,ICHdm,ICHdm/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHdm,ICHdm/Fm02,Mid fluvial bench,Fm
+,,BECv10,ICHdm,ICHdm/Fm04,Mid fluvial bench,Fm
 ,,BECv10,ICHdm,ICHdm/Ro,,
 ,,USA_2019,ICHdw_ID,ICHdw_ID/101,,
 ,,USA_2019,ICHdw_ID,ICHdw_ID/102,,
@@ -1514,9 +1514,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHdw1,ICHdw1/111,,
 ,,BECv10,ICHdw1,ICHdw1/112,,
 ,,BECv10,ICHdw1,ICHdw1/113,,
-,,BECv10,ICHdw1,ICHdw1/Fm01,,Fm
-,,BECv10,ICHdw1,ICHdw1/Fm02,,Fm
-,,BECv10,ICHdw1,ICHdw1/Fm04,,Fm
+,,BECv10,ICHdw1,ICHdw1/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHdw1,ICHdw1/Fm02,Mid fluvial bench,Fm
+,,BECv10,ICHdw1,ICHdw1/Fm04,Mid fluvial bench,Fm
 ,,BECv10,ICHdw1,ICHdw1/Ro,,
 ,,BECv10,ICHdw3,ICHdw3/01,,
 ,,BECv10,ICHdw3,ICHdw3/02,,
@@ -1524,7 +1524,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHdw3,ICHdw3/04,,
 ,,BECv10,ICHdw3,ICHdw3/05,,
 ,,BECv10,ICHdw3,ICHdw3/06,,
-,,BECv10,ICHdw3,ICHdw3/07,High and Medium fluvial bench (often),Fm
+,,BECv10,ICHdw3,ICHdw3/07,High and Medium fluvial bench,Fm
 ,,BECv10,ICHdw3,ICHdw3/08,,
 ,,BECv10,ICHdw3,ICHdw3/09,,
 ,,BECv10,ICHdw3,ICHdw3/Ro,,
@@ -1535,9 +1535,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHdw4,ICHdw4/110,,
 ,,BECv10,ICHdw4,ICHdw4/111,,
 ,,BECv10,ICHdw4,ICHdw4/112,,
-,,BECv10,ICHdw4,ICHdw4/Fm01,,Fm
-,,BECv10,ICHdw4,ICHdw4/Fm02,,Fm
-,,BECv10,ICHdw4,ICHdw4/Fm04,,Fm
+,,BECv10,ICHdw4,ICHdw4/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHdw4,ICHdw4/Fm02,Mid fluvial bench,Fm
+,,BECv10,ICHdw4,ICHdw4/Fm04,Mid fluvial bench,Fm
 ,,BECv10,ICHdw4,ICHdw4/Ro,,
 ,s,BECv10,ICHmc1,ICHmc1/01,,
 ,p,BECv10,ICHmc1,ICHmc1/01a,,
@@ -1556,18 +1556,18 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHmc1a,ICHmc1a/Ro,,
 ,s,BECv10,ICHmc2,ICHmc2/01,,
 ,p,BECv10,ICHmc2,ICHmc2/01a.1,,
-,p,BECv10,ICHmc2,ICHmc2/01a.2,frost,FR
+,p,BECv10,ICHmc2,ICHmc2/01a.2,Frost,FR
 ,p,BECv10,ICHmc2,ICHmc2/01b.1,,
-,p,BECv10,ICHmc2,ICHmc2/01b.2,frost,FR
+,p,BECv10,ICHmc2,ICHmc2/01b.2,Frost,FR
 ,,BECv10,ICHmc2,ICHmc2/02,,
 ,,BECv10,ICHmc2,ICHmc2/03,,
 ,,BECv10,ICHmc2,ICHmc2/04,,
 ,,BECv10,ICHmc2,ICHmc2/05,Cold air influence,CA
 ,s,BECv10,ICHmc2,ICHmc2/06,High and Medium fluvial bench,Fm
 ,p,BECv10,ICHmc2,ICHmc2/06a,,Fh
-,p,BECv10,ICHmc2,ICHmc2/06b,,Fm
+,p,BECv10,ICHmc2,ICHmc2/06b,Mid fluvial bench,Fm
 ,,BECv10,ICHmc2,ICHmc2/07,,
-,,BECv10,ICHmc2,ICHmc2/08,FROST,FR
+,,BECv10,ICHmc2,ICHmc2/08,Frost,FR
 ,,BECv10,ICHmc2,ICHmc2/Ro,,
 ,,USA_2019,ICHmh_MT,ICHmh_MT/101,,
 ,,USA_2019,ICHmh_MT,ICHmh_MT/102,,
@@ -1608,8 +1608,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,ICHmk4,ICHmk4/110,,
 ,,BECv11,ICHmk4,ICHmk4/111,,
 ,,BECv11,ICHmk4,ICHmk4/112,,
-,,BECv11,ICHmk4,ICHmk4/Fm01,,Fm
-,,BECv11,ICHmk4,ICHmk4/Fm02,,Fm
+,,BECv11,ICHmk4,ICHmk4/Fm01,Mid fluvial bench,Fm
+,,BECv11,ICHmk4,ICHmk4/Fm02,Mid fluvial bench,Fm
 ,,BECv11,ICHmk4,ICHmk4/Ro,,
 ,,BECv11,ICHmk5,ICHmk5/101,,
 ,,BECv11,ICHmk5,ICHmk5/102,,
@@ -1653,9 +1653,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHmw2,ICHmw2/112,Cold air influence,CA
 ,,BECv10,ICHmw2,ICHmw2/113,,
 ,,BECv10,ICHmw2,ICHmw2/114,,
-,,BECv10,ICHmw2,ICHmw2/Fm01,,Fm
-,,BECv10,ICHmw2,ICHmw2/Fm02,,Fm
-,,BECv10,ICHmw2,ICHmw2/Fm04,,Fm
+,,BECv10,ICHmw2,ICHmw2/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHmw2,ICHmw2/Fm02,Mid fluvial bench,Fm
+,,BECv10,ICHmw2,ICHmw2/Fm04,Mid fluvial bench,Fm
 ,,BECv10,ICHmw2,ICHmw2/Ro,,
 ,,BECv10,ICHmw3,ICHmw3/01,,
 ,,BECv10,ICHmw3,ICHmw3/02,,
@@ -1663,7 +1663,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHmw3,ICHmw3/04,,
 ,,BECv10,ICHmw3,ICHmw3/05,,
 ,,BECv10,ICHmw3,ICHmw3/06,,
-,,BECv10,ICHmw3,ICHmw3/07,High and Medium fluvial bench (often),Fm
+,,BECv10,ICHmw3,ICHmw3/07,High and Medium fluvial bench,Fm
 ,,BECv10,ICHmw3,ICHmw3/08,,
 ,,BECv10,ICHmw3,ICHmw3/09,,
 ,,BECv10,ICHmw4,ICHmw4/101,,
@@ -1675,9 +1675,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHmw4,ICHmw4/112,,
 ,,BECv10,ICHmw4,ICHmw4/113,Cold air influence,CA
 ,,BECv10,ICHmw4,ICHmw4/114,,
-,,BECv10,ICHmw4,ICHmw4/Fm01,,Fm
-,,BECv10,ICHmw4,ICHmw4/Fm02,,Fm
-,,BECv10,ICHmw4,ICHmw4/Fm04,,Fm
+,,BECv10,ICHmw4,ICHmw4/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHmw4,ICHmw4/Fm02,Mid fluvial bench,Fm
+,,BECv10,ICHmw4,ICHmw4/Fm04,Mid fluvial bench,Fm
 ,,BECv10,ICHmw4,ICHmw4/Ro,,
 ,,BECv10,ICHmw5,ICHmw5/101,,
 ,,BECv10,ICHmw5,ICHmw5/102,,
@@ -1687,8 +1687,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHmw5,ICHmw5/111,,
 ,,BECv10,ICHmw5,ICHmw5/112,,
 ,,BECv10,ICHmw5,ICHmw5/113,,
-,,BECv10,ICHmw5,ICHmw5/Fm01,,Fm
-,,BECv10,ICHmw5,ICHmw5/Fm02,,Fm
+,,BECv10,ICHmw5,ICHmw5/Fm01,Mid fluvial bench,Fm
+,,BECv10,ICHmw5,ICHmw5/Fm02,Mid fluvial bench,Fm
 ,,BECv10,ICHmw5,ICHmw5/Ro,,
 ,,BECv10,ICHvc,ICHvc/01,,
 ,v,BECv10,ICHvc,ICHvc/01.1,,
@@ -1811,7 +1811,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,ICHxwa,ICHxwa/111,,
 ,,BECv10,ICHxwa,ICHxwa/112,,
 ,,BECv10,ICHxwa,ICHxwa/113,,
-,,BECv10,ICHxwa,ICHxwa/Fm01,,Fm
+,,BECv10,ICHxwa,ICHxwa/Fm01,Mid fluvial bench,Fm
 ,,BECv10,ICHxwa,ICHxwa/Ro,,
 ,,BECv10,IDFdc,IDFdc/01,,
 ,,BECv10,IDFdc,IDFdc/02,,
@@ -1828,8 +1828,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,IDFdh,IDFdh/104,,
 ,,BECv12,IDFdh,IDFdh/110,,
 ,,BECv12,IDFdh,IDFdh/111,,
-,,BECv12,IDFdh,IDFdh/Fm01,,Fm
-,,BECv12,IDFdh,IDFdh/Fm05,,Fm
+,,BECv12,IDFdh,IDFdh/Fm01,Mid fluvial bench,Fm
+,,BECv12,IDFdh,IDFdh/Fm05,Mid fluvial bench,Fm
 ,,BECv12,IDFdh,IDFdh/Ro,,
 ,,USA_2019,IDFdh_MT,IDFdh_MT/101,,
 ,,USA_2019,IDFdh_MT,IDFdh_MT/102,,
@@ -1878,8 +1878,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,IDFdk1,IDFdk1/105,Cold air influence,CA
 ,,BECv12,IDFdk1,IDFdk1/110,,
 ,,BECv12,IDFdk1,IDFdk1/111,,
-,,BECv12,IDFdk1,IDFdk1/Fm02,Flood,Fm
-,,BECv12,IDFdk1,IDFdk1/Fm05,Flood,Fm
+,,BECv12,IDFdk1,IDFdk1/Fm02,Mid fluvial bench,Fm
+,,BECv12,IDFdk1,IDFdk1/Fm05,Mid fluvial bench,Fm
 ,,BECv10,IDFdk1,IDFdk1/Gg1,Insolation,IN2
 ,,BECv10,IDFdk1,IDFdk1/Gg2,Insolation,IN2
 ,,BECv10,IDFdk1,IDFdk1/Ro,,
@@ -1890,7 +1890,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,IDFdk2,IDFdk2/105,Cold air influence,CA
 ,,BECv12,IDFdk2,IDFdk2/110,,
 ,,BECv12,IDFdk2,IDFdk2/111,,
-,,BECv12,IDFdk2,IDFdk2/Fm02,Flood,Fm
+,,BECv12,IDFdk2,IDFdk2/Fm02,Mid fluvial bench,Fm
 ,,BECv10,IDFdk2,IDFdk2/Gg,Insolation,IN2
 ,,BECv10,IDFdk3,IDFdk3/01,,
 ,,BECv10,IDFdk3,IDFdk3/02,Insolation,IN
@@ -1908,7 +1908,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,IDFdk4,IDFdk4/04,Insolation,IN
 ,,BECv10,IDFdk4,IDFdk4/05,,
 ,,BECv10,IDFdk4,IDFdk4/06,,
-,,BECv10,IDFdk4,IDFdk4/07,Cool aspect,CAS
+,,BECv10,IDFdk4,IDFdk4/07,Cool aspects,CAS
 ,,BECv10,IDFdk4,IDFdk4/08,Cold air influence,CA
 ,,BECv10,IDFdk4,IDFdk4/09,,
 ,,BECv10,IDFdk4,IDFdk4/10,,
@@ -1919,9 +1919,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,IDFdk5,IDFdk5/104,,
 ,,BECv11,IDFdk5,IDFdk5/110,,
 ,,BECv11,IDFdk5,IDFdk5/111,Cold air influence,CA
-,,BECv11,IDFdk5,IDFdk5/Fm01,,Fm
-,,BECv11,IDFdk5,IDFdk5/Fm02,,Fm
-,,BECv11,IDFdk5,IDFdk5/Fm07,,Fm
+,,BECv11,IDFdk5,IDFdk5/Fm01,Mid fluvial bench,Fm
+,,BECv11,IDFdk5,IDFdk5/Fm02,Mid fluvial bench,Fm
+,,BECv11,IDFdk5,IDFdk5/Fm07,Mid fluvial bench,Fm
 ,,BECv11,IDFdk5,IDFdk5/Ro,,
 ,,USA_2020,IDFdkx_MT,IDFdkx_MT/101,,
 ,,USA_2020,IDFdkx_MT,IDFdkx_MT/102,,
@@ -1956,8 +1956,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,v,BECv12,IDFdm1,IDFdm1/110.2,,
 ,,BECv12,IDFdm1,IDFdm1/111,,
 ,,BECv12,IDFdm1,IDFdm1/112,Cold air influence,CA
-,,BECv12,IDFdm1,IDFdm1/Fm01,,Fm
-,,BECv12,IDFdm1,IDFdm1/Fm05,,Fm
+,,BECv12,IDFdm1,IDFdm1/Fm01,Mid fluvial bench,Fm
+,,BECv12,IDFdm1,IDFdm1/Fm05,Mid fluvial bench,Fm
 ,,BECv12,IDFdm1,IDFdm1/Ro,,
 ,,BECv11,IDFdm2,IDFdm2/101,,
 ,,BECv11,IDFdm2,IDFdm2/102,,
@@ -1966,7 +1966,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,IDFdm2,IDFdm2/110,,
 ,,BECv11,IDFdm2,IDFdm2/111,,
 ,s,BECv11,IDFdm2,IDFdm2/112,,
-,p,BECv11,IDFdm2,IDFdm2/112a,Flood,Fh
+,p,BECv11,IDFdm2,IDFdm2/112a,Mid fluvial bench,Fh
 ,p,BECv11,IDFdm2,IDFdm2/112b,,
 ,,BECv11,IDFdm2,IDFdm2/Ro,,
 ,,BECv10,IDFdw,IDFdw/A1,,
@@ -2050,20 +2050,20 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,v,BECv12,IDFxh1,IDFxh1/111.1,,
 ,v,BECv12,IDFxh1,IDFxh1/111.2,,
 ,,BECv12,IDFxh1,IDFxh1/112,,
-,,BECv12,IDFxh1,IDFxh1/Fm01,Flood,Fm
-,,BECv12,IDFxh1,IDFxh1/Fm05,Flood,Fm
+,,BECv12,IDFxh1,IDFxh1/Fm01,Mid fluvial bench,Fm
+,,BECv12,IDFxh1,IDFxh1/Fm05,Mid fluvial bench,Fm
 ,,BECv10,IDFxh1,IDFxh1/Gg,Insolation,IN2
 ,,BECv12,IDFxh2,IDFxh2/101,,
 ,,BECv12,IDFxh2,IDFxh2/102,,
 ,,BECv12,IDFxh2,IDFxh2/103,Insolation,IN
 ,,BECv12,IDFxh2,IDFxh2/104,,
-,,BECv12,IDFxh2,IDFxh2/110,cool aspect,CAS
+,,BECv12,IDFxh2,IDFxh2/110,Cool aspects,CAS
 ,,BECv12,IDFxh2,IDFxh2/111,,
 ,,BECv12,IDFxh2,IDFxh2/112,,
 ,,BECv12,IDFxh2,IDFxh2/113,,
-,,BECv12,IDFxh2,IDFxh2/Fm01,Flood,Fm
-,,BECv12,IDFxh2,IDFxh2/Fm02,Flood,Fm
-,,BECv12,IDFxh2,IDFxh2/Fm05,Flood,Fm
+,,BECv12,IDFxh2,IDFxh2/Fm01,Mid fluvial bench,Fm
+,,BECv12,IDFxh2,IDFxh2/Fm02,Mid fluvial bench,Fm
+,,BECv12,IDFxh2,IDFxh2/Fm05,Mid fluvial bench,Fm
 ,,BECv10,IDFxh2,IDFxh2/Gg,Insolation,IN2
 ,,BECv11,IDFxk,IDFxk/101,,
 ,s,BECv11,IDFxk,IDFxk/102,,
@@ -2074,9 +2074,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,IDFxk,IDFxk/111,,
 ,,BECv11,IDFxk,IDFxk/112,Cold air influence,CA
 ,,BECv11,IDFxk,IDFxk/113,Cold air influence,CA
-,,BECv11,IDFxk,IDFxk/Fm01,,Fm
-,,BECv11,IDFxk,IDFxk/Fm02,,Fm
-,,BECv11,IDFxk,IDFxk/Fm07,,Fm
+,,BECv11,IDFxk,IDFxk/Fm01,Mid fluvial bench,Fm
+,,BECv11,IDFxk,IDFxk/Fm02,Mid fluvial bench,Fm
+,,BECv11,IDFxk,IDFxk/Fm07,Mid fluvial bench,Fm
 ,,BECv11,IDFxk,IDFxk/Ro,,
 ,s,BECv10,IDFxm,IDFxm/01,,
 ,p,BECv10,IDFxm,IDFxm/01a,,
@@ -2139,11 +2139,11 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,IDFxx2,IDFxx2/110,Cool aspects,CAS
 ,,BECv11,IDFxx2,IDFxx2/111,,
 ,s,BECv11,IDFxx2,IDFxx2/112,,
-,p,BECv11,IDFxx2,IDFxx2/112a,Flood,Fh
+,p,BECv11,IDFxx2,IDFxx2/112a,High fluvial bench,Fh
 ,p,BECv11,IDFxx2,IDFxx2/112b,Cold air influence,CA
-,,BECv11,IDFxx2,IDFxx2/Fm01,Flood,Fm
-,,BECv11,IDFxx2,IDFxx2/Fm02,Flood,Fm
-,,BECv11,IDFxx2,IDFxx2/Fm07,Flood,Fm
+,,BECv11,IDFxx2,IDFxx2/Fm01,Mid fluvial bench,Fm
+,,BECv11,IDFxx2,IDFxx2/Fm02,Mid fluvial bench,Fm
+,,BECv11,IDFxx2,IDFxx2/Fm07,Mid fluvial bench,Fm
 ,,BECv11,IDFxx2,IDFxx2/Ro,,
 ,,USA_2019,IGFdk_WA,IGFdk_WA/101,,
 ,,USA_2019,IGFdk_WA,IGFdk_WA/102,,
@@ -2322,7 +2322,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,MHmm2,MHmm2/07,,
 ,,BECv10,MHmm2,MHmm2/08,,
 ,,BECv10,MHmm2,MHmm2/09,,
-,,BECv10,MHmmp,MHmmp/d,,
+,,BECv10,MHmmp,MHmmp/x,,
 ,,BECv10,MHmmp,MHmmp/h,,
 ,,BECv10,MHmmp,MHmmp/m,,
 ,,USA_2019,MHmmp_WA,MHmmp_WA/00,,
@@ -2353,7 +2353,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,USA_2019,MHRFmm_OR,MHRFmm_OR/Ro,,
 ,,USA_2019,MHRFmmp_OR,MHRFmmp_OR/00,,
 ,,USA_2019,MHRFmmp_OR,MHRFmmp_OR/Ro,,
-,,BECv10,MHun,MHun/d,,
+,,BECv10,MHun,MHun/x,,
 ,,BECv10,MHun,MHun/h,,
 ,,BECv10,MHun,MHun/m,,
 ,,BECv10,MHunp,MHunp/00,,
@@ -2437,15 +2437,15 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,MSdk,MSdk/103,Insolation,IN
 ,,BECv11,MSdk,MSdk/104,Cold air influence,CA
 ,,BECv11,MSdk,MSdk/105,,
-,,BECv11,MSdk,MSdk/110,Subirrigated,SI
+,,BECv11,MSdk,MSdk/110,,
 ,s,BECv11,MSdk,MSdk/111,,
-,p,BECv11,MSdk,MSdk/111a, ,Fh
+,p,BECv11,MSdk,MSdk/111a,High fluvial bench,Fh
 ,p,BECv11,MSdk,MSdk/111b,,
 ,s,BECv11,MSdk,MSdk/112,,
-,p,BECv11,MSdk,MSdk/112a,Flood,Fh
+,p,BECv11,MSdk,MSdk/112a,High fluvial bench,Fh
 ,p,BECv11,MSdk,MSdk/112b,,
-,,BECv12,MSdk,MSdk/Fm01,,Fm
-,,BECv12,MSdk,MSdk/Fm02,,Fm
+,,BECv12,MSdk,MSdk/Fm01,Mid fluvial bench,Fm
+,,BECv12,MSdk,MSdk/Fm02,Mid fluvial bench,Fm
 ,,BECv11,MSdk,MSdk/Ro,,
 ,,USA_2019,MSdk_CO,MSdk_CO/101,,
 ,,USA_2019,MSdk_CO,MSdk_CO/102,,
@@ -2471,7 +2471,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,MSdm1,MSdm1/111,,
 ,,BECv12,MSdm1,MSdm1/112,,
 ,,BECv12,MSdm1,MSdm1/113,,
-,,BECv12,MSdm1,MSdm1/Fm02,,Fm
+,,BECv12,MSdm1,MSdm1/Fm02,Mid fluvial bench,Fm
 ,,BECv12,MSdm1,MSdm1/Ro,,
 ,,BECv12,MSdm2,MSdm2/101,,
 ,,BECv12,MSdm2,MSdm2/102,,
@@ -2506,11 +2506,11 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv11,MSdw,MSdw/104,,
 ,,BECv11,MSdw,MSdw/110,,
 ,s,BECv11,MSdw,MSdw/111,,
-,p,BECv11,MSdw,MSdw/111a,Flood,Fh
+,p,BECv11,MSdw,MSdw/111a,High fluvial bench,Fh
 ,p,BECv11,MSdw,MSdw/111b,,
 ,,BECv11,MSdw,MSdw/112,Cold air influence,CA
-,,BECv11,MSdw,MSdw/Fm01,Flood,Fm
-,,BECv11,MSdw,MSdw/Fm02,Flood,Fm
+,,BECv11,MSdw,MSdw/Fm01,Mid fluvial bench,Fm
+,,BECv11,MSdw,MSdw/Fm02,Mid fluvial bench,Fm
 ,,BECv11,MSdw,MSdw/Ro,,
 ,,USA_2019,MSdw_MT,MSdw_MT/101,,
 ,,USA_2019,MSdw_MT,MSdw_MT/102,,
@@ -2639,11 +2639,11 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv12,PPxh1,PPxh1/102,,
 ,,BECv12,PPxh1,PPxh1/103,,
 ,,BECv12,PPxh1,PPxh1/104,,
-,,BECv12,PPxh1,PPxh1/110,cool aspect,CAS
+,,BECv12,PPxh1,PPxh1/110,Cool aspects,CAS
 ,,BECv12,PPxh1,PPxh1/111,,
-,,BECv12,PPxh1,PPxh1/Fm01,Flood,Fm
-,,BECv12,PPxh1,PPxh1/Fm05,Flood,Fm
-,,BECv12,PPxh1,PPxh1/Fm06,Flood,Fm
+,,BECv12,PPxh1,PPxh1/Fm01,Mid fluvial bench,Fm
+,,BECv12,PPxh1,PPxh1/Fm05,Mid fluvial bench,Fm
+,,BECv12,PPxh1,PPxh1/Fm06,Mid fluvial bench,Fm
 ,,BECv10,PPxh1,PPxh1/Gg,Insolation,IN2
 ,,BECv10,PPxh1,PPxh1/Gs,Insolation,IN2
 ,,BECv10,PPxh1,PPxh1/Ro,,
@@ -2652,12 +2652,12 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,s,BECv12,PPxh2,PPxh2/103,,
 ,p,BECv12,PPxh2,PPxh2/103a,Insolation,IN
 ,p,BECv12,PPxh2,PPxh2/103b,,
-,,BECv12,PPxh2,PPxh2/110,cool aspect,CAS
-,v,BECv12,PPxh2,PPxh2/110.1,cool aspect,CAS
-,v,BECv12,PPxh2,PPxh2/110.2,cool aspect,CAS
+,,BECv12,PPxh2,PPxh2/110,Cool aspects,CAS
+,v,BECv12,PPxh2,PPxh2/110.1,Cool aspects,CAS
+,v,BECv12,PPxh2,PPxh2/110.2,Cool aspects,CAS
 ,,BECv12,PPxh2,PPxh2/111,,
-,,BECv12,PPxh2,PPxh2/Fm01,Flood,Fm
-,,BECv12,PPxh2,PPxh2/Fm05,Flood,Fm
+,,BECv12,PPxh2,PPxh2/Fm01,Mid fluvial bench,Fm
+,,BECv12,PPxh2,PPxh2/Fm05,Mid fluvial bench,Fm
 ,,BECv10,PPxh2,PPxh2/Gg,Insolation,IN2
 ,,USA_2019,PPxk_OR,PPxk_OR/101,,
 ,,USA_2019,PPxk_OR,PPxk_OR/102,,
@@ -2789,11 +2789,11 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSdk,SBSdk/05,,
 ,,BECv10,SBSdk,SBSdk/06,,
 ,s,BECv10,SBSdk,SBSdk/07,,
-,p,BECv10,SBSdk,SBSdk/07a,Flood,Fh
+,p,BECv10,SBSdk,SBSdk/07a,High fluvial bench,Fh
 ,p,BECv10,SBSdk,SBSdk/07b,,
 ,s,BECv10,SBSdk,SBSdk/08,High and Medium fluvial bench,Fm
-,p,BECv10,SBSdk,SBSdk/08a,Flood,Fh
-,p,BECv10,SBSdk,SBSdk/08b,Flood,Fm
+,p,BECv10,SBSdk,SBSdk/08a,High fluvial bench,Fh
+,p,BECv10,SBSdk,SBSdk/08b,Mid fluvial bench,Fm
 ,,BECv10,SBSdk,SBSdk/09,Cold air influence,CA
 ,,BECv10,SBSdk,SBSdk/10,Cold air influence,CA
 ,,BECv10,SBSdk,SBSdk/Gg,Insolation,IN2
@@ -2804,7 +2804,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSdw1,SBSdw1/04,,
 ,,BECv10,SBSdw1,SBSdw1/05,Cool aspects,CAS
 ,,BECv10,SBSdw1,SBSdw1/06,,
-,,BECv10,SBSdw1,SBSdw1/07,,Fh
+,,BECv10,SBSdw1,SBSdw1/07,High fluvial bench,Fh
 ,,BECv10,SBSdw1,SBSdw1/08,,
 ,,BECv10,SBSdw1,SBSdw1/09,,
 ,,BECv10,SBSdw1,SBSdw1/Ro,,
@@ -2882,7 +2882,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSmh,SBSmh/05,,
 ,,BECv10,SBSmh,SBSmh/06,,
 ,,BECv10,SBSmh,SBSmh/07,,
-,,BECv10,SBSmh,SBSmh/08,High fluvial benches mostly,Fh
+,,BECv10,SBSmh,SBSmh/08,High fluvial bench,Fh
 ,,BECv10,SBSmh,SBSmh/09,,
 ,,BECv10,SBSmh,SBSmh/Ro,,
 ,,BECv10,SBSmk1,SBSmk1/01,,
@@ -2892,9 +2892,9 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSmk1,SBSmk1/05,,
 ,,BECv10,SBSmk1,SBSmk1/06,Cool aspects/cold air,CA
 ,,BECv10,SBSmk1,SBSmk1/07,,
-,,BECv10,SBSmk1,SBSmk1/08,Flood,Fh
+,,BECv10,SBSmk1,SBSmk1/08,High fluvial bench,Fh
 ,s,BECv10,SBSmk1,SBSmk1/09,,
-,p,BECv10,SBSmk1,SBSmk1/09a,Flood,Fh
+,p,BECv10,SBSmk1,SBSmk1/09a,High fluvial bench,Fh
 ,p,BECv10,SBSmk1,SBSmk1/09b,,
 ,,BECv10,SBSmk1,SBSmk1/10,,
 ,,BECv10,SBSmk1,SBSmk1/Ro,,
@@ -2903,7 +2903,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSmk2,SBSmk2/03,,
 ,,BECv10,SBSmk2,SBSmk2/04,Cool aspects/cold air,CA
 ,,BECv10,SBSmk2,SBSmk2/05,,
-,,BECv10,SBSmk2,SBSmk2/06,High fluvial benches mostly,Fh
+,,BECv10,SBSmk2,SBSmk2/06,High fluvial bench,Fh
 ,,BECv10,SBSmk2,SBSmk2/Ro,,
 ,,BECv10,SBSmm,SBSmm/01,,
 ,,BECv10,SBSmm,SBSmm/02,,
@@ -2912,7 +2912,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSmm,SBSmm/05,,
 ,,BECv10,SBSmm,SBSmm/06,,
 ,,BECv10,SBSmm,SBSmm/07,,
-,,BECv10,SBSmm,SBSmm/08,High fluvial benches mostly,Fh
+,,BECv10,SBSmm,SBSmm/08,High fluvial bench,Fh
 ,,BECv10,SBSmm,SBSmm/09,,
 ,,BECv10,SBSmm,SBSmm/Ro,,
 ,,BECv10,SBSmw,SBSmw/01,,
@@ -2921,12 +2921,12 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSmw,SBSmw/04,Insolation,IN
 ,,BECv10,SBSmw,SBSmw/05,Cool aspects/cold air,CA
 ,,BECv10,SBSmw,SBSmw/06,,
-,,BECv10,SBSmw,SBSmw/07,Subirrigated,SI
-,,BECv10,SBSmw,SBSmw/08,Subirrigated,SI
+,,BECv10,SBSmw,SBSmw/07,,
+,,BECv10,SBSmw,SBSmw/08,,
 ,,BECv10,SBSmw,SBSmw/09,,
 ,,BECv10,SBSmw,SBSmw/10,,
 ,,BECv10,SBSmw,SBSmw/Ro,,
-,,BECv10,SBSun,SBSun/d,,
+,,BECv10,SBSun,SBSun/x,,
 ,,BECv10,SBSun,SBSun/h,,
 ,,BECv10,SBSun,SBSun/m,,
 ,,BECv10,SBSvk,SBSvk/01,,
@@ -2976,7 +2976,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SBSwk3a,SBSwk3a/05,Cool aspects/cold air,CA
 ,,BECv10,SBSwk3a,SBSwk3a/06,,
 ,,BECv10,SBSwk3a,SBSwk3a/07,,
-,,BECv10,SBSwk3a,SBSwk3a/08,High fluvial benches mostly,Fh
+,,BECv10,SBSwk3a,SBSwk3a/08,High fluvial bench,Fh
 ,,BECv10,SBSwk3a,SBSwk3a/Ro,,
 ,,USA_2019,SGPdm_CO,SGPdm_CO/110,,
 ,,USA_2019,SGPdm_CO,SGPdm_CO/111,,
@@ -2986,17 +2986,17 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,SWBmk,SWBmk/02,,
 ,,BECv10,SWBmk,SWBmk/03,Cold air influence,CA
 ,,BECv10,SWBmk,SWBmk/04,Insolation,IN
-,,BECv10,SWBmk,SWBmk/05,cool aspects,CAS
+,,BECv10,SWBmk,SWBmk/05,Cool aspects,CAS
 ,,BECv10,SWBmk,SWBmk/06,,
-,,BECv10,SWBmk,SWBmk/07,cool aspects,CAS
+,,BECv10,SWBmk,SWBmk/07,Cool aspects,CAS
 ,,BECv10,SWBmk,SWBmk/08,,
 ,,BECv10,SWBmk,SWBmk/09,,
 ,,BECv10,SWBmks,SWBmks/00,,
-,,BECv10,SWBun,SWBun/d,,
+,,BECv10,SWBun,SWBun/x,,
 ,,BECv10,SWBun,SWBun/h,,
 ,,BECv10,SWBun,SWBun/m,,
 ,,BECv10,SWBuns,SWBuns/00,,
-,,BECv10,SWBvk,SWBvk/d,,
+,,BECv10,SWBvk,SWBvk/x,,
 ,,BECv10,SWBvk,SWBvk/h,,
 ,,BECv10,SWBvk,SWBvk/m,,
 ,,BECv10,SWBvks,SWBvks/00,,
