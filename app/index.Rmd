@@ -167,6 +167,7 @@ actionButton("generate_results", label = "Generate results", icon = icon("plus-s
 
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
+
 ```{r}
 leafletOutput("bec_map", height = "auto")
 ```
@@ -430,9 +431,6 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
-
-library(sf)
-noDat <- st_read("./NoData.gpkg")
 
 portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),

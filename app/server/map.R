@@ -161,7 +161,7 @@
 # uData$addVectorGridTilesDev <- addVectorGridTilesDev
 # Map main
 output$bec_map <- renderLeaflet({
-  leaflet::leaflet(noDat) %>%
+  leaflet::leaflet() %>%
     leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
@@ -186,7 +186,6 @@ output$bec_map <- renderLeaflet({
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     addBGC() %>%
-    addPolygons(fillColor = "gray",fillOpacity = 0.8) %>%
     #invokeMethod(data = subzones_colours_ref, method = "addBGCTiles", ~classification, ~colour) %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
