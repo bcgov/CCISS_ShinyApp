@@ -11,6 +11,9 @@ N1[,SiteSeriesLongName := gsub("\x96","-",SiteSeriesLongName)]
 use_data(N1,overwrite = T)
 SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_10.csv")
 
+load("app/Feas_CovMat.rda")
+use_data(covMat,overwrite = T)
+
 S1[,Confirmed := NULL]
 S1 <- S1[!is.na(Feasible),]
 setnames(S1, old = "SppVar",new = "Spp")
