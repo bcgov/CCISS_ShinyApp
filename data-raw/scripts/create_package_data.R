@@ -42,6 +42,14 @@ SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
+phases <- E1[grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace),]
+E1 <- E1[!(grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace)),]
+vars <- E1[grep("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
+E1 <- E1[!grepl("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
+E1_Phase <- rbind(phases,vars)
+E1_Phase[,MainUnit := gsub("[a-z]$","",SS_NoSpace)]
+E1_Phase[,MainUnit := gsub("\\.[1-9]$","",MainUnit)]
+
 use_data(S1,E1,N1,overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
