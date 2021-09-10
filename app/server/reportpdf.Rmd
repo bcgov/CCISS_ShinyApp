@@ -16,15 +16,30 @@ suppressPackageStartupMessages({
   library(plotly)
   library(knitr)
   library(htmltools)
+  library(data.table)
+  library(pool)
+  library(sf)
+  library(kableExtra)
 })
+
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
 # Debug mode
-# userdata <- readRDS("../../cciss_export.rds")
+# userdata <- readRDS("~/Downloads/cciss_export.rds")
 # for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
+# feasibility_filter = "a"
+# source("LeafletSource.R")
+# pool <- dbPool(
+#   drv = RPostgres::Postgres(),
+#   dbname = Sys.getenv("BCGOV_DB"),
+#   host = Sys.getenv("BCGOV_HOST"),
+#   port = 5432, 
+#   user = Sys.getenv("BCGOV_USR"),
+#   password = Sys.getenv("BCGOV_PWD")
+# )
 
-# Deployment mode
-# assign in current environment
+##Deployment mode
+##assign in current environment
 for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
 
 # Env variable for map
@@ -33,48 +48,39 @@ bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
 mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 
-# Map Creation
-domap <- function(mappts) {
-  
-  mappts <- mappts[!is.na(Long) & !is.na(Lat)]
-  
-  leaflet::leaflet(height = "220px") %>%
-  leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
-  addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
-  leaflet::addTiles(
-    urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
-    attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
-    options = leaflet::tileOptions(zIndex = 600)) %>%
-  leaflet::addMarkers(data = mappts, lng = ~Long, lat = ~Lat)
-  
+if(exists("pts") & ncol(pts) > 2){
+  indPoints = T
+  data_points <- pts[!is.na(Long) & !is.na(Lat)]
+  bgc_select <- NULL
+  dist_select <- NULL
+  # Define the reference for points lookup
+  pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
+}else{
+  bbox <- st_read(pool, query = paste0("select ST_Envelope(ST_Collect(geom)) from bgc_map where \"BGC\" IN ('",paste(bgc_select,collapse = "','"),"');"))
+  bbox2 <- st_coordinates(bbox)[,1:2]
+  indPoints = F
 }
 
-# Define the reference for points lookup
-pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-
-# Selected options
-p <- data.table("Parameters" = c("Representative<br />Concentration Pathways", "Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(paste(rcp, collapse = " and "), nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE)))
-opt_tb <- HTML(knitr::kable(p, row.names = FALSE, escape = FALSE, table.attr = "class=\"table-centered\"", format = "html"))
 
 # Model information
-models_info_tb <- tags$div(style = "display: flex",
-  tags$div(style = "flex: 0 0 46%",
-    HTML(
-      knitr::kable(
-        models_info[seq_len(ceiling(nrow(models_info) / 2))],
-        format = "html",
-        table.attr = 'class="table table-hover table-centered"')
-    )
-  ),
-  tags$div(style = "flex: 0 0 46%",
-    HTML(
-      knitr::kable(
-        models_info[-seq_len(ceiling(nrow(models_info) / 2))],
-        format = "html",
-        table.attr = 'class="table table-hover table-centered"')
-    )
-  )
-)
+# models_info_tb <- tags$div(style = "display: flex",
+#   tags$div(style = "flex: 0 0 46%",
+#     HTML(
+#       knitr::kable(
+#         models_info[seq_len(ceiling(nrow(models_info) / 2))],
+#         format = "html",
+#         table.attr = 'class="table table-hover table-centered"')
+#     )
+#   ),
+#   tags$div(style = "flex: 0 0 46%",
+#     HTML(
+#       knitr::kable(
+#         models_info[-seq_len(ceiling(nrow(models_info) / 2))],
+#         format = "html",
+#         table.attr = 'class="table table-hover table-centered"')
+#     )
+#   )
+# )
 
 # Feasibility legend
 legend <- tags$span(
@@ -91,13 +97,21 @@ legend <- tags$span(
   )
 )
 
+##table with time period weights
+datTP <- data.table(TimePeriods = c("1960-1991","1991-2020","2021-2040","2041-2060","2061-2080","2081-2100"),
+                    Estab_Weights = c(session_params$estabWt,rep(0,3)),
+                    Future_Weights = c(0,0,session_params$futWt))
+datTP <- melt(datTP, id.var = "TimePeriods",variable.name = "Summary")
+datTP <- dcast(datTP,Summary ~ TimePeriods)
+
 # Recompute svg with smaller height
 cciss_results[, PredFeasSVG := paste0(
-        feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`, height = 11), "<br />",
-        feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`, height = 11), "<br />",
-        feasibility_svg(`1_2025`,`2_2025`,`3_2025`,`X_2025`, height = 11), "<br />",
-        feasibility_svg(`1_2055`,`2_2055`,`3_2055`,`X_2055`, height = 11), "<br />",
-        feasibility_svg(`1_2085`,`2_2085`,`3_2085`,`X_2085`, height = 11)
+        feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`,height = 11), "<br />",
+        feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`,height = 11), "<br />",
+        feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`,height = 11), "<br />",
+        feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`,height = 11), "<br />",
+        feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`,height = 11), "<br />",
+        feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`,height = 11)
       )
 ]
 ```
@@ -116,12 +130,37 @@ cciss_results[, PredFeasSVG := paste0(
   table.table-centered, .bgc_future {margin-left:auto !important; margin-right:auto !important}
 </style>
 
+```{r map, out.width="100%", results='asis'}
+tags$h2("SITE LOCATIONS")
+leaflet::leaflet(height = "400px") %>%
+  leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
+  addBGC_report(bgcSelect = bgc_select,distSelect = dist_select) %>%
+  leaflet::addTiles(
+    urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
+    attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+    options = leaflet::tileOptions(zIndex = 600)) %>%
+  {if(indPoints) leaflet::addMarkers(.,data = data_points, lng = ~Long, lat = ~Lat) else .} %>%
+  {if(!indPoints) leaflet::fitBounds(.,unname(bbox2[1,1]),unname(bbox2[1,2]),unname(bbox2[3,1]),unname(bbox2[2,2])) else .}
+
+```
+
+```{r session params, results='asis'}
+tags$h2("SESSION PARAMETERS")
+tags$h6("General Parameters")
+knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T)
+tags$h6("Time Period Weights")
+knitr::kable(datTP)
+tags$h6("GCM Weights")
+knitr::kable(session_params$gcmWt)
+tags$h6("Scenario Weights")
+knitr::kable(session_params$rcpWt)
+```
+
 ```{r siteloop, results='asis'}
 htmltools::tagList(
   lapply(names(siteseries_list), function(siteref) {
     siteseries <- siteseries_list[[siteref]]
     siteseries <- siteseries[siteseries %in% site_series_filter]
-    data_points <- pts[pts_ref %in% siteref]
     htmltools::tagList(
       tags$div(class = if (siteref != names(siteseries_list)[1]) {"page-breaker-before"} else {""},
                style = "display: flex",
@@ -129,26 +168,12 @@ htmltools::tagList(
           tags$h5("SITE LOCATION ",
                   tags$b(siteref, .noWS = c("before", "after")),
                   if (avg) {" AVERAGED"} else {""}),
-          domap(data_points)
         ),
-        tags$div(style = "flex: 0 0 50%",
-          tags$h5("REPORT OPTIONS"),
-          opt_tb
-        )
       ),
       tags$h5(class = "bordered", "PREDICTED BGC FUTURES"),
       tags$div(class = "bgc_future",
-        bgc_fut_plotly(bgc, siteref, period_map, height = 350)
+        bgc_fut_plotly(eda_out, siteref, siteseries_list[[siteref]][1],0.1, period_map,height = 450)
       ),
-      tags$h5("SITE GEOREFERENCING"),
-      HTML(
-        knitr::kable(
-          data_points[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)],
-          format = "html"
-        )
-      ),
-      tags$h5("MODEL INFORMATION"),
-      models_info_tb,
       mapply(FUN = function(siteserie, nm) {
         htmltools::tagList(
           tags$h5(class = "page-breaker-before",

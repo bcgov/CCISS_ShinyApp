@@ -167,6 +167,7 @@ actionButton("generate_results", label = "Generate results", icon = icon("plus-s
 
 Biogeoclimatic Zones + Subzones Variants Map
 -------------------------------------
+
 ```{r}
 leafletOutput("bec_map", height = "auto")
 ```
@@ -308,10 +309,8 @@ radioButtons("port_length",label = "Optimisation Period (Rotation Length):",
 rHandsontableOutput("setbounds")
 sliderInput("return_level","Specified Return:", min = 0.5, max = 1,value = 0.9)
 sliderInput("min_accept","Minimum allowed weight:",min = 0.01,max = 0.2,value = 0.05)
-sliderInput("prob_pest","Probability of Pest Outbreak:", min = 0, max = 0.1, value = 0.02)
 actionButton("generate_portfolio", label = "Run Portfolio", icon = icon("plus-square"),
              style = "width:100%; background-color:#003366; color: #FFF")
-sliderInput("sim_group", "Select Simulation to Plot: ", min = 1, max = 25, value = 1, step = 1)
 ```
 
 
@@ -373,7 +372,7 @@ dl_style <- "max-width: 300px; width:100%; height: 40px !important;"
 splitLayout(
   div(
     textInput("report_name", "Name for Report", value = "report"),
-    radioButtons("report_format", "Report Format", c("html", "pdf"), inline = TRUE),
+    radioButtons("report_format", "Report Format", c("html","pdf"), inline = TRUE), ##temporarily removed pdf option
     span(downloadButton("report_download", "Produce Report", style = dl_style), id = "download_report_span")
   ),
   div(
@@ -432,9 +431,6 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
-
-library(sf)
-noDat <- st_read("./NoData.gpkg")
 
 portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),

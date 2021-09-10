@@ -23,7 +23,7 @@ observeEvent(input$generate_results, priority = 100, {
     avg             <- uData$avg             <- as.logical(input$aggregation)
     pts             <- uData$pts             <- userpoints$dt
   }
-  
+  uData$session_params <- reactiveValuesToList(session_params) 
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
@@ -62,7 +62,7 @@ observeEvent(input$generate_results, priority = 100, {
   ssa <- sort(unique(cciss_results$SS_NoSpace))
   names(ssa) <- paste(
     ssa,
-    stocking_info$SiteSeriesName[match(ssa, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
+    N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
 
   siteseries_list <- uData$siteseries_list <- ssl
@@ -156,7 +156,7 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-#bgc <- dbGetCCISS(pool,siteno = 4629842, avg = F, modWeights = all_weight)
+#bgc <- dbGetCCISS(pool,siteno = 2058008, avg = F, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
@@ -227,7 +227,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       `:=`(EstabFeas = i.NewSuit,
            ccissFeas = i.ccissSuit,
            Trend = i.Trend,
-           MaxAgr = i.MaxAgr),
+           Improve = i.Improve),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
@@ -248,7 +248,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       )
     )]
     
-    setorder(results, SiteRef, SS_NoSpace, EstabFeas, ccissFeas, na.last = TRUE)
+    setorder(results, SiteRef, SS_NoSpace, ccissFeas, na.last = TRUE)
     return(results)
   })
 }

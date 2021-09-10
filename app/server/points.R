@@ -51,7 +51,7 @@ new_points <- function(points) {
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
       res <- dbPointInfo(pool, points)
       points[, `:=`(
-        BGC = res$map_label,
+        BGC = input$bgc_point_click,
         ForestRegion = res$forest_region,
         Site = res$site_no,
         # Only replace elevation with DEM when not provided by the user

@@ -117,7 +117,6 @@ analogsea::droplet_ssh(server, "R -e \"remotes::install_github('FLNRO-Smithers-R
 analogsea::droplet_upload(server, "./app/index.Rmd", "/srv/shiny-server/ccissdev/index.Rmd")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
-analogsea::droplet_upload(server, "./app/NoData.gpkg", "/srv/shiny-server/ccissdev/NoData.gpkg")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 
