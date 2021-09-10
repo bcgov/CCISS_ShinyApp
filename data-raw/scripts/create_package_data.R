@@ -23,8 +23,15 @@ S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
 use_data(N1,overwrite = T)
+
 SIBEC <- fread("~/SIBEC_Modelled/PredSI_Sept2021_2.csv") 
 setnames(SIBEC,old = "SppVar", new = "Spp")
+SIBEC[Spp %in% c("Fdi","Fdc"),Spp := "Fd"]
+SIBEC[Spp %in% c("Pli","Plc"),Spp := "Pl"]
+SIBEC[Spp %in% c("Sw","Se","Sxw"),Spp := "Sx"]
+SIBEC[Spp %in% c("Ss", "Sxl","Sxs"),Spp := "Ss"]
+SIBEC[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
+SIBEC[Spp %in% c("Acb","Act"),Spp := "Ac"]
 SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
 SIBEC <- rbind(SIBEC, SIBECnew)
 ###import SI data (currently from BART)
