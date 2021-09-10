@@ -44,26 +44,71 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
   table.table-centered {margin-left:auto !important; margin-right:auto !important}
 </style>
 
+
 ```{r section1, results='asis'}
 tags$h2("1. SITE LOCATION")
 ```
 
 ```{r map, out.width="100%", results='asis'}
-data_points <- pts[!is.na(Long) & !is.na(Lat)]
+if(exists("pts") & !exists("bgc_select")){
+  indPoints = T
+  data_points <- pts[!is.na(Long) & !is.na(Lat)]
+  bgc_select <- NULL
+  dist_select <- NULL
+}else{
+  bbox <- st_read(pool, query = paste0("select ST_Envelope(ST_Collect(geom)) from bgc_map where \"BGC\" IN ('",paste(bgc_select,collapse = "','"),"');"))
+  bbox2 <- st_coordinates(bbox)[,1:2]
+  indPoints = F
+}
+
 leaflet::leaflet() %>%
   leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron") %>%
-  addVectorGridTilesDev(app = FALSE) %>% leaflet::hideGroup("Zones") %>%
+  addBGC_report(bgcSelect = bgc_select,distSelect = dist_select) %>%
   leaflet::addTiles(
     urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
     attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
     options = leaflet::tileOptions(zIndex = 600)) %>%
-  leaflet::addMarkers(data = data_points, lng = ~Long, lat = ~Lat)
+  {if(indPoints) leaflet::addMarkers(.,data = data_points, lng = ~Long, lat = ~Lat) else .} %>%
+  {if(!indPoints) leaflet::fitBounds(.,unname(bbox2[1,1]),unname(bbox2[1,2]),unname(bbox2[3,1]),unname(bbox2[2,2])) else .}
 ```
 
 ```{r section2, results='asis'}
+if(!indPoints){
+  numPts <- 100
+  avg <- TRUE
+}else{
+  numPts <- nrow(pts)
+}
 tags$h2("2. SESSION PARAMETERS")
-tags$p("Coming soon...")
 ```
+
+```{r}
+tags$h4("General Parameters")
+knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T)
+```
+
+```{r}
+  tags$h4("Time Period Weights")
+  datTP <- data.table(TimePeriods = c("1960-1991","1991-2020","2021-2040","2041-2060","2061-2080","2081-2100"),
+                      Estab_Weights = c(session_params$estabWt,rep(0,3)),
+                      Future_Weights = c(0,0,session_params$futWt))
+  datTP <- melt(datTP, id.var = "TimePeriods",variable.name = "Summary")
+  datTP <- dcast(datTP,Summary ~ TimePeriods)
+  knitr::kable(datTP)
+```
+
+
+```{r}
+  tags$h4("GCM Weights")
+  knitr::kable(session_params$gcmWt)
+```
+
+
+```{r}
+  tags$h4("Scenario Weights")
+  knitr::kable(session_params$rcpWt)
+```
+
 
 ```{r section3, results='asis'}
 tags$h2("3. CCISS TREE FEASIBILITY")
@@ -153,7 +198,12 @@ tags$h2("7. DATA POINT GEOREFERENCING")
 ```
 
 ```{r points, results='asis', out.width="100%"}
-knitr::kable(pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)], table.attr = "class=\"table table-hover table-centered\"", format = "html")
+if(indPoints){
+  knitr::kable(pts[,list(ID, Site, Latitude = Lat, Longitude = Long, Elevation = Elev, BGC)], table.attr = "class=\"table table-hover table-centered\"", format = "html")
+}else{
+  print(paste0("Preselected Points by BGC: ",bgc_select))
+}
+
 ```
 
 ```{r appendix, results='asis'}

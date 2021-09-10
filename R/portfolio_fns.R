@@ -85,6 +85,7 @@ edatopicSubset <- function(SSPredOrig, eda, pos = "Zonal"){
 #' @export
 
 dbGetClimSum <- function(con,BGC,Scn){
+  cat("in get clim sum")
   climVarFut <- RPostgres::dbGetQuery(con, paste0("select bgc,period,stat,climvar,value from szsum_fut where bgc in ('"
                                        ,BGC,"') and period in ('2021-2040','2041-2060','2061-2080') 
                                   and stat = 'mean'
@@ -137,6 +138,7 @@ simulateClimate <- function(climInfo){ ##package function
 #' @export
 
 dbGetSppLimits <- function(con,SuitTable,Trees){
+  cat("in get limits")
   sppLimits <- foreach(spp = Trees, .combine = rbind) %do% {##package function
     temp <- SuitTable[Suitability == 1 & Spp == spp,] ##what units is Fd 1?
     sppUnits <- unique(temp$BGC)
@@ -166,6 +168,7 @@ dbGetSppLimits <- function(con,SuitTable,Trees){
 run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                           TimePeriods,selectBGC,SuitProb,returnValue,sppLimits,
                           minAccept,boundDat,ProbPest){
+  cat("in portfolio")
   nSpp <- length(Trees)
   treeList <- Trees
   ss_sum_save <- data.table()
@@ -192,6 +195,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                            }
                            
                            if(!is.null(SS.sum)){
+                             cat(".")
                              output <- data.table("year" = seq(2000,2100,1))
                              
                              for (k in 1:nSpp){ ##for each tree
@@ -211,9 +215,9 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                annualDat <- data.table("Growth" = s[["y"]], "MeanDead" = p[["y"]], "NoMort" = m[["y"]], "Suit" = r[["y"]]) ##create working data
                                annualDat <- cbind(simResults,annualDat)
                                limits <- sppLimits[Spp == treeList[k],]
-                               Returns <- SimGrowth(DF = annualDat,ProbPest = ProbPest,
+                               Returns <- SimGrowth(DF = annualDat,
                                                        cmdMin = limits[[1]],cmdMax = limits[[2]],
-                                                       tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.08)
+                                                       tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.05)
                                tmpR <- c(0,Returns)
                                assets <- Returns - tmpR[-length(tmpR)]
                                temp <- data.frame(Spp = treeList[k], 
@@ -228,19 +232,21 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                              returns <- output
                              returns[,Year := NULL]
                              ###only include species with mean return > 1 in portfolio
-                             use <- colnames(returns)[colMeans(returns) > 1] ###should probably be higher
-                             returns <- returns[,..use]
-                             sigma2 <- cor(returns) ###to create cov mat from returns
-                             
-                             ef <- optimise_portfolio(returns, sigma2, boundDat,minAccept) 
-                             setnames(ef,old = c("frontier_sd","return","sharpe"),
-                                      new = c("Sd","RealRet","Sharpe"))
-                             ef[,Return := 1:20]
-                             
-                             eff_front2 <- ef
-                             eff_front2[,RealRet := RealRet/max(RealRet)]
-                             eff_front2[,SiteNo := SNum]
-                             melt(eff_front2,id.vars = c("SiteNo", "Return"),variable.name = "Spp")
+                             use <- colnames(returns)[colMeans(returns) > quantile(colMeans(returns),0.25)] ###should probably be higher
+                             if(length(use) > 1){
+                               returns <- returns[,..use]
+                               sigma2 <- cor(returns) ###to create cov mat from returns
+                               cat("about to optimise")
+                               ef <- optimise_portfolio(returns, sigma2, boundDat,minAccept) 
+                               setnames(ef,old = c("frontier_sd","return","sharpe"),
+                                        new = c("Sd","RealRet","Sharpe"))
+                               ef[,Return := 1:20]
+                               
+                               eff_front2 <- ef
+                               eff_front2[,RealRet := RealRet/max(RealRet)]
+                               eff_front2[,SiteNo := SNum]
+                               melt(eff_front2,id.vars = c("SiteNo", "Return"),variable.name = "Spp")
+                             }else NULL
                            }else{NULL}
   }
   
@@ -268,6 +274,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
   efAll <- melt(efAll, id.vars = "Sd")
   efAll$Unit <- BGC
   efAll <- efAll[is.finite(Sd),]
+  cat("return from port fun")
   return(list(raw = efAll,summary = maxSharpe,ssdat = ss_sum_save,simulated = simOut))
 }
 

@@ -5,8 +5,8 @@ gs2gw <- function(x, a, b) {
     .Call(`_ccissdev_gs2gw`, x, a, b)
 }
 
-SimGrowth <- function(DF, ProbPest, cmdMin, cmdMax, tempMin, tempMax, climLoss) {
-    .Call(`_ccissdev_SimGrowth`, DF, ProbPest, cmdMin, cmdMax, tempMin, tempMax, climLoss)
+SimGrowth <- function(DF, cmdMin, cmdMax, tempMin, tempMax, climLoss) {
+    .Call(`_ccissdev_SimGrowth`, DF, cmdMin, cmdMax, tempMin, tempMax, climLoss)
 }
 
 combCurr <- function(dat, wt) {

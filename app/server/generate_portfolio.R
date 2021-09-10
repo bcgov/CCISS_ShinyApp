@@ -38,7 +38,7 @@ observeEvent(input$generate_portfolio,{
   returnValue <- input$return_level
   Trees <- treeList <- input$tree_species
   minAccept <- input$min_accept
-  ProbPest <- input$prob_pest
+  ProbPest <- 0.02
   BGC <- input$port_bgc
   siteLoc <- input$port_ss
   FutScn <- "ssp245"
@@ -111,8 +111,8 @@ output$growth_sim <- renderPlot({
   if(is.null(portfolio_results$data)) return(NULL)
   dat <- copy(portfolio_results$data$simulated)
   dat[,It := as.factor(It)]
-  dat <- dat[It == input$sim_group,]
-  ggplot(dat, aes(x = Year, y = Returns, color = Spp)) +
+  #dat <- dat[It == input$sim_group,]
+  ggplot(dat, aes(x = Year, y = Returns, color = Spp, group = interaction(Spp,It))) +
     geom_line() +
     theme_few() + 
     expand_limits(y = 0)

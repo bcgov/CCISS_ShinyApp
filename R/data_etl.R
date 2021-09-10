@@ -46,6 +46,16 @@ dbPointInfo <- function(con, points) {
     GROUP BY pts
   ")
   
+  # bec_subz_sql <- paste0("
+  #   WITH pts4326 AS (
+  #     ", paste0("SELECT st_pointfromtext('POINT(", Long, " ", Lat, ")', 4326) geom", collapse = "\n UNION ALL \n") ,"
+  #   )
+  #   
+  #   SELECT bgc_map.BGC
+  #   FROM pts4326
+  #   LEFT JOIN bgc_map
+  #   ON ST_Intersects(pts4326.geom, bgc_map.geom)
+  #                        ")
   
   bec_info_sql <- paste0("
     WITH pts3005 AS (

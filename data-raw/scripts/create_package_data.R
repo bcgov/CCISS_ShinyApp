@@ -7,6 +7,8 @@ library(readxl)
 E1 <- fread("./data-raw/data_tables/Edatopic_v12_10.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v12_10.csv")
 N1 <- fread("./data-raw/data_tables/SiteSeries_names_v12_10.csv")
+N1[,SiteSeriesLongName := gsub("\x96","-",SiteSeriesLongName)]
+use_data(N1,overwrite = T)
 SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_10.csv")
 
 S1[,Confirmed := NULL]
@@ -21,12 +23,22 @@ S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
 S1 <- S1[Spp != "X",]
 save(S1, file = "./data/S1.rda")
 use_data(N1,overwrite = T)
-SIBEC <- fread("~/PortfolioKiri/InputsGit/PredSI_May2020.csv") 
+
+SIBEC <- fread("~/SIBEC_Modelled/PredSI_Sept2021_2.csv") 
+setnames(SIBEC,old = "SppVar", new = "Spp")
+SIBEC[Spp %in% c("Fdi","Fdc"),Spp := "Fd"]
+SIBEC[Spp %in% c("Pli","Plc"),Spp := "Pl"]
+SIBEC[Spp %in% c("Sw","Se","Sxw"),Spp := "Sx"]
+SIBEC[Spp %in% c("Ss", "Sxl","Sxs"),Spp := "Ss"]
+SIBEC[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
+SIBEC[Spp %in% c("Acb","Act"),Spp := "Ac"]
 SIBECnew <- fread("~/PortfolioKiri/InputsGit/SI_to_add.csv")
 SIBEC <- rbind(SIBEC, SIBECnew)
 ###import SI data (currently from BART)
-SIBEC <- SIBEC[,c("SS_NoSpace","Spp","SIPred")] %>% set_colnames(c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
-save(SIBEC,file = "./data/SIBEC.rda")
+setcolorder(SIBEC,c("SS_NoSpace","Spp","SIPred"))
+setnames(SIBEC,c("SS_NoSpace","TreeSpp","MeanPlotSiteIndex"))
+SIBEC <- unique(SIBEC)
+use_data(SIBEC, overwrite = T)
 
 TreeCols <- fread("~/PortfolioKiri/InputsGit/PortfolioSppColours.csv") ##in package data
 TreeCols <- TreeCols[HexColour != "",]
@@ -37,6 +49,14 @@ SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
+phases <- E1[grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace),]
+E1 <- E1[!(grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace)),]
+vars <- E1[grep("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
+E1 <- E1[!grepl("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
+E1_Phase <- rbind(phases,vars)
+E1_Phase[,MainUnit := gsub("[a-z]$","",SS_NoSpace)]
+E1_Phase[,MainUnit := gsub("\\.[1-9]$","",MainUnit)]
+
 use_data(S1,E1,N1,overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")

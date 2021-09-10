@@ -117,6 +117,8 @@ addBGC <- function(map) {
         }
       });
       
+      
+      
       //highlight on click
       var styleHL = {
             weight: 1.5,
@@ -136,8 +138,16 @@ addBGC <- function(map) {
           Shiny.setInputValue("bgc_click",selectedNames);
   			  bgcHL = e.layer.properties.BGC;
           subzLayer.setFeatureStyle(bgcHL, styleHL);
+        }else{
+          Shiny.setInputValue("bgc_point_click",e.layer.properties.BGC);
         }
       });
+      
+      Shiny.addCustomMessageHandler("highlight_bec", function(bgcs){
+        bgcs.forEach((ID) => {
+          subzLayer.setFeatureStyle(ID,styleHL);
+        })
+      })
       
       Shiny.addCustomMessageHandler("clearBGC",function(x){
         selectedBGC.forEach((ID) => {
@@ -225,5 +235,107 @@ addBGC <- function(map) {
       opacityslider.addTo(this);
     }'
   ))
+  map
+}
+
+##report map function
+
+addBGC_report <- function(map,bgcSelect,distSelect) {
+  map <- registerPlugin(map, plugins$vgplugin)
+  map <- htmlwidgets::onRender(map, paste0('
+    function(el,x,data) {
+      bgcHL = data.bgc;
+      distHL = data.district;
+      console.log(bgcHL);
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      
+      L.bec_layer_opacity2 = 0.65
+      var selectHighlight;
+      var flag = true;
+      var vectorTileOptions=function(layerName, layerId, activ,
+                             lfPane, colorMap, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: activ, // makes it able to trigger js events like click
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0,
+                fillColor: colorMap[properties[prop]],
+                fill: true,
+                fillOpacity: L.bec_layer_opacity2
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+              return f.properties[id];
+          }
+        }
+        
+      };
+      
+      var subzLayer = L.vectorGrid.protobuf(
+        "', bcgov_tileserver, '",
+        vectorTileOptions("bec_subz", "', bcgov_tilelayer, '", true,
+                          "tilePane", subzoneColors, "BGC", "BGC")
+      )
+      this.layerManager.addLayer(subzLayer, "tile", "bec_subz", "Subzones Variants");
+      
+      
+      //highlight on click
+      var styleHL = {
+            weight: 1.5,
+            color: "#fc036f",
+            fillColor: "#FFFB00",
+            fillOpacity: 1,
+            fill: true
+      };
+    
+      
+            //Now districts regions
+      var vectorTileOptionsDist=function(layerName, layerId, activ,
+                                     lfPane, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: true,
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0.5,
+                color: "#000000",
+                fill: true,
+                fillOpacity: 0
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+            return f.properties[id];
+          }
+        }
+      };
+      var distLayer = L.vectorGrid.protobuf(
+        "', district_tileserver, '",
+        vectorTileOptionsDist("Districts", "', district_tilelayer, '", true,
+                          "tilePane", "dist_code", "dist_code")
+      )
+      this.layerManager.addLayer(distLayer, "tile", "Districts", "Districts")
+      
+      if(bgcHL){
+        if(!Array.isArray(bgcHL)){
+          bgcHL = [bgcHL];
+        }
+        bgcHL.forEach((ID) => {
+          subzLayer.setFeatureStyle(ID,styleHL);
+        })
+      }
+      
+      if(distHL){
+        distLayer.setFeatureStyle(distHL[0],styleHL);
+      }
+     
+    }'
+  ), data = list(bgc = bgcSelect,district = distSelect))
   map
 }
