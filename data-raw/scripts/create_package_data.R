@@ -4,12 +4,12 @@
 library(data.table)
 library(usethis)
 library(readxl)
-E1 <- fread("./data-raw/data_tables/Edatopic_v12_10.csv")
+E1 <- fread("./data-raw/data_tables/Edatopic_v12_11.csv")
 S1 <- fread("./data-raw/data_tables/Feasibility_v12_10.csv")
 N1 <- fread("./data-raw/data_tables/SiteSeries_names_v12_10.csv")
 N1[,SiteSeriesLongName := gsub("\x96","-",SiteSeriesLongName)]
 use_data(N1,overwrite = T)
-SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_10.csv")
+SS <- fread("./data-raw/data_tables/WNA_SSeries_v12_11.csv")
 
 load("app/Feas_CovMat.rda")
 use_data(covMat,overwrite = T)
@@ -52,14 +52,14 @@ SS <- SS[,.(SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
-phases <- E1[grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace),]
-E1 <- E1[!(grepl("BEC",Source) & grepl("[0-9]a$|[0-9]1-9b$|[0-9]1-9c$",SS_NoSpace)),]
+phases <- E1[grepl("BEC",Source) & grepl("[0-9]a$|[0-9]b$|[0-9]c$",SS_NoSpace),]
+E1 <- E1[!(grepl("BEC",Source) & grepl("[0-9]a$|[0-9]b$|[0-9]c$",SS_NoSpace)),]
 vars <- E1[grep("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
 E1 <- E1[!grepl("\\.1$|\\.2$|\\.3$",SS_NoSpace),]
 E1_Phase <- rbind(phases,vars)
 E1_Phase[,MainUnit := gsub("[a-z]$","",SS_NoSpace)]
 E1_Phase[,MainUnit := gsub("\\.[1-9]$","",MainUnit)]
-
+use_data(E1_Phase,E1,overwrite = T)
 use_data(S1,E1,N1,overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
