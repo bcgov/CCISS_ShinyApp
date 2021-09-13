@@ -161,7 +161,7 @@ bgc <- function(con, siteno, avg, modWeights) {
 
 
 cciss <- function(bgc,estabWt,futWt) {
-  SSPred <- edatopicOverlap(bgc, Edatope = E1)
+  SSPred <- edatopicOverlap(bgc, Edatope = E1, edaPhase = E1_Phase)
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- SSPred
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 

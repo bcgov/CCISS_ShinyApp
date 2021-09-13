@@ -37,6 +37,9 @@ edatopicOverlap <- function(BGC,Edatope,edaPhase){
   BGC <- unique(BGC)
   SSsp <- Edatope[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
   SSsp <- unique(SSsp)
+  SSsp_phase <- edaPhase[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
+  edaPhase <- edaPhase[is.na(SpecialCode),!"SpecialCode"]
+  SSsp <- rbind(SSsp,SSsp_phase)
   
   ##Special site series edatopes
   CurrBGC <- SSsp[BGC, on = "BGC", allow.cartesian = T]
