@@ -53,7 +53,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                   color = ~BGC.pred, colors = color_ref,
                   text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),
-                  texttemplate = "%{text}", hovertemplate = "%{y}", ...) %>%
+                  texttemplate = "%{text}", hovertemplate = "%{y}") %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
                                 ticktext = unname(period_map),
