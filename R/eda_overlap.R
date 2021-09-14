@@ -31,11 +31,12 @@
 #' @importFrom dplyr left_join distinct
 #' @importFrom stats complete.cases na.omit
 #' @export
-edatopicOverlap <- function(BGC,Edatope,edaPhase){
-  SS <- Edatope[is.na(SpecialCode),.(BGC,SS_NoSpace,Edatopic)]
+edatopicOverlap <- function(BGC,E1,E1_Phase){
+  SS <- E1[,.(BGC,SS_NoSpace,Edatopic)]
+  edaPhase <- E1_Phase
   SS <- unique(SS)
   BGC <- unique(BGC)
-  SSsp <- Edatope[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
+  SSsp <- E1[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
   SSsp <- unique(SSsp)
   SSsp_phase <- edaPhase[!is.na(SpecialCode),.(BGC,SS_NoSpace,SpecialCode)]
   edaPhase <- edaPhase[is.na(SpecialCode),!"SpecialCode"]
@@ -58,7 +59,8 @@ edatopicOverlap <- function(BGC,Edatope,edaPhase){
   SSsp.out <- new[,.(allOverlap = 1/.N,SS.pred,BGC.prop), keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
   
   ##regular site series edatopes
-  CurrBGC <- SS[BGC, on = "BGC", allow.cartesian = T]
+  temp <- rbind(SS,E1_Phase[is.na(SpecialCode),.(BGC,SS_NoSpace,Edatopic)])
+  CurrBGC <- temp[BGC, on = "BGC", allow.cartesian = T]
   CurrBGC <- CurrBGC[!duplicated(CurrBGC),]
   setkey(BGC, BGC.pred)
   setkey(SS, BGC)
@@ -147,10 +149,17 @@ edatopicOverlap <- function(BGC,Edatope,edaPhase){
   
   combAll <- merge(combAll,SSsp.out,
                    by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
-  combAll[!is.na(allOverlap.y),`:=`(allOverlap.x = allOverlap.y,BGC.prop.x = BGC.prop.y)]
+  temp <- combAll[!is.na(allOverlap.y),]
+  temp[,c("allOverlap.x","BGC.prop.x") := NULL]
+  setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
+  combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = .(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
+  combAll <- combAll[(Flag),!"Flag"]
   combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
   setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
-  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != SS.pred),] ### removes overlap where past BGC = future BGC
+  combAll <- rbind(combAll,temp)
+  combAll[,MainUnit := gsub("[a-c]$|\\.[1-9]$","",SS.pred)]
+  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != MainUnit),] ### removes overlap where past BGC = future BGC
+  combAll[,MainUnit := NULL]
   combAll <- unique(combAll[!is.na(SS_NoSpace),])
 
   
