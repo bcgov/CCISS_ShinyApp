@@ -92,12 +92,12 @@ leaflet::leaflet() %>%
     attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
     options = leaflet::tileOptions(zIndex = 600)) %>%
   {if(indPoints) leaflet::addMarkers(.,data = data_points, lng = ~Long, lat = ~Lat) else .} %>%
-  leaflet::fitBounds(unname(bbox2[1,1])-1,unname(bbox2[1,2])-1,unname(bbox2[3,1])+1,unname(bbox2[2,2])+1)
+  leaflet::fitBounds(unname(bbox2[1,1])-0.5,unname(bbox2[1,2])-0.5,unname(bbox2[3,1])+0.5,unname(bbox2[2,2])+0.5)
 ```
 
 
 ```{r index, results='asis'}
-tags$h2("Report Units")
+tags$h2("2. Report Units")
 siterefs <- names(siteseries_list)
 for(i in 1:length(siterefs)){
   siteseries <- siteseries_list[[siterefs[i]]]
@@ -257,19 +257,19 @@ tags$h2("B. SILVICULTURE REFERENCE")
 ```
 
 ```{r silref1 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_tol, filter = "f", title = "Tolerance comparisons")
+silv_ref_dt(silvics_tol, cciss_results, filter = "f", title = "Tolerance comparisons")
 ```
 
 ```{r silref2 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_resist, filter = "f", title = "Resistance and potential risk comparisons")
+silv_ref_dt(silvics_resist,cciss_results, filter = "f", title = "Resistance and potential risk comparisons")
 ```
 
 ```{r silref3 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_regen, filter = "f", title = "Comparison of silvical characteristics; regeneration stage")
+silv_ref_dt(silvics_regen,cciss_results, filter = "f", title = "Comparison of silvical characteristics; regeneration stage")
 ```
 
 ```{r silref4 , results='asis', out.width="100%"}
-silv_ref_dt(silvics_mature, filter = "f", title = "Comparison of silvical characteristics; maturing stage")
+silv_ref_dt(silvics_mature,cciss_results, filter = "f", title = "Comparison of silvical characteristics; maturing stage")
 ```
 
 <!-- Logo -->

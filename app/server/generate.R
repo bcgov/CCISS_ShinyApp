@@ -227,7 +227,8 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       `:=`(EstabFeas = i.NewSuit,
            ccissFeas = i.ccissSuit,
            Trend = i.Trend,
-           Improve = i.Improve),
+           Improve = i.Improve,
+           OrderCol = i.OrderCol),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
@@ -248,7 +249,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       )
     )]
     
-    setorder(results, SiteRef, SS_NoSpace, ccissFeas, na.last = TRUE)
+    setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
     return(results)
   })
 }
