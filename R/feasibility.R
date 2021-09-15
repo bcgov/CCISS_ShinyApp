@@ -101,7 +101,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   datFeas[Curr == 10 & NewSuit == 10, Flag := "NotIn"]
   added <- c("A1", "A2", "A3")
   datFeas <- datFeas[Curr == 10 & (Flag %in% added), Curr := 4 ]
-  datFeas_final <- datFeas %>% dplyr::select(SiteRef,SS_NoSpace,Spp,NewSuit, SuitDiff, Flag) %>% dplyr::mutate(dplyr::across(NewSuit, round, 0))%>%
+  datFeas_final <- datFeas %>% dplyr::select(SiteRef,SS_NoSpace,Spp,NewSuit,NewSuitFrac, SuitDiff, Flag) %>% dplyr::mutate(dplyr::across(NewSuit, round, 0))%>%
            dplyr::mutate(NewSuit = sub('10', 'X', NewSuit)) 
   
   ###mid rotation trend using 41-60 and 61-80 - used for bifurcation
@@ -122,14 +122,15 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
   datFuture[ccissWt, Weight := i.Weight, on = "FuturePeriod"]
-  datFuture <- datFuture[,.(ccissSuit = weighted.mean(NewSuit,Weight)), 
+  datFuture <- datFuture[,.(ccissSuitFrac = weighted.mean(NewSuit,Weight)), 
                          by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datFuture[,ccissSuit := round(ccissSuit)]
+  datFuture[,ccissSuit := round(ccissSuitFrac)]
   
   ###merge data to make summary tables############################################################
   summOut <- merge(datFeas_final, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
   summOut <- merge(summOut, datFuture, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
-  summOut[,c("Flag","SuitDiff") := NULL]
+  summOut[,OrderCol := (Curr + NewSuitFrac + ccissSuitFrac)/3]
+  summOut[,c("Flag","SuitDiff","NewSuitFrac","ccissSuitFrac") := NULL]
   #summOut <- summOut[Flag != "NotIn",]
   summOut[,`:=`(Curr = as.character(Curr),
                 ccissSuit = as.character(ccissSuit))]
