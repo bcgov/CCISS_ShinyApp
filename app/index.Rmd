@@ -30,6 +30,7 @@ suppressPackageStartupMessages({
   library(rAmCharts4)
   library(kableExtra)
   library(rhandsontable)
+  library(shinyBS)
 })
 pool <- dbPool(
   drv = RPostgres::Postgres(),
@@ -78,6 +79,7 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 ```
 
+
 SELECT SITES
 =====================================
 
@@ -85,6 +87,8 @@ Inputs {.sidebar data-width=550}
 -------------------------------------
 
 ```{r}
+actionButton("show_instr","Show Instructions",icon = icon("circle-question"), style = "width:100%; background-color:#003366; color: #FFF")
+br()
 wellPanel(
   splitLayout(
     actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h")),
@@ -170,6 +174,9 @@ Biogeoclimatic Zones + Subzones Variants Map
 
 ```{r}
 leafletOutput("bec_map", height = "auto")
+bsModal("instr_modal",title = NULL,"show_instr", size = "large",
+        uiOutput("modal_ui")
+        )
 ```
 
 FEASIBILITY REPORT
@@ -446,6 +453,16 @@ source("./server/silviculture.R", local = TRUE)
 source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 source("./server/generate_portfolio.R", local = TRUE)
+
+##hover text for feasibility report
+hoverText <- c("Species","Time Period","Percentage of models preciting each feasibility",
+                 "Chief Forester's reference guide","Environmental Feasibility",
+                 "Modelled Establishment feasibility (based on historic,current, and near-future)",
+                 "Modelled future feasibility (based on all four future periods)","Model Trends")
+##show instructions
+output$modal_ui <- renderUI({
+  HTML(readLines(rmarkdown::render("./server/CCISS_Instructions.Rmd",encoding = "UTF-8",envir = new.env()),encoding = "UTF-8"))
+})
 
 ##default session parameters
 output$rcp_select <- renderAmChart4({
