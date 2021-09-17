@@ -226,8 +226,8 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       sumResults, 
       `:=`(EstabFeas = i.NewSuit,
            ccissFeas = i.ccissSuit,
-           Trend = i.Trend,
            Improve = i.Improve,
+           Decline = i.Decline,
            OrderCol = i.OrderCol),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
