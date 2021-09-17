@@ -71,7 +71,7 @@ zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key
 subzones_colours_ref <- fread("./data-raw/data_tables/WNAv12_3_SubzoneCols.csv", key = "classification")
 save(subzones_colours_ref, file = "./data/subzones_colours_ref.rda")
 # StockingStds
-stocking_standards_v12 <- fread("./data-raw/data_tables/StockingStds/StockStands_v12.csv", key = c("Region", "ZoneSubzone", "Species"), colClasses = c("Standard" = "numeric"))
+stocking_standards_v12 <- fread("./data-raw/data_tables/StockingStds/StockStands_v12.csv", key = c("Region", "ZoneSubzone","SiteSeries", "Species"), colClasses = c("Standard" = "numeric"))
 stocking_info_v12 <- fread("./data-raw/data_tables/StockingStds/StockingInfo_v12.csv", key = "Standard", colClasses = c("Standard" = "numeric"))
 stocking_height_v12 <- fread("./data-raw/data_tables/StockingStds/StockingHeight_v12.csv", key = c("Standard", "Species"), colClasses = c("Standard" = "numeric"))
 crosswalk <- fread("./data-raw/data_tables/StockingStds/Crosswalk.csv", key = "Modeled")
@@ -96,7 +96,7 @@ dupPairs(stocking_height_v12)
 
 # Remove duplicates for now, keeping the first of each combination
 remDups <- function(d) {
-  d[!duplicated(d[, key(d), with = FALSE])]
+  d[!duplicated(d[, data.table::key(d), with = FALSE])]
 }
 stocking_standards_v12 <- remDups(stocking_standards_v12)
 stocking_info_v12 <- remDups(stocking_info_v12)
@@ -116,7 +116,7 @@ a <- a[crosswalk, on = c(ZoneSubzone = "Tables"), allow.cartesian = TRUE, nomatc
 nrow(stocking_standards[a, on = c(Region = "Region", ZoneSubzone = "Modeled", SS_NoSpace = "SS_NoSpace", Species = "Species"), nomatch = NULL])
 # Does not seems like it, so it is safe to add all of them
 a[, `:=`(ZoneSubzone = Modeled, Modeled = NULL)]
-k <- key(stocking_standards)
+k <- data.table::key(stocking_standards)
 stocking_standards <- rbindlist(list(stocking_standards, a))
 setkeyv(stocking_standards, k)
 # Recheck for dups
@@ -133,6 +133,9 @@ stocking_standards[,RegionNew := NULL]
 PSXT_cw <- data.table(PreferredAcceptable = c("P","S","T","X"), Suitability = c("1","2","3","X"))
 stocking_standards[PSXT_cw, Suitability := i.Suitability, on = "PreferredAcceptable"]
 stocking_standards[,FN6 := NULL]
+temp <- stocking_standards[grep("BWBS",ZoneSubzone),]
+temp[,Region := "Pr Rupert"]
+stocking_standards <- rbind(stocking_standards,temp)
 use_data(stocking_standards,overwrite = T)
 # Stocking height formatting
 stocking_height <- copy(stocking_height_v12[,.(Standard, Species, Height)])
