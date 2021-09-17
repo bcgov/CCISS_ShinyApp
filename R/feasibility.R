@@ -113,8 +113,8 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   
   datRot <- datRot[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = .(SiteRef,SS_NoSpace,Spp,Curr)]
   datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
-  datRot[,Trend := paste0(Improve,":",Decline)]
-  datRot <- datRot[,.(SiteRef,SS_NoSpace,Spp,Trend,Improve,Decline)] ##final
+  #datRot[,Trend := paste0(Improve,":",Decline)]
+  datRot <- datRot[,.(SiteRef,SS_NoSpace,Spp,Improve,Decline)] ##final
   
 ###################################################################
   datFuture <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
