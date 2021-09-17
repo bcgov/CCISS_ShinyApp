@@ -27,10 +27,12 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   }else if (filter == "f"){
     data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3) | ccissFeas %in% c(1,2,3),]
   }
-  data[,Trend := paste0(Improve,"PUPPY",Decline)] ##have to do this so the br isn't escaped by cell_spec
+  data[,Trend := paste0("SU", Improve,"EUPUPPY",Decline)] ##have to do this so the br isn't escaped by cell_spec
   data <- data[!is.na(Trend),]
   data[,Trend := cell_spec(Trend,"html", color = fifelse(Improve > 67,'green',fifelse(Improve < 33, "red","purple")))]
   data[,Trend := gsub("PUPPY","<br />",Trend)]
+  data[,Trend := gsub("SU","<u>",Trend)]
+  data[,Trend := gsub("EU","</u>",Trend)]
   #data[,Period := cell_spec(Period,font_size = 12)]
 
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
@@ -58,7 +60,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
     col.names = c("Tree Species", "Period", "Modelled Feasibility",
                   "CFRG", "Environmental","Establishment",
-                  "Future (cciss)","Improve/Same<br />Decline/Unsuitable"),
+                  "Future (cciss)","<u>Improve/Same</u><br />Decline/Unsuitable"),
     table.attr = 'class="table table-hover"') %>%
     add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
                        "Projected Feasibility" = 2, "Trend" = 1)) %>%
