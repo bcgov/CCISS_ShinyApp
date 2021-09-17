@@ -206,6 +206,11 @@ addBGC <- function(map) {
         flag = false;
       });
       
+      Shiny.addCustomMessageHandler("clearDist",function(x){
+        distLayer.resetFeatureStyle(distHL);
+        Shiny.setInputValue("dist_click",null);
+      });
+      
       distLayer.bindTooltip(function(e) {
         return e.properties.dist_code;
       }, {sticky: true, textsize: "10px", opacity: 1});

@@ -236,6 +236,14 @@ observeEvent(input$clear_button,{
   clear_mk()
 })
 
+##redraw point when going back to select tab
+observeEvent(input$active_tab,{
+  if(input$active_tab == 0){
+    clear_mk()
+    draw_mk()
+  }
+})
+
 ## Edit points logic
 observeEvent(input$points_table_cell_edit, {
   info = input$points_table_cell_edit

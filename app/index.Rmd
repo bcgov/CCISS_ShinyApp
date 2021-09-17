@@ -79,6 +79,11 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 ```
 
+<script>
+$("body").on("shown.bs.tab", "a[data-toggle='tab']", function(e) {
+   Shiny.setInputValue("active_tab", $(e.target).parent().index());
+})
+</script>
 
 SELECT SITES
 =====================================
@@ -417,6 +422,7 @@ Shiny App Information {data-navmenu="ABOUT"}
 ```{r}
 tableOutput("shinyinfo")
 ```
+
 
 ```{r}
 tags$script(HTML('
