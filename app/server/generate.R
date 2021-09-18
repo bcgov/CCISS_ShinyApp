@@ -156,7 +156,7 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-#bgc <- dbGetCCISS(pool,siteno = 1985468, avg = F, modWeights = all_weight)
+# bgc <- dbGetCCISS(pool,siteno = c(3347864,3271530,3439610,3586472), avg = F, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
