@@ -105,7 +105,7 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   
   numEdaPh <- E1_Phase[,.(NumEdas = .N), by = .(SS_NoSpace)]
   phaseSmall <- unique(edaPhase[,.(BGC,MainUnit,Phase = SS_NoSpace)])
-  combPhase <- phaseSmall[combAll, on = c(MainUnit = "SS.pred")]
+  combPhase <- phaseSmall[combAll, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
   justPhase <- combPhase[!is.na(Phase),]
   curr <- unique(justPhase[,.(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, SS_NoSpace)])
   fut <- unique(justPhase[,.(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, MainUnit, Phase)])
