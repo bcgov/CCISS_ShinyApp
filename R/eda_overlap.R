@@ -84,7 +84,7 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   ###forwards overlap
   SS.out <- new[,.(SS.prob = .N,BGC.prop = BGC.prop[1]), 
                 keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)]
-  SS.out[numEda,SS.Curr := i.NumEdas, on = c(SS_NoSpace = "SS_NoSpace")]
+  SS.out[numEda,SS.Curr := i.NumEdas, on = c(SS_NoSpace = "SS_NoSpace"), allow.cartesian = T]
   SS.out[,SSProb := SS.prob/SS.Curr]
   
   ###reverse overlap
@@ -110,24 +110,24 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   curr <- unique(justPhase[,.(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, SS_NoSpace)])
   fut <- unique(justPhase[,.(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, MainUnit, Phase)])
   phaseTemp <- E1_Phase[,.(SS_NoSpace,Edatopic)]
-  curr <- E1[curr, on = "SS_NoSpace"] 
-  fut <- phaseTemp[fut, on = c(SS_NoSpace = "Phase")]
+  curr <- E1[curr, on = "SS_NoSpace", allow.cartesian = T] 
+  fut <- phaseTemp[fut, on = c(SS_NoSpace = "Phase"),allow.cartesian = T]
   setnames(fut,old = "SS_NoSpace", new = "PhasePred")
   setkey(curr, SiteRef, FuturePeriod, BGC, BGC.pred,Edatopic)
   setkey(fut,SiteRef,FuturePeriod,BGC,BGC.pred,Edatopic)
-  new <- fut[curr]
+  new <- fut[curr, allow.cartesian = T]
   new <- new[!is.na(PhasePred),]
   
   ###forwards overlap
   SS.out <- new[,.(SS.prob = .N,MainUnit = MainUnit[1]), 
                 keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,PhasePred)]
-  SS.out[numEda,SS.Curr := i.NumEdas, on = c(SS_NoSpace = "SS_NoSpace")]
+  SS.out[numEda,SS.Curr := i.NumEdas, on = c(SS_NoSpace = "SS_NoSpace"), allow.cartesian = T]
   SS.out[,SSProb := SS.prob/SS.Curr]
   
   ###reverse overlap
   SS.out.rev <- new[,.(SS.prob = .N,MainUnit = MainUnit[1]), 
                     keyby = .(SiteRef,FuturePeriod,BGC,BGC.pred,PhasePred,SS_NoSpace)]
-  SS.out.rev[numEdaPh,SS.Curr := i.NumEdas, on = c(PhasePred = "SS_NoSpace")]
+  SS.out.rev[numEdaPh,SS.Curr := i.NumEdas, on = c(PhasePred = "SS_NoSpace"), allow.cartesian = T]
   SS.out.rev[,SSProbRev := SS.prob/SS.Curr]
 
   ##combine them

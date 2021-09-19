@@ -24,6 +24,7 @@ observeEvent(input$bgc_click,{
 # Input management ----
 output$points_table <- DT::renderDataTable({
   pts <- userpoints$dt
+  print(dput(pts$Site))
   DT::datatable(
     pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
     options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
@@ -51,7 +52,7 @@ new_points <- function(points) {
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
       res <- dbPointInfo(pool, points)
       points[, `:=`(
-        BGC = input$bgc_point_click,
+        BGC = if(uData$bec_click_flag) input$bgc_point_click else res$map_label,
         ForestRegion = res$forest_region,
         Site = res$site_no,
         # Only replace elevation with DEM when not provided by the user
@@ -87,6 +88,7 @@ new_points <- function(points) {
     } else {
       removeModal()
     }
+    uData$bec_click_flag <- FALSE
     return(points)
   })
 }

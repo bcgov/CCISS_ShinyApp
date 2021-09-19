@@ -444,7 +444,6 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
-
 portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
                              modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
@@ -470,6 +469,7 @@ output$modal_ui <- renderUI({
   HTML(readLines(rmarkdown::render("./server/CCISS_Instructions.Rmd",encoding = "UTF-8",envir = new.env()),encoding = "UTF-8"))
 })
 
+uData$bec_click_flag <- FALSE
 ##default session parameters
 output$rcp_select <- renderAmChart4({
   amBarChart(

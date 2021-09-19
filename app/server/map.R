@@ -68,6 +68,7 @@ set_map_bound <- function(data = userpoints$dt) {
 observeEvent(input$bec_map_click, {
   if(input$preselected == "N"){
     print("In BGC Click")
+    uData$bec_click_flag <- TRUE
     pos <- input$bec_map_click
     points <- new_points(data.table(Lat = pos$lat, Long = pos$lng))
     insert_points(points)
