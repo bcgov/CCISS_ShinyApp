@@ -162,7 +162,7 @@ bgc <- function(con, siteno, avg, modWeights) {
 # "4055121", "2243917", "1944094", "4125428", "4635548", "5737786", 
 # "5321717", "1703309", "1338735", "1313609", "1345347", "1741741", 
 # "3457355", "3606245"))
-# bgc <- dbGetCCISS(pool,siteno = testSitenos, avg = T, modWeights = all_weight)
+#bgc <- dbGetCCISS(pool,siteno = 4954059, avg = T, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
@@ -175,7 +175,7 @@ cciss <- function(bgc,estabWt,futWt) {
 }
 
 
-# test <- ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
+# test <- ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1,
 #                     histWeights = c(0.3,0.3,0.35), futureWeights = rep(0.25,4))
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 # This map is used to determine output labels from raw period

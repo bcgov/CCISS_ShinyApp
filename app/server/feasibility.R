@@ -27,7 +27,6 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   }else if (filter == "f"){
     data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3) | ccissFeas %in% c(1,2,3),]
   }
-  print(head(data))
   data[,Trend := paste0("SU", Improve,"EUPUPPY",Decline)] ##have to do this so the br isn't escaped by cell_spec
   data <- data[!is.na(Trend),]
   data[,Trend := cell_spec(Trend,"html", color = fifelse(Improve > 67,'green',fifelse(Improve < 33, "red","purple")))]
