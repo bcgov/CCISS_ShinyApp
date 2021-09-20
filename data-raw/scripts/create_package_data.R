@@ -5,7 +5,7 @@ library(data.table)
 library(usethis)
 library(readxl)
 E1 <- fread("./data-raw/data_tables/Edatopic_v12_11.csv")
-S1 <- fread("./data-raw/data_tables/Feasibility_v12_10.csv")
+S1 <- fread("./data-raw/data_tables/Feasibility_v12_11.csv")
 N1 <- fread("./data-raw/data_tables/SiteSeries_names_v12_10.csv")
 N1[,SiteSeriesLongName := gsub("\x96","-",SiteSeriesLongName)]
 use_data(N1,overwrite = T)
@@ -23,8 +23,7 @@ S1[Spp %in% c("Sw","Se","Sxw"),Spp := "Sx"]
 S1[Spp %in% c("Ss", "Sxl","Sxs"),Spp := "Ss"]
 S1[Spp %in% c("Pyi","Pyc"),Spp := "Py"]
 S1[Spp %in% c("Acb","Act"),Spp := "Ac"]
-S1 <- S1[Spp != "X",]
-save(S1, file = "./data/S1.rda")
+use_data(S1, overwrite = T)
 use_data(N1,overwrite = T)
 
 SIBEC <- fread("~/SIBEC_Modelled/PredSI_Sept2021_2.csv") 
