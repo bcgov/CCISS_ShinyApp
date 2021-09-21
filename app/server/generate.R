@@ -241,13 +241,11 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
-    results[is.na(CFSuitability), CFSuitability := "X"]
     # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
       Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
       Period = paste0(period_map, collapse = "<br />"),
-      ProjFeas = EstabFeas,
       PredFeasSVG = paste0(
         feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
         feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
