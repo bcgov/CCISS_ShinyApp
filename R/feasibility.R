@@ -137,7 +137,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   summOut[,c("Curr","ccissSuit") := lapply(.SD,function(x){fifelse(x >= 4,"X",x)}), 
           .SDcols = c("Curr","ccissSuit")]
   summOut[is.na(NewSuit) | NewSuit == 4,NewSuit := "X"]
-  summOut[NewSuit == "X" & ccissSuit %in% c("1","2","3"), NewSuit := "Trial"]
+  #summOut[NewSuit == "X" & ccissSuit %in% c("1","2","3"), NewSuit := "Trial"]
   summOut <- summOut[!is.na(ccissSuit),]
   print("Done Feas")
   return(list(Summary = summOut, Raw = suitVotes))

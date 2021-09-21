@@ -19,6 +19,13 @@ output$results_feas <- function() {
 # Dual utility function to format dt, app mode and report mode use different
 # format. Report has no javascript, just a plain table.
 cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") {
+  data[,Curr := as.character(Curr)]
+  for(i in c("Curr","EstabFeas","CFSuitability")){ ##set NA to X
+    data[is.na(get(i)) | get(i) == 4, (i) := "X"]
+  }
+  #print(data[,.(CFSuitability,Curr,ccissFeas)])
+  data[CFSuitability == "X" & Curr == "X" 
+          & ccissFeas %in% c(1,2,3), EstabFeas := "Trial"]
   if(filter == "a"){
     for(i in c("NewSuit_1991","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
       data[is.na(get(i)), (i) := 4]
@@ -37,11 +44,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
 
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
                .(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, Trend)]
-  data[,Curr := as.character(Curr)]
   data[Curr == 4,Curr := "X"]
-  for(i in c("Curr","EstabFeas")){ ##set NA to X
-    data[is.na(get(i)), (i) := "X"]
-  }
   data[Curr != "X", Curr := paste0("E", Curr)]
   data[!EstabFeas %in% c("X","Trial"), EstabFeas := paste0("E", EstabFeas)]
   data[ccissFeas != "X", ccissFeas := paste0("E", ccissFeas)]
