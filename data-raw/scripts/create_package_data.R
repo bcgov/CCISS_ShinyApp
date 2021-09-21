@@ -112,14 +112,14 @@ a <- stocking_standards[ZoneSubzone %chin% crosswalk$Tables]
 # Generate all possible BGC that would use a substitute
 a <- a[crosswalk, on = c(ZoneSubzone = "Tables"), allow.cartesian = TRUE, nomatch = NULL]
 # Checking if any of those already have a match in the standards table
-nrow(stocking_standards[a, on = c(Region = "Region", ZoneSubzone = "Modeled", SS_NoSpace = "SS_NoSpace", Species = "Species"), nomatch = NULL])
+#nrow(stocking_standards[a, on = c(Region = "Region", ZoneSubzone = "Modeled", SS_NoSpace = "SS_NoSpace", Species = "Species"), nomatch = NULL])
 # Does not seems like it, so it is safe to add all of them
 a[, `:=`(ZoneSubzone = Modeled, Modeled = NULL)]
 k <- data.table::key(stocking_standards)
 stocking_standards <- rbindlist(list(stocking_standards, a))
 setkeyv(stocking_standards, k)
 # Recheck for dups
-dupPairs(stocking_standards)
+#dupPairs(stocking_standards)
 stocking_standards[,SiteSeries := gsub("[^0-9.-]", "", SiteSeries)]
 stocking_standards[,SS_NoSpace := paste0(ZoneSubzone,"/",SiteSeries)]
 stocking_standards[,SiteSeries := NULL]
@@ -135,6 +135,9 @@ stocking_standards[,FN6 := NULL]
 temp <- stocking_standards[grep("BWBS",ZoneSubzone),]
 temp[,Region := "Pr Rupert"]
 stocking_standards <- rbind(stocking_standards,temp)
+stocking_standards[Species %in% c("Se","Sx","Sxw","Sw","Sxs"),Species := "Sx"]
+stocking_standards[Species %in% c("Act","Acb","Aca"),Species := "Ac"]
+
 use_data(stocking_standards,overwrite = T)
 # Stocking height formatting
 stocking_height <- copy(stocking_height_v12[,.(Standard, Species, Height)])
