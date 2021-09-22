@@ -83,6 +83,7 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Populate UI choices", ticker)
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "siteref_bgc_fut_spatial", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
