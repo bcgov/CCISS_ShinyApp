@@ -3,6 +3,8 @@ bcgov_tileserver <- "http://159.203.20.90/data/BC_BGC/{z}/{x}/{y}.pbf"
 bcgov_tilelayer <- "BECMap"
 district_tileserver <- "http://159.203.20.90/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
+wna_tileserver <- "http://159.203.20.90/data/WNA_MAP/{z}/{x}/{y}.pbf"
+wna_tilelayer <- "WNA_MAP"
 
 plugins <- {
   list(vgplugin =
@@ -28,6 +30,85 @@ registerPlugin <- function(map, plugin) {
 
 addPlugin <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
+  map
+}
+
+add_wna <- function(map) {
+  map <- registerPlugin(map, plugins$vgplugin)
+  map <- htmlwidgets::onRender(map, paste0('
+    function(el, x, data) {
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$BGC, "':'", subzones_colours_ref$Col,"'", collapse = ","), "}"), '
+      
+      L.bec_layer_opacity2 = 0.1
+      
+      var vectorTileOptions=function(layerName, layerId, activ,
+                             lfPane, colorMap, prop, id) {
+        return {
+          vectorTileLayerName: layerName,
+          interactive: activ, // makes it able to trigger js events like click
+          vectorTileLayerStyles: {
+            [layerId]: function(properties, zoom) {
+              return {
+                weight: 0,
+                fillColor: colorMap[properties[prop]],
+                fill: true,
+                fillOpacity: L.bec_layer_opacity2
+              }
+            }
+          },
+          pane : lfPane,
+          getFeatureId: function(f) {
+              return f.properties[id];
+          }
+        }
+        
+      };
+      
+      var subzLayer = L.vectorGrid.protobuf(
+        "', wna_tileserver, '",
+        vectorTileOptions("WNA_BEC", "', wna_tilelayer, '", true,
+                          "tilePane", subzoneColors, "MAP_LABEL", "MAP_LABEL")
+      )
+      this.layerManager.addLayer(subzLayer, "tile", "WNA_BEC", "WNA_BEC");
+      
+      var curr_select = ["SBSdk","SBSmc2"];
+      var cols;
+      var bgc;
+      
+      Shiny.addCustomMessageHandler("colour_wna",function(col_map){
+        console.log(col_map);
+        cols = col_map[Col];
+        bgc = col_map[BGC];
+
+        curr_select.forEach((ID,i) => {
+          subzLayer.resetFeatureStyle(ID);
+        });
+        curr_select = bgc;
+        bgc.forEach((ID,i) => {
+         var styleHL = {
+            weight: 1.5,
+            color: "#fc036f",
+            fillColor: cols[i],
+            fillOpacity: 1,
+            fill: true
+          };
+          subzLayer.setFeatureStyle(ID, styleHL);
+        });
+
+      });
+      
+      Shiny.addCustomMessageHandler("clearBEC",function(x){
+        curr_select.forEach((ID,i) => {
+          subzLayer.resetFeatureStyle(ID);
+        });
+      });
+      
+      subzLayer.bindTooltip(function(e) {
+        return e.properties.MAP_LABEL
+      }, {sticky: true, textsize: "10px", opacity: 1});
+      subzLayer.bringToFront();
+    }'
+  ))
   map
 }
 
@@ -79,7 +160,7 @@ addBGC <- function(map) {
             weight: 1,
             color: "#fc036f",
             fillColor: subzoneColors[properties.BGC],
-            fillOpacity: 1,
+            fillOpacity: 0.1,
             fill: true
           };
           subzLayer.setFeatureStyle(properties.BGC, style);

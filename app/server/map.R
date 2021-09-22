@@ -110,3 +110,46 @@ observeEvent(input$clear_highlight,{
     session$sendCustomMessage("selectDist","puppy")
   }
 })
+
+######################################################
+### WNA MAP #########################################
+
+# Map main
+output$wna_map <- renderLeaflet({
+  leaflet::leaflet() %>%
+    leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 5) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterNoLabels, group = "DarkMatter",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
+                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addTiles(
+      urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mbhsstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
+      attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+      group = "Hillshade",
+      options = leaflet::pathOptions(pane = "mapPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
+                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterOnlyLabels, group = "DarkMatter Labels",
+                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    leaflet::addTiles(
+      urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
+      attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+      group = "Mapbox Labels",
+      options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    add_wna() %>%
+    #invokeMethod(data = subzones_colours_ref, method = "addBGCTiles", ~classification, ~colour) %>%
+    leaflet::hideGroup("DarkMatter Labels") %>%
+    leaflet::hideGroup("Positron Labels") %>%
+    leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
+    leaflet::addLayersControl(
+      baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
+      overlayGroups = c("WNA_BEC","Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
+      position = "topright") %>%
+    ##leaflet::addPolygons(color = "purple") %>% 
+    leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
+})
+

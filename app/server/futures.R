@@ -61,3 +61,15 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                    barmode = 'stack', legend = l, hovermode = "x unified")
 }
 uData$bgc_fut_plotly <- bgc_fut_plotly
+
+###map
+
+observe({
+  siteref <- input$siteref_bgc_fut_spatial
+  timeper <- input$bgc_spatial_period
+  data <- copy(uData$bgc)
+  data <- data[SiteRef == siteref & FuturePeriod == timeper,]
+  dat <- data.table(BGC = c(data$BGC[1],data$BGC.pred),
+                    Col = c("#d10092",colourvalues::colour_values(data$BGC.prop,include_alpha = F)))
+  session$sendCustomMessage("colour_wna",dat)
+})

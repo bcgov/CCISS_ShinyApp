@@ -219,7 +219,7 @@ CCISS Report
 column(12, align="center", tableOutput("results_feas"))
 ```
 
-BEC FUTURES
+Graphical {data-navmenu="BEC FUTURES"}
 =====================================
 
 Inputs {.sidebar data-width=230}
@@ -240,6 +240,27 @@ BEC Futures: ratio of predicted BGC with aligned site series from all selected c
 
 ```{r}
 plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
+```
+
+
+Spatial {data-navmenu="BEC FUTURES"}
+=====================================
+
+Inputs {.sidebar data-width=230}
+-------------------------------------
+
+###### Filter
+
+```{r}
+selectInput("siteref_bgc_fut_spatial", label = "Sites:", choices = character())
+selectInput("bgc_spatial_period",label = "Period:",choices = c("Current" = 1991,"2021-2040" = 2021, "2041-2060" = 2041, "2061-2080" = 2061, "2081-2100" = 2081),selected = 1991)
+```
+
+BEC Futures: Map of all predicted BGCs
+-------------------------------------
+
+```{r}
+leafletOutput("wna_map", height = "auto")
 ```
 
 
@@ -395,7 +416,7 @@ splitLayout(
 
 ```
 
-How the CCISS tool works {data-navmenu="ABOUT"} 
+How the CCISS tool works {data-navmenu="TECH SPECS"} 
 =====================================
 
 The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
@@ -404,7 +425,7 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
   
 [Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
 
-Model information {data-navmenu="ABOUT"}
+Model information {data-navmenu="TECH SPECS"}
 =====================================
 
 ### Current versions of Information Tables, Maps, and Models used in this App
@@ -416,7 +437,7 @@ div(
 )
 ```
 
-Shiny App Information {data-navmenu="ABOUT"} 
+Shiny App Information {data-navmenu="TECH SPECS"} 
 =====================================
 
 ```{r}
