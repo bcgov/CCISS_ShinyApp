@@ -71,8 +71,10 @@ observe({
   data <- copy(uData$bgc)
   if(!is.null(data) & !is.null(siteref)){
     data <- data[SiteRef == siteref & FuturePeriod == timeper,]
-    dat <- data.table(BGC = c(data$BGC[1],data$BGC.pred),
-                      Col = c("#000000",colourvalues::colour_values(data$BGC.prop,include_alpha = F)))
+    data <- data[BGC.prop > 0.034,] ##exclude single model predictions
+    dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
+                      Col = c(colourvalues::colour_values(c(0,1,data$BGC.prop),palette = "plasma", 
+                                                          include_alpha = F)[-(1:2)],"#FFFB00"))
     session$sendCustomMessage("colour_wna",dat)
   }
 })
