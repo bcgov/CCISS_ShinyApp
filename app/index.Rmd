@@ -253,7 +253,7 @@ Inputs {.sidebar data-width=230}
 
 ```{r}
 selectInput("siteref_bgc_fut_spatial", label = "Sites:", choices = character())
-selectInput("bgc_spatial_period",label = "Period:",choices = c("Current" = 1991,"2021-2040" = 2021, "2041-2060" = 2041, "2061-2080" = 2061, "2081-2100" = 2081),selected = 1991)
+selectInput("bgc_spatial_period",label = "Period:",choices = c("Choose Period" = "", "Current" = 1991,"2021-2040" = 2021, "2041-2060" = 2041, "2061-2080" = 2061, "2081-2100" = 2081))
 ```
 
 BEC Futures: Map of all predicted BGCs

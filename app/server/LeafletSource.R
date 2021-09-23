@@ -37,9 +37,7 @@ add_wna <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$BGC, "':'", subzones_colours_ref$Col,"'", collapse = ","), "}"), '
-      
-      L.bec_layer_opacity2 = 0.1
+      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
       
       var vectorTileOptions=function(layerName, layerId, activ,
                              lfPane, colorMap, prop, id) {
@@ -52,7 +50,7 @@ add_wna <- function(map) {
                 weight: 0,
                 fillColor: colorMap[properties[prop]],
                 fill: true,
-                fillOpacity: L.bec_layer_opacity2
+                fillOpacity: 0.3
               }
             }
           },
@@ -77,8 +75,8 @@ add_wna <- function(map) {
       
       Shiny.addCustomMessageHandler("colour_wna",function(col_map){
         console.log(col_map);
-        cols = col_map[Col];
-        bgc = col_map[BGC];
+        cols = col_map.Col;
+        bgc = col_map.BGC;
 
         curr_select.forEach((ID,i) => {
           subzLayer.resetFeatureStyle(ID);
@@ -86,8 +84,8 @@ add_wna <- function(map) {
         curr_select = bgc;
         bgc.forEach((ID,i) => {
          var styleHL = {
-            weight: 1.5,
-            color: "#fc036f",
+            weight: 0.5,
+            color: cols[i],
             fillColor: cols[i],
             fillOpacity: 1,
             fill: true

@@ -67,9 +67,12 @@ uData$bgc_fut_plotly <- bgc_fut_plotly
 observe({
   siteref <- input$siteref_bgc_fut_spatial
   timeper <- input$bgc_spatial_period
+  update_flag()
   data <- copy(uData$bgc)
-  data <- data[SiteRef == siteref & FuturePeriod == timeper,]
-  dat <- data.table(BGC = c(data$BGC[1],data$BGC.pred),
-                    Col = c("#d10092",colourvalues::colour_values(data$BGC.prop,include_alpha = F)))
-  session$sendCustomMessage("colour_wna",dat)
+  if(!is.null(data) & !is.null(siteref)){
+    data <- data[SiteRef == siteref & FuturePeriod == timeper,]
+    dat <- data.table(BGC = c(data$BGC[1],data$BGC.pred),
+                      Col = c("#000000",colourvalues::colour_values(data$BGC.prop,include_alpha = F)))
+    session$sendCustomMessage("colour_wna",dat)
+  }
 })
