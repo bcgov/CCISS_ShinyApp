@@ -78,8 +78,12 @@ observeEvent(input$bec_map_click, {
 observeEvent(input$preselected,{
   print(input$preselected)
   if(input$preselected == "BGC_Dist"){
+    userpoints$dt <- uData$basepoints
+    clear_mk()
     session$sendCustomMessage("selectDist","puppy")
   }else if(input$preselected == "BGC"){
+    userpoints$dt <- uData$basepoints
+    clear_mk()
     session$sendCustomMessage("selectBGC","puppy")
     session$sendCustomMessage("typeFlag","select")
   }else{
