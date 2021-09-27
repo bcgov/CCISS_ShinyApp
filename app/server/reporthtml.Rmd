@@ -20,13 +20,14 @@ suppressPackageStartupMessages({
 })
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
-# Debug mode
-# userdata <- readRDS("../../report.rds")
+#Debug mode
+# userdata <- readRDS("../cciss_export.rds")
 # for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
 
 # Deployment mode
 # assign in current environment
 for (nm in names(params$userdata)) {assign(nm, params$userdata[[nm]])}
+cciss_results <- cciss_results[!is.na(ProjFeas),]
 
 # Env variable for map
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
@@ -135,6 +136,7 @@ htmltools::tagList(
   lapply(names(siteseries_list), function(siteref) {
     siteseries <- siteseries_list[[siteref]]
     siteseries <- siteseries[siteseries %in% site_series_filter]
+    siteseries <- siteseries[siteseries %in% cciss_results$SS_NoSpace] ##sometimes error here
     htmltools::tagList(
       mapply(FUN = function(siteserie, nm) {
         siteserie2 <- gsub("/","_",siteserie)

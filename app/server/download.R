@@ -78,7 +78,6 @@ output$report_download <- downloadHandler(
 )
 
 output$data_download <- downloadHandler(
-  # For PDF output, change this to "report.pdf"
   filename = function() {
     paste("cciss_export", input$data_format, sep = ".")
   },

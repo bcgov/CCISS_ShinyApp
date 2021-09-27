@@ -258,6 +258,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       )
     )]
     
+    results <- results[!is.na(ProjFeas),]
     setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
     return(results)
   })
