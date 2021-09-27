@@ -139,6 +139,7 @@ htmltools::tagList(
     siteseries <- siteseries[siteseries %in% cciss_results$SS_NoSpace] ##sometimes error here
     htmltools::tagList(
       mapply(FUN = function(siteserie, nm) {
+        cat(siteserie,nm)
         siteserie2 <- gsub("/","_",siteserie)
         htmltools::tagList(
           tags$h2(paste0("Site Unit ", siteserie2)),
