@@ -32,10 +32,11 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     }
     data <- data[(NewSuit_1991 < 4 | NewSuit_2021 < 4 | NewSuit_2041 < 4 |NewSuit_2061 < 4 | NewSuit_2081 < 4),]
   }else if (filter == "f"){
-    data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3) | ccissFeas %in% c(1,2,3),]
+    data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3),]
   }
   data[,Trend := paste0("SU", Improve,"EUPUPPY",Decline)] ##have to do this so the br isn't escaped by cell_spec
-  data <- data[!is.na(Trend),]
+  data <- data[!is.na(Trend) & !is.na(Improve),]
+  #print(data[,.(Trend,Improve)])
   data[,Trend := cell_spec(Trend,"html", color = fifelse(Improve > 67,'green',fifelse(Improve < 33, "red","purple")))]
   data[,Trend := gsub("PUPPY","<br />",Trend)]
   data[,Trend := gsub("SU","<u>",Trend)]
