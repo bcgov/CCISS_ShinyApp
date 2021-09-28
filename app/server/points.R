@@ -238,6 +238,12 @@ observeEvent(input$clear_button,{
   clear_mk()
 })
 
+observeEvent(input$clear_selections,{
+  userpoints$dt <- uData$basepoints
+  clear_mk()
+  updateRadioButtons(session,"preselected",selected = "N")
+})
+
 ##redraw point when going back to select tab
 observeEvent(input$active_tab,{
   if(input$active_tab == 0){
