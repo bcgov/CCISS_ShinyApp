@@ -1,5 +1,5 @@
 ---
-title: "The Climate Change Informed Species Selection Tool"
+title: "The CCISS Tool"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -88,7 +88,7 @@ $("body").on("shown.bs.tab", "a[data-toggle='tab']", function(e) {
 SELECT SITES
 =====================================
 
-Inputs {.sidebar data-width=550}
+Inputs {.sidebar data-width=450}
 -------------------------------------
 
 ```{r}
@@ -96,7 +96,7 @@ actionButton("show_instr","Show Instructions",icon = icon("circle-question"), st
 br()
 wellPanel(
   splitLayout(
-    actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h")),
+    actionButton("sesh_params","Adjust Parameters",icon = icon("sliders-h")),
 
 radioButtons(
       "aggregation",
@@ -161,6 +161,12 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
 ---
+
+```{r}
+actionButton("clear_selections","Clear Selections",
+             style = "width:100%; background-color:#c21104; color: #FFF")
+hr(style = "border-top: 1px solid #8f0e7e;")
+```
 
 ##### Ready to Go!
 
@@ -264,7 +270,7 @@ leafletOutput("wna_map", height = "auto")
 ```
 
 
-SILVICS and ECOLOGY INFO
+SILVICS & ECOLOGY
 =====================================     
 
 Inputs {.sidebar data-width=230}
