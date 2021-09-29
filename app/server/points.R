@@ -24,13 +24,17 @@ observeEvent(input$bgc_click,{
 # Input management ----
 output$points_table <- DT::renderDataTable({
   pts <- userpoints$dt
-  print(dput(pts$Site))
-  DT::datatable(
-    pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
-                   scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
-    editable = list(target = "row", disable = list(columns = c(1,5)))
-  )
+  if(nrow(pts) > 0){
+    DT::datatable(
+      pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
+      options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
+                     scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
+      editable = list(target = "row", disable = list(columns = c(1,5)))
+    )
+  }else{
+    NULL
+  }
+  
 })
 
 ## Points update logic
