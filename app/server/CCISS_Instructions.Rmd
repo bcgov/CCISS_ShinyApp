@@ -1,0 +1,16 @@
+---
+title: Welcome to CCISS!
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+---
+
+## What is CCISS?
+
+Here's some pithy text about CCISS.
+
+## How do I use the tool?
+
+More pithy and instructive text. 
