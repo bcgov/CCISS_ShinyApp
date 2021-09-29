@@ -144,17 +144,6 @@ leaflet::leaflet(height = "400px") %>%
 
 ```
 
-```{r session params, results='asis'}
-tags$h2("SESSION PARAMETERS")
-tags$h6("General Parameters")
-knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T)
-tags$h6("Time Period Weights")
-knitr::kable(datTP)
-tags$h6("GCM Weights")
-knitr::kable(session_params$gcmWt)
-tags$h6("Scenario Weights")
-knitr::kable(session_params$rcpWt)
-```
 
 ```{r siteloop, results='asis'}
 htmltools::tagList(
@@ -195,6 +184,19 @@ htmltools::tagList(
   })
 )
 ```
+
+```{r session params, results='asis'}
+tags$h2("SESSION PARAMETERS")
+tags$h6("General Parameters")
+knitr::kable(data.table("Parameters" = c("Number of Points<br />Considered", "Averaged?", "Date", "Time"), "User Selections" = c(nrow(pts), avg, format(Sys.Date(), "%Y/%m/%d"), format(Sys.time(), "%H:%M", usetz = TRUE))),html = T)
+tags$h6("Time Period Weights")
+knitr::kable(datTP)
+tags$h6("GCM Weights")
+knitr::kable(session_params$gcmWt)
+tags$h6("Scenario Weights")
+knitr::kable(session_params$rcpWt)
+```
+
 
 <!-- Logo -->
 ```{r logo, results='asis'}

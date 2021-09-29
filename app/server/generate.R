@@ -83,6 +83,7 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Populate UI choices", ticker)
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "siteref_bgc_fut_spatial", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
@@ -156,18 +157,27 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-#bgc <- dbGetCCISS(pool,siteno = 2058008, avg = F, modWeights = all_weight)
+# testSitenos <- as.integer(c("1247944", "1486662", "1866401", "2275827", "3060730", "3865683", 
+# "5023732", "4842832", "2761637", "2111482", "2370320", "3013159", 
+# "3466294", "3716379", "4828480", "5103315", "4638702", "3557707", 
+# "4055121", "2243917", "1944094", "4125428", "4635548", "5737786", 
+# "5321717", "1703309", "1338735", "1313609", "1345347", "1741741", 
+# "3457355", "3606245"))
+#bgc <- dbGetCCISS(pool,siteno = 1958596, avg = T, modWeights = all_weight)
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
 cciss <- function(bgc,estabWt,futWt) {
-  SSPred <- edatopicOverlap(bgc, Edatope = E1)
+  SSPred <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- SSPred
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
               histWeights = estabWt, futureWeights = futWt)
 }
 
+
+# test <- ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1,
+#                     histWeights = c(0.3,0.3,0.35), futureWeights = rep(0.25,4))
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 # This map is used to determine output labels from raw period
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
@@ -226,12 +236,12 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       sumResults, 
       `:=`(EstabFeas = i.NewSuit,
            ccissFeas = i.ccissSuit,
-           Trend = i.Trend,
-           Improve = i.Improve),
+           Improve = i.Improve,
+           Decline = i.Decline,
+           OrderCol = i.OrderCol),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
-    results[is.na(CFSuitability), CFSuitability := "X"]
     # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
@@ -248,7 +258,8 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       )
     )]
     
-    setorder(results, SiteRef, SS_NoSpace, ccissFeas, na.last = TRUE)
+    results <- results[!is.na(ProjFeas),]
+    setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
     return(results)
   })
 }

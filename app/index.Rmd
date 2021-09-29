@@ -1,5 +1,5 @@
 ---
-title: "The Climate Change Informed Species Selection Tool"
+title: "The CCISS Tool"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -30,6 +30,7 @@ suppressPackageStartupMessages({
   library(rAmCharts4)
   library(kableExtra)
   library(rhandsontable)
+  library(shinyBS)
 })
 pool <- dbPool(
   drv = RPostgres::Postgres(),
@@ -78,16 +79,24 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 ```
 
+<script>
+$("body").on("shown.bs.tab", "a[data-toggle='tab']", function(e) {
+   Shiny.setInputValue("active_tab", $(e.target).parent().index());
+})
+</script>
+
 SELECT SITES
 =====================================
 
-Inputs {.sidebar data-width=550}
+Inputs {.sidebar data-width=450}
 -------------------------------------
 
 ```{r}
+actionButton("show_instr","Show Instructions",icon = icon("circle-question"), style = "width:100%; background-color:#003366; color: #FFF")
+br()
 wellPanel(
   splitLayout(
-    actionButton("sesh_params","Adjust Session Parameters",icon = icon("sliders-h")),
+    actionButton("sesh_params","Adjust Parameters",icon = icon("sliders-h")),
 
 radioButtons(
       "aggregation",
@@ -153,6 +162,12 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 
 ---
 
+```{r}
+actionButton("clear_selections","Clear Selections",
+             style = "width:100%; background-color:#c21104; color: #FFF")
+hr(style = "border-top: 1px solid #8f0e7e;")
+```
+
 ##### Ready to Go!
 
 ```{r}
@@ -170,6 +185,9 @@ Biogeoclimatic Zones + Subzones Variants Map
 
 ```{r}
 leafletOutput("bec_map", height = "auto")
+bsModal("instr_modal",title = NULL,"show_instr", size = "large",
+        uiOutput("modal_ui")
+        )
 ```
 
 FEASIBILITY REPORT
@@ -207,7 +225,7 @@ CCISS Report
 column(12, align="center", tableOutput("results_feas"))
 ```
 
-BEC FUTURES
+Graphical {data-navmenu="BEC FUTURES"}
 =====================================
 
 Inputs {.sidebar data-width=230}
@@ -231,7 +249,28 @@ plotly::plotlyOutput("bgc_fut_plot", width = "100%", height = "auto")
 ```
 
 
-SILVICS and ECOLOGY INFO
+Spatial {data-navmenu="BEC FUTURES"}
+=====================================
+
+Inputs {.sidebar data-width=230}
+-------------------------------------
+
+###### Filter
+
+```{r}
+selectInput("siteref_bgc_fut_spatial", label = "Sites:", choices = character())
+selectInput("bgc_spatial_period",label = "Period:",choices = c("Choose Period" = "", "Current" = 1991,"2021-2040" = 2021, "2041-2060" = 2041, "2061-2080" = 2061, "2081-2100" = 2081))
+```
+
+BEC Futures: Map of all predicted BGCs
+-------------------------------------
+
+```{r}
+leafletOutput("wna_map", height = "auto")
+```
+
+
+SILVICS & ECOLOGY
 =====================================     
 
 Inputs {.sidebar data-width=230}
@@ -383,7 +422,7 @@ splitLayout(
 
 ```
 
-How the CCISS tool works {data-navmenu="ABOUT"} 
+How the CCISS tool works {data-navmenu="TECH SPECS"} 
 =====================================
 
 The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures.  
@@ -392,7 +431,7 @@ The CCISS tool reassesses the suitability ranks of species at a site series leve
   
 [Would you like to know more?](https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf)
 
-Model information {data-navmenu="ABOUT"}
+Model information {data-navmenu="TECH SPECS"}
 =====================================
 
 ### Current versions of Information Tables, Maps, and Models used in this App
@@ -404,12 +443,13 @@ div(
 )
 ```
 
-Shiny App Information {data-navmenu="ABOUT"} 
+Shiny App Information {data-navmenu="TECH SPECS"} 
 =====================================
 
 ```{r}
 tableOutput("shinyinfo")
 ```
+
 
 ```{r}
 tags$script(HTML('
@@ -431,7 +471,6 @@ tags$script(HTML('
 # bslib::bs_themer()
 # Reusing Shiny session userData environment
 uData <- session$userData
-
 portfolio_results <- reactiveValues(data = NULL)
 session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
                              modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
@@ -447,6 +486,17 @@ source("./server/futures.R", local = TRUE)
 source("./server/download.R", local = TRUE)
 source("./server/generate_portfolio.R", local = TRUE)
 
+##hover text for feasibility report
+hoverText <- c("Species","Time Period","Percentage of models preciting each feasibility",
+                 "Chief Forester's reference guide","Environmental Feasibility",
+                 "Modelled Establishment feasibility (based on historic,current, and near-future)",
+                 "Modelled future feasibility (based on all four future periods)","Model Trends")
+##show instructions
+output$modal_ui <- renderUI({
+  HTML(readLines(rmarkdown::render("./server/CCISS_Instructions.Rmd",encoding = "UTF-8",envir = new.env()),encoding = "UTF-8"))
+})
+
+uData$bec_click_flag <- FALSE
 ##default session parameters
 output$rcp_select <- renderAmChart4({
   amBarChart(

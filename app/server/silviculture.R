@@ -53,10 +53,12 @@ output$silvics_mature_dt <- function() {
 }
 
 # Ref template for other tables
-silv_ref_dt <- function(silv, data, siteref, siteserie, filter, format = "html", title = "") {
+silv_ref_dt <- function(silv, data, siteref = NULL, siteserie = NULL, filter, format = "html", title = "") {
   if (filter == "f") {
-    data <- data[SiteRef %in% siteref & SS_NoSpace %in% siteserie]
-    silv <- silv[`Tree Code` %in% data[ProjFeas %chin% c("1", "2", "3"), Spp]]
+    if(!is.null(siteref)){
+      data <- data[SiteRef == siteref & SS_NoSpace == siteserie,]
+    }
+    silv <- silv[`Tree Code` %in% data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3) | ccissFeas %in% c(1,2,3),Spp]]
   }
   colalign <- rep("c", length.out = ncol(silv))
   colalign[3] <- "l"

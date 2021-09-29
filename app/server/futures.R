@@ -53,7 +53,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                   y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                   color = ~BGC.pred, colors = color_ref,
                   text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),
-                  texttemplate = "%{text}", hovertemplate = "%{y}", ...) %>%
+                  texttemplate = "%{text}", hovertemplate = "%{y}") %>%
     plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
                                 ticktext = unname(period_map),
@@ -61,3 +61,20 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                    barmode = 'stack', legend = l, hovermode = "x unified")
 }
 uData$bgc_fut_plotly <- bgc_fut_plotly
+
+###map
+
+observe({
+  siteref <- input$siteref_bgc_fut_spatial
+  timeper <- input$bgc_spatial_period
+  update_flag()
+  data <- copy(uData$bgc)
+  if(!is.null(data) & !is.null(siteref)){
+    data <- data[SiteRef == siteref & FuturePeriod == timeper,]
+    data <- data[BGC.prop > 0.034,] ##exclude single model predictions
+    dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
+                      Col = c(colourvalues::colour_values(c(0,1,data$BGC.prop),palette = "plasma", 
+                                                          include_alpha = F)[-(1:2)],"#FFFB00"))
+    session$sendCustomMessage("colour_wna",dat)
+  }
+})

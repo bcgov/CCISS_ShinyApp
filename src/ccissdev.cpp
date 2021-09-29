@@ -72,7 +72,7 @@ NumericVector SimGrowth(DataFrame DF, double cmdMin,
     }
     nTrees = nTrees - climDead;
     if(Rcpp::runif(1,0,100)[0] > NoMort[i]){//regular environmental loss
-      percentDead = Rcpp::rgamma(1, 1.5, MeanDead[i])[0];
+      percentDead = Rcpp::rgamma(1, 2, MeanDead[i])[0];
       numDead = (percentDead/100)*prevTrees;
       nTrees = nTrees - numDead;
     }

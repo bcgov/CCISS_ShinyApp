@@ -217,7 +217,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                limits <- sppLimits[Spp == treeList[k],]
                                Returns <- SimGrowth(DF = annualDat,
                                                        cmdMin = limits[[1]],cmdMax = limits[[2]],
-                                                       tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.05)
+                                                       tempMin = limits[[3]],tempMax = limits[[4]],climLoss = 0.005)
                                tmpR <- c(0,Returns)
                                assets <- Returns - tmpR[-length(tmpR)]
                                temp <- data.frame(Spp = treeList[k], 
@@ -233,10 +233,13 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                              returns[,Year := NULL]
                              ###only include species with mean return > 1 in portfolio
                              use <- colnames(returns)[colMeans(returns) > quantile(colMeans(returns),0.25)] ###should probably be higher
+                             use <- use[use %in% colnames(covMat)]
                              if(length(use) > 1){
                                returns <- returns[,..use]
-                               sigma2 <- cor(returns) ###to create cov mat from returns
-                               cat("about to optimise")
+                               #print(use)
+                               #sigma2 <- cor(returns) ###to create cov mat from returns
+                               sigma2 <- covMat[use,use]
+                               #print(colnames(sigma2))
                                ef <- optimise_portfolio(returns, sigma2, boundDat,minAccept) 
                                setnames(ef,old = c("frontier_sd","return","sharpe"),
                                         new = c("Sd","RealRet","Sharpe"))
