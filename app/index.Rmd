@@ -56,7 +56,7 @@ poolclim <- dbPool(
   })
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
-district_tileserver <- "http://159.203.20.90/data/Districts/{z}/{x}/{y}.pbf"
+district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")

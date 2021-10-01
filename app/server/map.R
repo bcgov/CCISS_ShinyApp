@@ -9,8 +9,8 @@ output$bec_map <- renderLeaflet({
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
-    leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
-                              options = leaflet::pathOptions(pane = "mapPane")) %>%
+    # leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "OpenStreetMap",
+    #                           options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addTiles(
       urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mbhsstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
@@ -31,7 +31,7 @@ output$bec_map <- renderLeaflet({
     leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
-      baseGroups = c("Positron", "DarkMatter", "Satellite", "OpenStreetMap", "Hillshade"),
+      baseGroups = c("Positron", "DarkMatter", "Satellite", "Hillshade"),
       overlayGroups = c("Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
       position = "topright") %>%
     ##leaflet::addPolygons(color = "purple") %>% 
