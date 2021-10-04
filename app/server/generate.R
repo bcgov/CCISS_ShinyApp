@@ -245,7 +245,8 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
            ccissFeas = i.ccissSuit,
            Improve = i.Improve,
            Decline = i.Decline,
-           OrderCol = i.OrderCol),
+           OrderCol = i.OrderCol,
+           IncludeFlag = i.IncludeFlag),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
