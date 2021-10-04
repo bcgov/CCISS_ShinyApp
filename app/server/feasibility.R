@@ -30,9 +30,10 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     for(i in c("NewSuit_1991","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
       data[is.na(get(i)), (i) := 4]
     }
-    data <- data[(NewSuit_1991 < 4 | NewSuit_2021 < 4 | NewSuit_2041 < 4 |NewSuit_2061 < 4 | NewSuit_2081 < 4),]
+    data <- data[(IncludeFlag) | Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3),]
   }else if (filter == "f"){
-    data <- data[Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3),]
+    data <- data[(ccissFeas %in% c(1,2,3) | EstabFeas %in% c(1,2,3) | Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3)),]
+    
   }
   data[,Trend := paste0("SU", Improve,"EUPUPPY",Decline)] ##have to do this so the br isn't escaped by cell_spec
   data <- data[!is.na(Trend) & !is.na(Improve),]

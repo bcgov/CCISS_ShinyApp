@@ -130,6 +130,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   summOut <- merge(datFeas_final, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
   summOut <- merge(summOut, datFuture, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
   summOut[,OrderCol := (Curr + NewSuitFrac + ccissSuitFrac)/3]
+  summOut[,IncludeFlag := fifelse(ccissSuitFrac > 0.1,TRUE,FALSE)]
   summOut[,c("Flag","SuitDiff","NewSuitFrac","ccissSuitFrac") := NULL]
   #summOut <- summOut[Flag != "NotIn",]
   summOut[,`:=`(Curr = as.character(Curr),
