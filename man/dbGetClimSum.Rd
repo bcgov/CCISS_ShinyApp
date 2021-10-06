@@ -6,6 +6,13 @@
 \usage{
 dbGetClimSum(con, BGC, Scn)
 }
+\arguments{
+\item{con}{A DBI connection object.}
+
+\item{BGC}{A character vector of BGC.}
+
+\item{Scn}{A character vector of length 1 matching a scenario.}
+}
 \description{
 Get Climate Summary Data
 }

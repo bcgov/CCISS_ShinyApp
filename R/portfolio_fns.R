@@ -3,18 +3,45 @@
 
 #' Clean Portfolio Data
 
+#' @param SSPredAll cleanData parameter.
+#' @param SIBEC cleanData parameter.
+#' @param SuitTable cleanData parameter.
+#' @param SNum cleanData parameter.
+#' @param Trees cleanData parameter.
+#' @param timePer cleanData parameter.
+#' @param selectBGC cleanData parameter.
 #' @details What the function does
 #' @return What the function returns
 #' @import data.table
 #' @import foreach
 #' @export
 cleanData <- function(SSPredAll,SIBEC,SuitTable,SNum,Trees,timePer,selectBGC){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    SiteNo <- 
+      TreeSpp <- 
+      FuturePeriod <- 
+      SS_NoSpace <- 
+      SS.pred <- 
+      SSprob <- 
+      Year <- 
+      SS <- 
+      Suitability <- 
+      i.Suitability <- 
+      MeanPlotSiteIndex <- 
+      Spp <- 
+      MeanSuit <- 
+      MeanSI <- 
+      NULL
+  }
+  
   SSPred <- SSPredAll[SiteNo == SNum,] ###subset
   
   ##Merge SIBEC data
   SIBEC <- SIBEC[TreeSpp %in% Trees,]
   SSPred <- SSPred[SSPred$FuturePeriod %in% timePer,]
-  SSPred <- SSPred[,.(FuturePeriod, SS_NoSpace,SS.pred, SSprob)]
+  SSPred <- SSPred[,list(FuturePeriod, SS_NoSpace,SS.pred, SSprob)]
   SSPred <- SIBEC[SSPred, on = c(SS_NoSpace = "SS.pred")]
   setnames(SSPred, old = c("SS_NoSpace","i.SS_NoSpace"), new = c("SS.pred","SS_NoSpace"))
   
@@ -50,9 +77,9 @@ cleanData <- function(SSPredAll,SIBEC,SuitTable,SNum,Trees,timePer,selectBGC){
   }
   
   ##Summarise data- average SI and Suit weighted by SSProb
-  SS.sum <- SSPred[,.(MeanSI = sum(MeanPlotSiteIndex*(SSprob/sum(SSprob))),
+  SS.sum <- SSPred[,list(MeanSI = sum(MeanPlotSiteIndex*(SSprob/sum(SSprob))),
                       MeanSuit = round(sum(Suitability*(SSprob/sum(SSprob))), digits = 0)),
-                   by = .(Spp,FuturePeriod)]
+                   by = list(Spp,FuturePeriod)]
   
   SS.sum <- SS.sum[FuturePeriod %in% timePer,]
   ###not sure what we were doing here?
@@ -66,8 +93,17 @@ cleanData <- function(SSPredAll,SIBEC,SuitTable,SNum,Trees,timePer,selectBGC){
 }
 
 #' Portfolio Subset
+#' @param SSPredOrig A parameter
+#' @param eda A parameter
+#' @param pos A parameter
 #' @export
 edatopicSubset <- function(SSPredOrig, eda, pos = "Zonal"){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    Edatopic <- SS_NoSpace <- BGC_analysis <- NULL
+  }
+  
   if(pos == "Zonal"){
     SSPredFull <- SSPredOrig[grep("01",SSPredOrig$SS_NoSpace),]
   }else{
@@ -81,10 +117,19 @@ edatopicSubset <- function(SSPredOrig, eda, pos = "Zonal"){
 }
 
 #' Get Climate Summary Data
+#' @param con A DBI connection object.
+#' @param BGC A character vector of BGC.
+#' @param Scn A character vector of length 1 matching a scenario.
 #' @importFrom RPostgres dbGetQuery
 #' @export
 
 dbGetClimSum <- function(con,BGC,Scn){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    period <- NULL
+  }
+  
   cat("in get clim sum")
   climVarFut <- RPostgres::dbGetQuery(con, paste0("select bgc,period,stat,climvar,value from szsum_fut where bgc in ('"
                                        ,BGC,"') and period in ('2021-2040','2041-2060','2061-2080') 
@@ -105,24 +150,36 @@ dbGetClimSum <- function(con,BGC,Scn){
 }
 
 #' Simulate Climate for Portfolio
+#' @param climInfo A parameter.
+#' @importFrom stats approx rnorm
 #' @export
 
 simulateClimate <- function(climInfo){ ##package function
+  
+  # Declare binding for checks
+  if (FALSE) {
+    climvar <-
+      value <-
+      period <-
+      Var <-
+      NULL
+  }
+  
   climParams <- list()
   simResults <- data.table()
   climVar <- climInfo$Mean
   climVarSD <- climInfo$SD
   for(cvar in c("CMD","Tmin_sp","Tmax_sm")){
-    climSub <- climVar[climvar == cvar,.(value = mean(value)), by = .(period)]
+    climSub <- climVar[climvar == cvar,list(value = mean(value)), by = list(period)]
     climSD <- climVarSD[climvar == cvar,value]
     ##table of means by period
     dat <- data.table(Year = c(2000,2025,2055,2085),Mean = climSub$value)
-    s <- approx(dat$Year, dat$Mean, n = 101) ##smooth
+    s <- stats::approx(dat$Year, dat$Mean, n = 101) ##smooth
     
     ##simulate using mean and variance
     res <- numeric()
     for(i in 1:101){
-      res[i] <- rnorm(1,mean = s$y[i],sd = climSD)
+      res[i] <- stats::rnorm(1,mean = s$y[i],sd = climSD)
     }
     temp <- data.table(Year = 2000:2100, Value = res)
     temp[,Var := cvar]
@@ -133,11 +190,27 @@ simulateClimate <- function(climInfo){ ##package function
 }
 
 #' Species Limits
+#' @param con A DBI connection object.
+#' @param SuitTable A suitability data.frame.
+#' @param Trees A list of tree species.
 #' @import foreach
 #' @importFrom RPostgres dbGetQuery
 #' @export
 
 dbGetSppLimits <- function(con,SuitTable,Trees){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    Suitability <-
+      Spp <-
+      spp <-
+      value <-
+      climvar <-
+      Min <-
+      Max <-
+      NULL
+  }
+  
   cat("in get limits")
   sppLimits <- foreach(spp = Trees, .combine = rbind) %do% {##package function
     temp <- SuitTable[Suitability == 1 & Spp == spp,] ##what units is Fd 1?
@@ -147,8 +220,8 @@ dbGetSppLimits <- function(con,SuitTable,Trees){
                                       ,paste(sppUnits,collapse = "','"),"') and period = '1991 - 2020' 
                                     and climvar in ('CMD','Tmin_sp','Tmax_sm')"))
     climSum <- setDT(climSum)
-    climSum2 <- climSum[,.(Min = min(value),Max = max(value)),
-                        by = .(stat,climvar)]
+    climSum2 <- climSum[,list(Min = min(value),Max = max(value)),
+                        by = list(stat,climvar)]
     climSum3 <- data.table(CMDMin = climSum2[stat == "mean" & climvar == "CMD",Min],
                            CMDMax = climSum2[stat == "mean" & climvar == "CMD",Max],
                            Tlow = climSum2[stat == "mean" & climvar == "Tmin_sp",Min],
@@ -159,15 +232,48 @@ dbGetSppLimits <- function(con,SuitTable,Trees){
 }
 
 #' Run species Portfolio
+#' @param SiteList A parameter
+#' @param climVar A parameter
+#' @param SSPredAll A parameter
+#' @param SIBEC A parameter
+#' @param SuitTable A parameter
+#' @param Trees A parameter
+#' @param TimePeriods A parameter
+#' @param selectBGC A parameter
+#' @param SuitProb A parameter
+#' @param returnValue A parameter
+#' @param sppLimits A parameter
+#' @param minAccept A parameter
+#' @param boundDat A parameter
+#' @param ProbPest A parameter
 #' @import foreach
 #' @import scales
 #' @import magrittr
 #' @importFrom dplyr mutate 
+#' @importFrom stats approx quantile
 #' @export
 
 run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                           TimePeriods,selectBGC,SuitProb,returnValue,sppLimits,
                           minAccept,boundDat,ProbPest){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    SNum <-
+      FuturePeriod <-
+      Spp <-
+      Year <-
+      covMat <-
+      ..use <-
+      Return <-
+      RealRet <-
+      SiteNo <-
+      Sharpe <-
+      . <-
+      Sd <-
+      NULL
+  }
+  
   cat("in portfolio")
   nSpp <- length(Trees)
   treeList <- Trees
@@ -205,11 +311,11 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                                                  "SIBEC" = DatSpp$MeanSI/50, "Suit" = DatSpp$MeanSuit)
                                
                                dat <- merge(dat, SuitProb, by = "Suit")
-                               s <- approx(dat$Period, dat$SIBEC, n = 101) ##Smooth SI
-                               p <- approx(dat$Period, dat$ProbDead, n = 101) ###Smooth Prob Dead
-                               m <- approx(dat$Period, dat$NoMort, n = 101) ##Smooth No Mort
-                               r <- approx(dat$Period, dat$Suit, n = 101)
-                               ##r <- approx(dat$Period, dat$RuinSeverity, n = 101)
+                               s <- stats::approx(dat$Period, dat$SIBEC, n = 101) ##Smooth SI
+                               p <- stats::approx(dat$Period, dat$ProbDead, n = 101) ###Smooth Prob Dead
+                               m <- stats::approx(dat$Period, dat$NoMort, n = 101) ##Smooth No Mort
+                               r <- stats::approx(dat$Period, dat$Suit, n = 101)
+                               ##r <- stats::approx(dat$Period, dat$RuinSeverity, n = 101)
                                
                                ###data frame of annual data
                                annualDat <- data.table("Growth" = s[["y"]], "MeanDead" = p[["y"]], "NoMort" = m[["y"]], "Suit" = r[["y"]]) ##create working data
@@ -232,7 +338,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
                              returns <- output
                              returns[,Year := NULL]
                              ###only include species with mean return > 1 in portfolio
-                             use <- colnames(returns)[colMeans(returns) > quantile(colMeans(returns),0.25)] ###should probably be higher
+                             use <- colnames(returns)[colMeans(returns) > stats::quantile(colMeans(returns),0.25)] ###should probably be higher
                              use <- use[use %in% colnames(covMat)]
                              if(length(use) > 1){
                                returns <- returns[,..use]
@@ -259,7 +365,7 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
   efAll <- dcast(efAll,Return ~ Spp, fun.aggregate = function(x){sum(x)/(length(SiteList))})
   efAll <- na.omit(efAll)
   #efAll$RealRet <- efAll$RealRet/max(efAll$RealRet) ##standardise return
-  RetCurve <- approx(efAll$RealRet,efAll$Sd,xout = returnValue)
+  RetCurve <- stats::approx(efAll$RealRet,efAll$Sd,xout = returnValue)
   ret90 <- RetCurve$y
   maxSharpe <- efAll[Sharpe == max(Sharpe),!c("Return","Sharpe")]
   maxSPos <- maxSharpe$Sd
@@ -282,10 +388,24 @@ run_portfolio <- function(SiteList,climVar,SSPredAll,SIBEC,SuitTable,Trees,
 }
 
 #' Plot Efficient Frontier
+#' @param efAll A parameter
+#' @param intDat A parameter
+#' @param colScale A parameter
 #' @import ggplot2
 #' @import ggthemes
 #' @export
 ef_plot <- function(efAll,intDat,colScale){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    Sd <-
+      value <-
+      variable <-
+      Sharpe_Opt <-
+      Set_Return <-
+      NULL
+  }
+  
   # efAll <- outAll$GraphDat
   # intDat <- outAll$MaxS
   efAll$variable <- factor(efAll$variable, levels = sort(unique(as.character(efAll$variable))))

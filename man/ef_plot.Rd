@@ -6,6 +6,13 @@
 \usage{
 ef_plot(efAll, intDat, colScale)
 }
+\arguments{
+\item{efAll}{A parameter}
+
+\item{intDat}{A parameter}
+
+\item{colScale}{A parameter}
+}
 \description{
 Plot Efficient Frontier
 }
