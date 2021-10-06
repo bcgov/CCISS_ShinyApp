@@ -14,6 +14,10 @@ ccissOutput(SSPred, suit, rules, feasFlag, histWeights, futureWeights)
 \item{rules}{A data.table. Set of rules.}
 
 \item{feasFlag}{A data.table. Flag depending on feasibility differential.}
+
+\item{histWeights}{A numeric vector of length 3.}
+
+\item{futureWeights}{A numeric vector of length 4.}
 }
 \value{
 What the function returns

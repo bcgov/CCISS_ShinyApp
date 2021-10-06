@@ -21,6 +21,35 @@ run_portfolio(
   ProbPest
 )
 }
+\arguments{
+\item{SiteList}{A parameter}
+
+\item{climVar}{A parameter}
+
+\item{SSPredAll}{A parameter}
+
+\item{SIBEC}{A parameter}
+
+\item{SuitTable}{A parameter}
+
+\item{Trees}{A parameter}
+
+\item{TimePeriods}{A parameter}
+
+\item{selectBGC}{A parameter}
+
+\item{SuitProb}{A parameter}
+
+\item{returnValue}{A parameter}
+
+\item{sppLimits}{A parameter}
+
+\item{minAccept}{A parameter}
+
+\item{boundDat}{A parameter}
+
+\item{ProbPest}{A parameter}
+}
 \description{
 Run species Portfolio
 }
