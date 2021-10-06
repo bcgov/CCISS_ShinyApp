@@ -13,6 +13,12 @@
 #' @author Kiri Daust
 #' @export
 optimise_portfolio <- function(returns, cov_matrix, boundDat, minTot){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    Spp <- sharpe <- NULL
+  }
+  
   spp <- colnames(cov_matrix)
   sppUse <- spp
   mean_returns <- colMeans(returns)
