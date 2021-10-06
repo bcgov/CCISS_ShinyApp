@@ -6,6 +6,13 @@
 \usage{
 edatopicSubset(SSPredOrig, eda, pos = "Zonal")
 }
+\arguments{
+\item{SSPredOrig}{A parameter}
+
+\item{eda}{A parameter}
+
+\item{pos}{A parameter}
+}
 \description{
 Portfolio Subset
 }
