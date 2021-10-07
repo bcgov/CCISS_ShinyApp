@@ -166,11 +166,26 @@ edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##also about 15 seconds
 SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),]
 newFeas <- ccissMap(SSPreds,S1) ##ignore warning
-sppFeas <- newFeas[Spp == "Cw",]
-sppFeas <- unique(sppFeas,by = "SiteRef")
-sppFeas[,SiteRef := as.integer(SiteRef)]
-sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
-bcRast <- setValues(bcRast,NA)
-bcRast[sppFeas$SiteRef] <- sppFeas$NewSuit
+feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
+
+##loop through species
+for(spp in c("Cw","Fd","Sx","Pl")){
+  sppFeas <- newFeas[Spp == spp,]
+  sppFeas <- unique(sppFeas,by = "SiteRef")
+  sppFeas[,SiteRef := as.integer(SiteRef)]
+  sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
+  X <- raster::setValues(X,NA)
+  X[sppFeas$SiteRef] <- sppFeas$NewSuit
+  X2 <- ratify(X)
+  rat <- as.data.table(levels(X2)[[1]])
+  rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
+  
+  pdf(file=paste("Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
+  plot(outline, col = NA, add = T)
+  dev.off()
+}
+
+
 writeRaster(bcRast,"Cw_Feas_test.tif", format = "GTiff")
 
