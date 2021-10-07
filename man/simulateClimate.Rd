@@ -6,6 +6,9 @@
 \usage{
 simulateClimate(climInfo)
 }
+\arguments{
+\item{climInfo}{A parameter.}
+}
 \description{
 Simulate Climate for Portfolio
 }

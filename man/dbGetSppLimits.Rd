@@ -6,6 +6,13 @@
 \usage{
 dbGetSppLimits(con, SuitTable, Trees)
 }
+\arguments{
+\item{con}{A DBI connection object.}
+
+\item{SuitTable}{A suitability data.frame.}
+
+\item{Trees}{A list of tree species.}
+}
 \description{
 Species Limits
 }

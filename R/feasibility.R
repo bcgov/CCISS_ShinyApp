@@ -26,22 +26,64 @@
 #' @param suit A data.table. Suitability.
 #' @param rules A data.table. Set of rules.
 #' @param feasFlag A data.table. Flag depending on feasibility differential.
+#' @param histWeights A numeric vector of length 3.
+#' @param futureWeights A numeric vector of length 4.
 #' @details What the function does
 #' @return What the function returns
 #' @importFrom matrixStats rowMaxs
 #' @importFrom dplyr select everything mutate across full_join filter
+#' @importFrom stats weighted.mean
 #' @export
 ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    BGC <-
+      SS_NoSpace <-
+      Spp <-
+      Feasible <-
+      SiteRef <-
+      FuturePeriod <-
+      SS.pred <-
+      SSprob <-
+      VoteSum <-
+      `1` <-
+      `2` <-
+      `3` <-
+      `4` <-
+      `5` <-
+      X <-
+      Curr <-
+      i.Feasible <-
+      ModAgree <-
+      NewSuit <-
+      SuitDiff <-
+      Xadj <-
+      X2 <-
+      NewSuitFrac <-
+      Flag <-
+      i.Flag <-
+      Improve <-
+      Decline <-
+      Weight <-
+      i.Weight <-
+      ccissSuit <-
+      ccissSuitFrac <-
+      OrderCol <-
+      IncludeFlag <-
+      NULL
+  }
+  
  ### generate raw feasibility ratios
   ccissWt <- data.table(FuturePeriod = c(2021,2041,2061,2081),
                         Weight = futureWeights)
   
-  suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[,list(BGC,SS_NoSpace,Spp,Feasible)]
   ## replace the coast/interior divisions of species
   suit <- unique(suit)
   suit <- na.omit(suit)
-  SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
-  Site_BGC <- unique(SSPred[,.(SiteRef,BGC)])
+  SSPred <- SSPred[,list(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
+  Site_BGC <- unique(SSPred[,list(SiteRef,BGC)])
   SSPred <- na.omit(SSPred)
   setkey(SSPred,SS.pred)
   setkey(suit,SS_NoSpace)
@@ -67,7 +109,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   suitVotes[,FuturePeriod := as.integer(FuturePeriod)]
   suitVotes[Curr > 3.5, Curr := 4]
   suitVotes[NewSuit > 3.5, NewSuit := 4]
-  suitVotes[,SuitDiff := stepDiff(FuturePeriod,NewSuit,Curr), by = .(SiteRef,SS_NoSpace,Spp)] ## final raw output table
+  suitVotes[,SuitDiff := stepDiff(FuturePeriod,NewSuit,Curr), by = list(SiteRef,SS_NoSpace,Spp)] ## final raw output table
 
   ##Generate summary feasibility from raw proportions
   histWt <- histWeights[1]
@@ -81,7 +123,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   datFeas[FuturePeriod == 1991, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]
   datFeas[FuturePeriod == 2021, (colNms) := lapply(.SD,"*",earlyWt), .SDcols = colNms]
 
-  datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = list(SiteRef,SS_NoSpace,Spp,Curr)]
   ## ADD VARIABLE THAT IS 1-SUM OF 1-4 COLUMNS THAN ADD VALUE TO x COLUMN TO ACCOUNT FOR nULL FUTURES AND MAKE ROW SUM = 1
 
   datFeas[,Xadj := rowSums(.SD), .SDcols = colNms]
@@ -111,19 +153,19 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
   datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
   datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
   
-  datRot <- datRot[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot <- datRot[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = list(SiteRef,SS_NoSpace,Spp,Curr)]
   datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
   #datRot[,Trend := paste0(Improve,":",Decline)]
-  datRot <- datRot[,.(SiteRef,SS_NoSpace,Spp,Improve,Decline)] ##final
+  datRot <- datRot[,list(SiteRef,SS_NoSpace,Spp,Improve,Decline)] ##final
   
 ###################################################################
   datFuture <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
   datFuture <- datFuture[,lapply(.SD, sum),.SDcols = colNms, 
-                         by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
+                         by = list(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
   datFuture[ccissWt, Weight := i.Weight, on = "FuturePeriod"]
-  datFuture <- datFuture[,.(ccissSuitFrac = weighted.mean(NewSuit,Weight)), 
-                         by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+  datFuture <- datFuture[,list(ccissSuitFrac = stats::weighted.mean(NewSuit,Weight)), 
+                         by = list(SiteRef,SS_NoSpace,Spp,Curr)]
   datFuture[,ccissSuit := round(ccissSuitFrac)]
   
   ###merge data to make summary tables############################################################
@@ -146,21 +188,21 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
 
 ### merge in rulesets
 # ruleSub <- rules[Type == "PeriodTraj",]
-# suitVotes[ruleSub, PeriodTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
+# suitVotes[ruleSub, PeriodTraj := i.Label, on = list(SuitDiff < mx, SuitDiff >= mn)]
 # ruleSub <- rules[Type == "Risk",]
-# suitVotes[ruleSub, Risk := i.Label, on = .(X < mx, X >= mn)]
+# suitVotes[ruleSub, Risk := i.Label, on = list(X < mx, X >= mn)]
 # ruleSub <- rules[Type == "ModAgr",]
-# suitVotes[ruleSub, ModAgrClass := i.Label, on = .(ModAgree < mx, ModAgree >= mn)]
+# suitVotes[ruleSub, ModAgrClass := i.Label, on = list(ModAgree < mx, ModAgree >= mn)]
 # 
 # ruleSub <- rules[Type == "OverallTraj",]
-# datMid[ruleSub, OverallTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
+# datMid[ruleSub, OverallTraj := i.Label, on = list(SuitDiff < mx, SuitDiff >= mn)]
 # datMid[Bifurc == T, OverallTraj := "Bifurcating"]
 # 
 # ruleSub <- rules[Type == "EstabRisk",]
-# datFeas[ruleSub, Estab.Risk := i.Label, on = .(FeasEstab < mx, FeasEstab >= mn)]
+# datFeas[ruleSub, Estab.Risk := i.Label, on = list(FeasEstab < mx, FeasEstab >= mn)]
 # 
-# temp1 <- datFeas[,.(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
-# temp2 <- datMid[,.(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
+# temp1 <- datFeas[,list(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
+# temp2 <- datMid[,list(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
 # summOut <- merge(temp1,temp2, by = c("SiteRef","Spp","SS_NoSpace"), all = T)
 # summOut <- summOut[complete.cases(summOut),]
 # summOut[NewSuit > 3.5,NewSuit := 4]
@@ -170,7 +212,7 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
 
 #### use flag to update next section where species is added in current period
 # datEarly <- suitVotes[FuturePeriod == 2021,]
-# datEarly <- datEarly[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
+# datEarly <- datEarly[,lapply(.SD, sum),.SDcols = colNms, by = list(SiteRef,SS_NoSpace,Spp,Curr)]
 # datEarly[,Suit2025 := `1`+(`2`*2)+(`3`*3)+(X*4)]
 # datEarly[,change2025 := Curr - Suit2025]
 # 
@@ -182,5 +224,5 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
 # datEarly[,FailRisk2025 := fifelse(X>.5, "High", 
 #                                   fifelse(X>.2 & X<.5, "Increased", "Normal"))]
 # 
-# datEarly <- datEarly[,.(SiteRef,SS_NoSpace,Spp, Suit2025,
+# datEarly <- datEarly[,list(SiteRef,SS_NoSpace,Spp, Suit2025,
 #                         Trajectory2025, FailRisk2025)]
