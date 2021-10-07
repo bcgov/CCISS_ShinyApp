@@ -187,6 +187,11 @@ dbGetBGC <- function(con,bgc,district = NULL,maxPoints){
 #' @export
 dbGetCCISS <- function(con, siteno, avg, modWeights){
 
+  # Declare binding for checks
+  if (FALSE) {
+    comb <- gcm <- rcp <- weight <- NULL
+  }
+  
   groupby = "siteno"
   if (isTRUE(avg)) {
     groupby = "bgc"
