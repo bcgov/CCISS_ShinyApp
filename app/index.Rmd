@@ -16,7 +16,7 @@ runtime: shiny_prerendered
 # runtime: shiny
 ---
 
-```{r global, include=FALSE}
+```{r setup, include=FALSE, context="setup"}
 suppressPackageStartupMessages({
   library(ccissdev)
   library(shiny)
@@ -31,7 +31,11 @@ suppressPackageStartupMessages({
   library(kableExtra)
   library(rhandsontable)
   library(shinyBS)
+  library(colourvalues)
 })
+```
+
+```{r server-start, include=FALSE, context="server-start"}
 pool <- dbPool(
   drv = RPostgres::Postgres(),
   dbname = Sys.getenv("BCGOV_DB"),
