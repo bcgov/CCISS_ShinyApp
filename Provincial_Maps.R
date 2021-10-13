@@ -159,15 +159,16 @@ ccissMap <- function(SSPred,suit){
 
 ##pull bgc data
 timeperiods <- c("2041-2060")
-bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 15 seconds
+bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 
 edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
 ##edatopic overlap
-SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##also about 15 seconds
+SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),]
-newFeas <- ccissMap(SSPreds,S1) ##ignore warning
+newFeas <- ccissMap(SSPreds,S1) ##~ 15 seconds
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
-
+X <- raster("BC_Raster.tif")
+outline <- st_read(con,query = "select * from bc_outline")
 ##loop through species
 for(spp in c("Cw","Fd","Sx","Pl")){
   sppFeas <- newFeas[Spp == spp,]
