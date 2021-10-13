@@ -4,12 +4,14 @@
 \alias{edatopicOverlap}
 \title{EDA Topic Overlap}
 \usage{
-edatopicOverlap(BGC, Edatope)
+edatopicOverlap(BGC, E1, E1_Phase)
 }
 \arguments{
 \item{BGC}{BGC}
 
-\item{Edatope}{A data.table?}
+\item{E1}{A data.table?}
+
+\item{E1_Phase}{A phase?}
 }
 \value{
 What the function returns
