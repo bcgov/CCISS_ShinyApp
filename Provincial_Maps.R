@@ -36,7 +36,7 @@ X2 <- ratify(X)
 rat <- as.data.table(levels(X2)[[1]])
 rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
 outline <- st_read(con,query = "select * from bc_outline")
-pdf(file=paste0("BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
 plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
 plot(outline, col = NA, add = T)
 dev.off()
@@ -181,12 +181,10 @@ for(spp in c("Cw","Fd","Sx","Pl")){
   rat <- as.data.table(levels(X2)[[1]])
   rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
   
-  pdf(file=paste("Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  pdf(file=paste("./FeasibilityMaps/Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
   plot(outline, col = NA, add = T)
   dev.off()
 }
 
-
-writeRaster(bcRast,"Cw_Feas_test.tif", format = "GTiff")
 
