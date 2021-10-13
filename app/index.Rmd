@@ -16,7 +16,7 @@ runtime: shiny_prerendered
 # runtime: shiny
 ---
 
-```{r global, include=FALSE}
+```{r setup, include=FALSE, context="setup"}
 suppressPackageStartupMessages({
   library(ccissdev)
   library(shiny)
@@ -31,7 +31,11 @@ suppressPackageStartupMessages({
   library(kableExtra)
   library(rhandsontable)
   library(shinyBS)
+  library(colourvalues)
 })
+```
+
+```{r server-start, include=FALSE, context="server-start"}
 pool <- dbPool(
   drv = RPostgres::Postgres(),
   dbname = Sys.getenv("BCGOV_DB"),
@@ -56,7 +60,7 @@ poolclim <- dbPool(
   })
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
-district_tileserver <- "http://159.203.20.90/data/Districts/{z}/{x}/{y}.pbf"
+district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
 if (is.null(bcgov_tileserver) || is.null(bcgov_tilelayer)) stop("tileserver env not set")
 mbtk <- Sys.getenv("BCGOV_MAPBOX_TOKEN")
@@ -92,8 +96,6 @@ Inputs {.sidebar data-width=450}
 -------------------------------------
 
 ```{r}
-actionButton("show_instr","Show Instructions",icon = icon("circle-question"), style = "width:100%; background-color:#003366; color: #FFF")
-br()
 wellPanel(
   splitLayout(
     actionButton("sesh_params","Adjust Parameters",icon = icon("sliders-h")),
@@ -104,20 +106,17 @@ radioButtons(
       c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
       selected = "TRUE"
     )
-  )
+  ),
+style = "padding: 5px 5px 5px 5px; margin:0%"
 )
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
 
-##### Add Points of Interest Using One of the 3 Methods Below
+##### Add Points Using One of the 3 Methods Below
 
 ###### 1. Enter Lat/Long or Click on Map to Add Points
-
 Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate 
-To edit location information, double click a row.  
-Hit Generate/Refresh Button at bottom to run projects.
-
 ```{r}
 # Points
 DT::DTOutput("points_table", width="100%")
@@ -133,18 +132,21 @@ hr(style = "border-top: 1px solid #8f0e7e;")
 
 Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District
 ```{r}
-
+splitLayout(
   radioButtons(
       "preselected",
       label = NULL,
       choiceNames =  c("None", "BGC","District then BGC"),
       choiceValues = c("N","BGC","BGC_Dist"),
       inline = T
-    )
+    ),
+  actionButton("clear_highlight","Clear Selections"),
+  cellWidths = c("67%", "33%")
+)
+  
 textOutput("bgc_click_show")
 textOutput("dist_click_show")
-actionButton("clear_highlight","Clear Selections")
-            
+
 hr(style = "border-top: 1px solid #8f0e7e;")
 ```
 
@@ -185,9 +187,9 @@ Biogeoclimatic Zones + Subzones Variants Map
 
 ```{r}
 leafletOutput("bec_map", height = "auto")
-bsModal("instr_modal",title = NULL,"show_instr", size = "large",
-        uiOutput("modal_ui")
-        )
+# bsModal("instr_modal",title = NULL,"show_instr", size = "large",
+#         uiOutput("modal_ui")
+#         )
 ```
 
 FEASIBILITY REPORT
@@ -450,6 +452,16 @@ Shiny App Information {data-navmenu="TECH SPECS"}
 tableOutput("shinyinfo")
 ```
 
+INSTRUCTIONS
+=====================================
+
+##### What is CCISS?
+
+Here's some pithy text about CCISS.
+
+##### How do I use the tool?
+
+More pithy and instructive text. 
 
 ```{r}
 tags$script(HTML('
@@ -492,9 +504,9 @@ hoverText <- c("Species","Time Period","Percentage of models preciting each feas
                  "Modelled Establishment feasibility (based on historic,current, and near-future)",
                  "Modelled future feasibility (based on all four future periods)","Model Trends")
 ##show instructions
-output$modal_ui <- renderUI({
-  HTML(readLines(rmarkdown::render("./server/CCISS_Instructions.Rmd",encoding = "UTF-8",envir = new.env()),encoding = "UTF-8"))
-})
+# output$modal_ui <- renderUI({
+#   HTML(readLines(rmarkdown::render("./server/CCISS_Instructions.Rmd",encoding = "UTF-8",envir = new.env()),encoding = "UTF-8"))
+# })
 
 uData$bec_click_flag <- FALSE
 ##default session parameters
