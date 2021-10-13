@@ -6,6 +6,21 @@
 \usage{
 cleanData(SSPredAll, SIBEC, SuitTable, SNum, Trees, timePer, selectBGC)
 }
+\arguments{
+\item{SSPredAll}{cleanData parameter.}
+
+\item{SIBEC}{cleanData parameter.}
+
+\item{SuitTable}{cleanData parameter.}
+
+\item{SNum}{cleanData parameter.}
+
+\item{Trees}{cleanData parameter.}
+
+\item{timePer}{cleanData parameter.}
+
+\item{selectBGC}{cleanData parameter.}
+}
 \value{
 What the function returns
 }
