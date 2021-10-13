@@ -1,0 +1,211 @@
+---
+title: "CFRG Review"
+author: "Kiri Daust"
+date: "07/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
+library(shiny)
+library(ccissdev)
+library(data.table)
+library(pool)
+library(RPostgres)
+
+pool <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
+"GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
+"MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+                         weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
+
+rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
+                         weight = c(0.8,1,0.8,0))
+
+all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+all_weight[,weight := wgcm*wrcp]
+
+##silv functions
+standardblocks <- function(data, siteref, siteserie) {
+  sc <- data[
+    SiteRef %in% siteref & SS_NoSpace %in% siteserie,
+    list(Region, ZoneSubzone, SS_NoSpace, ccissSuit, Spp)
+  ]
+  ss <- stocking_standards[
+    Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
+  ]
+  do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
+}
+
+standardblock <- function(std, ss, sc) {
+  ss <- ss[Standard %in% std]
+  ss[, TextStyle := ""]
+  
+  # Some logic to flag specie with different Suitability than CCISS
+  ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissSuit))]
+  setnafill(ss, fill = 4L, cols = "ProjFeas")
+  ss[Suitability > ProjFeas, TextStyle := "color:blue"]
+  ss[Suitability < ProjFeas, TextStyle := "color:orange"]
+  ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
+  
+  si <- stocking_info[Standard == std]
+  sh <- stocking_height[Standard == std]
+  list(
+    tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
+    tags$table(width = "100%", style = "white-space: nowrap;",
+      # Report formatting gray out the first row, so faking a row
+      tags$tr(
+        tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:none",
+          tags$small(tags$b("Regeneration")),
+          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+          tags$table(
+            width = "100%",
+            tags$tr(
+              tags$td(tags$b("Standards ID")),
+              tags$td(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "))),
+              tags$td(tags$b("Climate Change"))
+            ),
+            tags$tr(
+              tags$td("Primary"),
+              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "1", unique(Spp)], collapse = ", "))
+            ),
+            tags$tr(
+              tags$td("Preferred (p)"),
+              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
+              tags$td("")
+            ),
+            tags$tr(
+              tags$td("Secondary"),
+              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "2", unique(Spp)], collapse = ", "))
+            ),
+            tags$tr(
+              tags$td("Acceptable (a)"),
+              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
+              tags$td("")
+            ),
+            tags$tr(
+              tags$td("Tertiary"),
+              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
+              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "3", unique(Spp)], collapse = ", "))
+            )
+          )
+        ),
+        tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px; background-color:white; border:none",
+          tags$small(tags$b("Stocking (i) - well spaced/ha")),
+          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+          tags$table(
+            width = "100%",
+            tags$tr(
+              tags$td(tags$b("Target")),
+              tags$td(tags$b("Min pa")),
+              tags$td(tags$b("Min p")),
+              tags$td(tags$b("Regen Delay (max yrs)"))
+            ),
+            tags$tr(
+              tags$td(si$StockingTarget),
+              tags$td(si$StockingMINpa),
+              tags$td(si$StockingMINp),
+              tags$td(si$StockingDelay)
+            )
+          ),
+          tags$br(),
+          tags$small(tags$b("Free Growing Guide")),
+          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+          tags$table(
+            width = "100%",
+            tags$tr(
+              tags$td(tags$b("Earliest (yrs)")),
+              tags$td(tags$b("Latest(yrs)")),
+              tags$td(tags$b("Min Height (m)")),
+              tags$td(tags$b("Min Height (m)"))
+            ),
+            tags$tr(
+              tags$td(si$AssessmentEarliest),
+              tags$td(si$AssessmentLatest),
+              tags$td(style = "white-space: normal;", sh[!Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")]),
+              tags$td(style = "white-space: normal;", sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
+            )
+          )
+        )
+      ),
+      tags$tr(
+        tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
+          tags$small(tags$b("Footnotes")),
+          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+          {
+            fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
+            fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
+            fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+            do.call(span, fnshiny)
+          }
+        )
+      )
+    )
+  )
+}
+
+# Function to format Species with footnotes
+sppnotes <- function(spp, notes, textstyle) {
+  ret <- vector("list", length(spp))
+  for (i in seq_len(length(spp))) {
+    fn <- paste0(sort(as.integer(unique(unlist(notes[i])))), collapse = ",")
+    ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
+                          tags$sup(fn, .noWS = htmltools:::noWSOptions),
+                          if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
+  }
+  ret[["style"]] <- "white-space:normal;"
+  do.call(tags$td, ret)
+}
+
+reg_cw <- fread("District_Region_Crosswalk.csv")
+```
+
+```{r stocking_standards, results='asis', out.height="auto"}
+dist_select <- "DND"
+bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
+htmltools::tagList(
+  lapply(bgc_opts, function(bgc_select) {
+    pNums <- dbGetBGC(pool,bgc_select,dist_select,150)
+    dat <- dbGetCCISS(pool,pNums,T,all_weight)
+    eda <- edatopicOverlap(dat,E1,E1_Phase)
+    feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
+    feasSum <- feas$Summary
+    feasSum[,Region := reg_cw[dist_code == dist_select,reg_cfrg]]
+    feasSum[,ZoneSubzone := SiteRef]
+    feasSum[
+        stocking_standards, 
+        CFSuitability := as.character(i.Suitability),
+        on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+      ]
+    siteseries <- unique(feasSum$SS_NoSpace)
+    htmltools::tagList(
+      mapply(FUN = function(siteserie, nm) {
+        f1 <- feasSum[SS_NoSpace == siteserie,]
+        s1 <- stocking_standards[
+          Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
+        ]
+        if(nrow(s1) > 0){
+          htmltools::tagList(
+          tags$h3("Site Series: ", tags$b(siteserie, .noWS = c("before", "after"))),
+          standardblocks(feasSum, bgc_select, siteserie),
+        )
+        }
+      }, siteseries, siteseries)
+    )
+  })
+)
+poolClose(pool)
+```
+
