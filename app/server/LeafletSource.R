@@ -1,9 +1,9 @@
 ##javascript source
-bcgov_tileserver <- "http://159.203.20.90/data/BC_BGC/{z}/{x}/{y}.pbf"
+bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BC_BGC/{z}/{x}/{y}.pbf"
 bcgov_tilelayer <- "BECMap"
-district_tileserver <- "http://159.203.20.90/data/Districts/{z}/{x}/{y}.pbf"
+district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
-wna_tileserver <- "http://159.203.20.90/data/WNA_MAP/{z}/{x}/{y}.pbf"
+wna_tileserver <- "https://tileserver.thebeczone.ca/data/WNA_MAP/{z}/{x}/{y}.pbf"
 wna_tilelayer <- "WNA_MAP"
 
 plugins <- {

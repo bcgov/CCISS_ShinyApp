@@ -12,9 +12,8 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Input from the app
   if(input$preselected != "N"){
-    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 100)
+    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 150)
     userpoints$bgc_pts <- pointNums
-    print("finished getting sitenos")
     avg <- uData$avg <- TRUE
     pts <- uData$pts <- data.table(Site = pointNums)
     uData$dist_select <- NULL
@@ -51,6 +50,12 @@ observeEvent(input$generate_results, priority = 100, {
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
+    if(!is.null(uData$ss_list) & isFALSE(avg) & (sr %in% pts$Site)){
+      selected_ss <- uData$ss_list[[pts[Site == sr,ID][1]]]
+      if(any(selected_ss %in% ss)){
+        ss <- selected_ss
+      }
+    }
     names(ss) <- paste(
       ss,
       N1$SiteSeriesLongName[match(ss, N1$SS_NoSpace)]
@@ -58,13 +63,15 @@ observeEvent(input$generate_results, priority = 100, {
     ss
   })
   names(ssl) <- siterefs
+  print(ssl)
   
-  ssa <- sort(unique(cciss_results$SS_NoSpace))
+  ssa <- unique(unname(unlist(ssl)))
   names(ssa) <- paste(
     ssa,
     N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
-
+  
+  
   siteseries_list <- uData$siteseries_list <- ssl
   siteseries_all  <- uData$siteseries_all  <- ssa
   
@@ -238,7 +245,8 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
            ccissFeas = i.ccissSuit,
            Improve = i.Improve,
            Decline = i.Decline,
-           OrderCol = i.OrderCol),
+           OrderCol = i.OrderCol,
+           IncludeFlag = i.IncludeFlag),
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
