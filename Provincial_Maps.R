@@ -37,7 +37,7 @@ for(i in 1:(length(mods)-1)){
     print(table(temp))
   }
 }
-
+fwrite(dat, "./GCM_BEC_agreement.csv")
 ##########################################################
 
 ##make projected bgc maps
