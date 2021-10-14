@@ -119,10 +119,10 @@ dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
 }
 
 ##adapted feasibility function
-ccissMap <- function(SSPred,suit){
+ccissMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
   
-  suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[Spp == spp_select,,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
@@ -152,9 +152,39 @@ ccissMap <- function(SSPred,suit){
   colNms <- c("1","2","3","X")
   suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
-  suitVotes[,NewSuit := round(`1`+(`2`*2)+(`3`*3)+(X*5))]
+  suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
   suitVotes <- suitVotes[,.(SiteRef,FuturePeriod,SS_NoSpace,Spp,Curr,NewSuit)]
   return(suitVotes)
+}
+
+figb <- function(SSPred,suit,spp_select){
+  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- unique(suit)
+  suit <- na.omit(suit)
+  SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
+  Site_BGC <- unique(SSPred[,.(SiteRef,BGC)])
+  SSPred <- na.omit(SSPred)
+  setkey(SSPred,SS.pred)
+  setkey(suit,SS_NoSpace)
+  suitMerge <- suit[SSPred, allow.cartesian = T]
+  #suitMerge <- na.omit(suitMerge)
+  setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
+  suit2 <- suit[,.(SS_NoSpace,Feasible)]
+  setnames(suit2, old = "Feasible",new = "OrigFeas")
+  suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
+  suitMerge[OrigFeas > 3.5, OrigFeas := NA]
+  suitMerge[Feasible > 3.5, Feasible := NA]
+  suitMerge <- suitMerge[!is.na(Feasible) | !is.na(OrigFeas),]
+  suitMerge <- suitMerge[,.(SiteRef,FuturePeriod,SS_NoSpace,OrigFeas,SS.pred,Feasible,SSprob)]
+  setnames(suitMerge, old = "Feasible", new = "PredFeas")
+  suitMerge[,Flag := NA_character_]
+  suitMerge[is.na(OrigFeas) & !is.na(PredFeas),Flag := "Expand"]
+  suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
+  suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
+  suitRes <- suitMerge[,.(PropMod = sum(SSprob)), by = .(SiteRef,Flag)]
+  suitRes[,SiteRef := as.integer(SiteRef)]
+  setkey(suitRes,SiteRef)
+  suitRes[Flag == "Retreat",PropMod := PropMod * -1]
 }
 
 ##pull bgc data
@@ -165,7 +195,9 @@ edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),]
-newFeas <- ccissMap(SSPreds,S1) ##~ 15 seconds
+newFeas <- ccissMap(SSPreds,S1,"Cw") ##~ 15 seconds
+
+
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
 X <- raster("BC_Raster.tif")
 outline <- st_read(con,query = "select * from bc_outline")
@@ -186,7 +218,3 @@ for(spp in c("Cw","Fd","Sx","Pl")){
   plot(outline, col = NA, add = T)
   dev.off()
 }
-
-
-writeRaster(bcRast,"Cw_Feas_test.tif", format = "GTiff")
-
