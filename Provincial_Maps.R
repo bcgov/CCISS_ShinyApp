@@ -157,7 +157,45 @@ ccissMap <- function(SSPred,suit,spp_select){
   return(suitVotes)
 }
 
-figb <- function(SSPred,suit,spp_select){
+##figure 3c (mean change in feasibiltiy)
+library(RColorBrewer)
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
+
+timeperiods <- "2041-2060"
+bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+
+edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
+##edatopic overlap
+SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
+SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
+
+for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
+  cat("Plotting ",spp,"\n")
+  newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
+  newFeas[NewSuit > 3.49, NewSuit := 4]
+  newFeas[,FeasChange := Curr - NewSuit]
+  newFeas <- unique(newFeas, by = "SiteRef")
+  newFeas[,SiteRef := as.integer(SiteRef)]
+  newFeas <- newFeas[!(Curr == 4 & FeasChange == 0),]
+  feasVals <- newFeas[,.(SiteRef,FeasChange)]
+  X <- raster::setValues(X,NA)
+  X[feasVals$SiteRef] <- feasVals$FeasChange
+  pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X, xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  plot(outline, add=T, border="black",col = NA, lwd=0.4)
+  
+  par(xpd=T)
+  xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
+  rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+  text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2050s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  dev.off()
+}
+
+##add/retreat (figure 3b)
+add_retreat <- function(SSPred,suit,spp_select){
   suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
@@ -187,23 +225,38 @@ figb <- function(SSPred,suit,spp_select){
   suitRes[Flag == "Retreat",PropMod := PropMod * -1]
 }
 
-##pull bgc data
-timeperiods <- c("2041-2060")
-bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-
-edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
-##edatopic overlap
-SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
-SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),]
-newFeas <- ccissMap(SSPreds,S1,"Cw") ##~ 15 seconds
+breakpoints <- seq(-1,1,0.2); length(breakpoints)
+labels <- c("Retreat", "Expansion")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
 
 
+for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
+  cat("Plotting ",spp,"\n")
+  addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
+  addret[Flag == "Same",PropMod := 0]
+  addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
+  X <- raster::setValues(X,NA)
+  X[addret$SiteRef] <- addret$PropMod
+  pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X,bty = "n",  xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  plot(outline, add=T, border="black",col = NA, lwd=0.4)
+  
+  par(xpd=T)
+  xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
+  rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+  text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
+  text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, ") % of GCMs", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  dev.off()
+}
+
+################### straight predicted feasibility maps #####################
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
 X <- raster("BC_Raster.tif")
 outline <- st_read(con,query = "select * from bc_outline")
 ##loop through species
 for(spp in c("Cw","Fd","Sx","Pl")){
-  sppFeas <- newFeas[Spp == spp,]
+  sppFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
   sppFeas <- unique(sppFeas,by = "SiteRef")
   sppFeas[,SiteRef := as.integer(SiteRef)]
   sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
