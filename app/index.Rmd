@@ -58,6 +58,12 @@ poolclim <- dbPool(
   onStop(function() {
     poolClose(poolclim)
   })
+  
+##save this as package data
+cfrg_rules <- fread("../PreferredAcceptibleRules.csv")
+cfrg_rules <- melt(cfrg_rules,id.vars = "Spp",variable.name = "Feasible",value.name = "PrefAcc")
+cfrg_rules[,Feasible := as.character(gsub("E","",Feasible))]
+###
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"

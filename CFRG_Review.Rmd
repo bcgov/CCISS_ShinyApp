@@ -11,10 +11,10 @@ library(shiny)
 library(ccissdev)
 library(data.table)
 library(pool)
-library(RPostgres)
+library(RPostgreSQL)
 
 pool <- dbPool(
-  drv = RPostgres::Postgres(),
+  drv = dbDriver("PostgreSQL"),
   dbname = Sys.getenv("BCGOV_DB"),
   host = Sys.getenv("BCGOV_HOST"),
   port = 5432, 
@@ -173,11 +173,15 @@ reg_cw <- fread("District_Region_Crosswalk.csv")
 ```
 
 ```{r stocking_standards, results='asis', out.height="auto"}
-dist_select <- "DND"
+dist_select <- "BUL"
 bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
 htmltools::tagList(
   lapply(bgc_opts, function(bgc_select) {
-    pNums <- dbGetBGC(pool,bgc_select,dist_select,150)
+    print("<P style='page-break-before: always'>")    #forced new-page happens here.
+
+    pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
+    if(length(pNums) > 25){
+
     dat <- dbGetCCISS(pool,pNums,T,all_weight)
     eda <- edatopicOverlap(dat,E1,E1_Phase)
     feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
@@ -204,6 +208,9 @@ htmltools::tagList(
         }
       }, siteseries, siteseries)
     )
+
+    }
+    
   })
 )
 poolClose(pool)
