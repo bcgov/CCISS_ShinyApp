@@ -17,7 +17,29 @@ con <- dbConnect(drv, user = "postgres",
                  password = "PowerOfBEC", port = 5432, 
                  dbname = "cciss")
 
-##projected bgc maps
+##code to check that none have the same predictions
+allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
+selectSites <- sample(allSites$rast_id, size = 500, replace = F)
+dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
+                             paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
+setDT(dat)
+dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
+mods <- names(dat)[-1]
+dat[,rast_id := NULL]
+
+for(i in 1:(length(mods)-1)){
+  for(j in (i+1):length(mods)){
+    if(all(dat[,..i] == dat[,..j])){
+      cat("Predictions", mods[i],"and",mods[j], "are identical!")
+    }
+    cat("Models:",mods[i],mods[j],"\n")
+    temp <- dat[,..i] == dat[,..j]
+    print(table(temp))
+  }
+}
+
+##########################################################
+
 ##make projected bgc maps
 scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
 dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
