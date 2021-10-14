@@ -250,6 +250,12 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       on = c("SiteRef","SS_NoSpace","Spp")
     ]
     
+    results[cfrg_rules,PrefAcc := i.PrefAcc, on = c("Spp",ccissFeas = "Feasible")]
+    results[is.na(PrefAcc),PrefAcc := "X"]
+    results[,NoPref := if(any(PrefAcc == "P")) T else F, by = .(SS_NoSpace)]
+    results[NoPref == F & PrefAcc == "A", PrefAcc := "P"]
+    results[,NoPref := NULL]
+    
     # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
