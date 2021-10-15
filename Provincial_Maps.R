@@ -187,15 +187,16 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdB
 
 timeperiods <- "2041-2060"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-
-edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
+edaPos <- "C4"
+edaZonal <- E1[Edatopic == edaPos,]
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
-SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
+#SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
 for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
+  newFeas <- newFeas[,.(Curr = mean(Curr), NewSuit = mean(NewSuit)), by = .(SiteRef)]
   newFeas[NewSuit > 3.49, NewSuit := 4]
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
@@ -204,8 +205,9 @@ for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   feasVals <- newFeas[,.(SiteRef,FeasChange)]
   X <- raster::setValues(X,NA)
   X[feasVals$SiteRef] <- feasVals$FeasChange
-  pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X, xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  png(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
@@ -234,14 +236,19 @@ add_retreat <- function(SSPred,suit,spp_select){
   suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
   suitMerge[OrigFeas > 3.5, OrigFeas := NA]
   suitMerge[Feasible > 3.5, Feasible := NA]
-  suitMerge <- suitMerge[!is.na(Feasible) | !is.na(OrigFeas),]
+  suitMerge[,HasValue := if(any(!is.na(OrigFeas))|any(!is.na(Feasible))) T else F, by = .(SiteRef)]
+  suitMerge <- suitMerge[(HasValue),]
   suitMerge <- suitMerge[,.(SiteRef,FuturePeriod,SS_NoSpace,OrigFeas,SS.pred,Feasible,SSprob)]
   setnames(suitMerge, old = "Feasible", new = "PredFeas")
   suitMerge[,Flag := NA_character_]
   suitMerge[is.na(OrigFeas) & !is.na(PredFeas),Flag := "Expand"]
   suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
   suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
-  suitRes <- suitMerge[,.(PropMod = sum(SSprob)), by = .(SiteRef,Flag)]
+  suitMerge[is.na(OrigFeas) & is.na(PredFeas),Flag := "Same"]
+  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,Flag)]
+  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef)]
+  suitMerge[,PropMod := PropMod/PropAll]
+  suitRes <- unique(suitMerge[,.(SiteRef,Flag,PropMod)])
   suitRes[,SiteRef := as.integer(SiteRef)]
   setkey(suitRes,SiteRef)
   suitRes[Flag == "Retreat",PropMod := PropMod * -1]
@@ -249,7 +256,7 @@ add_retreat <- function(SSPred,suit,spp_select){
 
 breakpoints <- seq(-1,1,0.2); length(breakpoints)
 labels <- c("Retreat", "Expansion")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:5)], "grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
 
 
 for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
@@ -259,7 +266,8 @@ for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
   X <- raster::setValues(X,NA)
   X[addret$SiteRef] <- addret$PropMod
-  pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,bty = "n",  xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
