@@ -70,7 +70,7 @@ zones_colours_ref <- fread("./data-raw/data_tables/WNAv11_Zone_Colours.csv", key
 subzones_colours_ref <- fread("./data-raw/data_tables/WNAv12_3_SubzoneCols.csv", key = "classification")
 save(subzones_colours_ref, file = "./data/subzones_colours_ref.rda")
 # StockingStds
-stocking_standards_v12 <- fread("./data-raw/data_tables/StockingStds/StockStands_v12.csv", key = c("Region", "ZoneSubzone","SiteSeries", "Species"), colClasses = c("Standard" = "numeric"))
+stocking_standards_v12 <- fread("./data-raw/data_tables/StockingStds/StockStands_v12_2.csv", key = c("Region", "ZoneSubzone","SiteSeries", "Species"), colClasses = c("Standard" = "numeric"))
 stocking_info_v12 <- fread("./data-raw/data_tables/StockingStds/StockingInfo_v12.csv", key = "Standard", colClasses = c("Standard" = "numeric"))
 stocking_height_v12 <- fread("./data-raw/data_tables/StockingStds/StockingHeight_v12.csv", key = c("Standard", "Species"), colClasses = c("Standard" = "numeric"))
 crosswalk <- fread("./data-raw/data_tables/StockingStds/Crosswalk.csv", key = "Modeled")
@@ -103,7 +103,7 @@ stocking_height_v12 <- remDups(stocking_height_v12)
 
 
 # Stocking standards formatting
-stocking_standards <- copy(stocking_standards_v12)
+stocking_standards <- data.table::copy(stocking_standards_v12)
 stocking_standards[, Footnotes := list(list({x <- unname(do.call(c, .SD)); x[!x %in% c(NA, "")]})), by=1:NROW(stocking_standards), .SDcols = FN1:FN5]
 stocking_standards[, c("FN1","FN2","FN3","FN4","FN5") := NULL]
 # add-in crosswalk rows to complete standards dataset
@@ -123,14 +123,12 @@ setkeyv(stocking_standards, k)
 stocking_standards[,SiteSeries := gsub("[^0-9.-]", "", SiteSeries)]
 stocking_standards[,SS_NoSpace := paste0(ZoneSubzone,"/",SiteSeries)]
 stocking_standards[,SiteSeries := NULL]
-stocking_standards[,Suitability := PreferredAcceptable]
 region_cw <- data.table(RegionNew = unique(stocking_standards$Region), 
                         RegionOld = c("Kamloops","Vancouver","Nelson","Nelson","Pr Rupert","Pr Rupert","Vancouver","Cariboo","Pr George","Nelson","Nelson","Nelson","Kamloops","Pr George"))
 setnames(stocking_standards,old = "Region",new = "RegionNew")
 stocking_standards[region_cw, Region := i.RegionOld, on = "RegionNew"]
 stocking_standards[,RegionNew := NULL]
-PSXT_cw <- data.table(PreferredAcceptable = c("P","S","T","X"), Suitability = c("1","2","3","X"))
-stocking_standards[PSXT_cw, Suitability := i.Suitability, on = "PreferredAcceptable"]
+
 stocking_standards[,FN6 := NULL]
 temp <- stocking_standards[grep("BWBS",ZoneSubzone),]
 temp[,Region := "Pr Rupert"]
@@ -139,6 +137,11 @@ stocking_standards[Species %in% c("Se","Sx","Sxw","Sw","Sxs"),Species := "Sx"]
 stocking_standards[Species %in% c("Act","Acb","Aca"),Species := "Ac"]
 
 use_data(stocking_standards,overwrite = T)
+
+cfrg_rules <- fread("./PreferredAcceptibleRules.csv")
+cfrg_rules <- melt(cfrg_rules,id.vars = "Spp",variable.name = "Feasible",value.name = "PrefAcc")
+cfrg_rules[,Feasible := as.character(gsub("E","",Feasible))]
+use_data(cfrg_rules)
 # Stocking height formatting
 stocking_height <- copy(stocking_height_v12[,.(Standard, Species, Height)])
 # add-in species instead of others by merging with stock standards and removing dups as
