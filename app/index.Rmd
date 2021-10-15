@@ -47,18 +47,18 @@ pool <- dbPool(
 onStop(function() {
   poolClose(pool)
 })
-# ##bybec db connection
-# sppDb <- dbPool(
-#   drv = RPostgres::Postgres(),
-#   dbname = "spp_feas",
-#   host = "138.197.168.220",
-#   port = 5432, 
-#   user = "postgres",
-#   password = "PowerOfBEC"
-# )
-# onStop(function() {
-#   poolClose(sppDb)
-# })
+##bybec db connection
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = "138.197.168.220",
+  port = 5432,
+  user = "postgres",
+  password = "PowerOfBEC"
+)
+onStop(function() {
+  poolClose(sppDb)
+})
 poolclim <- dbPool(
     drv = RPostgres::Postgres(),
     dbname = "bgc_climate_data",
@@ -71,11 +71,10 @@ poolclim <- dbPool(
     poolClose(poolclim)
   })
   
-##save this as package data
-cfrg_rules <- fread("../PreferredAcceptibleRules.csv")
-cfrg_rules <- melt(cfrg_rules,id.vars = "Spp",variable.name = "Feasible",value.name = "PrefAcc")
-cfrg_rules[,Feasible := as.character(gsub("E","",Feasible))]
-###
+#####load feas table from database
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
+#####
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
