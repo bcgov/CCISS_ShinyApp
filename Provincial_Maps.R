@@ -20,7 +20,7 @@ X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
 ##code to check that none have the same predictions
-<<<<<<< HEAD
+
 allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
 selectSites <- sample(allSites$rast_id, size = 500, replace = F)
 dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
@@ -41,28 +41,7 @@ for(i in 1:(length(mods)-1)){
   }
 }
 fwrite(dat, "./GCM_BEC_agreement.csv")
-=======
-# allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
-# selectSites <- sample(allSites$rast_id, size = 500, replace = F)
-# dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
-#                              paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
-# setDT(dat)
-# dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
-# mods <- names(dat)[-1]
-# dat[,rast_id := NULL]
-# 
-# for(i in 1:(length(mods)-1)){
-#   for(j in (i+1):length(mods)){
-#     if(all(dat[,..i] == dat[,..j])){
-#       cat("Predictions", mods[i],"and",mods[j], "are identical!")
-#     }
-#     cat("Models:",mods[i],mods[j],"\n")
-#     temp <- dat[,..i] == dat[,..j]
-#     print(table(temp))
-#   }
-# }
 
->>>>>>> 29ade9628250f77c21dfafec39e02ce244402472
 ##########################################################
 
 ##make projected bgc maps
@@ -215,7 +194,7 @@ edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
-for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
+for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3.49, NewSuit := 4]
@@ -274,7 +253,7 @@ labels <- c("Retreat", "Expansion")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
 
 
-for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
+for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
