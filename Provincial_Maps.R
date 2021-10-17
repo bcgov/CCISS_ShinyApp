@@ -19,6 +19,19 @@ con <- dbConnect(drv, user = "postgres",
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
+
+##check for weird suitability values in the same edatopic position
+edaPos <- "C4"
+suit <- S1
+suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+suit <- unique(suit)
+suit <- na.omit(suit)
+edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
+dat <- suit[edaSub,on = "SS_NoSpace"]
+setorder(dat,Spp,SS_NoSpace)
+dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
+            by = .(Spp,BGC)]
+fwrite(dat2,"FeasibilityStatsC4.csv")
 ##code to check that none have the same predictions
 # allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
 # selectSites <- sample(allSites$rast_id, size = 500, replace = F)
@@ -139,6 +152,9 @@ dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
   #print(dat)
   return(dat)
 }
+
+
+
 
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
