@@ -20,26 +20,26 @@ X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
 ##code to check that none have the same predictions
-allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
-selectSites <- sample(allSites$rast_id, size = 500, replace = F)
-dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
-                             paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
-setDT(dat)
-dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
-mods <- names(dat)[-1]
-dat[,rast_id := NULL]
-
-for(i in 1:(length(mods)-1)){
-  for(j in (i+1):length(mods)){
-    if(all(dat[,..i] == dat[,..j])){
-      cat("Predictions", mods[i],"and",mods[j], "are identical!")
-    }
-    cat("Models:",mods[i],mods[j],"\n")
-    temp <- dat[,..i] == dat[,..j]
-    print(table(temp))
-  }
-}
-fwrite(dat, "./GCM_BEC_agreement.csv")
+# allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
+# selectSites <- sample(allSites$rast_id, size = 500, replace = F)
+# dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
+#                              paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
+# setDT(dat)
+# dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
+# mods <- names(dat)[-1]
+# dat[,rast_id := NULL]
+# 
+# for(i in 1:(length(mods)-1)){
+#   for(j in (i+1):length(mods)){
+#     if(all(dat[,..i] == dat[,..j])){
+#       cat("Predictions", mods[i],"and",mods[j], "are identical!")
+#     }
+#     cat("Models:",mods[i],mods[j],"\n")
+#     temp <- dat[,..i] == dat[,..j]
+#     print(table(temp))
+#   }
+# }
+# fwrite(dat, "./GCM_BEC_agreement.csv")
 
 ##########################################################
 
@@ -144,7 +144,7 @@ dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
 ccissMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
   
-  suit <- suit[Spp == spp_select,,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
@@ -169,14 +169,13 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes[suit, Curr := i.Feasible]
   suitVotes[is.na(Curr), Curr := 5]
   setorder(suitVotes,SiteRef,SS_NoSpace,Spp,FuturePeriod)
-  suitVotes[,FuturePeriod := as.integer(FuturePeriod)]
   suitVotes[Curr > 3.5, Curr := 4]
   colNms <- c("1","2","3","X")
   suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
-  suitVotes <- suitVotes[,.(SiteRef,FuturePeriod,SS_NoSpace,Spp,Curr,NewSuit)]
-  return(suitVotes)
+  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit)), by = .(SiteRef)]
+  return(suitRes)
 }
 
 ##figure 3c (mean change in feasibiltiy)
@@ -196,7 +195,6 @@ SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
-  newFeas <- newFeas[,.(Curr = mean(Curr), NewSuit = mean(NewSuit)), by = .(SiteRef)]
   newFeas[NewSuit > 3.49, NewSuit := 4]
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
@@ -207,7 +205,9 @@ for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   X[feasVals$SiteRef] <- feasVals$FeasChange
   png(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
   ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
+        breaks=breakpoints, maxpixels= ncell(X),
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
@@ -256,7 +256,7 @@ add_retreat <- function(SSPred,suit,spp_select){
 
 breakpoints <- seq(-1,1,0.2); length(breakpoints)
 labels <- c("Retreat", "Expansion")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1:5)], "grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
 
 
 for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
@@ -268,11 +268,15 @@ for(spp in c("Cw","Fd","Sx","Pl")){ ##ignore warnings
   X[addret$SiteRef] <- addret$PropMod
   png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
   #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X,bty = "n",  xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
+        col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
-  xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
+  
+  #xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
+  xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
   text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
