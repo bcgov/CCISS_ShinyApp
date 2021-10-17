@@ -47,6 +47,18 @@ pool <- dbPool(
 onStop(function() {
   poolClose(pool)
 })
+##bybec db connection
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = "138.197.168.220",
+  port = 5432,
+  user = "postgres",
+  password = "PowerOfBEC"
+)
+onStop(function() {
+  poolClose(sppDb)
+})
 poolclim <- dbPool(
     drv = RPostgres::Postgres(),
     dbname = "bgc_climate_data",
@@ -58,6 +70,11 @@ poolclim <- dbPool(
   onStop(function() {
     poolClose(poolclim)
   })
+  
+#####load feas table from database
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
+#####
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
