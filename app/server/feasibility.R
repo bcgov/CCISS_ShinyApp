@@ -42,10 +42,10 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   data[,Trend := gsub("PUPPY","<br />",Trend)]
   data[,Trend := gsub("SU","<u>",Trend)]
   data[,Trend := gsub("EU","</u>",Trend)]
-  #data[,Period := cell_spec(Period,font_size = 12)]
 
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               .(Species, Period, PredFeasSVG, CFSuitability, Curr, EstabFeas, ccissFeas, Trend)]
+               .(Species, Period, PredFeasSVG, CFSuitability, PrefAcc_Orig, PrefAcc, 
+                 Curr, EstabFeas, ccissFeas, Trend)]
   if(nrow(data) > 0){
     data[Curr == 4,Curr := "X"]
     data[Curr != "X", Curr := paste0("E", Curr)]
@@ -65,12 +65,12 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     tempTable <- knitr::kable(
       data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
       col.names = c("Tree Species", "Period", "Modelled Feasibility",
-                    "CFRG", "Environmental","Establishment",
+                    "Suitability", "P/A", "P/A (cciss)", "Environmental","Establishment",
                     "Future (cciss)","<u>Improve/Same</u><br />Decline/Unsuitable"),
       table.attr = 'class="table table-hover"') %>%
-      add_header_above(c(" " = 2, "Raw Votes" = 1, "Historic" = 2, 
-                         "Projected Feasibility" = 2, "Trend" = 1)) %>%
-      column_spec(4:8,bold = T, extra_css = "vertical-align:middle;") %>%
+      add_header_above(c(" " = 2, "Raw Votes" = 1, "CFRG" = 2, 
+                         "CCISS" = 4, "Trend" = 1)) %>%
+      column_spec(4:10,bold = T, extra_css = "vertical-align:middle;") %>%
       column_spec(1, tooltip = hoverText[1]) %>%
       column_spec(2, tooltip = hoverText[2]) %>%
       column_spec(3, tooltip = hoverText[3]) %>%
@@ -79,7 +79,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
       column_spec(6, tooltip = hoverText[6]) %>%
       column_spec(7, tooltip = hoverText[7]) %>%
       column_spec(8, tooltip = hoverText[8]) %>%
-      kable_styling(full_width = F, font_size = 16)
+      kable_styling(full_width = F, font_size = 14)
   }else{
     NULL
   }
