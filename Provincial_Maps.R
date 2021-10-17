@@ -19,6 +19,7 @@ con <- dbConnect(drv, user = "postgres",
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
+
 ##code to check that none have the same predictions
 
 allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
@@ -41,6 +42,20 @@ for(i in 1:(length(mods)-1)){
   }
 }
 fwrite(dat, "./GCM_BEC_agreement.csv")
+
+##check for weird suitability values in the same edatopic position
+edaPos <- "C4"
+suit <- S1
+suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+suit <- unique(suit)
+suit <- na.omit(suit)
+edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
+dat <- suit[edaSub,on = "SS_NoSpace"]
+setorder(dat,Spp,SS_NoSpace)
+dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
+            by = .(Spp,BGC)]
+fwrite(dat2,"FeasibilityStatsC4.csv")
+
 
 ##########################################################
 
@@ -141,11 +156,14 @@ dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
   return(dat)
 }
 
+
+
+
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
   
-  suit <- suit[Spp == spp_select,,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
@@ -170,14 +188,13 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes[suit, Curr := i.Feasible]
   suitVotes[is.na(Curr), Curr := 5]
   setorder(suitVotes,SiteRef,SS_NoSpace,Spp,FuturePeriod)
-  suitVotes[,FuturePeriod := as.integer(FuturePeriod)]
   suitVotes[Curr > 3.5, Curr := 4]
   colNms <- c("1","2","3","X")
   suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
-  suitVotes <- suitVotes[,.(SiteRef,FuturePeriod,SS_NoSpace,Spp,Curr,NewSuit)]
-  return(suitVotes)
+  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit)), by = .(SiteRef)]
+  return(suitRes)
 }
 
 ##figure 3c (mean change in feasibiltiy)
@@ -188,11 +205,11 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdB
 
 timeperiods <- "2041-2060"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-
-edaZonal <- E1[grep("01$|h$|00$",SS_NoSpace),]
+edaPos <- "C4"
+edaZonal <- E1[Edatopic == edaPos,]
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
-SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
+#SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
 for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
@@ -205,8 +222,11 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   feasVals <- newFeas[,.(SiteRef,FeasChange)]
   X <- raster::setValues(X,NA)
   X[feasVals$SiteRef] <- feasVals$FeasChange
-  pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X, xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  png(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
+        breaks=breakpoints, maxpixels= ncell(X),
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
@@ -235,14 +255,19 @@ add_retreat <- function(SSPred,suit,spp_select){
   suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
   suitMerge[OrigFeas > 3.5, OrigFeas := NA]
   suitMerge[Feasible > 3.5, Feasible := NA]
-  suitMerge <- suitMerge[!is.na(Feasible) | !is.na(OrigFeas),]
+  suitMerge[,HasValue := if(any(!is.na(OrigFeas))|any(!is.na(Feasible))) T else F, by = .(SiteRef)]
+  suitMerge <- suitMerge[(HasValue),]
   suitMerge <- suitMerge[,.(SiteRef,FuturePeriod,SS_NoSpace,OrigFeas,SS.pred,Feasible,SSprob)]
   setnames(suitMerge, old = "Feasible", new = "PredFeas")
   suitMerge[,Flag := NA_character_]
   suitMerge[is.na(OrigFeas) & !is.na(PredFeas),Flag := "Expand"]
   suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
   suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
-  suitRes <- suitMerge[,.(PropMod = sum(SSprob)), by = .(SiteRef,Flag)]
+  suitMerge[is.na(OrigFeas) & is.na(PredFeas),Flag := "Same"]
+  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,Flag)]
+  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef)]
+  suitMerge[,PropMod := PropMod/PropAll]
+  suitRes <- unique(suitMerge[,.(SiteRef,Flag,PropMod)])
   suitRes[,SiteRef := as.integer(SiteRef)]
   setkey(suitRes,SiteRef)
   suitRes[Flag == "Retreat",PropMod := PropMod * -1]
@@ -260,12 +285,17 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
   X <- raster::setValues(X,NA)
   X[addret$SiteRef] <- addret$PropMod
-  pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X,bty = "n",  xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
+  png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
+        col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
-  xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
+  
+  #xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
+  xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
   text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
