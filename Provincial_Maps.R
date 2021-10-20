@@ -54,6 +54,13 @@ dat <- suit[edaSub,on = "SS_NoSpace"]
 setorder(dat,Spp,SS_NoSpace)
 dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
             by = .(Spp,BGC)]
+
+dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
+dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
+dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
+setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
+
+datAll <- dat2[dat, on = c("BGC","Spp")]
 fwrite(dat2,"FeasibilityStatsC4.csv")
 
 
