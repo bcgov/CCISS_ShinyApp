@@ -203,15 +203,17 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   WITH cciss AS (
     SELECT substring(futureperiod,1,4) futureperiod,
            cciss_future12.siteno,
-           bgc,
+           bgc_attribution.bgc,
            bgc_pred,
            cciss_future12.gcm,
            w.weight
     FROM cciss_future12
+    JOIN bgc_attribution
+    ON (cciss_future12.siteno = bgc_attribution.siteno)
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
     ON cciss_future12.gcm = w.gcm AND cciss_future12.scenario = w.scenario
-    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+    WHERE cciss_future12.siteno IN (", paste(unique(siteno), collapse = ","), ")
     AND substring(futureperiod,1,4) IN ('2021','2041','2061','2081')
   
   ), cciss_count_den AS (
@@ -232,11 +234,21 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
     FROM cciss
     GROUP BY ", groupby, ", futureperiod, bgc, bgc_pred
   
+  ), cciss_curr AS (
+      SELECT cciss_prob12.siteno,
+      period,
+      bgc_attribution.bgc,
+      bgc_pred,
+      prob
+      FROM cciss_prob12
+      JOIN bgc_attribution
+      ON (cciss_prob12.siteno = bgc_attribution.siteno)
+      WHERE cciss_prob12.siteno IN (", paste(unique(siteno), collapse = ","), ")
+      
   ), curr_temp AS (
     SELECT ", groupby, " siteref,
            COUNT(distinct siteno) n
-    FROM cciss_prob12
-    WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+    FROM cciss_curr
     GROUP BY ", groupby, "
   )
   
@@ -258,7 +270,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
           bgc,
           bgc_pred,
           SUM(prob)/b.n bgc_prop
-  FROM cciss_prob12 a
+  FROM cciss_curr a
   JOIN curr_temp b
     ON a.",groupby," = b.siteref
   WHERE siteno in (", paste(unique(siteno), collapse = ","), ")
@@ -272,7 +284,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
             bgc,
             bgc as bgc_pred,
             cast(1 as numeric) bgc_prop
-    FROM cciss_prob12
+    FROM cciss_curr
     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
   ")
   
