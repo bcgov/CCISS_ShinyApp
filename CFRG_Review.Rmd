@@ -172,16 +172,26 @@ sppnotes <- function(spp, notes, textstyle) {
 reg_cw <- fread("District_Region_Crosswalk.csv")
 ```
 
-```{r stocking_standards, results='asis', out.height="auto"}
+
+```{r index, results='asis'}
+tags$h2("All BGC Units")
 dist_select <- "BUL"
 bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
-htmltools::tagList(
-  lapply(bgc_opts, function(bgc_select) {
-    print("<P style='page-break-before: always'>")    #forced new-page happens here.
+for(i in 1:length(bgc_opts)){
+  bgc_select <- bgc_opts[i]
+  temp <- dbGetQuery(pool,paste0("select count(*) from preselected_points where bgc = '",bgc_select,"' and dist_code = '",dist_select,"'"))[,1]
+  if(temp[1] > 25){
+    cat(sprintf("<a href=\"#Site_Unit:%s\">- Unit %s</a><br>", bgc_select,bgc_select))
+  }
+}
+```
 
-    pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
-    if(length(pNums) > 25){
 
+```{r,results='asis', out.height="auto"}
+for(bgc_select in bgc_opts){
+  cat("<P style='page-break-before: always'>")    #forced new-page happens here.
+  pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
+  if(length(pNums) > 25){
     dat <- dbGetCCISS(pool,pNums,T,all_weight)
     eda <- edatopicOverlap(dat,E1,E1_Phase)
     feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
@@ -194,25 +204,91 @@ htmltools::tagList(
         on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
       ]
     siteseries <- unique(feasSum$SS_NoSpace)
-    htmltools::tagList(
-      mapply(FUN = function(siteserie, nm) {
-        f1 <- feasSum[SS_NoSpace == siteserie,]
+    print(
+      tagList(tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"),
+              tags$h2(paste0("Site_Unit:",bgc_select)),
+              tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"))
+    )
+    for(siteserie in siteseries){
+      f1 <- feasSum[SS_NoSpace == siteserie,]
         s1 <- stocking_standards[
           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
         ]
         if(nrow(s1) > 0){
-          htmltools::tagList(
+          print(htmltools::tagList(
           tags$h3("Site Series: ", tags$b(siteserie, .noWS = c("before", "after"))),
           standardblocks(feasSum, bgc_select, siteserie),
-        )
+        ))
         }
-      }, siteseries, siteseries)
-    )
-
     }
-    
-  })
-)
+  }
+}
+
 poolClose(pool)
+```
+
+<style type="text/css">
+  h2 {font-weight:900 !important;}
+  .bordered {border-top:3px solid !important;}
+  .main-content {max-width: none !important; padding:3rem 3rem !important}
+  .table {width: auto !important;}
+  .table tbody {white-space: nowrap;}
+  .table td {vertical-align: middle !important;}
+  table.table-centered {margin-left:auto !important; margin-right:auto !important}
+</style>
+
+<script type="text/javascript">
+  // When the document is fully rendered...
+  $(document).ready(function() {
+    // ...select all header elements...
+    $('h1, h2, h3, h4, h5').each(function() {
+      console.log($(this).html());
+      $(this).attr('id', $(this).html());
+    });
+  });
+</script>
+
+```{r stocking_standards, results='asis', out.height="auto"}
+# dist_select <- "BUL"
+# bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
+# htmltools::tagList(
+#   lapply(bgc_opts, function(bgc_select) {
+#     print("<P style='page-break-before: always'>")    #forced new-page happens here.
+# 
+#     pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
+#     if(length(pNums) > 25){
+# 
+#     dat <- dbGetCCISS(pool,pNums,T,all_weight)
+#     eda <- edatopicOverlap(dat,E1,E1_Phase)
+#     feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
+#     feasSum <- feas$Summary
+#     feasSum[,Region := reg_cw[dist_code == dist_select,reg_cfrg]]
+#     feasSum[,ZoneSubzone := SiteRef]
+#     feasSum[
+#         stocking_standards, 
+#         CFSuitability := as.character(i.Suitability),
+#         on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+#       ]
+#     siteseries <- unique(feasSum$SS_NoSpace)
+#     htmltools::tagList(
+#       mapply(FUN = function(siteserie, nm) {
+#         f1 <- feasSum[SS_NoSpace == siteserie,]
+#         s1 <- stocking_standards[
+#           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
+#         ]
+#         if(nrow(s1) > 0){
+#           htmltools::tagList(
+#           tags$h3("Site Series: ", tags$b(siteserie, .noWS = c("before", "after"))),
+#           standardblocks(feasSum, bgc_select, siteserie),
+#         )
+#         }
+#       }, siteseries, siteseries)
+#     )
+# 
+#     }
+#     
+#   })
+# )
+# poolClose(pool)
 ```
 
