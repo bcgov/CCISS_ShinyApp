@@ -39,7 +39,7 @@ all_weight[,weight := wgcm*wrcp]
 standardblocks <- function(data, siteref, siteserie) {
   sc <- data[
     SiteRef %in% siteref & SS_NoSpace %in% siteserie,
-    list(Region, ZoneSubzone, SS_NoSpace, ccissSuit, Spp)
+    list(Region, ZoneSubzone, SS_NoSpace, ccissSuit,Improve,PrefAcc, Spp)
   ]
   ss <- stocking_standards[
     Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
@@ -50,6 +50,7 @@ standardblocks <- function(data, siteref, siteserie) {
 standardblock <- function(std, ss, sc) {
   ss <- ss[Standard %in% std]
   ss[, TextStyle := ""]
+  sc[,TxtCciss := ""]
   
   # Some logic to flag specie with different Suitability than CCISS
   ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissSuit))]
@@ -57,6 +58,10 @@ standardblock <- function(std, ss, sc) {
   ss[Suitability > ProjFeas, TextStyle := "color:blue"]
   ss[Suitability < ProjFeas, TextStyle := "color:orange"]
   ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
+  
+  # cciss colouring
+  sc[Improve > 67,TxtCciss := "color:green"]
+  sc[Improve < 33, TxtCciss := "color:red"]
   
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
@@ -78,27 +83,33 @@ standardblock <- function(std, ss, sc) {
             tags$tr(
               tags$td("Primary"),
               ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
-              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "1", unique(Spp)], collapse = ", "))
+              sc[!is.na(Spp) & ccissSuit %in% "1", sppnotes_cciss(Spp,TxtCciss)]
+              #tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "1", unique(Spp)], collapse = ", "))
             ),
             tags$tr(
               tags$td("Preferred (p)"),
               ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
+              sc[!is.na(Spp) & PrefAcc %in% "P", sppnotes_cciss(Spp,TxtCciss)],
               tags$td("")
             ),
             tags$tr(
               tags$td("Secondary"),
               ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
-              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "2", unique(Spp)], collapse = ", "))
+              sc[!is.na(Spp) & ccissSuit %in% "2", sppnotes_cciss(Spp,TxtCciss)]
+              #tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "2", unique(Spp)], collapse = ", "))
             ),
             tags$tr(
               tags$td("Acceptable (a)"),
               ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
+              sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
               tags$td("")
             ),
             tags$tr(
               tags$td("Tertiary"),
               ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
-              tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "3", unique(Spp)], collapse = ", "))
+              sc[!is.na(Spp) & ccissSuit %in% "3", sppnotes_cciss(Spp,TxtCciss)]
+
+              #tags$td(paste(sc[!is.na(Spp) & ccissSuit %in% "3", unique(Spp)], collapse = ", "))
             )
           )
         ),
@@ -163,6 +174,16 @@ sppnotes <- function(spp, notes, textstyle) {
     fn <- paste0(sort(as.integer(unique(unlist(notes[i])))), collapse = ",")
     ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
                           tags$sup(fn, .noWS = htmltools:::noWSOptions),
+                          if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
+  }
+  ret[["style"]] <- "white-space:normal;"
+  do.call(tags$td, ret)
+}
+
+sppnotes_cciss <- function(spp, textstyle) {
+  ret <- vector("list", length(spp))
+  for (i in seq_len(length(spp))) {
+    ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
                           if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
   ret[["style"]] <- "white-space:normal;"
