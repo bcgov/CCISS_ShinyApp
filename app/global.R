@@ -13,6 +13,6 @@ suppressPackageStartupMessages({
   library(rAmCharts4)
   library(kableExtra)
   library(rhandsontable)
-  library(shinyBS)
   library(colourvalues)
+  library(prompter)
 })
