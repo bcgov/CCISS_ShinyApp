@@ -7,7 +7,7 @@ tooltipsIcon <- span(tooltipsIcon)
 
 suppressWarnings(
   navbarPage(
-    title = HTML(r"(&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">)"),
+    title = HTML('&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">'),
     theme = {
       theme <- bslib::bs_theme(version = 5,
                                bootswatch = "yeti",
@@ -22,7 +22,7 @@ suppressWarnings(
     prompter::use_prompt(),
     # Select sites ----
     tabPanel(
-      title = HTML(r"(<span class="hint--bottom hint--large hint--no-shadow" aria-label="Select sites to analyse from a map">SELECT SITES</span>)"),
+      title = HTML('<span class="hint--bottom hint--large hint--no-shadow" aria-label="Select sites to analyse from a map">SELECT SITES</span>'),
       value = "sites",
       class = "tabcontainer",
       sidebarLayout(
