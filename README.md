@@ -21,9 +21,7 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
  - Clone repository
  - Setup environment variables
  - Open project
- - Run `shiny::runApp("./app2")`
- - Open `./app/index.Rmd`
- - Click on `Run Document`
+ - Run `shiny::runApp("./app")`
 
 ### Deploy to shinyapps.io
 
