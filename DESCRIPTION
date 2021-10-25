@@ -29,7 +29,8 @@ Imports:
     ggplot2,
     ggthemes,
     magrittr,
-    scales
+    scales,
+    prompter
 Suggests:
     bcdata,
     bcmaps,

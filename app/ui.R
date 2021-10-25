@@ -1,4 +1,10 @@
 # CCISS UI
+tooltipsIcon <- icon("question-circle")
+# Use regular style instead of solid
+tooltipsIcon$attribs$class <- gsub("fa ", "far ", tooltipsIcon$attribs$class, fixed = TRUE)
+# Wrap in a span to be able to use prompter
+tooltipsIcon <- span(tooltipsIcon)
+
 suppressWarnings(
   navbarPage(
     title = HTML(r"(&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">)"),
@@ -13,9 +19,10 @@ suppressWarnings(
     collapsible = TRUE,
     windowTitle = "Climate Change Informed Species Selection Tool",
     includeCSS("./www/style.css"),
+    prompter::use_prompt(),
     # Select sites ----
     tabPanel(
-      title = "SELECT SITES",
+      title = HTML(r"(<span class="hint--bottom hint--large hint--no-shadow" aria-label="Select sites to analyse from a map">SELECT SITES</span>)"),
       value = "sites",
       class = "tabcontainer",
       sidebarLayout(
@@ -35,9 +42,15 @@ suppressWarnings(
           style = "padding: 5px 5px 5px 5px; margin:0%"),
           hr(style = "border-top: 1px solid #8f0e7e;"),
           h5("Add Points Using One of the 3 Methods Below"),
-          h6("1. Enter Lat/Long or Click on Map to Add Points"),
-          p(
-            "Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate"
+          h6(
+            "1. Enter Lat/Long or Click on Map to Add Points",
+            prompter::add_prompt(
+              tooltipsIcon,
+              message = "Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate",
+              position = "right",
+              size = "large",
+              shadow = FALSE
+            )
           ),
           # Points
           DT::DTOutput("points_table", width = "100%"),
@@ -49,10 +62,14 @@ suppressWarnings(
                          120),
           hr(style = "border-top: 1px solid #8f0e7e;"),
           h6(
-            "2. Generate summary using preselected points by BGC or BGC+Distict:"
-          ),
-          tags$p(
-            "Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District"
+            "2. Generate summary using preselected points by BGC or BGC+Distict",
+            prompter::add_prompt(
+              tooltipsIcon,
+              message = "Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District",
+              position = "right",
+              size = "large",
+              shadow = FALSE
+            )
           ),
           splitLayout(
             radioButtons(
@@ -68,9 +85,15 @@ suppressWarnings(
           textOutput("bgc_click_show"),
           textOutput("dist_click_show"),
           hr(style = "border-top: 1px solid #8f0e7e;"),
-          h6("3. Upload a CSV file contain points of interests"),
-          tags$p(
-            "Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest."
+          h6(
+            "3. Upload a CSV file contain points of interests",
+            prompter::add_prompt(
+              tooltipsIcon,
+              message = "Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.",
+              position = "right",
+              size = "large",
+              shadow = FALSE
+            )
           ),
           # Actions on points
           actionButton("upload_button", "Upload CSV", icon("upload"),
