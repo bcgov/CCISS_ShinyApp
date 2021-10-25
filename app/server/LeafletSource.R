@@ -306,7 +306,7 @@ addBGC <- function(map) {
         id:"opacity_slider2",
         orientation:"horizontal",
         position:"bottomleft",
-        logo:\'<img src="www/opacity.svg" />\',
+        logo:\'<img src="/opacity.svg" />\',
         max:1,
         step:0.01,
         syncSlider:true,
