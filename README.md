@@ -56,7 +56,7 @@ BCGOV_MAPBOX_HILLSHADE_STYLE={mapbox hillshade style ref user/styleref}
 
 ##### app
 
-CCISS Flexdashboard app
+CCISS Shiny app
 
 ##### data
 Standard R package folder for the
