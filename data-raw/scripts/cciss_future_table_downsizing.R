@@ -38,7 +38,10 @@ simple_table <- function(conn, table, values, replace = FALSE) {
 simple_table(conn, "futureperiod", sort(unique(future_params$futureperiod)), replace = TRUE)
 simple_table(conn, "gcm", sort(unique(future_params$gcm)), replace = TRUE)
 simple_table(conn, "scenario", sort(unique(future_params$scenario)), replace = TRUE)
-simple_table(conn, "bgc", sort(bgc_attribution$bgc), replace = TRUE)
+
+dat <- fread("~/CommonTables/WNA_SSeries_v12_6.csv")
+bgcs <- unique(dat$BGC)
+simple_table(conn, "bgc", sort(bgcs), replace = TRUE)
 
 
 # Now cciss_future12
@@ -49,8 +52,11 @@ dbExecute(conn, query)
 
 query <- "
   CREATE TABLE cciss_future12SMLR (
-    siteno INTEGER REFERENCES hex_points
-    futureperiod 
+    siteno INTEGER REFERENCES hex_points,
+    gcm SMALLSERIAL REFERENCES gcm,
+    scenario SMALLSERIAL REFERENCES scenario,
+    futureperiod SMALLSERIAL REFERENCES futureperiod,
+    bgc_pred SMALLSERIAL REFERENCES bgc
   )
 "
 
