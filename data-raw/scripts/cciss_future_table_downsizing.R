@@ -261,30 +261,22 @@ dbGetQuery(conn, "SELECT ROW_NUMBER() OVER() row_idx, gcm, scenario, futureperio
 
 # Example on how to transform into original cciss_future12
 dbGetQuery(conn, "
-           SELECT source.siteno,
-                  labels.gcm,
-                  labels.scenario,
-                  labels.futureperiod,
-                  bgc.bgc
-           FROM (
-             SELECT siteno,
-                    bgc_pred_id,
-                    ROW_NUMBER() OVER(PARTITION BY siteno) as row_idx
-             FROM (
-               SELECT siteno,
-                      unnest(bgc_pred_id) bgc_pred_id
-               FROM cciss_future12_array
-               WHERE siteno = 240500
-             ) subset
-           ) source
-           JOIN (SELECT ROW_NUMBER() OVER() row_idx,
-                        gcm,
-                        scenario,
-                        futureperiod
-                 FROM gcm 
-                 CROSS JOIN scenario
-                 CROSS JOIN futureperiod) labels
-             ON labels.row_idx = source.row_idx
-           JOIN bgc
-             ON bgc.bgc_id = source.bgc_pred_id
-           ")
+  SELECT siteno,
+         labels.gcm,
+         labels.scenario,
+         labels.futureperiod,
+         bgc.bgc
+  FROM cciss_future12_array,
+       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+               gcm,
+               scenario,
+               futureperiod
+        FROM gcm 
+        CROSS JOIN scenario
+        CROSS JOIN futureperiod) labels
+    ON labels.row_idx = source.row_idx
+  JOIN bgc
+    ON bgc.bgc_id = source.bgc_pred_id
+  WHERE siteno = 240500
+")
