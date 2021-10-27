@@ -256,3 +256,35 @@ dbGetQuery(conn, "SELECT pg_total_relation_size('cciss_future12_array')") /
 
 # pg_total_relation_size
 # 1             0.01450527
+
+dbGetQuery(conn, "SELECT ROW_NUMBER() OVER() row_idx, gcm, scenario, futureperiod FROM gcm CROSS JOIN scenario CROSS JOIN futureperiod")
+
+# Example on how to transform into original cciss_future12
+dbGetQuery(conn, "
+           SELECT source.siteno,
+                  labels.gcm,
+                  labels.scenario,
+                  labels.futureperiod,
+                  bgc.bgc
+           FROM (
+             SELECT siteno,
+                    bgc_pred_id,
+                    ROW_NUMBER() OVER(PARTITION BY siteno) as row_idx
+             FROM (
+               SELECT siteno,
+                      unnest(bgc_pred_id) bgc_pred_id
+               FROM cciss_future12_array
+               WHERE siteno = 240500
+             ) subset
+           ) source
+           JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+                        gcm,
+                        scenario,
+                        futureperiod
+                 FROM gcm 
+                 CROSS JOIN scenario
+                 CROSS JOIN futureperiod) labels
+             ON labels.row_idx = source.row_idx
+           JOIN bgc
+             ON bgc.bgc_id = source.bgc_pred_id
+           ")
