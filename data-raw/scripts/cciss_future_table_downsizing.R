@@ -260,7 +260,7 @@ dbGetQuery(conn, "SELECT pg_total_relation_size('cciss_future12_array')") /
 dbGetQuery(conn, "SELECT ROW_NUMBER() OVER() row_idx, gcm, scenario, futureperiod FROM gcm CROSS JOIN scenario CROSS JOIN futureperiod")
 
 # Example on how to transform into original cciss_future12
-dbGetQuery(conn, "
+dt1 <- dbGetQuery(conn, "
   SELECT siteno,
          labels.gcm,
          labels.scenario,
@@ -279,4 +279,15 @@ dbGetQuery(conn, "
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
   WHERE siteno = 240500
+  ORDER BY siteno, labels.gcm, labels.scenario, labels.futureperiod
 ")
+
+dt2 <- dbGetQuery(conn, "
+  SELECT siteno,
+         gcm,
+         scenario,
+         futureperiod,
+         bgc_pred bgc
+  FROM cciss_future12
+  WHERE siteno = 240500
+  ORDER BY siteno, gcm, scenario, futureperiod")
