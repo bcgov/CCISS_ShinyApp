@@ -244,7 +244,15 @@ while (length(sitenos)) {
   sitenos <- sitenos[-(range)]
 }
 
+dbSendQuery(conn, glue::glue("
+    CREATE INDEX {tb}_idx ON {tb} USING BTREE ({idx});
+  ", tb = "cciss_future12_array", idx = "siteno"))
+dbSendQuery(conn, glue::glue("VACUUM ANALYZE {tb};", tb = "cciss_future12_array"))
+
 # Writing queries and updating table will get slightly more complex but the size saving are huge
 # and the performance are back
-dbGetQuery(conn, "SELECT pg_table_size('cciss_future12_array')") /
-  dbGetQuery(conn, "SELECT pg_table_size('cciss_future12')")
+dbGetQuery(conn, "SELECT pg_total_relation_size('cciss_future12_array')") /
+  dbGetQuery(conn, "SELECT pg_total_relation_size('cciss_future12')")
+
+# pg_total_relation_size
+# 1             0.01450527
