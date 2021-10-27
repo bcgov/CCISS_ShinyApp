@@ -150,3 +150,101 @@ dbGetQuery(conn, "SELECT siteno, bgc_pred_id[2][1][2] FROM cciss_future12smlr_te
 dbGetQuery(conn, "SELECT siteno, bgc_pred_id[2:8][1][2] FROM cciss_future12smlr_test2")
 dbGetQuery(conn, "SELECT siteno, unnest(bgc_pred_id[1:4][1:4][2]) FROM cciss_future12smlr_test2")
 
+##########################################
+# Now do it full ----
+
+library(RPostgres)
+library(DBI)
+library(data.table)
+
+conn <- DBI::dbConnect(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+dbExecute(conn, "DROP TABLE IF EXISTS cciss_future12_array")
+
+query <- "
+  CREATE TABLE cciss_future12_array (
+    siteno INTEGER REFERENCES hex_points,
+    -- [gcm][scenario][futureperiod]
+    bgc_pred_id SMALLINT[13][4][5]
+  )
+"
+dbExecute(conn, query)
+
+# Handle missing combinations
+idx_ipt_len <- function(index, input, length) {
+  x <- NA_integer_
+  length(x) <- length
+  x[index] <- input
+  x
+}
+
+insert_by_part <- function(conn, siteno_range) {
+
+  query <- sprintf("
+    SELECT
+      siteno,
+      gcm.gcm_id,
+      scenario.scenario_id,
+      futureperiod.futureperiod_id,
+      bgc.bgc_id bgc_pred_id
+    FROM cciss_future12
+    JOIN gcm ON (cciss_future12.gcm = gcm.gcm)
+    JOIN scenario ON (cciss_future12.scenario = scenario.scenario)
+    JOIN futureperiod ON (cciss_future12.futureperiod = futureperiod.futureperiod)
+    JOIN bgc ON (cciss_future12.bgc_pred = bgc.bgc)
+    WHERE cciss_future12.siteno >= %s and cciss_future12.siteno <= %s", siteno_range[1], siteno_range[2]
+  )
+  
+  dt <- setDT(dbGetQuery(conn, query))
+  
+  if (nrow(dt) > 0) {
+    insert <- dt[,
+      list(bgc_pred_id = paste0(idx_ipt_len(futureperiod_id, bgc_pred_id, 5L), collapse = ",")),
+      by = list(siteno, gcm_id, scenario_id)
+    ][,
+      list(bgc_pred_id = paste0("{", idx_ipt_len(scenario_id, bgc_pred_id, 4L), "}", collapse = ",")),
+      by = list(siteno, gcm_id)
+    ][,
+      list(bgc_pred_id = paste0("'{", paste0("{", idx_ipt_len(gcm_id, bgc_pred_id, 13L), "}", collapse = ","), "}'")),
+      by = list(siteno)
+    ][,
+      list(siteno, bgc_pred_id = gsub("NA", "NULL", bgc_pred_id, fixed = TRUE))
+    ]
+    
+    query <- paste0("
+      INSERT INTO cciss_future12_array (
+        siteno,
+        bgc_pred_id
+      ) VALUES ",
+      paste0("(", insert$siteno, ", ", insert$bgc_pred_id, ")", collapse = ", ")
+    )
+    
+    dbExecute(conn, query) 
+  }
+  
+  invisible()
+
+}
+
+sitenos <- dbGetQuery(conn, "SELECT siteno FROM hex_points")$siteno
+
+while (length(sitenos)) {
+  range <- 1L:50000L
+  insert_by_part(conn, c(
+    min(sitenos[range], na.rm = TRUE),
+    max(sitenos[range], na.rm = TRUE)
+  ))
+  sitenos <- sitenos[-(range)]
+}
+
+# Writing queries and updating table will get slightly more complex but the size saving are huge
+# and the performance are back
+dbGetQuery(conn, "SELECT pg_table_size('cciss_future12_array')") /
+  dbGetQuery(conn, "SELECT pg_table_size('cciss_future12')")
