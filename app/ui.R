@@ -5,6 +5,17 @@ tooltipsIcon$attribs$class <- gsub("fa ", "far ", tooltipsIcon$attribs$class, fi
 # Wrap in a span to be able to use prompter
 tooltipsIcon <- span(tooltipsIcon)
 
+navhelplink <- function(title, inputId) {
+  HTML(
+    paste0(
+      title,
+      '</a><a id="',
+      inputId,
+      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
+    )
+  )
+}
+
 suppressWarnings(
   navbarPage(
     title = HTML('&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">'),
@@ -19,13 +30,14 @@ suppressWarnings(
     collapsible = TRUE,
     windowTitle = "Climate Change Informed Species Selection Tool",
     id = "cciss_navbar",
-    includeCSS("./www/style.css"),
-    prompter::use_prompt(),
     # Select sites ----
     tabPanel(
-      title = "SELECT SITES",
+      title = navhelplink("SELECT SITES", "cciss_instructions_select_sites_nav"),
       value = "sites",
       class = "tabcontainer",
+      tags$head(includeCSS("./www/style.css")),
+      prompter::use_prompt(),
+      tags$head(includeScript("./www/cciss.js")),
       sidebarLayout(
         # Inputs
         sidebarPanel(
@@ -125,7 +137,7 @@ suppressWarnings(
     ),
     # Feasibility report ----
     tabPanel(
-      title = "FEASIBILITY REPORT",
+      title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
       value = "feasibility",
       sidebarLayout(
         # Inputs
@@ -165,7 +177,7 @@ suppressWarnings(
     ),
     # BEC Futures ----
     navbarMenu(
-      title = "BEC FUTURES",
+      title = navhelplink("BEC FUTURES", "cciss_instructions_bec_futures_nav"),
       tabPanel(title = "Graphical",
                sidebarLayout(
                  # Inputs
@@ -232,7 +244,7 @@ suppressWarnings(
                ))
     ),
     # Silvics & Ecology ----
-    tabPanel(title = "SILVICS & ECOLOGY",
+    tabPanel(title = navhelplink("SILVICS & ECOLOGY", "cciss_instructions_silvics_ecology_nav"),
              sidebarLayout(
                # Inputs
                sidebarPanel(
@@ -271,7 +283,7 @@ suppressWarnings(
              )),
     # Species portfolio draft ----
     tabPanel(
-      title = HTML("SPECIES PORTFOLIO<i><sup>Draft</sup></i>"),
+      title = navhelplink("SPECIES PORTFOLIO<i><sup>Draft</sup></i>", "cciss_instructions_species_portfolio_nav"),
       sidebarLayout(
         # Inputs
         sidebarPanel(
@@ -394,7 +406,7 @@ suppressWarnings(
     ),
     # Export ----
     tabPanel(
-      title = "",
+      title = navhelplink("", "cciss_instructions_export_nav"),
       icon = icon("save"),
       sidebarLayout(
         # Inputs
@@ -583,6 +595,5 @@ suppressWarnings(
         )
       )
     ),
-    includeScript("./www/cciss.js")
   )
 )
