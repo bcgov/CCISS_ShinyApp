@@ -88,6 +88,7 @@ shinyServer(function(input, output, session) {
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
   source("./server/generate_portfolio.R", local = TRUE)
+  source("./server/instructions.R", local = TRUE)
   
   ##hover text for feasibility report
   hoverText <- c("Species","Time Period","Percentage of models preciting each feasibility",
@@ -200,6 +201,6 @@ shinyServer(function(input, output, session) {
                 paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
                 as.character(tags$a(href = "http://www.apache.org/licenses/LICENSE-2.0", "Apache 2.0 LICENSE")))
     )
-    knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-centered"', escape = FALSE)
+    knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover"', escape = FALSE)
   }
 })
