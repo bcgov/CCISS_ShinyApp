@@ -262,14 +262,19 @@ dbGetQuery(conn, "SELECT pg_total_relation_size('cciss_future12_array')") /
 
 dbGetQuery(conn, "SELECT ROW_NUMBER() OVER() row_idx, gcm, scenario, futureperiod FROM gcm CROSS JOIN scenario CROSS JOIN futureperiod")
 
+siteno <- "240500"
 # Example on how to transform into original cciss_future12
-dt1 <- dbGetQuery(conn, "
-  SELECT siteno,
+dt1 <- dbGetQuery(conn, paste0("
+  SELECT cciss_future12_array.siteno,
          labels.gcm,
          labels.scenario,
          labels.futureperiod,
-         bgc.bgc
-  FROM cciss_future12_array,
+         bgc_attribution.bgc,
+         bgc.bgc bgc_pred,
+         w.weight
+  FROM cciss_future12_array
+  JOIN bgc_attribution
+    ON (cciss_future12_array.siteno = bgc_attribution.siteno),
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
   JOIN (SELECT ROW_NUMBER() OVER() row_idx,
                gcm,
@@ -277,13 +282,26 @@ dt1 <- dbGetQuery(conn, "
                futureperiod
         FROM gcm 
         CROSS JOIN scenario
-        CROSS JOIN futureperiod) labels
+        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
     ON labels.row_idx = source.row_idx
+    JOIN (values ",weights,") 
+    AS w(gcm,scenario,weight)
+    ON labels.gcm = w.gcm AND labels.scenario = w.scenario
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
-  WHERE siteno = 240500
-  ORDER BY siteno, labels.gcm, labels.scenario, labels.futureperiod
-")
+  WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
+"))
+
+dt1 <- dbGetQuery(conn, paste0("
+  SELECT *
+  FROM cciss_future12_array,
+       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+  WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
+"))
+
+"JOIN (values ",weights,") 
+AS w(gcm,scenario,weight)
+ON cciss_future12.gcm = w.gcm AND cciss_future12.scenario = w.scenario"
 
 dt2 <- dbGetQuery(conn, "
   SELECT siteno,
