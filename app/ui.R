@@ -5,6 +5,25 @@ tooltipsIcon$attribs$class <- gsub("fa ", "far ", tooltipsIcon$attribs$class, fi
 # Wrap in a span to be able to use prompter
 tooltipsIcon <- span(tooltipsIcon)
 
+navhelplink <- function(title, inputId) {
+  HTML(
+    paste0(
+      title,
+      '</a><a id="',
+      inputId,
+      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
+    )
+  )
+}
+
+sidebarhelplink <- function(inputId) {
+  tags$p(style = "text-align: center;", shiny::actionLink(
+    inputId = inputId,
+    label = "Section Insctructions", 
+    icon = icon("question-circle")
+  ))
+}
+
 suppressWarnings(
   navbarPage(
     title = HTML('&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">'),
@@ -18,17 +37,20 @@ suppressWarnings(
     },
     collapsible = TRUE,
     windowTitle = "Climate Change Informed Species Selection Tool",
-    includeCSS("./www/style.css"),
-    prompter::use_prompt(),
+    id = "cciss_navbar",
     # Select sites ----
     tabPanel(
-      title = HTML('<span class="hint--bottom hint--large hint--no-shadow" aria-label="Select sites to analyse from a map">SELECT SITES</span>'),
+      title = navhelplink("SELECT SITES", "cciss_instructions_select_sites_nav"),
       value = "sites",
       class = "tabcontainer",
+      tags$head(includeCSS("./www/style.css")),
+      prompter::use_prompt(),
+      tags$head(includeScript("./www/cciss.js")),
       sidebarLayout(
         # Inputs
         sidebarPanel(
           width = 3,
+          sidebarhelplink("cciss_instructions_select_sites"),
           wellPanel(splitLayout(
             actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
             
@@ -119,12 +141,13 @@ suppressWarnings(
     ),
     # Feasibility report ----
     tabPanel(
-      title = "FEASIBILITY REPORT",
+      title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
       value = "feasibility",
       sidebarLayout(
         # Inputs
         sidebarPanel(
           width = 2,
+          sidebarhelplink("cciss_instructions_feasibility_report"),
           h6("Filters"),
           selectInput("siteref_feas", label = "Sites:", choices = character()),
           selectInput("site_series_feas", label = "Site Series", choices = character()),
@@ -154,12 +177,13 @@ suppressWarnings(
     ),
     # BEC Futures ----
     navbarMenu(
-      title = "BEC FUTURES",
+      title = navhelplink("BEC FUTURES", "cciss_instructions_bec_futures_nav"),
       tabPanel(title = "Graphical",
                sidebarLayout(
                  # Inputs
                  sidebarPanel(
                    width = 2,
+                   sidebarhelplink("cciss_instructions_bec_futures"),
                    h6("Filter"),
                    selectInput("siteref_bgc_fut", label = "Sites:", choices = character()),
                    selectInput("ss_bgc_fut", label = "Site Series:", choices = character()),
@@ -186,6 +210,7 @@ suppressWarnings(
                  # Inputs
                  sidebarPanel(
                    width = 2,
+                   sidebarhelplink("cciss_instructions_bec_futures_spatial"),
                    h6("Filter"),
                    selectInput(
                      "siteref_bgc_fut_spatial",
@@ -211,11 +236,12 @@ suppressWarnings(
                ))
     ),
     # Silvics & Ecology ----
-    tabPanel(title = "SILVICS & ECOLOGY",
+    tabPanel(title = navhelplink("SILVICS & ECOLOGY", "cciss_instructions_silvics_ecology_nav"),
              sidebarLayout(
                # Inputs
                sidebarPanel(
                  width = 2,
+                 sidebarhelplink("cciss_instructions_silvics_ecology"),
                  h6("Filters"),
                  selectInput("siteref_silv", label = "Sites:", choices = character()),
                  selectInput("site_series_silv", label = "Site Series", choices = character()),
@@ -245,11 +271,12 @@ suppressWarnings(
              )),
     # Species portfolio draft ----
     tabPanel(
-      title = HTML("SPECIES PORTFOLIO<i><sup>Draft</sup></i>"),
+      title = navhelplink("SPECIES PORTFOLIO<i><sup>Draft</sup></i>", "cciss_instructions_species_portfolio_nav"),
       sidebarLayout(
         # Inputs
         sidebarPanel(
           width = 3,
+          sidebarhelplink("cciss_instructions_species_portfolio"),
           h6("Data Options"),
           selectInput("port_bgc", label = "Select BGC:", choices = character()),
           radioButtons(
@@ -363,12 +390,13 @@ suppressWarnings(
     ),
     # Export ----
     tabPanel(
-      title = "",
+      title = navhelplink("", "cciss_instructions_export_nav"),
       icon = icon("save"),
       sidebarLayout(
         # Inputs
         sidebarPanel(
           width = 2,
+          sidebarhelplink("cciss_instructions_export"),
           h6("Filter"),
           selectInput(
             "report_filter_feas",
@@ -433,43 +461,119 @@ suppressWarnings(
     navbarMenu(
       title = "",
       icon = icon("question-circle"),
+      menuName = "cciss_help",
       tabPanel(
-        title = "How the CCISS tool works",
-        tabPanel(
-          title = "How the CCISS tool works",
-          tags$p(
-            "The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures."
-          ),
-          tags$p(
-            "The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate- and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near- and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/ silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will different regions and elevations of a BGC."
-          ),
-          tags$p(
-            tags$a(href = "https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf", "Would you like to know more?")
+        title = "About",
+        value = "cciss_about",
+        fluidRow(
+          column(
+            width = 6,
+            offset = 1,
+            tabPanel(
+              title = "",
+              tags$h4("About the CCISS tool"),
+              tags$p(
+                "The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures."
+              ),
+              tags$p(
+                "The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will impact different regions and elevations of a BGC."
+              ),
+              tags$p(
+                tags$a(href = "https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf", "Click for full details.")
+              )
+            )
           )
         )
       ),
       tabPanel(
-        title = "Model information",
-        tabPanel(title = "Current versions of Information Tables, Maps, and Models used in this App",
-                 div(
-                   tableOutput("modelsinfo"),
-                   plotly::plotlyOutput("timings", width = "100%")
-                 ))
-      ),
-      tabPanel(title = "Shiny App Information",
-               tabPanel(title = "Shiny App Information",
-                        tableOutput("shinyinfo"))),
-      tabPanel(
         title = "Instructions",
-        tabPanel(
-          title = "Instructions",
-          h5("What is CCISS?"),
-          tags$p("Here's some pithy text about CCISS."),
-          h5("How do I use the tool?"),
-          tags$p("More pithy and instructive text.")
+        value = "cciss_instructions",
+        fluidRow(
+          column(
+            width = 8,
+            offset = 1,
+            tags$h4("Instructions"),
+            tabsetPanel(
+              id = "cciss_instructions_set",
+              type = "pills",
+              tabPanel(
+                title = "Select Sites",
+                value = "cciss_instructions_select_sites",
+                h5("Input methods"),
+                h6("Click on map"),
+                tags$p("instructions method 1"),
+                h6("Enter point coordinnate manually"),
+                tags$p("instructions method 2"),
+                h6("Import points from a csv"),
+                tags$p("instructions method 3")
+              ),
+              tabPanel(
+                title = "Feasibility Report",
+                value = "cciss_instructions_feasibility_report",
+                h5("Header 5"),
+                tags$p("instructions feasibility report...")
+              ),
+              tabPanel(
+                title = "BEC Futures",
+                value = "cciss_instructions_bec_futures",
+                h5("Header 5"),
+                tags$p("instructions BEC futures...")
+              ),
+              tabPanel(
+                title = "Silvics & Ecology",
+                value = "cciss_instructions_silvics_ecology",
+                h5("Header 5"),
+                tags$p("instructions silvics & ecology...")
+              ),
+              tabPanel(
+                title = "Species Portfolio",
+                value = "cciss_instructions_species_portfolio",
+                h5("Header 5"),
+                tags$p("instructions species portfolio...")
+              ),
+              tabPanel(
+                title = "Export",
+                value = "cciss_instructions_export",
+                h5("Header 5"),
+                tags$p("instructions export...")
+              )
+            )
+          )
+        )       
+      ),
+      tabPanel(
+        title = "Model information",
+        value = "model_info",
+        fluidRow(
+          column(
+            width = 6,
+            offset = 1,
+            tabPanel(
+              title = "",
+              tags$h4("Current versions of Information Tables, Maps, and Models used in this App"),
+              div(
+                tableOutput("modelsinfo"),
+                plotly::plotlyOutput("timings", width = "100%")
+              )
+            )
+          )
+        )
+      ),
+      tabPanel(
+        title = "Shiny App Information",
+        value = "app_info",
+        fluidRow(
+          column(
+            width = 6,
+            offset = 1,
+            tabPanel(
+              title = "",
+              tags$h4("Shiny App Information"),
+              tableOutput("shinyinfo")
+            )
+          )
         )
       )
     ),
-    includeScript("./www/cciss.js")
   )
 )
