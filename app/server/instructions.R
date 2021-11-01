@@ -13,6 +13,11 @@ observeEvent(input$cciss_instructions_bec_futures, {
   updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_bec_futures")
 })
 
+observeEvent(input$cciss_instructions_bec_futures_spatial, {
+  updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
+  updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_bec_futures")
+})
+
 observeEvent(input$cciss_instructions_silvics_ecology, {
   updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
   updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_silvics_ecology")
