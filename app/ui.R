@@ -16,6 +16,14 @@ navhelplink <- function(title, inputId) {
   )
 }
 
+sidebarhelplink <- function(inputId) {
+  tags$p(style = "text-align: center;", shiny::actionLink(
+    inputId = inputId,
+    label = "Section Insctructions", 
+    icon = icon("question-circle")
+  ))
+}
+
 suppressWarnings(
   navbarPage(
     title = HTML('&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">'),
@@ -42,11 +50,7 @@ suppressWarnings(
         # Inputs
         sidebarPanel(
           width = 3,
-          tags$p(style = "text-align: center;", shiny::actionLink(
-            inputId = "cciss_instructions_select_sites",
-            label = "Section Insctructions", 
-            icon = icon("question-circle")
-          )),
+          sidebarhelplink("cciss_instructions_select_sites"),
           wellPanel(splitLayout(
             actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
             
@@ -143,11 +147,7 @@ suppressWarnings(
         # Inputs
         sidebarPanel(
           width = 2,
-          tags$p(style = "text-align: center;", shiny::actionLink(
-            inputId = "cciss_instructions_feasibility_report",
-            label = "Section Insctructions", 
-            icon = icon("question-circle")
-          )),
+          sidebarhelplink("cciss_instructions_feasibility_report"),
           h6("Filters"),
           selectInput("siteref_feas", label = "Sites:", choices = character()),
           selectInput("site_series_feas", label = "Site Series", choices = character()),
@@ -183,11 +183,7 @@ suppressWarnings(
                  # Inputs
                  sidebarPanel(
                    width = 2,
-                   tags$p(style = "text-align: center;", shiny::actionLink(
-                     inputId = "cciss_instructions_bec_futures",
-                     label = "Section Insctructions", 
-                     icon = icon("question-circle")
-                   )),
+                   sidebarhelplink("cciss_instructions_bec_futures"),
                    h6("Filter"),
                    selectInput("siteref_bgc_fut", label = "Sites:", choices = character()),
                    selectInput("ss_bgc_fut", label = "Site Series:", choices = character()),
@@ -214,11 +210,7 @@ suppressWarnings(
                  # Inputs
                  sidebarPanel(
                    width = 2,
-                   tags$p(style = "text-align: center;", shiny::actionLink(
-                     inputId = "cciss_instructions_bec_futures",
-                     label = "Section Insctructions", 
-                     icon = icon("question-circle")
-                   )),
+                   sidebarhelplink("cciss_instructions_bec_futures_spatial"),
                    h6("Filter"),
                    selectInput(
                      "siteref_bgc_fut_spatial",
@@ -249,11 +241,7 @@ suppressWarnings(
                # Inputs
                sidebarPanel(
                  width = 2,
-                 tags$p(style = "text-align: center;", shiny::actionLink(
-                   inputId = "cciss_instructions_silvics_ecology",
-                   label = "Section Insctructions",
-                   icon = icon("question-circle")
-                 )),
+                 sidebarhelplink("cciss_instructions_silvics_ecology"),
                  h6("Filters"),
                  selectInput("siteref_silv", label = "Sites:", choices = character()),
                  selectInput("site_series_silv", label = "Site Series", choices = character()),
@@ -288,11 +276,7 @@ suppressWarnings(
         # Inputs
         sidebarPanel(
           width = 3,
-          tags$p(style = "text-align: center;", shiny::actionLink(
-            inputId = "cciss_instructions_species_portfolio",
-            label = "Section Insctructions", 
-            icon = icon("question-circle")
-          )),
+          sidebarhelplink("cciss_instructions_species_portfolio"),
           h6("Data Options"),
           selectInput("port_bgc", label = "Select BGC:", choices = character()),
           radioButtons(
@@ -412,11 +396,7 @@ suppressWarnings(
         # Inputs
         sidebarPanel(
           width = 2,
-          tags$p(style = "text-align: center;", shiny::actionLink(
-            inputId = "cciss_instructions_export",
-            label = "Section Insctructions", 
-            icon = icon("question-circle")
-          )),
+          sidebarhelplink("cciss_instructions_export"),
           h6("Filter"),
           selectInput(
             "report_filter_feas",
