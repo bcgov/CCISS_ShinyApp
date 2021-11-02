@@ -47,3 +47,11 @@ table.table-centered {
 .dropdown-menu.show {
   z-index: 1001;
 }
+
+#cciss_navbar .nav-item {
+  display: inline-flex !important;
+}
+
+#cciss_navbar .nav-link {
+  padding-right: 0 !important;
+}
