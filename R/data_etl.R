@@ -198,23 +198,35 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   }
   modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
   weights <- paste(modWeights$comb,collapse = ",")
+  
   ##cciss_future is now test_future  
   cciss_sql <- paste0("
   WITH cciss AS (
-    SELECT substring(futureperiod,1,4) futureperiod,
-           cciss_future12.siteno,
-           bgc_attribution.bgc,
-           bgc_pred,
-           cciss_future12.gcm,
-           w.weight
-    FROM cciss_future12
-    JOIN bgc_attribution
-    ON (cciss_future12.siteno = bgc_attribution.siteno)
+    SELECT cciss_future12_array.siteno,
+         labels.gcm,
+         labels.scenario,
+         labels.futureperiod,
+         bgc_attribution.bgc,
+         bgc.bgc bgc_pred,
+         w.weight
+  FROM cciss_future12_array
+  JOIN bgc_attribution
+    ON (cciss_future12_array.siteno = bgc_attribution.siteno),
+       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+               gcm,
+               scenario,
+               futureperiod
+        FROM gcm 
+        CROSS JOIN scenario
+        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
+    ON labels.row_idx = source.row_idx
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
-    ON cciss_future12.gcm = w.gcm AND cciss_future12.scenario = w.scenario
-    WHERE cciss_future12.siteno IN (", paste(unique(siteno), collapse = ","), ")
-    AND substring(futureperiod,1,4) IN ('2021','2041','2061','2081')
+    ON labels.gcm = w.gcm AND labels.scenario = w.scenario
+  JOIN bgc
+    ON bgc.bgc_id = source.bgc_pred_id
+  WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
   
   ), cciss_count_den AS (
   
