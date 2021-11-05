@@ -310,12 +310,12 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   dev.off()
 }
 
+##edatopic maps
 timeperiods <- "2041-2060"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-edaPos <- "C4"
-edaZonal <- E1[Edatopic == edaPos,]
-##edatopic overlap
-SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
+SSPreds <- edatopicOverlap(bgc,E1,E1_Phase) ##takes about 30 seconds
+
+edaBlobs <- fread("EdaBlobs.csv")
 
 ################### straight predicted feasibility maps #####################
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
