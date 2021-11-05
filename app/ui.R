@@ -26,7 +26,7 @@ sidebarhelplink <- function(inputId) {
 
 suppressWarnings(
   navbarPage(
-    title = HTML('&nbsp;&nbsp;<img src="/logo.svg" class="navbar-logo">'),
+    title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">'),
     theme = {
       theme <- bslib::bs_theme(version = 5,
                                bootswatch = "yeti",
@@ -49,7 +49,7 @@ suppressWarnings(
       sidebarLayout(
         # Inputs
         sidebarPanel(
-          width = 3,
+          width = 4,
           sidebarhelplink("cciss_instructions_select_sites"),
           wellPanel(splitLayout(
             actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
@@ -133,8 +133,9 @@ suppressWarnings(
           ),
           br(),
           br()
+          #style = "min-width: 600px;"
         ),
-        mainPanel(width = 9,
+        mainPanel(width = 8,
                   # Biogeoclimatic Zones + Subzones Variants Map
                   leafletOutput("bec_map"))
       )
