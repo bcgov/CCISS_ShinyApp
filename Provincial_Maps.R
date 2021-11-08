@@ -54,6 +54,13 @@ dat <- suit[edaSub,on = "SS_NoSpace"]
 setorder(dat,Spp,SS_NoSpace)
 dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
             by = .(Spp,BGC)]
+
+dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
+dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
+dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
+setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
+
+datAll <- dat2[dat, on = c("BGC","Spp")]
 fwrite(dat2,"FeasibilityStatsC4.csv")
 
 
@@ -302,6 +309,13 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, ") % of GCMs", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
 }
+
+##edatopic maps
+timeperiods <- "2041-2060"
+bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+SSPreds <- edatopicOverlap(bgc,E1,E1_Phase) ##takes about 30 seconds
+
+edaBlobs <- fread("EdaBlobs.csv")
 
 ################### straight predicted feasibility maps #####################
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
