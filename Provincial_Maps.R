@@ -225,6 +225,7 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
   newFeas[,SiteRef := as.integer(SiteRef)]
+  newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
   newFeas <- newFeas[!(Curr == 4 & FeasChange == 0),]
   feasVals <- newFeas[,.(SiteRef,FeasChange)]
   X <- raster::setValues(X,NA)
@@ -310,12 +311,49 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   dev.off()
 }
 
-# ##edatopic maps
-# timeperiods <- "2041-2060"
-# bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-# SSPreds <- edatopicOverlap(bgc,E1,E1_Phase) ##takes about 30 seconds
-# 
-# edaBlobs <- fread("EdaBlobs.csv")
+##edatopic maps
+timeperiods <- "2041-2060"
+spp <- "Cw"
+bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+edaBlobs <- fread("EdaBlobs.csv")
+blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
+##average by bgc
+blobBGC <- blobOut[,.(Current = mean(CurrentFeas), Future = mean(FutureFeas)),
+                   by = .(BGC,Blob)]
+setorder(blobBGC,BGC,Blob)
+blobBGC[,SMR := substr(Blob,1,1)]
+blobBGC <- blobBGC[,.(Current = min(Current), Future = min(Future)),
+                   by = .(BGC,SMR)]
+
+blobCurr <- blobBGC[Current <= 3.5, .(BGC, SMR, Current)]
+blobCurr[,SMR := as.numeric(SMR)]
+blobCurr <- blobCurr[,.(MinSMR = min(SMR)), by = .(BGC)]
+
+blobFut <- blobBGC[Future <= 3.5, .(BGC, SMR, Future)]
+blobFut[,SMR := as.numeric(SMR)]
+blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
+
+edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#c70808","#cc5200","#ebc81a","#069414","#0013e0"))
+blobCurr[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
+bgcMap_full <- st_read("~/CommonTables/BC_BGCv12_Published_clipped.gpkg")
+bgcMap <- as.data.table(bgcMap_full["BGC"])
+bgcMap[blobCurr, Col := i.Col, on = "BGC"]
+bgcMap <- bgcMap[!is.na(Col),]
+bgcMap <- st_as_sf(bgcMap)
+
+png(file=paste("./FeasibilityMaps/EdaByBGC_Current",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0)
+dev.off()
+
+blobFut[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
+bgcMap <- as.data.table(bgcMap_full["BGC"])
+bgcMap[blobFut, Col := i.Col, on = "BGC"]
+bgcMap <- bgcMap[!is.na(Col),]
+bgcMap <- st_as_sf(bgcMap)
+
+png(file=paste("./FeasibilityMaps/EdaByBGC_Future",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0)
+dev.off()
 # 
 # ################### straight predicted feasibility maps #####################
 # feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
