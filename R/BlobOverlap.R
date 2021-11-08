@@ -1,4 +1,16 @@
-edatopicOverlap <- function(BGC,edaBlobs,E1,E1_Phase,S1,spp_select){
+#' Edatopc Blob Overlap
+#' @param BGC BGC
+#' @param edaBlobs Blob names and spaces (data.table)
+#' @param E1 Edatopic table
+#' @param E1_Phase Edatopic phase table
+#' @param S1 Feasibility table
+#' @param spp_select Species code to run for
+#' @details What the function does
+#' @return What the function returns
+#' @import data.table
+#' @export
+
+blobOverlap <- function(BGC,edaBlobs,E1,E1_Phase,S1,spp_select){
   
   suit <- S1[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
