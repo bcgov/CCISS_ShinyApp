@@ -1,20 +1,15 @@
-/* Prevent map from collapsing on mobile */
-
-#bec_map {
-  min-height: 400px;
-}
-
 /* Replace Search logo with a scalable vector graphic */
 
 .leaflet-control-search .search-button {
-  background: url(search.svg) no-repeat 2px 2px #fff !important;
+  background: url(/search.svg) no-repeat 2px 2px #fff !important;
 }
 
-/* Fix navbar flex with bslib generated theme */
+#bec_map, #wna_map {
+  height: calc(100vh - 70px) !important;  
+}
 
-ul.nav.navbar-nav {
-  flex: auto !important;
-  -webkit-flex: auto !important;
+#bgc_fut_plot {
+  height: calc(100vh - 140px) !important; 
 }
 
 .table tbody {
@@ -34,4 +29,29 @@ table.table-centered {
 /* Reduce selectize font size */
 .selectize-dropdown, .selectize-input {
   font-size: 0.65em !important;
+}
+
+.navbar:not(.fixed-bottom):not(.navbar-fixed-bottom):not(.navbar-fixed-bottom) {
+    margin-bottom: 0.25rem !important;
+}
+
+.row {
+  --bs-gutter-x: 0.25rem !important;
+}
+
+:root {
+  --bs-gutter-x: 0.25rem !important;
+}
+
+/* To display over leaflet */
+.dropdown-menu.show {
+  z-index: 1001;
+}
+
+#cciss_navbar .nav-item {
+  display: inline-flex !important;
+}
+
+#cciss_navbar .nav-link {
+  padding-right: 0 !important;
 }

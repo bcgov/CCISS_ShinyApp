@@ -20,7 +20,6 @@ Imports:
     leaflet.extras,
     analogsea,
     DT,
-    flexdashboard (>= 0.5.2.90),
     plotly,
     pool,
     prettydoc,
@@ -30,7 +29,8 @@ Imports:
     ggplot2,
     ggthemes,
     magrittr,
-    scales
+    scales,
+    prompter
 Suggests:
     bcdata,
     bcmaps,
@@ -39,8 +39,7 @@ Suggests:
     readxl
 Remotes:
     bcgov/bcdata,
-    bcgov/bcmaps,
-    rstudio/flexdashboard
+    bcgov/bcmaps
 LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)

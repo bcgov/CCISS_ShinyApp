@@ -46,6 +46,16 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
 source("./server/LeafletSource.R")
 
+##setup edatopic grid
+grd1x <- seq(1.5,4.5,1)
+grd1y <- seq(1.5,7.5,1)
+edaGrid <- setDT(expand.grid(seq(1,5,1),seq(1,8,1)))
+setnames(edaGrid,c("X","Y"))
+setorder(edaGrid,X,Y)
+edaName <- c(paste0("A",7:0),paste0("B",7:0),paste0("C",7:0),paste0("D",7:0),paste0("E",7:0))
+edaGrid[,edatopic := edaName]
+edaGrid[,Col := "grey"]
+
 ### create parameter input charts
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
@@ -78,6 +88,7 @@ shinyServer(function(input, output, session) {
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
   source("./server/generate_portfolio.R", local = TRUE)
+  source("./server/instructions.R", local = TRUE)
   
   ##hover text for feasibility report
   hoverText <- c("Species","Time Period","Percentage of models preciting each feasibility",
@@ -190,6 +201,6 @@ shinyServer(function(input, output, session) {
                 paste(format(Sys.Date(), "%Y"), "Province of British Columbia"),
                 as.character(tags$a(href = "http://www.apache.org/licenses/LICENSE-2.0", "Apache 2.0 LICENSE")))
     )
-    knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover table-centered"', escape = FALSE)
+    knitr::kable(app_info, format = "html", table.attr = 'class="table table-hover"', escape = FALSE)
   }
 })
