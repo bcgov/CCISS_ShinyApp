@@ -22,51 +22,51 @@ outline <- st_read(con,query = "select * from bc_outline")
 
 ##code to check that none have the same predictions
 
-allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
-selectSites <- sample(allSites$rast_id, size = 500, replace = F)
-dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
-                             paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
-setDT(dat)
-dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
-mods <- names(dat)[-1]
-dat[,rast_id := NULL]
-
-for(i in 1:(length(mods)-1)){
-  for(j in (i+1):length(mods)){
-    if(all(dat[,..i] == dat[,..j])){
-      cat("Predictions", mods[i],"and",mods[j], "are identical!")
-    }
-    cat("Models:",mods[i],mods[j],"\n")
-    temp <- dat[,..i] == dat[,..j]
-    print(table(temp))
-  }
-}
-fwrite(dat, "./GCM_BEC_agreement.csv")
+# allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
+# selectSites <- sample(allSites$rast_id, size = 500, replace = F)
+# dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
+#                              paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
+# setDT(dat)
+# dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
+# mods <- names(dat)[-1]
+# dat[,rast_id := NULL]
+# 
+# for(i in 1:(length(mods)-1)){
+#   for(j in (i+1):length(mods)){
+#     if(all(dat[,..i] == dat[,..j])){
+#       cat("Predictions", mods[i],"and",mods[j], "are identical!")
+#     }
+#     cat("Models:",mods[i],mods[j],"\n")
+#     temp <- dat[,..i] == dat[,..j]
+#     print(table(temp))
+#   }
+# }
+# fwrite(dat, "./GCM_BEC_agreement.csv")
 
 ##check for weird suitability values in the same edatopic position
-edaPos <- "C4"
-suit <- S1
-suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
-suit <- unique(suit)
-suit <- na.omit(suit)
-edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
-dat <- suit[edaSub,on = "SS_NoSpace"]
-setorder(dat,Spp,SS_NoSpace)
-dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
-            by = .(Spp,BGC)]
-
-dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
-dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
-dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
-setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
-
-datAll <- dat2[dat, on = c("BGC","Spp")]
-fwrite(dat2,"FeasibilityStatsC4.csv")
+# edaPos <- "C4"
+# suit <- S1
+# suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+# suit <- unique(suit)
+# suit <- na.omit(suit)
+# edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
+# dat <- suit[edaSub,on = "SS_NoSpace"]
+# setorder(dat,Spp,SS_NoSpace)
+# dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
+#             by = .(Spp,BGC)]
+# 
+# dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
+# dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
+# dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
+# setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
+# 
+# datAll <- dat2[dat, on = c("BGC","Spp")]
+# fwrite(dat2,"FeasibilityStatsC4.csv")
 
 
 ##########################################################
 
-##make projected bgc maps
+##make projected bgc maps - can skip this part
 scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
 dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
                              scn,"' and futureperiod = '",fp,"'"))
@@ -310,31 +310,31 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   dev.off()
 }
 
-##edatopic maps
-timeperiods <- "2041-2060"
-bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
-SSPreds <- edatopicOverlap(bgc,E1,E1_Phase) ##takes about 30 seconds
-
-edaBlobs <- fread("EdaBlobs.csv")
-
-################### straight predicted feasibility maps #####################
-feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
-X <- raster("BC_Raster.tif")
-outline <- st_read(con,query = "select * from bc_outline")
-##loop through species
-for(spp in c("Cw","Fd","Sx","Pl")){
-  sppFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
-  sppFeas <- unique(sppFeas,by = "SiteRef")
-  sppFeas[,SiteRef := as.integer(SiteRef)]
-  sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
-  X <- raster::setValues(X,NA)
-  X[sppFeas$SiteRef] <- sppFeas$NewSuit
-  X2 <- ratify(X)
-  rat <- as.data.table(levels(X2)[[1]])
-  rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
-  
-  pdf(file=paste("./FeasibilityMaps/Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
-  plot(outline, col = NA, add = T)
-  dev.off()
-}
+# ##edatopic maps
+# timeperiods <- "2041-2060"
+# bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+# SSPreds <- edatopicOverlap(bgc,E1,E1_Phase) ##takes about 30 seconds
+# 
+# edaBlobs <- fread("EdaBlobs.csv")
+# 
+# ################### straight predicted feasibility maps #####################
+# feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
+# X <- raster("BC_Raster.tif")
+# outline <- st_read(con,query = "select * from bc_outline")
+# ##loop through species
+# for(spp in c("Cw","Fd","Sx","Pl")){
+#   sppFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
+#   sppFeas <- unique(sppFeas,by = "SiteRef")
+#   sppFeas[,SiteRef := as.integer(SiteRef)]
+#   sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
+#   X <- raster::setValues(X,NA)
+#   X[sppFeas$SiteRef] <- sppFeas$NewSuit
+#   X2 <- ratify(X)
+#   rat <- as.data.table(levels(X2)[[1]])
+#   rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
+#   
+#   pdf(file=paste("./FeasibilityMaps/Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+#   plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
+#   plot(outline, col = NA, add = T)
+#   dev.off()
+# }
