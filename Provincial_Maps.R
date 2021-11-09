@@ -315,6 +315,9 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
 source("./R/BlobOverlap.R")
 timeperiods <- "2041-2060"
 spp <- "Cw"
+feas_cutoff <- 2
+
+feas_cutoff <- feas_cutoff+0.5
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 edaBlobs <- fread("EdaBlobs.csv")
 blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
@@ -326,7 +329,7 @@ setorder(blobOut,SiteRef,BGC,Blob)
 blobOut[,SMR := substr(Blob,1,1)]
 blobOut <- blobOut[,.(Current = min(CurrentFeas), Future = min(FutureFeas)),
                    by = .(SiteRef,BGC,SMR)]
-blobFut <- blobOut[Future <= 2.5, .(SiteRef,BGC, SMR, Current)]
+blobFut <- blobOut[Future <= feas_cutoff, .(SiteRef,BGC, SMR, Current)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(SiteRef)]
 blobFut[,SiteRef := as.integer(SiteRef)]
@@ -335,7 +338,7 @@ X <- raster::setValues(X,NA)
 X[blobFut$SiteRef] <- blobFut$MinSMR
 breakpoints <- c(0,1.9,3.9,5.9,7.9,10)
 ColScheme <- c("#c70808","#cc5200","#ebc81a","#069414","#0013e0")
-png(file=paste("./FeasibilityMaps/BlobSuit_Raster_E2Cutoff",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+png(file=paste("./FeasibilityMaps/BlobSuit_Raster_E",as.integer(feas_cutoff),"Cutoff",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
 ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
 image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme,
       breaks=breakpoints, maxpixels= ncell(X),
@@ -349,11 +352,11 @@ blobBGC[,SMR := substr(Blob,1,1)]
 blobBGC <- blobBGC[,.(Current = min(Current), Future = min(Future)),
                    by = .(BGC,SMR)]
 
-blobCurr <- blobBGC[Current <= 3.5, .(BGC, SMR, Current)]
+blobCurr <- blobBGC[Current <= feas_cutoff, .(BGC, SMR, Current)]
 blobCurr[,SMR := as.numeric(SMR)]
 blobCurr <- blobCurr[,.(MinSMR = min(SMR)), by = .(BGC)]
 
-blobFut <- blobBGC[Future <= 3.5, .(BGC, SMR, Future)]
+blobFut <- blobBGC[Future <= feas_cutoff, .(BGC, SMR, Future)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
 

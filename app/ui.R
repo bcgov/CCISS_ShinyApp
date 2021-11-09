@@ -26,7 +26,7 @@ sidebarhelplink <- function(inputId) {
 
 suppressWarnings(
   navbarPage(
-    title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">'),
+    title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo"> The CCISS Tool'),
     theme = {
       theme <- bslib::bs_theme(version = 5,
                                bootswatch = "yeti",
