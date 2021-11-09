@@ -225,7 +225,7 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
   newFeas[,SiteRef := as.integer(SiteRef)]
-  newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
+  ##newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
   newFeas <- newFeas[!(Curr == 4 & FeasChange == 0),]
   feasVals <- newFeas[,.(SiteRef,FeasChange)]
   X <- raster::setValues(X,NA)
@@ -341,8 +341,13 @@ bgcMap[blobCurr, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
 
-png(file=paste("./FeasibilityMaps/EdaByBGC_Current",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
-plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0)
+png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0,main = paste0("Edatopic Feasibility for ",spp," (Current)"))
+plot(outline, col = NA, lwd=0.4, add = T)
+legend(x = "bottomleft",
+       legend = labels,
+       fill = ColScheme,
+       title = "Driest Feasible rSMR")
 dev.off()
 
 blobFut[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
@@ -351,8 +356,15 @@ bgcMap[blobFut, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
 
-png(file=paste("./FeasibilityMaps/EdaByBGC_Future",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
-plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0)
+labels <- c("0","1-2","3-4","5-6","7")
+ColScheme <- c("#c70808","#cc5200","#ebc81a","#069414","#0013e0")
+png(file=paste("./FeasibilityMaps/EdaByBGC_",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0, main = paste0("Edatopic Feasibility for ",spp," (",timeperiods,")"))
+plot(outline, col = NA, lwd=0.4, add = T)
+legend(x = "bottomleft",
+       legend = labels,
+       fill = ColScheme,
+       title = "Driest Feasible rSMR")
 dev.off()
 # 
 # ################### straight predicted feasibility maps #####################
