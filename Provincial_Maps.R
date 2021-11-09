@@ -353,14 +353,16 @@ blobFut <- blobBGC[Future <= 3.5, .(BGC, SMR, Future)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
 
-edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#c70808","#cc5200","#ebc81a","#069414","#0013e0"))
+edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#f71302","#695027","#ebc81a","#069414","#0013e0"))#"#c70808"
+require(ggplot2)
 colScale <- scale_fill_manual(name = "Driest Feasible rSMR", 
-                              values = c("#c70808" = "#c70808","#cc5200" = "#cc5200",
+                              values = c("#f71302" = "#f71302","#695027" = "#695027",
                                          "#ebc81a" = "#ebc81a","#069414" = "#069414","#0013e0" = "#0013e0"), 
                               labels = c("0","1-2","3-4","5-6","7"))
 
 blobCurr[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
 bgcMap_full <- st_read("~/CommonTables/BC_BGCv12_Published_clipped.gpkg")
+bgcMap_full <- st_read("D:/CommonTables/BGC_maps/BC_BGCv12_Published_clipped.gpkg")
 bgcMap <- as.data.table(bgcMap_full["BGC"])
 bgcMap[blobCurr, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
