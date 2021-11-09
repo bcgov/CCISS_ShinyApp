@@ -321,6 +321,25 @@ blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
 ##average by bgc
 blobBGC <- blobOut[,.(Current = mean(CurrentFeas), Future = mean(FutureFeas)),
                    by = .(BGC,Blob)]
+##raster version first
+# setorder(blobOut,SiteRef,BGC,Blob)
+# blobOut[,SMR := substr(Blob,1,1)]
+# blobOut <- blobOut[,.(Current = min(CurrentFeas), Future = min(FutureFeas)),
+#                    by = .(SiteRef,BGC,SMR)]
+# blobFut <- blobOut[Future <= 3.5, .(SiteRef,BGC, SMR, Current)]
+# blobFut[,SMR := as.numeric(SMR)]
+# blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(SiteRef)]
+# blobFut[,SiteRef := as.integer(SiteRef)]
+# 
+# X <- raster::setValues(X,NA)
+# X[blobFut$SiteRef] <- blobFut$MinSMR
+# png(file=paste("./FeasibilityMaps/BlobSuit",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+# ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+# image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
+#       breaks=breakpoints, maxpixels= ncell(X),
+#       main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
+# plot(outline, add=T, border="black",col = NA, lwd=0.4)
+
 setorder(blobBGC,BGC,Blob)
 blobBGC[,SMR := substr(Blob,1,1)]
 blobBGC <- blobBGC[,.(Current = min(Current), Future = min(Future)),
@@ -335,6 +354,11 @@ blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
 
 edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#c70808","#cc5200","#ebc81a","#069414","#0013e0"))
+colScale <- scale_fill_manual(name = "Driest Feasible rSMR", 
+                              values = c("#c70808" = "#c70808","#cc5200" = "#cc5200",
+                                         "#ebc81a" = "#ebc81a","#069414" = "#069414","#0013e0" = "#0013e0"), 
+                              labels = c("0","1-2","3-4","5-6","7"))
+
 blobCurr[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
 bgcMap_full <- st_read("~/CommonTables/BC_BGCv12_Published_clipped.gpkg")
 bgcMap <- as.data.table(bgcMap_full["BGC"])
@@ -342,13 +366,32 @@ bgcMap[blobCurr, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
 
-png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)#
-plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0,main = paste0("Edatopic Feasibility for ",spp," (Current)"))
-plot(outline, col = NA, lwd=0.4, add = T)
-legend(x = "bottomleft",
-       legend = labels,
-       fill = ColScheme,
-       title = "Driest Feasible rSMR")
+
+# png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)#
+# plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0,main = paste0("Edatopic Feasibility for ",spp," (Current)"))
+# plot(outline, col = NA, lwd=0.4, add = T)
+# legend(x = "bottomleft",
+#        legend = labels,
+#        fill = ColScheme,
+#        title = "Driest Feasible rSMR")
+
+png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+ggplot(bgcMap) +
+  geom_sf(aes(fill = Col), col = NA)+
+  colScale +
+  geom_sf(data = outline, fill = NA, col = "black")
+# + theme_bw() + ##uncomment to have blank background
+# theme(panel.grid.major = element_blank(),
+#       panel.grid.minor = element_blank(),
+#       panel.border = element_blank(),
+#       panel.background = element_blank(),
+#       axis.title.x=element_blank(),
+#       axis.text.x=element_blank(),
+#       axis.ticks.x=element_blank(),
+#       axis.title.y=element_blank(),
+#       axis.text.y=element_blank(),
+#       axis.ticks.y=element_blank()) 
+
 dev.off()
 
 blobFut[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
@@ -357,16 +400,35 @@ bgcMap[blobFut, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
 
-labels <- c("0","1-2","3-4","5-6","7")
-ColScheme <- c("#c70808","#cc5200","#ebc81a","#069414","#0013e0")
-png(file=paste("./FeasibilityMaps/EdaByBGC_",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
-plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0, main = paste0("Edatopic Feasibility for ",spp," (",timeperiods,")"))
-plot(outline, col = NA, lwd=0.4, add = T)
-legend(x = "bottomleft",
-       legend = labels,
-       fill = ColScheme,
-       title = "Driest Feasible rSMR")
+bgcMap$Col <- as.factor(bgcMap$Col)
+png(file=paste("./FeasibilityMaps/EdaByBGC",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+ggplot(bgcMap) +
+  geom_sf(aes(fill = Col), col = NA)+
+  colScale +
+  geom_sf(data = outline, fill = NA, col = "black")
+  # + theme_bw() + ##uncomment to have blank background
+  # theme(panel.grid.major = element_blank(),
+  #       panel.grid.minor = element_blank(),
+  #       panel.border = element_blank(),
+  #       panel.background = element_blank(),
+  #       axis.title.x=element_blank(),
+  #       axis.text.x=element_blank(),
+  #       axis.ticks.x=element_blank(),
+  #       axis.title.y=element_blank(),
+  #       axis.text.y=element_blank(),
+  #       axis.ticks.y=element_blank()) 
 dev.off()
+
+# labels <- c("0","1-2","3-4","5-6","7")
+# ColScheme <- c("#c70808","#cc5200","#ebc81a","#069414","#0013e0")
+# png(file=paste("./FeasibilityMaps/EdaByBGC_",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+# plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0, main = paste0("Edatopic Feasibility for ",spp," (",timeperiods,")"))
+# plot(outline, col = NA, lwd=0.4, add = T)
+# legend(x = "bottomleft",
+#        legend = labels,
+#        fill = ColScheme,
+#        title = "Driest Feasible rSMR")
+# dev.off()
 # 
 # ################### straight predicted feasibility maps #####################
 # feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
