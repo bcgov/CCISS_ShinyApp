@@ -312,6 +312,7 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
 }
 
 ##edatopic maps
+source("./R/BlobOverlap.R")
 timeperiods <- "2041-2060"
 spp <- "Cw"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
@@ -341,7 +342,7 @@ bgcMap[blobCurr, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
 
-png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)#
 plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0,main = paste0("Edatopic Feasibility for ",spp," (Current)"))
 plot(outline, col = NA, lwd=0.4, add = T)
 legend(x = "bottomleft",
