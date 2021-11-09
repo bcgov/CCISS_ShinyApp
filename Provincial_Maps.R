@@ -313,10 +313,12 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
 
 ##edatopic maps
 source("./R/BlobOverlap.R")
-timeperiods <- "2041-2060"
-spp <- "Cw"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 edaBlobs <- fread("EdaBlobs.csv")
+
+timeperiods <- "2041-2060"
+spp <- "Yc"
+
 blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
 ##average by bgc
 blobBGC <- blobOut[,.(Current = mean(CurrentFeas), Future = mean(FutureFeas)),
