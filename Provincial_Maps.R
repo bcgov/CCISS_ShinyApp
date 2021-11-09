@@ -312,6 +312,7 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
 }
 
 ##edatopic maps
+source("./R/BlobOverlap.R")
 timeperiods <- "2041-2060"
 spp <- "Cw"
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
@@ -356,18 +357,29 @@ blobFut <- blobBGC[Future <= 3.5, .(BGC, SMR, Future)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
 
-edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#c70808","#cc5200","#ebc81a","#069414","#0013e0"))
+edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#f71302","#695027","#ebc81a","#069414","#0013e0"))#"#c70808"
+require(ggplot2)
 colScale <- scale_fill_manual(name = "Driest Feasible rSMR", 
-                              values = c("#c70808" = "#c70808","#cc5200" = "#cc5200",
+                              values = c("#f71302" = "#f71302","#695027" = "#695027",
                                          "#ebc81a" = "#ebc81a","#069414" = "#069414","#0013e0" = "#0013e0"), 
                               labels = c("0","1-2","3-4","5-6","7"))
 
 blobCurr[edaCols, Col := i.Col, on = c(MinSMR = "SMR")]
 bgcMap_full <- st_read("~/CommonTables/BC_BGCv12_Published_clipped.gpkg")
+bgcMap_full <- st_read("D:/CommonTables/BGC_maps/BC_BGCv12_Published_clipped.gpkg")
 bgcMap <- as.data.table(bgcMap_full["BGC"])
 bgcMap[blobCurr, Col := i.Col, on = "BGC"]
 bgcMap <- bgcMap[!is.na(Col),]
 bgcMap <- st_as_sf(bgcMap)
+
+
+# png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)#
+# plot(bgcMap["BGC"],col = bgcMap$Col,lty = 0,main = paste0("Edatopic Feasibility for ",spp," (Current)"))
+# plot(outline, col = NA, lwd=0.4, add = T)
+# legend(x = "bottomleft",
+#        legend = labels,
+#        fill = ColScheme,
+#        title = "Driest Feasible rSMR")
 
 png(file=paste("./FeasibilityMaps/EdaByBGC_Current",spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
 ggplot(bgcMap) +
@@ -385,6 +397,7 @@ ggplot(bgcMap) +
 #       axis.title.y=element_blank(),
 #       axis.text.y=element_blank(),
 #       axis.ticks.y=element_blank()) 
+
 dev.off()
 
 ##future bgc
