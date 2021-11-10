@@ -73,8 +73,8 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   data[,Period := gsub("BRK","<br />",Period)]
 
   data <- data[SiteRef == siteref & SS_NoSpace %in% siteserie,
-               .(Species, Period, PredFeasSVG, CFSuitability, PrefAcc_Orig, PrefAcc, 
-                 Curr, EstabFeas, ccissFeas, Trend)]
+               .(Species, Period, PredFeasSVG, CFSuitability, PrefAcc_Orig, 
+                 Curr, EstabFeas, ccissFeas, PrefAcc, Trend)]
   if(nrow(data) > 0){
     data[Curr == 4,Curr := "X"]
     data[Curr != "X", Curr := paste0("E", Curr)]
@@ -94,18 +94,18 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     tempTable <- knitr::kable(
       data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
       col.names = c("Tree Species", "Period", "Modelled Feasibility",
-                    "Suitability", "P/A", "P/A (cciss)", "Environmental","Establishment",
-                    "Future (cciss)","<u>Improve/Same</u><br />Decline/Unsuitable"),
+                    "Suitability", "P/A", "Environmental","Establishment",
+                    "Future (cciss)","P/A (cciss)","<u>Improve/Same</u><br />Decline/Unsuitable"),
       table.attr = 'class="table table-hover"') %>%
       add_header_above(c(" " = 2, "Raw Votes" = 1, "CFRG" = 2, 
                          "CCISS" = 4, "Trend" = 1)) %>%
       column_spec(4:10,bold = T, extra_css = "vertical-align:middle;") %>%
       column_spec(1, tooltip = hoverText[1]) %>%
       column_spec(2, tooltip = hoverText[2], width = "3cm") %>%
-      column_spec(3, tooltip = hoverText[3]) %>%
+      column_spec(3, tooltip = hoverText[3],border_right = T) %>%
       column_spec(4, tooltip = hoverText[4]) %>%
       column_spec(5, tooltip = hoverText[5]) %>%
-      column_spec(6, tooltip = hoverText[6]) %>%
+      column_spec(6, tooltip = hoverText[6],border_left = T,border_right = T) %>%
       column_spec(7, tooltip = hoverText[7]) %>%
       column_spec(8, tooltip = hoverText[8]) %>%
       kable_styling(full_width = F, font_size = 14)

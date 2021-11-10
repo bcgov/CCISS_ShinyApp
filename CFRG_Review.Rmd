@@ -193,7 +193,6 @@ sppnotes_cciss <- function(spp, textstyle) {
 reg_cw <- fread("District_Region_Crosswalk.csv")
 ```
 
-
 ```{r index, results='asis'}
 tags$h2("All BGC Units")
 dist_select <- "BUL"
@@ -206,7 +205,6 @@ for(i in 1:length(bgc_opts)){
   }
 }
 ```
-
 
 ```{r,results='asis', out.height="auto"}
 for(bgc_select in bgc_opts){
@@ -248,6 +246,7 @@ for(bgc_select in bgc_opts){
 poolClose(pool)
 ```
 
+```{=html}
 <style type="text/css">
   h2 {font-weight:900 !important;}
   .bordered {border-top:3px solid !important;}
@@ -257,7 +256,8 @@ poolClose(pool)
   .table td {vertical-align: middle !important;}
   table.table-centered {margin-left:auto !important; margin-right:auto !important}
 </style>
-
+```
+```{=html}
 <script type="text/javascript">
   // When the document is fully rendered...
   $(document).ready(function() {
@@ -268,7 +268,7 @@ poolClose(pool)
     });
   });
 </script>
-
+```
 ```{r stocking_standards, results='asis', out.height="auto"}
 # dist_select <- "BUL"
 # bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
@@ -312,4 +312,3 @@ poolClose(pool)
 # )
 # poolClose(pool)
 ```
-
