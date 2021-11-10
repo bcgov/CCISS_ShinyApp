@@ -11,7 +11,7 @@ navhelplink <- function(title, inputId) {
       title,
       '</a><a id="',
       inputId,
-      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
+      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important; color: white !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
     )
   )
 }
@@ -19,14 +19,14 @@ navhelplink <- function(title, inputId) {
 sidebarhelplink <- function(inputId) {
   tags$p(style = "text-align: center;", shiny::actionLink(
     inputId = inputId,
-    label = "Section Insctructions", 
+    label = "Section Instructions", 
     icon = icon("question-circle")
   ))
 }
 
 suppressWarnings(
   navbarPage(
-    title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">'),
+    title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">',navhelplink("The CCISS Tool", "cciss_about_nav")), ##navhelplink("The CCISS Tool", "cciss_about_nav")
     theme = {
       theme <- bslib::bs_theme(version = 5,
                                bootswatch = "yeti",
@@ -152,10 +152,12 @@ suppressWarnings(
           h6("Filters"),
           selectInput("siteref_feas", label = "Sites:", choices = character()),
           selectInput("site_series_feas", label = "Site Series", choices = character()),
-          selectInput(
+          radioButtons(
             "filter_feas",
             label = "Feasibility",
-            choices = c("All" = "a", "Feasible Only" = "f")
+            choices = c("All" = "a", "Feasible Only" = "f"),
+            selected = "a",
+            inline = T
           ),
           h6("Legend"),
           HTML(
@@ -460,8 +462,7 @@ suppressWarnings(
     ),
     # Tech specs ----
     navbarMenu(
-      title = "",
-      icon = icon("question-circle"),
+      title = "APP INFO",
       menuName = "cciss_help",
       tabPanel(
         title = "About",
