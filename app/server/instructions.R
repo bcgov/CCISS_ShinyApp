@@ -1,3 +1,4 @@
+
 observeEvent(input$cciss_instructions_select_sites, {
   updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
   updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_select_sites")
@@ -34,6 +35,9 @@ observeEvent(input$cciss_instructions_export, {
 })
 
 # Nav
+observeEvent(input$cciss_about_nav, {
+  updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_about")
+})
 
 observeEvent(input$cciss_instructions_select_sites_nav, {
   updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
