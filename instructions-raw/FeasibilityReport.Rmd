@@ -1,0 +1,24 @@
+---
+title: 
+output: 
+    html_document:
+        theme: readable
+        highlight: null
+        mathjax: null
+---
+##### Tree species feasibility report
+
+###### Selection/Filter pane
+
+In left pane select the sites/BGC site group and then the site series of interest.
+The edatopic space of the selected site series is displayed in the graphic below for reference.
+By default the report will show all species that are predicted to have suitability in at least one model or future scenario. Choose "Feasible Only" option to limit list to species that meet the threshold for inclusion as suitable in any of the time periods.
+
+###### Selection/Filter pane
+
+The  show modelled feasibility ratios for each species for each time period.
+The historic time period represents the 'base case' and reflect climatic conditions pre-1990
+The current time period reflect climate of the time period 1991-2020. 
+
+
+
