@@ -2,7 +2,7 @@
 title: Welcome to CCISS!
 output: 
     html_document:
-        theme: readable
+        theme: null
         highlight: null
         mathjax: null
 ---
@@ -20,6 +20,6 @@ The CCISS tool is spatial explicit to account for the gradient of climate change
 
 Click to download.
 
-[Forest Ecology and Management Science Paper](downloadable_docs/MacKenzie_and_Mahony.2021.An_ecological_approach_to_climate-change_informed_species_selection_ for_ reforestation.pdf)
+[Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzie_and_Mahony.2021.An_ecological_approach_to_climate-change_informed_species_selection_ for_ reforestation.pdf)
 
-[CCISS and stocking standard development](downloadable_docs/CCISS_in_Stocking_Standards.pdf)
+[CCISS and stocking standard development](./downloadable_docs/CCISS_in_Stocking_Standards.pdf)
