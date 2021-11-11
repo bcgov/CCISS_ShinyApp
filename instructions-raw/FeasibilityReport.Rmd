@@ -7,6 +7,7 @@ output:
         mathjax: null
 ---
 ##### Tree species feasibility report
+This is the main information report of the CCISS tool. Use the information in this tab to explore how species feasibility will change through future time periods
 
 ###### Selection/Filter pane
 
@@ -16,9 +17,20 @@ By default the report will show all species that are predicted to have suitabili
 
 ###### Selection/Filter pane
 
-The  show modelled feasibility ratios for each species for each time period.
+This report show modelled feasibility ratios for each species for each time period. The colour legend for feasibility ratings is on the left hand pane.
 The historic time period represents the 'base case' and reflect climatic conditions pre-1990
 The current time period reflect climate of the time period 1991-2020. 
 
+The report then aligns base line suitability ratings for the each species in the selected site series. 
+The CFRG (Chief Forester's Reference Guide) suitability ratings and preferred/acceptable values
+The historic CCISS environmental suitability rating
+
+Establishment
+
+Establishment
+
+Future CCISS
+
+P/A CCISS
 
 
