@@ -20,72 +20,6 @@ X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
 
-##code to check that none have the same predictions
-
-# allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
-# selectSites <- sample(allSites$rast_id, size = 500, replace = F)
-# dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
-#                              paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
-# setDT(dat)
-# dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
-# mods <- names(dat)[-1]
-# dat[,rast_id := NULL]
-# 
-# for(i in 1:(length(mods)-1)){
-#   for(j in (i+1):length(mods)){
-#     if(all(dat[,..i] == dat[,..j])){
-#       cat("Predictions", mods[i],"and",mods[j], "are identical!")
-#     }
-#     cat("Models:",mods[i],mods[j],"\n")
-#     temp <- dat[,..i] == dat[,..j]
-#     print(table(temp))
-#   }
-# }
-# fwrite(dat, "./GCM_BEC_agreement.csv")
-
-##check for weird suitability values in the same edatopic position
-# edaPos <- "C4"
-# suit <- S1
-# suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
-# suit <- unique(suit)
-# suit <- na.omit(suit)
-# edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
-# dat <- suit[edaSub,on = "SS_NoSpace"]
-# setorder(dat,Spp,SS_NoSpace)
-# dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
-#             by = .(Spp,BGC)]
-# 
-# dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
-# dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
-# dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
-# setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
-# 
-# datAll <- dat2[dat, on = c("BGC","Spp")]
-# fwrite(dat2,"FeasibilityStatsC4.csv")
-
-
-##########################################################
-
-##make projected bgc maps - can skip this part
-scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
-dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-                             scn,"' and futureperiod = '",fp,"'"))
-setDT(dat)
-bgcs <- unique(dat$bgc_pred)
-bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-cols <- subzones_colours_ref
-dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
-
-X[dat$rast_id] <- dat$bgcID
-X2 <- ratify(X)
-rat <- as.data.table(levels(X2)[[1]])
-rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-plot(outline, col = NA, add = T)
-dev.off()
-
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
 ##adjust gcm weight or rcp weight below
@@ -218,7 +152,7 @@ edaZonal <- E1[Edatopic == edaPos,]
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
-for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
+for(spp in c("Cw","Yc","Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl", 
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3.49, NewSuit := 4]
@@ -283,10 +217,10 @@ add_retreat <- function(SSPred,suit,spp_select){
 
 breakpoints <- seq(-1,1,0.2); length(breakpoints)
 labels <- c("Retreat", "Expansion")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey70", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
 
 
-for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
+for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl",
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
@@ -466,3 +400,50 @@ dev.off()
 #   plot(outline, col = NA, add = T)
 #   dev.off()
 # }
+#######################
+
+##code to check that none have the same predictions####################
+
+# allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
+# selectSites <- sample(allSites$rast_id, size = 500, replace = F)
+# dat <- dbGetQuery(con,paste0("select * from pts2km_future where rast_id IN (",
+#                              paste(selectSites,collapse = ","),") and futureperiod = '2041-2060' and scenario = 'ssp245'"))
+# setDT(dat)
+# dat <- dcast(dat,rast_id ~ gcm,value.var = "bgc_pred", fun.aggregate = function(x)x[1])
+# mods <- names(dat)[-1]
+# dat[,rast_id := NULL]
+# 
+# for(i in 1:(length(mods)-1)){
+#   for(j in (i+1):length(mods)){
+#     if(all(dat[,..i] == dat[,..j])){
+#       cat("Predictions", mods[i],"and",mods[j], "are identical!")
+#     }
+#     cat("Models:",mods[i],mods[j],"\n")
+#     temp <- dat[,..i] == dat[,..j]
+#     print(table(temp))
+#   }
+# }
+# fwrite(dat, "./GCM_BEC_agreement.csv")
+
+##check for weird suitability values in the same edatopic position
+# edaPos <- "C4"
+# suit <- S1
+# suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+# suit <- unique(suit)
+# suit <- na.omit(suit)
+# edaSub <- E1[Edatopic == edaPos,.(SS_NoSpace,SpecialCode)]
+# dat <- suit[edaSub,on = "SS_NoSpace"]
+# setorder(dat,Spp,SS_NoSpace)
+# dat2 <- dat[,.(NumSites = .N, Range = max(Feasible) - min(Feasible), Avg = mean(Feasible)),
+#             by = .(Spp,BGC)]
+# 
+# dat[,SS_NoSpace := paste0(SS_NoSpace,": ",Feasible)]
+# dat[,SSNum := seq_along(SS_NoSpace), by = .(Spp,BGC)]
+# dat <- dcast(dat, BGC + Spp ~ SSNum, value.var = "SS_NoSpace")
+# setnames(dat,c("BGC","Spp","SS1","SS2","SS3","SS4","SS5"))
+# 
+# datAll <- dat2[dat, on = c("BGC","Spp")]
+# fwrite(dat2,"FeasibilityStatsC4.csv")
+
+
+##########################################################
