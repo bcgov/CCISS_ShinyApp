@@ -37,25 +37,42 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 modWeights <- all_weight
 
-##function to process data in postgres
-dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
+dbGetCCISSv2 <- function(con, modWeights){
   
+  groupby = "siteno"
   modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
   weights <- paste(modWeights$comb,collapse = ",")
-  groupby = "rast_id"
+  
   ##cciss_future is now test_future  
   cciss_sql <- paste0("
   WITH cciss AS (
-    SELECT rast_id,
-           futureperiod,
-           bgc,
-           bgc_pred,
-           w.weight
-    FROM pts2km_future
+    SELECT
+          pts2km_ids.rast_id siteno,
+         labels.gcm,
+         labels.scenario,
+         labels.futureperiod,
+         bgc_attribution.bgc,
+         bgc.bgc bgc_pred,
+         w.weight
+  FROM cciss_future12_array
+  JOIN bgc_attribution
+    ON (cciss_future12_array.siteno = bgc_attribution.siteno)
+  INNER JOIN pts2km_ids
+    ON pts2km_ids.siteno = cciss_future12_array.siteno,
+       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+               gcm,
+               scenario,
+               futureperiod
+        FROM gcm 
+        CROSS JOIN scenario
+        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
+    ON labels.row_idx = source.row_idx
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
-    ON pts2km_future.gcm = w.gcm AND pts2km_future.scenario = w.scenario
-    WHERE futureperiod IN ('",period,"')
+    ON labels.gcm = w.gcm AND labels.scenario = w.scenario
+  JOIN bgc
+    ON bgc.bgc_id = source.bgc_pred_id
   
   ), cciss_count_den AS (
   
@@ -86,19 +103,15 @@ dbGetCCISS_4km <- function(con, period = "2041-2060", modWeights){
   JOIN cciss_count_den b
     ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
-   WHERE a.w <> 0
-  ")
+   WHERE a.w <> 0 AND a.futureperiod = '2041'")
   
-  dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
+  dat2 <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
   
-  setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-  dat <- unique(dat) ##should fix database so not necessary
+  setnames(dat2, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
+  dat2 <- unique(dat2) ##should fix database so not necessary
   #print(dat)
-  return(dat)
+  return(dat2)
 }
-
-
-
 
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
@@ -145,9 +158,12 @@ labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 timeperiods <- "2041-2060"
-bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+bgc <- dbGetCCISSv2(con,all_weight) ##takes about 1.5 mins
 edaPos <- "C4"
-edaZonal <- E1[Edatopic == edaPos,]
+edaTemp <- data.table::copy(E1)
+edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
+edaZonal <- edaTemp[(HasPos),]
+edaZonal[,HasPos := NULL]
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
@@ -206,8 +222,8 @@ add_retreat <- function(SSPred,suit,spp_select){
   suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
   suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
   suitMerge[is.na(OrigFeas) & is.na(PredFeas),Flag := "Same"]
-  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,Flag)]
-  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef)]
+  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,FuturePeriod, Flag)]
+  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef,FuturePeriod)]
   suitMerge[,PropMod := PropMod/PropAll]
   suitRes <- unique(suitMerge[,.(SiteRef,Flag,PropMod)])
   suitRes[,SiteRef := as.integer(SiteRef)]
@@ -217,14 +233,22 @@ add_retreat <- function(SSPred,suit,spp_select){
 
 breakpoints <- seq(-1,1,0.2); length(breakpoints)
 labels <- c("Retreat", "Expansion")
+<<<<<<< HEAD:CCISS_Spp_Map_Graphics.R
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey70", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
+=======
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90","grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
+
+# ##testing
+pts <- dbGetQuery(con,"select rast_id from pts2km_ids where siteno in (select siteno from preselected_points where bgc = 'BWBSdk')")
+addret2 <- addret[SiteRef %in% pts$rast_id,]
+>>>>>>> 1336688a4d7a3ee8695606cbe76999dfb48020c0:Provincial_Maps.R
 
 
 for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl",
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
-  addret[Flag == "Same",PropMod := 0]
   addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
+  addret[Flag == "Same",PropMod := 0]
   X <- raster::setValues(X,NA)
   X[addret$SiteRef] <- addret$PropMod
   png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
