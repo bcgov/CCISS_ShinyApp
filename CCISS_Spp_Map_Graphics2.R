@@ -52,7 +52,7 @@ labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 timeperiods <- "2041-2060"
-edaPos <- "C4"
+edaPos <- "B2"
 edaZonal <- E1[Edatopic == edaPos,]
 
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
