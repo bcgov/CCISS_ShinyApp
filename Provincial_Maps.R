@@ -94,7 +94,7 @@ dev.off()
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-                         weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
+                         weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
 
 rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
                          weight = c(0.8,1,0.8,0))
@@ -105,7 +105,7 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 modWeights <- all_weight
 
-dbGetCCISSv2 <- function(con, modWeights){
+dbGetCCISSv2 <- function(con,timeperiod = "2041", modWeights){
   
   groupby = "siteno"
   modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
@@ -128,19 +128,20 @@ dbGetCCISSv2 <- function(con, modWeights){
   INNER JOIN pts2km_ids
     ON pts2km_ids.siteno = cciss_future12_array.siteno,
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
                gcm,
                scenario,
                futureperiod
         FROM gcm 
         CROSS JOIN scenario
-        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
+        CROSS JOIN futureperiod) labels
     ON labels.row_idx = source.row_idx
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
     ON labels.gcm = w.gcm AND labels.scenario = w.scenario
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
+    WHERE futureperiod = '",timeperiod,"'
   
   ), cciss_count_den AS (
   
@@ -171,7 +172,7 @@ dbGetCCISSv2 <- function(con, modWeights){
   JOIN cciss_count_den b
     ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
-   WHERE a.w <> 0 AND a.futureperiod = '2041'")
+   WHERE a.w <> 0")
   
   dat2 <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
   
@@ -221,7 +222,7 @@ ccissMap <- function(SSPred,suit,spp_select){
 
 ###load up bgc predictions data
 
-bgc <- dbGetCCISSv2(con,all_weight) ##takes about 5 mins
+bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
 
 
 ##figure 3c (mean change in feasibiltiy)
@@ -233,7 +234,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdB
 timeperiods <- "2041-2060"
 edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
-edaTemp <- edaTemp %>% filter(is.na(SpecialCode))
+edaTemp <- edaTemp[is.na(SpecialCode),]
 
 edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
 edaZonal <- edaTemp[(HasPos),]
@@ -314,7 +315,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"
 # addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
-for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
+for(spp in c("Cw", "Fd","Sx","Pl", "Yc")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
