@@ -473,16 +473,7 @@ suppressWarnings(
             offset = 1,
             tabPanel(
               title = "",
-              tags$h4("About the CCISS tool"),
-              tags$p(
-                "The Climate Change Informed Species Selection Tool provides information on future tree species suitability in British Columbia. It combines future climate information with species viability models to illustrate how likely each species is to thrive in the range of potential futures."
-              ),
-              tags$p(
-                "The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. The CCISS tool looks at near and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a POI with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/silvicultural prescription outlined in climate change informed stocking standard. The CCISS tool is spatial explicit to account for the gradient of climate change that will impact different regions and elevations of a BGC."
-              ),
-              tags$p(
-                tags$a(href = "https://www.for.gov.bc.ca/ftp/HRE/external/!publish/CCISS/CCISS_in_Stocking%20Standards.pdf", "Click for full details.")
-              )
+              includeHTML("./instructions/About_CCISS.html") 
             )
           )
         )
@@ -501,43 +492,32 @@ suppressWarnings(
               tabPanel(
                 title = "Select Sites",
                 value = "cciss_instructions_select_sites",
-                h5("Input methods"),
-                h6("Click on map"),
-                tags$p("instructions method 1"),
-                h6("Enter point coordinnate manually"),
-                tags$p("instructions method 2"),
-                h6("Import points from a csv"),
-                tags$p("instructions method 3")
+                includeHTML("./instructions/SelectSites.html") 
               ),
               tabPanel(
                 title = "Feasibility Report",
                 value = "cciss_instructions_feasibility_report",
-                h5("Header 5"),
-                tags$p("instructions feasibility report...")
+                includeHTML("./instructions/FeasibilityReport.html") 
               ),
               tabPanel(
                 title = "BEC Futures",
                 value = "cciss_instructions_bec_futures",
-                h5("Header 5"),
-                tags$p("instructions BEC futures...")
+                includeHTML("./instructions/BECFutures.html") 
               ),
               tabPanel(
                 title = "Silvics & Ecology",
                 value = "cciss_instructions_silvics_ecology",
-                h5("Header 5"),
-                tags$p("instructions silvics & ecology...")
+                includeHTML("./instructions/SilvicsEcology.html") 
               ),
               tabPanel(
                 title = "Species Portfolio",
                 value = "cciss_instructions_species_portfolio",
-                h5("Header 5"),
-                tags$p("instructions species portfolio...")
+                includeHTML("./instructions/SpeciesPortfolio.html") 
               ),
               tabPanel(
                 title = "Export",
                 value = "cciss_instructions_export",
-                h5("Header 5"),
-                tags$p("instructions export...")
+                includeHTML("./instructions/Export.html") 
               )
             )
           )
