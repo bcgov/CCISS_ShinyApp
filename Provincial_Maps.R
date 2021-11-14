@@ -9,6 +9,8 @@ library(tictoc)
 library(rasterVis)
 library(raster)
 library(ccissdev)
+library(RPostgreSQL)
+library(sf)
 
 ##some setup
 drv <- dbDriver("PostgreSQL")
@@ -67,24 +69,24 @@ outline <- st_read(con,query = "select * from bc_outline")
 ##########################################################
 
 ##make projected bgc maps - can skip this part
-scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
-dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-                             scn,"' and futureperiod = '",fp,"'"))
-setDT(dat)
-bgcs <- unique(dat$bgc_pred)
-bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-cols <- subzones_colours_ref
-dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
-
-X[dat$rast_id] <- dat$bgcID
-X2 <- ratify(X)
-rat <- as.data.table(levels(X2)[[1]])
-rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-plot(outline, col = NA, add = T)
-dev.off()
+# scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
+# dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+#                              scn,"' and futureperiod = '",fp,"'"))
+# setDT(dat)
+# bgcs <- unique(dat$bgc_pred)
+# bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+# cols <- subzones_colours_ref
+# dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+# dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+# 
+# X[dat$rast_id] <- dat$bgcID
+# X2 <- ratify(X)
+# rat <- as.data.table(levels(X2)[[1]])
+# rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+# pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+# plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+# plot(outline, col = NA, add = T)
+# dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
@@ -224,7 +226,7 @@ labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 timeperiods <- "2041-2060"
-bgc <- dbGetCCISSv2(con,all_weight) ##takes about 1.5 mins
+bgc <- dbGetCCISSv2(con,all_weight) ##takes about 5 mins
 edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
 edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
@@ -302,15 +304,15 @@ labels <- c("Retreat", "Expansion")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90","grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
 
 # ##testing
-pts <- dbGetQuery(con,"select rast_id from pts2km_ids where siteno in (select siteno from preselected_points where bgc = 'BWBSdk')")
-addret2 <- addret[SiteRef %in% pts$rast_id,]
+# pts <- dbGetQuery(con,"select rast_id from pts2km_ids where siteno in (select siteno from preselected_points where bgc = 'BWBSdk')")
+# addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
 for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
-  addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
   addret[Flag == "Same",PropMod := 0]
+  addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
   X <- raster::setValues(X,NA)
   X[addret$SiteRef] <- addret$PropMod
   png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
