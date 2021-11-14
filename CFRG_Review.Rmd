@@ -14,12 +14,12 @@ library(pool)
 library(RPostgreSQL)
 
 pool <- dbPool(
-  drv = dbDriver("PostgreSQL"),
-  dbname = Sys.getenv("BCGOV_DB"),
-  host = Sys.getenv("BCGOV_HOST"),
-  port = 5432, 
-  user = Sys.getenv("BCGOV_USR"),
-  password = Sys.getenv("BCGOV_PWD")
+drv = RPostgres::Postgres(),
+dbname = Sys.getenv("BCGOV_DB"),
+host = Sys.getenv("BCGOV_HOST"),
+port = 5432,
+user = Sys.getenv("BCGOV_USR"),
+password = Sys.getenv("BCGOV_PWD")
 )
 
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
