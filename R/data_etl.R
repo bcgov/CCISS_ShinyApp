@@ -213,13 +213,13 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   JOIN bgc_attribution
     ON (cciss_future12_array.siteno = bgc_attribution.siteno),
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
                gcm,
                scenario,
                futureperiod
         FROM gcm 
         CROSS JOIN scenario
-        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
+        CROSS JOIN futureperiod) labels
     ON labels.row_idx = source.row_idx
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
@@ -227,6 +227,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
   WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
+  AND futureperiod IN ('2021','2041','2061','2081')
   
   ), cciss_count_den AS (
   
