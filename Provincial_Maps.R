@@ -68,25 +68,25 @@ outline <- st_read(con,query = "select * from bc_outline")
 
 ##########################################################
 
-##make projected bgc maps - can skip this part
-# scn <- "ssp245";fp <- "2021-2040";gcm <- "EC-Earth3" ##select options
-# dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-#                              scn,"' and futureperiod = '",fp,"'"))
-# setDT(dat)
-# bgcs <- unique(dat$bgc_pred)
-# bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-# cols <- subzones_colours_ref
-# dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-# dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
-# 
-# X[dat$rast_id] <- dat$bgcID
-# X2 <- ratify(X)
-# rat <- as.data.table(levels(X2)[[1]])
-# rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-# pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-# plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-# plot(outline, col = NA, add = T)
-# dev.off()
+#make projected bgc maps - can skip this part
+scn <- "ssp245";fp <- "2041-2060";gcm <- "ACCESS-ESM1-5" ##select options
+dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+                             scn,"' and futureperiod = '",fp,"'"))
+setDT(dat)
+bgcs <- unique(dat$bgc_pred)
+bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+cols <- subzones_colours_ref
+dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+
+X[dat$rast_id] <- dat$bgcID
+X2 <- ratify(X)
+rat <- as.data.table(levels(X2)[[1]])
+rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+plot(outline, col = NA, add = T)
+dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
@@ -94,7 +94,7 @@ outline <- st_read(con,query = "select * from bc_outline")
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-                         weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
+                         weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
 
 rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
                          weight = c(0.8,1,0.8,0))
@@ -105,7 +105,7 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 modWeights <- all_weight
 
-dbGetCCISSv2 <- function(con, modWeights){
+dbGetCCISSv2 <- function(con,timeperiod = "2041", modWeights){
   
   groupby = "siteno"
   modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
@@ -128,19 +128,20 @@ dbGetCCISSv2 <- function(con, modWeights){
   INNER JOIN pts2km_ids
     ON pts2km_ids.siteno = cciss_future12_array.siteno,
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER() row_idx,
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
                gcm,
                scenario,
                futureperiod
         FROM gcm 
         CROSS JOIN scenario
-        CROSS JOIN futureperiod where futureperiod IN ('2021','2041','2061','2081')) labels
+        CROSS JOIN futureperiod) labels
     ON labels.row_idx = source.row_idx
     JOIN (values ",weights,") 
     AS w(gcm,scenario,weight)
     ON labels.gcm = w.gcm AND labels.scenario = w.scenario
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
+    WHERE futureperiod = '",timeperiod,"'
   
   ), cciss_count_den AS (
   
@@ -171,7 +172,7 @@ dbGetCCISSv2 <- function(con, modWeights){
   JOIN cciss_count_den b
     ON a.siteref = b.siteref
    AND a.futureperiod = b.futureperiod
-   WHERE a.w <> 0 AND a.futureperiod = '2041'")
+   WHERE a.w <> 0")
   
   dat2 <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
   
@@ -219,16 +220,22 @@ ccissMap <- function(SSPred,suit,spp_select){
   return(suitRes)
 }
 
+###load up bgc predictions data
+
+bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
+
+
 ##figure 3c (mean change in feasibiltiy)
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey80", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 timeperiods <- "2041-2060"
-bgc <- dbGetCCISSv2(con,all_weight) ##takes about 5 mins
 edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
+edaTemp <- edaTemp[is.na(SpecialCode),]
+
 edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
 edaZonal <- edaTemp[(HasPos),]
 edaZonal[,HasPos := NULL]
@@ -236,10 +243,10 @@ edaZonal[,HasPos := NULL]
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
-for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
+for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl"
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
-  newFeas[NewSuit > 3.49, NewSuit := 4]
+  newFeas[NewSuit > 3, NewSuit := 4]
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
   newFeas[,SiteRef := as.integer(SiteRef)]
@@ -248,7 +255,7 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
   feasVals <- newFeas[,.(SiteRef,FeasChange)]
   X <- raster::setValues(X,NA)
   X[feasVals$SiteRef] <- feasVals$FeasChange
-  png(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  png(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
   ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
         breaks=breakpoints, maxpixels= ncell(X),
@@ -301,21 +308,21 @@ add_retreat <- function(SSPred,suit,spp_select){
 
 breakpoints <- seq(-1,1,0.2); length(breakpoints)
 labels <- c("Retreat", "Expansion")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90","grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
 
 # ##testing
 # pts <- dbGetQuery(con,"select rast_id from pts2km_ids where siteno in (select siteno from preselected_points where bgc = 'BWBSdk')")
 # addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
-for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
+for(spp in c("Cw", "Fd","Sx","Pl", "Yc")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
   addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
   X <- raster::setValues(X,NA)
   X[addret$SiteRef] <- addret$PropMod
-  png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
   #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
         col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
@@ -334,18 +341,18 @@ for(spp in c("Cw","Fd","Sx","Pl", "Yc")){ ##ignore warnings
 }
 
 ##edatopic maps
-source("./R/BlobOverlap.R")
+source("./_functions/_BlobOverlap.R")
 timeperiods <- "2041-2060"
 spp <- "Cw"
 feas_cutoff <- 2
 
-#feas_cutoff <- feas_cutoff+0.5
+feas_cutoff <- feas_cutoff+0.5
 
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 edaBlobs <- fread("EdaBlobs.csv")
 
-timeperiods <- "2041-2060"
-spp <- "Yc"
+# timeperiods <- "2041-2060"
+# spp <- "Yc"
 
 blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
 ##average by bgc
