@@ -2,7 +2,7 @@
 title: 
 output: 
     html_document:
-        theme: readable
+        theme: null
         highlight: null
         mathjax: null
 ---

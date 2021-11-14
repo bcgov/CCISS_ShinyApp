@@ -106,7 +106,7 @@ analogsea::debian_apt_get_install(server,
                                   "chromium-browser")
 analogsea::droplet_ssh(server, "R -e \"install.packages('remotes')\"")
 
-droplet_ssh(server, "rm -R /srv/shiny-server/ccissdev/server")
+
 # upload app to server
 server <- analogsea::droplets()$`shiny-server`
 reset_ssh_sessions()
