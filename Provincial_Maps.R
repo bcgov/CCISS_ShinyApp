@@ -222,6 +222,8 @@ ccissMap <- function(SSPred,suit,spp_select){
 ###load up bgc predictions data
 
 bgc <- dbGetCCISSv2(con,all_weight) ##takes about 5 mins
+
+
 ##figure 3c (mean change in feasibiltiy)
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
@@ -231,6 +233,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdB
 timeperiods <- "2041-2060"
 edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
+edaTemp <- edaTemp %>% filter(is.na(SpecialCode))
 
 edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
 edaZonal <- edaTemp[(HasPos),]
@@ -337,18 +340,18 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
 }
 
 ##edatopic maps
-source("./R/BlobOverlap.R")
+source("./_functions/_BlobOverlap.R")
 timeperiods <- "2041-2060"
 spp <- "Cw"
 feas_cutoff <- 2
 
-#feas_cutoff <- feas_cutoff+0.5
+feas_cutoff <- feas_cutoff+0.5
 
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 edaBlobs <- fread("EdaBlobs.csv")
 
-timeperiods <- "2041-2060"
-spp <- "Yc"
+# timeperiods <- "2041-2060"
+# spp <- "Yc"
 
 blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
 ##average by bgc
