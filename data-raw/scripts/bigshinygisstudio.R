@@ -120,6 +120,7 @@ analogsea::droplet_upload(server, "./app/server.R", "/srv/shiny-server/ccissdev/
 analogsea::droplet_upload(server, "./app/ui.R", "/srv/shiny-server/ccissdev/ui.R")
 analogsea::droplet_upload(server, "./app/www", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
+analogsea::droplet_upload(server, "./app/instructions", "/srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 
