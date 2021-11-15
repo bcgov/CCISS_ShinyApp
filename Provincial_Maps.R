@@ -95,7 +95,7 @@ gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNR
                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
                          weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
-
+#weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
 rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
                          weight = c(0.8,1,0.8,0))
 
@@ -232,7 +232,7 @@ labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 timeperiods <- "2041-2060"
-edaPos <- "C4"
+edaPos <- "D6"
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
 
@@ -315,7 +315,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"
 # addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
-for(spp in c("Cw", "Fd","Sx","Pl", "Yc")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
+for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
