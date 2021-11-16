@@ -222,7 +222,7 @@ ccissMap <- function(SSPred,suit,spp_select){
 
 ###load up bgc predictions data
 
-bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
+bgc <- dbGetCCISSv2(con,"2081", all_weight) ##takes about 5 mins
 
 
 ##figure 3c (mean change in feasibiltiy)
@@ -231,8 +231,8 @@ breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2041-2060"
-edaPos <- "D6"
+timeperiods <- "2081-2100"
+edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
 
@@ -259,14 +259,14 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl"
   ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
         breaks=breakpoints, maxpixels= ncell(X),
-        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
   xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2050s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
 }
 
@@ -326,7 +326,7 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
   #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
         col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
-        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
