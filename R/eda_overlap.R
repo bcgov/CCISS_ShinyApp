@@ -132,12 +132,45 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   combAll <- combAll[,list(SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace, 
                         allOverlap, SS.pred, BGC.prop)]
   combAll <- na.omit(combAll)
+  combAllSave <- combAll
+  
+  combAll <- merge(combAll,SSsp.out,
+                   by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
+  temp <- combAll[!is.na(allOverlap.y),]
+  temp[,c("allOverlap.x","BGC.prop.x") := NULL]
+  setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
+  combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
+  combAll <- combAll[(Flag),!"Flag"]
+  combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
+  setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  combAll <- rbind(combAll,temp)
+  combAll[,MainUnit := gsub("[a-c]$|\\.[1-9]$","",SS.pred)]
+  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != MainUnit),] ### removes overlap where past BGC = future BGC
+  combAll[,MainUnit := NULL]
+  combAll <- unique(combAll[!is.na(SS_NoSpace),])
+  
+  
+  ##add in BGC probability
+  combAll <- na.omit(combAll)
+  combAll[,SSratio := allOverlap/sum(allOverlap), by = list(SiteRef, FuturePeriod, BGC, BGC.pred,SS_NoSpace)] ##should check this?
+  setorder(combAll, SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace)
+  
+  setkey(combAll, SiteRef, FuturePeriod, BGC,BGC.pred)
+  temp <- unique(combAll[,list(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)])
+  temp[,BGC.prop := BGC.prop/sum(BGC.prop), by = list(SiteRef,FuturePeriod,BGC)]
+  temp <- unique(temp)
+  combAll[,BGC.prop := NULL]
+  combAll <- temp[combAll]
+  combAll[,SSprob := SSratio*BGC.prop]
+  combAll <- combAll[!duplicated(combAll),]
+  noPhase <- combAll
+  
   ###########################################################################
   ##now redo for phases
   
   numEdaPh <- E1_Phase[,list(NumEdas = .N), by = list(SS_NoSpace)]
   phaseSmall <- unique(edaPhase[,list(BGC,MainUnit,Phase = SS_NoSpace)])
-  combPhase <- phaseSmall[combAll, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
+  combPhase <- phaseSmall[combAllSave, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
   justPhase <- combPhase[!is.na(Phase),]
   curr <- unique(justPhase[,list(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, SS_NoSpace)])
   fut <- unique(justPhase[,list(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, MainUnit, Phase)])
@@ -169,8 +202,8 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
                                   SS.pred = MainUnit.y, PhasePred,phaseOverlap = allOverlap)]
   combPhaseAll <- na.omit(combPhaseAll)
   setkey(combPhaseAll,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
-  setkey(combAll,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
-  combAll <- combPhaseAll[combAll]
+  setkey(combAllSave,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
+  combAll <- combPhaseAll[combAllSave]
   ####add phase to non-phase###
   combAll[,PhaseSum := sum(phaseOverlap), by = list(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)]
   combAll[,phaseOverlap := phaseOverlap/PhaseSum]
@@ -209,5 +242,5 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   combAll[,SSprob := SSratio*BGC.prop]
   combAll <- combAll[!duplicated(combAll),]
   print("Done EDA")
-  return(combAll)
+  return(list(phase = combAll, NoPhase = noPhase))
 }

@@ -213,7 +213,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   JOIN bgc_attribution
     ON (cciss_future12_array.siteno = bgc_attribution.siteno),
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
                gcm,
                scenario,
                futureperiod
