@@ -38,7 +38,10 @@ simple_table <- function(conn, table, values, replace = FALSE) {
 }
 
 simple_table(conn, "futureperiod", sort(unique(future_params$futureperiod)), replace = TRUE)
-simple_table(conn, "gcm", sort(unique(future_params$gcm)), replace = TRUE)
+gcmsOpts <- c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CNRM-ESM2-1", "CanESM5", "EC-Earth3", 
+  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
+  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL")
+simple_table(conn, "gcmv2", gcmsOpts, replace = TRUE)
 simple_table(conn, "scenario", sort(unique(future_params$scenario)), replace = TRUE)
 
 dat <- fread("~/CommonTables/WNA_SSeries_v12_6.csv")
@@ -275,7 +278,7 @@ dt1 <- setDT(dbGetQuery(conn, "
          bgc.bgc
   FROM cciss_future12_array,
        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
                gcm,
                scenario,
                futureperiod
@@ -285,41 +288,37 @@ dt1 <- setDT(dbGetQuery(conn, "
     ON labels.row_idx = source.row_idx
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
-  WHERE siteno = 1942688 AND futureperiod IN ('2021','2041','2061','2081')"))
+  WHERE siteno = 2281768"))
 # Example on how to transform into original cciss_future12
 
-modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
-weights <- paste(modWeights$comb,collapse = ",")
-dt1 <- dbGetQuery(conn, paste0("SELECT cciss_future12_array.siteno,
-         labels.gcm,
-         labels.scenario,
-         labels.futureperiod,
-         bgc_attribution.bgc,
-         bgc.bgc bgc_pred,
-         w.weight
-  FROM cciss_future12_array
-  JOIN bgc_attribution
-    ON (cciss_future12_array.siteno = bgc_attribution.siteno),
-       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
-               gcm,
-               scenario,
-               futureperiod
-        FROM gcm 
-        CROSS JOIN scenario
-        CROSS JOIN futureperiod) labels
-    ON labels.row_idx = source.row_idx
-    JOIN (values ",weights,") 
-    AS w(gcm,scenario,weight)
-    ON labels.gcm = w.gcm AND labels.scenario = w.scenario
-  JOIN bgc
-    ON bgc.bgc_id = source.bgc_pred_id
-  WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
-  AND futureperiod IN ('2021','2041','2061','2081')"))
-
-dt3 <- dbGetQuery(conn,"SELECT *
-  FROM cciss_future12_array,
-       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx) where siteno = 2318928")
+# modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
+# weights <- paste(modWeights$comb,collapse = ",")
+# dt1 <- dbGetQuery(conn, paste0("SELECT cciss_future12_array.siteno,
+#          labels.gcm,
+#          labels.scenario,
+#          labels.futureperiod,
+#          bgc_attribution.bgc,
+#          bgc.bgc bgc_pred,
+#          w.weight
+#   FROM cciss_future12_array
+#   JOIN bgc_attribution
+#     ON (cciss_future12_array.siteno = bgc_attribution.siteno),
+#        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+#   JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
+#                gcm,
+#                scenario,
+#                futureperiod
+#         FROM gcm 
+#         CROSS JOIN scenario
+#         CROSS JOIN futureperiod) labels
+#     ON labels.row_idx = source.row_idx
+#     JOIN (values ",weights,") 
+#     AS w(gcm,scenario,weight)
+#     ON labels.gcm = w.gcm AND labels.scenario = w.scenario
+#   JOIN bgc
+#     ON bgc.bgc_id = source.bgc_pred_id
+#   WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
+#   AND futureperiod IN ('2021','2041','2061','2081')"))
 
 dt4 <- dbGetQuery(conn,"SELECT 
                futureperiod,
@@ -336,7 +335,7 @@ dt2 <- setDT(dbGetQuery(conn, "
          futureperiod,
          bgc_pred
   FROM cciss_future12
-  WHERE siteno = 1942688"))
+  WHERE siteno = 2281768"))
 
 dt2[,futureperiod := substr(futureperiod,1,4)]
 
