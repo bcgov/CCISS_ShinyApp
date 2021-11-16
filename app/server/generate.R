@@ -164,20 +164,19 @@ bgc <- function(con, siteno, avg, modWeights) {
   })
 }
 
-# testSitenos <- as.integer(c("1247944", "1486662", "1866401", "2275827", "3060730", "3865683", 
-# "5023732", "4842832", "2761637", "2111482", "2370320", "3013159", 
-# "3466294", "3716379", "4828480", "5103315", "4638702", "3557707", 
-# "4055121", "2243917", "1944094", "4125428", "4635548", "5737786", 
-# "5321717", "1703309", "1338735", "1313609", "1345347", "1741741", 
-# "3457355", "3606245"))
-# bgc <- dbGetCCISS(pool,siteno = 5402703, avg = T, modWeights = all_weight)
+# bgc <- dbGetCCISS(pool,siteno = 676813, avg = F, modWeights = all_weight)
+# SSPreds <- edatopicOverlap(bgc, E1, E1_Phase)
+# out <- ccissOutput(SSPred = SSPreds, suit = S1, rules = R1, feasFlag = F1,
+#             histWeights = c(0.3,0.35,0.35), futureWeights = rep(0.25,4))
+
 # bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
 
 
 cciss <- function(bgc,estabWt,futWt) {
-  SSPred <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
+  edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
+  SSPred <- edaOut$NoPhase
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
-  uData$eda_out <- SSPred
+  uData$eda_out <- edaOut$phase
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
               histWeights = estabWt, futureWeights = futWt)
 }
