@@ -11,13 +11,18 @@ library(raster)
 library(ccissdev)
 library(RPostgreSQL)
 library(sf)
+library(pool)
 
 ##some setup
-drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, user = "postgres", 
-                 host = "138.197.168.220",
-                 password = "PowerOfBEC", port = 5432, 
-                 dbname = "cciss")
+con <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
@@ -90,97 +95,6 @@ dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
-##adjust gcm weight or rcp weight below
-gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
-                                 "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
-                                 "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-                         weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
-#weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
-rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
-                         weight = c(0.8,1,0.8,0))
-
-all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
-all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
-all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
-all_weight[,weight := wgcm*wrcp]
-modWeights <- all_weight
-
-dbGetCCISSv2 <- function(con,timeperiod = "2041", modWeights){
-  
-  groupby = "siteno"
-  modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
-  weights <- paste(modWeights$comb,collapse = ",")
-  
-  ##cciss_future is now test_future  
-  cciss_sql <- paste0("
-  WITH cciss AS (
-    SELECT
-          pts2km_ids.rast_id siteno,
-         labels.gcm,
-         labels.scenario,
-         labels.futureperiod,
-         bgc_attribution.bgc,
-         bgc.bgc bgc_pred,
-         w.weight
-  FROM cciss_future12_array
-  JOIN bgc_attribution
-    ON (cciss_future12_array.siteno = bgc_attribution.siteno)
-  INNER JOIN pts2km_ids
-    ON pts2km_ids.siteno = cciss_future12_array.siteno,
-       unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
-  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm, scenario, futureperiod) row_idx,
-               gcm,
-               scenario,
-               futureperiod
-        FROM gcm 
-        CROSS JOIN scenario
-        CROSS JOIN futureperiod) labels
-    ON labels.row_idx = source.row_idx
-    JOIN (values ",weights,") 
-    AS w(gcm,scenario,weight)
-    ON labels.gcm = w.gcm AND labels.scenario = w.scenario
-  JOIN bgc
-    ON bgc.bgc_id = source.bgc_pred_id
-    WHERE futureperiod = '",timeperiod,"'
-  
-  ), cciss_count_den AS (
-  
-    SELECT ", groupby, " siteref,
-           futureperiod,
-           SUM(weight) w
-    FROM cciss
-    GROUP BY ", groupby, ", futureperiod
-  
-  ), cciss_count_num AS (
-  
-    SELECT ", groupby, " siteref,
-           futureperiod,
-           bgc,
-           bgc_pred,
-           SUM(weight) w
-    FROM cciss
-    GROUP BY ", groupby, ", futureperiod, bgc, bgc_pred
-  
-  )
-  
-  SELECT cast(a.siteref as text) siteref,
-         a.futureperiod,
-         a.bgc,
-         a.bgc_pred,
-         a.w/cast(b.w as float) bgc_prop
-  FROM cciss_count_num a
-  JOIN cciss_count_den b
-    ON a.siteref = b.siteref
-   AND a.futureperiod = b.futureperiod
-   WHERE a.w <> 0")
-  
-  dat2 <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
-  
-  setnames(dat2, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-  dat2 <- unique(dat2) ##should fix database so not necessary
-  #print(dat)
-  return(dat2)
-}
 
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
@@ -221,18 +135,11 @@ ccissMap <- function(SSPred,suit,spp_select){
 }
 
 ###load up bgc predictions data
+timeperiods <- "2041"
+bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
+setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
-bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
-
-
-##figure 3c (mean change in feasibiltiy)
-library(RColorBrewer)
-breakpoints <- seq(-3,3,0.5); length(breakpoints)
-labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
-
-timeperiods <- "2041-2060"
-edaPos <- "D6"
+edaPos <- "C4"
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
 
@@ -240,8 +147,14 @@ edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
 edaZonal <- edaTemp[(HasPos),]
 edaZonal[,HasPos := NULL]
 ##edatopic overlap
-SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
+SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
+
+##figure 3c (mean change in feasibiltiy)
+library(RColorBrewer)
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
 for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl"
   cat("Plotting ",spp,"\n")
@@ -495,3 +408,88 @@ dev.off()
 #   plot(outline, col = NA, add = T)
 #   dev.off()
 # }
+
+##create table
+# gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
+#                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
+#                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+#                          weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
+# #weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
+# rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
+#                          weight = c(0.8,1,0.8,0))
+# 
+# all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+# all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+# all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+# all_weight[,weight := wgcm*wrcp]
+# modWeights <- all_weight
+# 
+# modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
+# weights <- paste(modWeights$comb,collapse = ",")
+# 
+# 
+# cciss_sql <- paste0("
+# CREATE TABLE mapdata_2km as(
+# WITH cciss AS (
+#     SELECT
+#           pts2km_ids.rast_id siteno,
+#          labels.gcm,
+#          labels.scenario,
+#          labels.futureperiod,
+#          bgc_attribution.bgc,
+#          bgc.bgc bgc_pred,
+#          w.weight
+#   FROM cciss_future12_array 
+#   JOIN pts2km_ids
+#    ON (cciss_future12_array.siteno = pts2km_ids.siteno)
+#   JOIN bgc_attribution
+#     ON (cciss_future12_array.siteno = bgc_attribution.siteno),
+#        unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+#   JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
+#                gcm,
+#                scenario,
+#                futureperiod
+#         FROM gcm 
+#         CROSS JOIN scenario
+#         CROSS JOIN futureperiod) labels
+#     ON labels.row_idx = source.row_idx
+#     JOIN (values ",weights,") 
+#     AS w(gcm,scenario,weight)
+#     ON labels.gcm = w.gcm AND labels.scenario = w.scenario
+#   JOIN bgc
+#     ON bgc.bgc_id = source.bgc_pred_id
+#   
+#   ), cciss_count_den AS (
+#   
+#     SELECT siteno siteref,
+#            futureperiod,
+#            SUM(weight) w
+#     FROM cciss
+#     GROUP BY siteno, futureperiod
+#   
+#   ), cciss_count_num AS (
+#   
+#     SELECT siteno siteref,
+#            futureperiod,
+#            bgc,
+#            bgc_pred,
+#            SUM(weight) w
+#     FROM cciss
+#     GROUP BY siteno, futureperiod, bgc, bgc_pred
+#   
+#   )
+#   
+#   
+#     SELECT cast(a.siteref as text) siteref,
+#          a.futureperiod,
+#          a.bgc,
+#          a.bgc_pred,
+#          a.w/cast(b.w as float) bgc_prop
+#   FROM cciss_count_num a
+#   JOIN cciss_count_den b
+#     ON a.siteref = b.siteref
+#    WHERE a.w <> 0
+#   )
+#   ")
+# 
+# dbExecute(con,cciss_sql)

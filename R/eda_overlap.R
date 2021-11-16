@@ -32,7 +32,7 @@
 #' @importFrom dplyr left_join distinct
 #' @importFrom stats complete.cases na.omit
 #' @export
-edatopicOverlap <- function(BGC,E1,E1_Phase){
+edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   
   # Declare binding for checks
   if (FALSE) {
@@ -164,10 +164,12 @@ edatopicOverlap <- function(BGC,E1,E1_Phase){
   combAll[,SSprob := SSratio*BGC.prop]
   combAll <- combAll[!duplicated(combAll),]
   noPhase <- combAll
+  if(onlyRegular){
+    return(noPhase)
+  }
   
   ###########################################################################
   ##now redo for phases
-  
   numEdaPh <- E1_Phase[,list(NumEdas = .N), by = list(SS_NoSpace)]
   phaseSmall <- unique(edaPhase[,list(BGC,MainUnit,Phase = SS_NoSpace)])
   combPhase <- phaseSmall[combAllSave, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
