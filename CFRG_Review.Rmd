@@ -77,14 +77,37 @@ standardblock <- function(std, ss, sc) {
                            width = "100%",
                            tags$tr(
                              tags$td(tags$b("Standards ID")),
-                             tags$td(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "))),
-                             tags$td(tags$b("Climate Change"))
+                             tags$td(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", ")),style = "border-right: 2px solid;"),
+                             tags$td(tags$b("Climate Change")),
+                             tags$td(tags$b("CCISS Feasibility"))
                            ),
                            tags$tr(
                              tags$td("Primary"),
                              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissSuit %in% "1", sppnotes_cciss(Spp,TxtCciss)]
-                             #tags$td(paste(sc[!is.na(Spp) & ccissFeas %in% "1", unique(Spp)], collapse = ", "))
+                             sc[!is.na(Spp) & ccissSuit %in% "1", sppnotes_cciss(Spp,TxtCciss)],
+                             tags$td("High - E1")
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Secondary"),
+                             ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissSuit %in% "2", sppnotes_cciss(Spp,TxtCciss)],
+                             tags$td("Moderate - E2")
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Tertiary"),
+                             ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissSuit %in% "3", sppnotes_cciss(Spp,TxtCciss)],
+                             tags$td("Low - E1")
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Broadleaf"),
+                             ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissSuit %in% "10", sppnotes_cciss(Spp,TxtCciss)],
+                             tags$td("Trial"),
+                             style = "border-bottom:1px solid black;"
                            ),
                            tags$tr(
                              tags$td("Preferred (p)"),
@@ -93,23 +116,10 @@ standardblock <- function(std, ss, sc) {
                              tags$td("")
                            ),
                            tags$tr(
-                             tags$td("Secondary"),
-                             ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissSuit %in% "2", sppnotes_cciss(Spp,TxtCciss)]
-                             #tags$td(paste(sc[!is.na(Spp) & ccissFeas %in% "2", unique(Spp)], collapse = ", "))
-                           ),
-                           tags$tr(
                              tags$td("Acceptable (a)"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
                              tags$td("")
-                           ),
-                           tags$tr(
-                             tags$td("Tertiary"),
-                             ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissSuit %in% "3", sppnotes_cciss(Spp,TxtCciss)]
-                             
-                             #tags$td(paste(sc[!is.na(Spp) & ccissFeas %in% "3", unique(Spp)], collapse = ", "))
                            )
                          )
                  ),
@@ -186,7 +196,7 @@ sppnotes_cciss <- function(spp, textstyle) {
     ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
                           if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
-  ret[["style"]] <- "white-space:normal;"
+  ret[["style"]] <- "white-space:normal; border-left: 2px solid;"
   do.call(tags$td, ret)
 }
 
@@ -214,7 +224,7 @@ for(bgc_select in bgc_opts){
   pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
   if(length(pNums) > 25){
     dat <- dbGetCCISS(pool,pNums,T,all_weight)
-    eda <- edatopicOverlap(dat,E1,E1_Phase)
+    eda <- edatopicOverlap(dat,E1,E1_Phase,onlyRegular = T)
     feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
     feasSum <- feas$Summary
     feasSum[,Region := reg_cw[dist_code == dist_select,reg_cfrg]]
@@ -232,8 +242,8 @@ for(bgc_select in bgc_opts){
     feasSum[NoPref == F & PrefAcc_cciss == "A", PrefAcc_cciss := "P"]
     feasSum[,NoPref := NULL]
     feasSum[is.na(PrefAcc), PrefAcc := "X"]
+    feasSum[ccissSuit %in% c(1,2,3) & Curr == "X",ccissSuit := 10]
     
-
     siteseries <- unique(feasSum$SS_NoSpace)
     print(
       tagList(tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"),
@@ -241,7 +251,7 @@ for(bgc_select in bgc_opts){
               tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"))
     )
     for(siteserie in siteseries){
-      f1 <- feasSum[SS_NoSpace == siteserie,]
+        f1 <- feasSum[SS_NoSpace == siteserie,]
         s1 <- stocking_standards[
           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
         ]
@@ -261,14 +271,13 @@ poolClose(pool)
 ```{=html}
 <style type="text/css">
   h2 {font-weight:900 !important;}
-  .bordered {border-top:3px solid !important;}
   .main-content {max-width: none !important; padding:3rem 3rem !important}
   .table {width: auto !important;}
-  .table tbody {white-space: nowrap;}
-  .table td {vertical-align: middle !important;}
+  .table td {vertical-align: top !important;}
   table.table-centered {margin-left:auto !important; margin-right:auto !important}
 </style>
 ```
+
 ```{=html}
 <script type="text/javascript">
   // When the document is fully rendered...
@@ -280,47 +289,4 @@ poolClose(pool)
     });
   });
 </script>
-```
-```{r stocking_standards, results='asis', out.height="auto"}
-# dist_select <- "BUL"
-# bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
-# htmltools::tagList(
-#   lapply(bgc_opts, function(bgc_select) {
-#     print("<P style='page-break-before: always'>")    #forced new-page happens here.
-# 
-#     pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
-#     if(length(pNums) > 25){
-# 
-#     dat <- dbGetCCISS(pool,pNums,T,all_weight)
-#     eda <- edatopicOverlap(dat,E1,E1_Phase)
-#     feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
-#     feasSum <- feas$Summary
-#     feasSum[,Region := reg_cw[dist_code == dist_select,reg_cfrg]]
-#     feasSum[,ZoneSubzone := SiteRef]
-#     feasSum[
-#         stocking_standards, 
-#         CFSuitability := as.character(i.Suitability),
-#         on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
-#       ]
-#     siteseries <- unique(feasSum$SS_NoSpace)
-#     htmltools::tagList(
-#       mapply(FUN = function(siteserie, nm) {
-#         f1 <- feasSum[SS_NoSpace == siteserie,]
-#         s1 <- stocking_standards[
-#           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
-#         ]
-#         if(nrow(s1) > 0){
-#           htmltools::tagList(
-#           tags$h3("Site Series: ", tags$b(siteserie, .noWS = c("before", "after"))),
-#           standardblocks(feasSum, bgc_select, siteserie),
-#         )
-#         }
-#       }, siteseries, siteseries)
-#     )
-# 
-#     }
-#     
-#   })
-# )
-# poolClose(pool)
 ```
