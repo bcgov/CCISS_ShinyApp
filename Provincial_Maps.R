@@ -255,19 +255,18 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
 
 ##edatopic maps
 source("./_functions/_BlobOverlap.R")
-timeperiods <- "2041-2060"
+timeperiods <- "2041"
 spp <- "Cw"
-feas_cutoff <- 2
+feas_cutoff <- 3
 
 feas_cutoff <- feas_cutoff+0.5
-
-bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
+bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'")))
 edaBlobs <- fread("EdaBlobs.csv")
 
 # timeperiods <- "2041-2060"
 # spp <- "Yc"
 
-blobOut <- blobOverlap(bgc,edaBlobs,E1,E1_Phase,S1,spp) ##takes ~ 30 seconds
+blobOut <- blobOverlap(bgc,edaBlobs,E1,S1,spp) ##takes ~ 30 seconds
 ##average by bgc
 blobBGC <- blobOut[,.(Current = mean(CurrentFeas), Future = mean(FutureFeas)),
                    by = .(BGC,Blob)]
@@ -276,10 +275,38 @@ setorder(blobOut,SiteRef,BGC,Blob)
 blobOut[,SMR := substr(Blob,1,1)]
 blobOut <- blobOut[,.(Current = min(CurrentFeas), Future = min(FutureFeas)),
                    by = .(SiteRef,BGC,SMR)]
-blobFut <- blobOut[Future <= feas_cutoff, .(SiteRef,BGC, SMR, Current)]
+
+blobFut <- blobOut[Future <= feas_cutoff, .(SiteRef,BGC, SMR)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(SiteRef)]
 blobFut[,SiteRef := as.integer(SiteRef)]
+setnames(blobFut,old = "MinSMR", new = "FutSMR")
+
+blobCurr <- blobOut[Current <= feas_cutoff, .(SiteRef,BGC, SMR)]
+blobCurr[,SMR := as.numeric(SMR)]
+blobCurr <- blobCurr[,.(MinSMR = min(SMR)), by = .(SiteRef)]
+blobCurr[,SiteRef := as.integer(SiteRef)]
+setnames(blobCurr,old = "MinSMR", new = "CurrSMR")
+blobCurr[blobFut, FutSMR := i.FutSMR, on = "SiteRef"]
+blobCurr[,Diff := FutSMR - CurrSMR]
+blobCurr[is.na(Diff), Diff := 10]
+
+X <- raster::setValues(X,NA)
+X[blobCurr$SiteRef] <- blobCurr$Diff
+breakpoints <- seq(-8.1,12, by = 2)
+ColScheme <- c("#0006b0","#0e14c4","#2c6bd1","#6799eb","#b0b0b0","#e0d52f","#d97511","#c73006","#a30000","#9c0da1")
+png(file=paste("./FeasibilityMaps/BlobSuit_Change",timeperiods,spp,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme,
+      breaks=breakpoints, maxpixels= ncell(X),
+      main = paste0("Driest Feasible SMR Change"," (",spp,")"))
+legend("topright",
+       title = "Change in Driest Feasible",
+       legend = c("-8","-6","-4","-2","0","2","4","6","8","Removed"),
+       fill = ColScheme)
+plot(outline, add=T, border="black",col = NA, lwd=0.4)
+dev.off()
+
 
 X <- raster::setValues(X,NA)
 X[blobFut$SiteRef] <- blobFut$MinSMR
@@ -306,6 +333,9 @@ blobCurr <- blobCurr[,.(MinSMR = min(SMR)), by = .(BGC)]
 blobFut <- blobBGC[Future <= feas_cutoff, .(BGC, SMR, Future)]
 blobFut[,SMR := as.numeric(SMR)]
 blobFut <- blobFut[,.(MinSMR = min(SMR)), by = .(BGC)]
+
+##change map
+
 
 edaCols <- data.table(SMR = c(0,2,4,6,8),Col = c("#f71302","#695027","#ebc81a","#069414","#0013e0"))#"#c70808"
 require(ggplot2)
