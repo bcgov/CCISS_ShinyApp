@@ -51,17 +51,13 @@ suppressWarnings(
         sidebarPanel(
           width = 4,
           sidebarhelplink("cciss_instructions_select_sites"),
-          wellPanel(splitLayout(
-            actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
-            
-            radioButtons(
-              "aggregation",
-              "Multiple Point Aggregation:",
-              c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
-              selected = "TRUE"
-            )
-          ),
-          style = "padding: 5px 5px 5px 5px; margin:0%"),
+          style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
+        actionButton(
+          "generate_results",
+          label = "Generate results",
+          icon = icon("plus-square"),
+          style = "width:100%; background-color:#003366; color: #FFF"
+        ),
           hr(style = "border-top: 1px solid #8f0e7e;"),
           h5("Add Points Using One of the 3 Methods Below"),
           h6(
@@ -124,17 +120,19 @@ suppressWarnings(
           actionButton("clear_selections", "Clear Selections",
                        style = "width:100%; background-color:#c21104; color: #FFF"),
           hr(style = "border-top: 1px solid #8f0e7e;"),
-          h5("Ready to Go!"),
-          actionButton(
-            "generate_results",
-            label = "Generate results",
-            icon = icon("plus-square"),
-            style = "width:100%; background-color:#003366; color: #FFF"
-          ),
-          br(),
-          br()
-          #style = "min-width: 600px;"
-        ),
+          
+        wellPanel(splitLayout(
+          actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
+          
+          radioButtons(
+            "aggregation",
+            "Multiple Point Aggregation:",
+            c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
+            selected = "TRUE"
+          )
+        )
+
+        )),
         mainPanel(width = 8,
                   # Biogeoclimatic Zones + Subzones Variants Map
                   leafletOutput("bec_map"))
@@ -252,6 +250,17 @@ suppressWarnings(
                    "filter_silv",
                    label = "Tree Species",
                    choices = c("Feasible Species" = "f", "All Species" = "a")
+                 ),
+                 h6("Legend"),
+                 HTML(
+                   paste0(
+                     '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+                     c("green", "red", "purple"),
+                     '" /><span style="vertical-align:middle">&nbsp;',
+                     c("Improving", "Decreasing", "Adding"),
+                     '</span>',
+                     collapse = "<br />"
+                   )
                  )
                ),
                mainPanel(
