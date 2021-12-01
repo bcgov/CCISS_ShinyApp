@@ -118,19 +118,24 @@ standardblock <- function(std, ss, sc) {
   # Some logic to flag specie with different Suitability than CCISS
   ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissFeas))]
   setnafill(ss, fill = 4L, cols = "ProjFeas")
-  ss[Suitability > ProjFeas, TextStyle := "color:blue"]
-  ss[Suitability < ProjFeas, TextStyle := "color:orange"]
-  ss[ProjFeas == 4L, TextStyle := "color:red;text-decoration:line-through"]
-  
+  ss[Suitability > ProjFeas, TextStyle := "color:green"]
+  ss[Suitability < ProjFeas, TextStyle := "color:red"]
+  ss[!ProjFeas %in% c(1,2,3), TextStyle := "color:red;text-decoration:line-through"]
+  ss[Suitability == 0, TextStyle := NA]
+  #browser()
   # cciss colouring
-  sc[Improve > 67,TxtCciss := "color:green"]
-  sc[Improve < 33, TxtCciss := "color:red"]
+  sc[ss, on = "Spp == Species", CFRGSuit := i.Suitability]
+  sc[ccissFeas < CFRGSuit, TxtCciss := "color:green"]
+  sc[ccissFeas > CFRGSuit, TxtCciss := "color:red"]
+  sc[!CFRGSuit %in% c(1,2,3), TxtCciss := "color:purple"]
+  sc[CFRGSuit == 0, TxtCciss := NA]
   
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
     tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
-    tags$table(width = "100%", style = "white-space: nowrap;",
+    tags$small("\nStandards ID: ",tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "),.noWS = c("before", "after"))),
+    tags$table(style = "max-width: 100%; white-space: nowrap;",
                # Report formatting gray out the first row, so faking a row
                tags$tr(
                  tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:none",
@@ -139,50 +144,49 @@ standardblock <- function(std, ss, sc) {
                          tags$table(
                            width = "100%",
                            tags$tr(
-                             tags$td(tags$b("Standards ID")),
-                             tags$td(tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", ")),style = "border-right: 2px solid;"),
-                             tags$td(tags$b("Climate Change")),
-                             tags$td(tags$b("CCISS Feasibility"))
+                             tags$td(tags$b("Feasibility")),
+                             tags$td(tags$b("CFRG"),style = "border-right: 2px solid;"),
+                             tags$td(tags$b("CCISS"))
                            ),
                            tags$tr(
-                             tags$td("Primary"),
+                             tags$td("Primary/E1"),
                              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("High - E1")
+                             sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)]
                            ),
                            
                            tags$tr(
-                             tags$td("Secondary"),
+                             tags$td("Secondary/E2"),
                              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("Moderate - E2")
+                             sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)]
                            ),
                            
                            tags$tr(
-                             tags$td("Tertiary"),
+                             tags$td("Tertiary/E3"),
                              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("Low - E1")
+                             sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)]
                            ),
                            
+                           tags$tr(
+                             tags$td("Trial"),
+                             tags$td(""),
+                             sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)]
+                           ),
                            tags$tr(
                              tags$td("Broadleaf"),
                              ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
-                             sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("Trial"),
+                             tags$td("",style = "border-left: 2px solid;"),
                              style = "border-bottom:1px solid black;"
                            ),
+                           
                            tags$tr(
                              tags$td("Preferred (p)"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "P", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("")
                            ),
                            tags$tr(
                              tags$td("Acceptable (a)"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
-                             tags$td("")
                            )
                          )
                  ),
