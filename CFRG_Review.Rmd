@@ -209,10 +209,48 @@ standardblock <- function(std, ss, sc) {
 reg_cw <- fread("District_Region_Crosswalk.csv")
 ```
 
+```{r, results='asis'}
+dist_select <- "BUL"
+bgcFlags <- list()
+bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
+for(bgc_select in bgc_opts){
+  pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
+  if(length(pNums) > 25){
+    dat <- dbGetCCISS(pool,pNums,T,all_weight)
+    eda <- edatopicOverlap(dat,E1,E1_Phase,onlyRegular = T)
+    feas <- ccissOutput(eda,S1,R1,F1,c(0.3,0.35,0.35),c(0.3,0.3,0.3,0.1))
+    feasSum <- feas$Summary
+    setnames(feasSum,old = "ccissSuit", new = "ccissFeas")
+    feasSum[,Region := reg_cw[dist_code == dist_select,reg_cfrg]]
+    feasSum[,ZoneSubzone := SiteRef]
+    feasSum[,EstabFeas := NewSuit]
+    feasSum[
+        stocking_standards, 
+        `:=`(CFSuitability = as.character(i.Suitability)),
+        on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
+      ]
+    
+    siteseries <- unique(feasSum$SS_NoSpace)
+    flagVals <- data.table(ss_nospace = siteseries, flag = 0)
+
+    for(siteserie in siteseries){
+        f1 <- feasSum[SS_NoSpace == siteserie,]
+        flagDat <- f1[,.(Spp, ccissFeas, CFSuitability)]
+        flagDat <- flagDat[CFSuitability %in% c(1,2,3),]
+        flagDat[ccissFeas == "X", ccissFeas := 5]
+        flagDat[,ccissFeas := as.numeric(ccissFeas)]
+        flagDat[,Diff := ccissFeas - as.numeric(CFSuitability)]
+        flagDat[Diff < 0, Diff := 0]
+        flagVals[ss_nospace == siteserie, flag := sum(flagDat$Diff)]
+    }
+    bgcFlags[[bgc_select]] <- flagVals
+  }
+}
+```
+
 ```{r index, results='asis',tidy=FALSE,eval=TRUE}
 tags$h2("All BGC Units")
-dist_select <- "BUL"
-bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
+
 for(i in 1:length(bgc_opts)){
   bgc_select <- bgc_opts[i]
   temp <- dbGetQuery(pool,paste0("select count(*) from preselected_points where bgc = '",bgc_select,"' and dist_code = '",dist_select,"'"))[,1]
@@ -225,7 +263,7 @@ for(i in 1:length(bgc_opts)){
 
 ```{r,results='asis', out.height="auto"}
 bgcNum = 1;
-bgcFlags <- list()
+
 for(bgc_select in bgc_opts){
   cat("<P style='page-break-before: always'>")    #forced new-page happens here.
   pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
@@ -251,37 +289,37 @@ for(bgc_select in bgc_opts){
     feasSum[,NoPref := NULL]
     feasSum[CFSuitability == "X" & Curr == "X" 
          & ccissFeas %in% c(1,2,3), EstabFeas := "Trial"]
-    if(nrow(feasSum[Curr %in% c(1,2) & !ccissFeas %in% c(1,2,3),] < 0)){
-      bgcFlags[bgc == bgc_select, flag := ]
-    }
     
     siteseries <- unique(feasSum$SS_NoSpace)
     cat("\n")
-    cat("## Site_Unit: ",bgc_select," {#section",bgcNum,"}\n",sep = "")
-    # print(
-    #   tagList(tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"),
-    #           tags$h2(paste0("Site_Unit: ",bgc_select," {#",bgc_select,"}")),
-    #           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"))
-    # )
+    cat("## BGC: ",bgc_select," {#section",bgcNum,"}\n",sep = "")
+    
+    for(i in 1:length(siteseries)){
+      ss_select <- siteseries[i]
+      flagSub <- bgcFlags[[bgc_select]]
+      if(flagSub[ss_nospace == ss_select,flag] > 6){
+        flagCol = "red"
+      }else if(flagSub[ss_nospace == ss_select,flag] > 4){
+        flagCol = "orange"
+      }else{
+        flagCol = "black"
+      }
+      cat("\n[<span style=\"color: ",flagCol,";\">Site Series ",ss_select,"</span>](#sssect",i,"-",bgcNum,") \n",sep = "")
+    }
+    
+    ssnum = 1
     for(siteserie in siteseries){
-        flagVals <- data.table(ss_nospace = siteseries, flag = 0)
-        f1 <- feasSum[SS_NoSpace == siteserie,]
-        flagDat <- f1[,.(Spp, ccissFeas, CFSuitability)]
-        flagDat <- flagDat[CFSuitability %in% c(1,2,3),]
-        flagDat[ccissFeas == "X", ccissFeas := 5]
-        flagDat[,ccissFeas := as.numeric(ccissFeas)]
-        flagDat[,Diff := ccissFeas - as.numeric(CFSuitability)]
-        flagDat[Diff < 0, Diff := 0]
-        flagVals[ss_nospace == siteserie, flag := sum(flagDat$Diff)]
         s1 <- stocking_standards[
           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
         ]
         if(nrow(s1) > 0){
+          cat("\n")
+          cat("### Site Series: ",siteserie," {#sssect",ssnum,"-",bgcNum,"}\n",sep = "")
           print(htmltools::tagList(
-          tags$h3("Site Series: ", tags$b(siteserie, .noWS = c("before", "after"))),
           standardblocks(feasSum, bgc_select, siteserie),
         ))
         }
+        ssnum = ssnum+1
     }
     cat("\n")
   }
