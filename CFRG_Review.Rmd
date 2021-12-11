@@ -225,7 +225,7 @@ for(i in 1:length(bgc_opts)){
 
 ```{r,results='asis', out.height="auto"}
 bgcNum = 1;
-bgcFlags <- data.table(bgc = bgc_opts, removeFlag = NA_)
+bgcFlags <- list()
 for(bgc_select in bgc_opts){
   cat("<P style='page-break-before: always'>")    #forced new-page happens here.
   pNums <- dbGetBGC(pool,bgc_select,dist_select,100)
@@ -264,7 +264,15 @@ for(bgc_select in bgc_opts){
     #           tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: purple; border: 0px"))
     # )
     for(siteserie in siteseries){
+        flagVals <- data.table(ss_nospace = siteseries, flag = 0)
         f1 <- feasSum[SS_NoSpace == siteserie,]
+        flagDat <- f1[,.(Spp, ccissFeas, CFSuitability)]
+        flagDat <- flagDat[CFSuitability %in% c(1,2,3),]
+        flagDat[ccissFeas == "X", ccissFeas := 5]
+        flagDat[,ccissFeas := as.numeric(ccissFeas)]
+        flagDat[,Diff := ccissFeas - as.numeric(CFSuitability)]
+        flagDat[Diff < 0, Diff := 0]
+        flagVals[ss_nospace == siteserie, flag := sum(flagDat$Diff)]
         s1 <- stocking_standards[
           Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
         ]
