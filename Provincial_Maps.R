@@ -26,7 +26,8 @@ con <- dbPool(
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
-
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##code to check that none have the same predictions
 
 # allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
