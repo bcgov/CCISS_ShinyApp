@@ -59,7 +59,7 @@ bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
-
+spp = "Cw"
 for(spp in c("Cw" )){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Yp""Fd", "Pl", "Sx", 
   cat("Plotting ",spp,"\n")
   newFeas <- meanFeasibilityMap(SSPreds,S1,spp) ##~ 15 seconds
