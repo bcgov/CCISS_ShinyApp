@@ -22,6 +22,14 @@ con <- dbPool(
   user = Sys.getenv("BCGOV_USR"),
   password = Sys.getenv("BCGOV_PWD")
 )
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
 
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
@@ -75,24 +83,24 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##########################################################
 
 #make projected bgc maps - can skip this part
-scn <- "ssp245";fp <- "2041-2060";gcm <- "ACCESS-ESM1-5" ##select options
-dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-                             scn,"' and futureperiod = '",fp,"'"))
-setDT(dat)
-bgcs <- unique(dat$bgc_pred)
-bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-cols <- subzones_colours_ref
-dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
-
-X[dat$rast_id] <- dat$bgcID
-X2 <- ratify(X)
-rat <- as.data.table(levels(X2)[[1]])
-rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-plot(outline, col = NA, add = T)
-dev.off()
+# scn <- "ssp245";fp <- "2041-2060";gcm <- "ACCESS-ESM1-5" ##select options
+# dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+#                              scn,"' and futureperiod = '",fp,"'"))
+# setDT(dat)
+# bgcs <- unique(dat$bgc_pred)
+# bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+# cols <- subzones_colours_ref
+# dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+# dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+# 
+# X[dat$rast_id] <- dat$bgcID
+# X2 <- ratify(X)
+# rat <- as.data.table(levels(X2)[[1]])
+# rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+# pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+# plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+# plot(outline, col = NA, add = T)
+# dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
@@ -139,9 +147,6 @@ ccissMap <- function(SSPred,suit,spp_select){
 timeperiods <- "2041"
 bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
 setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-
-#bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
-
 
 ##figure 3c (mean change in feasibiltiy)
 library(RColorBrewer)
@@ -272,7 +277,8 @@ spp <- "Cw"
 feas_cutoff <- 3
 
 feas_cutoff <- feas_cutoff+0.5
-bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'")))
+bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
+setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 edaBlobs <- fread("EdaBlobs.csv")
 
 # timeperiods <- "2041-2060"
