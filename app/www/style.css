@@ -20,6 +20,10 @@
   vertical-align: middle !important;
 }
 
+.rightborder{
+   border-right: 2px solid;
+}
+
 table.table-centered {
   margin-left:auto !important;
   margin-right:auto !important;
