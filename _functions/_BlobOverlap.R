@@ -10,14 +10,13 @@
 #' @import data.table
 #' @export
 
-blobOverlap <- function(BGC,edaBlobs,E1,E1_Phase,S1,spp_select){
+blobOverlap <- function(BGC,edaBlobs,E1,S1,spp_select){
   
   suit <- S1[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   
   SS <- E1[,list(BGC,SS_NoSpace,Edatopic)]
-  edaPhase <- E1_Phase
   SS <- unique(SS)
   BGC <- unique(BGC)
   bgcLookup <- BGC[,.(SiteRef,BGC)]
@@ -26,7 +25,7 @@ blobOverlap <- function(BGC,edaBlobs,E1,E1_Phase,S1,spp_select){
   allUnits <- unique(BGC$BGC)
   allBlobs <- CJ(BGC = allUnits, edatopic = edaBlobs$edatopic) #cross join
   allBlobs[edaBlobs,Blob := i.SS_NoSpace, on = "edatopic"]
-  temp <- rbind(SS,E1_Phase[is.na(SpecialCode),list(BGC,SS_NoSpace,Edatopic)])
+  temp <- SS
   bgcPred <- BGC[,.(SiteRef,BGC.pred,BGC.prop)]
   bgcCurr <- BGC[,.(SiteRef,BGC)]
   

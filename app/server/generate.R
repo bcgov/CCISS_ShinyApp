@@ -273,6 +273,13 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
     )]
     
     results <- results[!is.na(ProjFeas),]
+    results[,Curr := as.character(Curr)]
+    for(i in c("Curr","EstabFeas","CFSuitability")){ ##set NA to X
+      results[is.na(get(i)) | get(i) == 4, (i) := "X"]
+    }
+    #print(data[,.(CFSuitability,Curr,ccissFeas)])
+    results[CFSuitability == "X" & Curr == "X" 
+         & ccissFeas %in% c(1,2,3), EstabFeas := "Trial"]
     setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
     return(results)
   })
