@@ -51,8 +51,8 @@ breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2041-2060"
-edaPos <- "B2"
+timeperiods <- "2061-2080"
+edaPos <- "C4"
 edaZonal <- E1[Edatopic == edaPos,]
 
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
@@ -60,7 +60,7 @@ bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
-for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Yp"
+for(spp in c("Cw" )){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Yp""Fd", "Pl", "Sx", 
   cat("Plotting ",spp,"\n")
   newFeas <- meanFeasibilityMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3.49, NewSuit := 4]
@@ -83,7 +83,7 @@ for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Y
   xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2050s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2070s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
 }
 
