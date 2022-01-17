@@ -222,7 +222,7 @@ ccissMap <- function(SSPred,suit,spp_select){
 
 ###load up bgc predictions data
 
-bgc <- dbGetCCISSv2(con,"2081", all_weight) ##takes about 5 mins
+bgc <- dbGetCCISSv2(con,"2041", all_weight) ##takes about 5 mins
 
 
 ##figure 3c (mean change in feasibiltiy)
@@ -231,8 +231,8 @@ breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2081-2100"
-edaPos <- "C4"
+timeperiods <- "2041-2060"
+edaPos <- "B2"
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
 
