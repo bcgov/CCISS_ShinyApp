@@ -19,14 +19,28 @@ source("./_functions/_BlobOverlap.R")
 #load("./data/S1.rda")
 ##some setup
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, user = "postgres", 
-                 host = "138.197.168.220",
-                 password = "PowerOfBEC", port = 5432, 
-                 dbname = "cciss")
+con <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
-
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
 ##adjust gcm weight or rcp weight below
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
@@ -42,8 +56,6 @@ all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
 all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 modWeights <- all_weight
-
-
 
 ##figure 3c (mean change in feasibility by edatopic position)
 library(RColorBrewer)
