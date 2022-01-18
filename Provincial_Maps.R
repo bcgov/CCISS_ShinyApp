@@ -83,24 +83,24 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##########################################################
 
 #make projected bgc maps - can skip this part
-# scn <- "ssp245";fp <- "2041-2060";gcm <- "ACCESS-ESM1-5" ##select options
-# dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-#                              scn,"' and futureperiod = '",fp,"'"))
-# setDT(dat)
-# bgcs <- unique(dat$bgc_pred)
-# bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-# cols <- subzones_colours_ref
-# dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-# dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
-# 
-# X[dat$rast_id] <- dat$bgcID
-# X2 <- ratify(X)
-# rat <- as.data.table(levels(X2)[[1]])
-# rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-# pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-# plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-# plot(outline, col = NA, add = T)
-# dev.off()
+scn <- "ssp370";fp <- "2061-2080";gcm <-"GFDL-ESM4" # "ACCESS-ESM1-5" #"MRI-ESM2-0" ##select options
+dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+                             scn,"' and futureperiod = '",fp,"'"))
+setDT(dat)
+bgcs <- unique(dat$bgc_pred)
+bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+cols <- subzones_colours_ref
+dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+
+X[dat$rast_id] <- dat$bgcID
+X2 <- ratify(X)
+rat <- as.data.table(levels(X2)[[1]])
+rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+plot(outline, col = NA, add = T)
+dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
@@ -144,7 +144,7 @@ ccissMap <- function(SSPred,suit,spp_select){
 }
 
 ###load up bgc predictions data
-timeperiods <- "2041"
+timeperiods <- "2061"
 bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
 setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
@@ -154,8 +154,8 @@ breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2041-2060"
-edaPos <- "C4"
+timeperiods <- "2061-2080"
+edaPos <- "D6"
 
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
@@ -172,8 +172,8 @@ library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
-spp = "Cw"
-for(spp in c("Cw")){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Oa", "Yp"
+spps = c("Cw","Fd","Sx","Pl","Py", "Lw")
+for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3, NewSuit := 4]
@@ -245,7 +245,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"
 # addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
-for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
+for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
@@ -272,8 +272,8 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
 
 ##edatopic maps
 source("./_functions/_BlobOverlap.R")
-timeperiods <- "2041"
-spp <- "Cw"
+timeperiods <- "2061"
+spp <- "Sx"
 feas_cutoff <- 3
 
 feas_cutoff <- feas_cutoff+0.5
