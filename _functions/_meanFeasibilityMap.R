@@ -1,6 +1,7 @@
 ##adapted feasibility function
-# suit = "S1"
-# spp_select = "Cw"
+# suit = S1
+# SSPred <- SSPreds
+#  spp_select = "Cw"
 meanFeasibilityMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
   
