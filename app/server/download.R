@@ -20,6 +20,7 @@ output$report_download <- downloadHandler(
   content = function(file) {
     uData$site_series_filter <- input$report_filter
     uData$feasibility_filter <- input$report_filter_feas
+    uData$pool <- pool
     withProgress(min = 0, max = 4, value = 1, message = "Processing report", {
 
       if (input$report_format == "html") {
