@@ -16,7 +16,7 @@ source("./_functions/_dbGetCCISS_4km.R")
 source("./_functions/_meanFeasibilityMap.R")
 source("./_functions/_add_retreat_map.R")
 source("./_functions/_BlobOverlap.R")
-
+#load("./data/S1.rda")
 ##some setup
 drv <- dbDriver("PostgreSQL")
 con <- dbPool(
