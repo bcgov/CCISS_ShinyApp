@@ -310,7 +310,7 @@ for(bgc_select in bgc_opts){
     ssnum = 1
     for(siteserie in siteseries){
         s1 <- stocking_standards[
-          Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
+          Region %in% feasSum$Region & ZoneSubzone %in% feasSum$ZoneSubzone & SS_NoSpace %in% feasSum$SS_NoSpace
         ]
         if(nrow(s1) > 0){
           cat("\n")
