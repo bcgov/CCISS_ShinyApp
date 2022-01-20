@@ -6,7 +6,15 @@ output:
         highlight: null
         mathjax: null
 ---
+
+#### Silviculture and Ecology
+
+This section contains information for foresters and planners from the reference guide. For all subtabs, the filter sidebar allows selection between sites, site series, and feasible/all species. 
+
 ##### Chief Foresters Reference Guide
 
+This is a recreation of the reference guide for the forest region in question. The initial CFRG species are presented in the first column, and the recommended CCISS species in the second column. 
+
+All other subtabs contain information important for stocking decisions for the species selected.
 
 
