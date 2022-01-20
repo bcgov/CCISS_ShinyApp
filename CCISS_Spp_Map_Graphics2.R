@@ -16,17 +16,31 @@ source("./_functions/_dbGetCCISS_4km.R")
 source("./_functions/_meanFeasibilityMap.R")
 source("./_functions/_add_retreat_map.R")
 source("./_functions/_BlobOverlap.R")
-
+#load("./data/S1.rda")
 ##some setup
 drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, user = "postgres", 
-                 host = "138.197.168.220",
-                 password = "PowerOfBEC", port = 5432, 
-                 dbname = "cciss")
+con <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
-
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
 ##adjust gcm weight or rcp weight below
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
@@ -43,24 +57,22 @@ all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 modWeights <- all_weight
 
-
-
 ##figure 3c (mean change in feasibility by edatopic position)
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2041-2060"
-edaPos <- "B2"
+timeperiods <- "2061-2080"
+edaPos <- "C4"
 edaZonal <- E1[Edatopic == edaPos,]
 
 bgc <- dbGetCCISS_4km(con,timeperiods,all_weight) ##takes about 1.5 mins
 ##edatopic overlap
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
-
-for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Yp"
+spp = "Cw"
+for(spp in c("Cw" )){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Yp""Fd", "Pl", "Sx", 
   cat("Plotting ",spp,"\n")
   newFeas <- meanFeasibilityMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3.49, NewSuit := 4]
@@ -83,7 +95,7 @@ for(spp in c("Cw","Yc", "Oa", "Yp")){ ##ignore warnings"Fd","Sx","Pl", ,"Oa", "Y
   xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2050s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2070s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
 }
 

@@ -222,7 +222,7 @@ reg_cw <- fread("District_Region_Crosswalk.csv")
 ```
 
 ```{r, results='asis'}
-dist_select <- "BUL"
+dist_select <- "DSC"
 bgcFlags <- list()
 bgc_opts <- dbGetQuery(pool,paste0("select distinct bgc from preselected_points where dist_code = '",dist_select,"'"))[,1]
 for(bgc_select in bgc_opts){
@@ -322,7 +322,7 @@ for(bgc_select in bgc_opts){
     ssnum = 1
     for(siteserie in siteseries){
         s1 <- stocking_standards[
-          Region %in% f1$Region & ZoneSubzone %in% f1$ZoneSubzone & SS_NoSpace %in% f1$SS_NoSpace
+          Region %in% feasSum$Region & ZoneSubzone %in% feasSum$ZoneSubzone & SS_NoSpace %in% feasSum$SS_NoSpace
         ]
         if(nrow(s1) > 0){
           cat("\n")
