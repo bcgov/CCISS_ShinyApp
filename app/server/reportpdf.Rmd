@@ -56,7 +56,7 @@ if(exists("pts") & ncol(pts) > 2){
   # Define the reference for points lookup
   pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
 }else{
-  bbox <- st_read(pool, query = paste0("select ST_Envelope(ST_Collect(geom)) from bgc_map where \"BGC\" IN ('",paste(bgc_select,collapse = "','"),"');"))
+  bbox <- st_read(pool, query = paste0("select ST_Transform(ST_Envelope(ST_Collect(geom)),4326) from bgc_map3005 where bgc IN ('",paste(bgc_select,collapse = "','"),"');"))
   bbox2 <- st_coordinates(bbox)[,1:2]
   indPoints = F
 }

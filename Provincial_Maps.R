@@ -22,11 +22,20 @@ con <- dbPool(
   user = Sys.getenv("BCGOV_USR"),
   password = Sys.getenv("BCGOV_PWD")
 )
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
 
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
 outline <- st_read(con,query = "select * from bc_outline")
-
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##code to check that none have the same predictions
 
 # allSites <- dbGetQuery(con,"select distinct rast_id from pts2km_future")
@@ -74,7 +83,7 @@ outline <- st_read(con,query = "select * from bc_outline")
 ##########################################################
 
 #make projected bgc maps - can skip this part
-scn <- "ssp245";fp <- "2041-2060";gcm <- "ACCESS-ESM1-5" ##select options
+scn <- "ssp370";fp <- "2061-2080";gcm <-"GFDL-ESM4" # "ACCESS-ESM1-5" #"MRI-ESM2-0" ##select options
 dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
                              scn,"' and futureperiod = '",fp,"'"))
 setDT(dat)
@@ -135,11 +144,19 @@ ccissMap <- function(SSPred,suit,spp_select){
 }
 
 ###load up bgc predictions data
-timeperiods <- "2041"
+timeperiods <- "2061"
 bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
 setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
-edaPos <- "C4"
+##figure 3c (mean change in feasibiltiy)
+library(RColorBrewer)
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
+
+timeperiods <- "2061-2080"
+edaPos <- "D6"
+
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
 
@@ -155,8 +172,8 @@ library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
-
-for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl"
+spps = c("Cw","Fd","Sx","Pl","Py", "Lw")
+for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
   newFeas[NewSuit > 3, NewSuit := 4]
@@ -172,14 +189,14 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl"
   ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
         breaks=breakpoints, maxpixels= ncell(X),
-        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
   xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
   rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
   text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", "2050s", ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
 }
 
@@ -228,7 +245,7 @@ ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"
 # addret2 <- addret[SiteRef %in% pts$rast_id,]
 
 
-for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
+for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
   addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
   addret[Flag == "Same",PropMod := 0]
@@ -239,7 +256,7 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
   #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
   image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
         col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
-        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos))
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
   plot(outline, add=T, border="black",col = NA, lwd=0.4)
   
   par(xpd=T)
@@ -255,12 +272,13 @@ for(spp in c("Cw", "Yc", "Oa", "Yp")){ ##ignore warnings,"Fd","Sx","Pl", "Yc"
 
 ##edatopic maps
 source("./_functions/_BlobOverlap.R")
-timeperiods <- "2041"
-spp <- "Cw"
+timeperiods <- "2061"
+spp <- "Sx"
 feas_cutoff <- 3
 
 feas_cutoff <- feas_cutoff+0.5
-bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'")))
+bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
+setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 edaBlobs <- fread("EdaBlobs.csv")
 
 # timeperiods <- "2041-2060"
