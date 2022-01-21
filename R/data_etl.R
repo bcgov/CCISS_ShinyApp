@@ -309,16 +309,45 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   return(dat)
 }
 
-# cciss_sql <- paste0("
-#     SELECT futureperiod,
-#            test_future.siteno,
-#            bgc,
-#            bgc_pred,
-#            test_future.gcm,
-#            w.weight
-#     FROM test_future
-#     JOIN (values ",weights,") 
-#     AS w(gcm,scenario,weight)
-#     ON test_future.gcm = w.gcm AND test_future.scenario = w.scenario
-#     WHERE siteno IN (", paste(unique(siteno), collapse = ","), ")
-#     AND futureperiod IN ('2021','2041','2061','2081')")
+#' Pull individual predictions by district
+#' @param con An active postgres DBI connection.
+#' @param siteno A character vector of siteno.
+#' @param avg A boolean. 
+#' @param modWeights A data table of gcm and rcp weights.
+#' @details Get CCISS for provided SiteNo.
+#' @return A data.table containing CCISS information for each provided SiteNo.
+#' @importFrom RPostgres dbGetQuery
+#' @export
+dbGetCCISSRaw <- function(con, district, gcm, scenario, period){
+  
+  cciss_sql <- paste0("
+    SELECT cciss_future12_array.siteno,
+         labels.gcm,
+         labels.scenario,
+         labels.futureperiod,
+         bgc.bgc bgc_pred
+  FROM cciss_future12_array
+  JOIN (select dist_code, siteno from bgc_dist_ids where dist_code = '",district, "') dists
+    ON (dists.siteno = cciss_future12_array.siteno),
+  unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
+               gcm,
+               scenario,
+               futureperiod
+        FROM gcm 
+        CROSS JOIN scenario
+        CROSS JOIN futureperiod) labels
+    ON labels.row_idx = source.row_idx
+  JOIN bgc
+    ON bgc.bgc_id = source.bgc_pred_id
+  WHERE futureperiod = '",period,"'
+  AND scenario = '",scenario,"'
+  AND gcm = '",gcm,"'
+  ")
+  
+  dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
+  dat <- unique(dat) ##should fix database so not necessary
+  #print(dat)
+  return(dat)
+}
+
