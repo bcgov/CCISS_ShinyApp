@@ -14,13 +14,25 @@ library(pool)
 library(RPostgreSQL)
 
 pool <- dbPool(
-drv = RPostgres::Postgres(),
-dbname = Sys.getenv("BCGOV_DB"),
-host = Sys.getenv("BCGOV_HOST"),
-port = 5432,
-user = Sys.getenv("BCGOV_USR"),
-password = Sys.getenv("BCGOV_PWD")
+  drv = RPostgres::Postgres(),
+  dbname = Sys.getenv("BCGOV_DB"),
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
 )
+
+sppDb <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "spp_feas",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432,
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
 "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
