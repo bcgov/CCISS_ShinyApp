@@ -83,6 +83,7 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##########################################################
 
 #make projected bgc maps - can skip this part
+
 scns <- dbGetQuery(con, "select * from scenario")[,2]
 gcms <- dbGetQuery(con,"select * from gcm")[,2]
 fps <- dbGetQuery(con,"select * from futureperiod")[,3]
@@ -113,6 +114,25 @@ for(fp in fps){
   }
 }
 
+
+# scn <- "ssp370";fp <- "2061-2080";gcm <-"GFDL-ESM4" # "ACCESS-ESM1-5" #"MRI-ESM2-0" ##select options
+# dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+#                              scn,"' and futureperiod = '",fp,"'"))
+# setDT(dat)
+# bgcs <- unique(dat$bgc_pred)
+# bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+# cols <- subzones_colours_ref
+# dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+# dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+# 
+# X[dat$rast_id] <- dat$bgcID
+# X2 <- ratify(X)
+# rat <- as.data.table(levels(X2)[[1]])
+# rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+# pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+# plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+# plot(outline, col = NA, add = T)
+# dev.off()
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
@@ -155,8 +175,76 @@ ccissMap <- function(SSPred,suit,spp_select){
   return(suitRes)
 }
 
+
+################### straight predicted feasibility maps #####################
+feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
+area <- st_read("~/Downloads/ReburnBC_StudySite1")
+area <- st_zm(area)
+X <- raster(area, resolution = 400)
+values(X) <- 1:ncell(X)
+hexPts <- st_read("~/BC_HexGrid/BC_HexPoints400m.gpkg")
+hexPts <- st_crop(hexPts, st_bbox(X))
+ids <- raster::extract(X, hexPts)
+cw_table <- data.table(SiteNo = hexPts$siteno,RastID = ids)
+cw_table <- unique(cw_table, by = "RastID")
+
+##gcm and rcp weight
+gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3",
+                                 "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6",
+                                 "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+                         weight = c(0,0,0,1,1,0,0,0,0,0,0,1,0))
+#weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
+rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"),
+                         weight = c(0,1,1,0))
+
+all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+all_weight[,weight := wgcm*wrcp]
+modWeights <- all_weight
+
+dat <- dbGetCCISS(con, cw_table$SiteNo, avg = F, modWeights = all_weight)
+dat[,SiteRef := as.integer(SiteRef)]
+timeperiods <- c("1961","2041","2081")
+edaPos <- c("B2", "C4", "D6")
+species <- c("Fd", "Sx", "Pl", "Bl", "Py", "Lw", "At")
+
+for(tp in timeperiods){
+  datTP <- dat[FuturePeriod == tp,]
+  for(eda in edaPos){
+    edaTemp <- data.table::copy(E1)
+    edaTemp <- edaTemp[is.na(SpecialCode),]
+    
+    edaTemp[,HasPos := if(any(Edatopic == eda)) T else F, by = .(SS_NoSpace)]
+    edaZonal <- edaTemp[(HasPos),]
+    edaZonal[,HasPos := NULL]
+    ##edatopic overlap
+    SSPreds <- edatopicOverlap(datTP,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
+    ##loop through species
+    for(spp in species){
+      sppFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
+      sppFeas <- unique(sppFeas,by = "SiteRef")
+      sppFeas[,SiteRef := as.integer(SiteRef)]
+      sppFeas[cw_table, RastID := i.RastID, on = c(SiteRef = "SiteNo")]
+      sppFeas <- sppFeas[,.(RastID,NewSuit)]
+      X <- raster::setValues(X,NA)
+      X[sppFeas$RastID] <- sppFeas$NewSuit
+      writeRaster(X, filename = paste("./ReburnBC_Maps/CCISSFeas",tp,eda,spp,".tif",sep = "_"),format = "GTiff", overwrite = T)
+      # X2 <- ratify(X)
+      # rat <- as.data.table(levels(X2)[[1]])
+      # rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
+      # 
+      # pdf(file=paste("./FeasibilityMaps/Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+      # plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
+      # plot(outline, col = NA, add = T)
+      # dev.off()
+    }
+  }
+}
+
+
 ###load up bgc predictions data
-timeperiods <- "2061"
+timeperiods <- "2041"
 bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
 setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
@@ -166,8 +254,8 @@ breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
 
-timeperiods <- "2061-2080"
-edaPos <- "D6"
+timeperiods <- "2041-2060"
+edaPos <- "C4"
 
 edaTemp <- data.table::copy(E1)
 edaTemp <- edaTemp[is.na(SpecialCode),]
@@ -179,15 +267,52 @@ edaZonal[,HasPos := NULL]
 SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
 #SSPreds <- SSPreds[grep("01$|h$|00$",SS_NoSpace),] ##note that all below plots are reusing this SSPreds data
 
+##figure simple new feasibility rating maps
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c( "E4","E3","E2","E1")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
+breakpoints <- seq(1,4, by = 1)
+ColScheme <- c("grey50","#0e14c4","#2c6bd1", "grey75", "grey90")
+spp = c("Py")#, "Lw""Cw","Fd","Sx","Pl",
+for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
+  cat("Plotting ",spp,"\n")
+  newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
+ 
+  newFeas[NewSuit > 3, NewSuit := 4]
+  newFeas$NewSuit <- round(newFeas$NewSuit, 0)
+  #newFeas[,FeasChange := Curr - NewSuit]
+  newFeas <- unique(newFeas, by = "SiteRef")
+  newFeas[,SiteRef := as.integer(SiteRef)]
+  ##newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
+  newFeas <- newFeas[!(Curr == 4 & NewSuit == 4),]
+  feasVals <- newFeas[,.(SiteRef,newFeas)]
+  X <- raster::setValues(X,NA)
+  X[feasVals$SiteRef] <- feasVals$newFeas.NewSuit
+  png(file=paste("./FeasibilityMaps/NewFeasibility",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
+  ##pdf(file=paste("./FeasibilityMaps/MeanChange",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
+  image(X,xlab = NA,ylab = NA, xaxt="n", yaxt="n", col=ColScheme, 
+        breaks=breakpoints, maxpixels= ncell(X),
+        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
+  plot(outline, add=T, border="black",col = NA, lwd=0.4)
+  
+  par(xpd=T)
+  xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
+  rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+  text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
+  text(xl-30000, mean(c(yb,yt))-30000, paste("New feasibility rating(", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+  dev.off()
+}
+
 ##figure 3c (mean change in feasibiltiy)
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
 ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]); length(ColScheme)
-spps = c("Cw","Fd","Sx","Pl","Py", "Lw")
+spps = c("Py")#, "Lw""Cw","Fd","Sx","Pl",
 for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
-  newFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
+  newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
+  
   newFeas[NewSuit > 3, NewSuit := 4]
   newFeas[,FeasChange := Curr - NewSuit]
   newFeas <- unique(newFeas, by = "SiteRef")
@@ -210,6 +335,7 @@ for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
   text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
   dev.off()
+  
 }
 
 ##add/retreat (figure 3b)
@@ -447,45 +573,10 @@ dev.off()
 #        title = "Driest Feasible rSMR")
 # dev.off()
 # 
-# ################### straight predicted feasibility maps #####################
-# feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
-# X <- raster("BC_Raster.tif")
-# outline <- st_read(con,query = "select * from bc_outline")
-# ##loop through species
-# for(spp in c("Cw","Fd","Sx","Pl")){
-#   sppFeas <- ccissMap(SSPreds,S1,spp) ##~ 15 seconds
-#   sppFeas <- unique(sppFeas,by = "SiteRef")
-#   sppFeas[,SiteRef := as.integer(SiteRef)]
-#   sppFeas <- sppFeas[,.(SiteRef,NewSuit)]
-#   X <- raster::setValues(X,NA)
-#   X[sppFeas$SiteRef] <- sppFeas$NewSuit
-#   X2 <- ratify(X)
-#   rat <- as.data.table(levels(X2)[[1]])
-#   rat[feasCols,`:=`(col = i.Col), on = c(ID = "Feas")]
-#   
-#   pdf(file=paste("./FeasibilityMaps/Feasibility",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-#   plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(spp," (",timeperiods,")"))
-#   plot(outline, col = NA, add = T)
-#   dev.off()
-# }
+
 
 ##create table
-# gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
-#                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
-#                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-#                          weight = c(1,1,0,1,1,1,1,0,1,1,1,1,0))
-# #weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
-# rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
-#                          weight = c(0.8,1,0.8,0))
-# 
-# all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
-# all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
-# all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
-# all_weight[,weight := wgcm*wrcp]
-# modWeights <- all_weight
-# 
-# modWeights[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
-# weights <- paste(modWeights$comb,collapse = ",")
+
 # 
 # 
 # cciss_sql <- paste0("
