@@ -83,24 +83,36 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##########################################################
 
 #make projected bgc maps - can skip this part
-scn <- "ssp370";fp <- "2061-2080";gcm <-"GFDL-ESM4" # "ACCESS-ESM1-5" #"MRI-ESM2-0" ##select options
-dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
-                             scn,"' and futureperiod = '",fp,"'"))
-setDT(dat)
-bgcs <- unique(dat$bgc_pred)
-bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
-cols <- subzones_colours_ref
-dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
-dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+scns <- dbGetQuery(con, "select * from scenario")[,2]
+gcms <- dbGetQuery(con,"select * from gcm")[,2]
+fps <- dbGetQuery(con,"select * from futureperiod")[,3]
+system("mkdir BGCFuturesMaps")
 
-X[dat$rast_id] <- dat$bgcID
-X2 <- ratify(X)
-rat <- as.data.table(levels(X2)[[1]])
-rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
-pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
-plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
-plot(outline, col = NA, add = T)
-dev.off()
+for(fp in fps){
+  for(gcm in gcms){
+    for(scn in scns){
+      cat(".")
+      dat <- dbGetQuery(con,paste0("select rast_id, bgc_pred from pts2km_future where gcm = '",gcm,"' and scenario = '",
+                                   scn,"' and futureperiod = '",fp,"'"))
+      setDT(dat)
+      bgcs <- unique(dat$bgc_pred)
+      bgcID <- data.table(bgc = bgcs, id = 1:length(bgcs))
+      cols <- subzones_colours_ref
+      dat[cols,Col := i.colour, on = c(bgc_pred = "classification")]
+      dat[bgcID,bgcID := i.id, on = c(bgc_pred = "bgc")]
+      
+      X[dat$rast_id] <- dat$bgcID
+      X2 <- ratify(X)
+      rat <- as.data.table(levels(X2)[[1]])
+      rat[dat,`:=`(bgc = i.bgc_pred, col = i.Col), on = c(ID = "bgcID")]
+      pdf(file=paste0("./BGCFuturesMaps/BGC_Projections",gcm,fp,scn,".pdf"), width=6.5, height=7, pointsize=10)
+      plot(X2,col = rat$col,legend = FALSE,axes = FALSE, box = FALSE, main = paste0(gcm," (",fp,", ",scn,")"))
+      plot(outline, col = NA, add = T)
+      dev.off()
+    }
+  }
+}
+
 
 ##cciss feasibility
 ##script to process 4km subsampled data and create feasibility ratings
