@@ -1,7 +1,7 @@
 ## spatial climates
 library(data.table)
 library(sf)
-library(RPostgreSQL)
+library(RPostgres)
 library(dplyr)
 library(foreach)
 library(rmapshaper)
@@ -86,7 +86,7 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
 scns <- dbGetQuery(con, "select * from scenario")[,2]
 gcms <- dbGetQuery(con,"select * from gcm")[,2]
-fps <- dbGetQuery(con,"select * from futureperiod")[,3]
+fps <- dbGetQuery(con,"select fp_full from futureperiod")[,1]
 system("mkdir BGCFuturesMaps")
 
 for(fp in fps){
