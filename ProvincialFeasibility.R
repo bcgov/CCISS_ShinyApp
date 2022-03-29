@@ -78,7 +78,14 @@ all_weight[,weight := wgcm*wrcp]
 all_weight[,comb := paste0("('",gcm,"','",rcp,"',",weight,")")]
 weights <- paste(all_weight$comb,collapse = ",")
 
-cciss_sql <- paste0("WITH cciss AS (
+runCCISS <- function(con, bgcSelect, weights, spp_select){
+  cciss_sql <- paste0("
+  WITH test_points AS (
+    SELECT * 
+    FROM preselected_points
+    WHERE bgc IN ('",paste(bgcSelect,collapse = "','") ,"')
+  ),
+  cciss AS (
     SELECT cciss_future12_array.siteno,
          test_points.dist_code,
          labels.gcm,
@@ -173,17 +180,23 @@ cciss_sql <- paste0("WITH cciss AS (
     JOIN test_points
       ON (cciss_curr.siteno = test_points.siteno);
   ")
+  
+  dat <- setDT(dbGetQuery(con, cciss_sql))
+  setorder(dat, bgc, dist_code, futureperiod, bgc_pred)
+  dat[,SiteRef := paste0(bgc,"_",dist_code)]
+  setnames(dat, new = c("FuturePeriod","BGC","BGC.pred","BGC.prop"),
+           old = c("futureperiod","bgc","bgc_pred","bgc_prop"))
+  
+  dat <- dat[,.(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)]
+  SSPreds <- edatopicOverlap(dat, E1, E1_Phase, onlyRegular = T)
+  
+  cciss_feas <- cciss_feasibility(SSPreds, S1, spp_select = spp_select)
+  return(cciss_feas)
+}
 
-dat <- setDT(dbGetQuery(pool, cciss_sql))
-setorder(dat, bgc, dist_code, futureperiod, bgc_pred)
-dat[,SiteRef := paste0(bgc,"_",dist_code)]
-setnames(dat, new = c("FuturePeriod","BGC","BGC.pred","BGC.prop"),
-         old = c("futureperiod","bgc","bgc_pred","bgc_prop"))
+dat1 <- runCCISS(pool,c("SBSdk","SBSmc2"),weights,"Pl")
 
-dat <- dat[,.(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)]
-SSPreds <- edatopicOverlap(dat, E1, E1_Phase, onlyRegular = T)
 
-cciss_feas <- cciss_feasibility(SSPreds, S1, spp_select = "Pl")
 ##setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 ##test <- dat[,.(Tot = sum(bgc_prop)), by = .(bgc,dist_code,futureperiod)]
 
