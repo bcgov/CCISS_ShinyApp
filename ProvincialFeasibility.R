@@ -25,7 +25,7 @@ sppDb <- dbPool(
 ##adapted feasibility function
 cciss_feasibility <- function(SSPred,suit,spp_select){
   
-  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[Spp %chin% spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
@@ -35,6 +35,9 @@ cciss_feasibility <- function(SSPred,suit,spp_select){
   setkey(suit,SS_NoSpace)
   suitMerge <- suit[SSPred, allow.cartesian = T]
   suitMerge <- na.omit(suitMerge)
+  if(nrow(suitMerge) < 3){
+    return(NULL)
+  }
   setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
   suitVotes <- data.table::dcast(suitMerge, SiteRef + Spp + FuturePeriod + SS_NoSpace ~ Feasible, 
                                  value.var = "SSprob", fun.aggregate = sum)
@@ -182,19 +185,31 @@ runCCISS <- function(con, bgcSelect, weights, spp_select){
   ")
   
   dat <- setDT(dbGetQuery(con, cciss_sql))
-  setorder(dat, bgc, dist_code, futureperiod, bgc_pred)
-  dat[,SiteRef := paste0(bgc,"_",dist_code)]
-  setnames(dat, new = c("FuturePeriod","BGC","BGC.pred","BGC.prop"),
-           old = c("futureperiod","bgc","bgc_pred","bgc_prop"))
+  if(nrow(dat) < 5){
+    return(NULL)
+  }else{
+    setorder(dat, bgc, dist_code, futureperiod, bgc_pred)
+    dat[,SiteRef := paste0(bgc,"_",dist_code)]
+    setnames(dat, new = c("FuturePeriod","BGC","BGC.pred","BGC.prop"),
+             old = c("futureperiod","bgc","bgc_pred","bgc_prop"))
+    
+    dat <- dat[,.(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)]
+    SSPreds <- edatopicOverlap(dat, E1, E1_Phase, onlyRegular = T)
+    
+    cciss_feas <- cciss_feasibility(SSPreds, S1, spp_select = spp_select)
+    return(cciss_feas)
+  }
   
-  dat <- dat[,.(SiteRef,FuturePeriod,BGC,BGC.pred,BGC.prop)]
-  SSPreds <- edatopicOverlap(dat, E1, E1_Phase, onlyRegular = T)
-  
-  cciss_feas <- cciss_feasibility(SSPreds, S1, spp_select = spp_select)
-  return(cciss_feas)
 }
 
-dat1 <- runCCISS(pool,c("SBSdk","SBSmc2"),weights,"Pl")
+bgcOpts <- dbGetQuery(pool, "select distinct bgc from preselected_points")[,1]
+library(foreach)
+out <- foreach(bgc = bgcOpts, .combine = rbind) %do% {
+  cat("Processing",bgc,"\n")
+  dat1 <- runCCISS(pool,c(bgc),weights,c("Py","Pl","Sx"))
+  dat1
+}
+
 
 
 ##setnames(dat, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
