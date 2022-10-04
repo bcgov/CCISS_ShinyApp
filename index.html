@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>B.C. Climate Change Informed Tree Species Selection • bccciss</title>
+<title>B.C. Climate Change Informed Tree Species Selection • ccissdev</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -30,19 +32,13 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">bccciss</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9990</span>
+        <a class="navbar-link" href="index.html">ccissdev</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0.9990</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -59,40 +55,35 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="cciss_shinyapp" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#cciss_shinyapp" class="anchor"></a>CCISS_ShinyApp</h1></div>
-<p>CCISS RMD knitr report graphics and Shiny App This repository is a fork of a development CCISS R script for devexchange code-with-us development. There are two development tasks.</p>
-<ol>
-<li>Add in several graphical summaries for an existing CCISS RMD for a formatted knitr report of the RMD. The graphical formats parallel existing web reporting</li>
-<li>Build a shiny app version of the CCISS rmd. A scaleable BEC map interface for retrieving lat/long for submission to the CCISS script. Graphical output of BGC futures, tree species feasibility ratings by timeperiod, and display of existing stocking standard recommendations</li>
-</ol>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
+<div class="section level1">
+<div class="page-header"><h1 id="cciss_shinyapp">CCISS_ShinyApp<a class="anchor" aria-label="anchor" href="#cciss_shinyapp"></a>
+</h1></div>
+<p>CCISS RMD knitr report graphics and Shiny App This repository is a fork of a development CCISS R script for devexchange code-with-us development. There are two development tasks. 1. Add in several graphical summaries for an existing CCISS RMD for a formatted knitr report of the RMD. The graphical formats parallel existing web reporting 2. Build a shiny app version of the CCISS rmd. A scaleable BEC map interface for retrieving lat/long for submission to the CCISS script. Graphical output of BGC futures, tree species feasibility ratings by timeperiod, and display of existing stocking standard recommendations</p>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"bcgov/CCISS_ShinyApp"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"bcgov/CCISS_ShinyApp"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="run-locally" class="section level3">
-<h3 class="hasAnchor">
-<a href="#run-locally" class="anchor"></a>Run locally</h3>
+<div class="section level3">
+<h3 id="run-locally">Run locally<a class="anchor" aria-label="anchor" href="#run-locally"></a>
+</h3>
 <ul>
 <li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
 </li>
 <li>Clone repository</li>
 <li>Setup environment variables</li>
-<li>Open <code>./app/index.Rmd</code>
-</li>
-<li>Click on <code>Run Document</code>
+<li>Open project</li>
+<li>Run <code>shiny::runApp("./app")</code>
 </li>
 </ul>
 </div>
-<div id="deploy-to-shinyappsio" class="section level3">
-<h3 class="hasAnchor">
-<a href="#deploy-to-shinyappsio" class="anchor"></a>Deploy to shinyapps.io</h3>
+<div class="section level3">
+<h3 id="deploy-to-shinyappsio">Deploy to shinyapps.io<a class="anchor" aria-label="anchor" href="#deploy-to-shinyappsio"></a>
+</h3>
 <ul>
 <li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
 </li>
@@ -101,14 +92,14 @@
 <li>Open <code>./app/index.Rmd</code>
 </li>
 <li>
-<a href="https://shiny.rstudio.com/articles/shinyapps.html">Deploy to Shinyapps.io</a> using RStudio publish button</li>
+<a href="https://shiny.rstudio.com/articles/shinyapps.html" class="external-link">Deploy to Shinyapps.io</a> using RStudio publish button</li>
 <li>Select <code>.Renviron</code>, <code>index.Rmd</code>, <code>www</code>, <code>server</code> only</li>
 </ul>
 <p><img src="data-raw/screenshots/rstudioreference.png"></p>
 </div>
-<div id="renviron" class="section level3">
-<h3 class="hasAnchor">
-<a href="#renviron" class="anchor"></a>.Renviron</h3>
+<div class="section level3">
+<h3 id="renviron">.Renviron<a class="anchor" aria-label="anchor" href="#renviron"></a>
+</h3>
 <p>The app requires the following environment variables.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="va">BCGOV_USR=</span>{<span class="ex">postgres</span> user}</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="va">BCGOV_PWD=</span>{<span class="ex">postgres</span> password}</span>
@@ -121,89 +112,80 @@
 <span id="cb2-9"><a href="#cb2-9"></a><span class="va">BCGOV_MAPBOX_HILLSHADE_STYLE=</span>{<span class="ex">mapbox</span> hillshade style ref user/styleref}</span></code></pre></div>
 </div>
 </div>
-<div id="repository-structure" class="section level2">
-<h2 class="hasAnchor">
-<a href="#repository-structure" class="anchor"></a>Repository structure</h2>
-<div id="r-packages-folders" class="section level4">
-<h4 class="hasAnchor">
-<a href="#r-packages-folders" class="anchor"></a>R packages folders</h4>
-<div id="app" class="section level5">
-<h5 class="hasAnchor">
-<a href="#app" class="anchor"></a>app</h5>
-<p>CCISS Flexdashboard app</p>
+<div class="section level2">
+<h2 id="repository-structure">Repository structure<a class="anchor" aria-label="anchor" href="#repository-structure"></a>
+</h2>
+<div class="section level4">
+<h4 id="r-packages-folders">R packages folders<a class="anchor" aria-label="anchor" href="#r-packages-folders"></a>
+</h4>
+<div class="section level5">
+<h5 id="app">app<a class="anchor" aria-label="anchor" href="#app"></a>
+</h5>
+<p>CCISS Shiny app</p>
 </div>
-<div id="data" class="section level5">
-<h5 class="hasAnchor">
-<a href="#data" class="anchor"></a>data</h5>
-<p>Standard R package folder for the <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages">Data in packages</a>. Data is generated from <code>create_package_data</code> script in <code>data-raw/scripts</code>. The script is run manually to update data as needed. When a package includes data, they are available like other objects after you load the library.</p>
+<div class="section level5">
+<h5 id="data">data<a class="anchor" aria-label="anchor" href="#data"></a>
+</h5>
+<p>Standard R package folder for the <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages" class="external-link">Data in packages</a>. Data is generated from <code>create_package_data</code> script in <code>data-raw/scripts</code>. The script is run manually to update data as needed. When a package includes data, they are available like other objects after you load the library.</p>
 </div>
-<div id="data-raw" class="section level5">
-<h5 class="hasAnchor">
-<a href="#data-raw" class="anchor"></a>data-raw</h5>
-<p><a href="https://r-pkgs.org/data.html?q=data-raw#data-sysdata">Commonly used</a> to store scripts to create package assets. This can include model training, package data creation or, like this package, tiles creation. Usually code in this folder is ran manually and is not part of the package but kept with the package repository.</p>
+<div class="section level5">
+<h5 id="data-raw">data-raw<a class="anchor" aria-label="anchor" href="#data-raw"></a>
+</h5>
+<p><a href="https://r-pkgs.org/data.html?q=data-raw#data-sysdata" class="external-link">Commonly used</a> to store scripts to create package assets. This can include model training, package data creation or, like this package, tiles creation. Usually code in this folder is ran manually and is not part of the package but kept with the package repository.</p>
 </div>
-<div id="inst" class="section level5">
-<h5 class="hasAnchor">
-<a href="#inst" class="anchor"></a>inst</h5>
-<p>Standard R package folder. The contents of the <code>inst</code> subdirectory will be copied recursively to the installation directory. This is described in <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages">Data in packages</a></p>
+<div class="section level5">
+<h5 id="inst">inst<a class="anchor" aria-label="anchor" href="#inst"></a>
+</h5>
+<p>Standard R package folder. The contents of the <code>inst</code> subdirectory will be copied recursively to the installation directory. This is described in <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages" class="external-link">Data in packages</a></p>
 </div>
-<div id="man" class="section level5">
-<h5 class="hasAnchor">
-<a href="#man" class="anchor"></a>man</h5>
-<p>Standard R package folder for documentation. Where <code>roxygen2</code> saves generated documentation. This package use <a href="https://roxygen2.r-lib.org/"><code>roxygen2</code></a> to make documenting functions and objects easier.</p>
+<div class="section level5">
+<h5 id="man">man<a class="anchor" aria-label="anchor" href="#man"></a>
+</h5>
+<p>Standard R package folder for documentation. Where <code>roxygen2</code> saves generated documentation. This package use <a href="https://roxygen2.r-lib.org/" class="external-link"><code>roxygen2</code></a> to make documenting functions and objects easier.</p>
 </div>
-<div id="r" class="section level5">
-<h5 class="hasAnchor">
-<a href="#r" class="anchor"></a>R</h5>
+<div class="section level5">
+<h5 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
+</h5>
 <p>Also standard, this package R functions, methods and objects are there. The code there will be included with the package when it is built.</p>
 </div>
-<div id="src" class="section level5">
-<h5 class="hasAnchor">
-<a href="#src" class="anchor"></a>src</h5>
-<p><a href="https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages">Also standard</a>. Code which needs to be compiled.</p>
+<div class="section level5">
+<h5 id="src">src<a class="anchor" aria-label="anchor" href="#src"></a>
+</h5>
+<p><a href="https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages" class="external-link">Also standard</a>. Code which needs to be compiled.</p>
 </div>
 </div>
-<div id="building-packages" class="section level4">
-<h4 class="hasAnchor">
-<a href="#building-packages" class="anchor"></a>Building packages</h4>
-<p>R is a great community. There is a lot of great resources on how to build packages. I highly recommend <a href="https://r-pkgs.org/">R packages by Hadley Wickham and Jenny Bryan</a>.</p>
+<div class="section level4">
+<h4 id="building-packages">Building packages<a class="anchor" aria-label="anchor" href="#building-packages"></a>
+</h4>
+<p>R is a great community. There is a lot of great resources on how to build packages. I highly recommend <a href="https://r-pkgs.org/" class="external-link">R packages by Hadley Wickham and Jenny Bryan</a>.</p>
 </div>
-<div id="special" class="section level4">
-<h4 class="hasAnchor">
-<a href="#special" class="anchor"></a>Special</h4>
-<div id="gitignore" class="section level5">
-<h5 class="hasAnchor">
-<a href="#gitignore" class="anchor"></a>.gitignore</h5>
-<p>Tells git which files to ignore. See <a href="https://git-scm.com/docs/gitignore">git documentation</a>.</p>
+<div class="section level4">
+<h4 id="special">Special<a class="anchor" aria-label="anchor" href="#special"></a>
+</h4>
+<div class="section level5">
+<h5 id="gitignore">.gitignore<a class="anchor" aria-label="anchor" href="#gitignore"></a>
+</h5>
+<p>Tells git which files to ignore. See <a href="https://git-scm.com/docs/gitignore" class="external-link">git documentation</a>.</p>
 </div>
-<div id="rbuildignore" class="section level5">
-<h5 class="hasAnchor">
-<a href="#rbuildignore" class="anchor"></a>.Rbuildignore</h5>
-<p>Tells R which files to ignore when it builds the package. See <a href="https://cran.r-project.org/doc/manuals/R-exts.html#index-_002eRbuildignore-file">Writing R extension</a>.</p>
+<div class="section level5">
+<h5 id="rbuildignore">.Rbuildignore<a class="anchor" aria-label="anchor" href="#rbuildignore"></a>
+</h5>
+<p>Tells R which files to ignore when it builds the package. See <a href="https://cran.r-project.org/doc/manuals/R-exts.html#index-_002eRbuildignore-file" class="external-link">Writing R extension</a>.</p>
 </div>
-<div id="github" class="section level5">
-<h5 class="hasAnchor">
-<a href="#github" class="anchor"></a>.github</h5>
-<p>Github actions workflows.</p>
-<ul>
-<li>Package checks (R-CMD-check)</li>
-<li>Online documentation (pkgdown),</li>
-<li>Tests coverages report (test-coverage)</li>
-<li>Style code / run roxygen2 (pr-commands) You can read more about actions from <a href="https://github.com/r-lib/actions">r-lib/actions</a>
-</li>
-</ul>
+<div class="section level5">
+<h5 id="github">.github<a class="anchor" aria-label="anchor" href="#github"></a>
+</h5>
+<p>Github actions workflows. - Package checks (R-CMD-check) - Online documentation (pkgdown), - Tests coverages report (test-coverage) - Style code / run roxygen2 (pr-commands) You can read more about actions from <a href="https://github.com/r-lib/actions" class="external-link">r-lib/actions</a></p>
 <p>Workflows are setup or updated with the following instruction.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/tidyverse.html">use_tidy_github_actions</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Custom modifications made.</p>
-<ul>
-<li>Reduce the number of target for R CMD check.</li>
-</ul>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/tidyverse.html" class="external-link">use_tidy_github_actions</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Custom modifications made.<br>
+- Reduce the number of target for R CMD check.</p>
 <p>To disable a workflow, go the github actions tab, select a workflow, click on the … dots on the right and select disable workflow.</p>
 <hr>
 <p>Copyright 2021 Province of British Columbia</p>
 <p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
-<p><a href="http://www.apache.org/licenses/LICENSE-2.0" class="uri">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0" class="external-link uri">http://www.apache.org/licenses/LICENSE-2.0</a></p>
 <p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
 </div>
 </div>
@@ -213,38 +195,51 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>Apache License (== 2)</small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 </ul>
 </div>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ccissdev</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Will MacKenzie <br><small class="roles"> Maintainer, author </small>  </li>
 <li>Kiri Daust <br><small class="roles"> Author </small>  </li>
 <li> Province of British Columbia <br><small class="roles"> Copyright holder, funder </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Will MacKenzie, Kiri Daust,  Province of British Columbia.</p>
+  <p></p>
+<p>Developed by Will MacKenzie, Kiri Daust, Province of British Columbia.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -252,6 +247,8 @@
 
   
 
+
+  
 
   </body>
 </html>
