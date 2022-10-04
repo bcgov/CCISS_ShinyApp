@@ -1,4 +1,4 @@
-Package: bccciss
+Package: ccissdev
 Title: B.C. Climate Change Informed Tree Species Selection
 Version: 1.0.0.9990
 Authors@R: c(
@@ -20,11 +20,17 @@ Imports:
     leaflet.extras,
     analogsea,
     DT,
-    flexdashboard (>= 0.5.2.90),
     plotly,
     pool,
     prettydoc,
-    pagedown
+    pagedown,
+    foreach,
+    nloptr,
+    ggplot2,
+    ggthemes,
+    magrittr,
+    scales,
+    prompter
 Suggests:
     bcdata,
     bcmaps,
@@ -33,10 +39,9 @@ Suggests:
     readxl
 Remotes:
     bcgov/bcdata,
-    bcgov/bcmaps,
-    rstudio/flexdashboard
+    bcgov/bcmaps
 LinkingTo: Rcpp
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 SystemRequirements: chromium-browser

@@ -20,6 +20,7 @@ output$report_download <- downloadHandler(
   content = function(file) {
     uData$site_series_filter <- input$report_filter
     uData$feasibility_filter <- input$report_filter_feas
+    uData$pool <- pool
     withProgress(min = 0, max = 4, value = 1, message = "Processing report", {
 
       if (input$report_format == "html") {
@@ -78,17 +79,18 @@ output$report_download <- downloadHandler(
 )
 
 output$data_download <- downloadHandler(
-  # For PDF output, change this to "report.pdf"
   filename = function() {
-    paste("cciss_export", input$data_format, sep = ".")
+    paste("cciss_export", "zip", sep = ".")
   },
   content = function(file) {
     if (input$data_format == "rds") {
       # rds only returns R serialized data
       uData$site_series_filter <- input$report_filter
-      saveRDS(uData, file)
+      saveRDS(uData, "cciss_export.rds")
+      zip(file,c("cciss_export.rds","./www/downloadable_docs/CCISS_DataExport_MetaData.pdf"))
     } else if (input$data_format == "csv") {
-      fwrite(uData$cciss_results[, -c("PredFeasSVG", "MidRotTrend")], file)
+      fwrite(uData$cciss_results[, -c("PredFeasSVG")], "cciss_data.csv")
+      zip(file,c("cciss_data.csv","CCISS_DataExport_MetaData.pdf"))
     }
   }
 )

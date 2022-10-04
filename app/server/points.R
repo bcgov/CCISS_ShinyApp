@@ -15,17 +15,26 @@ uData$pts_col <- 1L:ncol(uData$basepoints)
 # Exclude popups column, column indexes to show in the UI
 uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
 
-userpoints <- reactiveValues(dt = uData$basepoints)
+userpoints <- reactiveValues(dt = uData$basepoints,bgc_pts = NULL)
+
+observeEvent(input$bgc_click,{
+  session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
+})
 
 # Input management ----
 output$points_table <- DT::renderDataTable({
   pts <- userpoints$dt
-  DT::datatable(
-    pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
-    options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
-                   scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
-    editable = list(target = "row", disable = list(columns = c(1,5)))
-  )
+  if(nrow(pts) > 0){
+    DT::datatable(
+      pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
+      options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
+                     scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
+      editable = list(target = "row", disable = list(columns = c(1,5)))
+    )
+  }else{
+    NULL
+  }
+  
 })
 
 ## Points update logic
@@ -47,7 +56,7 @@ new_points <- function(points) {
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
       res <- dbPointInfo(pool, points)
       points[, `:=`(
-        BGC = res$map_label,
+        BGC = if(uData$bec_click_flag) input$bgc_point_click else res$map_label,
         ForestRegion = res$forest_region,
         Site = res$site_no,
         # Only replace elevation with DEM when not provided by the user
@@ -83,6 +92,7 @@ new_points <- function(points) {
     } else {
       removeModal()
     }
+    uData$bec_click_flag <- FALSE
     return(points)
   })
 }
@@ -103,7 +113,7 @@ observeEvent(input$upload_button,{
       fileInput(inputId = "points_upload", label =  "Delimited file (csv, txt)",
                 accept = c(".csv", ".txt"), buttonLabel = "Browse...", placeholder = "My points"),
       span("The app will detect the first case-insensitive column names that match",
-           tags$code("id"), ",",
+           tags$code("id"), "or",tags$code("site"),",",
            tags$code("latitude"), ",",
            tags$code("longitude"), "and",
            tags$code("elevation"), ".",
@@ -150,7 +160,7 @@ insert_points_file <- function(datapath){
   }
   
   nm <- names(points)
-  id_j <- head(grep("^id", nm, ignore.case = TRUE), 1)
+  id_j <- head(grep("^id|^site", nm, ignore.case = TRUE), 1)
   lat_j <- head(grep("^lat|latitude", nm, ignore.case = TRUE), 1)
   lng_j <- head(grep("^lng|^long|longitude", nm, ignore.case = TRUE), 1)
   ele_j <- head(grep("^elev|elevation", nm, ignore.case = TRUE), 1)
@@ -174,11 +184,31 @@ insert_points_file <- function(datapath){
     )
     return(NULL)
   }
+  
+  if(any(grepl("siteseries", names(points),ignore.case = T))){
+    showModal(
+      modalDialog(
+        title = "SiteSeries",
+        "Importing Selected Site series",
+        easyClose = TRUE
+      )
+    )
+    ss_cols <- grep("siteseries",names(points),ignore.case = T)
+    ss_list <- list()
+    for(j in 1:nrow(points)){
+      temp <- unname(unlist(points[j,..ss_cols]))
+      temp <- temp[!is.na(temp) & temp != ""]
+      ss_list[[points[[id_j]][j]]] <- temp
+    }
+    uData$ss_list <- ss_list
+  }
 
   cln_j <- function(j) {if (length(j) > 0) {as.numeric(points[[j]])} else {NA_real_}}
   clc_j <- function(j) {if (length(j) > 0) {as.character(points[[j]])} else {NA_character_}}
-  points <- data.table(ID = clc_j(id_j), Long = cln_j(lng_j), Lat = cln_j(lat_j),
+  points <- data.table(ID = clc_j(id_j), Long = -(abs(cln_j(lng_j))), Lat = cln_j(lat_j),
                        Elev = cln_j(ele_j))
+  
+  updateRadioButtons(session,"aggregation",selected = "FALSE")
   points <- new_points(points)
   insert_points(points)
   set_map_bound()
@@ -230,6 +260,20 @@ observeEvent(input$delete_button,{
 observeEvent(input$clear_button,{
   userpoints$dt <- uData$basepoints
   clear_mk()
+})
+
+observeEvent(input$clear_selections,{
+  userpoints$dt <- uData$basepoints
+  clear_mk()
+  updateRadioButtons(session,"preselected",selected = "N")
+})
+
+##redraw point when going back to select tab
+observeEvent(input$active_tab,{
+  if(input$active_tab == 0){
+    clear_mk()
+    draw_mk()
+  }
 })
 
 ## Edit points logic

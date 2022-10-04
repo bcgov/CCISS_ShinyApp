@@ -16,25 +16,74 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-#' EDA Topic Overlap
+# SSPred <- combAll
+# suit <- fread("~/CommonTables/Feasibility_v12_3.csv")
+# setnames(suit, old = "SppVar", new = "Spp")
+# F1 <- suit
+# save(F1,file = "./data/F1.rda")
+#' ccissOutput
 #' @param SSPred A data.table. Predictions input.
 #' @param suit A data.table. Suitability.
 #' @param rules A data.table. Set of rules.
 #' @param feasFlag A data.table. Flag depending on feasibility differential.
+#' @param histWeights A numeric vector of length 3.
+#' @param futureWeights A numeric vector of length 4.
 #' @details What the function does
 #' @return What the function returns
 #' @importFrom matrixStats rowMaxs
 #' @importFrom dplyr select everything mutate across full_join filter
+#' @importFrom stats weighted.mean
 #' @export
-ccissOutput <- function(SSPred,suit,rules,feasFlag){
+ccissOutput <- function(SSPred,suit,rules,feasFlag,histWeights,futureWeights){
+  
+  # Declare binding for checks
+  if (FALSE) {
+    BGC <-
+      SS_NoSpace <-
+      Spp <-
+      Feasible <-
+      SiteRef <-
+      FuturePeriod <-
+      SS.pred <-
+      SSprob <-
+      VoteSum <-
+      `1` <-
+      `2` <-
+      `3` <-
+      `4` <-
+      `5` <-
+      X <-
+      Curr <-
+      i.Feasible <-
+      ModAgree <-
+      NewSuit <-
+      SuitDiff <-
+      Xadj <-
+      X2 <-
+      NewSuitFrac <-
+      Flag <-
+      i.Flag <-
+      Improve <-
+      Decline <-
+      Weight <-
+      i.Weight <-
+      ccissSuit <-
+      ccissSuitFrac <-
+      OrderCol <-
+      IncludeFlag <-
+      NULL
+  }
+  
  ### generate raw feasibility ratios
-  suit <- suit[,.(BGC,SS_NoSpace,Spp,Feasible)]
+  ccissWt <- data.table(FuturePeriod = c(2021,2041,2061,2081),
+                        Weight = futureWeights)
+  
+  suit <- suit[,list(BGC,SS_NoSpace,Spp,Feasible)]
   ## replace the coast/interior divisions of species
   suit <- unique(suit)
   suit <- na.omit(suit)
-  SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
-  Site_BGC <- unique(SSPred[,.(SiteRef,BGC)])
+  SSPred <- SSPred[,list(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
+  Site_BGC <- unique(SSPred[,list(SiteRef,BGC)])
   SSPred <- na.omit(SSPred)
   setkey(SSPred,SS.pred)
   setkey(suit,SS_NoSpace)
@@ -60,31 +109,30 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   suitVotes[,FuturePeriod := as.integer(FuturePeriod)]
   suitVotes[Curr > 3.5, Curr := 4]
   suitVotes[NewSuit > 3.5, NewSuit := 4]
-  suitVotes[,SuitDiff := stepDiff(FuturePeriod,NewSuit,Curr), by = .(SiteRef,SS_NoSpace,Spp)] ## final raw output table
-  suitVotes <- suitVotes %>% dplyr::select(SiteRef, Spp, FuturePeriod, SS_NoSpace, Curr, NewSuit, dplyr::everything() )
-  
+  suitVotes[,SuitDiff := stepDiff(FuturePeriod,NewSuit,Curr), by = list(SiteRef,SS_NoSpace,Spp)] ## final raw output table
+
   ##Generate summary feasibility from raw proportions
-  histWt <- 0.3
-  currWt <- 0.35    ## weight in summary given to the modern climate change period
-  earlyWt <- 0.35   ## weight in summary given to the 2010-2040 climate change period
+  histWt <- histWeights[1]
+  currWt <- histWeights[2]    ## weight in summary given to the modern climate change period
+  earlyWt <- histWeights[3]   ## weight in summary given to the 2010-2040 climate change period
 
   colNms <- c("1","2","3","X")
-  datFeas <- suitVotes[FuturePeriod %in% c(1975 ,2000, 2025),]
-  datFeas[FuturePeriod == 1975, (colNms) := lapply(.SD,"*",histWt), .SDcols = colNms]
-  datFeas[FuturePeriod == 2000, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]##Write c function
-  datFeas[FuturePeriod == 2025, (colNms) := lapply(.SD,"*",earlyWt), .SDcols = colNms]
+  datFeas <- suitVotes[FuturePeriod %in% c(1961 ,1991, 2021),]
 
-  datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datFeas2 <- datFeas
+  datFeas[FuturePeriod == 1961, (colNms) := lapply(.SD,"*",histWt), .SDcols = colNms]
+  datFeas[FuturePeriod == 1991, (colNms) := lapply(.SD,"*",currWt), .SDcols = colNms]
+  datFeas[FuturePeriod == 2021, (colNms) := lapply(.SD,"*",earlyWt), .SDcols = colNms]
+
+  datFeas <- datFeas[,lapply(.SD, sum),.SDcols = colNms, by = list(SiteRef,SS_NoSpace,Spp,Curr)]
   ## ADD VARIABLE THAT IS 1-SUM OF 1-4 COLUMNS THAN ADD VALUE TO x COLUMN TO ACCOUNT FOR nULL FUTURES AND MAKE ROW SUM = 1
-  datFeas2[,Xadj := rowSums(.SD), .SDcols = colNms]
-  datFeas2 <- datFeas2 %>% dplyr::mutate (Xadj2 = 1 - Xadj) %>% dplyr::mutate(X2 = X + Xadj2)# %>% select (-Xadj)
+
+  datFeas[,Xadj := rowSums(.SD), .SDcols = colNms]
+  datFeas[,X2 := X + (1-Xadj)]
    ## THEN VARIABLE THAT IS SUM OF COL1 + COL2*2, COL3*3, COL 'X'* 4 and then round(0) for establishment feasibility
-  datFeas2 <- datFeas2 %>% dplyr::mutate(NewSuit = `1` +(`2` * 2 ) + (`3` * 3) + (X2 * 4)) %>% dplyr::mutate(dplyr::across(NewSuit, round, 0))
-  datFeas <- datFeas2 %>% dplyr::select(1:7, X2, NewSuit)
- 
-  
-  #fwrite(datFeas, "testEstFeas.csv")
+  datFeas[,NewSuitFrac := `1`+(`2`*2)+(`3`*3)+(X2*5)]
+  datFeas[,NewSuit := round(NewSuitFrac,0)]
+  datFeas[,`:=`(X = NULL,Xadj = NULL)]
+
   #datFeas[,FeasEstab := `1`+`2`+0.75*`3`] 
   # datFeas[,NewSuit := round(NewSuit, digits = 0)]
   datFeas[NewSuit >= 4,NewSuit := 10]
@@ -95,92 +143,86 @@ ccissOutput <- function(SSPred,suit,rules,feasFlag){
   datFeas[Curr == 10 & NewSuit == 10, Flag := "NotIn"]
   added <- c("A1", "A2", "A3")
   datFeas <- datFeas[Curr == 10 & (Flag %in% added), Curr := 4 ]
-  datFeas_final <- datFeas %>% dplyr::select(SiteRef,SS_NoSpace,Spp,Curr,NewSuit, SuitDiff, Flag) %>% dplyr::mutate(dplyr::across(NewSuit, round, 0))%>%
+  datFeas_final <- datFeas %>% dplyr::select(SiteRef,SS_NoSpace,Spp,NewSuit,NewSuitFrac, SuitDiff, Flag) %>% dplyr::mutate(dplyr::across(NewSuit, round, 0))%>%
            dplyr::mutate(NewSuit = sub('10', 'X', NewSuit)) 
   
-  #### use flag to update next section where species is added in current period
-  datEarly <- suitVotes[FuturePeriod == 2025,]
+  ###mid rotation trend using 41-60 and 61-80 - used for bifurcation
+  datRot <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
   
-  datEarly <- datEarly[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datEarly2 <- datEarly
-  datEarly2 <- datEarly2 %>% dplyr::mutate(Suit2025 = `1` +(`2` * 2 ) + (`3` * 3) + (X * 4)) %>% dplyr::mutate (change2025 = Curr- Suit2025) %>% 
-    dplyr::mutate(dplyr::across(Suit2025, round, 0)) %>% dplyr::mutate(Suit2025 = sub('4', 'X', Suit2025))
+  ##calculate bifurcating
+  datRot[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
+  datRot[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
   
-  datEarly2 <- datEarly2 %>% dplyr::mutate(Trajectory2025 = 
-                                  ifelse(change2025 >=1.5, "Strongly Improving", 
-                                         ifelse(change2025>=.5 & change2025<1.5, "Improving",
-                                                ifelse(change2025 >= -.5 & change2025 <.5, "Stable",
-                                                       ifelse(change2025>= -1.5 & change2025 <= -.5, "Declining", "Strongly Declining")))))
-  datEarly2 <- datEarly2 %>% dplyr::mutate(FailRisk2025 = 
-                                  ifelse(X>.5, "High", 
-                                         ifelse(X>.2 & X<.5, "Increased", "Normal")))
-  datEarly3 <- datEarly2 %>% dplyr::select(SiteRef,SS_NoSpace,Spp, Curr, Suit2025,
-                                       Trajectory2025, FailRisk2025)
+  datRot <- datRot[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = list(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
+  #datRot[,Trend := paste0(Improve,":",Decline)]
+  datRot <- datRot[,list(SiteRef,SS_NoSpace,Spp,Improve,Decline)] ##final
   
-   ###mid rotation (2055) compare to historic (trending down or up - flag where becoming unsuitable)
-  datMid <- suitVotes[FuturePeriod == 2055,]
+###################################################################
+  datFuture <- suitVotes[FuturePeriod %in% c(2021,2041,2061,2081),]
+  datFuture <- datFuture[,lapply(.SD, sum),.SDcols = colNms, 
+                         by = list(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
+  datFuture[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
+  datFuture[ccissWt, Weight := i.Weight, on = "FuturePeriod"]
+  datFuture <- datFuture[,list(ccissSuitFrac = stats::weighted.mean(NewSuit,Weight)), 
+                         by = list(SiteRef,SS_NoSpace,Spp,Curr)]
+  datFuture[,ccissSuit := round(ccissSuitFrac)]
   
-  datMid <- datMid[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datMid2 <- datMid
-  datMid2 <- datMid2 %>% dplyr::mutate(Suit2055 = `1` +(`2` * 2 ) + (`3` * 3) + (X * 4)) %>% dplyr::mutate (change2055 = Curr- Suit2055) %>% 
-    dplyr::mutate(dplyr::across(Suit2055, round, 0)) %>% dplyr::mutate(Suit2055 = sub('4', 'X', Suit2055))
-  
-  datMid2 <- datMid2 %>% dplyr::mutate(Trajectory2055 = 
-                                  ifelse(change2055 >=1.5, "Strongly Improving", 
-                                         ifelse(change2055>=.5 & change2055<1.5, "Improving",
-                                                ifelse(change2055 >= -.5 & change2055 <.5, "Stable",
-                                                       ifelse(change2055>= -1.5 & change2055 <= -.5, "Declining", "Strongly Declining")))))
-  datMid2 <- datMid2 %>% dplyr::mutate(FailRisk2055 = 
-                                  ifelse(X>.5, "High", 
-                                         ifelse(X>.2 & X<.5, "Increased", "Normal")))
-  datMid3 <- datMid2 %>% dplyr::select(SiteRef,SS_NoSpace,Spp, Curr, Suit2055,
-                                       Trajectory2055, FailRisk2055)
-  
-  ###end rotation (2085) compare to historic (trending down or up - flag where becoming unsuitable)
-  datLong <- suitVotes[FuturePeriod == 2085,]
-  
-  datLong <- datLong[,lapply(.SD, sum),.SDcols = colNms, by = .(SiteRef,SS_NoSpace,Spp,Curr)]
-  datLong2 <- datLong
-  datLong2 <- datLong2 %>% dplyr::mutate(Suit2085 = `1` +(`2` * 2 ) + (`3` * 3) + (X * 4)) %>% dplyr::mutate (change2085 = Curr- Suit2085) %>% 
-    dplyr::mutate(dplyr::across(Suit2085, round, 0))%>% dplyr::mutate(Suit2085 = sub('4', 'X', Suit2085))
-  datLong2 <- datLong2 %>% dplyr::mutate(Trajectory2085 = 
-                                  ifelse(change2085 >=1.5, "Strongly Improving", 
-                                         ifelse(change2085>=.5 & change2085<1.5, "Improving",
-                                                ifelse(change2085 >= -.5 & change2085 <.5, "Stable",
-                                                       ifelse(change2085>= -1.5 & change2085 <= -.5, "Declining", "Strongly Declining")))))
-  datLong2 <- datLong2 %>% dplyr::mutate(FailRisk2085 = 
-                                  ifelse(X>.5, "High", 
-                                         ifelse(X>.2 & X<.5, "Increased", "Normal")))
-  
-  datLong3 <- datLong2 %>% dplyr::select(SiteRef,SS_NoSpace,Spp,Curr, Suit2085, Trajectory2085, FailRisk2085)
-  
-  summOut <- dplyr::full_join(datFeas_final, datEarly3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'))
-   summOut <- dplyr::full_join(summOut, datMid3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr'))
- summOut <- dplyr::full_join(summOut, datLong3, by = c('SiteRef','SS_NoSpace','Spp', 'Curr')) %>% dplyr::filter(!Flag == 'NotIn')
- summOut <-  summOut %>% dplyr::select (-SuitDiff, -Trajectory2025, -Trajectory2055,-Trajectory2085)
-   ### merge in rulesets
-  # ruleSub <- rules[Type == "PeriodTraj",]
-  # suitVotes[ruleSub, PeriodTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
-  # ruleSub <- rules[Type == "Risk",]
-  # suitVotes[ruleSub, Risk := i.Label, on = .(X < mx, X >= mn)]
-  # ruleSub <- rules[Type == "ModAgr",]
-  # suitVotes[ruleSub, ModAgrClass := i.Label, on = .(ModAgree < mx, ModAgree >= mn)]
-  # 
-  # ruleSub <- rules[Type == "OverallTraj",]
-  # datMid[ruleSub, OverallTraj := i.Label, on = .(SuitDiff < mx, SuitDiff >= mn)]
-  # datMid[Bifurc == T, OverallTraj := "Bifurcating"]
-  # 
-  # ruleSub <- rules[Type == "EstabRisk",]
-  # datFeas[ruleSub, Estab.Risk := i.Label, on = .(FeasEstab < mx, FeasEstab >= mn)]
-  # 
-  # temp1 <- datFeas[,.(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
-  # temp2 <- datMid[,.(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
-  # summOut <- merge(temp1,temp2, by = c("SiteRef","Spp","SS_NoSpace"), all = T)
-  # summOut <- summOut[complete.cases(summOut),]
-  # summOut[NewSuit > 3.5,NewSuit := 4]
-  # summOut[Curr > 3.5,Curr := 4]
-  # 
-  # suitVotes[,`:=`(ModAgree = NULL,NewSuit = NULL,SuitDiff = NULL)]
+  ###merge data to make summary tables############################################################
+  summOut <- merge(datFeas_final, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
+  summOut <- merge(summOut, datFuture, by = c('SiteRef','SS_NoSpace','Spp'), all = T)
+  summOut[,OrderCol := (Curr + NewSuitFrac + ccissSuitFrac)/3]
+  summOut[,IncludeFlag := fifelse(ccissSuitFrac > 0.1,TRUE,FALSE)]
+  summOut[,c("Flag","SuitDiff","NewSuitFrac","ccissSuitFrac") := NULL]
+  #summOut <- summOut[Flag != "NotIn",]
+  summOut[,`:=`(Curr = as.character(Curr),
+                ccissSuit = as.character(ccissSuit))]
+  summOut[,c("Curr","ccissSuit") := lapply(.SD,function(x){fifelse(x >= 4,"X",x)}), 
+          .SDcols = c("Curr","ccissSuit")]
+  summOut[is.na(NewSuit) | NewSuit == 4,NewSuit := "X"]
+  #summOut[NewSuit == "X" & ccissSuit %in% c("1","2","3"), NewSuit := "Trial"]
+  summOut <- summOut[!is.na(ccissSuit),]
+  print("Done Feas")
   return(list(Summary = summOut, Raw = suitVotes))
 }
 
+### merge in rulesets
+# ruleSub <- rules[Type == "PeriodTraj",]
+# suitVotes[ruleSub, PeriodTraj := i.Label, on = list(SuitDiff < mx, SuitDiff >= mn)]
+# ruleSub <- rules[Type == "Risk",]
+# suitVotes[ruleSub, Risk := i.Label, on = list(X < mx, X >= mn)]
+# ruleSub <- rules[Type == "ModAgr",]
+# suitVotes[ruleSub, ModAgrClass := i.Label, on = list(ModAgree < mx, ModAgree >= mn)]
+# 
+# ruleSub <- rules[Type == "OverallTraj",]
+# datMid[ruleSub, OverallTraj := i.Label, on = list(SuitDiff < mx, SuitDiff >= mn)]
+# datMid[Bifurc == T, OverallTraj := "Bifurcating"]
+# 
+# ruleSub <- rules[Type == "EstabRisk",]
+# datFeas[ruleSub, Estab.Risk := i.Label, on = list(FeasEstab < mx, FeasEstab >= mn)]
+# 
+# temp1 <- datFeas[,list(SiteRef,Spp,SS_NoSpace,Curr,NewSuit,Flag,Estab.Risk)]
+# temp2 <- datMid[,list(SiteRef,Spp,SS_NoSpace,OverallTraj,ModAgree,Improve,Stable,Decline)]
+# summOut <- merge(temp1,temp2, by = c("SiteRef","Spp","SS_NoSpace"), all = T)
+# summOut <- summOut[complete.cases(summOut),]
+# summOut[NewSuit > 3.5,NewSuit := 4]
+# summOut[Curr > 3.5,Curr := 4]
+# 
+# suitVotes[,`:=`(ModAgree = NULL,NewSuit = NULL,SuitDiff = NULL)]
+
+#### use flag to update next section where species is added in current period
+# datEarly <- suitVotes[FuturePeriod == 2021,]
+# datEarly <- datEarly[,lapply(.SD, sum),.SDcols = colNms, by = list(SiteRef,SS_NoSpace,Spp,Curr)]
+# datEarly[,Suit2025 := `1`+(`2`*2)+(`3`*3)+(X*4)]
+# datEarly[,change2025 := Curr - Suit2025]
+# 
+# datEarly[,Trajectory2025 := fifelse(change2025 >=1.5, "Strongly Improving", 
+#                                     fifelse(change2025>=.5 & change2025<1.5, "Improving",
+#                                             fifelse(change2025 >= -.5 & change2025 <.5, "Stable",
+#                                                     fifelse(change2025>= -1.5 & change2025 <= -.5, "Declining", "Strongly Declining"))))]
+# 
+# datEarly[,FailRisk2025 := fifelse(X>.5, "High", 
+#                                   fifelse(X>.2 & X<.5, "Increased", "Normal"))]
+# 
+# datEarly <- datEarly[,list(SiteRef,SS_NoSpace,Spp, Suit2025,
+#                         Trajectory2025, FailRisk2025)]

@@ -19,25 +19,29 @@
   },
   "styles": {
     "basic": {
-      "style": "becstyle.json",
       "serve_rendered": false,
       "tilejson": {
         "type": "overlay",
-        "bounds": [-139.06131, 48.29681, -114.05415, 60.00478]
+        "bounds": [-139.06131, 30.29681, -109.05415, 60.00478]
       }
     },
     "rendered": {
-      "style": "becstyle.json",
       "serve_rendered": true,
       "tilejson": {
         "type": "overlay",
-        "bounds": [-139.06131, 48.29681, -114.05415, 60.00478]
+        "bounds": [-139.06131, 30.29681, -109.05415, 60.00478]
       }
     }
   },
   "data": {
-    "tiles": {
-      "mbtiles": "tiles.mbtiles"
+    "WNA_MAP": {
+      "mbtiles": "wnabgc.mbtiles"
+    },
+    "Districts": {
+      "mbtiles": "districts.mbtiles"
+    },
+    "BC_BGC": {
+      "mbtiles": "bc_bgc12.mbtiles"
     }
   }
 }

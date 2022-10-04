@@ -3,12 +3,15 @@
 \docType{data}
 \name{bccciss-data}
 \alias{bccciss-data}
+\alias{BGCRegions}
 \alias{E1}
 \alias{F1}
 \alias{footnotes}
 \alias{models_info}
+\alias{N1}
 \alias{R1}
 \alias{S1}
+\alias{SIBEC}
 \alias{silvics_mature}
 \alias{silvics_regen}
 \alias{silvics_resist}
@@ -18,8 +21,11 @@
 \alias{stocking_standards}
 \alias{subzones_colours_ref}
 \alias{T1}
+\alias{TreeCols}
 \alias{V1}
 \alias{zones_colours_ref}
+\alias{E1_Phase}
+\alias{covMat}
 \title{Data to be included in bccciss package}
 \description{
 Data to be included in bccciss package

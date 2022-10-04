@@ -1,0 +1,42 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+---
+##### Selecting points or areas of interest
+
+Step 0. Report by individual point or average across all points in the same BGC
+
+Step 1. Select points of interest to generate CCISS futures on using one of three methods
+
+1. Click BGC map to add locations
+Use this option if you have specific sites you are interested in. Multiple points can be selected.
+
+2. Choose pre-selected points for either an entire BGC or a BGC within a single Forest District.
+The CCISS tool has a set of pre-selected random points built in for the province. This option is to be used where general trends are desired by area. The BGC + District option is probably most appropriate for stocking standard revisions. 
+
+3. Upload a .CSV file with locations
+This option can be selected if a set of sites are already located on the landscape. E.g Planting blocks, Research trial networks.
+
+Step 2. Click the "Generate Button" at the bottom of the screen to complete the analysis for the points of interest
+
+###### Adjust Parameters
+
+The report uses a set of standard default settings which can be adjusted.
+
+1. Establishment feasibility rating
+Default: equal weighting between historic, current, and near future (2021-2040) time periods
+
+2. CCISS feasibility rating
+Default: equal weighting for all future 20-year time periods (2021-2100)
+
+3. Global Climate Model weighting
+Default: 10 GCMs are given full weighting.  CanESM5, UKESM1, and INM-CM5 are give no weighting 
+
+4. Carbon scenario weighting
+Default: The 450ppm scenario is fully weighted. 260 and 700ppm are slightly downweighted to 80%. The extreme 850ppm scenario is set to 0.
+
+

@@ -1,0 +1,27 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+---
+#### Predicted BEC unit futures
+
+Two types of output are presented here.
+
+##### Graphical
+Select the Sites and Site series of interest. To remove or see all uncommonly associated site series adjust the minimum site series overlap slider.
+
+The tool will display the ratio of predicted future BGC subzone/variants by time period are presented as stacked bar charts. Hovering over a stacked bar will display the percent of models predicting each BGC.
+
+For the current time period (1991-2020) only, we use the ratio of the most common decision trees in the randomforest. All future time periods are based on the ratio from predicted BGCs from all model/scenarios
+
+Within each BGC segment of the stack bar chart, the ratio of site series that match the edatopic space of the target unit shown.
+
+
+##### Spatial
+
+Select the site or BGC from the dropdown menu and then select a future time period.
+The map will show the target BGC in yellow and the source of future climates are highlighted in grey. Darker greys indicate higher probability.
+

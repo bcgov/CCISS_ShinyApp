@@ -1,8 +1,8 @@
 Data,Version,Date
-BC_BGC_Map,v11,2018-05-01
-WNA_BGC_Map,v11.8,2021-01-01
-ClimateBC_NA,v6.30,2020-05-25
-BGC_rF_Model,v11.8,2021-01-01
-ReferenceGuide,v2017,2019-03-31
-FeasibilityRatings,v11.8,2020-01-01
-FeasibilityRules,v11.8,2020-01-01
+BC_BGC_Map,v12,2021-09-10
+WNA_BGC_Map,v12.2,2021-09-10
+ClimateBC_NA,V7.01,2021-09-10
+BGC_rF_Model,v12.2,2021-09-10
+ReferenceGuide,v2021,2021-09-10
+FeasibilityRatings,v12.10,2021-09-10
+FeasibilityRules,v12.10,2021-09-10

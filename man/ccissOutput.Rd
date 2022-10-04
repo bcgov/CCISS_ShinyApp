@@ -2,9 +2,9 @@
 % Please edit documentation in R/feasibility.R
 \name{ccissOutput}
 \alias{ccissOutput}
-\title{EDA Topic Overlap}
+\title{ccissOutput}
 \usage{
-ccissOutput(SSPred, suit, rules, feasFlag)
+ccissOutput(SSPred, suit, rules, feasFlag, histWeights, futureWeights)
 }
 \arguments{
 \item{SSPred}{A data.table. Predictions input.}
@@ -14,12 +14,16 @@ ccissOutput(SSPred, suit, rules, feasFlag)
 \item{rules}{A data.table. Set of rules.}
 
 \item{feasFlag}{A data.table. Flag depending on feasibility differential.}
+
+\item{histWeights}{A numeric vector of length 3.}
+
+\item{futureWeights}{A numeric vector of length 4.}
 }
 \value{
 What the function returns
 }
 \description{
-EDA Topic Overlap
+ccissOutput
 }
 \details{
 What the function does

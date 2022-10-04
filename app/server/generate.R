@@ -11,41 +11,67 @@ observeEvent(input$generate_results, priority = 100, {
   # the userdata environment.
   
   # Input from the app
-  avg             <- uData$avg             <- as.logical(input$aggregation)
-  rcp             <- uData$rcp             <- input$rcp_scenario
-  pts             <- uData$pts             <- userpoints$dt
+  if(input$preselected != "N"){
+    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 150)
+    userpoints$bgc_pts <- pointNums
+    avg <- uData$avg <- TRUE
+    pts <- uData$pts <- data.table(Site = pointNums)
+    uData$dist_select <- NULL
+    #print(pts$Site)
+  }else{
+    avg             <- uData$avg             <- as.logical(input$aggregation)
+    pts             <- uData$pts             <- userpoints$dt
+  }
+  uData$session_params <- reactiveValuesToList(session_params) 
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
-  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, rcp)
+  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc)
+  cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$futWt)
   tic("Format CCISS Results", ticker)
-  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg)
-  tic("Format CCISS Summary", ticker)
-  cciss_summary   <- uData$cciss_summary   <- cciss_summary(cciss, pts, avg)
-  
-  
+  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg, type = input$preselected)
+  update_flag(update_flag() + 1) ##make sure things recalculate
   # UI select choices
   tic("Determine UI choices", ticker)
+  
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
+  ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
+  bgc_opts <- unique(uData$bgc$BGC)
+  
+  #prepare tree choices for portfolio selection
+  suitTrees <- copy(cciss_results)
+  suitTrees <- suitTrees[EstabFeas %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)] ##need to fix this
+  suitTrees <- unique(suitTrees)
+  tree_opts <- suitTrees[BGC == bgc_opts[1],Spp]
+  updateSelectInput(inputId = "tree_species",
+                    choices = tree_opts,selected = tree_opts)
+  uData$tree_opts <- suitTrees
   
   ssl <- lapply(siterefs, function(sr) {
     ss <- sort(unique(cciss_results[SiteRef %in% sr]$SS_NoSpace))
+    if(!is.null(uData$ss_list) & isFALSE(avg) & (sr %in% pts$Site)){
+      selected_ss <- uData$ss_list[[pts[Site == sr,ID][1]]]
+      if(any(selected_ss %in% ss)){
+        ss <- selected_ss
+      }
+    }
     names(ss) <- paste(
       ss,
-      stocking_info$SiteSeriesName[match(ss, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
+      N1$SiteSeriesLongName[match(ss, N1$SS_NoSpace)]
     )
     ss
   })
   names(ssl) <- siterefs
+  print(ssl)
   
-  ssa <- sort(unique(cciss_results$SS_NoSpace))
+  ssa <- unique(unname(unlist(ssl)))
   names(ssa) <- paste(
     ssa,
-    stocking_info$SiteSeriesName[match(ssa, stocking_info[, paste(ZoneSubzone, SiteSeries, sep = "/")])]
+    N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
-
+  
+  
   siteseries_list <- uData$siteseries_list <- ssl
   siteseries_all  <- uData$siteseries_all  <- ssa
   
@@ -64,9 +90,12 @@ observeEvent(input$generate_results, priority = 100, {
   tic("Populate UI choices", ticker)
   updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "siteref_bgc_fut_spatial", choices = siterefs, selected = siteref)
+  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
   updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
   updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
   updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
+  updateSelectInput(inputId = "port_bgc", choices = bgc_opts, select = bgc_opts[1])
   updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
   
   # Use UI injected javascript to show download button and hide generate button
@@ -83,11 +112,12 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Render models info + timings in About
   output$modelsinfo <- function() {
-    knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover table-centered"') 
+    knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover"') 
   }
   output$timings <- plotly::renderPlotly({
     tocker
   })
+  print("done generate")
 })
 
 generateState <- function() {
@@ -103,116 +133,158 @@ generateState <- function() {
   }
 }
 
+##put selections into reactive list
+observeEvent(input$siteref_feas,{selected_site$siteref <- input$siteref_feas})
+observeEvent(input$site_series_feas,{selected_site$ss <- input$site_series_feas})
+observeEvent(input$siteref_bgc_fut,{selected_site$siteref <- input$siteref_bgc_fut})
+observeEvent(input$ss_bgc_fut,{selected_site$ss <- input$ss_bgc_fut})
+observeEvent(input$siteref_silv,{selected_site$siteref <- input$siteref_silv})
+observeEvent(input$site_series_silv,{selected_site$ss <- input$site_series_silv})
+
+observe({
+  updateSelectInput(session,"siteref_feas",selected = selected_site$siteref)
+  updateSelectInput(session,"site_series_feas",selected = selected_site$ss)
+  updateSelectInput(session,"siteref_bgc_fut",selected = selected_site$siteref)
+  updateSelectInput(session,"ss_bgc_fut",selected = selected_site$ss)
+  updateSelectInput(session,"siteref_silv",selected = selected_site$siteref)
+  updateSelectInput(session,"site_series_silv",selected = selected_site$ss)
+})
+
 # These are the triggers to check if we need to change button state
 observeEvent(userpoints$dt, {generateState()})
 observeEvent(input$aggregation, {generateState()})
 observeEvent(input$rcp_scenario, {generateState()})
+#observeEvent(userdata$bgc_dt,{generateState()})
 
 # Data processing
-bgc <- function(con, siteno, avg, rcp) {
+bgc <- function(con, siteno, avg, modWeights) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
-    dbGetCCISS(con, siteno, avg, rcp)
+    dbGetCCISS(con, siteno, avg, modWeights = modWeights)
   })
 }
 
-cciss <- function(bgc) {
-  SSPred <- edatopicOverlap(bgc, Edatope = E1)
-  ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1)
+# bgc <- dbGetCCISS(pool,siteno = 676813, avg = F, modWeights = all_weight)
+# SSPreds <- edatopicOverlap(bgc, E1, E1_Phase)
+# out <- ccissOutput(SSPred = SSPreds, suit = S1, rules = R1, feasFlag = F1,
+#             histWeights = c(0.3,0.35,0.35), futureWeights = rep(0.25,4))
+
+# bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
+
+
+cciss <- function(bgc,estabWt,futWt) {
+  edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
+  SSPred <- edaOut$NoPhase
+  setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
+  uData$eda_out <- edaOut$phase
+  ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
+              histWeights = estabWt, futureWeights = futWt)
 }
 
-cciss_summary <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
-  withProgress(message = "Processing...", detail = "Feasibility summary", {
-    # use a copy to avoid modifying the original object
-    summary <- copy(cciss$Summary)
-    # Append region
-    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-    summary$Region <- pts$ForestRegion[match(summary$SiteRef, region_map)]
-    summary$ZoneSubzone <- pts$BGC[match(summary$SiteRef, region_map)]
-    # Append Chief Forester Recommended Suitability
-    summary[
-      SS, 
-      CFSuitability := as.character(i.Suitability),
-      on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species"),
-    ]
-    summary[is.na(CFSuitability), CFSuitability := "X"]
-    current = names(period_map)[match("Current", period_map)]
-    # Format for printing
-    summary[, `:=`(
-      Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
-      ProjFeas = NewSuit,
-      Period = paste0(period_map[names(period_map) > current], collapse = "<br />"),
-      FutProjFeas = paste0(Suit2025, "<br />", Suit2055, "<br />", Suit2085),
-      FailRisk = paste0(FailRisk2025, "<br />", FailRisk2055, "<br />", FailRisk2085)
-    )]
-    # Order
-    setorder(summary, SiteRef, NewSuit, Curr, Spp)
-    return(summary)
-  })
-}
 
+# test <- ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1,
+#                     histWeights = c(0.3,0.3,0.35), futureWeights = rep(0.25,4))
+#SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 # This map is used to determine output labels from raw period
-uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+#uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
+uData$period_map <- c("1961" = "Historic", "1991" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
-cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, period_map = uData$period_map) {
+## SVGs for mid rot trend
+swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
+trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 144 464 144 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,368,169.37,246.63a32,32,0,0,1,45.26,0l50.74,50.74a32,32,0,0,0,45.26,0L448,160" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
+trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
+stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
+##function for creating full results table
+cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
-    # dcast (pivot)
-    results <- dcast(results, SiteRef + SS_NoSpace + Spp ~ FuturePeriod,
-                     value.var = c("Curr", "NewSuit", "1", "2", "3", "X", "ModAgree", "SuitDiff"))
+    sumResults <- copy(cciss$Summary)
+
+    results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
+                     value.var = c("NewSuit", "1", "2", "3", "X"))
     # Required columns, set them if not created by dcast (safety)
     reqj <- c(
-      "1_1975","2_1975","3_1975","X_1975", "NewSuit_1975",
-      "1_2000","2_2000","3_2000","X_2000", "NewSuit_2000",
-      "1_2025","2_2025","3_2025","X_2025", "NewSuit_2025",
-      "1_2055","2_2055","3_2055","X_2055", "NewSuit_2055",
-      "1_2085","2_2085","3_2085","X_2085", "NewSuit_2085"
+      "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
+      "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
+      "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
+      "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
+      "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
+      "1_2081","2_2081","3_2081","X_2081", "NewSuit_2081"
     )
     set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
     setnafill(results, fill = 0, cols = c(
-      "1_1975","2_1975","3_1975","X_1975",
-      "1_2000","2_2000","3_2000","X_2000",
-      "1_2025","2_2025","3_2025","X_2025",
-      "1_2055","2_2055","3_2055","X_2055",
-      "1_2085","2_2085","3_2085","X_2085"
+      "1_1961","2_1961","3_1961","X_1961",
+      "1_1991","2_1991","3_1991","X_1991",
+      "1_2021","2_2021","3_2021","X_2021",
+      "1_2041","2_2041","3_2041","X_2041",
+      "1_2061","2_2061","3_2061","X_2061",
+      "1_2081","2_2081","3_2081","X_2081"
     ))
     # Append region
-    region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
-    results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
-    results$ZoneSubzone <- pts$BGC[match(results$SiteRef, region_map)]
+    if(type == "N"){
+      region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
+      results$Region <- pts$ForestRegion[match(results$SiteRef, region_map)]
+      results$ZoneSubzone <- pts$BGC[match(results$SiteRef, region_map)]
+    }else{
+      results[,ZoneSubzone := SiteRef]
+      results[BGCRegions, Region := i.Region, on = "ZoneSubzone"]
+    }
+    
     # Append Chief Forester Recommended Suitability
     results[
       SS, 
-      CFSuitability := as.character(i.Suitability),
+      `:=`(CFSuitability = as.character(i.Suitability),
+           PrefAcc_Orig = i.PreferredAcceptable),
       on = c(Region = "Region", ZoneSubzone = "ZoneSubzone", SS_NoSpace = "SS_NoSpace", Spp = "Species")
     ]
-    results[is.na(CFSuitability), CFSuitability := "X"]
+    # Append summary vars
+    results[
+      sumResults, 
+      `:=`(EstabFeas = i.NewSuit,
+           ccissFeas = i.ccissSuit,
+           Improve = i.Improve,
+           Decline = i.Decline,
+           OrderCol = i.OrderCol,
+           IncludeFlag = i.IncludeFlag),
+      on = c("SiteRef","SS_NoSpace","Spp")
+    ]
+    
+    results[cfrg_rules,PrefAcc := i.PrefAcc, on = c("Spp",ccissFeas = "Feasible")]
+    results[is.na(PrefAcc),PrefAcc := "X"]
+    results[,NoPref := if(any(PrefAcc == "P")) T else F, by = .(SS_NoSpace)]
+    results[NoPref == F & PrefAcc == "A", PrefAcc := "P"]
+    results[,NoPref := NULL]
+    results[is.na(PrefAcc_Orig), PrefAcc_Orig := "X"]
     # Append custom generated feasibility svg bars and Trend + ETL
     current = as.integer(names(period_map)[match("Current", period_map)])
     results[, `:=`(
       Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
       Period = paste0(period_map, collapse = "<br />"),
+      ProjFeas = EstabFeas,
       PredFeasSVG = paste0(
-        feasibility_svg(`1_1975`,`2_1975`,`3_1975`,`X_1975`), "<br />",
-        feasibility_svg(`1_2000`,`2_2000`,`3_2000`,`X_2000`), "<br />",
-        feasibility_svg(`1_2025`,`2_2025`,`3_2025`,`X_2025`), "<br />",
-        feasibility_svg(`1_2055`,`2_2055`,`3_2055`,`X_2055`), "<br />",
-        feasibility_svg(`1_2085`,`2_2085`,`3_2085`,`X_2085`)
-      ),
-      ProjFeas = {
-        x <- as.character(round(NewSuit_2000))
-        x[x %in% c(NA, "4")] <- "X"
-        x
-      },
-      MidRotTrend = feasibility_trend(data.table("T1" = NewSuit_2000, "T2" = NewSuit_2025,
-                                                 "T3" = NewSuit_2055, "T4" = NewSuit_2085)),
-      MeanSuit = rowMeans(data.table(NewSuit_2000, NewSuit_2025, NewSuit_2055, NewSuit_2085), na.rm = TRUE)
+        feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
+        feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
+        feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
+        feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
+        feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
+        feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
+      )
     )]
-    setorder(results, SiteRef, SS_NoSpace, NewSuit_2000, MeanSuit, na.last = TRUE)
+    
+    results <- results[!is.na(ProjFeas),]
+    results[,Curr := as.character(Curr)]
+    for(i in c("Curr","EstabFeas","CFSuitability")){ ##set NA to X
+      results[is.na(get(i)) | get(i) == 4, (i) := "X"]
+    }
+    #print(data[,.(CFSuitability,Curr,ccissFeas)])
+    results[CFSuitability == "X" & Curr == "X" 
+         & ccissFeas %in% c(1,2,3), EstabFeas := "Trial"]
+    setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
     return(results)
   })
 }
+
 
 #' @param ... a list of numeric vector, column names will be used as color. This
 #' function assumes that x rowSums are all equal to 1 and that there is no NA values.
@@ -221,7 +293,7 @@ cciss_results <- function(cciss, pts, avg, SS = bccciss::stocking_standards, per
 #' @param colors character vector of colors to use for svg, same length as
 #' ncol x.
 #' @return an svg image of feasibility prediction, one per row in data.frame
-feasibility_svg <- function(..., width = 220L, height = 14L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
+feasibility_svg <- function(..., width = 220L, height = 18L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
   x <- list(...)
   col_x <- length(x)
   x <- matrix(unlist(x), ncol = col_x)
@@ -261,35 +333,6 @@ pfsvg <- function(x, pos_x, width_el, pos_text, height, color) {
   svgs
 }
 uData$pfsvg <- pfsvg
-
-# Replace trend image with svg so they can be embedded
-swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 144 464 144 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,368,169.37,246.63a32,32,0,0,1,45.26,0l50.74,50.74a32,32,0,0,0,45.26,0L448,160" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
-stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
-trends <- c(swap_up_down, trending_up, trending_down, stable)
-
-#' Return a feasibility trend icon
-#' @param x A data.table.
-#' @return a trend icon
-feasibility_trend <- function(x) {
-  # shifted compare mod = Xi+1 - Xi
-  mod <- x[, -4] - x[, -1]
-  trend <- apply(mod, 1, function(x) {
-    if (isTRUE(any(x > 0) & any(x < 0))) {
-      return(1L)
-      # Increase no decrease
-    } else if (isTRUE(any(x > 0))) {
-      return(2L)
-      # Decrease no increanse
-    } else if (isTRUE(any(x < 0))) {
-      return(3L)
-    }
-    # Neither increase nor decrease
-    return(4L)
-  })
-  trends[trend]
-}
 
 # Timings functions to build the "donut"
 tic <- function(split = "unnamed block", var = numeric()) {

@@ -20,8 +20,8 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
  - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
  - Clone repository
  - Setup environment variables
- - Open  `./app/index.Rmd`
- - Click on `Run Document`
+ - Open project
+ - Run `shiny::runApp("./app")`
 
 ### Deploy to shinyapps.io
 
@@ -56,7 +56,7 @@ BCGOV_MAPBOX_HILLSHADE_STYLE={mapbox hillshade style ref user/styleref}
 
 ##### app
 
-CCISS Flexdashboard app
+CCISS Shiny app
 
 ##### data
 Standard R package folder for the

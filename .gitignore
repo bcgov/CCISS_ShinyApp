@@ -7,6 +7,7 @@ docs
 .RData
 .Rproj.user
 .Rhistory
+.Renviron
 inst/doc
 .httr-oauth
 *.RDS
@@ -16,4 +17,11 @@ inst/doc
 *.geojson
 .httr-oauth
 /app/index.html
+/app/index_files
+/app/rsconnect
 /app/server/report.html
+/data-raw/data_tables/old
+/app/index_files/
+/BGCFuturesMaps
+/FeasibilityMaps/
+/outputs/

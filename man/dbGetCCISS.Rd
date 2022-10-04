@@ -4,7 +4,7 @@
 \alias{dbGetCCISS}
 \title{Pull CCISS from a vector of SiteNo}
 \usage{
-dbGetCCISS(con, siteno, avg, scn = c("rcp45", "rcp85"))
+dbGetCCISS(con, siteno, avg, modWeights)
 }
 \arguments{
 \item{con}{An active postgres DBI connection.}
@@ -13,7 +13,7 @@ dbGetCCISS(con, siteno, avg, scn = c("rcp45", "rcp85"))
 
 \item{avg}{A boolean.}
 
-\item{scn}{A character string. Scenario name. Either \code{rcp45} or \code{rcp85}.}
+\item{modWeights}{A data table of gcm and rcp weights.}
 }
 \value{
 A data.table containing CCISS information for each provided SiteNo.
