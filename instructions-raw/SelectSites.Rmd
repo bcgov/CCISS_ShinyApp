@@ -7,7 +7,7 @@ output:
         mathjax: null
 ---
 
-#### Selecting points or areas of interest
+### Selecting points or areas of interest
 
 Step 1. Select points of interest to generate CCISS futures on using one of three methods
 
@@ -18,8 +18,7 @@ Step 1. Select points of interest to generate CCISS futures on using one of thre
 3.  Upload a batch file of user-specified points. The batch file must be in comma-separated (.csv) text format specifying an id, latitude, longitude, and elevation for each point of interest.  The app will detect the first case-insensitive column names that match id or site, latitude, longitude and elevation. Short names are also supported id, lat, long/lng and elev. 
 
 Step 2. Select whether to report by individual point or average across all points in the same BGC. 
-
-Step 3. Click the "Generate Results" at the bottom of the screen to complete the analysis for the points of interest
+Step 3. Click the "Generate Results" at the top of the screen to complete the analysis for the points of interest
 
 ### Adjust Session Parameters
 

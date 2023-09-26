@@ -12,9 +12,9 @@ The CCISS tool (pronounced 'kiss') is designed to project climate change trends 
 
 The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. 
 
-The CCISS tool looks at near and mid-term projected changes to BGC climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a point or area of interest with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/silvicultural prescription outlined in climate change informed stocking standard. 
+The CCISS tool looks at near and mid-term projected changes to local climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a point or area of interest with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/silvicultural prescription outlined in climate change informed stocking standard. 
 
-The CCISS tool is spatial explicit to account for the gradient of climate change that will impact different regions and elevations of a BGC.
+The CCISS tool is spatial explicit to account for the gradient of climate change that will impact different regions and elevations of a biogeoclimatic subzone/variant.
 
 ##### Additional Documents:
 
