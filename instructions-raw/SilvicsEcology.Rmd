@@ -7,17 +7,17 @@ output:
         mathjax: null
 ---
 
-#### Supporting info
+### Supporting info
 
 This section contains information that may be useful for interpreting CCISS results and making management decisions.
 
-##### Silvics and Ecology
+#### Silvics and Ecology
 
 This module summarizes the silvics of each species with historic or future feasibility in the selected BGC unit and site series. This information is drawn from Klinka et al. (1999). This information can be explored further at this [link](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
 
 Klinka, Karel, J. Worrall, L. Skoda, P. Varga, and C. Chourmouzis, 1999. The distribution and synopsis of ecological and silvical characteristics of tree species of British Columbia's forests. Scientia silvica extension series, no. 10. Vancouver.
 
-##### Trends
+#### Trends
 
 This module provides provincial-scale maps for user-selected species and site types. Three site types are currently available, representing the major regions of the edatopic grid: the B2 edatope (nutrient-poor, moisture-subxeric sites), C4 edatope (nutrient-medium, moisture-mesic sites), and D6 edatope (nutrient-rich, moisture-hygric sites).
 

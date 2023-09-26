@@ -7,11 +7,11 @@ output:
         mathjax: null
 ---
 
-#### Projected BEC futures
+### Projected BEC futures
 
 This section summarizes the biogeoclimatic projections that underly the species feasibility forecasts. Biogeoclimatic subzone/variants (a.k.a. BGC units) are the climate component of the Biogeoclimatic Ecosystem Classification (BEC). Each user-selected location has a mapped BGC unit representing its historical climate. Biogeoclimatic projections identify a BGC unit whose historical climate is the best match (best analog) for the recent or projected future climate of the user-selected location. In other words, changes in climatic conditions (temperature, precipitation, etc) are translated into a change in the BGC unit.
 
-##### Graphical
+#### Graphical
 
 The graphical mode displays the projected future BGC analogs by time period. The stacked bars indicate the proportion of global climate model projections that best match each BGC analog. Hovering over a stacked bar will display these proportions numerically.
 
@@ -19,6 +19,6 @@ The recent time period (2001-2020) has two bars: one for the observed climate (m
 
 The default mode of this plot simply shows the BGC analog labels. Specifying a site series of interest will display the site series in the BGC analog that overlap with the edatopic position of the historic site series, along with the proportion of the edatopic overlap. The "minimum site series overlap" slider allows the user to include or exclude site series with small edatopic overlaps.
 
-##### Spatial
+#### Spatial
 
 Select the BGC unit from the dropdown menu and then select a future time period. The map will show the historical BGC unit in yellow and the projected BGC analogs in grey. Darker greys indicate a higher proportion of global climate model projections matched that BGC analog.
