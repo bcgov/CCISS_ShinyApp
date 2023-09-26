@@ -6,16 +6,16 @@ output:
         highlight: null
         mathjax: null
 ---
-##### Tree species feasibility report
+## Tree species feasibility report
 This is the main information report of the CCISS tool. Use the information in this tab to explore how species feasibility will change through future time periods
 
-###### Selection/Filter pane
+### Selection/Filter pane
 
 In left pane select the sites/BGC site group and then the site series of interest.
 The edatopic space of the selected site series is displayed in the graphic below for reference.
 By default the report will show all species that are predicted to have suitability in at least one model or future scenario. Choose "Feasible Only" option to limit list to species that meet the threshold for inclusion as suitable in any of the time periods.
 
-###### Selection/Filter pane
+### Selection/Filter pane
 
 This report show modelled feasibility ratios for each species for each time period. The colour legend for feasibility ratings is on the left hand pane.
 The historic time period represents the 'base case' and reflect climatic conditions pre-1990
