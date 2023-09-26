@@ -1,24 +1,54 @@
 ---
-title: Welcome to CCISS!
+title: Climate Change Informed Species Selection (CCISS) Tool
 output: 
     html_document:
         theme: null
         highlight: null
         mathjax: null
 ---
-#### About the Climate Change Informed Species Selection (CCISS) Tool
 
-The CCISS tool (pronounced 'kiss') is designed to project climate change trends in tree species environmental suitability at a site series level to identify where existing reforestation standards are misaligned with future conditions.
+## Executive Summary
+The Climate Change Informed Species Selection (CCISS – pronounced ‘kiss’) tool is designed to allow users to anticipate the change climate implications for tree species environmental suitability and help guide climate change adaptation in reforestation decisions.
 
-The CCISS tool reassesses the suitability ranks of species at a site series level under multiple plausible modelled future climates. Understanding climate and site-level species suitability is one of the foundational pieces of information that a forester requires for the creation of successful silvicultural prescriptions over a rotation. 
+Understanding climate- and site-level species suitability is one of the foundational pieces of information that practitioners require for the creation of silvicultural prescriptions that will lead to successful reforestation over a rotation period. Climate change will affect this goal by progressively altering environmental conditions and therefore the suitability of tree species established on a site over time.
 
-The CCISS tool looks at near and mid-term projected changes to local climates and the implications to species suitability. The tool then aligns the projected future suitability rank of species at a point or area of interest with the suitability in the default stocking standards outlined in the Chief Forester’s Reference Guide to highlight where there are predicted climate change induced shifts in species suitability. This information can be used to inform planting/silvicultural prescription outlined in climate change informed stocking standard. 
+To address this challenge, the CCISS tool projects changes to species environmental suitability at a site series level for any user selected location in the province and estimates the future suitability of a tree species to this changing climate. To account for future climate uncertainty the tool looks at a wide range of global climate change models and emissions scenarios to capture the range of plausible climate futures for any location in BC in 20-year periods out to 2100.
 
-The CCISS tool is spatial explicit to account for the gradient of climate change that will impact different regions and elevations of a biogeoclimatic subzone/variant.
+To assist users, the tool compares the current species selection guidance in the Chief Foresters Reference Guide with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.
+
+## What is in the CCISS Tool?
+
+The CCISS tool is a web-based R-shiny application organized into six tabs.
+
+1.	__Select Sites:__ User selects points or areas of interest using one of 3 methods
+    i.	Single points
+    ii.	By selected BGCs or BGCs within districts
+    iii.	By submitted CSV file with user site locations
+  
+2.	__Feasibility Report:__ 2 options
+    a.	__Detailed__: report suitability predictions for each species for a chosen site series at each point or AOI
+    b.	__Stocking Standard__: A comparison of the CFRG stocking standards and the CCISS predicted suitability ratings
+    
+3.	__BEC Futures:__ The model ratio of predicted BGCs by time period shown by 2 options.
+    a.	__Chart__: A stacked bar chart shows the ratio of biogeoclimatic units being predicted from the selected GMC and climate scenario models in each time period. Optionaly show the site series that are equivalent within each BGC
+    b.	__Map__: Show BGC map of western North America with the target BGC highlighted and the source BGCs for a selected future time period shown in greyscale. 
+
+4.	__Supporting Info:__ This tab has several subtabs.
+    a.	__Silvics and Ecology__: Tables of species from Klinka et al. 2000
+    b.	__Trends__: Summary of future trends for every tree species
+
+5.	__Reports__: Exporting reports or data for off-line use
+    a.	__Export reports__ of the web-tool screens (last report)in HTML or PDF
+    b.	__Export datasets__ in CSV or RDS file formats for further analysis
+
+6.	__About__: Help files and data sources
+    a.	__Executive Summary__: summary and links to supporting documents
+    b.	__Instructions__: how to use the tool
+    c.	__Model Info__: Data table versions used in the current CCISS analysis and change log.
+    d.	__Shiny App information__: Server information
+
 
 ##### Additional Documents:
-
-Click to download.
 
 [Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzie_and_Mahony.2021.An_ecological_approach_to_climate-change_informed_species_selection_ for_ reforestation.pdf)
 
