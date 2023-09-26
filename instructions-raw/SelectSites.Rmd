@@ -15,11 +15,11 @@ Step 1. Select points of interest to generate CCISS futures on using one of thre
 
 2.  Choose pre-selected points for either an entire BGC or a BGC within a single Forest District. The CCISS tool has a set of pre-selected random points built in for the province. This option is to be used where general trends are desired by area. The BGC + District option is probably most appropriate for stocking standard revisions.
 
-3.  Upload a .CSV file for batch analysis. This option can be selected if a set of sites are already located on the landscape. E.g Planting blocks, Research trial networks.
+3.  Upload a batch file of user-specified points. The batch file must be in comma-separated (.csv) text format specifying an id, latitude, longitude, and elevation for each point of interest.  The app will detect the first case-insensitive column names that match id or site, latitude, longitude and elevation. Short names are also supported id, lat, long/lng and elev. 
 
-Step 2. Report by individual point or average across all points in the same BGC. 
+Step 2. Select whether to report by individual point or average across all points in the same BGC. 
 
-Step 3. Click the "Generate Button" at the top of the screen to complete the analysis for the points of interest
+Step 3. Click the "Generate Results" at the bottom of the screen to complete the analysis for the points of interest
 
 ### Adjust Session Parameters
 
@@ -27,11 +27,11 @@ The CCISS tool makes several calculations that weight the results over multiple 
 
 #### 1. Establishment feasibility weights
 
-The Feasibility report provides an assessment of establishment feasibility: representing the likelihood of success in establishing the species to free growing if planted today. This value is a weighted average of the environmental feasibility in the 1961-2020, 2001-2020, and 2021-2040 periods. The default weightings are even across these periods to reflect three perspectives on feasibility. First, the 1961-1990 period reflects the proven viability of the species in the ecosystem. Second, the 2001-2020 period reflects the actual climate experienced in the location of interest. Third, the 2021=2040 period is the expected climate during the establishment of the species. Users may want to adjust the establishment feasibility weights based on whether they want a more historically-oriented or future-oriented assessment. Note that the feasibility in each of these periods is visible in the detailed feasibility report.
+The Feasibility report provides an assessment of establishment feasibility, representing the likelihood of success in establishing the species to free growing if planted in the present climate. This value is a weighted average of the environmental feasibility in the 1961-2020, 2001-2020, and 2021-2040 periods. The default weightings are even across these periods to reflect three perspectives on feasibility. First, the 1961-1990 period reflects the proven viability of the species in the ecosystem. Second, the 2001-2020 period reflects the actual climate experienced in the location of interest. Third, the 2021=2040 period is the expected climate during the establishment of the species. Users may want to adjust the establishment feasibility weights based on whether they want a more historically-oriented or future-oriented assessment. Note that the feasibility in each of these periods is visible in the detailed feasibility report.
 
 #### 2. Maturation weights
 
-The Feasibility report provides an assessment of maturation feasibility: representing the likelihood of success in establishing the species to maturity if planted today. This value is a weighted average of the environmental feasibility over the four twenty-year periods from 2021 to 2100. The default weights are spread evenly over these periods.
+The Feasibility Report provides an assessment of maturation feasibility: representing the likelihood of success in establishing the species to maturity if planted in the present climate. This value is a weighted average of the environmental feasibility over the four twenty-year periods from 2021 to 2100. The default weights are spread evenly over these periods.
 
 #### 3. GCM weights
 
