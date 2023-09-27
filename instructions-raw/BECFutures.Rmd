@@ -6,22 +6,19 @@ output:
         highlight: null
         mathjax: null
 ---
-#### Predicted BEC unit futures
 
-Two types of output are presented here.
+## Projected BEC futures
 
-##### Graphical
-Select the Sites and Site series of interest. To remove or see all uncommonly associated site series adjust the minimum site series overlap slider.
+This section summarizes the biogeoclimatic projections that underlie the species feasibility forecasts. Biogeoclimatic subzone/variants (a.k.a. BGC units) are the climate component of the Biogeoclimatic Ecosystem Classification (BEC). Each user-selected location has a mapped BGC unit representing its historical climate. Biogeoclimatic projections identify a BGC unit whose historical climate is the best match (best analog) for the future climate at a user-selected location. In other words, changes in climatic conditions (temperature, precipitation, etc) are translated into a change in the BGC unit.
 
-The tool will display the ratio of predicted future BGC subzone/variants by time period are presented as stacked bar charts. Hovering over a stacked bar will display the percent of models predicting each BGC.
+### Chart
 
-For the current time period (1991-2020) only, we use the ratio of the most common decision trees in the randomforest. All future time periods are based on the ratio from predicted BGCs from all model/scenarios
+The chart mode displays a stacked bar chart showing the ratio of future BGC analogs by time period predicted across range of global climate model-scenario climate projections. Hovering over a stacked bar will display these proportions numerically.
 
-Within each BGC segment of the stack bar chart, the ratio of site series that match the edatopic space of the target unit shown.
+The recent time period (2001-2020) has two bars: one for the observed climate (measured by weather stations), and one for the modelled climates (simulated by global climate models). These two aren't expected to agree: The modelled climates sample a large range of possible recent conditions, of which the observed recent climate is only one.
 
+The default mode of this plot simply shows the BGC analog labels. Specifying a site series of interest will display the site series in the BGC analog that overlap with the edatopic position of the historic site series, along with the proportion of the edatopic overlap. The "minimum site series overlap" slider allows the user to include or exclude site series with small edatopic overlaps.
 
-##### Spatial
+### Map
 
-Select the site or BGC from the dropdown menu and then select a future time period.
-The map will show the target BGC in yellow and the source of future climates are highlighted in grey. Darker greys indicate higher probability.
-
+Select the site or area of interest from the drop down menu and then select a future time period. The map will show the historical BGC unit in yellow and the projected BGC analogs in grey. Darker greys indicate a higher proportion of global climate model projections matched that BGC analog.

@@ -7,14 +7,19 @@ output:
         mathjax: null
 ---
 
-#### Silviculture and Ecology
+## Supporting info
 
-This section contains information for foresters and planners from the reference guide. For all subtabs, the filter sidebar allows selection between sites, site series, and feasible/all species. 
+This section contains information that may be useful for interpreting CCISS results and making management decisions.
 
-##### Chief Foresters Reference Guide
+### A. Silvics and Ecology
 
-This is a recreation of the reference guide for the forest region in question. The initial CFRG species are presented in the first column, and the recommended CCISS species in the second column. 
+This module summarizes the silvics of each species with historic or future feasibility in the selected BGC unit and site series. This information is drawn from Klinka et al. (1999). This information can be explored further at this [link](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
 
-All other subtabs contain information important for stocking decisions for the species selected.
+Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and Silvical Characteristics of Tree Species of British Columbia’s Forests. Canadian Cartographics Ltd., Coquitlam, B.C. 
+ 
 
+### B. Trends
 
+This module provides provincial-scale maps for user-selected species and site types. Three example site series representing different edatopic conditions are currently available: the B2 edatope (nutrient-poor, moisture-subxeric sites), C4 edatope (nutrient-medium, moisture-mesic sites), and D6 edatope (nutrient-rich, moisture-hygric sites).
+
+The figure provides three maps: (left) The historical environmental feasibility rating for each species; (center) the proportion of the GCM ensemble projecting the retreat (historically feasible but projected unfeasible) or expansion (historically unfeasible but projected to be feasible) of the species in the 2041--2060 period; and (right) the mean change in feasibility across the GCM ensemble by the 2041--2060 period.
