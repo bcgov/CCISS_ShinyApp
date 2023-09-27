@@ -179,7 +179,7 @@ sidebarhelplink <- function(inputId) {
         sidebarPanel(
           width = 2,
           sidebarhelplink("cciss_instructions_feasibility_report"),
-          materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = TRUE),
+          materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = FALSE),
           h6("Filters"),
           selectInput("siteref_feas", label = "Site/BGC", choices = character()),
           selectInput("site_series_feas", label = "Site Series", choices = character()),

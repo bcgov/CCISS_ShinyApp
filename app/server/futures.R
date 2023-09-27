@@ -28,9 +28,10 @@ output$bgc_fut_plot <- plotly::renderPlotly({
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
   data <- data[SSratio > minallow,]
+  #browser()
   #data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   data[,Lab := paste(SS.pred,round(SSratio,digits = 2),sep = ": ")]
-  data <- data[,.(SSLab = paste(Lab,collapse = "<br>")), 
+  data <- data[,.(SSLab = paste(Lab,collapse = "<br>")),
                     by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
   l <- list(
@@ -73,7 +74,7 @@ observe({
     data <- data[SiteRef == siteref & FuturePeriod == timeper,]
     data <- data[BGC.prop > 0.034,] ##exclude single model predictions
     dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
-                      Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys", 
+                      Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys",
                                                           include_alpha = F)[-(1:2)],"#FFFB00"))
     session$sendCustomMessage("colour_wna",dat)
   }

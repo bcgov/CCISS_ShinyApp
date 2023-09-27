@@ -38,7 +38,6 @@ observeEvent(input$generate_results, priority = 100, {
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   bgc_opts <- unique(uData$bgc$BGC)
-  
   #prepare tree choices for portfolio selection
   suitTrees <- copy(cciss_results)
   suitTrees <- suitTrees[EstabFeas %in% c(1,2,3,4),.(Spp, BGC = ZoneSubzone)] ##need to fix this

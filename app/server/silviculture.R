@@ -114,7 +114,7 @@ standardblock <- function(std, ss, sc) {
   ss <- ss[Standard %in% std]
   ss[, TextStyle := ""]
   sc[,TxtCciss := ""]
-  
+
   # Some logic to flag specie with different Suitability than CCISS
   ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissFeas))]
   setnafill(ss, fill = 4L, cols = "ProjFeas")
@@ -129,7 +129,7 @@ standardblock <- function(std, ss, sc) {
   sc[ccissFeas > CFRGSuit, TxtCciss := "color:red"]
   sc[!CFRGSuit %in% c(1,2,3), TxtCciss := "color:purple"]
   sc[CFRGSuit == 0, TxtCciss := NA]
-  
+
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
@@ -153,19 +153,19 @@ standardblock <- function(std, ss, sc) {
                              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)]
                            ),
-                           
+
                            tags$tr(
                              tags$td("Secondary/E2"),
                              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)]
                            ),
-                           
+
                            tags$tr(
                              tags$td("Tertiary/E3"),
                              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)]
                            ),
-                           
+
                            tags$tr(
                              tags$td("Trial"),
                              tags$td(""),
@@ -177,7 +177,7 @@ standardblock <- function(std, ss, sc) {
                              tags$td("",style = "border-left: 2px solid;"),
                              style = "border-bottom:1px solid black;"
                            ),
-                           
+
                            tags$tr(
                              tags$td("Preferred (p)"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
