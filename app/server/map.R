@@ -66,7 +66,7 @@ set_map_bound <- function(data = userpoints$dt) {
 
 ## Map click logic, on click add point
 observeEvent(input$bec_map_click, {
-  if(input$preselected == "N"){
+  if(input$acc == "acc1"){
     print("In BGC Click")
     uData$bec_click_flag <- TRUE
     pos <- input$bec_map_click
@@ -75,22 +75,38 @@ observeEvent(input$bec_map_click, {
   }
 })
 
-observeEvent(input$preselected,{
-  print(input$preselected)
-  if(input$preselected == "BGC_Dist"){
+observeEvent(input$acc, {
+  print(input$acc)
+  if(input$acc != "acc2"){
     userpoints$dt <- uData$basepoints
+    session$sendCustomMessage("clearBGC","puppy")
+    session$sendCustomMessage("selectBGC","puppy")
+    session$sendCustomMessage("typeFlag","click")
     clear_mk()
-    session$sendCustomMessage("selectDist","puppy")
-  }else if(input$preselected == "BGC"){
+  }else{
     userpoints$dt <- uData$basepoints
     clear_mk()
     session$sendCustomMessage("selectBGC","puppy")
     session$sendCustomMessage("typeFlag","select")
-  }else{
-    session$sendCustomMessage("clearBGC","puppy")
-    session$sendCustomMessage("selectBGC","puppy")
-    session$sendCustomMessage("typeFlag","click")
   }
+})
+
+
+observeEvent(input$preselected,{
+  print(input$preselected)
+  if(input$acc == "acc2"){
+    if(input$preselected == "BGC_Dist"){
+      userpoints$dt <- uData$basepoints
+      clear_mk()
+      session$sendCustomMessage("selectDist","puppy")
+    }else if(input$preselected == "BGC"){
+      userpoints$dt <- uData$basepoints
+      clear_mk()
+      session$sendCustomMessage("selectBGC","puppy")
+      session$sendCustomMessage("typeFlag","select")
+    }
+  }
+  
 })
 
 observeEvent(input$bgc_click,{

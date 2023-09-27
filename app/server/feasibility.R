@@ -5,6 +5,14 @@ observeEvent(input$siteref_feas, priority = 50, {
   updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
 })
 
+output$results_feas_all <- renderUI({
+  if(input$feas_type){
+    tableOutput("results_feas")
+  }else{
+    uiOutput("silviculture_block")
+  }
+})
+
 # CCISS Results
 output$results_feas <- function() {
   siteref <- selected_site$siteref
@@ -32,6 +40,7 @@ output$edaplot <- renderPlot({
       theme_bw(base_size = 16)+
       theme(panel.grid.major = element_blank())+
       labs(x = "SNR", y = "SMR")+
+      ggtitle("Edatopic Position") +
       theme(plot.background = element_rect(fill = "transparent", colour = NA),
             legend.position = "none")+
       coord_fixed()
@@ -46,7 +55,7 @@ grd1y <- seq(1.5,7.5,1)
 cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") {
   
   if(filter == "a"){
-    for(i in c("NewSuit_1991","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
+    for(i in c("NewSuit_1991","NewSuit_2001","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
       data[is.na(get(i)), (i) := 4]
     }
     data <- data[(IncludeFlag) | Curr %in% c(1,2,3) | CFSuitability %in% c(1,2,3),]
@@ -84,14 +93,14 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
     # }
     # data[,lapply(.SD, function(x){cell_spec(x,font_size = 24)}),
     #      .SDcols = c("CFSuitability","Curr","EstabFeas","ccissFeas")]
-    
+
     tempTable <- knitr::kable(
       data, format = format, align = c("l","c","c","c","c","c","c","c"), escape = FALSE,
       col.names = c("Tree Species", "Period", "Modelled Feasibility",
                     "Suitability", "P/A", "Environmental","Establishment",
                     "Future (cciss)","P/A (cciss)","<u>Improve/Same</u><br />Decline/Unsuitable"),
       table.attr = 'class="table table-hover"') %>%
-      add_header_above(c(" " = 2, "Raw Votes" = 1, "CFRG" = 2, 
+      add_header_above(c(" " = 2, "Raw Votes" = 1, "CFRG" = 2,
                          "CCISS" = 4, "Trend" = 1)) %>%
       column_spec(4:10,bold = T, extra_css = "vertical-align:middle;") %>%
       column_spec(1, tooltip = hoverText[1]) %>%
@@ -109,3 +118,162 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   
 }
 uData$cciss_results_dt <- cciss_results_dt
+
+###simple output
+output$silviculture_block <- renderUI({
+  siteref <- selected_site$siteref
+  siteserie <- selected_site$ss
+  cciss_results <- uData$cciss_results
+  if (is.null(cciss_results)) return(NULL)
+  standardblocks(cciss_results, siteref, siteserie)
+})
+
+standardblocks <- function(data, siteref, siteserie) {
+  sc <- data[
+    SiteRef %in% siteref & SS_NoSpace %in% siteserie,
+    list(Region, ZoneSubzone, SS_NoSpace, ccissFeas,EstabFeas, Improve,PrefAcc, Spp)
+  ]
+  ss <- stocking_standards[
+    Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
+  ]
+  do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
+}
+
+uData$standardblocks <- standardblocks
+
+standardblock <- function(std, ss, sc) {
+  ss <- ss[Standard %in% std]
+  ss[, TextStyle := ""]
+  sc[,TxtCciss := ""]
+  
+  # Some logic to flag specie with different Suitability than CCISS
+  ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissFeas))]
+  setnafill(ss, fill = 4L, cols = "ProjFeas")
+  ss[Suitability > ProjFeas, TextStyle := "color:green"]
+  ss[Suitability < ProjFeas, TextStyle := "color:red"]
+  ss[!ProjFeas %in% c(1,2,3), TextStyle := "color:red;text-decoration:line-through"]
+  ss[Suitability == 0, TextStyle := NA]
+  #browser()
+  # cciss colouring
+  sc[ss, on = "Spp == Species", CFRGSuit := i.Suitability]
+  sc[ccissFeas < CFRGSuit, TxtCciss := "color:green"]
+  sc[ccissFeas > CFRGSuit, TxtCciss := "color:red"]
+  sc[!CFRGSuit %in% c(1,2,3), TxtCciss := "color:purple"]
+  sc[CFRGSuit == 0, TxtCciss := NA]
+  
+  si <- stocking_info[Standard == std]
+  sh <- stocking_height[Standard == std]
+  list(
+    tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
+    tags$small("\nStandards ID: ",tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "),.noWS = c("before", "after"))),
+    tags$table(style = "max-width: 100%; white-space: nowrap;",
+               # Report formatting gray out the first row, so faking a row
+               tags$tr(
+                 tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:none",
+                         tags$small(tags$b("Regeneration")),
+                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+                         tags$table(
+                           width = "100%",
+                           tags$tr(
+                             tags$td(tags$b("Feasibility")),
+                             tags$td(tags$b("CFRG"),style = "border-right: 2px solid;"),
+                             tags$td(tags$b("CCISS"))
+                           ),
+                           tags$tr(
+                             tags$td("Primary/E1"),
+                             ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)]
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Secondary/E2"),
+                             ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)]
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Tertiary/E3"),
+                             ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)]
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Trial"),
+                             tags$td(""),
+                             sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)]
+                           ),
+                           tags$tr(
+                             tags$td("Broadleaf"),
+                             ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
+                             tags$td("",style = "border-left: 2px solid;"),
+                             style = "border-bottom:1px solid black;"
+                           ),
+                           
+                           tags$tr(
+                             tags$td("Preferred (p)"),
+                             ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & PrefAcc %in% "P", sppnotes_cciss(Spp,TxtCciss)],
+                           ),
+                           tags$tr(
+                             tags$td("Acceptable (a)"),
+                             ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
+                             sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
+                           )
+                         )
+                 ),
+                 tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px; background-color:white; border:none",
+                         tags$small(tags$b("Stocking (i) - well spaced/ha")),
+                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+                         tags$table(
+                           width = "100%",
+                           tags$tr(
+                             tags$td(tags$b("Target")),
+                             tags$td(tags$b("Min pa")),
+                             tags$td(tags$b("Min p")),
+                             tags$td(tags$b("Regen Delay (max yrs)"))
+                           ),
+                           tags$tr(
+                             tags$td(si$StockingTarget),
+                             tags$td(si$StockingMINpa),
+                             tags$td(si$StockingMINp),
+                             tags$td(si$StockingDelay)
+                           )
+                         ),
+                         tags$br(),
+                         tags$small(tags$b("Free Growing Guide")),
+                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+                         tags$table(
+                           width = "100%",
+                           tags$tr(
+                             tags$td(tags$b("Earliest (yrs)")),
+                             tags$td(tags$b("Latest(yrs)")),
+                             tags$td(tags$b("Min Height (m)")),
+                             tags$td(tags$b("Min Height (m)"))
+                           ),
+                           tags$tr(
+                             tags$td(si$AssessmentEarliest),
+                             tags$td(si$AssessmentLatest),
+                             tags$td(style = "white-space: normal;", sh[!Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")]),
+                             tags$td(style = "white-space: normal;", sh[Flag %in% TRUE, paste(Species, Height, sep = ": ", collapse = ", ")])
+                           )
+                         )
+                 )
+               ),
+               tags$tr(
+                 tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
+                         tags$small(tags$b("Footnotes")),
+                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+                         {
+                           fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
+                           fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
+                           fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+                           do.call(span, fnshiny)
+                         }
+                 )
+               )
+    )
+  )
+}
+
+
+uData$standardblock <- standardblock

@@ -46,6 +46,7 @@ mblbstyle <- Sys.getenv("BCGOV_MAPBOX_LABELS_STYLE")
 mbhsstyle <- Sys.getenv("BCGOV_MAPBOX_HILLSHADE_STYLE")
 source("./server/LeafletSource.R")
 
+
 ##setup edatopic grid
 grd1x <- seq(1.5,4.5,1)
 grd1y <- seq(1.5,7.5,1)

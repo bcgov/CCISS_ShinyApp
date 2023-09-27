@@ -15,4 +15,9 @@ suppressPackageStartupMessages({
   library(rhandsontable)
   library(colourvalues)
   library(prompter)
+  library(shinydashboardPlus)
+  library(shinyWidgets)
+  library(bslib)
 })
+
+source("./server/tooltip_verbage.R")
