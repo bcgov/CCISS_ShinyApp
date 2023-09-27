@@ -75,33 +75,161 @@ ccissMap <- function(SSPred,suit,spp_select){
   return(suitRes)
 }
 
+# ##gcm and rcp weight
+# gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3",
+#                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6",
+#                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+#                          weight = c(0,0,0,1,1,0,0,0,0,0,0,1,0))
+# #weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
+# rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"),
+#                          weight = c(0,1,1,0))
+# 
+# all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+# all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
+# all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
+# all_weight[,weight := wgcm*wrcp]
+# modWeights <- all_weight
 
-################### straight predicted feasibility maps #####################
-feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
-area <- st_read("~/Downloads/ReburnBC_StudySite1")
-area <- st_zm(area)
-X <- raster(area, resolution = 400)
-values(X) <- 1:ncell(X)
-hexPts <- st_read("~/BC_HexGrid/BC_HexPoints400m.gpkg")
-hexPts <- st_crop(hexPts, st_bbox(X))
-ids <- raster::extract(X, hexPts)
-cw_table <- data.table(SiteNo = hexPts$siteno,RastID = ids)
-cw_table <- unique(cw_table, by = "RastID")
+###load up bgc predictions data
+timeperiods <- "2041"
+bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
+setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
-##gcm and rcp weight
-gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3",
-                                 "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6",
-                                 "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-                         weight = c(0,0,0,1,1,0,0,0,0,0,0,1,0))
-#weight = c(1,1,0,0,1,1,1,0,1,1,1,1,0))
-rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"),
-                         weight = c(0,1,1,0))
 
-all_weight <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
-all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
-all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
-all_weight[,weight := wgcm*wrcp]
-modWeights <- all_weight
+##add/retreat (figure 3b)
+add_retreat <- function(SSPred,suit,spp_select){
+  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- unique(suit)
+  suit <- na.omit(suit)
+  SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
+  Site_BGC <- unique(SSPred[,.(SiteRef,BGC)])
+  SSPred <- na.omit(SSPred)
+  setkey(SSPred,SS.pred)
+  setkey(suit,SS_NoSpace)
+  suitMerge <- suit[SSPred, allow.cartesian = T]
+  #suitMerge <- na.omit(suitMerge)
+  setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
+  suit2 <- suit[,.(SS_NoSpace,Feasible)]
+  setnames(suit2, old = "Feasible",new = "OrigFeas")
+  suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
+  suitMerge[OrigFeas > 3.5, OrigFeas := NA]
+  suitMerge[Feasible > 3.5, Feasible := NA]
+  suitMerge[,HasValue := if(any(!is.na(OrigFeas))|any(!is.na(Feasible))) T else F, by = .(SiteRef)]
+  suitMerge <- suitMerge[(HasValue),]
+  suitMerge <- suitMerge[,.(SiteRef,FuturePeriod,SS_NoSpace,OrigFeas,SS.pred,Feasible,SSprob)]
+  setnames(suitMerge, old = "Feasible", new = "PredFeas")
+  suitMerge[,Flag := NA_character_]
+  suitMerge[is.na(OrigFeas) & !is.na(PredFeas),Flag := "Expand"]
+  suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
+  suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
+  suitMerge[is.na(OrigFeas) & is.na(PredFeas),Flag := "Same"]
+  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,FuturePeriod, Flag)]
+  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef,FuturePeriod)]
+  suitMerge[,PropMod := PropMod/PropAll]
+  suitRes <- unique(suitMerge[,.(SiteRef,Flag,PropMod)])
+  suitRes[,SiteRef := as.integer(SiteRef)]
+  setkey(suitRes,SiteRef)
+  suitRes[Flag == "Retreat",PropMod := PropMod * -1]
+}
+
+##Colin's 3 panel maps
+species <- c("Pl", "Sx", "Fd", "Py", "Cw", "Yc", "Lw", "Bl")
+edas <- c("C4", "B2", "D6")
+timeperiods <- "2041-2060"
+edaPos <- "C4"
+spp <- "Pl"
+
+for(edaPos in edas){
+  for(spp in species){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
+    cat("Plotting ",spp, edaPos,"\n")
+    
+    edaTemp <- data.table::copy(E1)
+    edaTemp <- edaTemp[is.na(SpecialCode),]
+    
+    edaTemp[,HasPos := if(any(Edatopic == edaPos)) T else F, by = .(SS_NoSpace)]
+    edaZonal <- edaTemp[(HasPos),]
+    edaZonal[,HasPos := NULL]
+    ##edatopic overlap
+    SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
+    
+    #initialise ploit
+    png(file=paste("./FeasibilityMaps/Three_Panel",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=8, height=5, pointsize=10, res=800)
+    
+    
+    par(plt=c(0,1,0,1), bg="white")
+    plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="")
+    
+    ###historic suitability
+    newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
+    newFeas[NewSuit > 3, NewSuit := 4]
+    newFeas[,FeasChange := Curr - NewSuit]
+    newFeas <- unique(newFeas, by = "SiteRef")
+    newFeas[,SiteRef := as.integer(SiteRef)]
+    ##newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
+    newFeas <- newFeas[!(Curr == 4 & FeasChange == 0),]
+    
+    X <- raster::setValues(X,NA)
+    X[newFeas$SiteRef] <- newFeas$Curr
+    breakseq <- c(0.5,1.5,2.5,3.5,5)
+    ColScheme <- c("darkgreen", "dodgerblue1", "gold2", "white")
+    
+    par(plt = c(0, 0.3, 0, 0.6),new = TRUE, xpd = TRUE)
+    
+    image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
+          col=ColScheme, breaks=breakseq, maxpixels= ncell(X),asp = 1)
+    plot(outline, add=T, border="black",col = NA, lwd=0.4)
+    legend("bottomleft", legend=c("1 (primary)", "2 (secondary)", "3 (tertiary)"), 
+           fill=ColScheme, bty="n", cex=0.9, title="Historical feasibility", inset=0.015)
+    
+    ##add/retreat
+    breakpoints <- seq(-1,1,0.2); length(breakpoints)
+    labels <- c("Retreat", "Expansion")
+    ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
+    addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
+    addret[Flag == "Same",PropMod := 0]
+    addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
+    X <- raster::setValues(X,NA)
+    X[addret$SiteRef] <- addret$PropMod
+    
+    par(plt = c(0.25,0.75,0,1),xpd = TRUE, new = TRUE)
+    image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
+          col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),asp = 1,
+          main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
+    plot(outline, add=T, border="black",col = NA, lwd=0.4)
+    
+    xl <- 325000; yb <- 900000; xr <- 400000; yt <- 1525000 #xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
+    rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+    text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
+    text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
+    text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, ") % of GCMs", sep=""), srt=90, pos=3, cex=0.9, font=2)
+    
+    
+    ##mean feasibility change
+    feasVals <- newFeas[,.(SiteRef,FeasChange)]
+    X <- raster::setValues(X,NA)
+    X[feasVals$SiteRef] <- feasVals$FeasChange
+    
+    breakpoints <- seq(-3,3,0.5); length(breakpoints)
+    labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+    ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey50", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]);
+    
+    par(plt = c(0.6, 0.95, 0.3, 1), xpd = TRUE, new = TRUE)
+    image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, 
+          breaks=breakpoints, maxpixels= ncell(X), asp = 1)
+    plot(outline, add=T, border="black",col = NA, lwd=0.4)
+    
+    xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
+    rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+    text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
+    text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
+    dev.off()
+  }
+  
+}
+
+
+####################################################################################################################
+###old
 
 dat <- dbGetCCISS(con, cw_table$SiteNo, avg = F, modWeights = all_weight)
 dat[,SiteRef := as.integer(SiteRef)]
@@ -142,12 +270,6 @@ for(tp in timeperiods){
   }
 }
 
-
-###load up bgc predictions data
-timeperiods <- "2041"
-bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
-setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
-
 ##figure 3c (mean change in feasibiltiy)
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
@@ -177,7 +299,7 @@ spp = c("Py")#, "Lw""Cw","Fd","Sx","Pl",
 for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   cat("Plotting ",spp,"\n")
   newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
- 
+  
   newFeas[NewSuit > 3, NewSuit := 4]
   newFeas$NewSuit <- round(newFeas$NewSuit, 0)
   #newFeas[,FeasChange := Curr - NewSuit]
@@ -204,6 +326,7 @@ for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
 }
 
 ##figure 3c (mean change in feasibiltiy)
+dir.create("FeasibilityMaps")
 library(RColorBrewer)
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
@@ -238,75 +361,6 @@ for(spp in spps){ ##ignore warnings,, "Yc", "Oa", "Yp"
   
 }
 
-##add/retreat (figure 3b)
-add_retreat <- function(SSPred,suit,spp_select){
-  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
-  suit <- unique(suit)
-  suit <- na.omit(suit)
-  SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
-  Site_BGC <- unique(SSPred[,.(SiteRef,BGC)])
-  SSPred <- na.omit(SSPred)
-  setkey(SSPred,SS.pred)
-  setkey(suit,SS_NoSpace)
-  suitMerge <- suit[SSPred, allow.cartesian = T]
-  #suitMerge <- na.omit(suitMerge)
-  setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
-  suit2 <- suit[,.(SS_NoSpace,Feasible)]
-  setnames(suit2, old = "Feasible",new = "OrigFeas")
-  suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
-  suitMerge[OrigFeas > 3.5, OrigFeas := NA]
-  suitMerge[Feasible > 3.5, Feasible := NA]
-  suitMerge[,HasValue := if(any(!is.na(OrigFeas))|any(!is.na(Feasible))) T else F, by = .(SiteRef)]
-  suitMerge <- suitMerge[(HasValue),]
-  suitMerge <- suitMerge[,.(SiteRef,FuturePeriod,SS_NoSpace,OrigFeas,SS.pred,Feasible,SSprob)]
-  setnames(suitMerge, old = "Feasible", new = "PredFeas")
-  suitMerge[,Flag := NA_character_]
-  suitMerge[is.na(OrigFeas) & !is.na(PredFeas),Flag := "Expand"]
-  suitMerge[!is.na(OrigFeas) & is.na(PredFeas),Flag := "Retreat"]
-  suitMerge[!is.na(OrigFeas) & !is.na(PredFeas),Flag := "Same"]
-  suitMerge[is.na(OrigFeas) & is.na(PredFeas),Flag := "Same"]
-  suitMerge[,PropMod := sum(SSprob), by = .(SiteRef,FuturePeriod, Flag)]
-  suitMerge[,PropAll := sum(SSprob), by = .(SiteRef,FuturePeriod)]
-  suitMerge[,PropMod := PropMod/PropAll]
-  suitRes <- unique(suitMerge[,.(SiteRef,Flag,PropMod)])
-  suitRes[,SiteRef := as.integer(SiteRef)]
-  setkey(suitRes,SiteRef)
-  suitRes[Flag == "Retreat",PropMod := PropMod * -1]
-}
-
-breakpoints <- seq(-1,1,0.2); length(breakpoints)
-labels <- c("Retreat", "Expansion")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey50","grey99", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
-
-# ##testing
-# pts <- dbGetQuery(con,"select rast_id from pts2km_ids where siteno in (select siteno from preselected_points where bgc = 'BWBSdk')")
-# addret2 <- addret[SiteRef %in% pts$rast_id,]
-
-
-for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
-  cat("Plotting ",spp,"\n")
-  addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
-  addret[Flag == "Same",PropMod := 0]
-  addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
-  X <- raster::setValues(X,NA)
-  X[addret$SiteRef] <- addret$PropMod
-  png(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=6.5, height=7, pointsize=10, res=800)
-  #pdf(file=paste("./FeasibilityMaps/Add_Retreat",timeperiods,spp,".pdf",sep = "_"), width=6.5, height=7, pointsize=10)
-  image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
-        col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),
-        main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",edaPos, "\nTimePeriod: ",timeperiods))
-  plot(outline, add=T, border="black",col = NA, lwd=0.4)
-  
-  par(xpd=T)
-  
-  #xl <- 325000; yb <- 900000; xr <- 425000; yt <- 1525000
-  xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
-  rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
-  text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
-  text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
-  text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, ") % of GCMs", sep=""), srt=90, pos=3, cex=0.9, font=2)
-  dev.off()
-}
 
 ##edatopic maps
 source("./_functions/_BlobOverlap.R")

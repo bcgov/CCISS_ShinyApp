@@ -227,7 +227,7 @@ dbGetCCISS <- function(con, siteno, avg, modWeights){
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
   WHERE cciss_future12_array.siteno IN (", paste(unique(siteno), collapse = ","), ")
-  AND futureperiod IN ('2021','2041','2061','2081')
+  AND futureperiod IN ('2001', '2021','2041','2061','2081')
   
   ), cciss_count_den AS (
   

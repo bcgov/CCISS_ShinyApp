@@ -11,7 +11,7 @@ observeEvent(input$generate_results, priority = 100, {
   # the userdata environment.
   
   # Input from the app
-  if(input$preselected != "N"){
+  if(input$acc == "acc2"){
     pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 150)
     userpoints$bgc_pts <- pointNums
     avg <- uData$avg <- TRUE
@@ -187,7 +187,7 @@ cciss <- function(bgc,estabWt,futWt) {
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 # This map is used to determine output labels from raw period
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
-uData$period_map <- c("1961" = "Historic", "1991" = "Current", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
+uData$period_map <- c("1961" = "Mapped", "1991" = "1991-2020 (obs)", "2001" = "2001-2020 (mod)", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
 ## SVGs for mid rot trend
 swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
@@ -207,6 +207,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
     reqj <- c(
       "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
       "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
+      "1_2001","2_2001","3_2001","X_2001", "NewSuit_2001",
       "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
       "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
       "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
@@ -216,6 +217,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
     setnafill(results, fill = 0, cols = c(
       "1_1961","2_1961","3_1961","X_1961",
       "1_1991","2_1991","3_1991","X_1991",
+      "1_2001","2_2001","3_2001","X_2001",
       "1_2021","2_2021","3_2021","X_2021",
       "1_2041","2_2041","3_2041","X_2041",
       "1_2061","2_2061","3_2061","X_2061",
@@ -265,6 +267,7 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       PredFeasSVG = paste0(
         feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
         feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
+        feasibility_svg(`1_2001`,`2_2001`,`3_2001`,`X_2001`), "<br />",
         feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
         feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
         feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
@@ -278,9 +281,11 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standar
       results[is.na(get(i)) | get(i) == 4, (i) := "X"]
     }
     #print(data[,.(CFSuitability,Curr,ccissFeas)])
+    results[,OrderCol := CFSuitability]
+    results[CFSuitability == '0', OrderCol := "S"]
     results[CFSuitability == "X" & Curr == "X" 
          & ccissFeas %in% c(1,2,3), EstabFeas := "Trial"]
-    setorder(results, SiteRef, SS_NoSpace, OrderCol, na.last = TRUE)
+    setorder(results, SiteRef, SS_NoSpace, OrderCol, -Improve, na.last = TRUE)
     return(results)
   })
 }

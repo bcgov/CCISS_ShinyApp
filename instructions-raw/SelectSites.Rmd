@@ -5,42 +5,102 @@ output:
         theme: null
         highlight: null
         mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Select points or areas of interest
 
-### __Step 1.__ Select points or areas of interest using __one of three methods__:
+### **Step 1.** Select points or areas of interest using **one of three methods**:
 
-  + __Option 1__.  Click on BGC map to add one or more individual locations. Use this option if you have specific sites you are interested in or are exploring CCISS results.  Where multiple sites are selected, the user can choose to generate a report where points are averaged within a BGC (default) or for each individual site.
- + __Option 2__.  Click on map to choose an entire BGC or a BGC within a single Forest District. The CCISS tool will use a set of pre-selected random points for the units chosen. This option is to be used where general trends are desired by area. The BGC + District option is probably most appropriate for stocking standard revisions.
+-   **Option 1**. Click on BGC map to add one or more individual
+    locations. Use this option if you have specific sites you are
+    interested in or are exploring CCISS results. Where multiple sites
+    are selected, the user can choose to generate a report where points
+    are averaged within a BGC (default) or for each individual site.
 
-  + __Option 3__.  User selects a formatted CSV file to upload user-specified and named points. The batch file must be in comma-separated (.csv) text format specifying a short sitename, latitude, longitude, and (optionally) site series (Formatted like ICHmc2/01a with no spaces) for each site  for each site. 
+-   **Option 2**. Click on map to choose an entire BGC or a BGC within a
+    single Forest District. The CCISS tool will use a set of
+    pre-selected random points for the units chosen. This option is to
+    be used where general trends are desired by area. The BGC + District
+    option is probably most appropriate for stocking standard revisions.
 
-### __Step 2__. Optionally change to report by individual point or average across all points in the same BGC. 
+-   **Option 3**. User selects a formatted CSV file to upload
+    user-specified and named points. The batch file must be in
+    comma-separated (.csv) text format specifying a short sitename,
+    latitude, longitude, and (optionally) site series (Formatted like
+    ICHmc2/01a with no spaces) for each site for each site.
 
-  Option 1 and 2 default to BGC averaged reports while option 3 defaults to individual reports.
+### **Step 2**. Optionally change to report by individual point or average across all points in the same BGC.
 
-### __Step 3__. Click the "Generate Results" at the top of the screen to complete the analysis for the points of interest. 
+Option 1 and 2 default to BGC averaged reports while option 3 defaults
+to individual reports.
 
-If additional points are added or other changes to parameters the "Generate Results' button will change to 'Refresh Results" to regenerate the output.
+### **Step 3**. Click the "Generate Results" at the top of the screen to complete the analysis for the points of interest.
+
+If additional points are added or other changes to parameters the
+"Generate Results' button will change to 'Refresh Results" to regenerate
+the output.
 
 ## Adjust Session Parameters (Optional)
 
-The CCISS tool makes calculations that differentially weight climate models, scenarios, and time periods in results. We have assigned recommended weightings for general use of the tool. However, for some purposes users may wish to adjust the weights given to these parameters based on their specific objectives.
+The CCISS tool makes calculations that differentially weight climate
+models, scenarios, and time periods in results. We have assigned
+recommended weightings for general use of the tool. However, for some
+purposes users may wish to adjust the weights given to these parameters
+based on their specific objectives.
 
 ### 1. Establishment feasibility weights
 
-The Feasibility report provides an assessment of __establishment feasibility__, representing the likelihood of success in establishing the species to free growing if planted in the present climate. This value is a weighted average of the environmental feasibility in the 1961-2020, 2001-2020, and 2021-2040 periods. The default weightings are even across these periods to reflect three perspectives on feasibility. First, the 1961-1990 period reflects the proven viability of the species in the ecosystem. Second, the 2001-2020 period reflects the actual climate experienced in the location of interest. Third, the 2021=2040 period is the expected climate during the establishment of the species. Users may want to adjust the establishment feasibility weights based on whether they want a more historically-oriented or future-oriented assessment. Note that the feasibility in each of these periods is visible in the detailed feasibility report.
+The Feasibility report provides an assessment of **establishment
+feasibility**, representing the likelihood of success in establishing
+the species to free growing if planted in the present climate. This
+value is a weighted average of the environmental feasibility in the
+1961-2020, 2001-2020, and 2021-2040 periods. The default weightings are
+even across these periods to reflect three perspectives on feasibility.
+First, the 1961-1990 period reflects the proven viability of the species
+in the ecosystem. Second, the 2001-2020 period reflects the actual
+climate experienced in the location of interest. Third, the 2021=2040
+period is the expected climate during the establishment of the species.
+Users may want to adjust the establishment feasibility weights based on
+whether they want a more historically-oriented or future-oriented
+assessment. Note that the feasibility in each of these periods is
+visible in the detailed feasibility report.
 
 ### 2. Maturation weights
 
-The Feasibility Report provides an assessment of __maturation feasibility__: the feasibility of the species through the entire future period to rotation (2021 to 2100). The default setting equally weight the four 20-year future time periods. 
+The Feasibility Report provides an assessment of **maturation
+feasibility**: the feasibility of the species through the entire future
+period to rotation (2021 to 2100). The default setting equally weight
+the four 20-year future time periods.
 
 ### 3. GCM weights
 
-There are 13 global climate models available in the CCISS tool. However, the CCISS tool defaults to the 8-model ensemble of global climate models recommended by [Mahony et al. (2022)](https://doi.org/10.1002/joc.7566) and assigns each of these models equal weighting.
-The five models were excluded because their warming rates aren't supported by observational evidence (CanESM5, UKESM1, INM-CM5; explained [here](https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf)), because they only have a single run for each scenario (BCC-CSM2, INM-CM5), or because they exhibit unrealistic localized warming in BC (IPSL-CM6A).
+There are 13 global climate models available in the CCISS tool. However,
+the CCISS tool defaults to the 8-model ensemble of global climate models
+recommended by [Mahony et al. (2022)](https://doi.org/10.1002/joc.7566)
+and assigns each of these models equal weighting. The five models were
+excluded because their warming rates aren't supported by observational
+evidence (CanESM5, UKESM1, INM-CM5; explained
+[here](https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf)),
+because they only have a single run for each scenario (BCC-CSM2,
+INM-CM5), or because they exhibit unrealistic localized warming in BC
+(IPSL-CM6A).
 
 ### 4. Scenario weights
 
-Global climate model projections follow scenarios of future greenhouse gas emissions called [Shared Socioeconomic Pathways](https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change) (SSPs). The CCISS tool provides the option of giving different weights to the four major SSP scenarios: SSP1-2.6, SSP2-4.5, SSP3-7.0, and SSP5-8.5. Collectively, SSP1-2.6, SSP2-4.5, and SSP3-7.0 provide a reasonable representation of optimistic, neutral, and pessimistic outlooks on global emissions policies and socioeconomic development. The CCISS tool defaults to equal weighting of these three scenarios to represent scenario uncertainty in climate change projections. We have set SSP5-8.5 weighting to 0 in the default scenarios because it is extremely unlikely based on current trends in energy economics and policy ([Hausfather and Peters 2020](https://www.nature.com/articles/d41586-020-00177-3)).
+Global climate model projections follow scenarios of future greenhouse
+gas emissions called [Shared Socioeconomic
+Pathways](https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change)
+(SSPs). The CCISS tool provides the option of giving different weights
+to the four major SSP scenarios: SSP1-2.6, SSP2-4.5, SSP3-7.0, and
+SSP5-8.5. Collectively, SSP1-2.6, SSP2-4.5, and SSP3-7.0 provide a
+reasonable representation of optimistic, neutral, and pessimistic
+outlooks on global emissions policies and socioeconomic development. The
+CCISS tool defaults to equal weighting of these three scenarios to
+represent scenario uncertainty in climate change projections. We have
+set SSP5-8.5 weighting to 0 in the default scenarios because it is
+extremely unlikely based on current trends in energy economics and
+policy ([Hausfather and Peters
+2020](https://www.nature.com/articles/d41586-020-00177-3)).

@@ -178,12 +178,12 @@ ccissMap <- function(SSPred,suit,spp_select){
 
 ################### straight predicted feasibility maps #####################
 feasCols <- data.table(Feas = c(1,2,3,4,5),Col = c("limegreen", "deepskyblue", "gold", "grey","grey"))
-area <- st_read("~/Downloads/ReburnBC_StudySite1")
-area <- st_zm(area)
-X <- raster(area, resolution = 400)
-values(X) <- 1:ncell(X)
-hexPts <- st_read("~/BC_HexGrid/BC_HexPoints400m.gpkg")
-hexPts <- st_crop(hexPts, st_bbox(X))
+# area <- st_read("~/Downloads/ReburnBC_StudySite1")
+# area <- st_zm(area)
+# X <- raster(area, resolution = 400)
+# values(X) <- 1:ncell(X)
+# hexPts <- st_read("~/BC_HexGrid/BC_HexPoints400m.gpkg")
+# hexPts <- st_crop(hexPts, st_bbox(X))
 ids <- raster::extract(X, hexPts)
 cw_table <- data.table(SiteNo = hexPts$siteno,RastID = ids)
 cw_table <- unique(cw_table, by = "RastID")

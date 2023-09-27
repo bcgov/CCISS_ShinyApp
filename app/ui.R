@@ -24,15 +24,15 @@ sidebarhelplink <- function(inputId) {
   ))
 }
 
-suppressWarnings(
+
   navbarPage(
     title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">',navhelplink("The CCISS Tool", "cciss_about_nav")), ##navhelplink("The CCISS Tool", "cciss_about_nav")
     theme = {
       theme <- bslib::bs_theme(version = 5,
-                               bootswatch = "yeti",
+                               bootswatch = "sandstone",
                                primary = "#003366")
-      theme$layers$bootswatch$defaults[[3]][[2]] <-
-        "$navbar-default-bg: primary !default;"
+      # theme$layers$bootswatch$defaults[[3]][[2]] <-
+      #   "$navbar-default-bg: primary !default;"
       theme
     },
     collapsible = TRUE,
@@ -46,98 +46,130 @@ suppressWarnings(
       tags$head(includeCSS("./www/style.css")),
       prompter::use_prompt(),
       tags$head(includeScript("./www/cciss.js")),
+#       tags$script(
+#         "function deleteRow(el){
+# 				$('#points_table')
+# 					.data('datatable')
+# 					.row($(el).parents('tr'))
+# 					.remove()
+# 					.draw();
+# 			};"
+#       ),
       sidebarLayout(
         # Inputs
         sidebarPanel(
           width = 4,
           sidebarhelplink("cciss_instructions_select_sites"),
           style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
-        actionButton(
-          "generate_results",
-          label = "Generate results",
-          icon = icon("plus-square"),
-          style = "width:100%; background-color:#003366; color: #FFF"
-        ),
-          hr(style = "border-top: 1px solid #8f0e7e;"),
-          h5("Add Points Using One of the 3 Methods Below"),
-          h6(
-            "1. Enter Lat/Long or Click on Map to Add Points",
-            prompter::add_prompt(
-              tooltipsIcon,
-              message = "Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate",
-              position = "right",
-              size = "large",
-              shadow = FALSE
-            )
-          ),
-          # Points
-          DT::DTOutput("points_table", width = "100%"),
-          actionButton("add_dialog", "Enter New", icon("plus"), width =
-                         120),
-          actionButton("delete_button", "Selected", icon("trash-alt"), width =
-                         120),
-          actionButton("clear_button", "Clear All", icon("broom"), width =
-                         120),
-          hr(style = "border-top: 1px solid #8f0e7e;"),
-          h6(
-            "2. Generate summary using preselected points by BGC or BGC+Distict",
-            prompter::add_prompt(
-              tooltipsIcon,
-              message = "Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District",
-              position = "right",
-              size = "large",
-              shadow = FALSE
-            )
-          ),
-          splitLayout(
-            radioButtons(
-              "preselected",
-              label = NULL,
-              choiceNames =  c("None", "BGC", "District then BGC"),
-              choiceValues = c("N", "BGC", "BGC_Dist"),
-              inline = T
-            ),
-            actionButton("clear_highlight", "Clear Selections"),
-            cellWidths = c("67%", "33%")
-          ),
-          textOutput("bgc_click_show"),
-          textOutput("dist_click_show"),
-          hr(style = "border-top: 1px solid #8f0e7e;"),
-          h6(
-            "3. Upload a CSV file contain points of interests",
-            prompter::add_prompt(
-              tooltipsIcon,
-              message = "Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.",
-              position = "right",
-              size = "large",
-              shadow = FALSE
-            )
-          ),
-          # Actions on points
-          actionButton("upload_button", "Upload CSV", icon("upload"),
-                       style = "width:100%; background-color:#8f0e7e; color: #FFF"),
-          hr(style = "border-top: 1px solid #8f0e7e;"),
-          actionButton("clear_selections", "Clear Selections",
-                       style = "width:100%; background-color:#c21104; color: #FFF"),
-          hr(style = "border-top: 1px solid #8f0e7e;"),
-          
-        wellPanel(splitLayout(
-          actionButton("sesh_params", "Adjust Parameters", icon = icon("sliders-h")),
-          
-          radioButtons(
-            "aggregation",
-            "Multiple Point Aggregation:",
-            c("Individual" = "FALSE", "Averaged by BGC Subzone" = "TRUE"),
-            selected = "TRUE"
-          )
-        )
 
-        )),
+          wellPanel(
+            splitLayout(
+              actionButton("clear_selections", "Clear Selections",
+                           style = "width:100%; height:70px; background-color:#c21104; color: #FFF"),
+              actionButton(
+                "generate_results",
+                label = "Generate results",
+                icon = icon("plus-square"),
+                style = "width:100%; height:70px; background-color:#003366; color: #FFF"
+              )
+            ),
+            splitLayout(
+              # radioButtons(
+              #   "aggregation",
+              #   "Report Type",
+              #   c("Indiv Points" = "FALSE", "BGC avg" = "TRUE"),
+              #   inline = TRUE,
+              #   selected = "TRUE"
+              # ),
+              tagList(
+                h6("Report Type"),
+                switchInput("aggregation", value = TRUE, onLabel = "BGC Avg", offLabel = "Indiv Points", width = 'auto')
+              ),
+              tagList(
+                br(),
+                actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
+              )
+              
+            )
+
+          ),
+
+          hr(style = "border-top: 1px solid #8f0e7e;"),
+          h5("Add sites Using One of the 3 Methods Below"),
+          
+          accordion(
+            multiple = FALSE,
+            accordion_panel(
+              title = h6(
+                "Method 1. Click on map to add single points",
+                prompter::add_prompt(
+                  tooltipsIcon,
+                  message = "Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate",
+                  position = "top",
+                  size = "large",
+                  shadow = FALSE
+                )
+              ),
+              DT::DTOutput("points_table", width = "100%"),
+              actionButton("add_dialog", "Enter New", icon("plus"), width =
+                             120),
+              actionButton("delete_button", "Selected", icon("trash-alt"), width =
+                             120),
+              value = "acc1"
+              # actionButton("clear_button", "Clear All", icon("broom"), width =
+              #                120),
+             
+            ), 
+            accordion_panel(
+              title = h6(
+                "Method 2. Click on BGC and District",
+                prompter::add_prompt(
+                  tooltipsIcon,
+                  message = "Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District",
+                  position = "top",
+                  size = "large",
+                  shadow = FALSE
+                )
+              ),
+              value = "acc2",
+                radioButtons(
+                  "preselected",
+                  label = NULL,
+                  choiceNames =  c("All of BGC", "BGC in District"),
+                  choiceValues = c("BGC", "BGC_Dist"),
+                  inline = T
+                ),
+                
+                textOutput("bgc_click_show"),
+                textOutput("dist_click_show"),
+                hr(style = "border-top: 1px solid #8f0e7e;")
+            ),
+            accordion_panel(
+              title = h6(
+                "Method 3. Upload a CSV file",
+                prompter::add_prompt(
+                  tooltipsIcon,
+                  message = "Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.",
+                  position = "top",
+                  size = "large",
+                  shadow = FALSE
+                )
+              ),
+              value = "acc3",
+                actionButton("upload_button", "Upload CSV", icon("upload"),
+                             style = "width:100%; background-color:#8f0e7e; color: #FFF"),
+                hr(style = "border-top: 1px solid #8f0e7e;")
+            ),
+          id = "acc")
+          
+        ),
+       
         mainPanel(width = 8,
                   # Biogeoclimatic Zones + Subzones Variants Map
                   leafletOutput("bec_map"))
-      )
-    ),
+        
+        )
+      ),
     # Feasibility report ----
     tabPanel(
       title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
@@ -147,8 +179,9 @@ suppressWarnings(
         sidebarPanel(
           width = 2,
           sidebarhelplink("cciss_instructions_feasibility_report"),
+          materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = TRUE),
           h6("Filters"),
-          selectInput("siteref_feas", label = "Sites:", choices = character()),
+          selectInput("siteref_feas", label = "Site/BGC", choices = character()),
           selectInput("site_series_feas", label = "Site Series", choices = character()),
           radioButtons(
             "filter_feas",
@@ -157,23 +190,28 @@ suppressWarnings(
             selected = "a",
             inline = T
           ),
-          h6("Legend"),
-          HTML(
-            paste0(
-              '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-              c("limegreen", "deepskyblue", "gold", "grey"),
-              '" /><span style="vertical-align:middle">&nbsp;',
-              c("Primary", "Secondary", "Tertiary", "Not Suitable"),
-              '</span>',
-              collapse = "<br />"
+          h6("Feasibility Legend"),
+          bslib::tooltip(
+            span(HTML(
+              paste0(
+                '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+                c("limegreen", "deepskyblue", "gold", "grey"),
+                '" /><span style="vertical-align:middle">&nbsp;',
+                c("E1: High", "E2: Moderate", "E3: Low", "X: Not Suitable"),
+                '</span>',
+                collapse = "<br />"
+              )
             )
-          ),
-          h6("Edatopic Position"),
+            ),
+            tooltip_text$feas_legend
+          )
+          ,
           plotOutput("edaplot")
         ),
         mainPanel(width = 10,
                   # CCISS Report
-                  tableOutput("results_feas"))
+                  uiOutput("results_feas_all")
+                  )
       )
     ),
     # BEC Futures ----
@@ -268,8 +306,8 @@ suppressWarnings(
                  # Silvics & Ecology
                  tabsetPanel(
                    type = "pills",
-                   tabPanel(title = "Chief Forester Reference Guide",
-                            uiOutput("silviculture_block")),
+                   # tabPanel(title = "Chief Forester Reference Guide",
+                   #          #uiOutput("silviculture_block")),
                    tabPanel(title = "Tolerance",
                             tableOutput("silvics_tol_dt")),
                    tabPanel(title = "Resistance",
@@ -565,6 +603,6 @@ suppressWarnings(
           )
         )
       )
-    ),
+    )
   )
-)
+#)
