@@ -5,32 +5,56 @@ output:
         theme: null
         highlight: null
         mathjax: null
+editor_options: 
+  markdown: 
+    wrap: sentence
 ---
-## Tree species feasibility report
-This is the main information report of the CCISS tool. Use the information in this tab to explore how species feasibility will change through future time periods
 
-### Selection/Filter pane
+### Tree species feasibility report
 
-In left pane select the sites/BGC site group and then the site series of interest.
+This is the main report of the CCISS tool.
+The Summary mode of this report provides a comparison of the Chief Forester's Reference Guide for Stocking Standards (CFRG) and the CCISS feasibility assessment.
+The Detailed mode shows the distribution of feasibility ratings for the global climate model ensemble in each time period.
+
+The concept and definitions of CCISS feasibility ratings are discussed in more detail [here](hyperlink)
+
+#### Selection/Filter pane
+
+In left pane select the BGC subzone/variant and then the site series of interest.
 The edatopic space of the selected site series is displayed in the graphic below for reference.
-By default the report will show all species that are predicted to have suitability in at least one model or future scenario. Choose "Feasible Only" option to limit list to species that meet the threshold for inclusion as suitable in any of the time periods.
+By default the report will show all species that are predicted to be feasible in at least one model and time period.
+Choose the "Feasible Only" option to limit the list to species that meet the threshold for classification as feasible across the global climate model ensemble in any of the time periods.
 
-### Selection/Filter pane
+#### Summary report
 
-This report show modelled feasibility ratios for each species for each time period. The colour legend for feasibility ratings is on the left hand pane.
-The historic time period represents the 'base case' and reflect climatic conditions pre-1990
-The current time period reflect climate of the time period 1991-2020. 
+This report puts CCISS results into the context of the Chief Forester's Reference Guide for Stocking Standards.
+Species codes are colored according to trends in their future feasibility using the legend at the bottom of the selection pane: improving (green), decreasing (red).
+Species added to the CCISS stocking standard are colored purple, and species dropped from the CCISS stocking standard are strikethrough.
 
-The report then aligns base line suitability ratings for the each species in the selected site series. 
-The CFRG (Chief Forester's Reference Guide) suitability ratings and preferred/acceptable values
-The historic CCISS environmental suitability rating
+#### Detailed report
 
-Establishment
+This report shows modelled feasibility ratios for each species in the selected site series for each time period.
+The colour legend for feasibility ratings is on the left hand pane.
+The mapped biogeoclimatic unit represents the historical equilibrium climate approximated by the climatic conditions of the 1961-1990 period.
+The recent time period (2001-2020) has two bars: one for the observed climate (measured by weather stations), and one for the climates simulated by the ensemble of global climate models.
+These two bars aren't necessarily expected to agree: The modelled climates sample a large range of possible recent conditions, of which the observed recent climate is only one.
 
-Establishment
+The report then summarizes the baseline suitability ratings and forecasted feasibility ratings for each species in the following order:
 
-Future CCISS
+1.  The CFRG suitability rating
 
-P/A CCISS
+2.  The CFRG preferred/acceptable value
 
+3.  The CCISS feasibility (environmental suitability) rating for the mapped (baseline) site series.
 
+4.  Establishment Feasibility: The feasibility rating based on the baseline (1961-1990), recent (2001-2020), and 2021-2040 future projected feasibilities.
+    This indicates the likely level of constraints for successful establishment of the species in the present climate.
+
+5.  Maturation Feasibility: The mean feasibility rating of the projected feasibilities over the 2021-2100 period.
+    This indicates the inferred constraints on survival and growth to a tree age of 80 years.
+
+6.  P/A: Assessed preferred/acceptable rating based on establishment and maturation feasibility.
+
+7.  Trend: the proportion of the GCM simulations indicating a trend of improving or sustained feasibility vs. a trend of declining feasibility or remaining unfeasible.
+
+The weights used to calculate Establishment Feasibility and Maturation Feasibility can be modified using the "Adjust Parameters" dialog box in the "Select Sites" tab.
