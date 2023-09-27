@@ -82,12 +82,13 @@ sidebarhelplink <- function(inputId) {
               #   selected = "TRUE"
               # ),
               tagList(
-                h6("Report Type"),
-                switchInput("aggregation", value = TRUE, onLabel = "BGC Avg", offLabel = "Indiv Points", width = 'auto')
+                br(),
+                actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
               ),
               tagList(
                 br(),
-                actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
+               # p("Report by:"),
+                switchInput("aggregation", value = TRUE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
               )
               
             )
