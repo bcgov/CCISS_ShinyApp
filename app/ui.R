@@ -96,16 +96,16 @@ sidebarhelplink <- function(inputId) {
           ),
 
           hr(style = "border-top: 1px solid #8f0e7e;"),
-          h5("Add sites Using One of the 3 Methods Below"),
+          h4("Add Sites Using One of the 3 Methods Below"),
           
           accordion(
             multiple = FALSE,
             accordion_panel(
-              title = h6(
+              title = h5(
                 "Method 1. Click on map to add single points",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Click on the map to add points or use 'Enter New' to manually add a specific lat/long coordinate",
+                  message = "Click on the map to add one or more points or use 'Enter New' to manually add lat/long coordinates",
                   position = "top",
                   size = "large",
                   shadow = FALSE
@@ -122,11 +122,11 @@ sidebarhelplink <- function(inputId) {
              
             ), 
             accordion_panel(
-              title = h6(
+              title = h5(
                 "Method 2. Click on BGC and District",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Click BGC on map to use points across an entire BGC subzone/variant or only BGCs within a Forest District",
+                  message = "Click on map to use preselected points across an entire BGC subzone/variant or only BGCs within a Forest District",
                   position = "top",
                   size = "large",
                   shadow = FALSE
@@ -146,11 +146,11 @@ sidebarhelplink <- function(inputId) {
                 hr(style = "border-top: 1px solid #8f0e7e;")
             ),
             accordion_panel(
-              title = h6(
+              title = h5(
                 "Method 3. Upload a CSV file",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Upload a csv file with columns named ID1, Latitude, and Longitude (negative values) with your points of interest.",
+                  message = "Upload a csv file with columns sitename, latitude, longitude, and (optionally) siteseries with your points of interest.",
                   position = "top",
                   size = "large",
                   shadow = FALSE

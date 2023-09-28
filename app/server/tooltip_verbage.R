@@ -20,7 +20,7 @@ tooltip_text$cciss_estab <-  HTML(paste(p("Current climate establishment feasibi
                                collapse = "<br />" )) 
 tooltip_text$cciss_mature <-  HTML(paste(p("Future period (2021-2100) feasibility"), 
                                         collapse = "<br />" )) 
-tooltip_text$cciss_pa <-  HTML(paste(p("Preliminary preferred/acceptable "), 
+tooltip_text$cciss_pa <-  HTML(paste(p("Preliminary preferred/acceptable"), 
                                          collapse = "<br />" )) 
 tooltip_text$trends <-  HTML(paste(p("Ratio of models indicting improving/stable trends/ models declining or unsuitable"), 
                                          collapse = "<br />" )) 
