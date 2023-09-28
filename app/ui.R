@@ -26,6 +26,7 @@ sidebarhelplink <- function(inputId) {
 
 
   navbarPage(
+    
     title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">',navhelplink("The CCISS Tool", "cciss_about_nav")), ##navhelplink("The CCISS Tool", "cciss_about_nav")
     theme = {
       theme <- bslib::bs_theme(version = 5,
@@ -46,6 +47,10 @@ sidebarhelplink <- function(inputId) {
       tags$head(includeCSS("./www/style.css")),
       prompter::use_prompt(),
       tags$head(includeScript("./www/cciss.js")),
+      tags$script("
+$(document).ready(function(){
+    $('[data-toggle=\"popover\"]').popover(); 
+});"),
 #       tags$script(
 #         "function deleteRow(el){
 # 				$('#points_table')
@@ -102,11 +107,11 @@ sidebarhelplink <- function(inputId) {
             multiple = FALSE,
             accordion_panel(
               title = h5(
-                "Method 1. Click on map to add single points",
+                "Method 1. Click on map to add points",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Click on the map to add one or more points or use 'Enter New' to manually add lat/long coordinates",
-                  position = "top",
+                  message = tooltip_text$select_points,
+                  position = "top-left",
                   size = "large",
                   shadow = FALSE
                 )
@@ -126,8 +131,8 @@ sidebarhelplink <- function(inputId) {
                 "Method 2. Click on BGC and District",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Click on map to use preselected points across an entire BGC subzone/variant or only BGCs within a Forest District",
-                  position = "top",
+                  message = tooltip_text$bgc_click,
+                  position = "top-left",
                   size = "large",
                   shadow = FALSE
                 )
@@ -150,8 +155,8 @@ sidebarhelplink <- function(inputId) {
                 "Method 3. Upload a CSV file",
                 prompter::add_prompt(
                   tooltipsIcon,
-                  message = "Upload a csv file with columns sitename, latitude, longitude, and (optionally) siteseries with your points of interest.",
-                  position = "top",
+                  message = tooltip_text$upload_csv,
+                  position = "top-left",
                   size = "large",
                   shadow = FALSE
                 )
@@ -194,10 +199,15 @@ sidebarhelplink <- function(inputId) {
       ),
     # Feasibility report ----
     tabPanel(
+      tags$script("
+$(document).ready(function(){
+    $('[data-toggle=\"popover\"]').popover(); 
+});"),
       title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
       value = "feasibility",
       tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
       sidebarLayout(
+        
         # Inputs
         sidebarPanel(
           width = 2,

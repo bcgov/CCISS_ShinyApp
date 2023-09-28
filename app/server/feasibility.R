@@ -103,13 +103,12 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
       add_header_above(c(" " = 3, "Historic" = 3, 
                          "CCISS" = 2, "Trend" = 1)) %>%
       column_spec(4:9,bold = T, extra_css = "vertical-align:middle; font-size:22px;") %>%
-      column_spec(1, tooltip = hoverText[1]) %>%
-      column_spec(2, tooltip = hoverText[2], width = "3cm") %>%
-      column_spec(3, tooltip = hoverText[3],border_right = T) %>%
-      column_spec(4, tooltip = hoverText[4]) %>%
-      column_spec(5, tooltip = hoverText[5]) %>%
-      column_spec(6, tooltip = hoverText[6],border_left = T,border_right = T) %>%
-      column_spec(7, tooltip = hoverText[7]) %>%
+      column_spec(3, tooltip = tooltip_text$model_agree) %>%
+      column_spec(4:5, tooltip = tooltip_text$cfrg, width = "3cm") %>%
+      column_spec(6, tooltip = tooltip_text$es,border_left = T,border_right = T) %>%
+      column_spec(7, tooltip = tooltip_text$cciss_estab) %>%
+      column_spec(8, tooltip = tooltip_text$cciss_mature) %>%
+      column_spec(9, tooltip = tooltip_text$trends) %>%
       kable_styling(full_width = F, font_size = 14)
   }else{
     NULL
