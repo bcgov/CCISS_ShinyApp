@@ -14,15 +14,30 @@
 
 <title>Export.knit</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
 
 
 
@@ -43,25 +58,24 @@
 
 
 
-<div id="selecting-points-or-areas-of-interest" class="section level5">
-<h5>Selecting points or areas of interest</h5>
-<p>Step 0. Report by individual point or average across all points in the same BGC</p>
-<p>Step 1. Select points of interest to generate CCISS futures on using one of three methods</p>
-<ol style="list-style-type: decimal">
-<li><p>Click BGC map to add locations Use this option if you have specific sites you are interested in. Multiple points can be selected.</p></li>
-<li><p>Choose pre-selected points for either an entire BGC or a BGC within a single Forest District. The CCISS tool has a set of pre-selected random points built in for the province. This option is to be used where general trends are desired by area. The BGC + District option is probably most appropriate for stocking standard revisions.</p></li>
-<li><p>Upload a .CSV file with locations This option can be selected if a set of sites are already located on the landscape. E.g Planting blocks, Research trial networks.</p></li>
-</ol>
-<p>Step 2. Click the “Generate Button” at the bottom of the screen to complete the analysis for the points of interest</p>
-<div id="adjust-parameters" class="section level6">
-<h6>Adjust Parameters</h6>
-<p>The report uses a set of standard default settings which can be adjusted.</p>
-<ol style="list-style-type: decimal">
-<li><p>Establishment feasibility rating Default: equal weighting between historic, current, and near future (2021-2040) time periods</p></li>
-<li><p>CCISS feasibility rating Default: equal weighting for all future 20-year time periods (2021-2100)</p></li>
-<li><p>Global Climate Model weighting Default: 10 GCMs are given full weighting. CanESM5, UKESM1, and INM-CM5 are give no weighting</p></li>
-<li><p>Carbon scenario weighting Default: The 450ppm scenario is fully weighted. 260 and 700ppm are slightly downweighted to 80%. The extreme 850ppm scenario is set to 0.</p></li>
-</ol>
+<div id="export" class="section level2">
+<h2>Export</h2>
+<div id="export-report" class="section level3">
+<h3>Export Report</h3>
+<p>The report is designed for documentation and off-line use of a CCISS
+tool report session, e.g. as an appendix to a site plan. We recommend
+including only the site series of interest to the user. Choose the
+“Feasible Only” option to limit list to species that meet the threshold
+for inclusion as feasible in any of the time periods.</p>
+</div>
+<div id="export-data" class="section level3">
+<h3>Export data</h3>
+<p>Feasibility data can be exported for conducting further analysis such
+as calculating summary statistics for your area of interest. Feasibility
+data exported from the CCISS tool is in “long form” with each row
+showing projected feasibility by site of interest, site series, and tree
+species. Data is exported as a .CSV file; a PDF metadata report is
+included in the export folder.</p>
 </div>
 </div>
 

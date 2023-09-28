@@ -190,6 +190,7 @@ sidebarhelplink <- function(inputId) {
     tabPanel(
       title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
       value = "feasibility",
+      tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
       sidebarLayout(
         # Inputs
         sidebarPanel(
@@ -571,11 +572,11 @@ sidebarhelplink <- function(inputId) {
                 value = "cciss_instructions_silvics_ecology",
                 includeHTML("./instructions/SilvicsEcology.html") 
               ),
-              tabPanel(
-                title = "Species Portfolio",
-                value = "cciss_instructions_species_portfolio",
-                includeHTML("./instructions/SpeciesPortfolio.html") 
-              ),
+              # tabPanel(
+              #   title = "Species Portfolio",
+              #   value = "cciss_instructions_species_portfolio",
+              #   includeHTML("./instructions/SpeciesPortfolio.html") 
+              # ),
               tabPanel(
                 title = "Export",
                 value = "cciss_instructions_export",

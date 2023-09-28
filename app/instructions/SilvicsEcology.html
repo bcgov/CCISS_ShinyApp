@@ -14,15 +14,30 @@
 
 <title>SilvicsEcology.knit</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
 
 
 
@@ -43,25 +58,36 @@
 
 
 
-<div id="selecting-points-or-areas-of-interest" class="section level5">
-<h5>Selecting points or areas of interest</h5>
-<p>Step 0. Report by individual point or average across all points in the same BGC</p>
-<p>Step 1. Select points of interest to generate CCISS futures on using one of three methods</p>
-<ol style="list-style-type: decimal">
-<li><p>Click BGC map to add locations Use this option if you have specific sites you are interested in. Multiple points can be selected.</p></li>
-<li><p>Choose pre-selected points for either an entire BGC or a BGC within a single Forest District. The CCISS tool has a set of pre-selected random points built in for the province. This option is to be used where general trends are desired by area. The BGC + District option is probably most appropriate for stocking standard revisions.</p></li>
-<li><p>Upload a .CSV file with locations This option can be selected if a set of sites are already located on the landscape. E.g Planting blocks, Research trial networks.</p></li>
-</ol>
-<p>Step 2. Click the “Generate Button” at the bottom of the screen to complete the analysis for the points of interest</p>
-<div id="adjust-parameters" class="section level6">
-<h6>Adjust Parameters</h6>
-<p>The report uses a set of standard default settings which can be adjusted.</p>
-<ol style="list-style-type: decimal">
-<li><p>Establishment feasibility rating Default: equal weighting between historic, current, and near future (2021-2040) time periods</p></li>
-<li><p>CCISS feasibility rating Default: equal weighting for all future 20-year time periods (2021-2100)</p></li>
-<li><p>Global Climate Model weighting Default: 10 GCMs are given full weighting. CanESM5, UKESM1, and INM-CM5 are give no weighting</p></li>
-<li><p>Carbon scenario weighting Default: The 450ppm scenario is fully weighted. 260 and 700ppm are slightly downweighted to 80%. The extreme 850ppm scenario is set to 0.</p></li>
-</ol>
+<div id="supporting-info" class="section level2">
+<h2>Supporting info</h2>
+<p>This section contains information that may be useful for interpreting
+CCISS results and making management decisions.</p>
+<div id="a.-silvics-and-ecology" class="section level3">
+<h3>A. Silvics and Ecology</h3>
+<p>This module summarizes the silvics of each species with historic or
+future feasibility in the selected BGC unit and site series. This
+information is drawn from Klinka et al. (1999). This information can be
+explored further at this <a href="https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons">link</a>.</p>
+<p>Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The
+Distribution and Synopsis of Ecological and Silvical Characteristics of
+Tree Species of British Columbia’s Forests. Canadian Cartographics Ltd.,
+Coquitlam, B.C.</p>
+</div>
+<div id="b.-trends" class="section level3">
+<h3>B. Trends</h3>
+<p>This module provides provincial-scale maps for user-selected species
+and site types. Three example site series representing different
+edatopic conditions are currently available: the B2 edatope
+(nutrient-poor, moisture-subxeric sites), C4 edatope (nutrient-medium,
+moisture-mesic sites), and D6 edatope (nutrient-rich, moisture-hygric
+sites).</p>
+<p>The figure provides three maps: (left) The historical environmental
+feasibility rating for each species; (center) the proportion of the GCM
+ensemble projecting the retreat (historically feasible but projected
+unfeasible) or expansion (historically unfeasible but projected to be
+feasible) of the species in the 2041–2060 period; and (right) the mean
+change in feasibility across the GCM ensemble by the 2041–2060
+period.</p>
 </div>
 </div>
 
