@@ -195,10 +195,12 @@ sidebarhelplink <- function(inputId) {
         sidebarPanel(
           width = 2,
           sidebarhelplink("cciss_instructions_feasibility_report"),
-          materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = TRUE),
-          h6("Filters"),
-          selectInput("siteref_feas", label = "Site/BGC", choices = character()),
-          selectInput("site_series_feas", label = "Site Series", choices = character()),
+          h5("Report Type"),
+          switchInput("feas_type", value = TRUE, onLabel = "Detailed", offLabel = "Summary", width = '200%'),
+          #materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = TRUE),
+          #h6("Filters"),
+          selectInput("siteref_feas", label = "Choose Site/BGC", choices = character()),
+          selectInput("site_series_feas", label = "Choose Site Series", choices = character()),
           radioButtons(
             "filter_feas",
             label = "Feasibility",
@@ -206,7 +208,7 @@ sidebarhelplink <- function(inputId) {
             selected = "a",
             inline = T
           ),
-          h6("Feasibility Legend"),
+          h5("Feasibility Legend"),
           bslib::tooltip(
             span(HTML(
               paste0(
