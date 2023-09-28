@@ -12,6 +12,7 @@ library(ccissdev)
 library(RPostgreSQL)
 library(sf)
 library(pool)
+library(RColorBrewer)
 
 ##some setup
 con <- dbPool(
@@ -34,29 +35,13 @@ sppDb <- dbPool(
 #lookup tables
 spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
 edatope.name <- c("Poor-Subxeric", "Medium-Mesic", "Rich-Hygric")
+BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
 
-
-grid <- "BC2kmGrid"
-## create a dem from the climateBC input data
-points <- read.csv(paste("InputData\\",grid,".csv", sep=""))
-dim(points)
-
-## non-THLB BGCs for exclusion from results
-BGC <- points$ID2
-BGC <- gsub(" ","",BGC)
-BGCs_notin_THLB <- read.csv("InputData\\BGCs_notin_THLB.csv")
-BGCs_notin_THLB <- BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")]
-exclude <- which(BGC%in%BGCs_notin_THLB)
-
-#BGC zones
-BGCcolors <- read.csv("C:\\Colin\\Projects\\2019_CCISS\\InputData\\BGCzone_Colorscheme.csv")
-zone <- rep(NA, length(BGC))
-for(i in BGCcolors$zone){ zone[grep(i,BGC)] <- i }
-table(zone)
-zone <- factor(zone, levels=c("CDF", "CWH", "MH", "ESSF", "MS", "IDF", "PP", "BG", "ICH", "SBPS", "SBS", "BWBS", "SWB", "CMA", "IMA", "BAFA"))
-
+# base raster
 X <- raster("BC_Raster.tif")
 X <- raster::setValues(X,NA)
+
+#Feasibility tables
 outline <- st_read(con,query = "select * from bc_outline")
 S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
@@ -118,7 +103,16 @@ ccissMap <- function(SSPred,suit,spp_select){
 timeperiods <- "2041"
 bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiods,"'"))) ##takes about 15 seconds
 setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
+str(bgc)
 
+#BGC zones
+bgc.ref <- unique(bgc[,c(1,3)])
+bgc.ref$SiteRef <- as.numeric(bgc.ref$SiteRef)
+zones <- c("CDF", "CWH", "MH", "ESSF", "MS", "IDF", "PP", "BG", "ICH", "SBPS", "SBS", "BWBS", "SWB", "CMA", "IMA", "BAFA")
+zone <- rep(NA, dim(bgc.ref)[1])
+for(i in zones){ zone[grep(i,bgc.ref$BGC)] <- i }
+table(zone)
+zone <- factor(zone, levels=zones)
 
 ##add/retreat (figure 3b)
 add_retreat <- function(SSPred,suit,spp_select){
@@ -135,7 +129,7 @@ add_retreat <- function(SSPred,suit,spp_select){
   setnames(suitMerge, old = c("SS_NoSpace", "i.SS_NoSpace"), new = c("SS.pred", "SS_NoSpace"))
   suit2 <- suit[,.(SS_NoSpace,Feasible)]
   setnames(suit2, old = "Feasible",new = "OrigFeas")
-  suitMerge <- suit2[suitMerge, on = "SS_NoSpace"]
+  suitMerge <- suit2[suitMerge, on = "SS_NoSpace",allow.cartesian =T]
   suitMerge[OrigFeas > 3.5, OrigFeas := NA]
   suitMerge[Feasible > 3.5, Feasible := NA]
   suitMerge[,HasValue := if(any(!is.na(OrigFeas))|any(!is.na(Feasible))) T else F, by = .(SiteRef)]
@@ -157,7 +151,7 @@ add_retreat <- function(SSPred,suit,spp_select){
 }
 
 ##Colin's 3 panel maps
-species <- c("Pl", "Sx", "Fd", "Py", "Cw", "Yc", "Lw", "Bl")
+species <- c("Pl", "Fd", "Cw","Ba", "Bl", "Bg", "Yc", "Pa", "Hm", "Lw", "Hw", "Py", "Dr", "Ep", "At")
 edas <- c("C4", "B2", "D6")
 timeperiods <- "2041-2060"
 edaPos <- "C4"
@@ -211,7 +205,8 @@ for(edaPos in edas){
           col=ColScheme, breaks=breakseq, maxpixels= ncell(X),asp = 1)
     plot(outline, add=T, border="black",col = NA, lwd=0.4)
     legend("topleft", legend=c("1 (primary)", "2 (secondary)", "3 (tertiary)"), 
-           fill=ColScheme, bty="n", cex=0.8, title="Historical feasibility", inset=c(0,-0.25))
+           fill=ColScheme, bty="n", cex=0.8, title="Historical feasibility", inset=c(0,-0.3))
+    mtext(paste("(", letters[1],")", sep=""), side=3, line=-2.75, adj=0.05, cex=0.8, font=2)
     
     ##=================================
     ##add/retreat
@@ -234,7 +229,8 @@ for(edaPos in edas){
     rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
     text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
     text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
-    text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, ") % of GCMs", sep=""), srt=90, pos=3, cex=0.9, font=2)
+    text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiods, "); % of GCMs", sep=""), srt=90, pos=3, cex=0.85, font=2)
+    mtext(paste("(", letters[2],")", sep=""), side=3, line=-2.75, adj=0.095, cex=0.8, font=2)
     
     ##=================================
     ##mean feasibility change
@@ -254,29 +250,32 @@ for(edaPos in edas){
     xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
     rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
     text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-    text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.9, font=2)
-
+    text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiods, ")", sep=""), srt=90, pos=3, cex=0.85, font=2)
+    par(xpd=F)
+    mtext(paste("(", letters[3],")", sep=""), side=3, line=-3.25, adj=0.1, cex=0.8, font=2)
+    
     ##=================================
     ## Summary by zone
     
     # par(mar=c(0,0,0,0), plt = c(0.77, 0.995, 0.001, 0.31), new = TRUE, mgp=c(1.25,0.15,0))
     # plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab="", ylab="", xaxt="n", yaxt="n", bty="n")
-    feasVals$FeasChange[is.na(feasVals$FeasChange)] <- 0
-    par(mar=c(4.5,2,0.1,0.1), plt = c(0.79, 0.995, 0.1, 0.3), new = TRUE, mgp=c(1.25,0.15,0))
+    FeasChange <- values(X)[bgc.ref$SiteRef]
+    FeasChange[is.na(FeasChange)] <- 0
+    par(mar=c(4.5,2,0.1,0.1), plt = c(0.79, 0.995, 0.1, 0.275), new = TRUE, mgp=c(1.25,0.15,0))
     ylim=c(-3,3)
     xlim=c(1, length(levels(droplevels(zone))))
-    z <- boxplot(feasVals$FeasChange~zone, ylab="", vertical = TRUE, plot=F)
-    for(i in 1:length(levels(zone))){ 
-      temp <- feasVals$FeasChange[which(zone==levels(zone)[i])]
+    z <- boxplot(FeasChange~zone, ylab="", vertical = TRUE, plot=F)
+    for(i in 1:length(levels(zone))){
+      temp <- FeasChange[which(zone==levels(zone)[i])]
       z$stats[c(1,5), i] <- quantile(temp[!is.na(temp)],c(0.05, 0.95))
     }
     bxp(z, xlim=xlim, ylim=ylim, xaxt="n", yaxt="n", xaxs="i", ylab="", pch=0,outline=FALSE)
     lines(c(-99,99), c(0,0), lwd=2, col="darkgrey")
-    bxp(z, add=T, boxfill = as.character(BGCcolors$HEX[match(levels(zone), BGCcolors$zone)]), xaxt="n", yaxt="n", xaxs="i", ylab="", pch=0,outline=FALSE)
-    axis(1, at=1:length(levels(zone)), levels(zone), tick=F, las=2, cex.axis=0.8)
+    bxp(z, add=T, boxfill = as.character(BGCcolors$colour[match(levels(zone), BGCcolors$classification)]), xaxt="n", yaxt="n", xaxs="i", ylab="", pch=0,outline=FALSE)
+    axis(1, at=1:length(levels(zone)), levels(zone), tick=F, las=2, cex.axis=0.65)
     axis(2,at=seq(ylim[1], ylim[2], 3), seq(ylim[1], ylim[2], 3), las=2, tck=0)
-    mtext(paste("(", LETTERS[c(4,8,12)][which(spps==spp)],")", sep=""), side=3, line=1, adj=0.975, cex=0.8, font=2)
-    mtext("Mean change in suitability", side=3, line=0.1, adj=.975, cex=0.55, font=2)
+    mtext("Mean change in suitability", side=3, line=0.1, adj=.975, cex=0.65, font=2)
+    mtext(paste("(", letters[4],")", sep=""), side=3, line=1, adj=0.975, cex=0.8, font=2)
     
     
     
