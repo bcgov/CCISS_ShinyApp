@@ -90,7 +90,7 @@ sppnotes_cciss <- function(spp, textstyle) {
     ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
                           if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
-  ret[["style"]] <- "white-space:normal; border-left: 2px solid;"
+  ret[["style"]] <- "white-space:normal; border-left: 1px solid;"
   do.call(tags$td, ret)
 }
 uData$sppnotes_cciss <- sppnotes_cciss
@@ -133,68 +133,82 @@ standardblock <- function(std, ss, sc) {
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
-    tags$small("Forest Region: ", tags$b(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
-    tags$small("\nStandards ID: ",tags$b(paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "),.noWS = c("before", "after"))),
+    tags$h6("CFRG: ", tags$b(si$Region, .noWS = c("before", "after")), "ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), .noWS = "inside"),
     tags$table(style = "max-width: 100%; white-space: nowrap;",
                # Report formatting gray out the first row, so faking a row
                tags$tr(
-                 tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:none",
-                         tags$small(tags$b("Regeneration")),
-                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
+                 tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:1px solid black",
+
                          tags$table(
-                           width = "100%",
-                           tags$tr(
-                             tags$td(tags$b("Feasibility")),
-                             tags$td(tags$b("CFRG"),style = "border-right: 2px solid;"),
-                             tags$td(tags$b("CCISS"))
+                           width = "500px",
+                           
+                           tags$th(
+                             tags$td(tags$b("CFRG"), style = "border-left: 1px solid;"),
+                             tags$td(tags$b("CCISS"), style = "border-left: 1px solid;")
                            ),
+                           
+                           
                            tags$tr(
-                             tags$td("Primary/E1"),
+                             tags$td("Primary/E1", style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)]
                            ),
+                           
+                           #tags$hr(style = "padding: 0px; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
 
                            tags$tr(
-                             tags$td("Secondary/E2"),
+                             tags$td("Secondary/E2", style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)]
                            ),
 
                            tags$tr(
-                             tags$td("Tertiary/E3"),
+                             tags$td("Tertiary/E3", style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)]
                            ),
 
                            tags$tr(
-                             tags$td("Trial"),
+                             tags$td("Trial",style = "border-right: 1px solid;" ),
                              tags$td(""),
                              sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)]
                            ),
                            tags$tr(
-                             tags$td("Broadleaf"),
+                             tags$td("Broadleaf", style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
                              tags$td("",style = "border-left: 2px solid;"),
                              style = "border-bottom:1px solid black;"
                            ),
 
                            tags$tr(
-                             tags$td("Preferred (p)"),
+                             tags$td("Preferred (p)",style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "P", sppnotes_cciss(Spp,TxtCciss)],
                            ),
                            tags$tr(
-                             tags$td("Acceptable (a)"),
+                             tags$td("Acceptable (a)",style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
+                           ),
+                           tags$tr(
+                             tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
+                                     tags$small(tags$b("Footnotes")),
+                                     tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
+                                     {
+                                       fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
+                                       fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
+                                       fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+                                       do.call(span, fnshiny)
+                                     }
+                             )
                            )
                          )
-                 ),
-                 tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px; background-color:white; border:none",
+                         ),
+                 tags$td(width = "50%", style = "vertical-align: top; padding:0px 0px 0px 8px; background-color:white; border:1px solid black",
                          tags$small(tags$b("Stocking (i) - well spaced/ha")),
                          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
                          tags$table(
-                           width = "100%",
+                           #width = "20%",
                            tags$tr(
                              tags$td(tags$b("Target")),
                              tags$td(tags$b("Min pa")),
@@ -212,7 +226,7 @@ standardblock <- function(std, ss, sc) {
                          tags$small(tags$b("Free Growing Guide")),
                          tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
                          tags$table(
-                           width = "100%",
+                           #width = "100%",
                            tags$tr(
                              tags$td(tags$b("Earliest (yrs)")),
                              tags$td(tags$b("Latest(yrs)")),
@@ -227,21 +241,10 @@ standardblock <- function(std, ss, sc) {
                            )
                          )
                  )
-               ),
-               tags$tr(
-                 tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
-                         tags$small(tags$b("Footnotes")),
-                         tags$hr(style = "padding: 0; margin: 0 0 3px 0; height: 2px; background-color: #003366; border: 0px"),
-                         {
-                           fn <- ss[PreferredAcceptable %in% c("A", "P") | Suitability %in% 1:3, sort(as.integer(unique(unlist(Footnotes))))]
-                           fnt <- footnotes[match(fn, `Revised Footnote`), `Revised Footnote Text`]
-                           fnshiny <- mapply(function(footnote, text) {list(tags$sup(footnote), tags$small(text), tags$br())}, fn, fnt, SIMPLIFY = FALSE, USE.NAMES = FALSE)
-                           do.call(span, fnshiny)
-                         }
                  )
                )
-    )
   )
+
 }
 
 
