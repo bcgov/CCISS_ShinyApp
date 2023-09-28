@@ -242,7 +242,7 @@ sidebarhelplink <- function(inputId) {
     # BEC Futures ----
     navbarMenu(
       title = navhelplink("BEC FUTURES", "cciss_instructions_bec_futures_nav"),
-      tabPanel(title = "Graphical",
+      tabPanel(title = "Chart",
                sidebarLayout(
                  # Inputs
                  sidebarPanel(
@@ -269,7 +269,7 @@ sidebarhelplink <- function(inputId) {
                    plotly::plotlyOutput("bgc_fut_plot")
                  )
                )),
-      tabPanel(title = "Spatial",
+      tabPanel(title = "Map",
                sidebarLayout(
                  # Inputs
                  sidebarPanel(
