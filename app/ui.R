@@ -267,7 +267,10 @@ $(document).ready(function(){
                      min = 0.05,
                      max = 0.25,
                      value = 0.1
-                   )
+                   ),
+                   radioButtons("future_showss","Show on Plot: ", 
+                                choices = c("BGC","Site Series Overlap"),
+                                selected = "BGC")
                  ),
                  mainPanel(
                    width = 10,
@@ -280,6 +283,7 @@ $(document).ready(function(){
                  )
                )),
       tabPanel(title = "Map",
+               value = "wna_map",
                sidebarLayout(
                  # Inputs
                  sidebarPanel(
@@ -296,7 +300,8 @@ $(document).ready(function(){
                      label = "Period:",
                      choices = c(
                        "Choose Period" = "",
-                       "Current" = 1991,
+                       "1991-2020 (obs)" = 1991,
+                       "2001-2020 (mod)" = 2001,
                        "2021-2040" = 2021,
                        "2041-2060" = 2041,
                        "2061-2080" = 2061,

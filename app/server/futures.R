@@ -28,12 +28,15 @@ output$bgc_fut_plot <- plotly::renderPlotly({
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
   data <- data[SSratio > minallow,]
+  
+  dat_order <- data.table(FuturePeriod = c("1961","1991","2001","2021","2041","2061", "2081"), fpCode = c(1,2,3.5,4.5,5.5,6.5,7.5))
   #browser()
   #data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   data[,Lab := paste(SS.pred,round(SSratio,digits = 2),sep = ": ")]
   data <- data[,.(SSLab = paste(Lab,collapse = "<br>")),
                     by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
   data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
+  data[dat_order, fpCode := i.fpCode, on = "FuturePeriod"]
   l <- list(
     font = list(
       size = 12,
@@ -50,32 +53,52 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
     names(col) <- colors$classification
     col
   }
-  plotly::plot_ly(data = data, x = ~FuturePeriod,
-                  y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
-                  color = ~BGC.pred, colors = color_ref,
-                  text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),
-                  texttemplate = "%{text}", hovertemplate = "%{y}") %>%
-    plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
-                   xaxis = list(showspikes = FALSE, title = list(text = "Period"),
-                                ticktext = unname(period_map),
-                                tickvals = names(period_map)),
-                   barmode = 'stack', legend = l, hovermode = "x unified")
+  if(input$future_showss == "BGC"){
+    plotly::plot_ly(data = data, x = ~fpCode,
+                    y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
+                    color = ~BGC.pred, colors = color_ref, hovertemplate = "%{y}",
+                    text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 12),
+                    texttemplate = "%{text}") %>%
+      plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
+                     xaxis = list(showspikes = FALSE, title = list(text = "Period"),
+                                  ticktext = unname(period_map),
+                                  tickvals = dat_order$fpCode),
+                     barmode = 'stack', legend = l, hovermode = "x unified")
+  }else{
+    plotly::plot_ly(data = data, x = ~fpCode,
+                    y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
+                    color = ~BGC.pred, colors = color_ref,
+                    text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),
+                    texttemplate = "%{text}", hovertemplate = "%{y}") %>%
+      plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
+                     xaxis = list(showspikes = FALSE, title = list(text = "Period"),
+                                  ticktext = unname(period_map),
+                                  tickvals = dat_order$fpCode),
+                     barmode = 'stack', legend = l, hovermode = "x unified")
+  }
+  
 }
 uData$bgc_fut_plotly <- bgc_fut_plotly
 
 ###map
 
 observe({
-  siteref <- input$siteref_bgc_fut_spatial
-  timeper <- input$bgc_spatial_period
-  update_flag()
-  data <- copy(uData$bgc)
-  if(!is.null(data) & !is.null(siteref)){
-    data <- data[SiteRef == siteref & FuturePeriod == timeper,]
-    data <- data[BGC.prop > 0.034,] ##exclude single model predictions
-    dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
-                      Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys",
-                                                          include_alpha = F)[-(1:2)],"#FFFB00"))
-    session$sendCustomMessage("colour_wna",dat)
+  if(input$cciss_navbar == "wna_map"){
+    #print(input$cciss_navbar)
+    siteref <- input$siteref_bgc_fut_spatial
+    timeper <- input$bgc_spatial_period
+    #update_flag()
+    data <- copy(uData$bgc)
+    if(!is.null(data) & !is.null(siteref)){
+      
+      data <- data[SiteRef == siteref & FuturePeriod == timeper,]
+      data <- data[BGC.prop > 0.034,] ##exclude single model predictions
+      dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
+                        Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys",
+                                                            include_alpha = F)[-(1:2)],"#FFFB00"))
+      #print(dat)
+      session$sendCustomMessage("colour_wna",dat)
+    }
   }
+    
 })
