@@ -123,7 +123,7 @@ observeEvent(input$dist_click,{
   })
 })
 
-observeEvent(input$clear_highlight,{
+observeEvent(input$clear_selections,{
   session$sendCustomMessage("clearDist","puppy")
   session$sendCustomMessage("clearBGC","puppy")
   if(input$preselected == "BGC_Dist"){
