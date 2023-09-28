@@ -164,17 +164,23 @@ sidebarhelplink <- function(inputId) {
           id = "acc"),
           br(),
           hr(style = "border-top: 1px solid #8f0e7e;"),
-          wellPanel(
-            h3("Find-a-BEC"),
+          #wellPanel(
             splitLayout(
-              selectInput("findbec","Select BGC", 
-                          choices = c(NA,subzones_colours_ref$classification), 
+              selectInput("findbec","Find-a-BEC", 
+                          choices = c("(N)",bgc_choices), 
                           multiple = F),
               tagList(br(),
                       actionButton("findbecclear","Clear")
-              )
-            )
-          )
+              ),
+              tags$head(tags$style(HTML("
+                              .shiny-split-layout > div {
+                                overflow: visible;
+                              }
+                              ")))
+            ),
+            br(),
+            br()
+          #)
           
           
           

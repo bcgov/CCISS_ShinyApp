@@ -21,3 +21,4 @@ suppressPackageStartupMessages({
 })
 
 source("./server/tooltip_verbage.R")
+bgc_choices <- SS[grep("BEC",Source),BGC]

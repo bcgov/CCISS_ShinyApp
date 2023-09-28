@@ -48,7 +48,7 @@ TreeCols <- TreeCols[HexColour != "",]
 save(TreeCols, file = "./data/TreeCols.rda")
 
 
-SS <- SS[,.(SS_NoSpace,SpecialCode)]
+SS <- SS[,.(Source, BGC, SS_NoSpace,SpecialCode)]
 SS <- SS[SpecialCode != "",]
 E1 <- SS[E1, on = "SS_NoSpace"]
 setcolorder(E1,c("Source","BGC","SS_NoSpace","Edatopic","SpecialCode"))
@@ -61,6 +61,7 @@ E1_Phase[,MainUnit := gsub("[a-z]$","",SS_NoSpace)]
 E1_Phase[,MainUnit := gsub("\\.[1-9]$","",MainUnit)]
 use_data(E1_Phase,E1,overwrite = T)
 use_data(S1,E1,N1,overwrite = T)
+use_data(SS, overwrite = T)
 
 R1 <- fread("./data-raw/data_tables/RuleTable.csv")
 F1 <- fread("./data-raw/data_tables/FeasibilityLabels.csv", key = "SuitDiff")
