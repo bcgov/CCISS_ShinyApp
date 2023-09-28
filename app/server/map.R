@@ -131,6 +131,15 @@ observeEvent(input$clear_highlight,{
   }
 })
 
+observeEvent(input$findbecclear,{
+  session$sendCustomMessage("clearBGC","xxx")
+})
+
+observeEvent(input$findbec,{
+    print(input$findbec)
+    session$sendCustomMessage("highlight_find",input$findbec)
+})
+
 ######################################################
 ### WNA MAP #########################################
 

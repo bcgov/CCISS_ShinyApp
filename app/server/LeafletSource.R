@@ -228,6 +228,11 @@ addBGC <- function(map) {
         })
       })
       
+      Shiny.addCustomMessageHandler("highlight_find", function(bgc){
+          subzLayer.setFeatureStyle(bgc,styleHL);
+          selectedBGC.push(bgc);
+      })
+      
       Shiny.addCustomMessageHandler("clearBGC",function(x){
         selectedBGC.forEach((ID) => {
           subzLayer.resetFeatureStyle(ID);
