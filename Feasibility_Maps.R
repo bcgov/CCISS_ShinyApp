@@ -34,7 +34,7 @@ sppDb <- dbPool(
 
 #lookup tables
 spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
-edatope.name <- c("Poor-Subxeric", "Medium-Mesic", "Rich-Hygric")
+edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
 BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
 
 # base raster
@@ -171,7 +171,7 @@ for(edaPos in edas){
     SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
     
     #initialise plot
-    png(file=paste("./FeasibilityMaps/Three_Panel",timeperiods,spp,edaPos,".png",sep = "_"), type="cairo", units="in", width=6.5, height=3, pointsize=9, res=300)
+    png(file=paste("./FeasibilityMaps/Three_Panel",timeperiods,spp,edaPos,"png",sep = "."), type="cairo", units="in", width=6.5, height=3, pointsize=9, res=600)
 
     par(plt=c(0,1,0,1), bg="white")
     plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="")
@@ -187,7 +187,7 @@ for(edaPos in edas){
     ##=================================
     ###historic suitability
     newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
-    newFeas[NewSuit > 3, NewSuit := 4]
+    newFeas[NewSuit > 4, NewSuit := 4]
     newFeas[,FeasChange := Curr - NewSuit]
     newFeas <- unique(newFeas, by = "SiteRef")
     newFeas[,SiteRef := as.integer(SiteRef)]
@@ -276,10 +276,6 @@ for(edaPos in edas){
     axis(2,at=seq(ylim[1], ylim[2], 3), seq(ylim[1], ylim[2], 3), las=2, tck=0)
     mtext("Mean change in suitability", side=3, line=0.1, adj=.975, cex=0.65, font=2)
     mtext(paste("(", letters[4],")", sep=""), side=3, line=1, adj=0.975, cex=0.8, font=2)
-    
-    
-    
-    
     
         dev.off()
   }
