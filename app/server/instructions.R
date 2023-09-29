@@ -1,7 +1,14 @@
 
 observeEvent(input$cciss_instructions_select_sites, {
-  updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
-  updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_select_sites")
+  showModal(
+    modalDialog(
+      tags$iframe(
+        style="height:600px; width:100%", src="select_sites.pdf"
+      ),
+      size = "xl",
+      easyClose = TRUE
+    )
+  )
 })
 
 observeEvent(input$cciss_instructions_feasibility_report, {

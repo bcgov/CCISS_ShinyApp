@@ -9,7 +9,19 @@ output$results_feas_all <- renderUI({
   if(input$feas_type){
     tableOutput("results_feas")
   }else{
-    uiOutput("silviculture_block")
+    tagList(uiOutput("silviculture_block"),
+    h6("Legend"),
+    HTML(
+      paste0(
+        '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+        c("green", "red", "purple"),
+        '" /><span style="vertical-align:middle">&nbsp;',
+        c("Improving", "Decreasing", "Adding"),
+        '</span>',
+        collapse = "<br />"
+      )
+    )
+    )
   }
 })
 

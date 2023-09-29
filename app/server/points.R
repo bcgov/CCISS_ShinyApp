@@ -162,7 +162,7 @@ insert_points_file <- function(datapath){
   nm <- names(points)
   id_j <- head(grep("^id|^site", nm, ignore.case = TRUE), 1)
   lat_j <- head(grep("^lat|latitude", nm, ignore.case = TRUE), 1)
-  lng_j <- head(grep("^lng|^long|longitude", nm, ignore.case = TRUE), 1)
+  lng_j <- head(grep("^lng|^long|^lon|longitude", nm, ignore.case = TRUE), 1)
   ele_j <- head(grep("^elev|elevation", nm, ignore.case = TRUE), 1)
   
   if (length(lat_j) > 0 && length(lng_j) > 0) {

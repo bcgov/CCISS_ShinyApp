@@ -61,7 +61,7 @@ edaGrid[,Col := "grey"]
 gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
                                  "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
                                  "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
-                         weight = c(1,1,0,1,1,1,1,0,0,1,1,1,0))
+                         weight = c(1,0,0,1,1,1,1,0,0,1,1,1,0))
 
 rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
                          weight = c(0.8,1,0.8,0))

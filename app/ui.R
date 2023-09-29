@@ -328,17 +328,6 @@ $(document).ready(function(){
                    "filter_silv",
                    label = "Tree Species",
                    choices = c("Feasible Species" = "f", "All Species" = "a")
-                 ),
-                 h6("Legend"),
-                 HTML(
-                   paste0(
-                     '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-                     c("green", "red", "purple"),
-                     '" /><span style="vertical-align:middle">&nbsp;',
-                     c("Improving", "Decreasing", "Adding"),
-                     '</span>',
-                     collapse = "<br />"
-                   )
                  )
                ),
                mainPanel(
@@ -608,6 +597,10 @@ $(document).ready(function(){
             )
           )
         )       
+      ),
+      tabPanel(
+        title = "Feasibility Ratings",
+        includeHTML("./instructions/FeasibilityRatings.html")
       ),
       tabPanel(
         title = "Model information",

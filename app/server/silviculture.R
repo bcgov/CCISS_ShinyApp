@@ -143,8 +143,8 @@ standardblock <- function(std, ss, sc) {
                            width = "500px",
                            
                            tags$th(
-                             tags$td(tags$b("CFRG"), style = "border-left: 1px solid;"),
-                             tags$td(tags$b("CCISS"), style = "border-left: 1px solid;")
+                             tags$td(tags$b("CFRG"), style = "border-left: 1px solid; width: 150px;"),
+                             tags$td(tags$b("CCISS"), style = "border-left: 1px solid; width: 150px;")
                            ),
                            
                            
