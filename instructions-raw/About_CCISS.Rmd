@@ -57,6 +57,5 @@ The CCISS tool is a web-based R-shiny application organized into six tabs.
 
 ##### Additional Documents:
 
-[Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzie_and_Mahony.2021.An_ecological_approach_to_climate-change_informed_species_selection_ for_ reforestation.pdf)
+[Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf)
 
-[CCISS and stocking standard development](./downloadable_docs/CCISS_in_Stocking_Standards.pdf)
