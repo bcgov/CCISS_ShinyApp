@@ -13,7 +13,8 @@ uData$basepoints <- data.table(
 # All columns indexes
 uData$pts_col <- 1L:ncol(uData$basepoints)
 # Exclude popups column, column indexes to show in the UI
-uData$pts_show_col <- 1L:(ncol(uData$basepoints) - 2L)
+uData$pts_show_col <- c(1,3,4,5,6)
+#uData$pts_show_col_names <- c("ID","Lat","Long","Elev","BGC")
 
 userpoints <- reactiveValues(dt = uData$basepoints,bgc_pts = NULL)
 

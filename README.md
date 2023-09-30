@@ -1,14 +1,18 @@
-# CCISS_ShinyApp
+# Welcome to CCISS!
 
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)
 
-CCISS RMD knitr report graphics and Shiny App
-This repository is a fork of a development CCISS R script for devexchange code-with-us development.
-There are two development tasks.
-1. Add in several graphical summaries for an existing CCISS RMD for a formatted knitr report of the RMD. The graphical formats parallel existing web reporting 
-2. Build a shiny app version of the CCISS rmd.
- A scaleable BEC map interface for retrieving lat/long for submission to the CCISS script. 
- Graphical output of BGC futures, tree species feasibility ratings by timeperiod, and display of existing stocking standard recommendations
+This is the main github repo for the CCISS web tool.
+
+## What is CCISS?
+
+Climate Change Informed Species Selection (CCISS – pronounced ‘kiss’) is a Biogeoclimatic Ecosystem Classification-based analysis framework built to anticipate the change climate implications to tree species environmental suitability at a site specific level. The CCISS tool is a web-based application that makes this analysis accessible to practitioners to help guide climate change adaptation in reforestation decisions.
+
+Understanding climate- and site-level species suitability is one of the foundational pieces of information that practitioners require for the creation of silvicultural prescriptions that will lead to successful reforestation over a rotation period. Climate change will affect this goal by progressively altering environmental conditions and therefore the suitability of tree species established on a site over time.
+
+To address this challenge, the CCISS tool projects changes to species environmental suitability at a site series level for any user selected location in the province and estimates the future suitability of a tree species to this changing climate. To account for future climate uncertainty the tool looks at a wide range of global climate change models and emissions scenarios to capture the range of plausible climate futures for any location in BC in 20-year periods out to 2100.
+
+To assist users, the tool compares the current species selection guidance in the Chief Foresters Reference Guide with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.
 
 ## Usage
 
@@ -20,22 +24,10 @@ remotes::install_github("bcgov/CCISS_ShinyApp")
 
 ### Run locally
 
- - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
  - Clone repository
  - Setup environment variables
  - Open project
  - Run `shiny::runApp("./app")`
-
-### Deploy to shinyapps.io
-
- - Run `remotes::install_github("bcgov/CCISS_ShinyApp")`
- - Clone repository
- - Create an `.Renviron` file in `./app` and provide necessary values
- - Open `./app/index.Rmd`
- - [Deploy to Shinyapps.io](https://shiny.rstudio.com/articles/shinyapps.html) using RStudio publish button
- - Select `.Renviron`, `index.Rmd`, `www`, `server` only
-
-<img src='data-raw/screenshots/rstudioreference.png' />
 
 ### .Renviron
 
@@ -91,10 +83,6 @@ will be included with the package when it is built.
 ##### src
 [Also standard](https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages).
 Code which needs to be compiled.
-
-#### Building packages
-R is a great community. There is a lot of great resources on how to build packages. I highly
-recommend [R packages by Hadley Wickham and Jenny Bryan](https://r-pkgs.org/).
 
 #### Special
 
