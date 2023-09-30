@@ -56,10 +56,18 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="cciss_shinyapp">CCISS_ShinyApp<a class="anchor" aria-label="anchor" href="#cciss_shinyapp"></a>
+<div class="page-header"><h1 id="welcome-to-cciss">Welcome to CCISS!<a class="anchor" aria-label="anchor" href="#welcome-to-cciss"></a>
 </h1></div>
 <p><a href="Redirect-URL"><img src="https://img.shields.io/badge/Lifecycle-Maturing-007EC6" alt="Lifecycle:Maturing"></a></p>
-<p>CCISS RMD knitr report graphics and Shiny App This repository is a fork of a development CCISS R script for devexchange code-with-us development. There are two development tasks. 1. Add in several graphical summaries for an existing CCISS RMD for a formatted knitr report of the RMD. The graphical formats parallel existing web reporting 2. Build a shiny app version of the CCISS rmd. A scaleable BEC map interface for retrieving lat/long for submission to the CCISS script. Graphical output of BGC futures, tree species feasibility ratings by timeperiod, and display of existing stocking standard recommendations</p>
+<p>This is the main github repo for the CCISS web tool.</p>
+<div class="section level2">
+<h2 id="what-is-cciss">What is CCISS?<a class="anchor" aria-label="anchor" href="#what-is-cciss"></a>
+</h2>
+<p>Climate Change Informed Species Selection (CCISS – pronounced ‘kiss’) is a Biogeoclimatic Ecosystem Classification-based analysis framework built to anticipate the change climate implications to tree species environmental suitability at a site specific level. The CCISS tool is a web-based application that makes this analysis accessible to practitioners to help guide climate change adaptation in reforestation decisions.</p>
+<p>Understanding climate- and site-level species suitability is one of the foundational pieces of information that practitioners require for the creation of silvicultural prescriptions that will lead to successful reforestation over a rotation period. Climate change will affect this goal by progressively altering environmental conditions and therefore the suitability of tree species established on a site over time.</p>
+<p>To address this challenge, the CCISS tool projects changes to species environmental suitability at a site series level for any user selected location in the province and estimates the future suitability of a tree species to this changing climate. To account for future climate uncertainty the tool looks at a wide range of global climate change models and emissions scenarios to capture the range of plausible climate futures for any location in BC in 20-year periods out to 2100.</p>
+<p>To assist users, the tool compares the current species selection guidance in the Chief Foresters Reference Guide with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.</p>
+</div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
@@ -73,30 +81,12 @@
 <h3 id="run-locally">Run locally<a class="anchor" aria-label="anchor" href="#run-locally"></a>
 </h3>
 <ul>
-<li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
-</li>
 <li>Clone repository</li>
 <li>Setup environment variables</li>
 <li>Open project</li>
 <li>Run <code>shiny::runApp("./app")</code>
 </li>
 </ul>
-</div>
-<div class="section level3">
-<h3 id="deploy-to-shinyappsio">Deploy to shinyapps.io<a class="anchor" aria-label="anchor" href="#deploy-to-shinyappsio"></a>
-</h3>
-<ul>
-<li>Run <code>remotes::install_github("bcgov/CCISS_ShinyApp")</code>
-</li>
-<li>Clone repository</li>
-<li>Create an <code>.Renviron</code> file in <code>./app</code> and provide necessary values</li>
-<li>Open <code>./app/index.Rmd</code>
-</li>
-<li>
-<a href="https://shiny.rstudio.com/articles/shinyapps.html" class="external-link">Deploy to Shinyapps.io</a> using RStudio publish button</li>
-<li>Select <code>.Renviron</code>, <code>index.Rmd</code>, <code>www</code>, <code>server</code> only</li>
-</ul>
-<p><img src="data-raw/screenshots/rstudioreference.png"></p>
 </div>
 <div class="section level3">
 <h3 id="renviron">.Renviron<a class="anchor" aria-label="anchor" href="#renviron"></a>
@@ -154,11 +144,6 @@
 </h5>
 <p><a href="https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages" class="external-link">Also standard</a>. Code which needs to be compiled.</p>
 </div>
-</div>
-<div class="section level4">
-<h4 id="building-packages">Building packages<a class="anchor" aria-label="anchor" href="#building-packages"></a>
-</h4>
-<p>R is a great community. There is a lot of great resources on how to build packages. I highly recommend <a href="https://r-pkgs.org/" class="external-link">R packages by Hadley Wickham and Jenny Bryan</a>.</p>
 </div>
 <div class="section level4">
 <h4 id="special">Special<a class="anchor" aria-label="anchor" href="#special"></a>
