@@ -133,8 +133,9 @@ standardblock <- function(std, ss, sc) {
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
-    tags$h6("CFRG: ", tags$b(si$Region, .noWS = c("before", "after")), "ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), .noWS = "inside"),
-    tags$table(style = "max-width: 100%; white-space: nowrap;",
+    #tags$h6("CFRG: ", tags$b(si$Region, .noWS = c("before", "after")), "Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), .noWS = "inside"),
+    tags$h5("CFRG Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), tags$p(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
+      tags$table(style = "max-width: 100%; white-space: nowrap;",
                # Report formatting gray out the first row, so faking a row
                tags$tr(
                  tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:1px solid black",

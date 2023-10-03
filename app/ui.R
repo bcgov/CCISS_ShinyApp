@@ -19,7 +19,7 @@ navhelplink <- function(title, inputId) {
 sidebarhelplink <- function(inputId) {
   tags$p(style = "text-align: center;", shiny::actionLink(
     inputId = inputId,
-    label = "Section Instructions", 
+    label = "Page Layout Help", 
     icon = icon("question-circle")
   ))
 }
