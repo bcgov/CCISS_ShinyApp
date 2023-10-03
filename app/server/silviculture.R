@@ -133,6 +133,7 @@ standardblock <- function(std, ss, sc) {
   si <- stocking_info[Standard == std]
   sh <- stocking_height[Standard == std]
   list(
+
     #tags$h6("CFRG: ", tags$b(si$Region, .noWS = c("before", "after")), "Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), .noWS = "inside"),
     tags$h5("CFRG Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), tags$p(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
       tags$table(style = "max-width: 100%; white-space: nowrap;",
@@ -177,7 +178,7 @@ standardblock <- function(std, ss, sc) {
                            tags$tr(
                              tags$td("Broadleaf", style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
-                             tags$td("",style = "border-left: 2px solid;"),
+                             tags$td("", style = "border-left: 1px solid;"),
                              style = "border-bottom:1px solid black;"
                            ),
 
@@ -190,6 +191,7 @@ standardblock <- function(std, ss, sc) {
                              tags$td("Acceptable (a)",style = "border-right: 1px solid;"),
                              ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
                              sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
+                             style = "border-bottom:1px solid black;"
                            ),
                            tags$tr(
                              tags$td(colspan = "2", style = "white-space:normal; vertical-align: top; padding:0; background-color:white; border:none",
