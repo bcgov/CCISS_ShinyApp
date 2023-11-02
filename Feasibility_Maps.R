@@ -180,7 +180,7 @@ add_retreat <- function(SSPred,suit,spp_select){
 # modWeights <- all_weight
 
 # choices to iterate through
-spps <- c("Pl", "Sx", "Fd", "Cw","Ba", "Bl", "Bg", "Yc", "Pw", "Hm", "Lw", "Hw", "Py", "Dr", "Ep", "At")
+spps <- c("Ac", "At", "Ba", "Bg", "Bl", "Cw", "Dr", "Ep", "Fd", "Hm", "Hw", "Lw", "Mb", "Pl", "Pw", "Py", "Sb", "Ss", "Sx", "Yc")
 edas <- c("C4", "B2", "D6")
 timeperiods <- c(2001, 2021, 2041, 2061, 2081)
 timeperiod.names <- c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
@@ -329,6 +329,9 @@ for(timeperiod in timeperiods[-1]){
       # 
       #     dev.off()
       
+      
+      spps.lookup[spps.lookup$Exclude!="x",]
+      
       ## ------------------------------------------------------------
       ## 2 panel map
       #initialise plot
@@ -380,15 +383,15 @@ for(timeperiod in timeperiods[-1]){
       X2[feasVals$SiteRef[newFeas$Curr==4]] <- newFeas$FeasChange[newFeas$Curr==4]
       X3 <- raster::setValues(X,NA)
       values(X3)[feasVals$SiteRef[newFeas$Curr<4 & newFeas$NewSuit>3.5]] <- 1
-      
+     
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-      ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+      ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", c("beige", "khaki1", "khaki2", "khaki3", "khaki4", "darkolivegreen"));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("beige", "yellow", "black"))(6));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("beige", "khaki1", "yellow"))(6));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey95", "beige", "khaki1", "yellow2", "gold"))(6));
-      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
       
       par(plt = c(0.25, 0.95, 0.175, 1), xpd = TRUE, new = TRUE)
@@ -489,7 +492,7 @@ for(timeperiod in timeperiods[-1]){
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
       ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
-      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
 
       par(plt = c(0.25,0.75,0,1),xpd = TRUE, new = TRUE)
@@ -631,8 +634,8 @@ X <- raster::setValues(X,NA)
 
 breakpoints <- seq(-3,3,0.5); length(breakpoints)
 labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
-ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
 ColScheme3 <- 1
 
 image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
