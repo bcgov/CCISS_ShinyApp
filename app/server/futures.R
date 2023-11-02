@@ -93,10 +93,14 @@ observe({
       
       data <- data[SiteRef == siteref & FuturePeriod == timeper,]
       data <- data[BGC.prop > 0.034,] ##exclude single model predictions
+      # dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
+      #                   Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys",
+      #                                                       include_alpha = F)[-(1:2)],"#FFFB00"))
+      grey_limit = 
       dat <- data.table(BGC = c(data$BGC.pred,data$BGC[1]),
                         Col = c(colourvalues::colour_values(c(-1,1,data$BGC.prop),palette = "greys",
-                                                            include_alpha = F)[-(1:2)],"#FFFB00"))
-      #print(dat)
+                                                            include_alpha = F)[-(1:2)],"#fb00ff"))#dd1c77
+       #print(dat)
       session$sendCustomMessage("colour_wna",dat)
     }
   }
