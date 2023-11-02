@@ -142,6 +142,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,ABv12,BWBScmE,BWBScmE/j,,
 ,,ABv12,BWBScmE,BWBScmE/k,,
 ,,AB_2018,BWBScmE,BWBScmE/Ro,Lithic,
+,,AB_2018,BWBScmN,BWBScmNW/Ro,Lithic,
 ,,ABv12,BWBScmNW,BWBScmNW/a,,
 ,,ABv12,BWBScmNW,BWBScmNW/b,,
 ,,ABv12,BWBScmNW,BWBScmNW/c,,
@@ -153,7 +154,6 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,ABv12,BWBScmNW,BWBScmNW/i,,
 ,,ABv12,BWBScmNW,BWBScmNW/j,,
 ,,ABv12,BWBScmNW,BWBScmNW/k,,
-,,AB_2018,BWBScmN,BWBScmNW/Ro,Lithic,
 ,,ABv12,BWBScmW,BWBScmW/a,,
 ,,ABv12,BWBScmW,BWBScmW/b,,
 ,,ABv12,BWBScmW,BWBScmW/c,,
@@ -174,8 +174,8 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,s,BECv10,BWBSdk,BWBSdk/104,Cool aspects/cold air,CA
 ,p,BECv10,BWBSdk,BWBSdk/104a,Cool aspects/cold air,CA
 ,p,BECv10,BWBSdk,BWBSdk/104b,Cool aspects/cold air,CA
-,,BECv10,BWBSdk,BWBSdk/110,High fluvial bench,Fh
-,,BECv10,BWBSdk,BWBSdk/111,Mid fluvial bench,Fm
+,,BECv10,BWBSdk,BWBSdk/110,,
+,,BECv10,BWBSdk,BWBSdk/111,High fluvial bench,Fh
 ,,BECv10,BWBSdk,BWBSdk/112,Mid fluvial bench,Fm
 ,,BECv10,BWBSdk,BWBSdk/Gb,Insolation,IN2
 ,,BECv10,BWBSdk,BWBSdk/Gg,Insolation,IN2
@@ -268,7 +268,7 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,BWBSmw,BWBSmw/103,Insolation,IN
 ,,BECv10,BWBSmw,BWBSmw/104,Cool aspects/cold air,CA
 ,,BECv10,BWBSmw,BWBSmw/110,,
-,,BECv10,BWBSmw,BWBSmw/111,High fluvial bench,Fh
+,,BECv10,BWBSmw,BWBSmw/111,,
 ,,BECv10,BWBSmw,BWBSmw/112,Mid fluvial bench,Fm
 ,,BECv10,BWBSmw,BWBSmw/Gg,Insolation,IN2
 ,,BECv10,BWBSmw,BWBSmw/Ro,Lithic,
@@ -637,16 +637,6 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,BECv10,CWHvh2,CWHvh2/17,Salt Spray,SS
 ,,BECv10,CWHvh2,CWHvh2/18,Salt Spray,SS
 ,,BECv10,CWHvh2,CWHvh2/19,Salt Spray,SS
-,s,BECv10,CWHvh3,CWHvh3/101,,
-,p,BECv11,CWHvh3,CWHvh3/101a,,
-,p,BECv11,CWHvh3,CWHvh3/101b,,
-,p,BECv11,CWHvh3,CWHvh3/101c,,
-,,BECv10,CWHvh3,CWHvh3/102,,
-,,BECv10,CWHvh3,CWHvh3/103,Salt Spray,SS
-,v,BECv11,CWHvh3,CWHvh3/103.1,Salt Spray,SS
-,v,BECv11,CWHvh3,CWHvh3/103.2,Salt Spray,SS
-,,BECv10,CWHvh3,CWHvh3/104,Salt Spray,SS
-,s,BECv10,CWHvh3,CWHvh3/105,,
 ,p,BECv10,CWHvh2,CWHvh3/105a,,
 ,p,BECv10,CWHvh2,CWHvh3/105b,,
 ,s,BECv10,CWHvh2,CWHvh3/106,,
@@ -657,6 +647,16 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,p,BECv10,CWHvh2,CWHvh3/110a,,
 ,p,BECv10,CWHvh2,CWHvh3/110b,High fluvial bench,Fh
 ,p,BECv10,CWHvh2,CWHvh3/110c,,
+,s,BECv10,CWHvh3,CWHvh3/101,,
+,p,BECv11,CWHvh3,CWHvh3/101a,,
+,p,BECv11,CWHvh3,CWHvh3/101b,,
+,p,BECv11,CWHvh3,CWHvh3/101c,,
+,,BECv10,CWHvh3,CWHvh3/102,,
+,,BECv10,CWHvh3,CWHvh3/103,Salt Spray,SS
+,v,BECv11,CWHvh3,CWHvh3/103.1,Salt Spray,SS
+,v,BECv11,CWHvh3,CWHvh3/103.2,Salt Spray,SS
+,,BECv10,CWHvh3,CWHvh3/104,Salt Spray,SS
+,s,BECv10,CWHvh3,CWHvh3/105,,
 ,,BECv10,CWHvh3,CWHvh3/111,High fluvial bench,Fh
 ,,BECv10,CWHvh3,CWHvh3/112,Mid fluvial bench,Fm
 ,,BECv10,CWHvh3,CWHvh3/113,Low fluvial bench,Fl
@@ -2194,13 +2194,13 @@ Retire,withsubtaxa,Source,BGC,SS_NoSpace,Special,SpecialCode
 ,,USA_2019,IMAun_WA,IMAun_WA/00,,
 ,,USA_2019,IMAun_WY,IMAun_WY/00,,
 ,,BECv10,IMAunp,IMAunp/00,,
+,,USA_2020,IWFdm,IWFdm_CO/Gg,Insolation,IN2
 ,,USA_2019,IWFdm_CO,IWFdm_CO/101,,
 ,,USA_2019,IWFdm_CO,IWFdm_CO/102,,
 ,,USA_2019,IWFdm_CO,IWFdm_CO/103,,
 ,,USA_2019,IWFdm_CO,IWFdm_CO/110,,
 ,,USA_2019,IWFdm_CO,IWFdm_CO/111,,
 ,,USA_2019,IWFdm_CO,IWFdm_CO/113,,
-,,USA_2020,IWFdm,IWFdm_CO/Gg,Insolation,IN2
 ,,USA_2019,IWFdm_CO,IWFdm_CO/Ro,Lithic,
 ,,USA_2019,IWFdw_OR,IWFdw_OR/101,,
 ,,USA_2019,IWFdw_OR,IWFdw_OR/102,,
