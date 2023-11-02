@@ -19,6 +19,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/ModelDir.html</loc>
+  </url>
+  <url>
     <loc>/reference/bccciss-data.html</loc>
   </url>
   <url>
@@ -35,6 +38,9 @@
   </url>
   <url>
     <loc>/reference/dbGetCCISS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/dbGetCCISSRaw.html</loc>
   </url>
   <url>
     <loc>/reference/dbGetClimSum.html</loc>
