@@ -32,6 +32,8 @@ onStop(function() {
   poolClose(poolclim)
 })
 
+DEV = TRUE
+
 #####load feas table from database
 S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
@@ -93,54 +95,56 @@ shinyServer(function(input, output, session) {
   source("./server/instructions.R", local = TRUE)
   
   ##login
-  showModal(
-    modalDialog(
-      size = "xl",
-      footer = NULL,
-      textOutput("login_error"),
-      splitLayout(
-        wellPanel(
-          h4("Sign Up"),
-          textInput("su_email","Email:"),
-          textInput("su_uname", "Create Username"),
-          selectInput("su_role","What are you?", choices = c("", "Forester","Government","Academic","Student","Unicorn","Good CCISSer"), 
-                      selected = NULL),
-          actionButton("su_go","Sign Up!")
-        ),
-        wellPanel(
-          h4("Log In"),
-          textInput("login_uname","Enter Username"),
-          actionButton("login_go","Log In!")
+  if(!DEV){
+    showModal(
+      modalDialog(
+        size = "xl",
+        footer = NULL,
+        textOutput("login_error"),
+        splitLayout(
+          wellPanel(
+            h4("Sign Up"),
+            textInput("su_email","Email:"),
+            textInput("su_uname", "Create Username"),
+            selectInput("su_role","What are you?", choices = c("", "Forester","Government","Academic","Student","Unicorn","Good CCISSer"), 
+                        selected = NULL),
+            actionButton("su_go","Sign Up!")
+          ),
+          wellPanel(
+            h4("Log In"),
+            textInput("login_uname","Enter Username"),
+            actionButton("login_go","Log In!")
+          )
         )
       )
     )
-  )
-  
-  output$login_error <- renderText({login_text$message})
-  
-  observeEvent(input$su_go, {
-    if(input$su_email == "" | input$su_uname == "" | input$su_role == ""){
-      login_text$message <- "Please enter your email and password."
-    }else{
-      tryCatch({
-        dbExecute(pool, paste0("INSERT INTO cciss_users (username, email, role, nsession) VALUES ('",
-                               input$su_uname,"', '",input$su_email,"','",input$su_role,"',0)"))
+    
+    output$login_error <- renderText({login_text$message})
+    
+    observeEvent(input$su_go, {
+      if(input$su_email == "" | input$su_uname == "" | input$su_role == ""){
+        login_text$message <- "Please enter your email and password."
+      }else{
+        tryCatch({
+          dbExecute(pool, paste0("INSERT INTO cciss_users (username, email, role, nsession) VALUES ('",
+                                 input$su_uname,"', '",input$su_email,"','",input$su_role,"',0)"))
+          removeModal()
+        },
+        error = function(e) {
+          login_text$message <- "Username Exists. Please login or choose a new one."
+        })
+      }
+    })
+    
+    observeEvent(input$login_go, {
+      if(dbGetQuery(pool, paste0("SELECT exists (SELECT 1 FROM cciss_users WHERE username = '",input$login_uname,"' LIMIT 1);"))[,1]){
+        dbExecute(pool,paste0("UPDATE cciss_users SET nsession = nsession + 1 WHERE username = '",input$login_uname,"';"))
         removeModal()
-      },
-      error = function(e) {
-        login_text$message <- "Username Exists. Please login or choose a new one."
-      })
-    }
-  })
-  
-  observeEvent(input$login_go, {
-    if(dbGetQuery(pool, paste0("SELECT exists (SELECT 1 FROM cciss_users WHERE username = '",input$login_uname,"' LIMIT 1);"))[,1]){
-      dbExecute(pool,paste0("UPDATE cciss_users SET nsession = nsession + 1 WHERE username = '",input$login_uname,"';"))
-      removeModal()
-    }else{
-      login_text$message <- "Username does not exist."
-    }
-  })
+      }else{
+        login_text$message <- "Username does not exist."
+      }
+    })
+  }
   
   ##hover text for feasibility report
   hoverText <- c("Species","Time Period","Percentage of models preciting each feasibility",

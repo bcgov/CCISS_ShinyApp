@@ -13,6 +13,8 @@ library(RPostgreSQL)
 library(sf)
 library(pool)
 library(RColorBrewer)
+library(terra)
+library(ccissdev)
 
 ##some setup
 con <- dbPool(
@@ -46,6 +48,38 @@ outline <- st_read(con,query = "select * from bc_outline")
 S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
+library(Rcpp)
+cppFunction('NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
+  int n = x.nrow();
+  NumericVector res(n);
+  NumericVector temp(5);
+  NumericVector temp2;
+  double curr_suit;
+  if(dir == "Improve"){
+    for(int i = 0; i < n; i++){
+      temp = x(i,_);
+      temp.push_front(0);
+      curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
+      res[i] = sum(temp[Range(0,curr_suit)]);
+    }
+  }else{
+    for(int i = 0; i < n; i++){
+      temp = x(i,_);
+      temp.push_back(0);
+      curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
+      res[i] = sum(temp[Range(curr_suit,4)]);
+    }
+  }
+  
+  return(res);
+}
+')
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
@@ -64,7 +98,9 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes <- data.table::dcast(suitMerge, SiteRef + Spp + FuturePeriod + SS_NoSpace ~ Feasible, 
                                  value.var = "SSprob", fun.aggregate = sum)
   # Fill with 0 if columns does not exist, encountered the error at SiteRef 3104856 
+  colNms <- c("1","2","3","X")
   set(suitVotes, j = as.character(1:5)[!as.character(1:5) %in% names(suitVotes)], value = 0)
+  
   suitVotes[,VoteSum := `1`+`2`+`3`+`4`+`5`]
   suitVotes[,X := 1 - VoteSum]
   suitVotes[,VoteSum := NULL]
@@ -76,11 +112,18 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes[is.na(Curr), Curr := 5]
   setorder(suitVotes,SiteRef,SS_NoSpace,Spp,FuturePeriod)
   suitVotes[Curr > 3.5, Curr := 4]
-  colNms <- c("1","2","3","X")
+  
+  suitVotes[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
+  suitVotes[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
+  datRot <- suitVotes[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = list(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
+  datRot[,Curr := NULL]
+  
   suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
-  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit)), by = .(SiteRef)]
+  suitVotes <- merge(suitVotes, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
+  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit), Improve = mean(Improve), Decline = mean(Decline)), by = .(SiteRef)]
   return(suitRes)
 }
 
@@ -137,7 +180,7 @@ add_retreat <- function(SSPred,suit,spp_select){
 # modWeights <- all_weight
 
 # choices to iterate through
-spps <- c("Pl", "Sx", "Fd", "Cw","Ba", "Bl", "Bg", "Yc", "Pw", "Hm", "Lw", "Hw", "Py", "Dr", "Ep", "At")
+spps <- c("Ac", "At", "Ba", "Bg", "Bl", "Cw", "Dr", "Ep", "Fd", "Hm", "Hw", "Lw", "Mb", "Pl", "Pw", "Py", "Sb", "Ss", "Sx", "Yc")
 edas <- c("C4", "B2", "D6")
 timeperiods <- c(2001, 2021, 2041, 2061, 2081)
 timeperiod.names <- c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
@@ -160,8 +203,8 @@ for(timeperiod in timeperiods[-1]){
   
   # loop through edatope and species
   eda <- "C4"
-  for(eda in edas){
-    spp <- "Bl"
+  for(eda in edas[-1]){
+    spp <- "Fd"
     for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
       cat("Plotting ",spp, eda,"\n")
       
@@ -286,10 +329,12 @@ for(timeperiod in timeperiods[-1]){
       # 
       #     dev.off()
       
+      
+      spps.lookup[spps.lookup$Exclude!="x",]
+      
       ## ------------------------------------------------------------
       ## 2 panel map
       #initialise plot
-      thirdcolor <- "Khaki1Gold"
       png(file=paste("./FeasibilityMaps/Two_Panel",spp,eda,timeperiod,"png",sep = "."), type="cairo", units="in", width=6.5, height=5, pointsize=12, res=300)
       
       par(plt=c(0,1,0,1), bg="white")
@@ -338,15 +383,15 @@ for(timeperiod in timeperiods[-1]){
       X2[feasVals$SiteRef[newFeas$Curr==4]] <- newFeas$FeasChange[newFeas$Curr==4]
       X3 <- raster::setValues(X,NA)
       values(X3)[feasVals$SiteRef[newFeas$Curr<4 & newFeas$NewSuit>3.5]] <- 1
-      
+     
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-      ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+      ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", c("beige", "khaki1", "khaki2", "khaki3", "khaki4", "darkolivegreen"));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("beige", "yellow", "black"))(6));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("beige", "khaki1", "yellow"))(6));
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey95", "beige", "khaki1", "yellow2", "gold"))(6));
-      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
       
       par(plt = c(0.25, 0.95, 0.175, 1), xpd = TRUE, new = TRUE)
@@ -443,13 +488,13 @@ for(timeperiod in timeperiods[-1]){
       X2[feasVals$SiteRef[newFeas$Curr==4]] <- newFeas$FeasChange[newFeas$Curr==4]
       X3 <- raster::setValues(X,NA)
       values(X3)[feasVals$SiteRef[newFeas$Curr<4 & newFeas$NewSuit>3.5]] <- 1
-      
+
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
       ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
-      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+      ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
-      
+
       par(plt = c(0.25,0.75,0,1),xpd = TRUE, new = TRUE)
       image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
       image(X2, add=T, xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme2, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
@@ -577,3 +622,33 @@ for(timeperiod in timeperiods){
   print(timeperiod)
 }
 
+### ----------------------------------
+### legend for mean feasibility change
+
+png(file=paste("./FeasibilityMaps/Legend.FeasChange.png",sep = "."), type="cairo", units="in", width=6.5, height=5, pointsize=14, res=400)
+
+par(mar=c(0,0,0,0), bg="white")
+plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="")
+
+X <- raster::setValues(X,NA)
+
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
+ColScheme3 <- 1
+
+image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
+
+xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000; xadj <- 10000
+y.int <- (yt-yb)/length(ColScheme)
+rect(xl+xadj,  head(seq(yb,yt,y.int),-1),  xr,  tail(seq(yb,yt,y.int),-1),  col=ColScheme)
+rect(xl-diff(c(xl+xadj, xr)),  head(seq(yb,yt,y.int),-1),  xl-xadj,  tail(seq(yb,yt,y.int),-1),  col=ColScheme2)
+rect(xl-diff(c(xl+xadj, xr)),  yb,  xl-xadj,  (yb+yt)/2,  col="white")
+text(xl-diff(c(xl+xadj, xr))/2, yb+(yt-yb)/4, "Expansion", srt=90, cex=0.85, font=1)
+text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
+text(xl-diff(c(xl+xadj, xr))-30000, mean(c(yb,yt))-30000, paste("Mean change in feasibility", sep=""), srt=90, pos=3, cex=0.85, font=2)
+rect(xl+xadj,  yb-y.int-20000,  xr,  yb-20000,  col="black")
+text(xr, yb-y.int/2-30000, "Loss", pos=4, cex=0.8, font=1)
+
+dev.off()

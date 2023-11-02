@@ -91,6 +91,7 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   SSsp.out <- new[,list(allOverlap = 1/.N,SS.pred,BGC.prop), keyby = list(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
   
   ##regular site series edatopes
+  SS <- E1[is.na(SpecialCode),list(BGC,SS_NoSpace,Edatopic)]
   temp <- rbind(SS,E1_Phase[is.na(SpecialCode),list(BGC,SS_NoSpace,Edatopic)])
   CurrBGC <- temp[BGC, on = "BGC", allow.cartesian = T]
   CurrBGC <- CurrBGC[!duplicated(CurrBGC),]

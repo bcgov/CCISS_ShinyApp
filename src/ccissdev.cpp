@@ -148,7 +148,11 @@ NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector 
   return(res);
 }
 
-// [[Rcpp::export(rng=false)]]
+//' Function for quickly calculating model direction/agreement
+//' @name ModelDir
+//' @param x data
+//' @return NumericVector
+// [[Rcpp::export]]
 NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
   int n = x.nrow();
   NumericVector res(n);
