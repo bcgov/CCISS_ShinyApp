@@ -13,6 +13,7 @@ library(RPostgreSQL)
 library(sf)
 library(pool)
 library(RColorBrewer)
+library(terra)
 
 ##some setup
 con <- dbPool(
@@ -160,7 +161,7 @@ for(timeperiod in timeperiods[-1]){
   
   # loop through edatope and species
   eda <- "C4"
-  for(eda in edas){
+  for(eda in edas[-1]){
     spp <- "Bl"
     for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
       cat("Plotting ",spp, eda,"\n")
@@ -289,7 +290,6 @@ for(timeperiod in timeperiods[-1]){
       ## ------------------------------------------------------------
       ## 2 panel map
       #initialise plot
-      thirdcolor <- "Khaki1Gold"
       png(file=paste("./FeasibilityMaps/Two_Panel",spp,eda,timeperiod,"png",sep = "."), type="cairo", units="in", width=6.5, height=5, pointsize=12, res=300)
       
       par(plt=c(0,1,0,1), bg="white")
@@ -443,13 +443,13 @@ for(timeperiod in timeperiods[-1]){
       X2[feasVals$SiteRef[newFeas$Curr==4]] <- newFeas$FeasChange[newFeas$Curr==4]
       X3 <- raster::setValues(X,NA)
       values(X3)[feasVals$SiteRef[newFeas$Curr<4 & newFeas$NewSuit>3.5]] <- 1
-      
+
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
       ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
       ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
       ColScheme3 <- 1
-      
+
       par(plt = c(0.25,0.75,0,1),xpd = TRUE, new = TRUE)
       image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
       image(X2, add=T, xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme2, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
@@ -577,3 +577,33 @@ for(timeperiod in timeperiods){
   print(timeperiod)
 }
 
+### ----------------------------------
+### legend for mean feasibility change
+
+png(file=paste("./FeasibilityMaps/Legend.FeasChange.png",sep = "."), type="cairo", units="in", width=6.5, height=5, pointsize=14, res=400)
+
+par(mar=c(0,0,0,0), bg="white")
+plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="")
+
+X <- raster::setValues(X,NA)
+
+breakpoints <- seq(-3,3,0.5); length(breakpoints)
+labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
+ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey90", "khaki1", "gold"))(6));
+ColScheme3 <- 1
+
+image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
+
+xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000; xadj <- 10000
+y.int <- (yt-yb)/length(ColScheme)
+rect(xl+xadj,  head(seq(yb,yt,y.int),-1),  xr,  tail(seq(yb,yt,y.int),-1),  col=ColScheme)
+rect(xl-diff(c(xl+xadj, xr)),  head(seq(yb,yt,y.int),-1),  xl-xadj,  tail(seq(yb,yt,y.int),-1),  col=ColScheme2)
+rect(xl-diff(c(xl+xadj, xr)),  yb,  xl-xadj,  (yb+yt)/2,  col="white")
+text(xl-diff(c(xl+xadj, xr))/2, yb+(yt-yb)/4, "Expansion", srt=90, cex=0.85, font=1)
+text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
+text(xl-diff(c(xl+xadj, xr))-30000, mean(c(yb,yt))-30000, paste("Mean change in feasibility", sep=""), srt=90, pos=3, cex=0.85, font=2)
+rect(xl+xadj,  yb-y.int-20000,  xr,  yb-20000,  col="black")
+text(xr, yb-y.int/2-30000, "Loss", pos=4, cex=0.8, font=1)
+
+dev.off()
