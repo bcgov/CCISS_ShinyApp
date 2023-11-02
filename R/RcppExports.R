@@ -25,6 +25,10 @@ stepDiff <- function(Year, NewSuit, Curr) {
     .Call(`_ccissdev_stepDiff`, Year, NewSuit, Curr)
 }
 
+#' Function for quickly calculating model direction/agreement
+#' @name ModelDir
+#' @param x data
+#' @return NumericVector
 ModelDir <- function(x, Curr, dir) {
     .Call(`_ccissdev_ModelDir`, x, Curr, dir)
 }

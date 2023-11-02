@@ -91,6 +91,7 @@ NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir);
 RcppExport SEXP _ccissdev_ModelDir(SEXP xSEXP, SEXP CurrSEXP, SEXP dirSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type Curr(CurrSEXP);
     Rcpp::traits::input_parameter< std::string >::type dir(dirSEXP);

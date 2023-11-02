@@ -4,7 +4,7 @@
 \alias{edatopicOverlap}
 \title{EDA Topic Overlap}
 \usage{
-edatopicOverlap(BGC, E1, E1_Phase)
+edatopicOverlap(BGC, E1, E1_Phase, onlyRegular = FALSE)
 }
 \arguments{
 \item{BGC}{BGC}
