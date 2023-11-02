@@ -14,6 +14,7 @@ library(sf)
 library(pool)
 library(RColorBrewer)
 library(terra)
+library(ccissdev)
 
 ##some setup
 con <- dbPool(
@@ -47,6 +48,38 @@ outline <- st_read(con,query = "select * from bc_outline")
 S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
+library(Rcpp)
+cppFunction('NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
+  int n = x.nrow();
+  NumericVector res(n);
+  NumericVector temp(5);
+  NumericVector temp2;
+  double curr_suit;
+  if(dir == "Improve"){
+    for(int i = 0; i < n; i++){
+      temp = x(i,_);
+      temp.push_front(0);
+      curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
+      res[i] = sum(temp[Range(0,curr_suit)]);
+    }
+  }else{
+    for(int i = 0; i < n; i++){
+      temp = x(i,_);
+      temp.push_back(0);
+      curr_suit = Curr[i];
+      if(curr_suit == 4){
+        curr_suit = 3;
+      }
+      res[i] = sum(temp[Range(curr_suit,4)]);
+    }
+  }
+  
+  return(res);
+}
+')
 ##adapted feasibility function
 ccissMap <- function(SSPred,suit,spp_select){
   ### generate raw feasibility ratios
@@ -65,7 +98,9 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes <- data.table::dcast(suitMerge, SiteRef + Spp + FuturePeriod + SS_NoSpace ~ Feasible, 
                                  value.var = "SSprob", fun.aggregate = sum)
   # Fill with 0 if columns does not exist, encountered the error at SiteRef 3104856 
+  colNms <- c("1","2","3","X")
   set(suitVotes, j = as.character(1:5)[!as.character(1:5) %in% names(suitVotes)], value = 0)
+  
   suitVotes[,VoteSum := `1`+`2`+`3`+`4`+`5`]
   suitVotes[,X := 1 - VoteSum]
   suitVotes[,VoteSum := NULL]
@@ -77,11 +112,18 @@ ccissMap <- function(SSPred,suit,spp_select){
   suitVotes[is.na(Curr), Curr := 5]
   setorder(suitVotes,SiteRef,SS_NoSpace,Spp,FuturePeriod)
   suitVotes[Curr > 3.5, Curr := 4]
-  colNms <- c("1","2","3","X")
+  
+  suitVotes[,Improve := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Improve"),.SDcols = colNms]
+  suitVotes[,Decline := ModelDir(as.matrix(.SD), Curr = Curr, dir = "Decline"),.SDcols = colNms]
+  datRot <- suitVotes[,lapply(.SD, mean),.SDcols = c("Improve","Decline"), by = list(SiteRef,SS_NoSpace,Spp,Curr)]
+  datRot[,`:=`(Improve = round(Improve*100),Decline = round(Decline*100))]
+  datRot[,Curr := NULL]
+  
   suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
-  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit)), by = .(SiteRef)]
+  suitVotes <- merge(suitVotes, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
+  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit), Improve = mean(Improve), Decline = mean(Decline)), by = .(SiteRef)]
   return(suitRes)
 }
 
@@ -162,7 +204,7 @@ for(timeperiod in timeperiods[-1]){
   # loop through edatope and species
   eda <- "C4"
   for(eda in edas[-1]){
-    spp <- "Bl"
+    spp <- "Fd"
     for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
       cat("Plotting ",spp, eda,"\n")
       
