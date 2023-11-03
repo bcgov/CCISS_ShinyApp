@@ -204,7 +204,7 @@ for(timeperiod in timeperiods[-1]){
   
   # loop through edatope and species
   eda <- "C4"
-  for(eda in edas[-1]){
+  for(eda in edas){
     spp <- "Bl"
     for(spp in spps){ ##ignore warnings,"Fd","Sx","Pl", "Yc", "Yc", "Oa", "Yp"
       cat("Plotting ",spp, eda,"\n")
@@ -332,9 +332,9 @@ for(timeperiod in timeperiods[-1]){
       
       ## ------------------------------------------------------------
       ## 2 panel map
-      #initialise plot
+      # initialise plot
       png(file=paste("./FeasibilityMaps/Two_Panel",spp,eda,timeperiod,"png",sep = "."), type="cairo", units="in", width=6.5, height=5, pointsize=12, res=300)
-      
+
       par(plt=c(0,1,0,1), bg="white")
       plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="")
       Common <- as.character(spps.lookup$EnglishName[which(spps.lookup$TreeCode==spp)])
@@ -346,7 +346,7 @@ for(timeperiod in timeperiods[-1]){
       #       side=3, line=-1.75, adj=0.01, cex=0.8, font=2)
       mtext(paste("Site type: ", eda, " (", edatope.name[which(eda==edas)], ")", sep=""), side=3, line=-3.5, adj=0.01, cex=0.8, font=1)
       mtext(paste("Time period: ", timeperiod.names[which(timeperiods==timeperiod)], sep=""), side=3, line=-4.5, adj=0.01, cex=0.8, font=1)
-      
+
       ##=================================
       ###historic suitability
       newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
@@ -356,22 +356,22 @@ for(timeperiod in timeperiods[-1]){
       newFeas[,SiteRef := as.integer(SiteRef)]
       ##newFeas <- newFeas[Curr %in% c(1,2,3),] ##uncomment this line to only show where currently feasible
       newFeas <- newFeas[!(Curr == 4 & FeasChange == 0),]
-      
+
       X <- raster::setValues(X,NA)
       X[newFeas$SiteRef] <- newFeas$Curr
       breakseq <- c(0.5,1.5,2.5,3.5,5)
       ColScheme <- c("darkgreen", "dodgerblue1", "gold2", "white")
-      
+
       par(plt = c(0, 0.5, 0.05, 0.6),new = TRUE, xpd = TRUE)
-      
-      image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
+
+      image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n",
             col=ColScheme, breaks=breakseq, maxpixels= ncell(X),asp = 1)
       plot(outline, add=T, border="black",col = NA, lwd=0.4)
-      legend("topleft", legend=c("1 (primary)", "2 (secondary)", "3 (tertiary)"), 
+      legend("topleft", legend=c("1 (primary)", "2 (secondary)", "3 (tertiary)"),
              fill=ColScheme, bty="n", cex=0.8, title="Historical feasibility", inset=c(0,-0.3))
       # mtext(paste("(", letters[1],")", sep=""), side=3, line=-2.75, adj=0.05, cex=0.8, font=2)
-      
-      
+
+
       ##=================================
       ##mean feasibility change
       feasVals <- newFeas[,.(SiteRef,FeasChange)]
@@ -381,7 +381,7 @@ for(timeperiod in timeperiods[-1]){
       X2[feasVals$SiteRef[newFeas$Curr==4]] <- newFeas$FeasChange[newFeas$Curr==4]
       X3 <- raster::setValues(X,NA)
       values(X3)[feasVals$SiteRef[newFeas$Curr<4 & newFeas$NewSuit>3.5]] <- 1
-     
+
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
       ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
@@ -391,13 +391,13 @@ for(timeperiod in timeperiods[-1]){
       # ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("grey95", "beige", "khaki1", "yellow2", "gold"))(6));
       ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
-      
+
       par(plt = c(0.25, 0.95, 0.175, 1), xpd = TRUE, new = TRUE)
       image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
       image(X2, add=T, xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme2, breaks=breakpoints, maxpixels= ncell(X), asp = 1)
       image(X3, add=T, xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme3, maxpixels= ncell(X), asp = 1)
       plot(outline, add=T, border="black",col = NA, lwd=0.4)
-      
+
       xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000; xadj <- 10000
       y.int <- (yt-yb)/length(ColScheme)
       rect(xl+xadj,  head(seq(yb,yt,y.int),-1),  xr,  tail(seq(yb,yt,y.int),-1),  col=ColScheme)
@@ -410,10 +410,10 @@ for(timeperiod in timeperiods[-1]){
       text(xr, yb-y.int/2-30000, "Loss", pos=4, cex=0.8, font=1)
       par(xpd=F)
       # mtext(paste("(", letters[3],")", sep=""), side=3, line=-3.25, adj=0.1, cex=0.8, font=2)
-      
+
       ##=================================
       ## Summary by zone
-      
+
       # par(mar=c(0,0,0,0), plt = c(0.77, 0.995, 0.001, 0.31), new = TRUE, mgp=c(1.25,0.15,0))
       # plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab="", ylab="", xaxt="n", yaxt="n", bty="n")
       FeasChange <- values(X)[bgc.ref$SiteRef]
@@ -433,7 +433,7 @@ for(timeperiod in timeperiods[-1]){
       axis(2,at=seq(ylim[1], ylim[2], 3), seq(ylim[1], ylim[2], 3), las=2, tck=0)
       mtext("Mean change in feasibility", side=3, line=0.1, adj=.975, cex=0.65, font=2)
       # mtext(paste("(", letters[4],")", sep=""), side=3, line=1, adj=0.975, cex=0.8, font=2)
-      
+
       dev.off()
 
       
@@ -455,7 +455,8 @@ for(timeperiod in timeperiods[-1]){
       # mtext(if(spp%in%spps.lookup$TreeCode) bquote(.(panel)~bold(.(spp))~"-"~.(Common)~"("*italic(.(Latin)*")")) else bquote(.(panel)~bold(.(spp))),
       #       side=3, line=-1.75, adj=0.01, cex=0.8, font=2)
       mtext(paste("Site type: ", eda, " (", edatope.name[which(eda==edas)], ")", sep=""), side=3, line=-2., adj=0.01, cex=0.7, font=1)
-
+      mtext(paste("Time period: ", timeperiod.names[which(timeperiods==timeperiod)], sep=""), side=3, line=-4.5, adj=0.01, cex=0.8, font=1)
+      
       ##=================================
       ###historic suitability
       newFeas <- ccissMap(SSPreds,S1,spp)##~ 15 seconds
@@ -492,7 +493,7 @@ for(timeperiod in timeperiods[-1]){
 
       breakpoints <- seq(-3,3,0.5); length(breakpoints)
       labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-      ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+      ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
       ColScheme2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
       ColScheme3 <- 1
 
@@ -509,64 +510,18 @@ for(timeperiod in timeperiods[-1]){
       text(xl-diff(c(xl+xadj, xr))/2, yb+(yt-yb)/4, "Expansion", srt=90, cex=0.85, font=1)
       text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
       text(xl-diff(c(xl+xadj, xr))-30000, mean(c(yb,yt))-30000, paste("Mean change in feasibility", sep=""), srt=90, pos=3, cex=0.85, font=2)
+      rect(xl+xadj,  yb-y.int-20000,  xr,  yb-20000,  col="black")
+      text(xr, yb-y.int/2-30000, "Loss", pos=4, cex=0.8, font=1)
       mtext(paste("(", letters[2],")", sep=""), side=3, line=-2.75, adj=0.095, cex=0.8, font=2)
 
       ##=================================
-      ## Model Agreement
-      X <- raster::setValues(X,NA)
-      X[newFeas$SiteRef[newFeas$FeasChange>0]] <- newFeas$Improve[newFeas$FeasChange>0]
-      X[newFeas$SiteRef[newFeas$FeasChange<0]] <- 0-newFeas$Decline[newFeas$FeasChange<0]
-      
-      plot(X)
-      
-      breakpoints <- seq(-3,3,0.5); length(breakpoints)
-      labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
-      ColScheme <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", brewer.pal(11,"RdBu")[c(7,8,8,9,10,11)]);
-
-      par(plt = c(0.6, 0.95, 0.25, 1), xpd = TRUE, new = TRUE)
-      image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme,
-            breaks=breakpoints, maxpixels= ncell(X), asp = 1)
-      plot(outline, add=T, border="black",col = NA, lwd=0.4)
-
-      xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
-      rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
-      text(rep(xr-10000,length(labels)),seq(yb,yt,(yt-yb)/(length(labels)-1)),labels,pos=4,cex=0.8,font=1)
-      text(xl-30000, mean(c(yb,yt))-30000, paste("Mean change\nin feasibility (", timeperiod.names[which(timeperiods==timeperiod)], ")", sep=""), srt=90, pos=3, cex=0.85, font=2)
-      par(xpd=F)
-      mtext(paste("(", letters[3],")", sep=""), side=3, line=-3.25, adj=0.1, cex=0.8, font=2)
-
-      # ##=================================
-      # ##add/retreat
-      # breakpoints <- seq(-1,1,0.2); length(breakpoints)
-      # labels <- c("Retreat", "Expand")
-      # ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", brewer.pal(11,"RdBu")[c(7:11)]); length(ColScheme)
-      # addret <- add_retreat(SSPreds,S1,spp) ##~ 15 seconds
-      # addret[Flag == "Same",PropMod := 0]
-      # addret <- addret[addret[, .I[which.max(abs(PropMod))], by= .(SiteRef)]$V1]
-      # X <- raster::setValues(X,NA)
-      # X[addret$SiteRef] <- addret$PropMod
-      # 
-      # par(plt = c(0.25,0.75,0,1),xpd = TRUE, new = TRUE)
-      # image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n", 
-      #       col=ColScheme, breaks=breakpoints, maxpixels= ncell(X),asp = 1,
-      #       main = paste0(T1[TreeCode == spp,EnglishName]," (",spp,")\nSite Type: ",eda, "\nTime Period: ",timeperiod.names[which(timeperiods==timeperiod)]))
-      # plot(outline, add=T, border="black",col = NA, lwd=0.4)
-      # 
-      # xl <- 325000; yb <- 900000; xr <- 400000; yt <- 1525000 #xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
-      # rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
-      # text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.9,font=0.8, srt=90)
-      # text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "0%", "100%"),pos=4,cex=0.8,font=1)
-      # text(xl-30000, mean(c(yb,yt))-30000, paste("Change to feasible/unfeasible\n(", timeperiod.names[which(timeperiods==timeperiod)], "); % of GCMs", sep=""), srt=90, pos=3, cex=0.85, font=2)
-      # mtext(paste("(", letters[2],")", sep=""), side=3, line=-2.75, adj=0.095, cex=0.8, font=2)
-      
-      ##=================================
       ## Summary by zone
-
+      
       # par(mar=c(0,0,0,0), plt = c(0.77, 0.995, 0.001, 0.31), new = TRUE, mgp=c(1.25,0.15,0))
       # plot(0, xlim=c(0,1), ylim=c(0,1), col="white", xlab="", ylab="", xaxt="n", yaxt="n", bty="n")
       FeasChange <- values(X)[bgc.ref$SiteRef]
       FeasChange[is.na(FeasChange)] <- 0
-      par(mar=c(4.5,2,0.1,0.1), plt = c(0.79, 0.995, 0.1, 0.275), new = TRUE, mgp=c(1.25,0.15,0))
+      par(xpd=F, mar=c(4.5,2,0.1,0.1), plt = c(0.79, 0.995, 0.1, 0.275), new = TRUE, mgp=c(1.25,0.15,0))
       ylim=c(-3,3)
       xlim=c(1, length(levels(droplevels(zone))))
       z <- boxplot(FeasChange~zone, ylab="", vertical = TRUE, plot=F)
@@ -581,8 +536,33 @@ for(timeperiod in timeperiods[-1]){
       axis(2,at=seq(ylim[1], ylim[2], 3), seq(ylim[1], ylim[2], 3), las=2, tck=0)
       mtext("Mean change in feasibility", side=3, line=0.1, adj=.975, cex=0.65, font=2)
       mtext(paste("(", letters[4],")", sep=""), side=3, line=1, adj=0.975, cex=0.8, font=2)
+      
+      
+      ##=================================
+      ## Model Agreement
+      X <- raster::setValues(X,NA)
+      X[newFeas$SiteRef[newFeas$FeasChange>0]] <- newFeas$Improve[newFeas$FeasChange>0]
+      X[newFeas$SiteRef[newFeas$FeasChange<0]] <- 0-newFeas$Decline[newFeas$FeasChange<0]
+      values(X)[values(X2)<0.5] <- NA # remove cells where the feasibility expansion is less than 0.5 (X2 is from the mean feasibilty panel)
+      
+      breakpoints <- c(seq(-100, -50,10), seq(60, 100,10));length(breakpoints)
+      labels <- c("Decline", "Improve")
+      ColScheme <- c(brewer.pal(11,"RdBu")[c(1:4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(8:11)]); length(ColScheme)
 
-          dev.off()
+      par(plt = c(0.6, 0.95, 0.25, 1), xpd = TRUE, new = TRUE)
+      image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, asp = 1)
+      plot(outline, add=T, border="black",col = NA, lwd=0.4)
+
+      xl <- 1600000; yb <- 1000000; xr <- 1700000; yt <- 1700000
+      rect(xl,  head(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  xr,  tail(seq(yb,yt,(yt-yb)/length(ColScheme)),-1),  col=ColScheme)
+      text(rep(xr+10000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(3,9)],labels,pos=4,cex=0.7,font=0.7, srt=90)
+      text(rep(xr-20000,length(labels)),seq(yb,yt,(yt-yb)/(15-1))[c(1,8,15)],c("100%", "50%", "100%"),pos=4,cex=0.7,font=1)
+      text(xl-30000, mean(c(yb,yt))-30000, paste("Ensemble agreement\n(% of GCMs)", sep=""), srt=90, pos=3, cex=0.75, font=2)
+      par(xpd=F)
+      mtext(paste("(", letters[3],")", sep=""), side=3, line=-3.25, adj=0.1, cex=0.8, font=2)
+
+      dev.off()
+      
       
             print(spp)
     }
