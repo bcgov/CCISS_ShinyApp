@@ -24,6 +24,8 @@ all_weight[gcm_weight,wgcm := i.weight, on = "gcm"]
 all_weight[rcp_weight,wrcp := i.weight, on = "rcp"]
 all_weight[,weight := wgcm*wrcp]
 
-points <- dbGetQuery(pool, "select siteno from preselected_points where bgc = 'SBSdw3'")
+points <- dbGetQuery(pool, "select siteno from preselected_points where bgc = 'IDFdk3'")
 sitenos <- points$siteno[1:150]
 bgc <- dbGetCCISS(pool, sitenos, avg = T, modWeights = all_weight)
+setDT(bgc)
+t1 <- bgc[,.(BGC.Sum = sum(BGC.prop)), by = .(FuturePeriod)]

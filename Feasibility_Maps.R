@@ -187,7 +187,7 @@ timeperiods <- c(2001, 2021, 2041, 2061, 2081)
 timeperiod.names <- c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
 
 ###load up bgc predictions data
-timeperiod <- "2041"
+timeperiod <- "2081"
 for(timeperiod in timeperiods[-1]){
   bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiod,"'"))) ##takes about 15 seconds
   setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
@@ -217,6 +217,7 @@ for(timeperiod in timeperiods[-1]){
       edaZonal[,HasPos := NULL]
       ##edatopic overlap
       SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
+      SSPreds <- edatopicOverlap(bgc,E1,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
       
       # ## ------------------------------------
       # ## 3 panel map with add/retreat and mean feasibility change
@@ -570,6 +571,60 @@ for(timeperiod in timeperiods[-1]){
   }
   print(timeperiod)
 }
+
+qry <- "WITH sspred as (
+select * from map2km_sspred 
+where ss_nospace in (
+select distinct ss_nospace from edatopic where edatopic = 'C4'
+)
+),
+feas as (select ss_nospace, newfeas from feasibility where spp = 'Fd') 
+SELECT siteref, sspred.ss_nospace, feas.newfeas, SUM(ss_prob) 
+FROM sspred INNER JOIN feas ON (sspred.ss_pred = feas.ss_nospace)
+GROUP BY (siteref, sspred.ss_nospace, newfeas)
+"
+
+dat <- dbGetQuery(con, qry)
+suitMerge <- as.data.table(dat)
+feas_spp <- S1[Spp == 'Fd',.(SS_NoSpace,Feasible)]
+suitVotes <- data.table::dcast(suitMerge, siteref + ss_nospace ~ newfeas, 
+                               value.var = "sum")
+colNms <- c("1","2","3","X")
+set(suitVotes, j = as.character(1:5)[!as.character(1:5) %in% names(suitVotes)], value = 0)
+
+suitVotes[is.na(suitVotes)] <- 0
+suitVotes[,VoteSum := `1`+`2`+`3`+`4`+`5`]
+suitVotes[,X := 1 - VoteSum]
+suitVotes[,VoteSum := NULL]
+suitVotes[,X := X + `5` + `4`]
+suitVotes[,`:=`(`5` = NULL, `4` = NULL)]
+setkey(suitVotes, ss_nospace)
+setkey(feas_spp, SS_NoSpace)
+suitVotes[feas_spp, Curr := i.Feasible]
+suitVotes[is.na(Curr), Curr := 5]
+#setorder(suitVotes,SiteRef,SS_NoSpace,Spp,FuturePeriod)
+suitVotes[Curr > 3.5, Curr := 4]
+
+suitVotes <- suitVotes[,lapply(.SD, sum),.SDcols = colNms, 
+                       by = .(siteref, ss_nospace,Curr)]
+suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
+suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit)), by = .(siteref)]
+
+
+##send sspred to database
+SSPreds[,BGC.prop := NULL]
+SSPreds[,allOverlap := NULL]
+SSPreds[,SSratio := NULL]
+setnames(SSPreds,c("siteref","period","bgc","bgc_pred","ss_nospace","ss_pred","ss_prob"))
+dbWriteTable(con, "map2km_sspred", SSPreds, row.names = F, append = T)
+dbExecute(con,"create index on map2km_sspred(ss_nospace)")
+
+eda <- fread("data-raw/data_tables/Edatopic_v12_15.csv")
+setnames(eda, c("source","bgc","ss_nospace","edatopic"))
+dbWriteTable(con,"edatopic",eda, row.names = F)
+
+feas <- fread("data-raw/data_tables/Feasibility_v12_15.csv")
+dbWriteTable(con, "feasibility", feas, row.names = F)
 
 ### -------------------------------------------------------
 ### -------------------------------------------------------

@@ -242,7 +242,7 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   temp <- unique(temp)
   combAll[,BGC.prop := NULL]
   combAll <- temp[combAll]
-  combAll[,SSprob := SSratio*BGC.prop]
+  combAll[,SSprob := SSratio*BGC.prop] ##this part may not be correct
   combAll <- combAll[!duplicated(combAll),]
   print("Done EDA")
   return(list(phase = combAll, NoPhase = noPhase))

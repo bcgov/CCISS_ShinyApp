@@ -20,23 +20,30 @@ output$bgc_fut_plot <- plotly::renderPlotly({
   minallow <- input$min_ssoverlap
   update_flag()
   if (is.null(uData$eda_out)) return(NULL)
-  bgc_fut_plotly(copy(uData$eda_out), siteref, sseries, minallow)
+  data <- copy(uData$eda_out)
+  #browser()
+  data[,Lab := paste(SS.pred,round(SSratio,digits = 2),sep = ": ")]
+  data <- data[,.(SSLab = paste(Lab,collapse = "<br>")),
+               by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred)]
+  dat_bgc <- copy(uData$bgc)
+  dat_bgc[,BGC := NULL]
+  plotdat <- merge.data.table(data,dat_bgc, on = c("SiteRef","FuturePeriod","BGC.pred"), all= TRUE)
+  bgc_fut_plotly(plotdat, siteref, sseries, minallow)
 })
 
 # Graph
 
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
-  data <- data[SSratio > minallow,]
+  #data <- data[SSratio > minallow,]
   
   dat_order <- data.table(FuturePeriod = c("1961","1991","2001","2021","2041","2061", "2081"), fpCode = c(1,2,3.5,4.5,5.5,6.5,7.5))
   #browser()
   #data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
-  data[,Lab := paste(SS.pred,round(SSratio,digits = 2),sep = ": ")]
-  data <- data[,.(SSLab = paste(Lab,collapse = "<br>")),
-                    by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
-  data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
-  data[dat_order, fpCode := i.fpCode, on = "FuturePeriod"]
+  
+  #data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
+  data2 <- unique(data[SiteRef == siteref,.(FuturePeriod,BGC.pred,BGC.prop)])
+  data2[dat_order, fpCode := i.fpCode, on = "FuturePeriod"]
   l <- list(
     font = list(
       size = 12,
@@ -48,13 +55,13 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
     y = 1.25,
     x = -0.05)
   color_ref <- {
-    colors <- subzones_colours_ref[unique(data$BGC.pred)]
+    colors <- subzones_colours_ref[unique(data2$BGC.pred)]
     col <- colors$colour
     names(col) <- colors$classification
     col
   }
   if(input$future_showss == "BGC"){
-    plotly::plot_ly(data = data, x = ~fpCode,
+    plotly::plot_ly(data = data2, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                     color = ~BGC.pred, colors = color_ref, hovertemplate = "%{y}",
                     text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 12),
@@ -65,7 +72,10 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                                   tickvals = dat_order$fpCode),
                      barmode = 'stack', legend = l, hovermode = "x unified")
   }else{
-    plotly::plot_ly(data = data, x = ~fpCode,
+    data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
+    data_ss <- merge.data.table(data2, data, on = c("SiteRef","FuturePeriod","BGC.pred"), all = T)
+    data_ss[dat_order, fpCode := i.fpCode, on = "FuturePeriod"]
+    plotly::plot_ly(data = data_ss, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                     color = ~BGC.pred, colors = color_ref,
                     text = ~SSLab, textposition = 'inside', textfont = list(color = "black", size = 12),

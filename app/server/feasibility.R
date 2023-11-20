@@ -31,6 +31,7 @@ output$results_feas <- function() {
   siteserie <- selected_site$ss
   update_flag()
   cciss_results <- copy(uData$cciss_results)
+  #browser()
   feas_filter <- input$filter_feas
   if (is.null(cciss_results)) return(NULL)
   cciss_results_dt(cciss_results, siteref, siteserie, feas_filter)
