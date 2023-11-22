@@ -73,7 +73,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                      barmode = 'stack', legend = l, hovermode = "x unified")
   }else{
     data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
-    data_ss <- merge.data.table(data2, data, on = c("SiteRef","FuturePeriod","BGC.pred"), all = T)
+    data_ss <- merge(data2, data, on = c("SiteRef","FuturePeriod","BGC.pred"), all = T)
     data_ss[dat_order, fpCode := i.fpCode, on = "FuturePeriod"]
     plotly::plot_ly(data = data_ss, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',

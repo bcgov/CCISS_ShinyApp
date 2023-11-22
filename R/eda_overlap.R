@@ -89,9 +89,10 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   new <- CurrBGC[FutBGC, allow.cartesian=TRUE]
   new <- new[!is.na(SS_NoSpace),] ##this removes special site series that don't align
   SSsp.out <- new[,list(allOverlap = 1/.N,SS.pred,BGC.prop), keyby = list(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace)]
+  SSsp.out <- unique(SSsp.out)
   
   ##regular site series edatopes
-  SS <- E1[is.na(SpecialCode),list(BGC,SS_NoSpace,Edatopic)]
+  SS <- E1[,list(BGC,SS_NoSpace,Edatopic)]
   temp <- rbind(SS,E1_Phase[is.na(SpecialCode),list(BGC,SS_NoSpace,Edatopic)])
   CurrBGC <- temp[BGC, on = "BGC", allow.cartesian = T]
   CurrBGC <- CurrBGC[!duplicated(CurrBGC),]
@@ -134,17 +135,24 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
                         allOverlap, SS.pred, BGC.prop)]
   combAll <- na.omit(combAll)
   combAllSave <- combAll
-  
+  combAll <- unique(combAll)
   combAll <- merge(combAll,SSsp.out,
                    by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
-  temp <- combAll[!is.na(allOverlap.y),]
-  temp[,c("allOverlap.x","BGC.prop.x") := NULL]
-  setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
   combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
-  combAll <- combAll[(Flag),!"Flag"]
-  combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
-  setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
-  combAll <- rbind(combAll,temp)
+  comb_reg <- combAll[(Flag),]
+  comb_reg[,c("allOverlap.y","BGC.prop.y","Flag") := NULL]
+  setnames(comb_reg,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  combAll <- rbind(comb_reg, SSsp.out)
+  #combAll[!is.na(allOverlap.y), `:=`(allOverlap.x = allOverlap.y, BGC.prop.x = BGC.prop.y)]
+  #temp <- combAll[!is.na(allOverlap.y),]
+  #temp[,c("allOverlap.x","BGC.prop.x") := NULL]
+  
+  # setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
+  # combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
+  # combAll <- combAll[(Flag),!"Flag"]
+  # combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
+  # setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  # combAll <- rbind(combAll,temp)
   combAll[,MainUnit := gsub("[a-c]$|\\.[1-9]$","",SS.pred)]
   combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != MainUnit),] ### removes overlap where past BGC = future BGC
   combAll[,MainUnit := NULL]
