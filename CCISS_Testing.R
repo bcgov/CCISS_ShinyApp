@@ -28,4 +28,6 @@ points <- dbGetQuery(pool, "select siteno from preselected_points where bgc = 'I
 sitenos <- points$siteno[1:150]
 bgc <- dbGetCCISS(pool, sitenos, avg = T, modWeights = all_weight)
 setDT(bgc)
+eda <- edatopicOverlap(bgc, E1, E1_Phase)
 t1 <- bgc[,.(BGC.Sum = sum(BGC.prop)), by = .(FuturePeriod)]
+BGC <- bgc[FuturePeriod == "2041",]

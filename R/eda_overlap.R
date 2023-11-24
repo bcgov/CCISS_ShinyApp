@@ -134,15 +134,23 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   combAll <- combAll[,list(SiteRef, FuturePeriod, BGC, BGC.pred, SS_NoSpace, 
                         allOverlap, SS.pred, BGC.prop)]
   combAll <- na.omit(combAll)
-  combAllSave <- combAll
+  #combAllSave <- combAll
   combAll <- unique(combAll)
   combAll <- merge(combAll,SSsp.out,
                    by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
+  ##which ones are not current special site series
+  combAll[E1[,.(SS_NoSpace,SpecialCode)], SppCode := i.SpecialCode, on = "SS_NoSpace"]
+  combAll[E1[,.(SS_NoSpace,SpecialCode)], SppCodePred := i.SpecialCode, on = c(SS.pred = "SS_NoSpace")]
+  combAll[SppCode != SppCodePred, Flag := F]
+  combAll <- combAll[is.na(Flag),]
   combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
-  comb_reg <- combAll[(Flag),]
-  comb_reg[,c("allOverlap.y","BGC.prop.y","Flag") := NULL]
-  setnames(comb_reg,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
-  combAll <- rbind(comb_reg, SSsp.out)
+  combAll[is.na(SppCode) & !is.na(SppCodePred), rmFlag := T]
+  combAll[!is.na(SppCode) & is.na(SppCodePred) & Flag == FALSE, rmFlag := T]
+  
+  combAll <- combAll[is.na(rmFlag),]
+  combAll[!is.na(allOverlap.y), `:=`(allOverlap.x = allOverlap.y, BGC.prop.x = BGC.prop.y)]
+  combAll[,c("allOverlap.y","BGC.prop.y","Flag","rmFlag","SppCode","SppCodePred") := NULL]
+  setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
   #combAll[!is.na(allOverlap.y), `:=`(allOverlap.x = allOverlap.y, BGC.prop.x = BGC.prop.y)]
   #temp <- combAll[!is.na(allOverlap.y),]
   #temp[,c("allOverlap.x","BGC.prop.x") := NULL]
@@ -181,7 +189,7 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   ##now redo for phases
   numEdaPh <- E1_Phase[,list(NumEdas = .N), by = list(SS_NoSpace)]
   phaseSmall <- unique(edaPhase[,list(BGC,MainUnit,Phase = SS_NoSpace)])
-  combPhase <- phaseSmall[combAllSave, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
+  combPhase <- phaseSmall[noPhase, on = c(MainUnit = "SS.pred"), allow.cartesian = T]
   justPhase <- combPhase[!is.na(Phase),]
   curr <- unique(justPhase[,list(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, SS_NoSpace)])
   fut <- unique(justPhase[,list(SiteRef, FuturePeriod, BGC = i.BGC, BGC.pred, MainUnit, Phase)])
@@ -213,8 +221,8 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
                                   SS.pred = MainUnit.y, PhasePred,phaseOverlap = allOverlap)]
   combPhaseAll <- na.omit(combPhaseAll)
   setkey(combPhaseAll,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
-  setkey(combAllSave,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
-  combAll <- combPhaseAll[combAllSave]
+  setkey(noPhase,SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)
+  combAll <- combPhaseAll[noPhase]
   ####add phase to non-phase###
   combAll[,PhaseSum := sum(phaseOverlap), by = list(SiteRef,FuturePeriod,BGC,BGC.pred,SS_NoSpace,SS.pred)]
   combAll[,phaseOverlap := phaseOverlap/PhaseSum]
@@ -223,20 +231,20 @@ edatopicOverlap <- function(BGC,E1,E1_Phase,onlyRegular = FALSE){
   combAll[,c("phaseOverlap","PhaseSum","PhasePred") := NULL]
   ###done phases
   
-  combAll <- merge(combAll,SSsp.out,
-                   by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
-  temp <- combAll[!is.na(allOverlap.y),]
-  temp[,c("allOverlap.x","BGC.prop.x") := NULL]
-  setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
-  combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
-  combAll <- combAll[(Flag),!"Flag"]
-  combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
-  setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
-  combAll <- rbind(combAll,temp)
-  combAll[,MainUnit := gsub("[a-c]$|\\.[1-9]$","",SS.pred)]
-  combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != MainUnit),] ### removes overlap where past BGC = future BGC
-  combAll[,MainUnit := NULL]
-  combAll <- unique(combAll[!is.na(SS_NoSpace),])
+  # combAll <- merge(combAll,SSsp.out,
+  #                  by = c("SiteRef","FuturePeriod","BGC","BGC.pred","SS_NoSpace","SS.pred"), all = T)
+  # temp <- combAll[!is.na(allOverlap.y),]
+  # temp[,c("allOverlap.x","BGC.prop.x") := NULL]
+  # setnames(temp,old = c("allOverlap.y","BGC.prop.y"), new = c("allOverlap","BGC.prop"))
+  # combAll[,Flag := if(all(is.na(allOverlap.y))) T else F, by = list(SiteRef,FuturePeriod,BGC,SS_NoSpace,BGC.pred)]
+  # combAll <- combAll[(Flag),!"Flag"]
+  # combAll[,c("allOverlap.y","BGC.prop.y") := NULL]
+  # setnames(combAll,old = c("allOverlap.x","BGC.prop.x"), new = c("allOverlap","BGC.prop"))
+  # combAll <- rbind(combAll,temp)
+  # combAll[,MainUnit := gsub("[a-c]$|\\.[1-9]$","",SS.pred)]
+  # combAll <- combAll[!(BGC == BGC.pred  &  SS_NoSpace != MainUnit),] ### removes overlap where past BGC = future BGC
+  # combAll[,MainUnit := NULL]
+  # combAll <- unique(combAll[!is.na(SS_NoSpace),])
 
   
   ##add in BGC probability
