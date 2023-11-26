@@ -10,6 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// ModelDir
+NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir);
+RcppExport SEXP _ccissdev_ModelDir(SEXP xSEXP, SEXP CurrSEXP, SEXP dirSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Curr(CurrSEXP);
+    Rcpp::traits::input_parameter< std::string >::type dir(dirSEXP);
+    rcpp_result_gen = Rcpp::wrap(ModelDir(x, Curr, dir));
+    return rcpp_result_gen;
+END_RCPP
+}
 // gs2gw
 NumericVector gs2gw(NumericVector x, double a, double b);
 RcppExport SEXP _ccissdev_gs2gw(SEXP xSEXP, SEXP aSEXP, SEXP bSEXP) {
@@ -86,28 +99,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ModelDir
-NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir);
-RcppExport SEXP _ccissdev_ModelDir(SEXP xSEXP, SEXP CurrSEXP, SEXP dirSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type Curr(CurrSEXP);
-    Rcpp::traits::input_parameter< std::string >::type dir(dirSEXP);
-    rcpp_result_gen = Rcpp::wrap(ModelDir(x, Curr, dir));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ccissdev_ModelDir", (DL_FUNC) &_ccissdev_ModelDir, 3},
     {"_ccissdev_gs2gw", (DL_FUNC) &_ccissdev_gs2gw, 3},
     {"_ccissdev_SimGrowth", (DL_FUNC) &_ccissdev_SimGrowth, 6},
     {"_ccissdev_combCurr", (DL_FUNC) &_ccissdev_combCurr, 2},
     {"_ccissdev_NewSuitNoCurr", (DL_FUNC) &_ccissdev_NewSuitNoCurr, 2},
     {"_ccissdev_FeasSuit", (DL_FUNC) &_ccissdev_FeasSuit, 4},
     {"_ccissdev_stepDiff", (DL_FUNC) &_ccissdev_stepDiff, 3},
-    {"_ccissdev_ModelDir", (DL_FUNC) &_ccissdev_ModelDir, 3},
     {NULL, NULL, 0}
 };
 

@@ -30,7 +30,8 @@ Imports:
     ggthemes,
     magrittr,
     scales,
-    prompter
+    prompter,
+    Rcpp
 Suggests:
     bcdata,
     bcmaps,

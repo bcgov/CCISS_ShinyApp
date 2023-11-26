@@ -8,6 +8,10 @@ ModelDir(x, Curr, dir)
 }
 \arguments{
 \item{x}{data}
+
+\item{dir}{Improve or Decline}
+
+\item{curr}{vector of current suitability}
 }
 \value{
 NumericVector

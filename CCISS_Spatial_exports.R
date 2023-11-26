@@ -1,29 +1,15 @@
-## spatial climates
+## spatial climates!! ##
+## Kiri Daust, Colin Mahoney, 2023
+
 library(data.table)
 library(sf)
 library(RPostgreSQL)
-library(dplyr)
-library(foreach)
-library(rmapshaper)
-library(tictoc)
-library(rasterVis)
-library(raster)
 library(ccissdev)
-library(RPostgreSQL)
-library(sf)
 library(pool)
 library(RColorBrewer)
 library(terra)
 library(ccissdev)
-
-# =============================================================
-# Issues:
-# - need BGC projections for the 2001-2020 observed normals
-# - need a function to calculate species suitability from a vector of BGCs. the current edatopicOverlap() function is specific to the mapdata_2km output
-# - the future BGC projections do not have a consistent set of rast_ids, and a few thousand duplicate records. need to find out why. 
-# - the function to calculate change in feasibility is currently uses mapped bgc as the reference bgc. it would be more correct to use the reference period predicted bgc as the reference bgc. 
-# - ideally, we could have a function to supply a raster and return the biogeoclimatic projections for this raster. 
-# =============================================================
+library(Rcpp)
 
 ##some setup
 con <- dbPool(
@@ -43,21 +29,6 @@ sppDb <- dbPool(
   password = Sys.getenv("BCGOV_PWD")
 )
 
-#lookup tables
-spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
-edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
-BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
-
-# base raster
-X <- raster("BC_Raster.tif")
-X <- raster::setValues(X,NA)
-
-#Feasibility tables
-outline <- st_read(con,query = "select * from bc_outline")
-S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
-setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
-
-library(Rcpp)
 cppFunction('NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
   int n = x.nrow();
   NumericVector res(n);
@@ -90,11 +61,61 @@ cppFunction('NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::st
 }
 ')
 
-##adapted feasibility function
-ccissMap <- function(SSPred,suit,spp_select){
+
+# =============================================================
+# Issues:
+# - need BGC projections for the 2001-2020 observed normals
+# - need a function to calculate species suitability from a vector of BGCs. the current edatopicOverlap() function is specific to the mapdata_2km output
+# - the future BGC projections do not have a consistent set of rast_ids, and a few thousand duplicate records. need to find out why. 
+# - the function to calculate change in feasibility is currently uses mapped bgc as the reference bgc. it would be more correct to use the reference period predicted bgc as the reference bgc. 
+# - ideally, we could have a function to supply a raster and return the biogeoclimatic projections for this raster. 
+# =============================================================
+
+
+##function for returning raw BGC predictions and site series predictions based on input spatial file
+##cellsize is in meters, e.g. 1000 for 1km cells
+bgc_ss_spatial <- function(bnd, cellsize, dbCon, gcm_params){
+  bnd <- vect(bnd)
+  bnd <- project(bnd,"epsg:3005")
+  bnd_rast <- rast(bnd,res = cellsize)
+  bnd_vct <- as.polygons(bnd_rast)
+  bnd_cnt <- centroids(bnd_vct)
+  bnd_cnt <- st_as_sf(bnd_cnt)
+  bnd_cnt$id <- seq_along(bnd_cnt$geometry)
+  st_write(bnd_cnt, con, "temp_centroid", delete_layer = TRUE)
+  
+  
+  qry <- "select hex_grid.siteno hex_id, temp_centroid.id rast_id 
+  from hex_grid INNER JOIN temp_centroid
+  ON(ST_Intersects(temp_centroid.geometry, hex_grid.geom));"
+  message("Downloading Raw Data")
+  hex_pnts <- setDT(dbGetQuery(con, qry))
+  raw_bgc <- dbGetBGCPred(con, siteno = hex_pnts$hex_id)
+  raw_bgc[hex_pnts, rast_id := i.rast_id, on = c(siteno = "hex_id")]
+  message("Summarised Data...")
+  bgc <- dbGetCCISS(con, hex_pnts$hex_id, avg = F, modWeights = gcm_params)
+  message("Edatopic Overlap...")
+  sspreds <- edatopicOverlap(bgc, E1, E1_Phase, onlyRegular = TRUE)
+  sspreds[,SiteRef := as.integer(SiteRef)]
+  sspreds[hex_pnts, rast_id := i.rast_id, on = c(SiteRef = "hex_id")]
+  return(list(raster = bnd_rast, raw = raw_bgc, ss_preds = sspreds))
+}
+
+##Function to calculated feasibility based on previous function
+ccissMap <- function(SSPred,eda,suit,selected_edatope,spp_select){
+  edaTemp <- eda
+  edaTemp <- edaTemp[is.na(SpecialCode),]
+  
+  edaTemp[,HasPos := if(any(Edatopic == selected_edatope)) T else F, by = .(SS_NoSpace)]
+  edaZonal <- edaTemp[(HasPos),]
+  edaZonal[,HasPos := NULL]
+  edaZonal <- unique(edaZonal$SS_NoSpace)
+  
+  SSPred <- SSPred[SS_NoSpace %chin% edaZonal,]
+  SSPred[,SiteRef := rast_id]
   ### generate raw feasibility ratios
   
-  suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
+  suit <- suit[Spp %in% spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
   suit <- na.omit(suit)
   SSPred <- SSPred[,.(SiteRef,FuturePeriod,BGC,SS_NoSpace,SS.pred,SSprob)]
@@ -133,10 +154,53 @@ ccissMap <- function(SSPred,suit,spp_select){
                          by = .(SiteRef,FuturePeriod, SS_NoSpace,Spp,Curr)]
   suitVotes[,NewSuit := `1`+(`2`*2)+(`3`*3)+(X*5)]
   suitVotes <- merge(suitVotes, datRot, by = c('SiteRef','SS_NoSpace','Spp'),all = T)
-  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit), Improve = mean(Improve), Decline = mean(Decline)), by = .(SiteRef)]
+  suitRes <- suitVotes[,.(Curr = mean(Curr),NewSuit = mean(NewSuit), Improve = mean(Improve), Decline = mean(Decline)), by = .(SiteRef,Spp)]
   return(suitRes)
 }
 
+###example use
+bnd <- st_read("spatial_files/bdy.Sunshine.shp")
+##specify gcm parameters
+##------------------------------------------------
+gcm_weight <- data.table(gcm = c("ACCESS-ESM1-5", "BCC-CSM2-MR", "CanESM5", "CNRM-ESM2-1", "EC-Earth3", 
+                                 "GFDL-ESM4", "GISS-E2-1-G", "INM-CM5-0", "IPSL-CM6A-LR", "MIROC6", 
+                                 "MPI-ESM1-2-HR", "MRI-ESM2-0", "UKESM1-0-LL"),
+                         weight = c(1,0,0,1,1,1,1,0,0,1,1,1,0))
+
+rcp_weight <- data.table(rcp = c("ssp126","ssp245","ssp370","ssp585"), 
+                         weight = c(0.8,1,0.8,0))
+
+gcm_params <- as.data.table(expand.grid(gcm = gcm_weight$gcm,rcp = rcp_weight$rcp))
+gcm_params[gcm_weight,wgcm := i.weight, on = "gcm"]
+gcm_params[rcp_weight,wrcp := i.weight, on = "rcp"]
+gcm_params[,weight := wgcm*wrcp]
+##------------------------------------------------
+## pull feasibility table from database
+S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
+
+##run first function. Takes about 2 mins with cellsize 1000. 
+##returns a list with reference raster, BGC predictions, and site series predictions
+out <- bgc_ss_spatial(bnd, cellsize = 1000, dbCon = con, gcm_params = gcm_params)
+##now use output to get feasibility for one edatopic position and one or multiple species
+cciss_suit <- ccissMap(out$ss_preds,E1,S1,selected_edatope = "C4", spp_select = c("Fd","Pl"))
+
+##plot it
+fd_suit <- cciss_suit[Spp == "Fd",]
+fd_suit[,SuitChange := Curr - NewSuit]
+r <- out$raster
+r[fd_suit$SiteRef] <- fd_suit$SuitChange
+plot(r)
+
+##plot an example BGC prediction
+r <- out$raster
+raw <- out$raw
+temp <- raw[gcm == "ACCESS-ESM1-5" & scenario == "ssp370" & futureperiod == "2041",]
+temp[,bgc_pred := as.factor(bgc_pred)]
+r[temp$rast_id] <- temp$bgc_pred
+plot(r)
+
+#====================================================================================
 ##add/retreat (figure 3b)
 add_retreat <- function(SSPred,suit,spp_select){
   suit <- suit[Spp == spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
@@ -177,6 +241,14 @@ add_retreat <- function(SSPred,suit,spp_select){
 ### -------------------------------------------------------
 ### -------------------------------------------------------
 ### common variables
+#lookup tables
+spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
+edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
+BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
+
+# base raster
+X <- raster("BC_Raster.tif")
+X <- raster::setValues(X,NA)
 
 studyarea <- "BC"
 

@@ -351,3 +351,44 @@ dbGetCCISSRaw <- function(con, district, gcm, scenario, period){
   return(dat)
 }
 
+#' Return raw predictions for given sitenos
+#' @param con An active postgres DBI connection.
+#' @param siteno A vector of siteno.
+#' @param scenario Vector of requested SSPs
+#' @param period Character vector of requested future periods.
+#' @details Return data from CCISS database for provided SiteNo.
+#' @return A data.table containing BGC predictions.
+#' @importFrom RPostgres dbGetQuery
+#' @export
+dbGetBGCPred <- function(con, siteno, scenario = c("ssp126","ssp245","ssp370"), period = c('2021','2041','2061','2081')){
+  
+  cciss_sql <- paste0("
+    SELECT cciss_future12_array.siteno,
+         labels.gcm,
+         labels.scenario,
+         labels.futureperiod,
+         bgc.bgc bgc_pred
+  FROM cciss_future12_array,
+    unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
+
+  JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
+               gcm,
+               scenario,
+               futureperiod
+        FROM gcm 
+        CROSS JOIN scenario
+        CROSS JOIN futureperiod) labels
+    ON labels.row_idx = source.row_idx
+  JOIN bgc
+    ON bgc.bgc_id = source.bgc_pred_id
+    WHERE siteno IN(",paste(unique(siteno), collapse = ","),")
+  AND futureperiod IN('",paste(period, collapse = "','"),"')
+  AND scenario IN('",paste(scenario, collapse = "','"),"')
+  ")
+  
+  dat <- setDT(RPostgres::dbGetQuery(con, cciss_sql))
+  dat <- unique(dat) ##should fix database so not necessary
+  #print(dat)
+  return(dat)
+}
+

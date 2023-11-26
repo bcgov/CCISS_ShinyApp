@@ -6,6 +6,46 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 using namespace std;
+
+//' Function for quickly calculating model direction/agreement
+//' @name ModelDir
+//' @param x data
+//' @param curr vector of current suitability
+//' @param dir Improve or Decline
+//' @return NumericVector
+// [[Rcpp::export]]
+NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
+ int n = x.nrow();
+ NumericVector res(n);
+ NumericVector temp(5);
+ NumericVector temp2;
+ double curr_suit;
+ if(dir == "Improve"){
+   for(int i = 0; i < n; i++){
+     temp = x(i,_);
+     temp.push_front(0);
+     curr_suit = Curr[i];
+     if(curr_suit == 4){
+       curr_suit = 3;
+     }
+     res[i] = sum(temp[Range(0,curr_suit)]);
+   }
+ }else{
+   for(int i = 0; i < n; i++){
+     temp = x(i,_);
+     temp.push_back(0);
+     curr_suit = Curr[i];
+     if(curr_suit == 4){
+       curr_suit = 3;
+     }
+     res[i] = sum(temp[Range(curr_suit,4)]);
+   }
+ }
+ 
+ return(res);
+}
+ 
+
 // Portfolio simulation
 
 // [[Rcpp::export]]
@@ -148,41 +188,6 @@ NumericVector stepDiff(IntegerVector Year, NumericVector NewSuit, NumericVector 
   return(res);
 }
 
-//' Function for quickly calculating model direction/agreement
-//' @name ModelDir
-//' @param x data
-//' @return NumericVector
-// [[Rcpp::export]]
-NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::string dir){
-  int n = x.nrow();
-  NumericVector res(n);
-  NumericVector temp(5);
-  NumericVector temp2;
-  double curr_suit;
-  if(dir == "Improve"){
-    for(int i = 0; i < n; i++){
-      temp = x(i,_);
-      temp.push_front(0);
-      curr_suit = Curr[i];
-      if(curr_suit == 4){
-        curr_suit = 3;
-      }
-      res[i] = sum(temp[Range(0,curr_suit)]);
-    }
-  }else{
-    for(int i = 0; i < n; i++){
-      temp = x(i,_);
-      temp.push_back(0);
-      curr_suit = Curr[i];
-      if(curr_suit == 4){
-        curr_suit = 3;
-      }
-      res[i] = sum(temp[Range(curr_suit,4)]);
-    }
-  }
-  
-  return(res);
-}
 
 // // [[Rcpp::export(rng=false)]]
 // LogicalVector bifurcTrend(NumericVector Imp, NumericVector Decl, double cutoff){
