@@ -360,15 +360,18 @@ dbGetCCISSRaw <- function(con, district, gcm, scenario, period){
 #' @return A data.table containing BGC predictions.
 #' @importFrom RPostgres dbGetQuery
 #' @export
-dbGetBGCPred <- function(con, siteno, scenario = c("ssp126","ssp245","ssp370"), period = c('2021','2041','2061','2081')){
+dbGetBGCPred <- function(con, siteno, scenario = c("ssp126","ssp245","ssp370"), period = c('2001', '2021','2041','2061','2081')){
   
   cciss_sql <- paste0("
     SELECT cciss_future12_array.siteno,
          labels.gcm,
          labels.scenario,
          labels.futureperiod,
+         bgc_attribution.bgc bgc,
          bgc.bgc bgc_pred
-  FROM cciss_future12_array,
+  FROM cciss_future12_array
+  JOIN bgc_attribution
+    ON (cciss_future12_array.siteno = bgc_attribution.siteno),
     unnest(bgc_pred_id) WITH ordinality as source(bgc_pred_id, row_idx)
 
   JOIN (SELECT ROW_NUMBER() OVER(ORDER BY gcm_id, scenario_id, futureperiod_id) row_idx,
@@ -381,7 +384,7 @@ dbGetBGCPred <- function(con, siteno, scenario = c("ssp126","ssp245","ssp370"), 
     ON labels.row_idx = source.row_idx
   JOIN bgc
     ON bgc.bgc_id = source.bgc_pred_id
-    WHERE siteno IN(",paste(unique(siteno), collapse = ","),")
+    WHERE cciss_future12_array.siteno IN(",paste(unique(siteno), collapse = ","),")
   AND futureperiod IN('",paste(period, collapse = "','"),"')
   AND scenario IN('",paste(scenario, collapse = "','"),"')
   ")

@@ -94,26 +94,13 @@ bgc_ss_spatial <- function(bnd, cellsize, dbCon, gcm_params){
   raw_bgc[hex_pnts, rast_id := i.rast_id, on = c(siteno = "hex_id")]
   message("Summarised Data...")
   bgc <- dbGetCCISS(con, hex_pnts$hex_id, avg = F, modWeights = gcm_params)
-  message("Edatopic Overlap...")
-  sspreds <- edatopicOverlap(bgc, E1, E1_Phase, onlyRegular = TRUE)
-  sspreds[,SiteRef := as.integer(SiteRef)]
-  sspreds[hex_pnts, rast_id := i.rast_id, on = c(SiteRef = "hex_id")]
-  return(list(raster = bnd_rast, raw = raw_bgc, ss_preds = sspreds))
+  bgc[,SiteRef := as.integer(SiteRef)]
+  bgc[hex_pnts, rast_id := i.rast_id, on = c(SiteRef = "hex_id")]
+  return(list(raster = bnd_rast, raw = raw_bgc, summary = bgc))
 }
 
 ##Function to calculated feasibility based on previous function
-ccissMap <- function(SSPred,eda,suit,selected_edatope,spp_select){
-  edaTemp <- eda
-  edaTemp <- edaTemp[is.na(SpecialCode),]
-  
-  edaTemp[,HasPos := if(any(Edatopic == selected_edatope)) T else F, by = .(SS_NoSpace)]
-  edaZonal <- edaTemp[(HasPos),]
-  edaZonal[,HasPos := NULL]
-  edaZonal <- unique(edaZonal$SS_NoSpace)
-  
-  SSPred <- SSPred[SS_NoSpace %chin% edaZonal,]
-  SSPred[,SiteRef := rast_id]
-  ### generate raw feasibility ratios
+simple_cciss <- function(SSPred,suit,spp_select){
   
   suit <- suit[Spp %in% spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
@@ -182,8 +169,20 @@ setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 ##run first function. Takes about 2 mins with cellsize 1000. 
 ##returns a list with reference raster, BGC predictions, and site series predictions
 out <- bgc_ss_spatial(bnd, cellsize = 1000, dbCon = con, gcm_params = gcm_params)
-##now use output to get feasibility for one edatopic position and one or multiple species
-cciss_suit <- ccissMap(out$ss_preds,E1,S1,selected_edatope = "C4", spp_select = c("Fd","Pl"))
+
+simple_edatopic <- function(bgc_preds, edatope, gcm_select, ssp_select, fp_select, eda_table = copy(ccissdev::E1)){
+  rawsub <- bgc_preds[gcm == gcm_select & futureperiod == fp_select & scenario == ssp_select,]
+  rawsub <- rawsub[,.(SiteRef = rast_id, FuturePeriod = futureperiod,BGC = bgc, BGC.pred = bgc_pred, BGC.prop = 1)]
+  eda_table[,HasPos := if(any(Edatopic == selected_edatope)) T else F, by = .(SS_NoSpace)]
+  eda_table <- eda_table[(HasPos),]
+  eda_table[,HasPos := NULL]
+  ss_preds <- edatopicOverlap(rawsub, eda_table, ccissdev::E1_Phase, onlyRegular = T)
+  return(ss_preds)
+}
+
+simple_ss <- simple_edatopic(out$raw, edatope = "C4", gcm_select = "ACCESS-ESM1-5", ssp_select = "ssp370", fp_select = "2041")
+
+cciss_res <- simple_cciss(simple_ss, suit = S1, spp_select = c("Fd"))
 
 ##plot it
 fd_suit <- cciss_suit[Spp == "Fd",]
