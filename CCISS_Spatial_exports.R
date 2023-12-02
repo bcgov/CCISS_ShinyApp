@@ -89,8 +89,8 @@ cppFunction('NumericVector ModelDir(NumericMatrix x, NumericVector Curr, std::st
 }
 ')
 
-##Function to calculate feasibility 
-simple_cciss <- function(SSPred,suit,spp_select){
+##Function to calculate feasibility from summarised predictions as used in CCISS tool
+cciss_full <- function(SSPred,suit,spp_select){
   
   suit <- suit[Spp %in% spp_select,.(BGC,SS_NoSpace,Spp,Feasible)]
   suit <- unique(suit)
@@ -135,13 +135,44 @@ simple_cciss <- function(SSPred,suit,spp_select){
   return(suitRes)
 }
 
+##general cciss function - takes as input reference BGC, predicted BGC, edatopic position
+##bgc_preds must have these columns: c("ID", "GCM", "SSP", "RUN", "PERIOD", "BGC.pred", "BGC.ref")
+cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
+  eda_table <- copy(E1)
+  eda_table[,HasPos := if(any(Edatopic == selected_edatope)) T else F, by = .(SS_NoSpace)]
+  eda_table <- eda_table[(HasPos),]
+  eda_table <- eda_table[is.na(SpecialCode),]
+  eda_table <- unique(eda_table[,.(BGC,SS_NoSpace)])
+  setkey(eda_table, BGC)
+  
+  setkey(bgc_preds,BGC.ref)
+  bgc_ss <- eda_table[bgc_preds, allow.cartesian = T]
+  setnames(bgc_ss, old = c("BGC","SS_NoSpace"), new = c("BGC.ref", "SS.ref"))
+  setkey(bgc_ss, BGC.pred)
+  bgc_ss <- eda_table[bgc_ss, allow.cartesian = T]
+  setnames(bgc_ss, old = c("BGC","SS_NoSpace"), new = c("BGC.pred", "SS.pred"))
+  setorder(bgc_ss, ID, PERIOD, GCM, SSP, RUN)
+  
+  suit_table <- suit_table[Spp == selected_spp,]
+  suit_table[,`:=`(BGC = NULL,
+                   Spp = NULL)]
+  setkey(bgc_ss, SS.ref)
+  bgc_ss[suit_table, Feas.ref := i.Feasible, on = c(SS.ref = "SS_NoSpace")]
+  setkey(bgc_ss, SS.pred)
+  bgc_ss[suit_table, Feas.pred := i.Feasible, on = c(SS.pred = "SS_NoSpace")]
+  
+  feas_out <- bgc_ss[,.(Feas.ref = mean(Feas.ref), Feas.pred = mean(Feas.pred)),
+                     by = .(ID, PERIOD,GCM,SSP,RUN, BGC.ref, BGC.pred)]
+  
+  return(feas_out)
+}
 
 #=================================================
 ## Use climr and rf model to predicts sunshine coast
 ##read in inputs
 bnd <- st_read("spatial_files/bdy.Sunshine.shp") #boundary file
 dem <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
-bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map
+#bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map
 ##climr variables need for this model
 vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT09","CMD","PPT_at","PPT_wt","CMD07","SHM", "AHM", "NFFD", "PAS", "CMI")
 
@@ -160,57 +191,75 @@ point_dat <- as.data.frame(cbind(t1,elev))
 colnames(point_dat) <- c("x","y","elev")
 point_dat$id <- seq_along(point_dat$x)
 
-##attribute BGCs to points
-points_sf <- st_as_sf(point_dat, coords = c("x","y"), crs = 4326)
-points_sf <- st_transform(points_sf,3005)
-bgc_att <- st_join(points_sf, bgcs)
-bgc_att <- data.table(st_drop_geometry(bgc_att))
-bgc_att <- bgc_att[!is.na(BGC),]
+# ##attribute BGCs to points
+# points_sf <- st_as_sf(point_dat, coords = c("x","y"), crs = 4326)
+# points_sf <- st_transform(points_sf,3005)
+# bgc_att <- st_join(points_sf, bgcs)
+# bgc_att <- data.table(st_drop_geometry(bgc_att))
+# bgc_att <- bgc_att[!is.na(BGC),]
 
 ##I'm running climr twice to avoid issues with RAM - might want to have a 
 ## built in routine if the input is too big
 ##Future periods
 ##this took about 15 mins on my laptop (100,000 points)
-clim_vars <- climr_downscale(point_dat,
+
+clim_245 <- climr_downscale(point_dat2,
                              which_normal = "auto",
-                             gcm_models = list_gcm(),
-                             ssp = c("ssp126", "ssp245"),
-                             gcm_period = c("2021_2040", "2041_2060", "2061_2080", "2081_2100"),
+                             gcm_models = c("ACCESS-ESM1-5","CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4", "GISS-E2-1-G", "MIROC6","MPI-ESM1-2-HR", "MRI-ESM2-0"),
+                             ssp = c("ssp245"),
+                             gcm_period = c("2001_2020", "2021_2040", "2041_2060", "2061_2080", "2081_2100"),
+                             max_run = 3L,
+                             historic_period = "2001_2020",
+                             return_normal = FALSE,
+                             vars = vars_needed)
+clim_245[is.na(GCM),GCM := "Observed"]
+
+clim_126 <- climr_downscale(point_dat,
+                             which_normal = "auto",
+                            gcm_models = c("ACCESS-ESM1-5","CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4", "GISS-E2-1-G", "MIROC6","MPI-ESM1-2-HR", "MRI-ESM2-0"),
+                            ssp = c("ssp126"),
+                             gcm_period = c("2001_2020","2021_2040", "2041_2060", "2061_2080", "2081_2100"),
                              max_run = 3L,
                              return_normal = FALSE,
                              vars = vars_needed)
 
 ##historic/current periods (including 2001-2020 modelled)
-clim_curr <- climr_downscale(point_dat,
+clim_historic <- climr_downscale(point_dat,
                              which_normal = "auto",
-                             gcm_models = list_gcm(),
-                             ssp = c("ssp126", "ssp245"),
-                             gcm_period = c("2001_2020"),
-                             max_run = 3L,
-                             historic_period = "2001_2020",
+                             gcm_models = NULL,
                              return_normal = TRUE, ##1961-1990 period
                              vars = vars_needed)
 
 # fwrite(clim_vars, "SunShineClim.csv")
 #clim_vars <- fread("SunShineClim.csv")
-clim_vars <- rbind(clim_vars, clim_curr)
-clim_vars <- clim_vars[RUN != "ensembleMean",] ##remove mean - or use just ensemble mean
-addVars(clim_vars) ##derived variables
+#clim_vars <- rbind(clim_vars, clim_curr)
+clim_dat <- rbind(clim_126,clim_245)
+clim_dat <- clim_dat[RUN != "ensembleMean",] ##remove mean - or use just ensemble mean
+addVars(clim_dat) ##derived variables
+addVars(clim_historic)
 
 load("../Common_Files/BGCModel_Extratrees_FullData.Rdata") ##load RF model
 pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required predictors
 
-tile_predict(clim_vars,pred_vars) ##predict BGC!
-bgc_preds <- clim_vars[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
+tile_predict(clim_dat,pred_vars) ##predict BGC!
+tile_predict(clim_historic,pred_vars) ##predict for reference period
+bgc_preds <- clim_dat[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
+rm(clim_245,clim_dat)
+gc()
+
+ref_preds <- clim_historic[,.(ID,BGC.pred)]
+bgc_preds[ref_preds, BGC.ref := i.BGC.pred, on = "ID"]
 #fwrite(bgc_preds,"Sunshine_BGCPreds.csv")
 
+##'raw' feasibility - one feasibility for each model/ssp/run
+feas_raw <- cciss_basic(bgc_preds, "C4","Fd", S1)
+
 ##summarised data
-bgc_summary <- bgc_preds[,.(BGC.num = .N), by = .(ID, PERIOD, BGC.pred)]
+bgc_summary <- bgc_preds[,.(BGC.num = .N), by = .(ID, PERIOD,BGC.ref, BGC.pred)]
 bgc_summary[,BGC.prop := BGC.num/sum(BGC.num), by = .(ID,PERIOD)]
 setorder(bgc_summary,ID,PERIOD,BGC.pred)
 bgc_summary[,BGC.num := NULL]
-bgc_summary[bgc_att, BGC := i.BGC, on = c(ID = "id")]
-setcolorder(bgc_summary, c("ID","PERIOD","BGC","BGC.pred","BGC.prop"))
+setcolorder(bgc_summary, c("ID","PERIOD","BGC.ref","BGC.pred","BGC.prop"))
 setnames(bgc_summary, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
 
 ##edatopic overlap - could do for all edatopes, but will take longer to run
@@ -221,17 +270,17 @@ eda_table <- eda_table[(HasPos),]
 sspreds <- edatopicOverlap(bgc_summary, eda_table, E1_Phase, onlyRegular = TRUE)
 
 ##calculate feasibility - can add as many species as desired
-cciss_res <- simple_cciss(sspreds, S1, c("Fd","Cw"))
+cciss_res <- cciss_full(sspreds, S1, c("Fd","Cw"))
 
 ##now just plotting some stuff
-cciss_res <- cciss_res[Spp == "Cw",]
+cciss_res <- cciss_res[Spp == "Fd",]
 cciss_res[,FeasChange := Curr - NewSuit]
 cciss_res <- cciss_res[FuturePeriod == "2061_2080",]
 values(bnd_rast) <- NA
 bnd_rast[cciss_res$SiteRef] <- cciss_res$FeasChange
-ensmean <- rast("SC_FeasChange_Fd_EnsMean.tif")
+#ensmean <- rast("SC_FeasChange_Fd_EnsMean.tif")
 plot(bnd_rast)
-writeRaster(bnd_rast, "SC_FeasChange_Fd_Runs.tif")
+#writeRaster(bnd_rast, "SC_FeasChange_Fd_Runs.tif")
 
 ##==============================================================================
 
