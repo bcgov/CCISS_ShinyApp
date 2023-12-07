@@ -145,13 +145,15 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
   eda_table <- unique(eda_table[,.(BGC,SS_NoSpace)])
   setkey(eda_table, BGC)
   
+  idCols <- names(bgc_preds)
+  idCols <- idCols[!idCols %in% c("BGC.pred", "BGC.ref")]
   setkey(bgc_preds,BGC.ref)
   bgc_ss <- eda_table[bgc_preds, allow.cartesian = T]
   setnames(bgc_ss, old = c("BGC","SS_NoSpace"), new = c("BGC.ref", "SS.ref"))
   setkey(bgc_ss, BGC.pred)
   bgc_ss <- eda_table[bgc_ss, allow.cartesian = T]
   setnames(bgc_ss, old = c("BGC","SS_NoSpace"), new = c("BGC.pred", "SS.pred"))
-  setorder(bgc_ss, ID, PERIOD, GCM, SSP, RUN)
+  setorderv(bgc_ss, c(idCols))
   
   suit_table <- suit_table[Spp == selected_spp,]
   suit_table[,`:=`(BGC = NULL,
@@ -162,7 +164,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
   bgc_ss[suit_table, Feas.pred := i.Feasible, on = c(SS.pred = "SS_NoSpace")]
   
   feas_out <- bgc_ss[,.(Feas.ref = mean(Feas.ref), Feas.pred = mean(Feas.pred)),
-                     by = .(ID, PERIOD,GCM,SSP,RUN, BGC.ref, BGC.pred)]
+                     by = c(idCols, "BGC.ref", "BGC.pred")]
   
   return(feas_out)
 }
