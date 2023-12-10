@@ -1,0 +1,33 @@
+---
+title: "Methods"
+author: "Colin Mahony"
+date: "27/11/2020"
+output: html_document
+---
+
+## About this app
+
+This is a draft app to explore Biogeoclimatic projections and associated changes in regeneration feasiblity for tree species at the landscape scale. The purpose of the app at this early stage in its development is to solicit feedback on what types of information will be useful to resource managers. 
+
+### Contributors
+App created by:<br>
+Colin Mahony<br>
+Research Climatologist<br>
+BC Ministry of Forests, Lands, Natural Resource Operations and Rural Development<br>
+colin.mahony@gov.bc.ca
+
+### Methods
+
+This app follows the methods described in [MacKenzie and Mahony (2021)](https://www.researchgate.net/profile/Colin_Mahony/publication/345634719_An_ecological_approach_to_climate_change-informed_tree_species_selection_for_reforestation/links/5fa98d28a6fdcc062420460a/An-ecological-approach-to-climate-change-informed-tree-species-selection-for-reforestation.pdf). 
+
+**Summary values**--All values presented in the summary figures are averages of the full set of raster values shown on the maps. 
+
+**Climate Data**--All climate data are derived from [ClimateBC](http://climatebc.ca/), a public climate downscaling software developed by Tongli Wang at the UBC Centre for Forest Conservation Genetics. 
+
+**Climate Variables**--Although there are many types of climate variables in this app, values for many of these variables are estimated from monthly values of three basic climate elements: mean daily maximum temperature (T<sub>max</sub>), mean daily minimum temperature (T<sub>min</sub>), and precipitation (PPT). The method for estimating derived variables is given in [Wang et al. (2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0156720). Since other climate elements (e.g., degree-days, precipitation as snow, frost-free days, cumulative moisture deficit) are not calculated directly from daily data, some caution is warranted. 
+
+**Climate Models**--This app features 8 of the 15 climate models that are available in ClimateBC; the other 7 are excluded because they are downscaled based on only one historical run and may be prone to artefacts as a result. This ensemble of 8 models is a bit lopsided: there is only one model (GISS) with low climate sensitivity. Future versions of this app will use data from a more balanced CMIP6 ensemble available soon from ClimateBC. 
+
+**Emissions scenario**--This app features a single emissions scenario, RCP4.5, which prescribes a peak in human greenhouse gas emissions by 2050, and a stabilization at half of year-2000 levels from 2070 onwards. This scenario is roughly in line with current national commitments under the Paris accord, and consistent with a global temperature rise of 2.4<sup>o</sup>C by the year 2100. 
+
+

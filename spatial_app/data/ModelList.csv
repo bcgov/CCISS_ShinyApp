@@ -1,0 +1,9 @@
+Code,Model,Runs,Country,Organization,ECS,TCR,deltaT
+CAN,CanESM2,5,Canada,Canadian Centre for Climate Modelling and Analysis,3.7,2.4,3.2
+CCSM,CCSM4,5,USA,National Center for Atmospheric Research,2.9,1.8,2.7
+CESM,CESM1(CAM5),3,USA,Community Earth System Model Contributors,4.1,2.3,2.9
+CSIR,CSIRO-Mk3.6.0,10,Australia,Commonwealth Scientific and Industrial Research Organization in collaboration with Queensland Climate Change Centre of Excellence,4.1,1.8,2.5
+GISS,GISS-E2-R,5,USA,NASA Goddard Institute for Space Studies,2.1,1.5,2.2
+HAD,HadGEM2-ES,4,UK,Met Office Hadley Centre,4.6,2.5,2.8
+MIRE,MIROC5-ESM,3,Japan,"Atmosphere and Ocean Research Institute (The University of Tokyo), National Institute for Environmental Studies, and Japan Agency for Marine-Earth Science and Technology",4.7,2.2,3.1
+MPI,MPI-ESM-LR,3,Germany,Max-Planck-Institut fur Meteorologie (Max Planck Institute for Meteorology),3.6,2,2.5
