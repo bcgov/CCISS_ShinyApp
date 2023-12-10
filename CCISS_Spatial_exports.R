@@ -1,4 +1,4 @@
-## spatial climates!! ##
+## Input data for CCISS spatial app
 ## Kiri Daust, Colin Mahony, 2023
 
 library(data.table)
@@ -167,8 +167,9 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 
 studyarea <- "Nimpkish"
 
-# output directory (the shiny app)
-outdir <- paste("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/ccsummary-", studyarea, "-cciss", sep="")
+# output directory for data created in this script
+dir.create(file.path("spatial_app/data", studyarea))
+outdir <- paste("spatial_app/data", studyarea, sep="/")
 
 ### -------------------------------------------------------
 ### common variables
@@ -201,7 +202,7 @@ levels.bgc <- BGCcolors.subzone[,1]
 levels.zone <- BGCcolors[,1]
 zone.lookup <- levels.bgc
 for(i in levels.zone){ zone.lookup[grep(i,levels.bgc)] <- i }
-write.csv(levels.bgc, paste(outdir, "/data/levels.bgc.csv", sep="."), row.names = F)
+write.csv(levels.bgc, "spatial_app/data/levels.bgc.csv", row.names = F) # ISSUE: LIKELY WE WANT TO JUST CREATE THIS AS A LOOKUP TABLE IN THE data-raw/data_tables/ DIRECTORY
 
 ##climr variables need for this model
 vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT09","CMD","PPT_at","PPT_wt","CMD07","SHM", "AHM", "NFFD", "PAS", "CMI")
@@ -212,10 +213,10 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 
 ##make study area dem
 dem_source <- rast("../Common_Files/dem/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
-bnd <- st_read(paste("../Common_Files/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
+bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
 bnd <- vect(bnd)
 bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-dem <- rast(bnd,res = 0.01) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+dem <- rast(bnd,res = 0.0025) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
 dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
 dem <- mask(dem,bnd)
 # plot(dem)
@@ -247,9 +248,9 @@ bgc_att <- data.table(st_drop_geometry(bgc_att))
 bgc.ref <- bgc_att$MAP_LABEL
 values(X) <- NA
 X[points_dat$id] <- factor(bgc.ref, levels=levels.bgc) 
-writeRaster(X, datatype="FLT4S", paste(outdir,"/data/zone", studyarea, "ref.tif",sep = "."), overwrite=T)
+writeRaster(X, datatype="FLT4S", paste(outdir,"/bgc.ref.tif",sep = "."), overwrite=T)
 
-png(filename=paste(outdir, "/www/refmap", studyarea,"variants.png",sep="."), type="cairo", units="in", width=4, height=4, pointsize=11, res=200)
+png(filename=paste("spatial_app/www/refmap", studyarea,"variants.png",sep="."), type="cairo", units="in", width=4, height=4, pointsize=11, res=200)
 par(mar=c(0,0,0,0))
 X[1:length(levels.bgc)] <- 1:length(levels.bgc) # this is a patch that is necessary to get the color scheme right.
 plot(X, xaxt="n", yaxt="n", col=BGCcolors.subzone$colour, legend=FALSE, axes=F, bty="n", box=FALSE)
@@ -262,9 +263,9 @@ dev.off()
 zone.ref <- zone.lookup[match(bgc.ref, levels.bgc)]
 values(X) <- NA
 X[points_dat$id] <- factor(zone.ref, levels=levels.zone)
-writeRaster(X, datatype="FLT4S", paste(outdir,"/data/zone", studyarea, "ref.tif",sep = "."), overwrite=T)
+writeRaster(X, datatype="FLT4S", paste(outdir,"/zone.ref.tif",sep = "."), overwrite=T)
 
-png(filename=paste(outdir, "/www/refmap", studyarea,"zones.png",sep="."), type="cairo", units="in", width=4, height=4, pointsize=11, res=200)
+png(filename=paste("spatial_app//www/refmap", studyarea,"zones.png",sep="."), type="cairo", units="in", width=4, height=4, pointsize=11, res=200)
 par(mar=c(0,0,0,0))
 values(X)[1:length(levels.zone)] <- 1:length(levels.zone) # this is a patch that is necessary to get the color scheme right.
 plot(X, xaxt="n", yaxt="n", col=ColScheme, legend=FALSE, axes=F, bty="n", box=FALSE)
@@ -273,8 +274,8 @@ plot(X, add=T, col="white", legend=FALSE) # cover up the color bar
 plot(bnd, add=T, lwd=1, col=NA)
 dev.off()
 
-write.csv(unique(bgc.ref[!is.na(bgc.ref)]), paste(outdir, "/data/bgcs.native",studyarea,"csv", sep="."), row.names = F)
-write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/data/zones.native",studyarea,"csv", sep="."), row.names = F)
+write.csv(unique(bgc.ref[!is.na(bgc.ref)]), paste(outdir, "/bgcs.native.csv", sep="."), row.names = F)
+write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/zones.native.csv", sep="."), row.names = F)
 
 # ===============================================================================
 # ===============================================================================
@@ -299,7 +300,7 @@ identity.grid <- data.table(ID=clim$ID, GCM=rep("obs", dim(clim)[1]), SSP=rep("o
 
 ## calculate mean climate of study area for use in calculating change
 clim.refmean <- apply(as.data.frame(clim)[,-c(1:2)], 2, FUN=mean, na.rm=T)
-write.csv(t(as.data.frame(clim.refmean)), paste(outdir, "/data/clim.refMean",studyarea,"csv", sep="."), row.names = F)
+write.csv(t(as.data.frame(clim.refmean)), paste(outdir, "/clim.refMean.csv", sep="."), row.names = F)
 
 #initiate the table to store the climate change values (zeros because this is the reference period)
 change <- data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="1961_1990", as.data.frame(t(rep(0, length(clim.refmean)))))
@@ -311,7 +312,7 @@ bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)]
 
 values(X) <- NA
 X[points_dat$id] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
-writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, "ref.tif", sep="."),overwrite=TRUE)
+writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 
 # # [ISSUE: THE LEVELS IN THE BGC MODEL DON'T APPEAR TO BE COMPLETE]
 # test <- predict(BGCmodel, clim)
@@ -343,7 +344,7 @@ bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
 
 X[points_dat$id] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
 plot(X)
-writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, "hist.2001_2020.tif", sep="."),overwrite=TRUE)
+writeRaster(X, paste(outdir, "/BGC.pred.hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
 ### BGC Projections for future periods
@@ -395,7 +396,7 @@ for(ssp in ssps){
   print(ssp)
 }
 
-write.csv(change, paste(outdir, "/data/clim.meanChange",studyarea,"csv", sep="."), row.names = F)
+write.csv(change, paste(outdir, "/clim.meanChange.csv", sep="."), row.names = F)
 
 rm(clim)
 gc()
@@ -415,10 +416,10 @@ x <- as.matrix(x[,]) # necessary for the subset.kkz function to work
 x <- scale(x) #z-standardize the data
 attr(x,"scaled:center")<-NULL
 attr(x,"scaled:scale")<-NULL
-x.kkz <- subset.kkz(x,n.cases=5) # this is the KKZ algorithm sourced from the KKZ.R script
+x.kkz <- subset.kkz(x,n.cases=6) # this is the KKZ algorithm sourced from the KKZ.R script
 id.kkz <- id[as.numeric(row.names(x.kkz$cases)),]
 id.kkz <- rbind(id.kkz, data.frame(GCM="ensembleMean", RUN="ensembleMean")) # force the subset to include the ensemble mean
-write.csv(id.kkz, paste(outdir, "/data/id.kkz",studyarea,"csv", sep="."), row.names = F)
+write.csv(id.kkz, paste(outdir, "/id.kkz.csv", sep="."), row.names = F)
 
 # plot the subset in PCA space
 x.pca <- predict(prcomp(x), x)
@@ -435,7 +436,7 @@ for(ssp in ssps){
       values(X) <- NA
       X[points_dat$id] <- factor(bgc.pred, levels=levels.bgc)
       # plot(X)
-      writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, id.kkz$GCM[i], id.kkz$RUN[i], ssp, period,"tif", sep="."),overwrite=TRUE)
+      writeRaster(X, paste(outdir, "/BGC.pred", id.kkz$GCM[i], id.kkz$RUN[i], ssp, period,"tif", sep="."),overwrite=TRUE)
     }
     print(period)
   }
@@ -503,10 +504,10 @@ if("NA" %in% names(PredSum.bgc.home.wide)) PredSum.bgc.home.wide <- PredSum.bgc.
 PredSum.zone.home.wide <- dcast(setDT(PredSum.zone.home), index+GCM+SSP+RUN+PERIOD~zone.pred, value.var = "Freq")
 if("NA" %in% names(PredSum.zone.home.wide)) PredSum.zone.home.wide <- PredSum.zone.home.wide[,!"NA"]
 
-write.csv(PredSum.bgc.wide, paste(outdir, "/data/PredSum.bgc",studyarea,"csv", sep="."), row.names = F)
-write.csv(PredSum.zone.wide, paste(outdir, "/data/PredSum.zone",studyarea,"csv", sep="."), row.names = F)
-write.csv(PredSum.bgc.home.wide, paste(outdir, "/data/PredSum.bgc.home",studyarea,"csv", sep="."), row.names = F)
-write.csv(PredSum.zone.home.wide, paste(outdir, "/data/PredSum.zone.home",studyarea,"csv", sep="."), row.names = F)
+write.csv(PredSum.bgc.wide, paste(outdir, "/PredSum.bgc.csv", sep="."), row.names = F)
+write.csv(PredSum.zone.wide, paste(outdir, "/PredSum.zone.csv", sep="."), row.names = F)
+write.csv(PredSum.bgc.home.wide, paste(outdir, "/PredSum.bgc.home.csv", sep="."), row.names = F)
+write.csv(PredSum.zone.home.wide, paste(outdir, "/PredSum.zone.home.csv", sep="."), row.names = F)
 
 
 #===============================================================================
@@ -621,19 +622,19 @@ for(edatope in edatopes){
           values(X) <- NA
           values(X)[points_dat$id] <- Changesuit.mean
           # plot(X)
-          writeRaster(X, paste(outdir, "/data/Spp.Changesuit", studyarea, spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
+          writeRaster(X, paste(outdir, "/Spp.Changesuit", spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
           
           # binary appearance/disappearance
-          outRange.ref <- which(fractionize(suit.hist[order(ID), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
+          outRange.ref.all <- which(fractionize(suit.hist[order(ID), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
           suit.ensemble <- as.matrix(Projsuit[,!"ID"])
           binary <- rep(0, dim(suit.hist)[1])
-          binary[outRange.ref] <- NA
-          binary[outRange.ref] <- apply(suit.ensemble[outRange.ref,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
-          binary[-outRange.ref] <- apply(suit.ensemble[-outRange.ref,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
+          binary[outRange.ref.all] <- NA
+          binary[outRange.ref.all] <- apply(suit.ensemble[outRange.ref.all,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
+          binary[-outRange.ref.all] <- apply(suit.ensemble[-outRange.ref.all,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
           values(X) <- NA
           values(X)[points_dat$id] <- binary
           # plot(X)
-          writeRaster(X, paste(outdir, "/data/Spp.binary", studyarea, spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
+          writeRaster(X, paste(outdir, "/Spp.binary", spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
         }
 
         # print(period)
@@ -645,10 +646,10 @@ for(edatope in edatopes){
   
   assign(paste("PredSum.suit", edatope, sep="."), PredSum.suit)
   
-  write.csv(PredSum.suit, paste(outdir, "/data/PredSum.suit",studyarea, edatope,"csv", sep="."), row.names = F)
-  write.csv(PredSum.spp, paste(outdir, "/data/PredSum.spp",studyarea, edatope,"csv", sep="."), row.names = F)
-  write.csv(PredSum.suit.home, paste(outdir, "/data/PredSum.suit.home",studyarea, edatope,"csv", sep="."), row.names = F)
-  write.csv(PredSum.spp.home, paste(outdir, "/data/PredSum.spp.home",studyarea, edatope,"csv", sep="."), row.names = F)
+  write.csv(PredSum.suit, paste(outdir, "/PredSum.suit", edatope,"csv", sep="."), row.names = F)
+  write.csv(PredSum.spp, paste(outdir, "/PredSum.spp", edatope,"csv", sep="."), row.names = F)
+  write.csv(PredSum.suit.home, paste(outdir, "/PredSum.suit.home", edatope,"csv", sep="."), row.names = F)
+  write.csv(PredSum.spp.home, paste(outdir, "/PredSum.spp.home", edatope,"csv", sep="."), row.names = F)
   
   print(edatope)
 }
