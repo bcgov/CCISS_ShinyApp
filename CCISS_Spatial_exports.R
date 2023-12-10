@@ -1,15 +1,6 @@
 ## spatial climates!! ##
 ## Kiri Daust, Colin Mahony, 2023
 
-# =============================================================
-# Issues:
-# - need BGC projections for the 2001-2020 observed normals
-# - need a function to calculate species suitability from a vector of BGCs. the current edatopicOverlap() function is specific to the mapdata_2km output
-# - the future BGC projections do not have a consistent set of rast_ids, and a few thousand duplicate records. need to find out why. 
-# - the function to calculate change in feasibility is currently uses mapped bgc as the reference bgc. it would be more correct to use the reference period predicted bgc as the reference bgc. 
-# - ideally, we could have a function to supply a raster and return the biogeoclimatic projections for this raster. 
-# =============================================================
-
 library(data.table)
 library(sf)
 library(RPostgreSQL)
@@ -18,7 +9,7 @@ library(pool)
 library(RColorBrewer)
 library(terra)
 library(Rcpp)
-library(climRdev)
+library(climr)
 library(ranger)
 
 ##db connections
@@ -136,7 +127,6 @@ cciss_full <- function(SSPred,suit,spp_select){
 }
 
 ##general cciss function - takes as input reference BGC, predicted BGC, edatopic position
-##bgc_preds must have these columns: c("ID", "GCM", "SSP", "RUN", "PERIOD", "BGC.pred", "BGC.ref")
 cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
   eda_table <- copy(E1)
   eda_table[,HasPos := if(any(Edatopic == selected_edatope)) T else F, by = .(SS_NoSpace)]
@@ -187,15 +177,17 @@ spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2
 edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
 BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
 
-GCMs <- c("ACCESS-ESM1-5", "CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4", "GISS-E2-1-G", "MIROC6", "MPI-ESM1-2-HR", "MRI-ESM2-0")
+gcms <- c("ACCESS-ESM1-5", "CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4", "GISS-E2-1-G", "MIROC6", "MPI-ESM1-2-HR", "MRI-ESM2-0")
 
 edatopes <- c("B2", "C4", "D6")
 edatope.names <- c("Poor-subxeric", "Medium-mesic", "Rich-hygric")
 
-scenarios <- c("ssp126", "ssp245", "ssp370")
-scenario.names=c("SSP1-2.6", "SSP2-4.5", "RCP8.5")
+# ssps <- c("ssp126", "ssp245")
+# ssp.names=c("SSP1-2.6", "SSP2-4.5")
+ssps <- c("ssp245")
+ssp.names=c("SSP2-4.5")
 
-periods <- c(2001, 2021, 2041, 2061, 2081)
+periods <- c("2001_2020", "2021_2040", "2041_2060", "2061_2080", "2081_2100") 
 period.names=c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
 
 #BGC color scheme
@@ -223,7 +215,7 @@ dem_source <- rast("../Common_Files/dem/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'
 bnd <- st_read(paste("../Common_Files/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
 bnd <- vect(bnd)
 bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+dem <- rast(bnd,res = 0.01) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
 dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
 dem <- mask(dem,bnd)
 # plot(dem)
@@ -233,8 +225,8 @@ values(X) <- NA
 ## make the climr input file
 points_dat <- as.data.frame(dem, cells=T, xy=T)
 colnames(points_dat) <- c("id", "x", "y", "el")
-# values(X)[points_dat$id] <- points_dat$el 
-# plot(X)
+points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
+# values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
 ## attribute BGCs to points
 # bgcs <- st_read("../Common_Files/BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map. [COLIN] THIS DOESN'T WORK IN MY CODE; THE ST_JOIN FAILS
@@ -245,15 +237,14 @@ points_sf <- st_transform(points_sf,3005)
 bgc_att <- st_join(points_sf, bgcs)
 bgc_att <- data.table(st_drop_geometry(bgc_att))
 # X[points_dat$id] <- factor(bgc_att$MAP_LABEL, levels=levels.bgc); plot(X) # test
-points_dat <- data.frame(points_dat, bgc=bgc_att$MAP_LABEL) 
-points_dat <- points_dat[,c(2,3,4,1,5)] #restructure for climr input
+
 
 ### -------------------------------------------------------
 ### export rasters and maps of reference biogeoclimatic units
 ### -------------------------------------------------------
 
 # reference BGC units
-bgc.ref <- points_dat$bgc
+bgc.ref <- bgc_att$MAP_LABEL
 values(X) <- NA
 X[points_dat$id] <- factor(bgc.ref, levels=levels.bgc) 
 writeRaster(X, datatype="FLT4S", paste(outdir,"/data/zone", studyarea, "ref.tif",sep = "."), overwrite=T)
@@ -322,12 +313,18 @@ values(X) <- NA
 X[points_dat$id] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
 writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, "ref.tif", sep="."),overwrite=TRUE)
 
+# # [ISSUE: THE LEVELS IN THE BGC MODEL DON'T APPEAR TO BE COMPLETE]
+# test <- predict(BGCmodel, clim)
+# levels.rf <- levels(test$predictions)
+# levels.rf[-which(levels.rf%in%levels.bgc)]
+# levels.bgc[-which(levels.bgc%in%levels.rf)]
+
 ### -------------------------------------------------------
-### BGC Projections for recent period observed
+### BGC Projections for historical periods
 ### -------------------------------------------------------
 
 clim <- climr_downscale(points_dat,
-                                 which_normal = "auto",
+                                 which_normal = "BC",
                                  gcm_models = NULL,
                                  historic_period = "2001_2020",
                                  return_normal = F, ##1961-1990 period
@@ -346,23 +343,23 @@ bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
 
 X[points_dat$id] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
 plot(X)
-writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, "hist.2001.tif", sep="."),overwrite=TRUE)
+writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, "hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
 ### BGC Projections for future periods
 ### -------------------------------------------------------
 
-scenario=scenarios[1]
-for(scenario in scenarios){
+ssp=ssps[1]
+for(ssp in ssps){
   period=periods[1]
   for(period in periods){
 
       # Climate data
       clim <- climr_downscale(points_dat,
                               which_normal = "auto",
-                              gcm_models = GCMs,
-                              ssp = scenario,
-                              gcm_period = list_gcm_period()[grep(period, list_gcm_period())],
+                              gcm_models = gcms,
+                              ssp = ssp,
+                              gcm_period = period,
                               max_run = 3L,
                               return_normal = FALSE,
                               vars = c(list_variables(), "CMI"))
@@ -373,14 +370,13 @@ for(scenario in scenarios){
       identity <- data.table(
         ID = clim.ensembleMean$ID,
         GCM = rep("ensembleMean", dim(clim.ensembleMean)[1]),
-        SSP = scenario, 
+        SSP = ssp, 
         RUN = rep("ensembleMean", dim(clim.ensembleMean)[1]), 
-        PERIOD = list_gcm_period()[grep(period, list_gcm_period())]
+        PERIOD = period
         )
       clim.ensembleMean <- cbind(identity, clim.ensembleMean[,!"ID"])
       clim <- rbind(clim, clim.ensembleMean)
-      assign(paste("identity", scenario, period, sep="."), clim[,c(2,4)]) # save the simulation identity
-      
+
       ## calculate mean climate change across study area [ISSUE: REFACTOR TO DATA.TABLE]
       clim.mean <- as.data.frame(clim[, lapply(.SD, mean), by = .(GCM, SSP, RUN, PERIOD)], .SDcols = !(ID:PERIOD)) #mean value for each run across the study area. 
       change.temp <- sweep(clim.mean[,-c(1:5)], 2, clim.refmean, FUN='-') # subtract the reference period mean vector from each row. 
@@ -388,13 +384,15 @@ for(scenario in scenarios){
       
       ## BGC projections 
       tile_predict(clim,pred_vars) ##predict BGC!
-      bgc_preds <- clim[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
-      bgc_preds[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
-      assign(paste("BGC.pred", scenario, period,sep="."), bgc_preds) # save the ensemble for the scenario/period
+      bgc_preds_temp <- clim[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
+      bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
+
+      # append the predictions to the predictions table
+      bgc_preds <- if(period==periods[1] & ssp==ssps[1]) bgc_preds_temp else rbind(bgc_preds, bgc_preds_temp)
       
     print(period)
   }
-  print(scenario)
+  print(ssp)
 }
 
 write.csv(change, paste(outdir, "/data/clim.meanChange",studyarea,"csv", sep="."), row.names = F)
@@ -417,7 +415,7 @@ x <- as.matrix(x[,]) # necessary for the subset.kkz function to work
 x <- scale(x) #z-standardize the data
 attr(x,"scaled:center")<-NULL
 attr(x,"scaled:scale")<-NULL
-x.kkz <- subset.kkz(x,n.cases=6) # this is the KKZ algorithm sourced from the KKZ.R script
+x.kkz <- subset.kkz(x,n.cases=5) # this is the KKZ algorithm sourced from the KKZ.R script
 id.kkz <- id[as.numeric(row.names(x.kkz$cases)),]
 id.kkz <- rbind(id.kkz, data.frame(GCM="ensembleMean", RUN="ensembleMean")) # force the subset to include the ensemble mean
 write.csv(id.kkz, paste(outdir, "/data/id.kkz",studyarea,"csv", sep="."), row.names = F)
@@ -430,25 +428,20 @@ text(x.pca[,1:2], rownames(x), cex=0.7)
 points(x.pca[which(row.names(x.pca)%in%row.names(id.kkz)),1:2], col=2, cex=3)
 
 # export rasters
-for(scenario in scenarios){
+for(ssp in ssps){
   for(period in periods){
-    bgc_preds <- get(paste("BGC.pred", scenario, period,sep="."))
-    # print(length(bgc_preds))
     for(i in 1:dim(id.kkz)[1]){
-    bgc.pred <- bgc_preds[GCM==id.kkz$GCM[i] & RUN==id.kkz$RUN[i], BGC.pred]
-    values(X) <- NA
-    X[points_dat$id] <- factor(bgc.pred, levels=levels.bgc)
-    # plot(X)
-    writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, id.kkz$GCM[i], id.kkz$RUN[i], scenario, period,"tif", sep="."),overwrite=TRUE)
+      bgc.pred <- bgc_preds[GCM==id.kkz$GCM[i] & SSP==ssp & RUN==id.kkz$RUN[i] & PERIOD==period, BGC.pred]
+      values(X) <- NA
+      X[points_dat$id] <- factor(bgc.pred, levels=levels.bgc)
+      # plot(X)
+      writeRaster(X, paste(outdir, "/data/BGC.pred", studyarea, id.kkz$GCM[i], id.kkz$RUN[i], ssp, period,"tif", sep="."),overwrite=TRUE)
     }
     print(period)
   }
-  print(scenario)
+  print(ssp)
 }
 
-# [ISSUE: THE LEVELS IN THE BGC MODEL DON'T APPEAR TO BE COMPLETE]
-levels(bgc.pred)[-which(levels(bgc.pred)%in%levels.bgc)]
-levels.bgc[-which(levels.bgc%in%levels(bgc.pred))]
 
 #===============================================================================
 # Make and export summary tables of bgc units for each future
@@ -473,41 +466,43 @@ PredSum.bgc.home <- rbind(PredSum.bgc.home, data.frame(index=index, "GCM"="obs",
 PredSum.zone.home <- rbind(PredSum.zone.home, data.frame(index=index, "GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="2001_2020", as.data.frame(table(zone.pred[which(zone.pred == zone.pred.ref)], dnn=c("zone.pred"))))) #within home range of each bgc unit, for calcuations of persistence and expansion
 
 # Future bgc
-for(scenario in scenarios){
+for(ssp in ssps){
   for(period in periods){
-    bgc_preds <- get(paste("BGC.pred", scenario, period,sep="."))
-    for(GCM in GCMs){
-      gcm=GCM #necessary for data.table subsetting
+    for(gcm in unique(bgc_preds$GCM)){
       runs <- unique(bgc_preds[GCM==gcm, RUN])
       run=runs[1]
       for(run in runs){
         index <- index+1
         # bgc predictions
-        bgc.pred <- bgc_preds[GCM==gcm & RUN==run, BGC.pred]
+        bgc.pred <- bgc_preds[GCM==gcm & SSP==ssp & RUN==run & PERIOD==period,]
+        bgc.pred <- bgc.pred[order(ID), BGC.pred] # extra step here just to ensure that the values are in order of ascending ID. 
         
         # zone lists
         zone.pred <- zone.lookup[match(bgc.pred, levels.bgc)]
         
         #summary tables
-        PredSum.bgc <- rbind(PredSum.bgc, data.frame(index=index, "GCM"=gcm, "SSP"=scenario, "RUN"=run, "PERIOD"=list_gcm_period()[grep(period, list_gcm_period())], as.data.frame(table(bgc.pred, dnn=c("bgc.pred")))))
-        PredSum.zone <- rbind(PredSum.zone, data.frame(index=index, "GCM"=gcm, "SSP"=scenario, "RUN"=run, "PERIOD"=list_gcm_period()[grep(period, list_gcm_period())], as.data.frame(table(zone.pred, dnn=c("zone.pred")))))
+        PredSum.bgc <- rbind(PredSum.bgc, data.frame(index=index, "GCM"=gcm, "SSP"=ssp, "RUN"=run, "PERIOD"=period, as.data.frame(table(bgc.pred, dnn=c("bgc.pred")))))
+        PredSum.zone <- rbind(PredSum.zone, data.frame(index=index, "GCM"=gcm, "SSP"=ssp, "RUN"=run, "PERIOD"=period, as.data.frame(table(zone.pred, dnn=c("zone.pred")))))
         temp <- table(bgc.pred[which(bgc.pred == BGC.pred.ref)], dnn=c("bgc.pred")) # pulling this out to solve for edge case where there is no persistence (no matches between ref and pred)
-        PredSum.bgc.home <- rbind(PredSum.bgc.home, data.frame(index=index, "GCM"=gcm, "SSP"=scenario, "RUN"=run, "PERIOD"=list_gcm_period()[grep(period, list_gcm_period())], if(length(temp)==0) data.frame(bgc.pred=NA, Freq=NA) else as.data.frame(temp))) #within home range of each bgc unit, for calculations of persistence and expansion
-        PredSum.zone.home <- rbind(PredSum.zone.home, data.frame(index=index, "GCM"=gcm, "SSP"=scenario, "RUN"=run, "PERIOD"=list_gcm_period()[grep(period, list_gcm_period())], as.data.frame(table(zone.pred[which(zone.pred == zone.pred.ref)], dnn=c("zone.pred"))))) #within home range of each bgc unit, for calculations of persistence and expansion
+        PredSum.bgc.home <- rbind(PredSum.bgc.home, data.frame(index=index, "GCM"=gcm, "SSP"=ssp, "RUN"=run, "PERIOD"=period, if(length(temp)==0) data.frame(bgc.pred=NA, Freq=NA) else as.data.frame(temp))) #within home range of each bgc unit, for calculations of persistence and expansion
+        PredSum.zone.home <- rbind(PredSum.zone.home, data.frame(index=index, "GCM"=gcm, "SSP"=ssp, "RUN"=run, "PERIOD"=period, as.data.frame(table(zone.pred[which(zone.pred == zone.pred.ref)], dnn=c("zone.pred"))))) #within home range of each bgc unit, for calculations of persistence and expansion
         # print(run)
       }
-      # print(GCM)
+      # print(gcm)
     }
     print(period)
   }
-  print(scenario)
+  print(ssp)
 }
 
 # write out summary of bgc units for each future. #ISSUE: NEED TO REFACTOR THIS WHOLE SCRIPT TO DATA.TABLE
 PredSum.bgc.wide <- dcast(setDT(PredSum.bgc), index+GCM+SSP+RUN+PERIOD~bgc.pred, value.var = "Freq")
 PredSum.zone.wide <- dcast(setDT(PredSum.zone), index+GCM+SSP+RUN+PERIOD~zone.pred, value.var = "Freq")
 PredSum.bgc.home.wide <- dcast(setDT(PredSum.bgc.home), index+GCM+SSP+RUN+PERIOD~bgc.pred, value.var = "Freq")
+if("NA" %in% names(PredSum.bgc.home.wide)) PredSum.bgc.home.wide <- PredSum.bgc.home.wide[,!"NA"] #remove the NA column if it exists
 PredSum.zone.home.wide <- dcast(setDT(PredSum.zone.home), index+GCM+SSP+RUN+PERIOD~zone.pred, value.var = "Freq")
+if("NA" %in% names(PredSum.zone.home.wide)) PredSum.zone.home.wide <- PredSum.zone.home.wide[,!"NA"]
+
 write.csv(PredSum.bgc.wide, paste(outdir, "/data/PredSum.bgc",studyarea,"csv", sep="."), row.names = F)
 write.csv(PredSum.zone.wide, paste(outdir, "/data/PredSum.zone",studyarea,"csv", sep="."), row.names = F)
 write.csv(PredSum.bgc.home.wide, paste(outdir, "/data/PredSum.bgc.home",studyarea,"csv", sep="."), row.names = F)
@@ -524,143 +519,127 @@ write.csv(PredSum.zone.home.wide, paste(outdir, "/data/PredSum.zone.home",studya
 S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 
-#===============================================================================
-# find the species suitability each projection/edatope/species combination
-# [ISSUE: THIS CODE IS HORRENDOUSLY INEFFICIENT. NEED TO REFACTOR AS DATA.TABLE]
-#===============================================================================
-
 # select the species to run the analysis on
 spps <- unique(S1$Spp)
 spps <- spps[-which(spps=="X")]
 spps.candidate <- spps.lookup$TreeCode[-which(spps.lookup$Exclude=="x")]
 spps <- as.character(spps[which(spps%in%spps.candidate)] )
-# spps <- c("Pl", "Fd", "Cw", "Ep", "Dr", "Hw", "Mb", "Pw", "Ss", "Ba", "Yc", "Hm", "Act")
+# spps <- c("Pl", "Fd", "Cw", "Ep", "Dr", "Hw", "Mb", "Pw", "Ss", "Ba", "Yc", "Hm")
 
-spp="Fd"
-for(spp in spps){
-  edatope="C4"
-  for(edatope in edatopes){
-    
-    suit_set5 <- function(x){
-      x[is.na(x)] <- 5 #set the NA values to suitability 5 (weights unsuitable a bit more heavily than suitable classes during averaging)
-      x[x==4] <- 5 #set 4 to suitability 5
-      return(x)
-    }
-    
-    # get the suitability for the reference period and recent observed predicted BGC.
-    # bgc_preds must have these columns: c("ID", "GCM", "SSP", "RUN", "PERIOD", "BGC.pred", "BGC.ref")
-    bgc.pred <- bgc_preds_hist
-    
-    feas_raw <- cciss_basic(bgc.pred, edatope, spp, S1)
-    suit.ref <- suit_set5(feas_raw$Feas.ref)
-    assign(paste("suit.ref", spp, edatope, sep="."), suit.ref)
-    suit <- suit_set5(feas_raw$Feas.pred)
-    assign(paste("suit.hist", spp, edatope, sep="."), suit)
-    
-    values(X) <- NA
-    values(X)[points_dat$id] <- factor(as.vector(bgc.pred$BGC.ref), levels=levels.bgc)
-    plot(X)
-    values(X) <- NA
-    X[points_dat$id] <- suit.ref
-    plot(X)
-    
-    # get the suitability for future periods, for each projection/edatope/species combination
-    for(scenario in scenarios){
-      for(period in periods){
-        bgc_preds <- get(paste("BGC.pred", scenario, period,sep="."))
-        feas_raw <- cciss_basic(bgc.pred, edatope, spp, S1)
-        suit <- suit_set5(feas_raw$Feas.pred)
-        assign(paste("suit", scenario, period, spp, edatope, sep="."), suit)
-        # print(period)
-      }
-      print(scenario)
-    }
-    print(edatope)
-  }
-  print(paste(spp, " (", round(which(spps==spp)/length(spps)*100, 0), "%)", sep=""))
+# function for calculating fractional suitabilities. 
+# ISSUE: RENAME SUIT TO FEAS THROUGHOUT THE SCRIPT
+fractionize <- function(x){
+  x[is.na(x)] <- 5 #set the NA values to suitability 5 (weights unsuitable a bit more heavily than suitable classes during averaging)
+  x[x==4] <- 5 #set 4 to suitability 5
+  x <- 1-(x-1)/4 #calculate as fractional suitability
+  return(x)
 }
 
-#===============================================================================
-# summarize the suitability of species for each scenario. 
-#===============================================================================
-
-## non-THLB BGCs for exclusion from results
+## non-THLB BGCs for exclusion from area summaries 
+## ISSUE: ADD LAKES TO THIS, OR REMOVE LAKE CELLS FROM THE ANALYSIS ENTIRELY
 BGCs_notin_THLB <- read.csv("data-raw/data_tables/BGCs_notin_THLB.csv")
-BGC <- points_dat$bgc
-BGC <- gsub(" ","",BGC)
-exclude <- which(BGC%in%BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")])
-include <- if(length(exclude>0)) seq(1,length(BGC))[-exclude] else seq(1,length(BGC))
+exclude <- bgc_att$id.x[which(bgc_att$MAP_LABEL%in%BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")])]
+include <- if(length(exclude>0)) bgc_att$id.x[-which(bgc_att$id.x%in%exclude)] else bgc_att$id.x
 
+edatope="C4"
 for(edatope in edatopes){
   
   #initiate tables to store summary values
-  PredSum.suit <- data.frame(PredSum.BGC.wide[1:4], as.data.frame(matrix(rep(NA, length(spps)*dim(PredSum.BGC.wide)[1]), dim(PredSum.BGC.wide)[1])))
-  names(PredSum.suit)[-c(1:4)] <- spps
+  PredSum.suit <- data.frame(PredSum.bgc.wide[,1:5], as.data.frame(matrix(rep(NA, length(spps)*dim(PredSum.bgc.wide)[1]), dim(PredSum.bgc.wide)[1])))
+  names(PredSum.suit)[-c(1:5)] <- spps
   PredSum.spp <- PredSum.suit
   PredSum.suit.home <- PredSum.suit #home is for counting cells within historical range. 
   PredSum.spp.home <- PredSum.suit
   
+  spp="Fd"
   for(spp in spps){
     
-    #reference period suitabilities
-    suit.ref <- get(paste("suit.ref", spp, edatope, sep="."))[include]
-    # suit.ref <- read.csv(paste(outdir, "/data/suit.ref", spp, edatope, "csv", sep="."))[include,1]
-    # suit.ref <- read.csv(paste(outdir, "/data/suit.ref", studyarea, spp, edatope, "csv", sep="."))[,1]
-    suit.ref[suit.ref==5] <- NA
-    outRange.ref <- is.na(suit.ref)
-    suit.ref[is.na(suit.ref)] <- 5
-    suit.ref[suit.ref==4] <- 3 #added this based on email from Will May 18, 2021
-    suit.ref <- 1-(suit.ref-1)/4
+    # get the suitability for the reference period and recent observed predicted BGC.
+    suit.hist <- cciss_basic(bgc_preds_hist, edatope, spp, S1)
     
+    #reference period suitabilities
+    suit.ref <- suit.hist[ID%in%include]
+    suit.ref <- fractionize(suit.ref[order(ID), Feas.ref]) # second step to ensure order of IDs is sequential
+    outRange.ref <- which(suit.ref==0)
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="1961_1990")
     col <- which(names(PredSum.suit)==spp)
     PredSum.suit[row,col] <- round(sum(suit.ref))
     PredSum.spp[row,col] <- round(sum(suit.ref>0))
-    PredSum.suit.home[row,col] <- round(sum(suit.ref[outRange.ref==F]))
-    PredSum.spp.home[row,col] <- round(sum((suit.ref>0)[outRange.ref==F]))
+    PredSum.suit.home[row,col] <- round(sum(suit.ref[-outRange.ref]))
+    PredSum.spp.home[row,col] <- round(sum((suit.ref>0)[-outRange.ref]))
     
     #recent observed climate
-    suit.proj <- get(paste("suit.hist", spp, edatope, sep="."))[include]
-    suit.proj[is.na(suit.proj)] <- 5
-    suit.proj[suit.proj==4] <- 3 #added this based on email from Will May 18, 2021
-    suit.proj <- 1-(suit.proj-1)/4
-    
+    suit.proj <- suit.hist[ID%in%include]
+    suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="2001_2020")
     PredSum.suit[row,col] <- round(sum(suit.proj))
     PredSum.spp[row,col] <- round(sum(suit.proj>0))
-    PredSum.suit.home[row,col] <- round(sum(suit.proj[outRange.ref==F]))
-    PredSum.spp.home[row,col] <- round(sum((suit.proj>0)[outRange.ref==F]))
+    PredSum.suit.home[row,col] <- round(sum(suit.proj[-outRange.ref]))
+    PredSum.spp.home[row,col] <- round(sum((suit.proj>0)[-outRange.ref]))
     
-    for(scenario in scenarios){
+    # Future Climates
+    suit <- cciss_basic(bgc_preds, edatope, spp, S1)
+    
+    # Evaluate if species is too minor across all futures for inclusion in results
+    total.area <- dim(points_dat)[1] # this is the total number of cells in the study area
+    suit.area <- sum(table(suit$Feas.pred)[which(names(table(suit$Feas.pred))<4)])/(dim(unique(bgc_preds[,2:5]))[1]) #this is the average number of cells in which the species is suitable
+    small <- suit.area/total.area < 0.01 # establish insignificant species for removal
+    
+    for(ssp in ssps){
+      period="2001_2020"
       for(period in periods){
-        identity <- get(paste("identity", scenario, period, sep=".")) # simulation identity
-        for(GCM in GCMs){
-          gcm=GCM #necessary for data.table subsetting
-          runs <- unique(identity[GCM==gcm, RUN])
+        for(gcm in unique(bgc_preds$GCM)){
+          runs <- unique(suit[GCM==gcm & SSP==ssp, RUN])
           run=runs[1]
           for(run in runs){
-            suit.proj <- get(paste("suit", scenario, period, GCM, run, spp, edatope, sep="."))[include]
-            # suit.proj <- read.csv(paste(outdir, "/delete/suit", studyarea, GCM, scenario, period, spp, edatope, "csv", sep="."))[,1][include]
-            suit.proj[is.na(suit.proj)] <- 5
-            suit.proj[suit.proj==4] <- 3 #added this based on email from Will May 18, 2021
-            suit.proj <- 1-(suit.proj-1)/4
-            
-            table(suit.proj)
-            
-            row <- which(PredSum.suit$GCM==GCM & PredSum.suit$SSP==scenario & PredSum.suit$RUN==run & PredSum.suit$PERIOD==list_gcm_period()[grep(period, list_gcm_period())])
+            suit.proj <- suit[ID%in%include & GCM==gcm & SSP==ssp & RUN==run & PERIOD==period]
+            suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
+            row <- which(PredSum.suit$GCM==gcm & PredSum.suit$SSP==ssp & PredSum.suit$RUN==run & PredSum.suit$PERIOD==period)
             PredSum.suit[row,col] <- round(sum(suit.proj))
             PredSum.spp[row,col] <- round(sum(suit.proj>0))
-            PredSum.suit.home[row,col] <- round(sum(suit.proj[outRange.ref==F]))
-            PredSum.spp.home[row,col] <- round(sum((suit.proj>0)[outRange.ref==F]))
+            PredSum.suit.home[row,col] <- round(sum(suit.proj[-outRange.ref]))
+            PredSum.spp.home[row,col] <- round(sum((suit.proj>0)[-outRange.ref]))
+            
             # print(run)
           }
-          # print(GCM)
+          # print(gcm)
         }
+        #===============================================================================
+        # Write rasters of mean feasibility change and binary appearance across the ensemble
+        if(small==F){
+          suit.proj <- suit[SSP==ssp & PERIOD==period]
+          suit.proj[is.na(Feas.ref), "Feas.ref"] <- 4
+          suit.proj[is.na(Feas.pred), "Feas.pred"] <- 4
+          suit.proj[, Feas.change := Feas.ref-Feas.pred]
+          
+          Projsuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.pred")
+          Changesuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.change")
+          
+          # calculate ensemble mean suitability change. this isn't biased by missing suitability for exotic BGCs
+          Changesuit.mean <- apply(as.data.frame(Changesuit[,!"ID"]), 1, mean, na.rm=T)
+          
+          values(X) <- NA
+          values(X)[points_dat$id] <- Changesuit.mean
+          # plot(X)
+          writeRaster(X, paste(outdir, "/data/Spp.Changesuit", studyarea, spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
+          
+          # binary appearance/disappearance
+          outRange.ref <- which(fractionize(suit.hist[order(ID), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
+          suit.ensemble <- as.matrix(Projsuit[,!"ID"])
+          binary <- rep(0, dim(suit.hist)[1])
+          binary[outRange.ref] <- NA
+          binary[outRange.ref] <- apply(suit.ensemble[outRange.ref,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
+          binary[-outRange.ref] <- apply(suit.ensemble[-outRange.ref,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
+          values(X) <- NA
+          values(X)[points_dat$id] <- binary
+          # plot(X)
+          writeRaster(X, paste(outdir, "/data/Spp.binary", studyarea, spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
+        }
+
         # print(period)
       }
-      print(scenario)
+      # print(ssp)
     }
-    
     print(paste(spp, " (", round(which(spps==spp)/length(spps)*100, 0), "%)", sep=""))
   }
   
@@ -673,87 +652,4 @@ for(edatope in edatopes){
   
   print(edatope)
 }
-
-#===============================================================================
-# Write rasters of mean feasibilty change and binary appearance
-#===============================================================================
-X <- dem
-edatope="C4"
-for(edatope in edatopes){
-  
-  # exclude insignificant species
-  suit.area <-  read.csv(paste(outdir, "/data/PredSum.suit",studyarea, edatope,"csv", sep="."))[,-c(1:4)]
-  totalarea <- sum(suit.area[which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="1961_1990"),]) #historical distribution 
-  small <- which(apply(suit.area, 2, sum, na.rm=T)/totalarea < 0.25) # establish insignificant species for removal
-  
-  for(spp in spps[-small]){
-    
-    Refsuit <- get(paste("suit.ref", spp, edatope, sep="."))
-    outRange.base <- Refsuit==5
-    Refsuit[Refsuit==4] <- 3 #added this based on email from Will May 18, 2021
-    Refsuit[Refsuit==5] <- 4
-    Refsuit[is.na(Refsuit)] <- 4
-    table(Refsuit)
-    
-    for(scenario in scenarios){
-      for(period in periods){
-        # compile the GCM projections into a data frame
-        Projsuit <- data.frame(temp=rep(NA, length(Refsuit))) #initiate the data frame with a dummy column
-        Changesuit <- data.frame(temp=rep(NA, length(Refsuit))) #initiate the data frame with a dummy column
-        identity <- get(paste("identity", scenario, period, sep=".")) # simulation identity
-        for(GCM in GCMs){
-          gcm=GCM #necessary for data.table subsetting
-          runs <- unique(identity[GCM==gcm, RUN])
-          run=runs[1]
-          for(run in runs[-which(runs=="ensembleMean")]){
-            temp <- get(paste("suit", scenario, period, GCM, run, spp, edatope, sep="."))
-            # temp <- read.csv(paste(outdir, "/delete/suit", studyarea, GCM, scenario, period, spp, edatope, "csv", sep="."))[,1]
-            temp[temp==4] <- 3 #added this based on email from Will May 18, 2021
-            temp[temp==5] <- 4
-            temp[is.na(temp)] <- 4
-            Projsuit <- cbind(Projsuit,temp)
-            Changesuit <- cbind(Changesuit,Refsuit-temp)
-            # print(run)
-          }
-          # print(GCM)
-        }
-        Projsuit <- Projsuit[,-1] #remove the dummy column
-        Changesuit <- Changesuit[,-1] #remove the dummy column
-        names(Projsuit) <- GCMs[-which(GCMs=="ensemble")]
-        names(Changesuit) <- GCMs[-which(GCMs=="ensemble")]
-        
-        # calculate ensemble mean suitability change. this isn't biased by missing suitabilties for exotic BGCs
-        Changesuit.mean <- apply(Changesuit, 1, mean, na.rm=T)
-        
-        outRange <- outRange.base
-        outRange[which(Changesuit.mean!=0)] <- FALSE
-        Changesuit.mean[outRange==T] <- NA
-        
-        values(X) <- NA
-        values(X)[points_dat$id] <- Changesuit.mean
-        # plot(X)
-        writeRaster(X, paste(outdir, "/data/Spp.Changesuit", studyarea, spp, edatope, scenario, period,"tif", sep="."),overwrite=TRUE)
-        
-        ##=================================
-        # binary appearance/disappearance
-        suit.ensemble <- as.matrix(Projsuit)
-        suit.ensemble[suit.ensemble==5] <- 4
-        binary <- rep(0, length(Refsuit))
-        binary[outRange.base==T] <- NA
-        binary[outRange.base] <- apply(suit.ensemble[outRange.base,], 1, function(x){return(if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
-        binary[outRange.base==F] <- apply(suit.ensemble[outRange.base==F,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
-        values(X) <- NA
-        values(X)[points_dat$id] <- binary
-        writeRaster(X, paste(outdir, "/data/Spp.binary", studyarea, spp, edatope, scenario, period,"tif", sep="."),overwrite=TRUE)
-        
-        # print(period)
-      }
-      # print(Scenario)
-    }
-    print(spp)
-  }
-  print(edatope)
-}
-
-
 
