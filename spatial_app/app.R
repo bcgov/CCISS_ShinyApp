@@ -15,9 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-# setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app/")
-
 # library(shiny)
 library(RColorBrewer)
 library(stinepack) # for interpolation splines
@@ -45,7 +42,6 @@ edatope.names <- c("Poor-subxeric", "Medium-mesic", "Rich-hygric")
 scenarios <- c("ssp126", "ssp245")
 scenario.names=c("SSP1-2.6", "SSP2-4.5")
 scenario <- scenarios[2] # only one scenario currently supported. would need to revise the script to support more than one scenario. 
-
 
 period.names=c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
 
@@ -96,7 +92,7 @@ bgcs.native <- as.vector(unlist(read.csv(paste(indir,"bgcs.native.csv", sep=""))
 zones.native <- as.vector(unlist(read.csv(paste(indir,"zones.native.csv", sep=""))))
 
 ## projected area of biogeoclimatic units
-bgc.area <- read.csv(paste(indir,"PredSum.BGC.csv", sep=""))
+bgc.area <- read.csv(paste(indir,"PredSum.bgc.csv", sep=""))
 temp <- bgc.area[-which(bgc.area$GCM=="ensembleMean"),] #remove ensemble vote
 temp.ens <- bgc.area[which(bgc.area$GCM=="ensembleMean"),] #ensemble vote
 bgc.area <- bgc.area[,-c(1:5)] # matches the "identity" table
@@ -154,7 +150,7 @@ levels.bgc <- read.csv("data/levels.bgc.csv")[,1]
 ## persistence and expansion of bgc units
 
     #bgc total table
-    bgc.count <- read.csv(paste(indir,"PredSum.BGC.csv", sep=""))
+    bgc.count <- read.csv(paste(indir,"PredSum.bgc.csv", sep=""))
     bgc.count[is.na(bgc.count)] <- 0
     bgc.count <- bgc.count[,-c(1:5)] # matches the "identity" table
 
@@ -164,7 +160,7 @@ levels.bgc <- read.csv("data/levels.bgc.csv")[,1]
     zone.count <- zone.count[,-c(1:5)] # matches the "identity" table
 
     #bgc table for home range
-    bgc.count.home <- read.csv(paste(indir,"PredSum.BGC.home.csv", sep=""))
+    bgc.count.home <- read.csv(paste(indir,"PredSum.bgc.home.csv", sep=""))
     bgc.count.home[is.na(bgc.count.home)] <- 0
     bgc.count.home <- bgc.count.home[,-c(1:5)] # matches the "identity" table
 
