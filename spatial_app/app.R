@@ -33,6 +33,8 @@ library(markdown)
 # Increase the maximum upload size to 60 MB 
 options(shiny.maxRequestSize = 60*1024^2)
 
+# setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
+
 studyarea <- "Nimpkish"
 indir <- paste("data", studyarea, "", sep="/")
 
@@ -656,7 +658,7 @@ server <- function(input, output, session) {
 
     zonelevel <- if(input$zonelevel==T) T else F
     sim.focal <- input$sim.focal
-    scenario <- "ssp245"
+    scenario <- scenarios[2]
     period <-  periods[as.numeric(input$period)+1]
     transparency <- input$transparency
 
@@ -775,7 +777,7 @@ server <- function(input, output, session) {
     # spp.focal="Fdc"
 
     sim.focal <- input$sim.focal
-    scenario <- "ssp245"
+    scenario <- scenarios[2]
     period <-  periods[as.numeric(input$period)+1]
 
     if(input$periodtype==1) X <- bgc.pred.ref
@@ -829,7 +831,7 @@ server <- function(input, output, session) {
 
       zonelevel <- if(input$zonelevel==T) T else F
       sim.focal <- input$sim.focal
-      scenario <- "ssp245"
+      scenario <- scenarios[2]
       period <-  periods[as.numeric(input$period)+1]
       transparency <- input$transparency
 
@@ -859,13 +861,14 @@ server <- function(input, output, session) {
         image(X, add=T, col="white") # cover up the color bar
         # plot(bdy, add=T, lwd=1)
 
-        temp <- table(pred)
+        totalarea <- sum(bgc.count[1,])
+        temp <- table(pred)/totalarea
         temp <- rev(sort(temp))
+        temp <- temp[which(temp > 0.005)]
         legendunits <- names(temp)
-        legendunits <- legendunits[which(temp > (totalarea*0.001))]
 
-        if(zonelevel==T) legend("topright", legend=legendunits, fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=1)
-        if(zonelevel==F) legend("topright", legend=legendunits, fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.9)
+        if(zonelevel==T) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=1)
+        if(zonelevel==F) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.9)
 
         # box()
         dev.off()
@@ -1016,7 +1019,7 @@ server <- function(input, output, session) {
 
       if(input$type!=3){
         sim.focal <- input$sim.focal
-        scenario <- "ssp245"
+        scenario <- scenarios[2]
         period <-  periods[as.numeric(input$period)+1]
 
         if(input$periodtype==1) X <- bgc.pred.ref
@@ -1032,7 +1035,7 @@ server <- function(input, output, session) {
       } else {
 
         sim.focal <- input$sim.focal
-        scenario <- "ssp245"
+        scenario <- scenarios[2]
         period <-  periods[as.numeric(input$period)+1]
 
         X <- bgc.pred.ref
@@ -1102,7 +1105,7 @@ server <- function(input, output, session) {
   scatterPlot <- function() {
 
     # period <- "2041_2060"
-    # scenario <- "ssp245"
+    # scenario <- scenarios[2]
     # var1 <- "MAT"
     # var2 <- "MAP"
     # ratioscale <- T
