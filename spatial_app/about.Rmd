@@ -7,14 +7,14 @@ output: html_document
 
 ## About this app
 
-This is a draft app to explore Biogeoclimatic projections and associated changes in regeneration feasiblity for tree species at the landscape scale. The purpose of the app at this early stage in its development is to solicit feedback on what types of information will be useful to resource managers. 
+This is a draft app to explore biogeoclimatic projections and associated changes in regeneration feasiblity for tree species at the landscape scale. it is a companion to the Climate Change Informed Species Selection (CCISS) tool. The purpose of the app is to support practitioners and land use planning tables by translating climate change trends into information that is more directly applicable to ecosystem management.   
+
+**Open Source**--Code and data for this app is publicly available at [https://github.com/bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp)
 
 ### Contributors
 App created by:<br>
-Colin Mahony<br>
-Research Climatologist<br>
-BC Ministry of Forests, Lands, Natural Resource Operations and Rural Development<br>
-colin.mahony@gov.bc.ca
+Colin Mahony, Research Climatologist, BC Ministry of Forests, colin.mahony@gov.bc.ca
+Kiri Daust, Data Scientist, BC Ministry of Forests, kiri.daust@gov.bc.ca
 
 ### Methods
 
@@ -22,12 +22,19 @@ This app follows the methods described in [MacKenzie and Mahony (2021)](https://
 
 **Summary values**--All values presented in the summary figures are averages of the full set of raster values shown on the maps. 
 
-**Climate Data**--All climate data are derived from [ClimateBC](http://climatebc.ca/), a public climate downscaling software developed by Tongli Wang at the UBC Centre for Forest Conservation Genetics. 
+**Climate Data**--Climate data are derived from [climr](https://github.com/bcgov/climr), an open-source R package for climate downscaling developed by British Columbia Ministry of Forests. climr follows the downscaling methodology of ClimateNA [Wang et al. (2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0156720). 
 
 **Climate Variables**--Although there are many types of climate variables in this app, values for many of these variables are estimated from monthly values of three basic climate elements: mean daily maximum temperature (T<sub>max</sub>), mean daily minimum temperature (T<sub>min</sub>), and precipitation (PPT). The method for estimating derived variables is given in [Wang et al. (2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0156720). Since other climate elements (e.g., degree-days, precipitation as snow, frost-free days, cumulative moisture deficit) are not calculated directly from daily data, some caution is warranted. 
 
-**Climate Models**--This app features 8 of the 15 climate models that are available in ClimateBC; the other 7 are excluded because they are downscaled based on only one historical run and may be prone to artefacts as a result. This ensemble of 8 models is a bit lopsided: there is only one model (GISS) with low climate sensitivity. Future versions of this app will use data from a more balanced CMIP6 ensemble available soon from ClimateBC. 
 
-**Emissions scenario**--This app features a single emissions scenario, RCP4.5, which prescribes a peak in human greenhouse gas emissions by 2050, and a stabilization at half of year-2000 levels from 2070 onwards. This scenario is roughly in line with current national commitments under the Paris accord, and consistent with a global temperature rise of 2.4<sup>o</sup>C by the year 2100. 
+#### Global Climate Model (GCM) ensemble
+
+**Climate models**--This app features 8 of the 13 climate models that are available in climr. These models are a balanced ensemble that is more consistent with the IPCC's assessment of climate sensitivity than the full 13-model climr ensemble, and excludes a model with problematic spatial artefacts in BC Coast Mountains [Mahony et al. (2022)](https://rmets.onlinelibrary.wiley.com/doi/10.1002/joc.7566). The 'Model Info' tab provides basic details of each GCM.  
+
+**Multiple runs per global climate model**--This app features up to three simulation runs for each of the eight climate models. The purpose of having multiple simulation runs per model is to better represent the natural long-term variability in precipitation.  The individual simulations are portrayed in the scatterplots as small dots with the same colour as the large labeled dot representing their climatic mean.  
+
+**Sample runs**--users have the option of viewing biogeoclimatic projection maps for six simulations representing the range of climate changes in the ensemble. This subset was selected using the KKZ method of <a href="https://journals.ametsoc.org/view/journals/clim/28/3/jcli-d-14-00636.1.xml" target="_blank">Cannon (2015)</a>. 
+
+**Emissions scenario**--CMIP6 climate projections follow scenarios of future greenhouse gas emissions called [Shared Socioeconomic Pathways](https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change) (SSPs). For simplicity, this app features a single emissions scenario, SSP2-4.5, which features a leveling-off and gradual decline in human-caused greenhouse gas emissions. This scenario is roughly consistent with current emissions policies and economic trends ([Hausfather and Peters 2020](https://www.nature.com/articles/d41586-020-00177-3)). SSP2-4.5 is intermediate between two other scenarios: SSP1-2.6 and SSP3-7.0.  SSP1-2.6 features strong emissions reductions (mitigation) roughly consistent with the goals of the Paris Climate Accords to limit global warming to 2<sup>o</sup>C above pre-industrial temperatures. SSP3-7.0 is representative of a broader range of "baseline" scenarios that assume the absence of mitigation policies, and is associated with linear increase in the rate of greenhouse gas emissions. This app provides an indication of trends in biogeoclimatic and species feasibilty shifts, but the timing of these shifts may be faster or slower, depending on whether actual emissions are higher or lower than SSP2-4.5. 
 
 

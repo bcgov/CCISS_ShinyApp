@@ -1,4 +1,4 @@
-# ccsummary-FLP
+# ccsummary-cciss
 A draft app for visualization of climate change in defined areas
 
 Copyright 2021 Province of British Columbia

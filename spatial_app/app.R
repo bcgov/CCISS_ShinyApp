@@ -1,7 +1,7 @@
 ## A draft app for visualization of climate change in defined areas
 ## author: Colin Mahony colin.mahony@gov.bc.ca
 
-# Copyright 2021 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1648,7 +1648,7 @@ server <- function(input, output, session) {
                   rownames= FALSE,
                   caption = HTML("<p><h4>Global climate models featured in this app; see the <a href='https://bcgov-env.shinyapps.io/cmip6-BC/' target='_blank'>cmip-BC app</a> for more info.
                                  ECS is equilibrium climate sensitivity (long-term temperature change in response to an instant doubling of CO2), and values are quoted from <a href='https://advances.sciencemag.org/content/6/26/eaba1981.abstract' target='_blank'>Meehl et al. (2020)</a>.
-                                 The last two columns are the number of model runs for each scenario that are included in ClimateBC</p></h4>")
+                                 The last column is the number of model runs for each scenario that are included in ClimateBC</p></h4>")
     )
   })
 
