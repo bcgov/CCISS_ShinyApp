@@ -35,7 +35,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "Nimpkish"
+studyarea <- "Sunshine"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -712,7 +712,7 @@ server <- function(input, output, session) {
             if(sim.focal=="Ensemble mean"){
               suit.ref <- suit[match(levels.bgc[values(bgc.pred.ref)], SiteLookup$BGC)]
               suit.ref[is.na(suit.ref)] <- 4 #set non-suitable to 4
-              change.proj <- values(raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
+              change.proj <- values(raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
               temp <- suit.ref-change.proj
               temp[which(temp>3.5)] <- NA #set non-suitable to NA
               temp[which(temp<1)] <- 1 #set non-suitable to NA
@@ -734,7 +734,7 @@ server <- function(input, output, session) {
       if(input$mapspp==2){
         values(X) <- NA
         if(input$periodtype==3){
-          if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
+          if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
           leafletProxy("map") %>%
             addProviderTiles("Esri.WorldTopoMap", group = "Base map") %>%
             addRasterImage(X, colors =  ColScheme.change, method="ngb", opacity = transparency, maxBytes = 6 * 1024 * 1024)%>%
@@ -902,7 +902,7 @@ server <- function(input, output, session) {
             if(sim.focal=="Ensemble mean"){
               suit.ref <- suit[match(levels.bgc[values(bgc.pred.ref)], SiteLookup$BGC)]
               suit.ref[is.na(suit.ref)] <- 4 #set non-suitable to 4
-              change.proj <- values(raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
+              change.proj <- values(raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
               temp <- suit.ref-change.proj
               temp[which(temp>3.5)] <- NA #set non-suitable to NA
               temp[which(temp<1)] <- 1 #set non-suitable to NA
@@ -952,7 +952,7 @@ server <- function(input, output, session) {
           ColScheme <- c("darkgreen", "dodgerblue1", "gold2", "white")
           legendTitle <- "Projected feasibility"
         } else if(input$mapspp==2){
-          if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
+          if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
           breakpoints <- seq(-3,3,0.5); length(breakpoints)
           labels <- c("-3","-2", "-1", "no change", "+1","+2","+3")
           ColScheme <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
@@ -1060,7 +1060,7 @@ server <- function(input, output, session) {
               if(sim.focal=="Ensemble mean"){
                 suit.ref <- suit[match(levels.bgc[values(bgc.pred.ref)], SiteLookup$BGC)]
                 suit.ref[is.na(suit.ref)] <- 4 #set non-suitable to 4
-                change.proj <- values(raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
+                change.proj <- values(raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep="")))
                 temp <- suit.ref-change.proj
                 temp[which(temp>3.5)] <- NA #set non-suitable to NA
                 temp[which(temp<1)] <- 1 #set non-suitable to NA
@@ -1078,7 +1078,7 @@ server <- function(input, output, session) {
         if(input$mapspp==2){
           values(X) <- NA
           if(input$periodtype==3){
-            if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.ChangeSuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
+            if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
           }
         }
         if(input$mapspp==3){
