@@ -165,7 +165,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "Nimpkish"
+studyarea <- "Sunshine"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -211,12 +211,18 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 ### dem and climr input table
 ### -------------------------------------------------------
 
-##make study area dem
-dem_source <- rast("../Common_Files/dem/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+#study area boundary
 bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
 bnd <- vect(bnd)
 bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-dem <- rast(bnd,res = 0.0025) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+
+#source dem
+dem_source <- rast("../Common_Files/dem/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+dem_source <- crop(dem_source,bnd)
+# dem_source <- aggregate(dem_source, fact=10) #upsample for large study areas (e.g., BC)
+
+##make study area dem
+dem <- rast(bnd,res = .005) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
 dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
 dem <- mask(dem,bnd)
 # plot(dem)
