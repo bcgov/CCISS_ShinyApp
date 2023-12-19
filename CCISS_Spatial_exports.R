@@ -165,7 +165,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "Sunshine"
+studyarea <- "BC"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -222,7 +222,7 @@ dem_source <- crop(dem_source,bnd)
 # dem_source <- aggregate(dem_source, fact=10) #upsample for large study areas (e.g., BC)
 
 ##make study area dem
-dem <- rast(bnd,res = .005) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+dem <- rast(bnd,res = .025) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
 dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
 dem <- mask(dem,bnd)
 # plot(dem)
@@ -313,7 +313,7 @@ change <- data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="1961_1990", a
 names(change)[-c(1:4)] <- names(clim.refmean)
 
 # Predict BGC
-tile_predict(clim,pred_vars) 
+tile_predict(clim,pred_vars=pred_vars) 
 bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)] 
 
 values(X) <- NA
