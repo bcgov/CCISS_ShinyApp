@@ -217,7 +217,7 @@ bnd <- vect(bnd)
 bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
 
 #source dem
-dem_source <- rast("../Common_Files/dem/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
 dem_source <- crop(dem_source,bnd)
 # dem_source <- aggregate(dem_source, fact=10) #upsample for large study areas (e.g., BC)
 
@@ -289,7 +289,7 @@ write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/zones.native.csv",
 # ===============================================================================
 # ===============================================================================
 
-load("../Common_Files/BGCModels/BGCModel_Extratrees_FullData.Rdata") ##load RF model
+load("../Common_Files/BGCModel_Extratrees_FullData.Rdata") ##load RF model
 pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required predictors
 
 ### -------------------------------------------------------
@@ -313,6 +313,7 @@ change <- data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="1961_1990", a
 names(change)[-c(1:4)] <- names(clim.refmean)
 
 # Predict BGC
+clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 tile_predict(clim,pred_vars=pred_vars) 
 bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)] 
 
@@ -344,6 +345,7 @@ change.temp <- clim.mean - clim.refmean
 change <- rbind(change, data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="2001_2020", as.data.frame(t(change.temp))))
 
 # Predict BGC
+clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 tile_predict(clim,pred_vars) 
 bgc_preds_hist <- clim[,.(ID,PERIOD,BGC.pred)] 
 bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
@@ -390,6 +392,7 @@ for(ssp in ssps){
       change <- rbind(change, cbind(clim.mean[,c(1:4)], change.temp)) # append to the mean change table. 
       
       ## BGC projections 
+      clim <- clim[!is.nan(CMI)|!is.na(CMI),]
       tile_predict(clim,pred_vars) ##predict BGC!
       bgc_preds_temp <- clim[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
       bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
