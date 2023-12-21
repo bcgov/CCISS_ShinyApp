@@ -312,13 +312,17 @@ write.csv(t(as.data.frame(clim.refmean)), paste(outdir, "/clim.refMean.csv", sep
 change <- data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"="1961_1990", as.data.frame(t(rep(0, length(clim.refmean)))))
 names(change)[-c(1:4)] <- names(clim.refmean)
 
-# Predict BGC
+#clean the points_dat and clim tables of NAs
+points_dat <- points_dat[!is.nan(clim$CMI)|!is.na(clim$CMI),]
 clim <- clim[!is.nan(CMI)|!is.na(CMI),]
+
+# Predict BGC
 tile_predict(clim,pred_vars=pred_vars) 
 bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)] 
 
 values(X) <- NA
-X[points_dat$id] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
+X[bgc_preds_ref$ID] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
+plot(X)
 writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 
 # # [ISSUE: THE LEVELS IN THE BGC MODEL DON'T APPEAR TO BE COMPLETE]
@@ -350,8 +354,9 @@ tile_predict(clim,pred_vars)
 bgc_preds_hist <- clim[,.(ID,PERIOD,BGC.pred)] 
 bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
 
-X[points_dat$id] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
-plot(X)
+values(X) <- NA
+X[bgc_preds_hist$ID] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
+plot(X) #ISSUE: note truncation of Haida Gwaii and tip of NW BC. this is because of 
 writeRaster(X, paste(outdir, "/BGC.pred.hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
