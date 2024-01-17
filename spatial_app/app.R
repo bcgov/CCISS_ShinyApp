@@ -35,7 +35,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "Sunshine"
+studyarea <- "BC"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -295,7 +295,7 @@ ui <- fluidPage(
 
                                radioButtons("periodtype",
                                             label = "Choose a time period",
-                                            choices = list("Reference (1961-1990)" = 1, "Recent (2001-2020)" = 2, "Future" = 3),
+                                            choices = list("Reference (1961-1990)" = 1, "Observed (2001-2020)" = 2, "Future (GCMs)" = 3),
                                             selected = 1),
 
                                conditionalPanel(
@@ -337,7 +337,7 @@ ui <- fluidPage(
                                                   selected = "Ensemble mean"),
 
                                       radioButtons("period", inline = TRUE,
-                                                   label = "Choose a future period",
+                                                   label = "Choose a time period for GCM results",
                                                    choices = list("2001-2020" = 1, "2021-2040" = 2, "2041-2060" = 3, "2061-2080" = 4, "2081-2100" = 5),
                                                    # choices = list(period.names[1] = 1, period.names[2] = 2, period.names[3] = 3, period.names[4] = 4, period.names[5] = 5),
                                                    selected = 3),
@@ -362,7 +362,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
 
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
 
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",

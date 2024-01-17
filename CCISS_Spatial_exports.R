@@ -211,20 +211,25 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 ### dem and climr input table
 ### -------------------------------------------------------
 
-#study area boundary
-bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
-bnd <- vect(bnd)
-bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
+if(studyarea=="BC"){
+  dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
+  dem <- aggregate(dem, fact=3)
+  bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
+  bnd <- vect(bnd)
+  bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
+  dem <- mask(dem,bnd)
+  dem <- trim(dem)
+} else {
+  ##make study area dem
+  dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+  bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
+  bnd <- vect(bnd)
+  bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
+  dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+  dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
+  dem <- mask(dem,bnd)
+}
 
-#source dem
-dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
-dem_source <- crop(dem_source,bnd)
-# dem_source <- aggregate(dem_source, fact=10) #upsample for large study areas (e.g., BC)
-
-##make study area dem
-dem <- rast(bnd,res = .025) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
-dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
-dem <- mask(dem,bnd)
 # plot(dem)
 X <- dem # base raster
 values(X) <- NA
@@ -370,7 +375,7 @@ for(ssp in ssps){
 
       # Climate data
       clim <- climr_downscale(points_dat,
-                              which_normal = "auto",
+                              which_normal = "BC",
                               gcm_models = gcms,
                               ssp = ssp,
                               gcm_period = period,
@@ -392,8 +397,8 @@ for(ssp in ssps){
       clim <- rbind(clim, clim.ensembleMean)
 
       ## calculate mean climate change across study area [ISSUE: REFACTOR TO DATA.TABLE]
-      clim.mean <- as.data.frame(clim[, lapply(.SD, mean), by = .(GCM, SSP, RUN, PERIOD)], .SDcols = !(ID:PERIOD)) #mean value for each run across the study area. 
-      change.temp <- sweep(clim.mean[,-c(1:5)], 2, clim.refmean, FUN='-') # subtract the reference period mean vector from each row. 
+      clim.mean <- as.data.frame(clim[, lapply(.SD, function(x) mean(x, na.rm = TRUE)), by = .(GCM, SSP, RUN, PERIOD), .SDcols = !(ID:PERIOD)]) #mean value for each run across the study area. 
+      change.temp <- sweep(clim.mean[,-c(1:4)], 2, clim.refmean, FUN='-') # subtract the reference period mean vector from each row. 
       change <- rbind(change, cbind(clim.mean[,c(1:4)], change.temp)) # append to the mean change table. 
       
       ## BGC projections 
