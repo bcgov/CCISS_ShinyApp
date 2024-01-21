@@ -165,7 +165,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "BC"
+studyarea <- "CDFCP"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -214,23 +214,25 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 if(studyarea=="BC"){
   dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
   dem <- aggregate(dem, fact=3)
-  bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
-  bnd <- vect(bnd)
+  bnd <- vect(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
   bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
   dem <- mask(dem,bnd)
   dem <- trim(dem)
 } else {
   ##make study area dem
   dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
-  bnd <- st_read(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
-  bnd <- vect(bnd)
+  bnd <- vect(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
   bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
+  bdy.bc <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/SpatialData/50k_layers/BC_int.shp")
+  bdy.bc <- project(bdy.bc, "epsg:4326")
+  bnd <- crop(bnd, bdy.bc)
   dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
   dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
   dem <- mask(dem,bnd)
 }
-
+# sum(!is.na(values(dem)))
 # plot(dem)
+
 X <- dem # base raster
 values(X) <- NA
 
@@ -241,9 +243,10 @@ points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 # values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
 ## attribute BGCs to points
-# bgcs <- st_read("../Common_Files/BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map. [COLIN] THIS DOESN'T WORK IN MY CODE; THE ST_JOIN FAILS
-library(bcmaps)
-bgcs <- bec() ##BGC map from bcmaps package
+# bgcs <- st_read("//objectstore2.nrs.bcgov/ffec/WNA_BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
+bgcs <- st_read("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
+# library(bcmaps)
+# bgcs <- bec() ##BGC map from bcmaps package
 points_sf <- st_as_sf(points_dat, coords = c("x","y"), crs = 4326)
 points_sf <- st_transform(points_sf,3005)
 bgc_att <- st_join(points_sf, bgcs)
@@ -256,7 +259,7 @@ bgc_att <- data.table(st_drop_geometry(bgc_att))
 ### -------------------------------------------------------
 
 # reference BGC units
-bgc.ref <- bgc_att$MAP_LABEL
+bgc.ref <- bgc_att$BGC
 values(X) <- NA
 X[points_dat$id] <- factor(bgc.ref, levels=levels.bgc) 
 writeRaster(X, datatype="FLT4S", paste(outdir,"/bgc.ref.tif",sep = "."), overwrite=T)
@@ -327,7 +330,7 @@ bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)]
 
 values(X) <- NA
 X[bgc_preds_ref$ID] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
-plot(X)
+# plot(X)
 writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 
 # # [ISSUE: THE LEVELS IN THE BGC MODEL DON'T APPEAR TO BE COMPLETE]
@@ -558,8 +561,8 @@ fractionize <- function(x){
 ## non-THLB BGCs for exclusion from area summaries 
 ## ISSUE: ADD LAKES TO THIS, OR REMOVE LAKE CELLS FROM THE ANALYSIS ENTIRELY
 BGCs_notin_THLB <- read.csv("data-raw/data_tables/BGCs_notin_THLB.csv")
-exclude <- bgc_att$id.x[which(bgc_att$MAP_LABEL%in%BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")])]
-include <- if(length(exclude>0)) bgc_att$id.x[-which(bgc_att$id.x%in%exclude)] else bgc_att$id.x
+exclude <- bgc_att$id[which(bgc_att$MAP_LABEL%in%BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")])]
+include <- if(length(exclude)>0) bgc_att$id[-which(bgc_att$id%in%exclude)] else bgc_att$id
 
 edatope="C4"
 for(edatope in edatopes){
@@ -662,8 +665,6 @@ for(edatope in edatopes){
     }
     print(paste(spp, " (", round(which(spps==spp)/length(spps)*100, 0), "%)", sep=""))
   }
-  
-  assign(paste("PredSum.suit", edatope, sep="."), PredSum.suit)
   
   write.csv(PredSum.suit, paste(outdir, "/PredSum.suit", edatope,"csv", sep="."), row.names = F)
   write.csv(PredSum.spp, paste(outdir, "/PredSum.spp", edatope,"csv", sep="."), row.names = F)
