@@ -917,7 +917,7 @@ server <- function(input, output, session) {
           suit.proj <- temp
         }
 
-        png(file=file, type="cairo", units="in", width=5, height=4.5, pointsize=12, res=300)
+        png(file=file, type="cairo", units="in", width=5, height=3.5, pointsize=12, res=300)
 
         par(plt=c(0,1,0,1), bg="white")
         plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
