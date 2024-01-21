@@ -35,7 +35,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "BC"
+studyarea <- "CDFCP"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -362,7 +362,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
 
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
 
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",
@@ -853,13 +853,13 @@ server <- function(input, output, session) {
         values(X) <- factor(pred, levels=units)
         values(X)[1:length(units)] <- 1:length(units) # this is a patch that is necessary to get the color scheme right.
 
-        png(file, width = 5*300, height = 4.5*300, res = 300)
+        png(file, width = 5*300, height = 3.5*300, res = 300)
         par(mar=c(0,0,0,0))
 
         plot(X, xaxt="n", yaxt="n", col=alpha(ColScheme, 1), legend=FALSE, legend.mar=0, maxpixels=ncell(X), bty="n", box=FALSE)
         values(X)[-(1:length(units))] <- NA # cover up the color bar
         image(X, add=T, col="white") # cover up the color bar
-        # plot(bdy, add=T, lwd=1)
+        plot(bdy, add=T, lwd=1)
 
         totalarea <- sum(bgc.count[1,])
         temp <- table(pred)/totalarea
@@ -867,8 +867,8 @@ server <- function(input, output, session) {
         temp <- temp[which(temp > 0.005)]
         legendunits <- names(temp)
 
-        if(zonelevel==T) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=1)
-        if(zonelevel==F) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.9)
+        if(zonelevel==T) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.7)
+        if(zonelevel==F) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.5)
 
         # box()
         dev.off()
@@ -1104,7 +1104,7 @@ server <- function(input, output, session) {
   ## Plot window (done as a function so that the user can export)
   scatterPlot <- function() {
 
-    # period <- "2041_2060"
+    # period <- "2081_2100"
     # scenario <- scenarios[2]
     # var1 <- "MAT"
     # var2 <- "MAP"
@@ -1166,9 +1166,11 @@ server <- function(input, output, session) {
         text(x1,y1, "2001-2020 (observed)", cex=1, font=2, pos=4, col="gray", offset=0.9)
       }
 
+      # gcm=gcms[3]
       for(gcm in gcms){
         i=which(gcms==gcm)
         runs <- unique(identity$RUN[which(identity$GCM==gcm)])
+        # run=runs[4]
         for(run in runs){
           is.focalSim <- paste(gcm, substr(run,1,2), sep="_")==sim.focal
           x2 <- data[c(1, which(identity$GCM==gcm & identity$SSP==scenario & identity$RUN==run)), which(variables==var1)]
@@ -1178,7 +1180,7 @@ server <- function(input, output, session) {
             y3 <- if(unique(sign(diff(x2)))==-1) rev(y2) else y2
             s <- stinterp(x3,y3, seq(min(x3),max(x3), diff(xlim)/500)) # way better than interpSpline, not prone to oscillations
             if(run=="ensembleMean") lines(s, col=ColScheme.gcms[i], lwd=2)
-          } else lines(x2, y2, col=ColScheme.gcms[i], lwd=2)
+          } else if(run=="ensembleMean") lines(x2, y2, col=ColScheme.gcms[i], lwd=2)
           j=which(periods==period)
           if(length(runs)>2) points(x2[j],y2[j], pch=21, bg=if(is.focalSim==T) "black" else ColScheme.gcms[i], cex=1)
           if(run=="ensembleMean") points(x2[j],y2[j], pch=21, bg=ColScheme.gcms[i], cex=if(gcm=="ensembleMean") 3.5 else 3)
