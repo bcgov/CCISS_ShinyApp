@@ -35,7 +35,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "CDFCP"
+studyarea <- "BC"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -362,7 +362,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
 
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
 
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",
@@ -853,7 +853,7 @@ server <- function(input, output, session) {
         values(X) <- factor(pred, levels=units)
         values(X)[1:length(units)] <- 1:length(units) # this is a patch that is necessary to get the color scheme right.
 
-        png(file, width = 5*300, height = 3.5*300, res = 300)
+        png(file, width = 5*300, height=if(studyarea=="CDFCP") 3.5*300 else 4.5*300, res = 300)
         par(mar=c(0,0,0,0))
 
         plot(X, xaxt="n", yaxt="n", col=alpha(ColScheme, 1), legend=FALSE, legend.mar=0, maxpixels=ncell(X), bty="n", box=FALSE)
@@ -917,7 +917,7 @@ server <- function(input, output, session) {
           suit.proj <- temp
         }
 
-        png(file=file, type="cairo", units="in", width=5, height=3.5, pointsize=12, res=300)
+        png(file=file, type="cairo", units="in", width=5, height=if(studyarea=="CDFCP") 3.5 else 4.5, pointsize=12, res=300)
 
         par(plt=c(0,1,0,1), bg="white")
         plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")

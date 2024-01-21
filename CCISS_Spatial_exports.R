@@ -223,15 +223,19 @@ if(studyarea=="BC"){
   dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
   bnd <- vect(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
   bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-  bdy.bc <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/SpatialData/50k_layers/BC_int.shp")
-  bdy.bc <- project(bdy.bc, "epsg:4326")
-  bnd <- crop(bnd, bdy.bc)
+  land <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/SpatialData/50k_layers/Land_Water_SimplifyPolygon.shp")
+  land <- project(land, "epsg:4326")
+  land <- crop(land, bnd) #have to do this because of point roberts
+  bnd <- crop(bnd, land)
   dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
   dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
   dem <- mask(dem,bnd)
 }
+
 # sum(!is.na(values(dem)))
 # plot(dem)
+# plot(bnd)
+# plot(land, add=T, col="blue")
 
 X <- dem # base raster
 values(X) <- NA
@@ -243,8 +247,8 @@ points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 # values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
 ## attribute BGCs to points
-# bgcs <- st_read("//objectstore2.nrs.bcgov/ffec/WNA_BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
-bgcs <- st_read("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
+# bgcs <- st_read("//objectstore2.nrs.bcgov/ffec/WNA_BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map. takes forever to download for some reason... maybe vpn? 
+bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
 # library(bcmaps)
 # bgcs <- bec() ##BGC map from bcmaps package
 points_sf <- st_as_sf(points_dat, coords = c("x","y"), crs = 4326)
@@ -364,7 +368,6 @@ bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
 
 values(X) <- NA
 X[bgc_preds_hist$ID] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
-plot(X) #ISSUE: note truncation of Haida Gwaii and tip of NW BC. this is because of 
 writeRaster(X, paste(outdir, "/BGC.pred.hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
@@ -386,6 +389,7 @@ for(ssp in ssps){
                               return_normal = FALSE,
                               vars = c(list_variables(), "CMI"))
       addVars(clim)
+      unique(clim$GCM)
       
       ## calculate ensemble mean and append to clim
       clim.ensembleMean <- clim[RUN == "ensembleMean", lapply(.SD, mean), by = ID, .SDcols = !(ID:PERIOD)]
@@ -423,6 +427,7 @@ write.csv(change, paste(outdir, "/clim.meanChange.csv", sep="."), row.names = F)
 rm(clim)
 gc()
 
+unique(change$GCM)
 #===============================================================================
 # export bgc projection rasters for a subset of simulations that represent the centroid and extremes of the ensemble
 #===============================================================================
