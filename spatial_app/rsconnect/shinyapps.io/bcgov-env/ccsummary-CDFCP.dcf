@@ -1,12 +1,12 @@
-name: ccsummary_Sunshine
-title: ccsummary_Sunshine
+name: ccsummary-CDFCP
+title: ccsummary-CDFCP
 username: bcgov-env
 account: bcgov-env
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 10772387
-bundleId: 8035292
-url: https://bcgov-env.shinyapps.io/ccsummary_Sunshine/
+appId: 10985439
+bundleId: 8173480
+url: https://bcgov-env.shinyapps.io/ccsummary-CDFCP/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
