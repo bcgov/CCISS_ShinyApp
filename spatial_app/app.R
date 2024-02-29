@@ -1136,7 +1136,7 @@ server <- function(input, output, session) {
     # sim.focal <- sims[1]
 
     period <-  periods[as.numeric(input$period)+1]
-    # scenario <- scenarios[as.numeric(input$scenario)]
+    scenario <- scenarios[as.numeric(input$scenario)+1]
     var1 <- input$var1
     var2 <- input$var2
     zonelevel <- if(input$zonelevel==T) T else F
