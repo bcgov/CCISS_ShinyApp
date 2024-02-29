@@ -252,8 +252,12 @@ breakpoints.suit <-   breakseq <- c(0.5,1.5,2.5,3.5)
 palette.suit <-   c("#006400", "#1E90FF", "#EEC900")
 ColScheme.suit <- colorBin(palette.suit, bins=breakpoints.suit, na.color = NA)
 breakpoints.change <- seq(-3,3,0.5)
-palette.change <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,5,6)], brewer.pal(11,"RdBu")[c(6,7,8,9,10,11)])
+palette.change <- c("black", brewer.pal(11,"RdBu")[c(1,2,3,4)], "grey90", "grey90", brewer.pal(11,"RdBu")[c(7,8,9,10,11)]);
+palette.change2 <- c(brewer.pal(11,"RdBu")[c(1,2,3,4,4)], "grey90", colorRampPalette(c("white", "khaki1", "gold"))(6));
+palette.change3 <- "black"
 ColScheme.change <- colorBin(palette.change, bins=breakpoints.change, na.color = NA)
+ColScheme.change2 <- colorBin(palette.change3, bins=breakpoints.change, na.color = NA)
+ColScheme.change3 <- colorBin(palette.change3, bins=breakpoints.change, na.color = NA)
 labels.change <- breakpoints.change[-median(1:length(breakpoints.change))]
 breakpoints.binary <- seq(-1,1,0.2)
 palette.binary <- c(brewer.pal(11,"RdBu")[c(1:4,6)], brewer.pal(11,"RdBu")[c(6,8:11)])
@@ -734,13 +738,25 @@ server <- function(input, output, session) {
       if(input$mapspp==2){
         values(X) <- NA
         if(input$periodtype==3){
-          if(spp.focal!="none") X <- raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
+          if(spp.focal!="none"){
+            suit.ref <- suit[match(levels.bgc[values(bgc.pred.ref)], SiteLookup$BGC)]
+            suit.ref[is.na(suit.ref)] <- 4 #set non-suitable to 4
+            X <- raster(paste(indir,paste("Spp.Changesuit", spp.focal, edatope, scenario, period, "tif", sep="."), sep=""))
+            suit.proj <- suit.ref-values(X)
+            # X2 <- raster::setValues(X,NA)
+            # X2[suit.ref==4] <- X[suit.ref==4]
+            # X2[X2<0] <- NA
+            # X3 <- raster::setValues(X,NA)
+            # X3[which(suit.ref<4 & suit.proj>3.5)] <- 1
+          }
           leafletProxy("map") %>%
             addProviderTiles("Esri.WorldTopoMap", group = "Base map") %>%
             addRasterImage(X, colors =  ColScheme.change, method="ngb", opacity = transparency, maxBytes = 6 * 1024 * 1024)%>%
+            # addRasterImage(X2, colors =  ColScheme.change2, method="ngb", opacity = transparency, maxBytes = 6 * 1024 * 1024)%>%
+            # addRasterImage(X3, colors =  ColScheme.change3, method="ngb", opacity = transparency, maxBytes = 6 * 1024 * 1024)%>%
             addPolygons(data=bdy, fillColor = NA, color="black", smoothFactor = 0.2, fillOpacity = 0, weight=2)
         }
-      }
+              }
       if(input$mapspp==3){
         values(X) <- NA
         if(input$periodtype==3){
