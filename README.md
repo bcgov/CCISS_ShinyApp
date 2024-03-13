@@ -49,41 +49,6 @@ BCGOV_MAPBOX_HILLSHADE_STYLE={mapbox hillshade style ref user/styleref}
 
 #### R packages folders
 
-##### app
-
-CCISS Shiny app
-
-##### data
-Standard R package folder for the
-[Data in packages](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages).
-Data is generated from `create_package_data` script in `data-raw/scripts`. The script is run manually
-to update data as needed. When a package includes data, they are available like other objects
-after you load the library.
-
-##### data-raw
-[Commonly used](https://r-pkgs.org/data.html?q=data-raw#data-sysdata) to store scripts to create
-package assets. This can include model training, package data creation or, like this package, tiles
-creation. Usually code in this folder is ran manually and is not part of the package but kept with
-the package repository.
-
-##### inst
-Standard R package folder. The contents of the `inst` subdirectory will be copied recursively
-to the installation directory. This is described in
-[Data in packages](https://cran.r-project.org/doc/manuals/R-exts.html#Data-in-packages)
-
-##### man
-Standard R package folder for documentation. Where `roxygen2` saves generated documentation.
-This package use [`roxygen2`](https://roxygen2.r-lib.org/) to make documenting functions and
-objects easier.
-
-##### R
-Also standard, this package R functions, methods and objects are there. The code there
-will be included with the package when it is built.
-
-##### src
-[Also standard](https://cran.r-project.org/doc/manuals/R-exts.html#Non_002dR-scripts-in-packages).
-Code which needs to be compiled.
-
 #### Special
 
 ##### .gitignore
