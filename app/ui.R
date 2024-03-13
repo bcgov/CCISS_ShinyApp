@@ -103,9 +103,9 @@ $(document).ready(function(){
         hr(style = "border-top: 1px solid #8f0e7e;"),
         h4("Add Sites Using One of the 3 Methods Below"),
         
-        accordion(
+        bslib::accordion(
           multiple = FALSE,
-          accordion_panel(
+          bslib::accordion_panel(
             title = h5(
               "Method 1. Click on map to add points",
               prompter::add_prompt(
@@ -126,7 +126,7 @@ $(document).ready(function(){
             #                120),
             
           ), 
-          accordion_panel(
+          bslib::accordion_panel(
             title = h5(
               "Method 2. Click on BGC and District",
               prompter::add_prompt(
@@ -150,7 +150,7 @@ $(document).ready(function(){
             textOutput("dist_click_show"),
             hr(style = "border-top: 1px solid #8f0e7e;")
           ),
-          accordion_panel(
+          bslib::accordion_panel(
             title = h5(
               "Method 3. Upload a CSV file",
               prompter::add_prompt(
