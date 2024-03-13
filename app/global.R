@@ -5,9 +5,20 @@ if (!requireNamespace("Require")) {
 
 suppressPackageStartupMessages({
   Require::Require(c(
+    "colourvalues",
+    "leaflet.extras",
+    "pagedown",
+    "prettydoc",
+    "prompter",
+    "RPostgres"
+  ), require = FALSE)  ## don't load
+})
+
+suppressPackageStartupMessages({
+  Require::Require(c(
     "bslib",
     "bcgov/ccissr@main",
-    "colourvalues",
+    "data.table",
     "DT",
     "ggplot2",
     "ggthemes",
@@ -15,10 +26,8 @@ suppressPackageStartupMessages({
     "leaflet",
     "plotly",
     "pool",
-    "prompter",
     "rAmCharts4",
     "rhandsontable",
-    "RPostgres",
     "shiny",
     "shinyWidgets"
   ))
