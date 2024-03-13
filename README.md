@@ -16,10 +16,10 @@ To assist users, the tool compares the current species selection guidance in the
 
 ## Usage
 
-### Installation
+### Install `shiny`
 
 ```r
-remotes::install_github("bcgov/CCISS_ShinyApp")
+install.packages("shiny")
 ```
 
 ### Run locally
