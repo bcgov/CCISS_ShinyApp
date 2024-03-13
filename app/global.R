@@ -20,7 +20,6 @@ suppressPackageStartupMessages({
     "rhandsontable",
     "RPostgres",
     "shiny",
-    "shinydashboardPlus",
     "shinyWidgets"
   ))
 })
