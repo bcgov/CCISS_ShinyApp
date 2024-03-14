@@ -1,7 +1,7 @@
 ##test pref/accept ruleset
 library(data.table)
 library(ccissr)
-cfrg_rules <- fread("PreferredAcceptibleRules.csv")
+cfrg_rules <- data("cfrg_rules")
 cfrg_rules <- melt(cfrg_rules,id.vars = "Spp",variable.name = "Feasible",value.name = "PrefAcc")
 cfrg_rules[,Feasible := as.integer(gsub("E","",Feasible))]
 suit <- copy(S1)
