@@ -8,13 +8,12 @@ library(rmapshaper)
 library(tictoc)
 library(rasterVis)
 library(raster)
-library(ccissdev)
+library(ccissr)
 library(RPostgreSQL)
 library(sf)
 library(pool)
 library(RColorBrewer)
 library(terra)
-library(ccissdev)
 
 ##some setup
 con <- dbPool(

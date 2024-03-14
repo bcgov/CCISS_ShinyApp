@@ -1,5 +1,5 @@
 library(data.table)
-library(ccissdev)
+library(ccissr)
 library(pool)
 library(RPostgres)
 

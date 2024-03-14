@@ -4,7 +4,7 @@
 library(data.table)
 library(sf)
 library(RPostgreSQL)
-library(ccissdev)
+library(ccissr)
 library(pool)
 library(RColorBrewer)
 library(terra)

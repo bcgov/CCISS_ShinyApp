@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 library(shiny)
-library(ccissdev)
+library(ccissr)
 library(data.table)
 library(pool)
 library(RPostgreSQL)

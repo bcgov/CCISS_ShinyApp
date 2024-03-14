@@ -194,7 +194,7 @@ trending_up <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30p
 trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><title>ionicons-v5-c</title><polyline points="352 368 464 368 464 256" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><path d="M48,144,169.37,265.37a32,32,0,0,0,45.26,0l50.74-50.74a32,32,0,0,1,45.26,0L448,352" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'
 stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
 ##function for creating full results table
-cciss_results <- function(cciss, pts, avg, type, SS = ccissdev::stocking_standards, period_map = uData$period_map) {
+cciss_results <- function(cciss, pts, avg, type, SS = ccissr::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
