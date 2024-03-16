@@ -11,6 +11,7 @@ library(terra)
 library(Rcpp)
 library(climr)
 library(ranger)
+library(bcmaps)
 
 ##db connections
 sppDb <- dbPool(
@@ -229,16 +230,22 @@ if(studyarea=="BC"){
   dem <- mask(dem,bnd)
   dem <- trim(dem)
 } else {
-  ##make study area dem
-  dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
   bnd <- vect(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
-  bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-  land <- vect("//objectstore2.nrs.bcgov/ffec/Generic_Spatial_Data/Land_Water_SimplifyPolygon.shp")
-  land <- project(land, "epsg:4326")
-  land <- crop(land, bnd) #have to do this because of point roberts
-  bnd <- crop(bnd, land)
-  dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
-  dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
+  bnd <- project(bnd,"epsg:4326") # 
+  ##make study area dem (method 1, from a local DEM)
+  # dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+  # land <- vect("//objectstore2.nrs.bcgov/ffec/Generic_Spatial_Data/Land_Water_SimplifyPolygon.shp")
+  # land <- project(land, "epsg:4326")
+  # land <- crop(land, bnd) #have to do this because of point roberts
+  # bnd <- crop(bnd, land)
+  # dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+  # dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
+  # dem <- mask(dem,bnd)
+  
+  ##make study area dem (method 2: using bcmaps::cded_terra())
+  dem.source <- cded_terra(st_as_sf(bnd))
+  dem <- aggregate(dem.source, 24)
+  dem <- project(dem,"epsg:4326") # 
   dem <- mask(dem,bnd)
 }
 
@@ -252,7 +259,7 @@ values(X) <- NA
 
 ## make the climr input file
 points_dat <- as.data.frame(dem, cells=T, xy=T)
-colnames(points_dat) <- c("id", "x", "y", "el")
+colnames(points_dat) <- c("id", "lon", "lat", "elev")
 points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 # values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
@@ -261,7 +268,7 @@ points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
 # library(bcmaps)
 # bgcs <- bec() ##BGC map from bcmaps package
-points_sf <- st_as_sf(points_dat, coords = c("x","y"), crs = 4326)
+points_sf <- st_as_sf(points_dat, coords = c("lon", "lat"), crs = 4326)
 points_sf <- st_transform(points_sf,3005)
 bgc_att <- st_join(points_sf, bgcs)
 bgc_att <- data.table(st_drop_geometry(bgc_att))
@@ -311,7 +318,7 @@ write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/zones.native.csv",
 # ===============================================================================
 # ===============================================================================
 
-load("../Common_Files/BGCModel_Extratrees_FullData.Rdata") ##load RF model
+load("../Common_Files/BGCModel_Extratrees_Balanced.Rdata") ##load RF model
 pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required predictors
 
 ### -------------------------------------------------------
@@ -319,7 +326,7 @@ pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required pre
 ### -------------------------------------------------------
 
 clim <- climr_downscale(points_dat,
-                                 which_normal = "BC",
+                                 which_normal = "normal_bc",
                                  gcm_models = NULL,
                                  return_normal = TRUE, ##1961-1990 period
                                  vars = list_variables())
