@@ -331,7 +331,7 @@ clim <- climr_downscale(points_dat,
                                  return_normal = TRUE, ##1961-1990 period
                                  vars = list_variables())
 addVars(clim)
-identity.grid <- data.table(ID=clim$ID, GCM=rep("obs", dim(clim)[1]), SSP=rep("obs", dim(clim)[1]), RUN=rep(NA, dim(clim)[1]), PERIOD=clim$PERIOD)
+identity.grid <- data.table(id=clim$id, GCM=rep("obs", dim(clim)[1]), SSP=rep("obs", dim(clim)[1]), RUN=rep(NA, dim(clim)[1]), PERIOD=clim$PERIOD)
 
 ## calculate mean climate of study area for use in calculating change
 clim.refmean <- apply(as.data.frame(clim)[,-c(1:2)], 2, FUN=mean, na.rm=T)
@@ -347,10 +347,10 @@ clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 
 # Predict BGC
 tile_predict(clim,pred_vars=pred_vars) 
-bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)] 
+bgc_preds_ref <- clim[,.(id,PERIOD,BGC.pred)] 
 
 values(X) <- NA
-X[bgc_preds_ref$ID] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
+X[bgc_preds_ref$id] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
 # plot(X)
 writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 
@@ -365,7 +365,7 @@ writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 ### -------------------------------------------------------
 
 clim <- climr_downscale(points_dat,
-                                 which_normal = "BC",
+                                 which_normal = "normal_bc",
                                  gcm_models = NULL,
                                  historic_period = "2001_2020",
                                  return_normal = F, ##1961-1990 period
@@ -380,11 +380,11 @@ change <- rbind(change, data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"=
 # Predict BGC
 clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 tile_predict(clim,pred_vars) 
-bgc_preds_hist <- clim[,.(ID,PERIOD,BGC.pred)] 
-bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
+bgc_preds_hist <- clim[,.(id,PERIOD,BGC.pred)] 
+bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "id"]
 
 values(X) <- NA
-X[bgc_preds_hist$ID] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
+X[bgc_preds_hist$id] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
 writeRaster(X, paste(outdir, "/BGC.pred.hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
@@ -398,7 +398,7 @@ for(ssp in ssps){
 
       # Climate data
       clim <- climr_downscale(points_dat,
-                              which_normal = "BC",
+                              which_normal = "normal_bc",
                               gcm_models = gcms,
                               ssp = ssp,
                               gcm_period = period,
@@ -409,27 +409,27 @@ for(ssp in ssps){
       unique(clim$GCM)
       
       ## calculate ensemble mean and append to clim
-      clim.ensembleMean <- clim[RUN == "ensembleMean", lapply(.SD, mean), by = ID, .SDcols = !(ID:PERIOD)]
+      clim.ensembleMean <- clim[RUN == "ensembleMean", lapply(.SD, mean), by = id, .SDcols = !(id:PERIOD)]
       identity <- data.table(
-        ID = clim.ensembleMean$ID,
+        id = clim.ensembleMean$id,
         GCM = rep("ensembleMean", dim(clim.ensembleMean)[1]),
         SSP = ssp, 
         RUN = rep("ensembleMean", dim(clim.ensembleMean)[1]), 
         PERIOD = period
         )
-      clim.ensembleMean <- cbind(identity, clim.ensembleMean[,!"ID"])
+      clim.ensembleMean <- cbind(identity, clim.ensembleMean[,!"id"])
       clim <- rbind(clim, clim.ensembleMean)
 
       ## calculate mean climate change across study area [ISSUE: REFACTOR TO DATA.TABLE]
-      clim.mean <- as.data.frame(clim[, lapply(.SD, function(x) mean(x, na.rm = TRUE)), by = .(GCM, SSP, RUN, PERIOD), .SDcols = !(ID:PERIOD)]) #mean value for each run across the study area. 
+      clim.mean <- as.data.frame(clim[, lapply(.SD, function(x) mean(x, na.rm = TRUE)), by = .(GCM, SSP, RUN, PERIOD), .SDcols = !(id:PERIOD)]) #mean value for each run across the study area. 
       change.temp <- sweep(clim.mean[,-c(1:4)], 2, clim.refmean, FUN='-') # subtract the reference period mean vector from each row. 
       change <- rbind(change, cbind(clim.mean[,c(1:4)], change.temp)) # append to the mean change table. 
       
       ## BGC projections 
       clim <- clim[!is.nan(CMI)|!is.na(CMI),]
       tile_predict(clim,pred_vars) ##predict BGC!
-      bgc_preds_temp <- clim[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
-      bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
+      bgc_preds_temp <- clim[,.(id,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
+      bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "id"]
 
       # append the predictions to the predictions table
       bgc_preds <- if(period==periods[1] & ssp==ssps[1]) bgc_preds_temp else rbind(bgc_preds, bgc_preds_temp)
@@ -520,7 +520,7 @@ for(ssp in ssps){
         index <- index+1
         # bgc predictions
         bgc.pred <- bgc_preds[GCM==gcm & SSP==ssp & RUN==run & PERIOD==period,]
-        bgc.pred <- bgc.pred[order(ID), BGC.pred] # extra step here just to ensure that the values are in order of ascending ID. 
+        bgc.pred <- bgc.pred[order(id), BGC.pred] # extra step here just to ensure that the values are in order of ascending id. 
         
         # zone lists
         zone.pred <- zone.lookup[match(bgc.pred, levels.bgc)]
