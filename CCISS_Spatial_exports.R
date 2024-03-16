@@ -165,7 +165,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "BC"
+studyarea <- "BuMo"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -210,6 +210,16 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 ### -------------------------------------------------------
 ### dem and climr input table
 ### -------------------------------------------------------
+
+# ## one-time code for creating study area boundaries
+# library(bcmaps)
+# tsa <- tsa()
+# bdy.aea <- vect(tsa[grep("Bulkley|Morice", tsa$TSA_NUMBER_DESCRIPTION),])
+# bdy.aea <- buffer(bdy.aea, .01) # for sliver removal
+# bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
+# bdy <- project(bdy.aea, "+proj=longlat")
+# plot(bdy)
+# writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."))
 
 if(studyarea=="BC"){
   dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
