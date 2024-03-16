@@ -1,10 +1,12 @@
 ## Input data for CCISS spatial app
 ## Kiri Daust, Colin Mahony, 2023
 
+remotes::install_github("bcgov/ccissr")
+
 library(data.table)
 library(sf)
 library(RPostgreSQL)
-library(ccissdev)
+library(ccissr)
 library(pool)
 library(RColorBrewer)
 library(terra)
@@ -603,8 +605,8 @@ for(edatope in edatopes){
     suit.hist <- cciss_basic(bgc_preds_hist, edatope, spp, S1)
     
     #reference period suitabilities
-    suit.ref <- suit.hist[ID%in%include]
-    suit.ref <- fractionize(suit.ref[order(ID), Feas.ref]) # second step to ensure order of IDs is sequential
+    suit.ref <- suit.hist[id%in%include]
+    suit.ref <- fractionize(suit.ref[order(id), Feas.ref]) # second step to ensure order of ids is sequential
     outRange.ref <- which(suit.ref==0)
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="1961_1990")
     col <- which(names(PredSum.suit)==spp)
@@ -614,8 +616,8 @@ for(edatope in edatopes){
     PredSum.spp.home[row,col] <- round(sum((suit.ref>0)[-outRange.ref]))
     
     #recent observed climate
-    suit.proj <- suit.hist[ID%in%include]
-    suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
+    suit.proj <- suit.hist[id%in%include]
+    suit.proj <- fractionize(suit.proj[order(id), Feas.pred]) # second step to ensure order of ids is sequential
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="2001_2020")
     PredSum.suit[row,col] <- round(sum(suit.proj))
     PredSum.spp[row,col] <- round(sum(suit.proj>0))
@@ -637,8 +639,8 @@ for(edatope in edatopes){
           runs <- unique(suit[GCM==gcm & SSP==ssp, RUN])
           run=runs[1]
           for(run in runs){
-            suit.proj <- suit[ID%in%include & GCM==gcm & SSP==ssp & RUN==run & PERIOD==period]
-            suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
+            suit.proj <- suit[id%in%include & GCM==gcm & SSP==ssp & RUN==run & PERIOD==period]
+            suit.proj <- fractionize(suit.proj[order(id), Feas.pred]) # second step to ensure order of ids is sequential
             row <- which(PredSum.suit$GCM==gcm & PredSum.suit$SSP==ssp & PredSum.suit$RUN==run & PredSum.suit$PERIOD==period)
             PredSum.suit[row,col] <- round(sum(suit.proj))
             PredSum.spp[row,col] <- round(sum(suit.proj>0))
@@ -657,11 +659,11 @@ for(edatope in edatopes){
           suit.proj[is.na(Feas.pred), "Feas.pred"] <- 4
           suit.proj[, Feas.change := Feas.ref-Feas.pred]
           
-          Projsuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.pred")
-          Changesuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.change")
+          Projsuit <- dcast(suit.proj[RUN != "ensembleMean"], id~GCM+RUN, value.var = "Feas.pred")
+          Changesuit <- dcast(suit.proj[RUN != "ensembleMean"], id~GCM+RUN, value.var = "Feas.change")
           
           # calculate ensemble mean suitability change. this isn't biased by missing suitability for exotic BGCs
-          Changesuit.mean <- apply(as.data.frame(Changesuit[,!"ID"]), 1, mean, na.rm=T)
+          Changesuit.mean <- apply(as.data.frame(Changesuit[,!"id"]), 1, mean, na.rm=T)
           
           values(X) <- NA
           values(X)[points_dat$id] <- Changesuit.mean
@@ -669,8 +671,8 @@ for(edatope in edatopes){
           writeRaster(X, paste(outdir, "/Spp.Changesuit", spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
           
           # binary appearance/disappearance
-          outRange.ref.all <- which(fractionize(suit.hist[order(ID), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
-          suit.ensemble <- as.matrix(Projsuit[,!"ID"])
+          outRange.ref.all <- which(fractionize(suit.hist[order(id), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
+          suit.ensemble <- as.matrix(Projsuit[,!"id"])
           binary <- rep(0, dim(suit.hist)[1])
           binary[outRange.ref.all] <- NA
           binary[outRange.ref.all] <- apply(suit.ensemble[outRange.ref.all,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
