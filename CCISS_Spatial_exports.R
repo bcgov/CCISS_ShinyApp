@@ -1,8 +1,6 @@
 ## Input data for CCISS spatial app
 ## Kiri Daust, Colin Mahony, 2023
 
-remotes::install_github("bcgov/ccissr")
-
 library(data.table)
 library(sf)
 library(RPostgreSQL)
@@ -676,7 +674,7 @@ for(edatope in edatopes){
           binary <- rep(0, dim(suit.hist)[1])
           binary[outRange.ref.all] <- NA
           binary[outRange.ref.all] <- apply(suit.ensemble[outRange.ref.all,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
-          binary[-outRange.ref.all] <- apply(suit.ensemble[-outRange.ref.all,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
+          if(length(outRange.ref.all)<(dim(suit.hist)[1]-1)) binary[-outRange.ref.all] <- apply(suit.ensemble[-outRange.ref.all,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
           values(X) <- NA
           values(X)[points_dat$id] <- binary
           # plot(X)
