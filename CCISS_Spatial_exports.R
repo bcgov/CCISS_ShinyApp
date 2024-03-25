@@ -166,7 +166,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "BuMo"
+studyarea <- "Nanwakolas_IRMP"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -213,7 +213,7 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 ### -------------------------------------------------------
 
 # ## one-time code for creating study area boundaries
-# library(bcmaps)
+# ## BuMo
 # tsa <- tsa()
 # bdy.aea <- vect(tsa[grep("Bulkley|Morice", tsa$TSA_NUMBER_DESCRIPTION),])
 # bdy.aea <- buffer(bdy.aea, .01) # for sliver removal
@@ -221,6 +221,14 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 # bdy <- project(bdy.aea, "+proj=longlat")
 # plot(bdy)
 # writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."))
+
+## TFL44
+bdy.aea <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/Data/WFP_IRMPs.gdb/WFP_IRMPs.gdb", layer="Nanwakolas_IRMP")
+# bdy.aea <- buffer(bdy.aea, 100) # for sliver removal
+# bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
+bdy <- project(bdy.aea, "+proj=longlat")
+plot(bdy)
+writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."), overwrite=TRUE)
 
 if(studyarea=="BC"){
   dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
@@ -244,14 +252,14 @@ if(studyarea=="BC"){
   
   ##make study area dem (method 2: using bcmaps::cded_terra())
   dem.source <- cded_terra(st_as_sf(bnd))
-  dem <- aggregate(dem.source, 24)
+  dem <- aggregate(dem.source, 12)
   dem <- project(dem,"epsg:4326") # 
   dem <- mask(dem,bnd)
 }
 
-# sum(!is.na(values(dem)))
-# plot(dem)
-# plot(bnd)
+sum(!is.na(values(dem)))
+plot(dem)
+plot(bnd, add=T)
 # plot(land, add=T, col="blue")
 
 X <- dem # base raster
