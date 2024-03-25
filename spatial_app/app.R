@@ -35,7 +35,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "BuMo"
+studyarea <- "Nanwakolas_IRMP"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -362,7 +362,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
                                         
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
                                         
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",
@@ -859,7 +859,7 @@ server <- function(input, output, session) {
         plot(X, xaxt="n", yaxt="n", col=alpha(ColScheme, 1), legend=FALSE, legend.mar=0, maxpixels=ncell(X), bty="n", box=FALSE)
         values(X)[-(1:length(units))] <- NA # cover up the color bar
         image(X, add=T, col="white") # cover up the color bar
-        plot(bdy, add=T, lwd=1)
+        plot(vect(bdy), add=T, lwd=1)
         
         totalarea <- sum(bgc.count[1,])
         temp <- table(pred)/totalarea
@@ -939,7 +939,7 @@ server <- function(input, output, session) {
         
         image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n",
               col=ColScheme, breaks=breakseq, maxpixels= ncell(X))
-        plot(bdy, add=T, border="black",col = NA, lwd=0.4)
+        plot(vect(bdy), add=T, border="black",col = NA, lwd=0.4)
         legend("topleft", legend=c("1 (primary)", "2 (secondary)", "3 (tertiary)"),
                fill=ColScheme, bty="n", cex=0.8, title="Historical feasibility", inset=c(0,-0.3))
         
@@ -968,7 +968,7 @@ server <- function(input, output, session) {
         #Map
         par(plt = c(0.3, 0.99, 0.01, 0.9), xpd = TRUE, new = TRUE)
         image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
-        plot(bdy, add=T, border="black",col = NA, lwd=0.4)
+        plot(vect(bdy), add=T, border="black",col = NA, lwd=0.4)
         
         # Legend
         par(plt = c(0.75, 0.999, 0.6, 1.0), xpd = TRUE, new = TRUE)
