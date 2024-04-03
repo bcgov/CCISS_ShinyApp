@@ -28,6 +28,7 @@ library(leafem)
 library(htmlwidgets)
 library(sf)
 library(raster)
+library(terra)
 library(markdown)
 
 # Increase the maximum upload size to 60 MB 
@@ -35,7 +36,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "Nanwakolas_IRMP"
+studyarea <- "BuMo"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -362,7 +363,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
                                         
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
                                         
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",
