@@ -1,0 +1,12 @@
+name: ccsummary-BuMo
+title: ccsummary-BuMo
+username: bcgov-env
+account: bcgov-env
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11561383
+bundleId: 8448201
+url: https://bcgov-env.shinyapps.io/ccsummary-BuMo/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
