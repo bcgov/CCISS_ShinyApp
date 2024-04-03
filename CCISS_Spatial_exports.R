@@ -11,6 +11,7 @@ library(terra)
 library(Rcpp)
 library(climr)
 library(ranger)
+library(bcmaps)
 
 ##db connections
 sppDb <- dbPool(
@@ -165,7 +166,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "CDFCP"
+studyarea <- "Nanwakolas_IRMP"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -211,6 +212,24 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 ### dem and climr input table
 ### -------------------------------------------------------
 
+# ## one-time code for creating study area boundaries
+# ## BuMo
+# tsa <- tsa()
+# bdy.aea <- vect(tsa[grep("Bulkley|Morice", tsa$TSA_NUMBER_DESCRIPTION),])
+# bdy.aea <- buffer(bdy.aea, .01) # for sliver removal
+# bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
+# bdy <- project(bdy.aea, "+proj=longlat")
+# plot(bdy)
+# writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."))
+
+## TFL44
+bdy.aea <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/Data/WFP_IRMPs.gdb/WFP_IRMPs.gdb", layer="Nanwakolas_IRMP")
+# bdy.aea <- buffer(bdy.aea, 100) # for sliver removal
+# bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
+bdy <- project(bdy.aea, "+proj=longlat")
+plot(bdy)
+writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."), overwrite=TRUE)
+
 if(studyarea=="BC"){
   dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
   dem <- aggregate(dem, fact=3)
@@ -219,22 +238,28 @@ if(studyarea=="BC"){
   dem <- mask(dem,bnd)
   dem <- trim(dem)
 } else {
-  ##make study area dem
-  dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
   bnd <- vect(paste("spatial_app/bdy/bdy", studyarea, "shp", sep=".")) #boundary file
-  bnd <- project(bnd,"epsg:4326") # project to albers to be able to specify resolution in meters. 
-  land <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/SpatialData/50k_layers/Land_Water_SimplifyPolygon.shp")
-  land <- project(land, "epsg:4326")
-  land <- crop(land, bnd) #have to do this because of point roberts
-  bnd <- crop(bnd, land)
-  dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
-  dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
+  bnd <- project(bnd,"epsg:4326") # 
+  ##make study area dem (method 1, from a local DEM)
+  # dem_source <- rast("../Common_Files/WNA_DEM_SRT_30m_cropped.tif") ##DEM - I'm using a 30 m one
+  # land <- vect("//objectstore2.nrs.bcgov/ffec/Generic_Spatial_Data/Land_Water_SimplifyPolygon.shp")
+  # land <- project(land, "epsg:4326")
+  # land <- crop(land, bnd) #have to do this because of point roberts
+  # bnd <- crop(bnd, land)
+  # dem <- rast(bnd,res = 0.006) ## ENHANCEMENT NEEDED: CHANGE HARD-CODED RESOLUTION TO DYNAMIC RESOLUTION MATCHING USER-SPECIFIED NUMBER OF CELLS
+  # dem <- project(dem_source,dem, method="near") ## extract 30m dem values to the custom raster. use nearest neighbour to preserve elevation variance. 
+  # dem <- mask(dem,bnd)
+  
+  ##make study area dem (method 2: using bcmaps::cded_terra())
+  dem.source <- cded_terra(st_as_sf(bnd))
+  dem <- aggregate(dem.source, 12)
+  dem <- project(dem,"epsg:4326") # 
   dem <- mask(dem,bnd)
 }
 
-# sum(!is.na(values(dem)))
-# plot(dem)
-# plot(bnd)
+sum(!is.na(values(dem)))
+plot(dem)
+plot(bnd, add=T)
 # plot(land, add=T, col="blue")
 
 X <- dem # base raster
@@ -242,7 +267,7 @@ values(X) <- NA
 
 ## make the climr input file
 points_dat <- as.data.frame(dem, cells=T, xy=T)
-colnames(points_dat) <- c("id", "x", "y", "el")
+colnames(points_dat) <- c("id", "lon", "lat", "elev")
 points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 # values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
@@ -251,7 +276,7 @@ points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
 # library(bcmaps)
 # bgcs <- bec() ##BGC map from bcmaps package
-points_sf <- st_as_sf(points_dat, coords = c("x","y"), crs = 4326)
+points_sf <- st_as_sf(points_dat, coords = c("lon", "lat"), crs = 4326)
 points_sf <- st_transform(points_sf,3005)
 bgc_att <- st_join(points_sf, bgcs)
 bgc_att <- data.table(st_drop_geometry(bgc_att))
@@ -301,7 +326,7 @@ write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/zones.native.csv",
 # ===============================================================================
 # ===============================================================================
 
-load("../Common_Files/BGCModel_Extratrees_FullData.Rdata") ##load RF model
+load("../Common_Files/BGCModel_Extratrees_Balanced.Rdata") ##load RF model
 pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required predictors
 
 ### -------------------------------------------------------
@@ -309,12 +334,12 @@ pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required pre
 ### -------------------------------------------------------
 
 clim <- climr_downscale(points_dat,
-                                 which_normal = "BC",
+                                 which_normal = "normal_bc",
                                  gcm_models = NULL,
                                  return_normal = TRUE, ##1961-1990 period
-                                 vars = c(list_variables(), "CMI"))
+                                 vars = list_variables())
 addVars(clim)
-identity.grid <- data.table(ID=clim$ID, GCM=rep("obs", dim(clim)[1]), SSP=rep("obs", dim(clim)[1]), RUN=rep(NA, dim(clim)[1]), PERIOD=clim$PERIOD)
+identity.grid <- data.table(id=clim$id, GCM=rep("obs", dim(clim)[1]), SSP=rep("obs", dim(clim)[1]), RUN=rep(NA, dim(clim)[1]), PERIOD=clim$PERIOD)
 
 ## calculate mean climate of study area for use in calculating change
 clim.refmean <- apply(as.data.frame(clim)[,-c(1:2)], 2, FUN=mean, na.rm=T)
@@ -330,10 +355,10 @@ clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 
 # Predict BGC
 tile_predict(clim,pred_vars=pred_vars) 
-bgc_preds_ref <- clim[,.(ID,PERIOD,BGC.pred)] 
+bgc_preds_ref <- clim[,.(id,PERIOD,BGC.pred)] 
 
 values(X) <- NA
-X[bgc_preds_ref$ID] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
+X[bgc_preds_ref$id] <- factor(bgc_preds_ref$BGC.pred, levels=levels.bgc) #ISSUE: THE LEVELS.BGC IS NOT ALIGNED WITH THE RF MODEL. NEED TO RESOLVE AND GET THE CORRECT LEVELS. 
 # plot(X)
 writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 
@@ -348,11 +373,11 @@ writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 ### -------------------------------------------------------
 
 clim <- climr_downscale(points_dat,
-                                 which_normal = "BC",
+                                 which_normal = "normal_bc",
                                  gcm_models = NULL,
                                  historic_period = "2001_2020",
                                  return_normal = F, ##1961-1990 period
-                                 vars = c(list_variables(), "CMI"))
+                                 vars = list_variables())
 addVars(clim)
 
 ## calculate climate change
@@ -363,11 +388,11 @@ change <- rbind(change, data.frame("GCM"="obs", "SSP"="obs", "RUN"=NA, "PERIOD"=
 # Predict BGC
 clim <- clim[!is.nan(CMI)|!is.na(CMI),]
 tile_predict(clim,pred_vars) 
-bgc_preds_hist <- clim[,.(ID,PERIOD,BGC.pred)] 
-bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
+bgc_preds_hist <- clim[,.(id,PERIOD,BGC.pred)] 
+bgc_preds_hist[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "id"]
 
 values(X) <- NA
-X[bgc_preds_hist$ID] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
+X[bgc_preds_hist$id] <- factor(bgc_preds_hist$BGC.pred, levels=levels.bgc)
 writeRaster(X, paste(outdir, "/BGC.pred.hist.2001_2020.tif", sep="."),overwrite=TRUE)
 
 ### -------------------------------------------------------
@@ -381,38 +406,38 @@ for(ssp in ssps){
 
       # Climate data
       clim <- climr_downscale(points_dat,
-                              which_normal = "BC",
+                              which_normal = "normal_bc",
                               gcm_models = gcms,
                               ssp = ssp,
                               gcm_period = period,
                               max_run = 3L,
                               return_normal = FALSE,
-                              vars = c(list_variables(), "CMI"))
+                              vars = list_variables())
       addVars(clim)
       unique(clim$GCM)
       
       ## calculate ensemble mean and append to clim
-      clim.ensembleMean <- clim[RUN == "ensembleMean", lapply(.SD, mean), by = ID, .SDcols = !(ID:PERIOD)]
+      clim.ensembleMean <- clim[RUN == "ensembleMean", lapply(.SD, mean), by = id, .SDcols = !(id:PERIOD)]
       identity <- data.table(
-        ID = clim.ensembleMean$ID,
+        id = clim.ensembleMean$id,
         GCM = rep("ensembleMean", dim(clim.ensembleMean)[1]),
         SSP = ssp, 
         RUN = rep("ensembleMean", dim(clim.ensembleMean)[1]), 
         PERIOD = period
         )
-      clim.ensembleMean <- cbind(identity, clim.ensembleMean[,!"ID"])
+      clim.ensembleMean <- cbind(identity, clim.ensembleMean[,!"id"])
       clim <- rbind(clim, clim.ensembleMean)
 
       ## calculate mean climate change across study area [ISSUE: REFACTOR TO DATA.TABLE]
-      clim.mean <- as.data.frame(clim[, lapply(.SD, function(x) mean(x, na.rm = TRUE)), by = .(GCM, SSP, RUN, PERIOD), .SDcols = !(ID:PERIOD)]) #mean value for each run across the study area. 
+      clim.mean <- as.data.frame(clim[, lapply(.SD, function(x) mean(x, na.rm = TRUE)), by = .(GCM, SSP, RUN, PERIOD), .SDcols = !(id:PERIOD)]) #mean value for each run across the study area. 
       change.temp <- sweep(clim.mean[,-c(1:4)], 2, clim.refmean, FUN='-') # subtract the reference period mean vector from each row. 
       change <- rbind(change, cbind(clim.mean[,c(1:4)], change.temp)) # append to the mean change table. 
       
       ## BGC projections 
       clim <- clim[!is.nan(CMI)|!is.na(CMI),]
       tile_predict(clim,pred_vars) ##predict BGC!
-      bgc_preds_temp <- clim[,.(ID,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
-      bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "ID"]
+      bgc_preds_temp <- clim[,.(id,GCM,SSP,RUN,PERIOD,BGC.pred)] ##this now has all the raw predictions
+      bgc_preds_temp[bgc_preds_ref, BGC.ref := i.BGC.pred, on = "id"]
 
       # append the predictions to the predictions table
       bgc_preds <- if(period==periods[1] & ssp==ssps[1]) bgc_preds_temp else rbind(bgc_preds, bgc_preds_temp)
@@ -503,7 +528,7 @@ for(ssp in ssps){
         index <- index+1
         # bgc predictions
         bgc.pred <- bgc_preds[GCM==gcm & SSP==ssp & RUN==run & PERIOD==period,]
-        bgc.pred <- bgc.pred[order(ID), BGC.pred] # extra step here just to ensure that the values are in order of ascending ID. 
+        bgc.pred <- bgc.pred[order(id), BGC.pred] # extra step here just to ensure that the values are in order of ascending id. 
         
         # zone lists
         zone.pred <- zone.lookup[match(bgc.pred, levels.bgc)]
@@ -586,8 +611,8 @@ for(edatope in edatopes){
     suit.hist <- cciss_basic(bgc_preds_hist, edatope, spp, S1)
     
     #reference period suitabilities
-    suit.ref <- suit.hist[ID%in%include]
-    suit.ref <- fractionize(suit.ref[order(ID), Feas.ref]) # second step to ensure order of IDs is sequential
+    suit.ref <- suit.hist[id%in%include]
+    suit.ref <- fractionize(suit.ref[order(id), Feas.ref]) # second step to ensure order of ids is sequential
     outRange.ref <- which(suit.ref==0)
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="1961_1990")
     col <- which(names(PredSum.suit)==spp)
@@ -597,8 +622,8 @@ for(edatope in edatopes){
     PredSum.spp.home[row,col] <- round(sum((suit.ref>0)[-outRange.ref]))
     
     #recent observed climate
-    suit.proj <- suit.hist[ID%in%include]
-    suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
+    suit.proj <- suit.hist[id%in%include]
+    suit.proj <- fractionize(suit.proj[order(id), Feas.pred]) # second step to ensure order of ids is sequential
     row <- which(PredSum.suit$GCM=="obs" & PredSum.suit$PERIOD=="2001_2020")
     PredSum.suit[row,col] <- round(sum(suit.proj))
     PredSum.spp[row,col] <- round(sum(suit.proj>0))
@@ -620,8 +645,8 @@ for(edatope in edatopes){
           runs <- unique(suit[GCM==gcm & SSP==ssp, RUN])
           run=runs[1]
           for(run in runs){
-            suit.proj <- suit[ID%in%include & GCM==gcm & SSP==ssp & RUN==run & PERIOD==period]
-            suit.proj <- fractionize(suit.proj[order(ID), Feas.pred]) # second step to ensure order of IDs is sequential
+            suit.proj <- suit[id%in%include & GCM==gcm & SSP==ssp & RUN==run & PERIOD==period]
+            suit.proj <- fractionize(suit.proj[order(id), Feas.pred]) # second step to ensure order of ids is sequential
             row <- which(PredSum.suit$GCM==gcm & PredSum.suit$SSP==ssp & PredSum.suit$RUN==run & PredSum.suit$PERIOD==period)
             PredSum.suit[row,col] <- round(sum(suit.proj))
             PredSum.spp[row,col] <- round(sum(suit.proj>0))
@@ -640,11 +665,11 @@ for(edatope in edatopes){
           suit.proj[is.na(Feas.pred), "Feas.pred"] <- 4
           suit.proj[, Feas.change := Feas.ref-Feas.pred]
           
-          Projsuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.pred")
-          Changesuit <- dcast(suit.proj[RUN != "ensembleMean"], ID~GCM+RUN, value.var = "Feas.change")
+          Projsuit <- dcast(suit.proj[RUN != "ensembleMean"], id~GCM+RUN, value.var = "Feas.pred")
+          Changesuit <- dcast(suit.proj[RUN != "ensembleMean"], id~GCM+RUN, value.var = "Feas.change")
           
           # calculate ensemble mean suitability change. this isn't biased by missing suitability for exotic BGCs
-          Changesuit.mean <- apply(as.data.frame(Changesuit[,!"ID"]), 1, mean, na.rm=T)
+          Changesuit.mean <- apply(as.data.frame(Changesuit[,!"id"]), 1, mean, na.rm=T)
           
           values(X) <- NA
           values(X)[points_dat$id] <- Changesuit.mean
@@ -652,12 +677,12 @@ for(edatope in edatopes){
           writeRaster(X, paste(outdir, "/Spp.Changesuit", spp, edatope, ssp, period,"tif", sep="."),overwrite=TRUE)
           
           # binary appearance/disappearance
-          outRange.ref.all <- which(fractionize(suit.hist[order(ID), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
-          suit.ensemble <- as.matrix(Projsuit[,!"ID"])
+          outRange.ref.all <- which(fractionize(suit.hist[order(id), Feas.ref])==0) #redo this without excluding non-THLB bgc units. 
+          suit.ensemble <- as.matrix(Projsuit[,!"id"])
           binary <- rep(0, dim(suit.hist)[1])
           binary[outRange.ref.all] <- NA
           binary[outRange.ref.all] <- apply(suit.ensemble[outRange.ref.all,], 1, function(x){return(if(sum(!is.na(x))==0) NA else if((sum(x<4, na.rm=T)/sum(!is.na(x)))>0) sum(x<4, na.rm=T)/sum(!is.na(x)) else NA)})
-          binary[-outRange.ref.all] <- apply(suit.ensemble[-outRange.ref.all,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
+          if(length(outRange.ref.all)<(dim(suit.hist)[1]-1)) binary[-outRange.ref.all] <- apply(suit.ensemble[-outRange.ref.all,], 1, function(x){return(0-sum(x==4, na.rm=T)/sum(!is.na(x)))})
           values(X) <- NA
           values(X)[points_dat$id] <- binary
           # plot(X)
