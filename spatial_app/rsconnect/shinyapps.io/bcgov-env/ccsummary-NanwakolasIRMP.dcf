@@ -1,0 +1,12 @@
+name: ccsummary-NanwakolasIRMP
+title: ccsummary-NanwakolasIRMP
+username: bcgov-env
+account: bcgov-env
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11578162
+bundleId: 8413000
+url: https://bcgov-env.shinyapps.io/ccsummary-NanwakolasIRMP/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
