@@ -15,21 +15,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# library(shiny)
-library(RColorBrewer)
-library(stinepack) # for interpolation splines
-library(scales)
-library(plotrix)
-library(car)
-library(DT)
-# library(mapview)
-library(leaflet)
-library(leafem)
-library(htmlwidgets)
-library(sf)
-library(raster)
-library(terra)
-library(markdown)
+if (!requireNamespace("Require")) {
+  install.packages("Require")
+}
+
+Require::Require(c(
+  "car",
+  "DT",
+  "htmlwidgets",
+  "leaflet",
+  "leafem",
+  # "mapview",
+  "markdown",
+  "plotrix",
+  "raster",
+  "RColorBrewer",
+  "scales",
+  "sf",
+  # "shiny",
+  "stinepack", # for interpolation splines
+  "terra"
+))
 
 # Increase the maximum upload size to 60 MB 
 options(shiny.maxRequestSize = 60*1024^2)
