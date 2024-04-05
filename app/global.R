@@ -1,23 +1,36 @@
 # Shared shiny setup ----
+if (!requireNamespace("Require")) {
+  install.packages("Require")
+}
 
 suppressPackageStartupMessages({
-  library(shiny)
-  library(ccissdev)
-  library(leaflet)
-  library(DT)
-  library(RPostgres)
-  library(plotly)
-  library(pool)
-  library(ggplot2)
-  library(ggthemes)
-  library(rAmCharts4)
-  library(kableExtra)
-  library(rhandsontable)
-  library(colourvalues)
-  library(prompter)
-  library(shinydashboardPlus)
-  library(shinyWidgets)
-  library(bslib)
+  Require::Require(c(
+    "colourvalues",
+    "leaflet.extras",
+    "pagedown",
+    "prettydoc",
+    "prompter",
+    "RPostgres"
+  ), require = FALSE)  ## don't load
+})
+
+suppressPackageStartupMessages({
+  Require::Require(c(
+    "bslib",
+    "bcgov/ccissr@main",
+    "data.table",
+    "DT",
+    "ggplot2",
+    "ggthemes",
+    "kableExtra",
+    "leaflet",
+    "plotly",
+    "pool",
+    "rAmCharts4",
+    "rhandsontable",
+    "shiny",
+    "shinyWidgets"
+  ))
 })
 
 source("./server/tooltip_verbage.R")

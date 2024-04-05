@@ -11,14 +11,14 @@ plugins <- {
          htmltools::htmlDependency(
            name = "leaflet.vectorgrid",
            version = "1.3.0",
-           src = system.file("htmlwidgets", package = "ccissdev"),
+           src = system.file("htmlwidgets", package = "ccissr"),
            script = "lfx-vgrid-prod.js"
          ),
        sliderplugin = htmltools::htmlDependency(
          name = "leaflet.slider",
          version = "1.0.0",
          stylesheet = "lfx-slider.css",
-         src = system.file("htmlwidgets", package = "ccissdev"),
+         src = system.file("htmlwidgets", package = "ccissr"),
          script = "lfx-slider.js"
        )
   )

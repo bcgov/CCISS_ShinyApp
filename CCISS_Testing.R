@@ -1,4 +1,4 @@
-library(ccissdev)
+library(ccissr)
 library(data.table)
 library(pool)
 

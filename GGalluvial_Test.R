@@ -1,6 +1,6 @@
 library(networkD3)
 library(shiny)
-library(ccissdev)
+library(ccissr)
 library(data.table)
 library(pool)
 library(RPostgres)
