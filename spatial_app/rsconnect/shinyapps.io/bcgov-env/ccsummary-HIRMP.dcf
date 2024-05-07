@@ -1,0 +1,12 @@
+name: ccsummary-HIRMP
+title: ccsummary-HIRMP
+username: bcgov-env
+account: bcgov-env
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11790730
+bundleId: 8507885
+url: https://bcgov-env.shinyapps.io/ccsummary-HIRMP/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
