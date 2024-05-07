@@ -15,34 +15,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if (!requireNamespace("Require")) {
-  install.packages("Require")
-}
-
-Require::Require(c(
-  "car",
-  "DT",
-  "htmlwidgets",
-  "leaflet",
-  "leafem",
-  # "mapview",
-  "markdown",
-  "plotrix",
-  "raster",
-  "RColorBrewer",
-  "scales",
-  "sf",
-  # "shiny",
-  "stinepack", # for interpolation splines
-  "terra"
-))
+library(car)
+library(DT)
+library(htmlwidgets)
+library(leaflet)
+library(leafem)
+library(markdown)
+library(plotrix)
+library(raster)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(stinepack)
+library(terra)
 
 # Increase the maximum upload size to 60 MB 
 options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "BuMo"
+studyarea <- "Nanwakolas_IRMP"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -369,7 +361,7 @@ ui <- fluidPage(
                                       conditionalPanel(
                                         condition = "input.type == 2",
                                         
-                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = T),
+                                        checkboxInput("zonelevel", label = "Generalize to BGC zone level", value = F),
                                         
                                         radioButtons("plotbgc", inline = TRUE,
                                                      label = "Choose a plot type",
@@ -1182,6 +1174,7 @@ server <- function(input, output, session) {
           is.focalSim <- paste(gcm, substr(run,1,2), sep="_")==sim.focal
           x2 <- data[c(1, which(identity$GCM==gcm & identity$SSP==scenario & identity$RUN==run)), which(variables==var1)]
           y2 <- data[c(1, which(identity$GCM==gcm & identity$SSP==scenario & identity$RUN==run)), which(variables==var2)]
+          if(run=="ensembleMean") points(x2, y2, col=ColScheme.gcms[i], pch=16, cex=0.5)
           if(length(unique(sign(diff(x2))))==1){
             x3 <- if(unique(sign(diff(x2)))==-1) rev(x2) else x2
             y3 <- if(unique(sign(diff(x2)))==-1) rev(y2) else y2
@@ -1602,7 +1595,7 @@ server <- function(input, output, session) {
                 sep="."
               )
             },
-            period,
+            periods[as.numeric(input$period)],
             "png", sep=".")
     },
     
