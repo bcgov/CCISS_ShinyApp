@@ -34,9 +34,9 @@ sppDb <- dbPool(
 )
 
 #lookup tables
-spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
+spps.lookup <- read.csv("../ccissr/data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
 edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
-BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
+BGCcolors <- read.csv("../ccissr/data-raw/data_tables/WNAv11_Zone_Colours.csv")
 
 # base raster
 X <- raster("BC_Raster.tif")
