@@ -90,10 +90,12 @@ output$data_download <- downloadHandler(
       zip(file,c("cciss_export.rds","./www/downloadable_docs/CCISS_DataExport_MetaData.pdf"))
     } else if (input$data_format == "csv") {
       #browser()
-      id_vals <- uData$pts[,.(ID,Site)]
       dat_export <- uData$cciss_results[, -c("PredFeasSVG")]
-      dat_export[id_vals, ID := i.ID, on = c(SiteRef = "Site")]
-      setcolorder(dat_export,"ID")
+      if(is.null(uData$bgc_select)){
+        id_vals <- uData$pts[,.(ID,Site)]
+        dat_export[id_vals, ID := i.ID, on = c(SiteRef = "Site")]
+        setcolorder(dat_export,"ID")
+      }
       fwrite(dat_export, "cciss_data.csv")
       zip(file,c("cciss_data.csv"))
     }
