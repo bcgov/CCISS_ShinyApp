@@ -1,0 +1,12 @@
+name: ccsummary-WilliamsLake
+title: ccsummary-WilliamsLake
+username: bcgov-env
+account: bcgov-env
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12670592
+bundleId:
+url: https://bcgov-env.shinyapps.io/ccsummary-WilliamsLake/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
