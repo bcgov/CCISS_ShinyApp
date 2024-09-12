@@ -23,19 +23,6 @@ sppDb <- dbPool(
   password = Sys.getenv("BCGOV_PWD")
 )
 
-##required functions
-addVars <- function(dat){
-  dat[,PPT_MJ := PPT05 + PPT06]
-  dat[,PPT_JAS := PPT07 + PPT08 + PPT09]
-  dat[,PPT.dormant := PPT_at + PPT_wt]
-  dat[,CMD.def := 500 - PPT.dormant]
-  dat[CMD.def < 0, CMD.def := 0]
-  dat[,CMDMax := CMD07]
-  dat[,CMD.total := CMD.def + CMD]
-  dat[,DD_delayed := ((DD_0_at + DD_0_wt)*0.0238) - 1.8386]
-  dat[DD_delayed < 0, DD_delayed := 0]
-}
-
 ##trying to predict all pixels at once crashses due to RAM issues
 ##so this function predicts in segments
 tile_predict <- function(Y1, pred_vars, maxSize = 6000000){
@@ -166,7 +153,7 @@ cciss_basic <- function(bgc_preds, selected_edatope, selected_spp, suit_table){
 ### study area setup
 ### -------------------------------------------------------
 
-studyarea <- "Nanwakolas_IRMP"
+studyarea <- "WilliamsLake"
 
 # output directory for data created in this script
 dir.create(file.path("spatial_app/data", studyarea))
@@ -175,9 +162,9 @@ outdir <- paste("spatial_app/data", studyarea, sep="/")
 ### -------------------------------------------------------
 ### common variables
 #lookup tables
-spps.lookup <- read.csv("./data-raw/data_tables/Tree speciesand codes_2.0_25Aug2021.csv")
+
+spps.lookup <- get(data("T1"))
 edatope.name <- c("Medium-Mesic", "Poor-Subxeric", "Rich-Hygric")
-BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
 
 gcms <- c("ACCESS-ESM1-5", "CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4", "GISS-E2-1-G", "MIROC6", "MPI-ESM1-2-HR", "MRI-ESM2-0")
 
@@ -193,9 +180,9 @@ periods <- c("2001_2020", "2021_2040", "2041_2060", "2061_2080", "2081_2100")
 period.names=c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
 
 #BGC color scheme
-BGCcolors.BC <- read.csv("data-raw/data_tables/BGCzone_Colorscheme.csv")
-BGCcolors <- read.csv("data-raw/data_tables/WNAv11_Zone_Colours.csv")
-BGCcolors.subzone <- read.csv("data-raw/data_tables/WNAv12_3_SubzoneCols.csv")
+BGCcolors.BC <- read.csv("BGCzone_Colorscheme.csv") #TODO. make this a data object in ccissr or change the colors in the zone colours data object
+BGCcolors <- as.data.frame(get(data("zones_colours_ref")))
+BGCcolors.subzone <- as.data.frame(get(data("subzones_colours_ref")))
 BGCcolors$colour <- as.character(BGCcolors$colour)
 BGCcolors$colour[match(BGCcolors.BC$zone, BGCcolors$classification)] <- as.character(BGCcolors.BC$HEX) # reset BC colors to traditional BGC zone colors
 ColScheme <- BGCcolors$colour
@@ -222,13 +209,13 @@ vars_needed <- c("DD5","DD_0_at","DD_0_wt","PPT05","PPT06","PPT07","PPT08","PPT0
 # plot(bdy)
 # writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."))
 
-## TFL44
-bdy.aea <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/Data/WFP_IRMPs.gdb/WFP_IRMPs.gdb", layer="Nanwakolas_IRMP")
-# bdy.aea <- buffer(bdy.aea, 100) # for sliver removal
-# bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
-bdy <- project(bdy.aea, "+proj=longlat")
-plot(bdy)
-writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."), overwrite=TRUE)
+# ## TFL44
+# bdy.aea <- vect("C:/Users/CMAHONY/OneDrive - Government of BC/Data/WFP_IRMPs.gdb/WFP_IRMPs.gdb", layer="Nanwakolas_IRMP")
+# # bdy.aea <- buffer(bdy.aea, 100) # for sliver removal
+# # bdy.aea <- aggregate(bdy.aea) #dissolve into one polygon
+# bdy <- project(bdy.aea, "+proj=longlat")
+# plot(bdy)
+# writeVector(bdy, paste("spatial_app/bdy/bdy", studyarea, "shp", sep="."), overwrite=TRUE)
 
 if(studyarea=="BC"){
   dem <- rast("//objectstore2.nrs.bcgov/ffec/Climatologies/PRISM_BC/PRISM_dem/PRISM_dem.asc")
@@ -252,7 +239,7 @@ if(studyarea=="BC"){
   
   ##make study area dem (method 2: using bcmaps::cded_terra())
   dem.source <- cded_terra(st_as_sf(bnd))
-  dem <- aggregate(dem.source, 12)
+  dem <- aggregate(dem.source, 48)
   dem <- project(dem,"epsg:4326") # 
   dem <- mask(dem,bnd)
 }
@@ -272,8 +259,8 @@ points_dat <- points_dat[,c(2,3,4,1)] #restructure for climr input
 # values(X)[points_dat$id] <- points_dat$el ; plot(X)
 
 ## attribute BGCs to points
-# bgcs <- st_read("//objectstore2.nrs.bcgov/ffec/WNA_BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map. takes forever to download for some reason... maybe vpn? 
-bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
+bgcs <- st_read("//objectstore2.nrs.bcgov/ffec/WNA_BGC/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map. takes forever to download for some reason... maybe vpn?
+# bgcs <- st_read("../Common_Files/WNA_BGC_v12_5Apr2022.gpkg") ##BGC map.
 # library(bcmaps)
 # bgcs <- bec() ##BGC map from bcmaps package
 points_sf <- st_as_sf(points_dat, coords = c("lon", "lat"), crs = 4326)
@@ -326,18 +313,18 @@ write.csv(unique(zone.ref[!is.na(zone.ref)]), paste(outdir, "/zones.native.csv",
 # ===============================================================================
 # ===============================================================================
 
-load("../Common_Files/BGCModel_Extratrees_Balanced.Rdata") ##load RF model
+load("//objectstore2.nrs.bcgov/ffec/BGC_models/BGCModel_Extratrees_Balanced.Rdata") ##load RF model
 pred_vars <- BGCmodel[["forest"]][["independent.variable.names"]] ##required predictors
 
 ### -------------------------------------------------------
 ### BGC Projections for reference period
 ### -------------------------------------------------------
 
-clim <- climr_downscale(points_dat,
-                                 which_normal = "normal_bc",
-                                 gcm_models = NULL,
-                                 return_normal = TRUE, ##1961-1990 period
-                                 vars = list_variables())
+clim <- downscale(points_dat,
+                  which_refmap  = "refmap_prism",
+                  gcms  = NULL,
+                  return_refperiod  = TRUE, 
+                  vars = list_vars())
 addVars(clim)
 identity.grid <- data.table(id=clim$id, GCM=rep("obs", dim(clim)[1]), SSP=rep("obs", dim(clim)[1]), RUN=rep(NA, dim(clim)[1]), PERIOD=clim$PERIOD)
 
@@ -372,12 +359,13 @@ writeRaster(X, paste(outdir, "/BGC.pred.ref.tif", sep="."),overwrite=TRUE)
 ### BGC Projections for historical periods
 ### -------------------------------------------------------
 
-clim <- climr_downscale(points_dat,
-                                 which_normal = "normal_bc",
-                                 gcm_models = NULL,
-                                 historic_period = "2001_2020",
-                                 return_normal = F, ##1961-1990 period
-                                 vars = list_variables())
+
+clim <- downscale(points_dat,
+                  which_refmap  = "refmap_prism",
+                  gcms  = NULL,
+                  obs_periods = "2001_2020",
+                  return_refperiod  = F, 
+                  vars = list_vars())
 addVars(clim)
 
 ## calculate climate change
@@ -405,14 +393,14 @@ for(ssp in ssps){
   for(period in periods){
 
       # Climate data
-      clim <- climr_downscale(points_dat,
-                              which_normal = "normal_bc",
-                              gcm_models = gcms,
-                              ssp = ssp,
-                              gcm_period = period,
+      clim <- downscale(points_dat,
+                              which_refmap  = "refmap_prism",
+                              gcms = gcms,
+                              ssps = ssp,
+                              gcm_periods = period,
                               max_run = 3L,
-                              return_normal = FALSE,
-                              vars = list_variables())
+                              return_refperiod = FALSE,
+                              vars = list_vars())
       addVars(clim)
       unique(clim$GCM)
       
@@ -590,7 +578,7 @@ fractionize <- function(x){
 
 ## non-THLB BGCs for exclusion from area summaries 
 ## ISSUE: ADD LAKES TO THIS, OR REMOVE LAKE CELLS FROM THE ANALYSIS ENTIRELY
-BGCs_notin_THLB <- read.csv("data-raw/data_tables/BGCs_notin_THLB.csv")
+BGCs_notin_THLB <- data("BGCs_notin_THLB") # this won't work until the pull request is merged into the loaded version of ccissr. 
 exclude <- bgc_att$id[which(bgc_att$MAP_LABEL%in%BGCs_notin_THLB$BGC[which(BGCs_notin_THLB$Exlude=="x")])]
 include <- if(length(exclude)>0) bgc_att$id[-which(bgc_att$id%in%exclude)] else bgc_att$id
 
