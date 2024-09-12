@@ -34,7 +34,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "BuMo"
+studyarea <- "WilliamsLake"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
