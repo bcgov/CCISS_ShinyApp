@@ -34,7 +34,7 @@ observeEvent(input$generate_results, priority = 100, {
   update_flag(update_flag() + 1) ##make sure things recalculate
   # UI select choices
   tic("Determine UI choices", ticker)
-  
+  #browser()
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   bgc_opts <- unique(uData$bgc$BGC)
@@ -62,7 +62,7 @@ observeEvent(input$generate_results, priority = 100, {
     ss
   })
   names(ssl) <- siterefs
-  print(ssl)
+  #print(ssl)
   
   ssa <- unique(unname(unlist(ssl)))
   names(ssa) <- paste(
@@ -87,16 +87,18 @@ observeEvent(input$generate_results, priority = 100, {
   siteseries <- siteseries_list[[siteref]]
 
   tic("Populate UI choices", ticker)
-  updateSelectInput(inputId = "siteref_feas", choices = siterefs, selected = siteref)
-  updateSelectInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref)
-  updateSelectInput(inputId = "siteref_bgc_fut_spatial", choices = siterefs, selected = siteref)
-  updateSelectInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1])
-  updateSelectInput(inputId = "siteref_silv", choices = siterefs, selected = siteref)
-  updateSelectInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1))
-  updateSelectInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1))
+  updateSelectizeInput(inputId = "siteref_feas", choices = siterefs, selected = siteref, server = TRUE)
+  updateSelectizeInput(inputId = "siteref_bgc_fut", choices = siterefs, selected = siteref,server = TRUE)
+  updateSelectizeInput(inputId = "siteref_bgc_fut_spatial", choices = siterefs, selected = siteref,server = TRUE)
+  updateSelectizeInput(inputId = "ss_bgc_fut", choices = siteseries, selected = siteseries[1],server = TRUE)
+  updateSelectizeInput(inputId = "siteref_silv", choices = siterefs, selected = siteref,server = TRUE)
+  updateSelectizeInput(inputId = "site_series_feas", choices = siteseries, selected = head(siteseries, 1),server = TRUE)
+  updateSelectizeInput(inputId = "site_series_silv", choices = siteseries, selected = head(siteseries, 1),server = TRUE)
   updateSelectInput(inputId = "port_bgc", choices = bgc_opts, select = bgc_opts[1])
-  updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
-  
+  if(length(siteseries_all) < 25){ ## app crashes with too many options here
+    updateCheckboxGroupInput(inputId = "report_filter",choices = siteseries_all, selected = siteseries_all)
+    
+  }
   # Use UI injected javascript to show download button and hide generate button
   tic("Inject javascript", ticker)
   session$sendCustomMessage(type="jsCode", list(
