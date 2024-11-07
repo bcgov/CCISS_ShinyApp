@@ -55,7 +55,25 @@ new_points <- function(points) {
       points <- uData$basepoints
     } else {
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
-      res <- dbPointInfo(pool, points)
+      res <- as.data.table(dbPointInfo(pool, points))
+      if(nrow(points) > 1){
+        setnames(res, old = "id", new = "ID")
+        points[,ID := as.numeric(ID)]
+        res[,ID := as.numeric(ID)]
+        setorder(res, ID)
+        setorder(points, ID)
+        # res[, popups := paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
+        #                                   by=1:NROW(res)]$V1
+        # points[, popups := sapply(popups, HTML)]
+        # points[res, `:=`(
+        #   BGC = map_label,
+        #   ForestRegion = forest_region,
+        #   Site = Site_no,
+        #   Elev = elevation_m,
+        #   onbcland = onbcland,
+        # )]
+      }
+      #browser()
       points[, `:=`(
         BGC = if(uData$bec_click_flag) input$bgc_point_click else res$map_label,
         ForestRegion = res$forest_region,
