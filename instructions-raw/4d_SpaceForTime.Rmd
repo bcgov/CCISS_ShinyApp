@@ -1,0 +1,16 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Space-for-time substitution
+
+The CCISS analysis is a space-for-time substitution: it makes inferences about the effect of future climate changes based on how similar spatial gradients in climate affect tree species feasibility. In simplistic terms, it assumes that a reduction in feasibility that we observe across a 4^o^C downhill gradient indicates that 4^o^C of warming will produce a similar reduction in feasibility at one location. The space-for-time substitution is useful and necessary; the alternative would be physiological modeling of each tree species, a process with its own assumptions and sources of error and which would be limited to species and regions for which experimental and observational data is available. Nevertheless, there are limitations to the space-for-time substitution; for example, it assumes that the abiotic and biotic context of the climate analog is sufficiently replicated in the new location. The errors associated with violations of the assumptions of space-for-time substitution will vary depending on the species, site, region and silvicultural system. 
+

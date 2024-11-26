@@ -5,6 +5,9 @@ output:
         theme: null
         highlight: null
         mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Projected BEC futures

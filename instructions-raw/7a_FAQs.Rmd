@@ -1,0 +1,19 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Frequently Asked Questions
+
+**If the climate model ensemble mean is different than the historical climate, does this mean the climate models are wrong?** 
+
+The historical climate is one observation of many possible climate states that could have occurred due to the internal variability (weather) of the Earth’s climate system. Differences between the ensemble mean projection and the observed climate are not necessarily a contradiction; like climate vs. weather, the ensemble mean is the expectation and the observed climate is what actually happened. 
+
+However, if the observed climate is completely outside the range of the individual model runs, this is a problem. There are two major reasons why this could occur: (1) the model ensemble is failing to capture some aspect of regional climate dynamics; or (2) the observations themselves are biased due to errors in the station observations. Both of these potential sources of error are an active area of research by the CCISS team.

@@ -5,23 +5,14 @@ output:
         theme: null
         highlight: null
         mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ### Feasibility (Environmental Suitability) Ratings
 
-The [Establishment to Free Growing Guidebooks](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards) and [Chief Forester's Reference Guide for Stocking Standards](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx) (CFRG) rank ecologically acceptable species for each site series. Three criteria are used to determine the most suitable species choices for sawlog production (the assumed management goal) based on an assessment of:
-
--   maximum sustainable productivity
--   crop reliability
--   silvicultural feasibility.
-
-The rankings applied always have at least one "primary" species for each site series indicating the best species choice to meet the timber objective.
-
-In contrast, the CCISS tool assesses the environmental suitability rating to species, which focuses on how well the species is suited to the climatic and site conditions of a site series regardless of management objective. Each tree species has adapted to a specific range of environmental conditions, and its growth and behaviour depend on the ecosystem in which it grows. In an unfavourable environment, that species growth potential will not be realized, and its susceptibility to damaging agents will increase. Unlike the ratings applied in the CFRG, site series with generally challenging growing conditions may have no tree species assigned to the highest suitability rating.
-
-Insect and disease risks need to be considered in reforestation, particularly in the context of climate change. These factors are currently being assessed by Forest Health researchers.
-
-Feasibility (environmental suitability) ratings are defined as follows:
+CCISS estimates historical (1961-1990) tree species suitability ratings for all site series in British Columbia to reflect only the feasibility of species for reforestation based on species prominence in natural stands, observed plantation success, and autecological characteristics. Site-level variation in species feasibility within each biogeoclimatic unit for Alberta and the USA was similarly approximated using the plot data located in the modelled climate areas, descriptions available in publications describing forest associations or ecosites, and available autecological interpretations. We define reforestation feasibility using five categories: 
 
 **E1 -- High environmental suitability**: Typically, no environmental limiting conditions for establishment and growth across the full range of site series conditions.
 
@@ -54,3 +45,20 @@ Feasibility for different time periods, given the progression of climate change,
 **Establishment Feasibility**: The feasibility rating based on the mean historic, current, and 2021-2040 future projected feasibilities. This indicates the likely level of constraints for successful establishment of the species now.
 
 **Maturation Feasibility**: The mean feasibility rating based on the 4 future modelled 2021-2040 future projected feasibilities. This indicates the likely level of constraints for successful establishment of the species now.
+
+Insect and disease risks need to be considered in reforestation, particularly in the context of climate change. These factors are currently being assessed by Forest Health researchers. However, currently forest health factors need to be assessed as an additional consideration to CCISS feasibility projections. 
+
+
+### Differences from the Chief Forester's Reference Guide
+
+The [Establishment to Free Growing Guidebooks](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards) and [Chief Forester's Reference Guide for Stocking Standards](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx) (CFRG) rank ecologically acceptable species for each site series. Three criteria are used to determine the most suitable species choices for sawlog production (the assumed management goal) based on an assessment of:
+
+-   maximum sustainable productivity
+-   crop reliability
+-   silvicultural feasibility.
+
+The rankings applied always have at least one "primary" species for each site series indicating the best species choice to meet the timber objective.
+
+In contrast, the CCISS tool assesses the environmental suitability rating to species, which focuses on how well the species is suited to the climatic and site conditions of a site series regardless of management objective. Each tree species has adapted to a specific range of environmental conditions, and its growth and behaviour depend on the ecosystem in which it grows. In an unfavourable environment, that species growth potential will not be realized, and its susceptibility to damaging agents will increase. Unlike the ratings applied in the CFRG, site series with generally challenging growing conditions may have no tree species assigned to the highest suitability rating.
+
+

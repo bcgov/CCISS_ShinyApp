@@ -7,7 +7,7 @@ output:
         mathjax: null
 editor_options: 
   markdown: 
-    wrap: sentence
+    wrap: 72
 ---
 
 ## Tree species feasibility report
