@@ -1,0 +1,21 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Known issues with the CCISS tool
+
+Understanding potential sources of error is essential for appropriate
+use of the CCISS tool. The CCISS methodology has many components such as
+the species feasibility ratings, climate mapping, biogeoclimatic
+modeling, biogeoclimatic classification, and climate data downscaling.
+Each of these components have their own degree of error that can carry
+through into the CCISS tool results, emphasizing the importance of
+professional scrutiny in the interpretation of these results.

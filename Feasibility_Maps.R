@@ -185,9 +185,10 @@ edas <- c("C4", "B2", "D6")
 timeperiods <- c(2001, 2021, 2041, 2061, 2081)
 timeperiod.names <- c("2001-2020", "2021-2040", "2041-2060", "2061-2080", "2081-2100")
 
-###load up bgc predictions data
-timeperiod <- "2081"
+### PLOT LOOP
+timeperiod <- "2041"
 for(timeperiod in timeperiods[-1]){
+  ###load up bgc predictions data
   bgc <- setDT(dbGetQuery(con,paste0("select * from mapdata_2km where futureperiod = '",timeperiod,"'"))) ##takes about 15 seconds
   setnames(bgc, c("SiteRef","FuturePeriod","BGC","BGC.pred","BGC.prop"))
   # str(bgc)
@@ -216,8 +217,7 @@ for(timeperiod in timeperiods[-1]){
       edaZonal[,HasPos := NULL]
       ##edatopic overlap
       SSPreds <- edatopicOverlap(bgc,edaZonal,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
-      SSPreds <- edatopicOverlap(bgc,E1,E1_Phase,onlyRegular = TRUE) ##takes about 30 seconds
-      
+
       # ## ------------------------------------
       # ## 3 panel map with add/retreat and mean feasibility change
       # 
@@ -454,8 +454,8 @@ for(timeperiod in timeperiods[-1]){
             side=3, line=-1.25, adj=0.01, cex=0.8, font=2)
       # mtext(if(spp%in%spps.lookup$TreeCode) bquote(.(panel)~bold(.(spp))~"-"~.(Common)~"("*italic(.(Latin)*")")) else bquote(.(panel)~bold(.(spp))),
       #       side=3, line=-1.75, adj=0.01, cex=0.8, font=2)
-      mtext(paste("Site type: ", eda, " (", edatope.name[which(eda==edas)], ")", sep=""), side=3, line=-2., adj=0.01, cex=0.7, font=1)
-      mtext(paste("Time period: ", timeperiod.names[which(timeperiods==timeperiod)], sep=""), side=3, line=-4.5, adj=0.01, cex=0.8, font=1)
+      mtext(paste("Site type: ", eda, " (", edatope.name[which(eda==edas)], ")", sep=""), side=3, line=-2.0, adj=0.01, cex=0.7, font=1)
+      mtext(paste("Time period: ", timeperiod.names[which(timeperiods==timeperiod)], sep=""), side=3, line=-2.75, adj=0.01, cex=0.7, font=1)
       
       ##=================================
       ###historic suitability

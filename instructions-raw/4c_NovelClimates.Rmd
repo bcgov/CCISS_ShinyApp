@@ -1,0 +1,34 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Novel climates
+
+CCISS uses the best available biogeoclimatic analog for each future climate condition. In some cases, the future climate condition does not have a good analog in the pool of historical climates; this is known as a novel climate. The biogeoclimatic model will choose the closest climate analog, but there may be substantial differences in the novel climate conditions and the climate analog. The basic problem of novel climates (poor analogs) is that they give misleading results, but are not explicitly identified by the model. Detecting novel climates in biogeoclimatic projections is a current priority for the CCISS project, but it is a non-trivial and computationally intensive problem. In the meantime, CCISS users need to have an understanding of how to interpret CCISS results in the presence of novel climates. 
+
+The spatial pattern of novel climates is quite well-defined and limited to a minority of British Columbia’s area (Figure 1). Figure 1 indicates that some regions of climatic novelty are sensitive to how climate is defined and measured, for example on Haida Gwaii and southern Vancouver Island, but otherwise there are well-defined regions of robust climate novelty. Figure 1 (c & d) shows that using US and Alberta analogs reduces the problem of novel climates, especially in Northeast BC and the rocky mountain trench. Nevertheless, there are regions of BC with future climates that are novel to North America (Figure 1c), notably the hypermaritime fringe, the major valleys of southern BC, and the west Kootenays. Interpretations of CCISS results in these regions need to account for the confounding effects of novel climates. 
+
+<img src="Figure_NovelClimates.png" alt="Patterns of climatic novelty for British Columbia for the 2041-2070 period (RCP4.5), following the method of Mahony et al. (2018). Rows show novelty relative to locations limited to BC vs. North America. Columns show novelty measured in terms of different climate variables." style="width:70%;"/>
+
+Figure 1: Patterns of climatic novelty for British Columbia for the 2041-2070 period (RCP4.5), following the method of [Mahony et al. (2018)](https://www.sciencedirect.com/science/article/abs/pii/S0378112717319175). Rows show novelty relative to locations limited to BC vs. North America. Columns show novelty measured in terms of different climate variables.  
+
+Novel climates cause the following examples of misleading results: 
+
+- Hypermaritime climates (e.g., CWHvh) tend to self-analog even under significantly different climates because there is no warmer version of these very rainy climates in North America. As a result, feasibility changes in hypermaritime regions are likely underestimated in CCISS. 
+- CWHvh analogs for future climates of the submontane CWHvm1. While superficially warmer than the vm, inland and uphill movement of hypermaritime climates is not a credible shift under climate change. 
+- CWHms/ds and MHmm2 analogs for future climates of the ICH and ESSF in the west Kootenays.  These reflect a lack of warmer-but-wet mountain climates south of the border. Feasibility declines are likely underestimated by these analogs for coastal species (Cw, Hw, Fd) and overestimated for interior species (Lw, Py). 
+- Coastal Redwood Forest (CRF) analogs for the future climates of the CDFmm. There are substantial differences in the climate of coastal northern California (e.g., persistent summer fog) that suggest this is likely a poor analog. 
+- Washington CWH analogs for the future climates of the dry CWH of the Georgia Basin are an under-representation of the degree of climate change. In general, climate changes are under-represented by the climate analogs for novel climates: the best analog for novel future climates tends to be similar to the local historical climate (Mahony et al. 2018). The lack of decline in projected Cw feasibility in the Georgia basin is likely an artefact of this under-representation of climate change due to novel climates. 
+
+Users with query locations in the regions of novel climate highlighted in Figure 1c should be especially cautious in interpreting CCISS results. 
+
+Planned work to address errors due to novel climates—We are investigating methods to detect novel climates in biogeoclimatic projections. Our goal is to “black-out” novel climates in CCISS results as a new feasibility rating: “no feasibility inference possible”. 
+ 

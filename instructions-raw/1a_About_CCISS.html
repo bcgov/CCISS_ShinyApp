@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Climate Change Informed Species Selection (CCISS) Tool</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Climate Change Informed Species Selection
+(CCISS) Tool</h1>
+
+
+
+<p>Climate Change Informed Species Selection (CCISS – pronounced ‘kiss’)
+is a Biogeoclimatic Ecosystem Classification-based analysis framework
+built to anticipate the change climate implications to tree species
+environmental suitability at a site specific level. The CCISS tool is a
+web-based application that makes this analysis accessible to
+practitioners to help guide climate change adaptation in reforestation
+decisions.</p>
+<p>Understanding climate- and site-level species suitability is one of
+the foundational pieces of information that practitioners require for
+the creation of silvicultural prescriptions that will lead to successful
+reforestation over a rotation period. Climate change will affect this
+goal by progressively altering environmental conditions and therefore
+the suitability of tree species established on a site over time.</p>
+<p>To address this challenge, the CCISS tool projects changes to species
+environmental suitability at a site series level for any user selected
+location in the province and estimates the future suitability of a tree
+species to this changing climate. To account for future climate
+uncertainty the tool looks at a wide range of global climate change
+models and emissions scenarios to capture the range of plausible climate
+futures for any location in BC in 20-year periods out to 2100.</p>
+<p>To assist users, the tool compares the current species selection
+guidance in the Chief Foresters Reference Guide with the future forecast
+from the CCISS analysis. Reports from the tool highlight where currently
+acceptable species are stable/improving or declining/unsuitable and
+where new species have become suitable and could be considered as
+candidates for assisted migration.</p>
+<div id="how-can-cciss-be-applied-in-climate-change-adaption" class="section level3">
+<h3>How Can CCISS Be Applied In Climate Change Adaption?</h3>
+<ol style="list-style-type: decimal">
+<li>Designing Climate-change Stocking Standards</li>
+<li>Identifying current management practices that may lead to higer
+levels of risk with climate change.</li>
+<li>Setting Landscape Level Stocking Standards to Manage
+Uncertainty</li>
+<li>Identifying best locations for off-site species reforestation
+trials/ assisted range expansion</li>
+<li>Identifying regions and site conditions where forests and tree
+species are at highest risk to climate change stresses.</li>
+<li>Identifying climate change refugia</li>
+</ol>
+<p>The CCISS tool is a web-based R-shiny application organized into six
+tabs.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Select Sites:</strong> User selects points or areas of
+interest using one of 3 methods
+<ol style="list-style-type: lower-roman">
+<li>Single points</li>
+<li>By selected BGCs or BGCs within districts</li>
+<li>By submitted CSV file with user site locations</li>
+</ol></li>
+<li><strong>Feasibility Report:</strong> 2 options
+<ol style="list-style-type: lower-alpha">
+<li><strong>Detailed</strong>: report suitability predictions for each
+species for a chosen site series at each point or AOI</li>
+<li><strong>Stocking Standard</strong>: A comparison of the CFRG
+stocking standards and the CCISS predicted suitability ratings</li>
+</ol></li>
+<li><strong>BEC Futures:</strong> The model ratio of predicted BGCs by
+time period shown by 2 options.
+<ol style="list-style-type: lower-alpha">
+<li><strong>Chart</strong>: A stacked bar chart shows the ratio of
+biogeoclimatic units being predicted from the selected GMC and climate
+scenario models in each time period. Optionaly show the site series that
+are equivalent within each BGC</li>
+<li><strong>Map</strong>: Show BGC map of western North America with the
+target BGC highlighted and the source BGCs for a selected future time
+period shown in greyscale.</li>
+</ol></li>
+<li><strong>Supporting Info:</strong> This tab has several subtabs.
+<ol style="list-style-type: lower-alpha">
+<li><strong>Silvics and Ecology</strong>: Tables of species from Klinka
+et al. 2000</li>
+<li><strong>Trends</strong>: Summary of future trends for every tree
+species</li>
+</ol></li>
+<li><strong>Reports</strong>: Exporting reports or data for off-line use
+<ol style="list-style-type: lower-alpha">
+<li><strong>Export reports</strong> of the web-tool screens (last
+report)in HTML or PDF</li>
+<li><strong>Export datasets</strong> in CSV or RDS file formats for
+further analysis</li>
+</ol></li>
+<li><strong>About</strong>: Help files and data sources
+<ol style="list-style-type: lower-alpha">
+<li><strong>Executive Summary</strong>: summary and links to supporting
+documents</li>
+<li><strong>Instructions</strong>: how to use the tool</li>
+<li><strong>Model Info</strong>: Data table versions used in the current
+CCISS analysis and change log.</li>
+<li><strong>Shiny App information</strong>: Server information</li>
+</ol></li>
+</ol>
+<div id="additional-documents" class="section level5">
+<h5>Additional Documents:</h5>
+<p><a href="./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf">Forest
+Ecology and Management Science Paper</a></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

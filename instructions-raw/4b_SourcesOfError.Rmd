@@ -1,0 +1,104 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Sources of error in data and analyses
+
+The CCISS methodology has many components (input data and analyses),
+each with their own sources of error. Understanding these sources of
+error can help users determine appropriate uses for CCISS projections.
+
+#### Feasibility ratings
+
+Feasibility ratings for each tree species in each site series have been
+assigned primarily through expert judgement with support from vegetation
+plot data. There are inevitably errors in this knowledge base. Errors in
+feasibility ratings are most likely in species that were not
+historically prominent in reforestation, such as deciduous species. The
+Feasibility ratings are undergoing ongoing review by the CCISS team and
+regional ecologists, via the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/) 
+(Figure 1). Further, the CCISS team is currently conducting predictive modeling 
+to evaluate and refine feasibility ratings. 
+
+<img src="Figure_ByBECexample.png" alt="Figure 1: Screenshot of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert review and revisions of the CCISS feasibility tables. This example shows
+feasibility ratings for western redcedar on zonal sites, with editing
+for the CWHdm open." style="width:70%;"/>
+
+Figure 1: Screenshot of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert
+review and revisions of the CCISS feasibility tables. This example shows
+feasibility ratings for western redcedar on zonal sites, with editing
+for the CWHdm open.
+
+#### Climate mapping
+
+The reference climate maps for CCISS are the PRISM (Parameter-elevation
+Regressions on Independent Slopes Model) climate surfaces of temperature
+and precipitation at 800m spatial resolution developed by the [Pacific
+Climate Impacts Consortium](https://www.pacificclimate.org/data/prism-climatology-and-monthly-timeseries). 
+These surfaces are best-in-class, but they
+have important limitations. They are interpolated from weather station
+data that is sparse in many regions of BC (Figure 2). Most valleys and
+some larger regions have no stations, so the nuances of climate in these
+locations may not be well represented, particularly cold air drainage
+and elevational gradients. Further, the PRISM
+method does not model microclimatic factors such as heat loading (warm
+vs. cold aspects) and lake effects. Because they are absent from the
+CCISS analysis, microclimatic factors need to be accounted for as a part
+of professional interpretation of CCISS results.
+
+<img src="Figure_PRISM.png" alt="Figure 2: PRISM climate map of July daily maximum temperature, in the
+Cariboo-Chilcotin region. Stations are concentrated at low-elevations
+and are absent from large areas, demonstrating the potential for errors
+in the climate mapping." style="width:70%;"/>
+
+Figure 2: PRISM climate map of July daily maximum temperature, in the
+Cariboo-Chilcotin region. Stations are concentrated at low-elevations
+and are absent from large areas, demonstrating the potential for errors
+in the climate mapping.
+
+#### Biogeoclimatic modeling
+
+Biogeoclimatic modeling involves using machine learning to classify
+climate conditions as biogeoclimatic units (subzones/variants). We have
+found that BGC projections are sensitive to many aspects of model
+training, especially climate variable selection. Improving BGC modeling
+methods and representing uncertainty in BGC projections is a current
+priority for the CCISS team. An example of these planned improvements is
+integrating climate variables that capture extremes such as heat waves
+and drought. Even with these future improvements, biogeoclimatic
+modeling will retain inherent imprecision and will continue to be a
+source of error in CCISS projections.
+
+#### Climate data downscaling
+
+Climate changes are modeled in CCISS by overlaying very coarse-scale
+global climate model projections (50-150km resolution; Figure 3) onto
+the 800m PRISM climate maps, a method called [change-factor downscaling](https://bcgov.github.io/climr/articles/methods_downscaling.html).
+This approach results in a uniform warming rate from valley bottom to
+mountain top. In reality, we would expect elevation-dependent
+differences in warming rate due for example to changes in snowpack.
+Similarly, change-factor downscaling can’t represent the role of other
+fine-scale features like lakes, vegetation, cold-air pooling, aspect,
+and soil moisture in modifying the regional average climate change.
+FFEC’s ClimatEx project seeks to improve the spatial resolution of
+climate change modeling, but will not be integrated into CCISS for at
+least two years. CCISS users are encouraged to consider the role of
+site-specific modification of regional climate changes.
+
+<img src="Figure_GCM2.png" alt="Coarse resolution of climate changes provided by global
+climate model data. This panel shows the low-resolution interpolated changes 
+in July mean temperature for the EC-Earth3 global climate model for the
+2041-2060 time period, relative to the model’s 1961-1990 climate." style="width:50%;"/>
+
+Figure 3: Coarse resolution of climate changes provided by global
+climate model data. This panel shows the low-resolution interpolated changes 
+in July mean temperature for the EC-Earth3 global climate model for the
+2041-2060 time period, relative to the model’s 1961-1990 climate. The coastline of Vancouver is shown for scale. 
