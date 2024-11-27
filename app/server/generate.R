@@ -12,7 +12,7 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Input from the app
   if(input$acc == "acc2"){
-    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = uData$dist_select, maxPoints = 150)
+    pointNums <- dbGetBGC(pool,bgc = uData$bgc_select,district = NULL, maxPoints = 150) #uData$dist_select
     userpoints$bgc_pts <- pointNums
     avg <- uData$avg <- TRUE
     pts <- uData$pts <- data.table(Site = pointNums)
@@ -161,7 +161,7 @@ observeEvent(input$rcp_scenario, {generateState()})
 bgc <- function(con, siteno, avg, modWeights) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
-    dbGetCCISS(con, siteno, avg, modWeights = modWeights)
+    dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights)
   })
 }
 
@@ -178,6 +178,7 @@ cciss <- function(bgc,estabWt,futWt) {
   SSPred <- edaOut$NoPhase
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- edaOut$phase
+  #browser()
   ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
               histWeights = estabWt, futureWeights = futWt)
 }
@@ -188,7 +189,7 @@ cciss <- function(bgc,estabWt,futWt) {
 #SSPred2 <- SSPred[SS_NoSpace == "ICHmw1/01",]
 # This map is used to determine output labels from raw period
 #uData$period_map <- c("1975" = "Historic", "2000" = "Current", "2025" = "2010-2040", "2055" = "2040-2070", "2085" = "2070-2100")
-uData$period_map <- c("1961" = "Mapped", "1991" = "1991-2020 (obs)", "2001" = "2001-2020 (mod)", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
+uData$period_map <- c("1961" = "Mapped", "1991" = "2001-2020 (obs)", "2001" = "2001-2020 (mod)", "2021" = "2021-2040", "2041" = "2041-2060", "2061" = "2061-2080","2081" = "2081-2100")
 
 ## SVGs for mid rot trend
 swap_up_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><polyline points="464 208 352 96 240 208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="352" y1="113.13" x2="352" y2="416" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><polyline points="48 304 160 416 272 304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/><line x1="160" y1="398" x2="160" y2="96" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"/></svg>'

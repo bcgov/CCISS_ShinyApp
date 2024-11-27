@@ -44,6 +44,19 @@ writeRaster(final_dem, "BC_DEM_100m.tif")
 
 final_dem <- rast("BC_DEM_100m.tif")
 final_dem <- aggregate(final_dem, fact = 2)
+
+##bgc mapped
+library(sf)
+bgc <- st_read("../Common_Files/BC_BGCs_with_ID.gpkg")
+bgc$bgc_id <- as.numeric(as.factor(bgc$BGC))
+bgc <- st_transform(bgc, 4326)
+bgc2 <- vect(bgc)
+bgc2 <- project(bgc2, "epsg:4326")
+
+bgc_rast <- rasterize(bgc2, final_dem, field = "bgc_id")
+writeRaster(bgc_rast, "BC_BGC_rast.tif")
+temp <- unique(st_drop_geometry(bgc[,c("BGC","bgc_id")]))
+fwrite(temp,"BC_BGC_rast_ids.csv")
 #################climr####################
 points_dat <- as.data.frame(final_dem, cells=T, xy=T)
 colnames(points_dat) <- c("id", "lon", "lat", "elev")

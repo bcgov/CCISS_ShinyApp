@@ -36,7 +36,6 @@ output$bgc_fut_plot <- plotly::renderPlotly({
 #' @param data BGC data.table
 bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
   #data <- data[SSratio > minallow,]
-  
   dat_order <- data.table(FuturePeriod = c("1961","1991","2001","2021","2041","2061", "2081"), fpCode = c(1,2,3.5,4.5,5.5,6.5,7.5))
   #browser()
   #data[,allOverlap := allOverlap/sum(allOverlap), by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,BGC.prop)]
@@ -55,7 +54,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
     y = 1.25,
     x = -0.05)
   color_ref <- {
-    colors <- subzones_colours_ref[unique(data2$BGC.pred)]
+    colors <- subzones_colours_ref[classification %in% unique(data2$BGC.pred)]
     col <- colors$colour
     names(col) <- colors$classification
     col

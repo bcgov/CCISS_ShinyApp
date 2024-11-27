@@ -1,6 +1,6 @@
 ##javascript source
-bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BC_BGC/{z}/{x}/{y}.pbf"
-bcgov_tilelayer <- "BECMap"
+bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BGC_v13/{z}/{x}/{y}.pbf"
+bcgov_tilelayer <- "BGC_v13"
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
 wna_tileserver <- "https://tileserver.thebeczone.ca/data/WNA_MAP/{z}/{x}/{y}.pbf"
