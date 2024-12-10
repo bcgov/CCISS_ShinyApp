@@ -12,28 +12,27 @@ editor_options:
 
 ### Sources of error in data and analyses
 
-The CCISS methodology has many components (input data and analyses),
-each with their own sources of error. Understanding these sources of
-error can help users determine appropriate uses for CCISS projections.
+The CCISS methodology has many components (input data and analyses), each with their own sources of error in addition to the sources of uncertainty described previously. While often used interchangeably, error and uncertainty are different processes. Error is the absolute difference between an estimated value and the ‘true’ value for a quantity of interest that, in most cases, is unknown. Thus, unlike uncertainty, error cannot be directly quantified. However, understanding  potential sources of error can help users determine appropriate uses for CCISS projections.    
 
 #### Feasibility ratings
 
+Tree species' environmental tolerances are complex and many approximations are required to 
+translate them into a simple feasiblity ratings metric used in CCISS. 
 Feasibility ratings for each tree species in each site series have been
 assigned primarily through expert judgement with support from vegetation
-plot data. There are inevitably errors in this knowledge base. Errors in
-feasibility ratings are most likely in species that were not
+plot data. There are inevitably errors in this database, particularly for species that were not
 historically prominent in reforestation, such as deciduous species. The
-Feasibility ratings are undergoing ongoing review by the CCISS team and
+feasibility ratings are undergoing ongoing review by the CCISS team and
 regional ecologists, via the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/) 
 (Figure 1). Further, the CCISS team is currently conducting predictive modeling 
-to evaluate and refine feasibility ratings. 
+to quantitatively evaluate and refine feasibility ratings. 
 
 <img src="Figure_ByBECexample.png" alt="Figure 1: Screenshot of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert review and revisions of the CCISS feasibility tables. This example shows
 feasibility ratings for western redcedar on zonal sites, with editing
 for the CWHdm open." style="width:70%;"/>
 
 Figure 1: Screenshot of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert
-review and revisions of the CCISS feasibility tables. This example shows
+review and revisions of the CCISS feasibility ratings. This example shows
 feasibility ratings for western redcedar on zonal sites, with editing
 for the CWHdm open.
 
@@ -50,14 +49,12 @@ some larger regions have no stations, so the nuances of climate in these
 locations may not be well represented, particularly cold air drainage
 and elevational gradients. Further, the PRISM
 method does not model microclimatic factors such as heat loading (warm
-vs. cold aspects) and lake effects. Because they are absent from the
-CCISS analysis, microclimatic factors need to be accounted for as a part
-of professional interpretation of CCISS results.
+vs. cold aspects), vegetation influences, and lake effects. Microclimatic factors need to be accounted for during professional interpretation of CCISS results.
 
 <img src="Figure_PRISM.png" alt="Figure 2: PRISM climate map of July daily maximum temperature, in the
 Cariboo-Chilcotin region. Stations are concentrated at low-elevations
 and are absent from large areas, demonstrating the potential for errors
-in the climate mapping." style="width:70%;"/>
+in the climate mapping." style="width:50%;"/>
 
 Figure 2: PRISM climate map of July daily maximum temperature, in the
 Cariboo-Chilcotin region. Stations are concentrated at low-elevations
@@ -84,11 +81,11 @@ global climate model projections (50-150km resolution; Figure 3) onto
 the 800m PRISM climate maps, a method called [change-factor downscaling](https://bcgov.github.io/climr/articles/methods_downscaling.html).
 This approach results in a uniform warming rate from valley bottom to
 mountain top. In reality, we would expect elevation-dependent
-differences in warming rate due for example to changes in snowpack.
+differences in warming rate due to loss of snowpack, for example.
 Similarly, change-factor downscaling can’t represent the role of other
 fine-scale features like lakes, vegetation, cold-air pooling, aspect,
 and soil moisture in modifying the regional average climate change.
-FFEC’s ClimatEx project seeks to improve the spatial resolution of
+The Ministry of Forests' ClimatEx project seeks to improve the spatial resolution of
 climate change modeling, but will not be integrated into CCISS for at
 least two years. CCISS users are encouraged to consider the role of
 site-specific modification of regional climate changes.
