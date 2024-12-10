@@ -12,4 +12,6 @@ editor_options:
 
 ### Providing Feedback
 
-Under construction
+We welcome any feedback about the CCISS tool. 
+
+Email us at ffec@gov.bc.ca or create a github issue at https://github.com/bcgov/CCISS_Review/issues.
