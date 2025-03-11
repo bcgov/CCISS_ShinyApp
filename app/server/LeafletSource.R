@@ -1,10 +1,12 @@
 ##javascript source
-bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BGC_v13/{z}/{x}/{y}.pbf"
-bcgov_tilelayer <- "BGC_v13"
+bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BGC_v13_Mar10/{z}/{x}/{y}.pbf"
+bcgov_tilelayer <- "BEC13_Mar9"
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
 wna_tileserver <- "https://tileserver.thebeczone.ca/data/WNA_MAP/{z}/{x}/{y}.pbf"
 wna_tilelayer <- "WNA_MAP"
+
+subzones_colours_ref <- fread("WNA_SZ_Cols_v13_6.csv")
 
 plugins <- {
   list(vgplugin =

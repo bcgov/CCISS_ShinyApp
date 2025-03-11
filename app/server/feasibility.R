@@ -1,5 +1,5 @@
 # Update site series selector when site ref is modified
-observeEvent(input$siteref_feas, priority = 50, {
+observeEvent(input$siteref_feas, priority = 500, {
   if (is.null(uData$cciss_results)) return(NULL)
   siteref <- input$siteref_feas
   updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
@@ -9,26 +9,21 @@ output$results_feas_all <- renderUI({
   if(input$feas_type){
     tableOutput("results_feas")
   }else{
-    tagList(uiOutput("silviculture_block"),
-    h6("Legend"),
-    HTML(
-      paste0(
-        '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-        c("green", "red", "purple"),
-        '" /><span style="vertical-align:middle">&nbsp;',
-        c("Improving", "Decreasing", "Adding"),
-        '</span>',
-        collapse = "<br />"
-      )
-    )
-    )
+    #browser()
+    siteref <- selected_site$siteref
+    siteserie <- selected_site$ss
+    cciss_results <- uData$cciss_results
+    if (is.null(cciss_results)) return(NULL)
+    temp <- standardblocks(cciss_results, siteref, siteserie)
+    temp
   }
 })
 
 # CCISS Results
 output$results_feas <- function() {
-  siteref <- selected_site$siteref
-  siteserie <- selected_site$ss
+  #browser()
+  siteref <- input$siteref_feas
+  siteserie <- input$site_series_feas
   update_flag()
   cciss_results <- copy(uData$cciss_results)
   #browser()
@@ -66,7 +61,7 @@ grd1y <- seq(1.5,7.5,1)
 # Dual utility function to format dt, app mode and report mode use different
 # format. Report has no javascript, just a plain table.
 cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") {
-  
+  #browser()
   if(filter == "a"){
     for(i in c("NewSuit_1991","NewSuit_2001","NewSuit_2021","NewSuit_2041","NewSuit_2061","NewSuit_2081")){ ##set NA to X
       data[is.na(get(i)), (i) := 4]

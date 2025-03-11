@@ -41,7 +41,7 @@ navbarPage(
   id = "cciss_navbar",
   # Select sites ----
   tabPanel(
-    title = navhelplink("SELECT SITES", "cciss_instructions_select_sites_nav"),
+    title = navhelplink("SELECT SITES", "cciss_instructions_select_sites"),
     value = "sites",
     class = "tabcontainer",
     tags$head(includeCSS("./www/style.css")),
@@ -65,6 +65,7 @@ $(document).ready(function(){
       sidebarPanel(
         width = 4,
         sidebarhelplink("cciss_instructions_select_sites"),
+        p("Welcome to CCISS v0.999 (beta)! Note that this tool uses a yet-to-be released version of BEC (v13), which includes changes to the coastal BEC classification that will be published in Spring 2025. If you would like to use the previous version based on BEC 12, you can find it ", a("here!",href = "https://thebeczone.ca/shiny/cciss12")),
         style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
         
         wellPanel(
@@ -93,7 +94,7 @@ $(document).ready(function(){
             tagList(
               br(),
               # p("Report by:"),
-              switchInput("aggregation", value = TRUE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
+              switchInput("aggregation", value = FALSE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
             )
             
           )
@@ -537,10 +538,10 @@ $(document).ready(function(){
   ),
   # Tech specs ----
   navbarMenu(
-    title = "APP INFO",
+    title = "DOCUMENTATION",
     menuName = "cciss_help",
     tabPanel(
-      title = "About",
+      title = "Overview",
       value = "cciss_about",
       fluidRow(
         column(
@@ -548,41 +549,41 @@ $(document).ready(function(){
           offset = 1,
           tabPanel(
             title = "",
-            includeHTML("./instructions/About_CCISS.html") 
+            includeHTML("./instructions/1a_About_CCISS.html") 
           )
         )
       )
     ),
     tabPanel(
-      title = "Instructions",
+      title = "Instructions (How to CCISS)",
       value = "cciss_instructions",
       fluidRow(
         column(
           width = 8,
           offset = 1,
-          tags$h4("Instructions"),
+          tags$h4("Instructions (How to CCISS)"),
           tabsetPanel(
             id = "cciss_instructions_set",
             type = "pills",
             tabPanel(
               title = "Select Sites",
               value = "cciss_instructions_select_sites",
-              includeHTML("./instructions/SelectSites.html") 
+              includeHTML("./instructions/2a_SelectSites.html") 
             ),
             tabPanel(
               title = "Feasibility Report",
               value = "cciss_instructions_feasibility_report",
-              includeHTML("./instructions/FeasibilityReport.html") 
+              includeHTML("./instructions/2b_FeasibilityReport.html") 
             ),
             tabPanel(
               title = "BEC Futures",
               value = "cciss_instructions_bec_futures",
-              includeHTML("./instructions/BECFutures.html") 
+              includeHTML("./instructions/2c_BECFutures.html") 
             ),
             tabPanel(
               title = "Silvics & Ecology",
               value = "cciss_instructions_silvics_ecology",
-              includeHTML("./instructions/SilvicsEcology.html") 
+              includeHTML("./instructions/2d_SilvicsEcology.html") 
             ),
             # tabPanel(
             #   title = "Species Portfolio",
@@ -592,15 +593,139 @@ $(document).ready(function(){
             tabPanel(
               title = "Export",
               value = "cciss_instructions_export",
-              includeHTML("./instructions/Export.html") 
+              includeHTML("./instructions/2e_Export.html") 
             )
           )
         )
       )       
     ),
     tabPanel(
-      title = "Feasibility Ratings",
-      includeHTML("./instructions/FeasibilityRatings.html")
+      title = "Methods (how the tool works)",
+      value = "cciss_methods",
+      fluidRow(
+        column(
+          width = 8,
+          offset = 1,
+          tags$h4("Methods"),
+          tabsetPanel(
+            id = "cciss_methods_set",
+            type = "pills",
+            tabPanel(
+              title = "Overview",
+              value = "cciss_3a",
+              includeHTML("./instructions/3a_MethodsOverview.html") 
+            ),
+            tabPanel(
+              title = "BEC",
+              value = "cciss_3b",
+              includeHTML("./instructions/3b_BEC.html") 
+            ),
+            tabPanel(
+              title = "Feasibility Ratings",
+              value = "cciss_3c",
+              includeHTML("./instructions/3c_FeasibilityRatings.html") 
+            ),
+            tabPanel(
+              title = "Climate Change Projections",
+              value = "cciss_3d",
+              includeHTML("./instructions/3d_ClimateProjections.html") 
+            ),
+            tabPanel(
+              title = "BGC Model",
+              value = "cciss_3e",
+              includeHTML("./instructions/3e_BGCmodel.html") 
+            ),
+            tabPanel(
+              title = "Edatopic Overlap",
+              value = "cciss_3f",
+              includeHTML("./instructions/3f_EdatopicOverlap.html") 
+            ),
+            tabPanel(
+              title = "Rule Sets",
+              value = "cciss_3g",
+              includeHTML("./instructions/3g_Rulesets.html") 
+            )
+
+          )
+        )
+      )       
+    ),
+    tabPanel(
+      title = "Known Issues",
+      value = "cciss_issues",
+      fluidRow(
+        column(
+          width = 8,
+          offset = 1,
+          tags$h4("Known Issues"),
+          tabsetPanel(
+            id = "cciss_issues",
+            type = "pills",
+            tabPanel(
+              title = "Overview",
+              value = "cciss_4a",
+              includeHTML("./instructions/4a_KnownIssues.html") 
+            ),
+            tabPanel(
+              title = "Sources of Error",
+              value = "cciss_4b",
+              includeHTML("./instructions/4b_SourcesOfError.html") 
+            ),
+            tabPanel(
+              title = "Novel Climates",
+              value = "cciss_4c",
+              includeHTML("./instructions/4c_NovelClimates.html") 
+            ),
+            tabPanel(
+              title = "Space-for-time Substitution",
+              value = "cciss_4d",
+              includeHTML("./instructions/4d_SpaceForTime.html") 
+            )
+          )
+        )
+      )       
+    ),
+    tabPanel(
+      title = "Using CCISS for Decisions",
+      value = "cciss_decisions",
+      fluidRow(
+        column(
+          width = 6,
+          offset = 1,
+          tabPanel(
+            title = "",
+            includeHTML("./instructions/5a_DecisionGuidance.html") 
+          )
+        )
+      )
+    ),
+    tabPanel(
+      title = "Providing Feedback",
+      value = "cciss_feedback",
+      fluidRow(
+        column(
+          width = 6,
+          offset = 1,
+          tabPanel(
+            title = "",
+            includeHTML("./instructions/6a_ProvidingFeedback.html") 
+          )
+        )
+      )
+    ),
+    tabPanel(
+      title = "FAQs",
+      value = "cciss_faqs",
+      fluidRow(
+        column(
+          width = 6,
+          offset = 1,
+          tabPanel(
+            title = "",
+            includeHTML("./instructions/7a_FAQs.html") 
+          )
+        )
+      )
     ),
     tabPanel(
       title = "Model information",

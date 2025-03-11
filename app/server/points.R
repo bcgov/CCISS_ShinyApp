@@ -54,6 +54,7 @@ new_points <- function(points) {
     if (nrow(points) == 0L) {
       points <- uData$basepoints
     } else {
+      #browser()
       points[,`:=`(Long = round(Long, 5), Lat = round(Lat, 5))]
       res <- as.data.table(dbPointInfo(pool, points))
       if(nrow(points) > 1){
