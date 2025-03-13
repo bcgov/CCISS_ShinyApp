@@ -5,7 +5,7 @@ account: bcgov-env
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 12670615
-bundleId: 9085557
+bundleId:
 url: https://bcgov-env.shinyapps.io/ccsummary-100MileHouse/
 version: 1
 asMultiple: FALSE

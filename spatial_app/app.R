@@ -34,7 +34,7 @@ options(shiny.maxRequestSize = 60*1024^2)
 
 # setwd("C:/Users/CMAHONY/OneDrive - Government of BC/Shiny_Apps/CCISS_ShinyApp/spatial_app") # for local testing
 
-studyarea <- "TFL44"
+studyarea <- "100MileHouse"
 indir <- paste("data", studyarea, "", sep="/")
 
 edatopes <- c("B2", "C4", "D6")
@@ -852,7 +852,7 @@ server <- function(input, output, session) {
         values(X) <- factor(pred, levels=units)
         values(X)[1:length(units)] <- 1:length(units) # this is a patch that is necessary to get the color scheme right.
         
-        png(file, width = 5*300, height=if(studyarea=="CDFCP") 3.5*300 else 4.5*300, res = 300)
+        png(file, width = if(studyarea=="100MileHouse") 5.75*300 else 5*300 , height=if(studyarea=="CDFCP") 3.5*300 else 4.5*300, res = 300)
         par(mar=c(0,0,0,0))
         
         plot(X, xaxt="n", yaxt="n", col=alpha(ColScheme, 1), legend=FALSE, legend.mar=0, maxpixels=ncell(X), bty="n", box=FALSE)
@@ -866,8 +866,8 @@ server <- function(input, output, session) {
         temp <- temp[which(temp > 0.005)]
         legendunits <- names(temp)
         
-        if(zonelevel==T) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.7)
-        if(zonelevel==F) legend("topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.5)
+        if(zonelevel==T) legend(if(studyarea=="100MileHouse") "bottomright" else "topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=zonecolors$colour[match(legendunits, zonecolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.7)
+        if(zonelevel==F) legend(if(studyarea=="100MileHouse") "bottomright" else "topright", legend=paste(legendunits, " (", round(temp*100, 0), "%)", sep=""), fill=bgccolors$colour[match(legendunits, bgccolors$classification)], ncol= if(length(legendunits)<12) 1 else if(length(legendunits)<23) 2 else 3, bty="n", cex=0.5)
         
         # box()
         dev.off()
@@ -916,7 +916,7 @@ server <- function(input, output, session) {
           suit.proj <- temp
         }
         
-        png(file=file, type="cairo", units="in", width=5, height=if(studyarea=="CDFCP") 3.5 else 4.5, pointsize=12, res=300)
+        png(file=file, type="cairo", units="in", width=if(studyarea=="100MileHouse") 6.5 else 5, height=if(studyarea=="CDFCP") 3.5 else 4.5, pointsize=12, res=300)
         
         par(plt=c(0,1,0,1), bg="white")
         plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
@@ -934,7 +934,7 @@ server <- function(input, output, session) {
         breakseq <- c(0.5,1.5,2.5,3.5,5)
         ColScheme <- c("darkgreen", "dodgerblue1", "gold2", "white")
         
-        par(plt = c(0.01, 0.4, 0.005, 0.5),new = TRUE, xpd = TRUE)
+        par(plt = c(0.01, 0.38, 0.005, 0.5),new = TRUE, xpd = TRUE)
         
         image(X,xlab = NA,ylab = NA,bty = "n",  xaxt="n", yaxt="n",
               col=ColScheme, breaks=breakseq, maxpixels= ncell(X))
@@ -965,12 +965,12 @@ server <- function(input, output, session) {
         }
         
         #Map
-        par(plt = c(0.3, 0.99, 0.01, 0.9), xpd = TRUE, new = TRUE)
+        par(plt = c(0.38, 0.99, 0.01, 0.9), xpd = TRUE, new = TRUE)
         image(X,xlab = NA,ylab = NA,bty = "n", xaxt="n", yaxt="n", col=ColScheme, breaks=breakpoints, maxpixels= ncell(X))
         plot(vect(bdy), add=T, border="black",col = NA, lwd=0.4)
         
         # Legend
-        par(plt = c(0.75, 0.999, 0.6, 1.0), xpd = TRUE, new = TRUE)
+        par(plt = c(0.4, 0.55, 0.6, 1.0), xpd = TRUE, new = TRUE)
         plot(0, col="white", xaxt="n", yaxt="n", xlab="", ylab="", xlim=c(0,1), ylim=c(0,1), bty="n")
         xl <- 0.2; yb <- 0.1; xr <- 0.4; yt <- 0.9; xadj <- 0.01
         y.int <- (yt-yb)/length(ColScheme)
