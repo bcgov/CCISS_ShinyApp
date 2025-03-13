@@ -636,14 +636,19 @@ $(document).ready(function(){
               includeHTML("./instructions/3e_BGCmodel.html") 
             ),
             tabPanel(
-              title = "Edatopic Overlap",
+              title = "Novel Climates",
               value = "cciss_3f",
-              includeHTML("./instructions/3f_EdatopicOverlap.html") 
+              includeHTML("./instructions/3f_NovelClimates.html") 
+            ),
+            tabPanel(
+              title = "Edatopic Overlap",
+              value = "cciss_3g",
+              includeHTML("./instructions/3g_EdatopicOverlap.html") 
             ),
             tabPanel(
               title = "Rule Sets",
-              value = "cciss_3g",
-              includeHTML("./instructions/3g_Rulesets.html") 
+              value = "cciss_3h",
+              includeHTML("./instructions/3h_Rulesets.html") 
             )
 
           )

@@ -45,8 +45,9 @@ The other tabs in this section provide more detail on the methods underlying the
 - <a href="3c_FeasibilityRatings.html">Feasibility Ratings</a>---Definitions of the tree species feasibility ratings
 - <a href="3d_ClimateProjections.html">Climate Change Projections</a>---Details on the ensemble of climate model projections
 - <a href="3e_BGCmodel.html">BGC Model</a>---Explanation of biogeoclimatic projections and guidance on interpreting them. 
-- <a href="3f_EdatopicOverlap.html">Edatopic Overlap</a>---Methods for aligning site series of the historical and analog BGC units
-- <a href="3g_Rulesets.html">Rule Sets</a>---Rules for synthesizing the feasibility projections into species-specific summary values for each site series
+- <a href="3f_NovelClimates.html">Novel Climates</a>---Methods for detection of novel climates and guidance on interpretation.  
+- <a href="3g_EdatopicOverlap.html">Edatopic Overlap</a>---Methods for aligning site series of the historical and analog BGC units
+- <a href="3h_Rulesets.html">Rule Sets</a>---Rules for synthesizing the feasibility projections into species-specific summary values for each site series
 
 If you're really motivated, check out our peer-reviewed paper on CCISS: 
 
