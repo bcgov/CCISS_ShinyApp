@@ -35,7 +35,9 @@ onStop(function() {
 DEV = TRUE
 
 #####load feas table from database
-S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+#S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
+S1 <- ccissr::S1
+S1 <- S1[,.(bgc,ss_nospace, spp, newfeas)]
 setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
 #####
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
