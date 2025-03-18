@@ -14,9 +14,10 @@ b.	Biogeoclimatic Ecosystem Classification
 c.	Feasibility ratings
 d.	Climate change projections
 e.	Biogeoclimatic model
-f.	Edatopic Overlap
-g.	Rule sets
-4.	Known Issues
+f.	Novel climates
+g.	Edatopic Overlap
+h.	Rule sets
+4.	Known issues
 a.	Overview
 b.	Sources of error
 c.	Novel climates

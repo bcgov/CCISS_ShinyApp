@@ -12,3 +12,5 @@ editor_options:
 
 ### Novel Climate Detection
 
+CCISS uses the best available biogeoclimatic analog for each projected future climate condition. In some cases, the future climate condition does not have a good analog in the pool of historical climates; this is known as a novel climate. The biogeoclimatic model will choose the closest climate analog to the novel climate, but there may be substantial differences between the novel climate conditions and the climate conditions of climate analog. The basic problem of novel climates (poor analogs) is that they give misleading results but are not explicitly identified by the biogeoclimatic model. Detecting novel climates requires an additional step in the CCISS analysis. 
+
