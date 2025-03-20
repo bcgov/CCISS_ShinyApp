@@ -141,24 +141,6 @@ biogeoclimatic unit of the 1961-1990 reference period. Boxplots show the
 full range and 25th-75th percentile range of the temperature change
 projected by the 15-GCM ensemble in each RCP/time period combination.
 
-#### Known issues
-
-This version of the BGC projections is a work in progress, and future
-refinements will be made. As more end users engage with the CCISS tool,
-additional issues may come to light. Users can report any issues or
-discrepancies here.
-
-We have already identified several areas for improvement. One key issue
-is that the baseline maps are not being perfectly reconstructed,
-resulting in fuzzy boundaries, and the over- and underrepresentation of
-certain BGC units. For example, the Coastal Mountain-heather Alpine
-(CMA) zone in the Pemberton region appears to be consistently
-underrepresented.
-
-Additionally, future projections appear highly sensitive to changes in
-sampling scheme (Appendix A4), climate variable sets, and RF model
-hyperparameters. These factors will be closely examined in future
-iterations to improve the model’s predictive ability.
 
 #### Guidance for interpretation of biogeoclimatic projections
 
