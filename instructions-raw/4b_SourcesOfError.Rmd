@@ -66,12 +66,9 @@ in the climate mapping.
 Biogeoclimatic modeling involves using machine learning to classify
 climate conditions as biogeoclimatic units (subzones/variants). We have
 found that BGC projections are sensitive to many aspects of model
-training, especially climate variable selection. 
-
-The current version of the BGC projections is a work in progress, and future
-refinements will be made. As more end users engage with the CCISS tool,
-additional issues may come to light. Users can report any issues or
-discrepancies *here*.
+training, especially climate variable selection. The current version of the BGC 
+projections is a work in progress, and future refinements will be made. As more
+end users engage with the CCISS tool, additional issues may come to light. 
 
 We have already identified several areas for improvement. One key issue
 is that the baseline maps are not being perfectly reconstructed,
