@@ -166,7 +166,7 @@ climate, (2) novel climatic characteristics (e.g., extremes) that are
 not represented by the analog, and (3) enduring features of the local
 climate such as frost pooling, lake effects, and wind patterns. The
 estimated BGC classifications from any location and time period require
-careful consideration by the end users of CCISS products. The Role of
+careful consideration by the end users of CCISS products. 
 
 ##### BGC Mapping in a Changing Climate 
 The misinterpretation of biogeoclimatic projections as literal spatial shifts 
