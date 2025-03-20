@@ -41,12 +41,12 @@ Figure 2: Illustration of the CCISS method of using climate analogs to project s
 
 The other tabs in this section provide more detail on the methods underlying the CCISS tool: 
 
-- <a href="3b_BEC.html">BEC</a>---Basics of the Biogeoclimatic Ecosystem Classification and the draft classifications for the US and Alberta
-- <a href="3c_FeasibilityRatings.html">Feasibility Ratings</a>---Definitions of the tree species feasibility ratings
-- <a href="3d_ClimateProjections.html">Climate Change Projections</a>---Details on the ensemble of climate model projections
-- <a href="3e_BGCmodel.html">BGC Model</a>---Explanation of biogeoclimatic projections and guidance on interpreting them. 
-- <a href="3f_EdatopicOverlap.html">Edatopic Overlap</a>---Methods for aligning site series of the historical and analog BGC units
-- <a href="3g_Rulesets.html">Rule Sets</a>---Rules for synthesizing the feasibility projections into species-specific summary values for each site series
+- BEC---Basics of the Biogeoclimatic Ecosystem Classification and the draft classifications for the US and Alberta
+- Feasibility Ratings---Definitions of the tree species feasibility ratings
+- Climate Change Projections---Details on the ensemble of climate model projections
+- BGC Model---Explanation of biogeoclimatic projections and guidance on interpreting them. 
+- Edatopic Overlap---Methods for aligning site series of the historical and analog BGC units
+- Rule Sets---Rules for synthesizing the feasibility projections into species-specific summary values for each site series
 
 If you're really motivated, check out our peer-reviewed paper on CCISS: 
 

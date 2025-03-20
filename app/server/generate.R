@@ -26,11 +26,12 @@ observeEvent(input$generate_results, priority = 100, {
   
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
-  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt)
+  bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt, 
+                                                  session_params$show_novelty, session_params$nov_c)
   tic("Process CCISS data", ticker)
-  cciss           <- uData$cciss           <- cciss(bgc,session_params$estabWt,session_params$futWt)
+  cciss           <- uData$cciss           <- cciss(bgc ,session_params$estabWt,session_params$futWt)
   tic("Format CCISS Results", ticker)
-  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, pts, avg, type = as.logical(input$aggregation))
+  cciss_results   <- uData$cciss_results   <- cciss_results(cciss, bgc, pts, avg, type = as.logical(input$aggregation))
   update_flag(update_flag() + 1) ##make sure things recalculate
   # UI select choices
   tic("Determine UI choices", ticker)
@@ -160,11 +161,15 @@ observeEvent(input$rcp_scenario, {generateState()})
 #observeEvent(userdata$bgc_dt,{generateState()})
 
 # Data processing
-bgc <- function(con, siteno, avg, modWeights) {
+bgc <- function(con, siteno, avg, modWeights, novelty, nov_c = 5) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
-    dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights)
-    dat[FuturePeriod == '1991', BGC.prop := BGC.prop/sum(BGC.prop), by = .(SiteRef)]
+    if(novelty){
+      dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, nov_cutoff = nov_c)
+    } else {
+      dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights)
+    }
+    
   })
   dat
 }
@@ -178,12 +183,19 @@ bgc <- function(con, siteno, avg, modWeights) {
 
 
 cciss <- function(bgc,estabWt,futWt) {
+  if(session_params$show_novelty){
+    bgc <- bgc[BGC.pred != "novel",]
+  }
   edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
   SSPred <- edaOut$NoPhase
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- edaOut$phase
-  #browser()
-  ccissOutput(SSPred = SSPred, suit = S1, rules = R1, feasFlag = F1, 
+  uData$SSPred <- SSPred
+  suit <- copy(S1)
+  if(!session_params$show_ohr) {
+    suit <- suit[(!OHR),]
+  }
+  ccissOutput(SSPred = SSPred, suit = suit, rules = R1, feasFlag = F1, 
               histWeights = estabWt, futureWeights = futWt)
 }
 
@@ -202,34 +214,70 @@ trending_down <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="3
 stable <- '<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 512 512"><line x1="118" y1="304" x2="394" y2="304" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/><line x1="118" y1="208" x2="394" y2="208" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:44px"/></svg>'
 
 ##function for creating full results table
-cciss_results <- function(cciss, pts, avg, type, SS = ccissr::stocking_standards, period_map = uData$period_map) {
+cciss_results <- function(cciss, bgc, pts, avg, type, SS = ccissr::stocking_standards, period_map = uData$period_map) {
   withProgress(message = "Processing...", detail = "Feasibility results", {
     # use a copy to avoid modifying the original object
     results <- copy(cciss$Raw)
     sumResults <- copy(cciss$Summary)
+    
+    if(session_params$show_novelty){
+      bgc_nov <- bgc[BGC.pred == "novel",]
+      bgc_nov[,FuturePeriod := as.integer(FuturePeriod)]
+      results[bgc_nov, NOV := i.BGC.prop, on = c("SiteRef","FuturePeriod")]
+      results[is.na(NOV), NOV := 0]
+      results[,`:=`(`1` = `1`*(1 - NOV),
+                    `2` = `2`*(1 - NOV),
+                    `3` = `3`*(1 - NOV),
+                    `X` = `X`*(1 - NOV))]
+      results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
+                       value.var = c("NewSuit", "1", "2", "3", "X","NOV"))
+      # Required columns, set them if not created by dcast (safety)
+      reqj <- c(
+        "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
+        "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
+        "1_2001","2_2001","3_2001","X_2001", "NewSuit_2001",
+        "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
+        "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
+        "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
+        "1_2081","2_2081","3_2081","X_2081", "NewSuit_2081",
+        "NOV_1961", "NOV_1991","NOV_2001","NOV_2021","NOV_2041","NOV_2061","NOV_2081"
+      )
+      set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
+      setnafill(results, fill = 0, cols = c(
+        "1_1961","2_1961","3_1961","X_1961",
+        "1_1991","2_1991","3_1991","X_1991",
+        "1_2001","2_2001","3_2001","X_2001",
+        "1_2021","2_2021","3_2021","X_2021",
+        "1_2041","2_2041","3_2041","X_2041",
+        "1_2061","2_2061","3_2061","X_2061",
+        "1_2081","2_2081","3_2081","X_2081",
+        "NOV_1961", "NOV_1991","NOV_2001","NOV_2021","NOV_2041","NOV_2061","NOV_2081"
+      ))
+    } else {
+      results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
+                       value.var = c("NewSuit", "1", "2", "3", "X"))
+      # Required columns, set them if not created by dcast (safety)
+      reqj <- c(
+        "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
+        "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
+        "1_2001","2_2001","3_2001","X_2001", "NewSuit_2001",
+        "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
+        "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
+        "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
+        "1_2081","2_2081","3_2081","X_2081", "NewSuit_2081"
+      )
+      set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
+      setnafill(results, fill = 0, cols = c(
+        "1_1961","2_1961","3_1961","X_1961",
+        "1_1991","2_1991","3_1991","X_1991",
+        "1_2001","2_2001","3_2001","X_2001",
+        "1_2021","2_2021","3_2021","X_2021",
+        "1_2041","2_2041","3_2041","X_2041",
+        "1_2061","2_2061","3_2061","X_2061",
+        "1_2081","2_2081","3_2081","X_2081"
+      ))
+    }
 
-    results <- dcast(results, SiteRef + SS_NoSpace + Spp + Curr ~ FuturePeriod,
-                     value.var = c("NewSuit", "1", "2", "3", "X"))
-    # Required columns, set them if not created by dcast (safety)
-    reqj <- c(
-      "1_1961","2_1961","3_1961","X_1961", "NewSuit_1961",
-      "1_1991","2_1991","3_1991","X_1991", "NewSuit_1991",
-      "1_2001","2_2001","3_2001","X_2001", "NewSuit_2001",
-      "1_2021","2_2021","3_2021","X_2021", "NewSuit_2021",
-      "1_2041","2_2041","3_2041","X_2041", "NewSuit_2041",
-      "1_2061","2_2061","3_2061","X_2061", "NewSuit_2061",
-      "1_2081","2_2081","3_2081","X_2081", "NewSuit_2081"
-    )
-    set(results, j = reqj[!reqj %in% names(results)], value = NA_real_)
-    setnafill(results, fill = 0, cols = c(
-      "1_1961","2_1961","3_1961","X_1961",
-      "1_1991","2_1991","3_1991","X_1991",
-      "1_2001","2_2001","3_2001","X_2001",
-      "1_2021","2_2021","3_2021","X_2021",
-      "1_2041","2_2041","3_2041","X_2041",
-      "1_2061","2_2061","3_2061","X_2061",
-      "1_2081","2_2081","3_2081","X_2081"
-    ))
     # Append region
     if(!type){
       region_map <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
@@ -266,21 +314,43 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissr::stocking_standards
     results[,NoPref := NULL]
     results[is.na(PrefAcc_Orig), PrefAcc_Orig := "X"]
     # Append custom generated feasibility svg bars and Trend + ETL
-    current = as.integer(names(period_map)[match("Current", period_map)])
-    results[, `:=`(
-      Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
-      Period = paste0(period_map, collapse = "<br />"),
-      ProjFeas = EstabFeas,
-      PredFeasSVG = paste0(
-        feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
-        feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
-        feasibility_svg(`1_2001`,`2_2001`,`3_2001`,`X_2001`), "<br />",
-        feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
-        feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
-        feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
-        feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
-      )
-    )]
+    
+    #browser()
+    #current = as.integer(names(period_map)[match("Current", period_map)])
+    
+    if(session_params$show_novelty){
+      results[, `:=`(
+        Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
+        Period = paste0(period_map, collapse = "<br />"),
+        ProjFeas = EstabFeas,
+        PredFeasSVG = paste0(
+          feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`,`NOV_1961`), "<br />",
+          feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`,`NOV_1991`), "<br />",
+          feasibility_svg(`1_2001`,`2_2001`,`3_2001`,`X_2001`,`NOV_2001`), "<br />",
+          feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`,`NOV_2021`), "<br />",
+          feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`,`NOV_2041`), "<br />",
+          feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`,`NOV_2061`), "<br />",
+          feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`,`NOV_2081`)
+        )
+      )]
+    } else {
+      results[, `:=`(
+        Species = T1[Spp, paste(paste0("<b>", TreeCode, "</b>"), EnglishName, sep = ": ")],
+        Period = paste0(period_map, collapse = "<br />"),
+        ProjFeas = EstabFeas,
+        PredFeasSVG = paste0(
+          feasibility_svg_nonov(`1_1961`,`2_1961`,`3_1961`,`X_1961`), "<br />",
+          feasibility_svg_nonov(`1_1991`,`2_1991`,`3_1991`,`X_1991`), "<br />",
+          feasibility_svg_nonov(`1_2001`,`2_2001`,`3_2001`,`X_2001`), "<br />",
+          feasibility_svg_nonov(`1_2021`,`2_2021`,`3_2021`,`X_2021`), "<br />",
+          feasibility_svg_nonov(`1_2041`,`2_2041`,`3_2041`,`X_2041`), "<br />",
+          feasibility_svg_nonov(`1_2061`,`2_2061`,`3_2061`,`X_2061`), "<br />",
+          feasibility_svg_nonov(`1_2081`,`2_2081`,`3_2081`,`X_2081`)
+        )
+      )]
+      
+    }
+    
     
     results <- results[!is.na(ProjFeas),]
     results[,Curr := as.character(Curr)]
@@ -297,16 +367,35 @@ cciss_results <- function(cciss, pts, avg, type, SS = ccissr::stocking_standards
   })
 }
 
-
-#' @param ... a list of numeric vector, column names will be used as color. This
-#' function assumes that x rowSums are all equal to 1 and that there is no NA values.
-#' @param width output width of svg
-#' @param height output height of svg
-#' @param colors character vector of colors to use for svg, same length as
-#' ncol x.
-#' @return an svg image of feasibility prediction, one per row in data.frame
-feasibility_svg <- function(..., width = 220L, height = 18L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
+feasibility_svg <- function(..., width = 220L, height = 18L, colors = c("limegreen", "deepskyblue", "gold", "grey","black")) {
   x <- list(...)
+  #browser()
+  col_x <- length(x)
+  x <- matrix(unlist(x), ncol = col_x)
+  row_x <- nrow(x)
+  row_cumsums <- matrixStats::rowCumsums(x)
+  # When cumsum is zero at X just output a 100% grey bar
+  x[which(row_cumsums[,4L] == 0L), 4L] <- 1L
+  pos_x <- row_cumsums
+  pos_x[, 1L] <- 0L 
+  pos_x[, 2L:5L] <- row_cumsums[, 1L:4L] * width
+  width_el <- x * width
+  pos_text <- width_el / 2 + pos_x
+  xdt <- data.table("x" = x, "pos_x" = pos_x, "width_el" = width_el, "pos_text" = pos_text)
+  xdt[,paste0(
+    '<svg viewBox="0 0 ', width,' ', height,'" x="0px" y="0px" width="', width,'px" height="', height,'px">',
+    pfsvg(x.V1, pos_x.V1, width_el.V1, pos_text.V1, height, colors[1L]),
+    pfsvg(x.V2, pos_x.V2, width_el.V2, pos_text.V2, height, colors[2L]),
+    pfsvg(x.V3, pos_x.V3, width_el.V3, pos_text.V3, height, colors[3L]),
+    pfsvg(x.V4, pos_x.V4, width_el.V4, pos_text.V4, height, colors[4L]),
+    pfsvg(x.V5, pos_x.V5, width_el.V5, pos_text.V5, height, colors[5L]),
+    '</svg>'
+  )]
+}
+
+feasibility_svg_nonov <- function(..., width = 220L, height = 18L, colors = c("limegreen", "deepskyblue", "gold", "grey")) {
+  x <- list(...)
+  #browser()
   col_x <- length(x)
   x <- matrix(unlist(x), ncol = col_x)
   row_x <- nrow(x)
@@ -328,6 +417,7 @@ feasibility_svg <- function(..., width = 220L, height = 18L, colors = c("limegre
     '</svg>'
   )]
 }
+
 uData$feasibility_svg <- feasibility_svg
 
 pfsvg <- function(x, pos_x, width_el, pos_text, height, color) {

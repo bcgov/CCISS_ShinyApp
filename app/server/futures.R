@@ -55,8 +55,8 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
     x = -0.05)
   color_ref <- {
     colors <- subzones_colours_ref[classification %in% unique(data2$BGC.pred)]
-    col <- colors$colour
-    names(col) <- colors$classification
+    col <- c(colors$colour,"#000000")
+    names(col) <- c(colors$classification,"novel")
     col
   }
   if(input$future_showss == "BGC"){

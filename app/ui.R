@@ -215,8 +215,10 @@ $(document).ready(function(){
         sidebarhelplink("cciss_instructions_feasibility_report"),
         h5("Report Type"),
         switchInput("feas_type", value = TRUE, onLabel = "Detailed", offLabel = "Summary", width = '200%'),
+        switchInput("ohr_feas", value = TRUE, onLabel = "Use OHR", 
+                    offLabel = "Remove OHR", width = '200%'),
         #materialSwitch("feas_type","Full Report", right = TRUE, status = "primary", value = TRUE),
-        #h6("Filters"),
+        h5("Filters"),
         selectInput("siteref_feas", label = "Choose Site/BGC", choices = character()),
         selectInput("site_series_feas", label = "Choose Site Series", choices = character()),
         radioButtons(
@@ -231,9 +233,9 @@ $(document).ready(function(){
           span(HTML(
             paste0(
               '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-              c("limegreen", "deepskyblue", "gold", "grey"),
+              c("limegreen", "deepskyblue", "gold", "grey","black"),
               '" /><span style="vertical-align:middle">&nbsp;',
-              c("E1: High", "E2: Moderate", "E3: Low", "X: Not Suitable"),
+              c("E1: High", "E2: Moderate", "E3: Low", "X: Not Suitable","Novel Climate"),
               '</span>',
               collapse = "<br />"
             )

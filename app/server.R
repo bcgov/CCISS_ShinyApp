@@ -37,8 +37,8 @@ DEV = TRUE
 #####load feas table from database
 #S1 <- setDT(dbGetQuery(sppDb,"select bgc,ss_nospace,spp,newfeas from feasorig"))
 S1 <- ccissr::S1
-S1 <- S1[,.(bgc,ss_nospace, spp, newfeas)]
-setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible"))
+S1 <- S1[,.(bgc,ss_nospace, spp, newfeas, outrange)]
+setnames(S1,c("BGC","SS_NoSpace","Spp","Feasible","OHR"))
 #####
 bcgov_tileserver <- Sys.getenv("BCGOV_TILESERVER")
 bcgov_tilelayer <- Sys.getenv("BCGOV_TILELAYER")
@@ -81,7 +81,8 @@ shinyServer(function(input, output, session) {
   uData <- session$userData
   portfolio_results <- reactiveValues(data = NULL)
   session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
-                                   modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight)
+                                   modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight,
+                                   show_novelty = TRUE, nov_c = 5, show_ohr = TRUE)
   update_flag <- reactiveVal(0)
   selected_site <- reactiveValues(siteref = NULL, ss = NULL)
   login_text <- reactiveValues(message = '')
@@ -200,7 +201,14 @@ shinyServer(function(input, output, session) {
   observeEvent(input$sesh_params,{
     showModal(modalDialog(
       h2("Adjust Session Parameters"),
-      # Control results
+      h6("Climatic Novelty"),
+      switchInput("show_novelty", value = session_params$show_novelty, onLabel = "Remove highly novel predictions", 
+                  offLabel = "No Novelty Analysis", width = '100%'),
+      sliderInput("novelty_cutoff", "Novelty Cutoff Sigma", min = 2, max = 8, value = session_params$nov_c, step = 0.1),
+      
+      h6("Outside of Home Range (OHR) Species"),
+      switchInput("show_ohr", value = session_params$show_ohr, onLabel = "Use OHR Suitabilities", 
+                  offLabel = "Remove OHR Suitabilies", width = '100%'),
       
       h6("Establishment Feasibility Weights"),
       splitLayout(
@@ -246,6 +254,11 @@ shinyServer(function(input, output, session) {
     session_params$estabWt <- estabWt
     session_params$futWt <- futWt; session_params$modelWt <- all_weight;
     session_params$rcpWt <- rcp_weight; session_params$gcmWt <- gcm_weight
+    
+    session_params$show_novelty <- input$show_novelty
+    session_params$nov_c <- input$novelty_cutoff
+    session_params$show_ohr <- input$show_ohr
+    updateSwitchInput(session, inputId = "ohr_feas", value = input$show_ohr)
     session$sendCustomMessage(type="jsCode", list(code= "$('#generate_results').prop('disabled', false)"))
     removeModal()
   })
