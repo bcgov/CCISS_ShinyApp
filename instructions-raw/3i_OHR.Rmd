@@ -57,14 +57,17 @@ By-BEC tool.
 
 We have included OHR species where reasonable evidence exists to harness
 the best available knowledge and more accurately capture the species’
-fundamental climate niche. Species like western larch are being
-actively managed and planted outside of their historical range.
-Excluding OHR species would limit the effectiveness of the CCISS tool to
-inform current forest management practices.
+fundamental climate niche. Species like western larch are being actively
+managed and planted outside of their historical range. Excluding OHR
+species would limit the effectiveness of the CCISS tool to inform
+current forest management practices.
 
 However, often suitability to the historical baseline climate
-(1961-1990) is not proven. Trials that extend well into the 1961-1990
-period are less common. We have included the option to remove OHR
+(1961-1990) is not proven. Successful operational and research trials
+that extend well into the 1961-1990 period are less common. There are
+limitations to range models, such as the Jaquish western larch modelling
+and there is uncertainty in suitability extrapolated into intermediate
+or climatically similar areas. We have included the option to remove OHR
 suitability ratings from CCISS projections as there is less certainty in
 the accuracy of these ratings. There is some hesitation around
 projecting off-site species into future climate given the already high
