@@ -12,10 +12,7 @@ editor_options:
 
 ### OHR – “Outside Home Range” Species
 
-The term “outside home range” (OHR) refers to a tree species that was
-not historically found in a given geographical area (i.e. biogeoclimatic
-subzone-variant or site series) which has since been planted and
-established in this area outside of its historical range. OHR species
+The term “outside home range” (OHR) refers to occurrences of a tree species that has been planted and established in a geographical area (i.e. biogeoclimatic subzone-variant) where it does not occur naturally. In some cases, OHR species
 were restricted by something other than climate, such as migration
 limitations (for example, western larch) or forest health factors (for
 example, western white pine limited by blister rust). We have added an
@@ -26,10 +23,10 @@ suitability ratings are based on.
 
 Strong evidence includes species that have been capable of successful
 establishment, productivity, and resilience in an area for at least
-several decades as evidenced in long-term successful plantings of the
+several decades as evidenced in long-term plantings of the
 species. In other words, the area lies within the species’ historic
 fundamental, but not realized, niche. These trees may not occur
-naturally in the AOI due to low migration rates, geographic isolation,
+naturally in the area of interest (AOI) due to low migration rates, geographic isolation,
 or other non-climatic factors, but will likely be successful in this
 area immediately. Supporting information may include such evidence as:
 
@@ -38,7 +35,7 @@ area immediately. Supporting information may include such evidence as:
     plantations in the ICHmc2 of the Skeena region.
 
 2.  Range modelling using historic climates strongly suggests their
-    suitability.  E.g. Jaquish western larch modelling (Rehfeldt &
+    suitability.  E.g., western larch (Rehfeldt &
     Jaquish 2010).
 
 3.  Extrapolated suitability into intermediate site or climatically
@@ -65,7 +62,7 @@ current forest management practices.
 However, often suitability to the historical baseline climate
 (1961-1990) is not proven. Successful operational and research trials
 that extend well into the 1961-1990 period are less common. There are
-limitations to range models, such as the Jaquish western larch modelling
+limitations to range models 
 and there is uncertainty in suitability extrapolated into intermediate
 or climatically similar areas. We have included the option to remove OHR
 suitability ratings from CCISS projections as there is less certainty in
