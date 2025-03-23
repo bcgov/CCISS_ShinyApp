@@ -17,6 +17,7 @@ e.	Biogeoclimatic model
 f.	Novel climates
 g.	Edatopic Overlap
 h.	Rule sets
+i.  OHR
 4.	Known issues
 a.	Overview
 b.	Sources of error

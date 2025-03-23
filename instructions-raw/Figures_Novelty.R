@@ -409,6 +409,8 @@ dev.off()
 #---------------------------
 # Illustration of Mahalanobis distance
 #---------------------------
+library(MASS)   #provides eqscplot(x,y), which plots axes of equal scale
+library(plotrix)  #provides draw.ellipse()
 
 png(filename=paste("instructions-raw/Figure_Novelty_MahalDemo.png", sep=""), type="cairo", units="in", width=8, height=6, pointsize=12, res=300)
 
@@ -431,6 +433,9 @@ pca <- prcomp(data, retx=T)  #PCA on the interannual variability (unscaled. scal
 slope <- pca$rotation[2, ]/pca$rotation[1, ]; 
 mn <- apply(data, 2, mean)
 k=sqrt(qchisq(0.95, df = 2)); draw.ellipse(mean(data[,1]),mean(data[,2]), a=pca$sdev[1]*k, b=pca$sdev[2]*k, angle=atan(slope[1])*360/2/pi, lty=2, border="black")
+k=sqrt(qchisq(0.997, df = 2)); draw.ellipse(mean(data[,1]),mean(data[,2]), a=pca$sdev[1]*k, b=pca$sdev[2]*k, angle=atan(slope[1])*360/2/pi, lty=2, border="black")
+# k=sqrt(qchisq(0.99994, df = 2)); draw.ellipse(mean(data[,1]),mean(data[,2]), a=pca$sdev[1]*k, b=pca$sdev[2]*k, angle=atan(slope[1])*360/2/pi, lty=2, border="black")
+# k=sqrt(qchisq(0.9999994, df = 2)); draw.ellipse(mean(data[,1]),mean(data[,2]), a=pca$sdev[1]*k, b=pca$sdev[2]*k, angle=atan(slope[1])*360/2/pi, lty=2, border="black")
 #establish coordinates of the PC z-scores
 sigma <- c(-3,-2,-1,1,2,3) #which z-scores to provide tick marks for 
 pc1.x <- mean(data[,1])+sigma*sqrt(pca$sdev[1]^2/(1+slope[1]^2))
@@ -449,6 +454,7 @@ text(pc2.x-sqrt((tk*exp)^2/(1+(1/slope[2])^2))+0.5,pc2.y-sqrt((tk*exp)^2/(1+slop
 text(max(pc1.x)-0., min(pc1.y)-0.07, "PC1", pos=4, font=2)
 par(srt=55); text(max(pc2.x)+0.28, max(pc2.y)+.1, "PC2", pos=3, font=2); par(srt=0)
 
-points(22.5, 300/y.scale, pch=16, cex=1.5)
+data.new <- data.frame(x=22.5, y=300/y.scale)
+points(data.new, pch=16, cex=1.5)
 
 dev.off()
