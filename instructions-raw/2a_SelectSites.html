@@ -98,38 +98,57 @@ the output.</p>
 </div>
 <div id="adjust-session-parameters-optional" class="section level2">
 <h2>Adjust Session Parameters (Optional)</h2>
-<p>The CCISS tool makes calculations that differentially weight climate
-models, scenarios, and time periods in results. We have assigned
-recommended weightings for general use of the tool. However, for some
-purposes users may wish to adjust the weights given to these parameters
-based on their specific objectives.</p>
+<p>This dialog box allows users to view and adjust the default settings
+of the CCISS tool. Users are encouraged to read the relevant sections of
+the CCISS tool documentation prior to changing the default settings.</p>
+<div id="climatic-novelty" class="section level3">
+<h3>1. Climatic novelty</h3>
+<p>Climatic novelty refers to the degree of mismatch between a future
+climate condition and the biogeoclimatic analog it is classified as.
+Valid inferences of species suitability are not possible in highly novel
+climates. By default, biogeoclimatic projections with high (5<span class="math inline"><em>σ</em></span>) novelty are removed from CCISS
+results and replaced with a black bar in the detailed feasibility
+results. Removal of novelty climates can be disabled, and the 5<span class="math inline"><em>σ</em></span> threshold can be adjusted. See
+Documentation - Methods - Novel Climates.</p>
+</div>
+<div id="outside-of-home-range-ohr-suitabilities" class="section level3">
+<h3>2. Outside of Home Range (OHR) suitabilities</h3>
+<p>CCISS includes environmental suitability ratings for Douglas-fir and
+western larch in biogeoclimatic subzone-variants where there is strong
+evidence that they were suitable for the baseline 1961-1990 climate
+despite not occuring there naturally due to migration lag. The inclusion
+of OHR suitabilities can be disabled. See Documentation - Methods -
+OHR.</p>
+</div>
 <div id="establishment-feasibility-weights" class="section level3">
-<h3>1. Establishment feasibility weights</h3>
-<p>The Feasibility report provides an assessment of
+<h3>3. Establishment feasibility weights</h3>
+<p>The Feasibility Report provides an assessment of
 <strong>establishment feasibility</strong>, representing the likelihood
 of success in establishing the species to free growing if planted in the
 present climate. This value is a weighted average of the environmental
-feasibility in the 1961-2020, 2001-2020, and 2021-2040 periods. The
-default weightings are even across these periods to reflect three
-perspectives on feasibility. First, the 1961-1990 period reflects the
-proven viability of the species in the ecosystem. Second, the 2001-2020
-period reflects the actual climate experienced in the location of
-interest. Third, the 2021=2040 period is the expected climate during the
-establishment of the species. Users may want to adjust the establishment
-feasibility weights based on whether they want a more
-historically-oriented or future-oriented assessment. Note that the
-feasibility in each of these periods is visible in the detailed
-feasibility report.</p>
+feasibility in the baseline 1961-1990, observed 2001-2020, and projected
+2021-2040 periods. The default weightings are even across these periods
+to reflect three perspectives on feasibility. First, the 1961-1990
+period reflects the proven viability of the species in the ecosystem.
+Second, the observed 2001-2020 period reflects the actual climate
+experienced in the location of interest. Third, the projected 2021=2040
+period is the expected climate during the establishment of the species.
+Users may want to adjust the establishment feasibility weights based on
+whether they want a more historically-oriented or future-oriented
+assessment. Note that the feasibility in each of these periods is
+visible in the detailed feasibility report. See Documentation - Methods
+- Rule Sets.</p>
 </div>
-<div id="maturation-weights" class="section level3">
-<h3>2. Maturation weights</h3>
+<div id="maturation-feasibility-weights" class="section level3">
+<h3>4. Maturation feasibility weights</h3>
 <p>The Feasibility Report provides an assessment of <strong>maturation
 feasibility</strong>: the feasibility of the species through the entire
 future period to rotation (2021 to 2100). The default setting equally
-weight the four 20-year future time periods.</p>
+weights the four 20-year future time periods. See Documentation -
+Methods - Rule Sets.</p>
 </div>
 <div id="gcm-weights" class="section level3">
-<h3>3. GCM weights</h3>
+<h3>5. GCM weights</h3>
 <p>There are 13 global climate models available in the CCISS tool.
 However, the CCISS tool defaults to the 8-model ensemble of global
 climate models recommended by <a href="https://doi.org/10.1002/joc.7566">Mahony et al. (2022)</a> and
@@ -138,10 +157,11 @@ excluded because their warming rates aren’t supported by observational
 evidence (CanESM5, UKESM1, INM-CM5; explained <a href="https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf">here</a>),
 because they only have a single run for each scenario (BCC-CSM2,
 INM-CM5), or because they exhibit unrealistic localized warming in BC
-(IPSL-CM6A).</p>
+(IPSL-CM6A). See Documentation - Methods - Climate Change
+Projections.</p>
 </div>
 <div id="scenario-weights" class="section level3">
-<h3>4. Scenario weights</h3>
+<h3>6. Scenario weights</h3>
 <p>Global climate model projections follow scenarios of future
 greenhouse gas emissions called <a href="https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change">Shared
 Socioeconomic Pathways</a> (SSPs). The CCISS tool provides the option of
@@ -154,7 +174,8 @@ scenarios to represent scenario uncertainty in climate change
 projections. We have set SSP5-8.5 weighting to 0 in the default
 scenarios because it is extremely unlikely based on current trends in
 energy economics and policy (<a href="https://www.nature.com/articles/d41586-020-00177-3">Hausfather and
-Peters 2020</a>).</p>
+Peters 2020</a>). See Documentation - Methods - Climate Change
+Projections.</p>
 </div>
 </div>
 

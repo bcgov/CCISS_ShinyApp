@@ -21,7 +21,6 @@ i.  OHR
 4.	Known issues
 a.	Overview
 b.	Sources of error
-c.	Novel climates
 d.	Space-for-time substitution
 5.	Making decisions using CCISS
 a.	Decision guidance
