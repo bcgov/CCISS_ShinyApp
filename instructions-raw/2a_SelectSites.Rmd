@@ -50,7 +50,7 @@ This dialog box allows users to view and adjust the default settings of the CCIS
 
 ### 1. Climatic novelty
 
-Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed feasibility results. Removal of novelty climates can be disabled, and the 5$\sigma$ threshold can be adjusted. See Documentation - Methods - Novel Climates.  
+Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed feasibility results. Removal of novel climates can be disabled, and the 5$\sigma$ threshold can be adjusted. See Documentation - Methods - Novel Climates.  
 
 ### 2. Outside of Home Range (OHR) suitabilities
 

@@ -78,6 +78,11 @@ The weights used to calculate Establishment Feasibility and Maturation
 Feasibility can be modified using the "Adjust Parameters" dialog box in
 the "Select Sites" tab.
 
+#### Novel climates
+
+Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed feasibility results. Removal of novel climates can be disabled or adjusted using the "Adjust Parameters" dialog box in
+the "Select Sites" tab. See Documentation - Methods - Novel Climates for more details.  
+
 ### Summary report
 
 This report compares CCISS maturation feasibility with the Chief
