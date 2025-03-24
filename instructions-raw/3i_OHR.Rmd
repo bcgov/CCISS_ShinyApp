@@ -10,7 +10,7 @@ editor_options:
     wrap: 72
 ---
 
-### OHR – “Outside Home Range” Species
+### OHR – “Outside Home Range” Suitabilities
 
 The term “outside home range” (OHR) refers to occurrences of a tree species that has been planted and established in a geographical area (i.e. biogeoclimatic subzone-variant) where it does not occur naturally. In some cases, OHR species
 were restricted by something other than climate, such as migration
