@@ -42,14 +42,16 @@ Figure 2: Illustration of the CCISS method of using climate analogs to project s
 The other tabs in this section provide more detail on the methods underlying the CCISS tool: 
 
 - BEC---Basics of the Biogeoclimatic Ecosystem Classification and the draft classifications for the US and Alberta
-- Feasibility Ratings---Definitions of the tree species feasibility ratings
-- Climate Change Projections---Details on the ensemble of climate model projections
+- Feasibility Ratings---Definitions of the tree species feasibility ratings.
+- Climate Change Projections---Details on the ensemble of climate model projections.
 - BGC Model---Explanation of biogeoclimatic projections and guidance on interpreting them. 
-- Edatopic Overlap---Methods for aligning site series of the historical and analog BGC units
-- Rule Sets---Rules for synthesizing the feasibility projections into species-specific summary values for each site series
+- Novel climates---Measuring how well biogeoclimatic analogs match current and future climates.  
+- Edatopic Overlap---Methods for aligning site series of the historical and analog BGC units.
+- Rule Sets---Rules for synthesizing the feasibility projections into species-specific summary values for each site series.
+- OHR suitabilities---Baseline suitability ratings for tree species outside their home range.
 
 
-If you're really motivated, check out our peer-reviewed paper on CCISS: 
+Also, check out our peer-reviewed paper on CCISS: 
 
 MacKenzie, W.H. and C.R. Mahony. 2021. [An ecological approach to climate change-informed tree species selection for reforestation](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf). Forest Ecology and Management 481:118705
 
