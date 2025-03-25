@@ -47,7 +47,7 @@ Jaquish 2010).
 
 **Figure 1.** Range and environmental suitability of western larch in
 grey, historical range (left) and including OHR ratings (right) from the
-By-BEC tool. Darker colours represent higher suiatbility ratings in that
+By-BEC tool. Darker colours represent higher suitability ratings in that
 BEC subzone-variant.
 
 **Fd -** Successful operational and research off-site trials \>30 years
