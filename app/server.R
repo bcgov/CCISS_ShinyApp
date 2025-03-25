@@ -208,7 +208,7 @@ shinyServer(function(input, output, session) {
       
       h6("Outside of Home Range (OHR) Species"),
       switchInput("show_ohr", value = session_params$show_ohr, onLabel = "Use OHR Suitabilities", 
-                  offLabel = "Remove OHR Suitabilies", width = '100%'),
+                  offLabel = "Remove OHR Suitabilities", width = '100%'),
       
       h6("Establishment Feasibility Weights"),
       splitLayout(

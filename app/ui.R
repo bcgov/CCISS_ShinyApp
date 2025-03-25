@@ -651,6 +651,11 @@ $(document).ready(function(){
               title = "Rule Sets",
               value = "cciss_3h",
               includeHTML("./instructions/3h_Rulesets.html") 
+            ),
+            tabPanel(
+              title = "Outside Home Range",
+              value = "cciss_3i",
+              includeHTML("./instructions/3i_OHR.html") 
             )
 
           )
@@ -677,11 +682,6 @@ $(document).ready(function(){
               title = "Sources of Error",
               value = "cciss_4b",
               includeHTML("./instructions/4b_SourcesOfError.html") 
-            ),
-            tabPanel(
-              title = "Novel Climates",
-              value = "cciss_4c",
-              includeHTML("./instructions/4c_NovelClimates.html") 
             ),
             tabPanel(
               title = "Space-for-time Substitution",
