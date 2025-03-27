@@ -12,32 +12,35 @@ editor_options:
 
 ### CCISS Rulesets
 
-CCISS tries to account for uncertainty in future climates by using a
-suite of global climate models (GCMs) and emission scenarios (SSPs).
-This strategy usually leads to multiple projected BGCs for each
-requested location (as shown in the "BGC Futures" tab) and thus, a range
-of projected suitabilities. While it is often informative to observe the
+To account for uncertainty in future climates, CCISS uses a suite of 8
+global climate models (GCMs) and 3 emission scenarios (SSPs). This
+strategy usually leads to multiple projected BGCs for each requested
+location (as shown in the "BGC Futures" tab) and thus, a range of
+projected suitabilities. While it is often informative to observe the
 full distribution of projected suitabilities, CCISS also uses rulesets
 to "summarise" the projected suitabilities into a single value.
 
 #### CCISS Suitability
 
 For each future period, the raw output of CCISS projections consist of
-possible suitability values (1,2,3 or X), and the number of
-models/scenario combinations that "vote" for a given suitability. (Note
-that due to overlapping edatopic space, there is often not a one-to-one
-connection between models and suitability values.) To summarise these
-votes into a single "projected suitability", we use the following
+possible suitability values (E1-high suitability, E2-moderate
+suitability, E3-low suitability or X-not suitable) for each climate
+model/emission scenario combination, i.e. a "vote" for a given
+suitability. (Note that due to overlapping edatopic space, there is
+often not a one-to-one match between models and suitability values. See
+the "Methods - Overview" tab for a detailed explaination of edatopic
+overlap.) To summarise these votes into a single "projected suitability"
+for each tree species at each requested location, we use the following
 equation:
 
 $$
-\text{Projected Suitability} = P(1) + 2P(2) + 3P(3) + 5P(X)
+\text{Projected Suitability} = P(E1) + 2P(E2) + 3P(E3) + 5P(X)
 $$
 
 where $P(s)$ represents the proportion of votes for suitability $s$ and
-$P(1) + P(2) +P(3) + P(X) = 1$. In essence, this is a weighted average
-of the suitability values, with slightly higher weight on non-suitable
-predictions.
+$P(E1) + P(E2) +P(E3) + P(X) = 1$. In essence, this is a weighted
+average of the suitability values, with slightly higher weight on
+non-suitable predictions.
 
 #### Establishment and Maturity
 
@@ -51,7 +54,7 @@ projected suitabilities, while Maturity uses all future periods (2021 -
 Parameters", and are by default almost equally weighted.
 
 There is one exception to the Establishment Suitability values: if a
-species is listed as historically unsuitable, but has a 1,2 or 3
+species is listed as historically unsuitable, but has a E1, E2 or E3
 Maturity Suitability, it gets listed as a "Trial" in Establishment
 Suitability.
 
@@ -62,8 +65,8 @@ creates a projected Preferred/Acceptable rating, based on
 species-specific suitability cutoffs and the Maturity Suitability
 (described above). The CCISS tool uses these in the "Summary"
 suitability view, as well as in the exported data. For most conifer
-species, a primary or secondary suitability translates to $P$, and a
-tertiary suitability translates to $A$. There are a few exceptions, such
-as **Hm**, which is only assigned $P$ with a primary suitability. With
-the exception of Oaks, most broadleaf species are not assigned a $P/A$
-value.
+species, a suitability translates of 1E or E2 to $P$ (preferred), and a
+E3 suitability translates to $A$ (acceptable). There are a few
+exceptions, such as **Hm** (mountain hemlock), which is only assigned
+$P$ with a suitability of E1. With the exception of Oaks, most broadleaf
+species are not assigned a $P/A$ value.
