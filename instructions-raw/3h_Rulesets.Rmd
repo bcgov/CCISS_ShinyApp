@@ -12,7 +12,7 @@ editor_options:
 
 ### CCISS Rulesets
 
-To account for uncertainty in future climates, CCISS uses a suite of 8
+To account for uncertainty in future climates CCISS uses a suite of 8
 global climate models (GCMs) and 3 emission scenarios (SSPs). This
 strategy usually leads to multiple projected BGCs for each requested
 location (as shown in the "BGC Futures" tab) and thus, a range of
@@ -28,7 +28,7 @@ suitability, E3-low suitability or X-not suitable) for each climate
 model/emission scenario combination, i.e. a "vote" for a given
 suitability. (Note that due to overlapping edatopic space, there is
 often not a one-to-one match between models and suitability values. See
-the "Methods - Overview" tab for a detailed explaination of edatopic
+the "Methods - Overview" tab for a detailed explanation of edatopic
 overlap.) To summarise these votes into a single "projected suitability"
 for each tree species at each requested location, we use the following
 equation:
