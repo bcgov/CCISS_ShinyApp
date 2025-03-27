@@ -1,0 +1,92 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Tree species suitability report
+
+This is the main report of the CCISS tool. The Summary mode of this
+report provides a comparison of the Chief Forester's Reference Guide (CFRG), the Environmental suitability rating (expert derived) and the CCISS suitability assessment at establishment and maturity. The
+Detailed mode shows the distribution of suitability ratings for the
+global climate model ensemble in each time period.
+
+The concept and definitions of Environmental suitability ratings and their relationship to Stocking Standards (CFRG) and CCISS model projections are discussed
+in more detail <a href="3c_SuitabilityRatings.html">here</a>.
+
+### Selection/Filter pane
+
+In the left pane select the BGC subzone/variant and then the site series of
+interest. The edatopic space of the selected site series is displayed in
+the graphic below for reference. By default the report will show all
+species that are predicted to be suitable in at least one model and time
+period. Choose the "Suitable Only" option to limit the list to species
+that meet the threshold for classification as suitable across the global
+climate model ensemble in any of the time periods.
+
+### Detailed report
+
+This report shows modelled suitability ratios for each species in the
+selected site series for each time period. The colour legend for
+suitability ratings is on the left hand pane. The mapped biogeoclimatic
+unit represents the historical equilibrium climate approximated by the
+climatic conditions of the 1961-1990 period. The recent time period
+(2001-2020) has two bars: one for the observed climate (measured by
+weather stations), and one for the climates simulated by the ensemble of
+global climate models. These two bars aren't necessarily expected to
+agree: The modelled climates sample a large range of possible recent
+conditions, of which the observed recent climate is only one.
+
+The report then summarizes the historic suitability ratings and CCISS
+forecasted suitability ratings for each species in the following order:
+
+1.  The **CFRG suitability** rating: Suitability ratings taken directly
+    from the Chief foresters reference guide
+
+2.  The **CFRG P/A** value: Preferred/Acceptable ratings taken directly
+    from the Chief foresters reference guide
+
+3.  The **Historical Environmental Suitability**: Expert derived baseline (1961-1990)
+    environmental suitability rating for site series.
+
+4.  **CCISS Establishment Suitability**: The suitability rating based on
+    the historic environmental suitability (1961-1990), and CCISS forecasted suitability based on recent      observed (2001-2020), and 2021-2040 future projected climates. This indicates the likely level of
+    constraints for successful establishment of the species in the
+    present climate. Default model settings give roughly equal weight to the three time periods, with         slightly more weight to the recent (2001+) periods.
+
+5.  **CCISS Maturation Suitability**: The mean suitability rating projected across
+    the four 20-year normal periods (2021-2100). This indicates the inferred
+    suitability of successfully growing an established species to maturity (80
+    years). Default model settings equally weight all time periods. 
+
+6.  **P/A**: CCISS model assessed preferred/acceptable rating based on establishment
+    and maturation suitability.
+
+7.  **Trend**: the proportion of the GCM simulations indicating
+    improving/stable suitability (numerator) vs. declining suitability
+    or remaining unsuitable.
+
+The weights used to calculate Establishment Suitability and Maturation
+Suitability can be modified using the "Adjust Parameters" dialog box in
+the "Select Sites" tab.
+
+#### Novel climates
+
+Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed suitability results. Removal of novel climates can be disabled or adjusted using the "Adjust Parameters" dialog box in
+the "Select Sites" tab. See Documentation - Methods - Novel Climates for more details.  
+
+### Summary report
+
+This report compares CCISS maturation suitability with the Chief
+Forester's Reference Guide for Stocking Standards. Species codes are
+coloured according to trends in their future suitability using the
+legend at the bottom of the selection pane: improving (green),
+decreasing (red). Species added to the CCISS stocking standard are
+coloured purple, and species dropped from the CCISS stocking standard
+are strike-through.
