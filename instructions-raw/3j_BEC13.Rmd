@@ -15,7 +15,7 @@ editor_options:
 This version of CCISS uses BEC13, which includes the biogeoclimatic
 classification published in LMH77.
 
-#### LMH 77 Updates
+#### LMH77 Updates
 
 LMH77 replaces the previously published site identification field guide
 for the Vancouver Forest Region (Green and Klinka 1994) and portions of
