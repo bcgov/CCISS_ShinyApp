@@ -119,7 +119,7 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
 
     tempTable <- knitr::kable(
       data, format = format, align = c("l","c","c","c","c","c","c"), escape = FALSE,
-      col.names = c("Tree Species", "Period", "Modelled Feasibility",
+      col.names = c("Tree Species", "Period", "Modelled Suitability",
                     "CFRG Suitability", "CFRG P/A", "Environmental","Establishment",
                     "Maturity","<u>Improve/Same</u><br />Decline/Unsuitable"),
       table.attr = 'class="table table-hover"') %>%

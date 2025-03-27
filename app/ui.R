@@ -204,7 +204,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('[data-toggle=\"popover\"]').popover(); 
 });"),
-    title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
+    title = navhelplink("SUITABILITY REPORT", "cciss_instructions_feasibility_report_nav"),
     value = "feasibility",
     tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
     sidebarLayout(
@@ -224,11 +224,11 @@ $(document).ready(function(){
         radioButtons(
           "filter_feas",
           label = "Feasibility",
-          choices = c("All" = "a", "Feasible Only" = "f"),
+          choices = c("All" = "a", "Suitable Only" = "f"),
           selected = "a",
           inline = T
         ),
-        h5("Feasibility Legend"),
+        h5("Suitability Legend"),
         bslib::tooltip(
           span(HTML(
             paste0(
@@ -482,7 +482,7 @@ $(document).ready(function(){
         selectInput(
           "report_filter_feas",
           label = "Tree Species",
-          choices = c("All" = "a", "Feasible Only" = "f")
+          choices = c("All" = "a", "Suitable Only" = "f")
         ),
         actionButton(
           "report_filter_all",

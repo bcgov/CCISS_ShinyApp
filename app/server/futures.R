@@ -56,14 +56,19 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
   color_ref <- {
     colors <- subzones_colours_ref[classification %in% unique(data2$BGC.pred)]
     col <- c(colors$colour,"#000000")
-    names(col) <- c(colors$classification,"novel")
+    names(col) <- c(colors$classification,"Novel Climate")
     col
   }
+  # data2[,text_col := "#000000"]
+  data2[BGC.pred == "novel", BGC.pred := "Novel Climate"]
+  temp <- unique(data2$BGC.pred)
+  data2[,BGC.pred := factor(BGC.pred, levels = c(sort(temp[-grep("Novel",temp)]),"Novel Climate"))]
+  # data2[,BGC.pred := as.character(BGC.pred)]
   if(input$future_showss == "BGC"){
     plotly::plot_ly(data = data2, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                     color = ~BGC.pred, colors = color_ref, hovertemplate = "%{y}",
-                    text = ~BGC.pred, textposition = 'inside', textfont = list(color = "black", size = 12),
+                    text = ~BGC.pred, insidetextfont = list(size = 12), textfont = list(color = "#FFF"), textposition = 'inside',
                     texttemplate = "%{text}") %>%
       plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                      xaxis = list(showspikes = FALSE, title = list(text = "Period"),

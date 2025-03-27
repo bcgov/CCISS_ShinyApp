@@ -1,0 +1,55 @@
+Field,Description
+ID,User- or auto-supplied numeric identifier of each site
+SiteRef,Internal hex-polygon reference
+SS_NoSpace,Site series
+Spp,Tree species
+Curr,Expert-defined baseline environmental suitabilty rating for the observed climate of the 1961-1990 period
+NewSuit_1961,Modeled suitability for the observed climate of the 1961-1990 period
+NewSuit_1991,Average modeled suitability for the observed climate of the 1991-2020 period (4 = non-suitable)
+NewSuit_2001,Average modeled suitability for the simulated climates of the 2001-2020 period (4 = non-suitable)
+NewSuit_2021,Average modeled suitability for the simulated climates of the 2021-2040 period (4 = non-suitable)
+NewSuit_2041,Average modeled suitability for the simulated climates of the 2041-2060 period (4 = non-suitable)
+NewSuit_2061,Average modeled suitability for the simulated climates of the 2061-2080 period (4 = non-suitable)
+NewSuit_2081,Average modeled suitability for the simulated climates of the 2081-2100 period (4 = non-suitable)
+1_1961,Proportion of climate models projecting suitability 1 for the specified period
+1_1991,Proportion of climate models projecting suitability 1 for the specified period
+1_2001,Proportion of climate models projecting suitability 1 for the specified period
+1_2021,Proportion of climate models projecting suitability 1 for the specified period
+1_2041,Proportion of climate models projecting suitability 1 for the specified period
+1_2061,Proportion of climate models projecting suitability 1 for the specified period
+1_2081,Proportion of climate models projecting suitability 1 for the specified period
+2_1961,Proportion of climate models projecting suitability 2 for the specified period
+2_1991,Proportion of climate models projecting suitability 2 for the specified period
+2_2001,Proportion of climate models projecting suitability 2 for the specified period
+2_2021,Proportion of climate models projecting suitability 2 for the specified period
+2_2041,Proportion of climate models projecting suitability 2 for the specified period
+2_2061,Proportion of climate models projecting suitability 2 for the specified period
+2_2081,Proportion of climate models projecting suitability 2 for the specified period
+3_1961,Proportion of climate models projecting suitability 3 for the specified period
+3_1991,Proportion of climate models projecting suitability 3 for the specified period
+3_2001,Proportion of climate models projecting suitability 3 for the specified period
+3_2021,Proportion of climate models projecting suitability 3 for the specified period
+3_2041,Proportion of climate models projecting suitability 3 for the specified period
+3_2061,Proportion of climate models projecting suitability 3 for the specified period
+3_2081,Proportion of climate models projecting suitability 3 for the specified period
+X_1961,Proportion of climate models projecting unsuitable for the specified period
+X_1991,Proportion of climate models projecting unsuitable for the specified period
+X_2001,Proportion of climate models projecting unsuitable for the specified period
+X_2021,Proportion of climate models projecting unsuitable for the specified period
+X_2041,Proportion of climate models projecting unsuitable for the specified period
+X_2061,Proportion of climate models projecting unsuitable for the specified period
+X_2081,Proportion of climate models projecting unsuitable for the specified period
+ZoneSubzone,Subzone-variant that the selection location is in. 
+Region,Forest Region - used for CFRG attribution
+CFSuitability,Suitability rating from the Chief Foresters Reference Guide for Stocking Standards
+PrefAcc_Orig,Preferred/Acceptable rating from the Chief Foresters Reference Guide for Stocking Standards
+EstabFeas,"The suitability rating based on the mean historic, current, and 2021-2040 future projected suitabilities."
+ccissFeas,The mean suitability rating across the 20-year normal periods (2021-2100). Referred to as CCISS maturation suitability
+Improve,The proportion of the GCM simulations indicating improving/stable suitability
+Decline,The proportion of the GCM simulations indicating declining suitability or remaining unsuitable.
+OrderCol,Back-end field
+IncludeFlag,Back-end field
+PrefAcc,Preferred/Acceptable rating for reforestation based on CCISS results
+Species,Back-end field
+Period,Back-end field
+ProjFeas,Back-end field

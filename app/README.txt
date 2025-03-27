@@ -1,0 +1,1 @@
+Thanks for CCISSing! This folder contains the downloaded data (cciss_export.csv) and a metadata file explaining the column headings (cciss_metadata.csv). Note that use of this data is conditional on the BC Government Open Data License (https://www2.gov.bc.ca/gov/content/data/policy-standards/open-data/open-government-licence-bc). 

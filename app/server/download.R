@@ -87,7 +87,7 @@ output$data_download <- downloadHandler(
       # rds only returns R serialized data
       uData$site_series_filter <- input$report_filter
       saveRDS(uData, "cciss_export.rds")
-      zip(file,c("cciss_export.rds","./www/downloadable_docs/CCISS_DataExport_MetaData.pdf"))
+      zip(file,c("cciss_export.rds"))
     } else if (input$data_format == "csv") {
       #browser()
       dat_export <- uData$cciss_results[, -c("PredFeasSVG")]
@@ -96,8 +96,8 @@ output$data_download <- downloadHandler(
         dat_export[id_vals, ID := i.ID, on = c(SiteRef = "Site")]
         setcolorder(dat_export,"ID")
       }
-      fwrite(dat_export, "cciss_data.csv")
-      zip(file,c("cciss_data.csv"))
+      fwrite(dat_export, "cciss_export.csv")
+      zip(file,c("cciss_export.csv","cciss_metadata.csv","README.txt"))
     }
   }
 )
