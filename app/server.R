@@ -18,18 +18,18 @@ sppDb <- dbPool(
   user = Sys.getenv("BCGOV_USR"),
   password = Sys.getenv("BCGOV_PWD")
 )
-poolclim <- dbPool(
-  drv = RPostgres::Postgres(),
-  dbname = "bgc_climate_data",
-  host = Sys.getenv("BCGOV_HOST"),
-  port = 5432, 
-  user = Sys.getenv("BCGOV_USR"),
-  password = Sys.getenv("BCGOV_PWD")
-)
+# poolclim <- dbPool(
+#   drv = RPostgres::Postgres(),
+#   dbname = "bgc_climate_data",
+#   host = Sys.getenv("BCGOV_HOST"),
+#   port = 5432, 
+#   user = Sys.getenv("BCGOV_USR"),
+#   password = Sys.getenv("BCGOV_PWD")
+# )
 onStop(function() {
   poolClose(pool)
   poolClose(sppDb)
-  poolClose(poolclim)
+  #poolClose(poolclim)
 })
 
 DEV = TRUE
@@ -208,15 +208,15 @@ shinyServer(function(input, output, session) {
       
       h6("Outside of Home Range (OHR) Species"),
       switchInput("show_ohr", value = session_params$show_ohr, onLabel = "Use OHR Suitabilities", 
-                  offLabel = "Remove OHR Suitabilies", width = '100%'),
+                  offLabel = "Remove OHR Suitabilities", width = '100%'),
       
-      h6("Establishment Feasibility Weights"),
+      h6("Establishment Suitability Weights"),
       splitLayout(
         numericInput("hwt961","1961-1990", value = session_params$estabWt[1], min = 0, max = 1,step = 0.05),
         numericInput("hwt991","1991-2020", value = session_params$estabWt[2], min = 0, max = 1,step = 0.05),
         numericInput("hwt21","2021-2040", value = session_params$estabWt[3], min = 0, max = 1,step = 0.05)
       ),
-      h6("Future Period Weights"),
+      h6("Maturity Suitability Weights"),
       splitLayout(
         numericInput("wt21","2021-2040", value = session_params$futWt[1], min = 0, max = 1,step = 0.05),
         numericInput("wt41","2041-2060", value = session_params$futWt[2], min = 0, max = 1,step = 0.05),
