@@ -4,23 +4,23 @@ CCISS Manual Outline
 a.	overview
 2.	Instructions (how to use the CCISS tool)
 a.	Select sites
-b.	Feasibility report
+b.	Suitability report
 c.	BEC futures
 d.	Silvics and ecology
 e.	Export
 3.	Methods (how the CCISS tool works)
 a.	Overview
 b.	Biogeoclimatic Ecosystem Classification
-c.	Feasibility ratings
+c.	Suitability ratings
 d.	Climate change projections
 e.	Biogeoclimatic model
 f.	Novel climates
 g.	Edatopic Overlap
 h.	Rule sets
+i.  OHR
 4.	Known issues
 a.	Overview
 b.	Sources of error
-c.	Novel climates
 d.	Space-for-time substitution
 5.	Making decisions using CCISS
 a.	Decision guidance

@@ -12,7 +12,7 @@ editor_options:
 
 ### Climate Change Projections
 
-CCISS quantifies three types of climate change uncertainty: modeling uncertainty, natural variability, and socioeconomic uncertainty. These uncertainties are represented by calculating CCISS results for a large ensemble of potential future climate states. Rather than producing a single species feasibility value, CCISS provides a distribution of 72 feasibility values (8 climate models x 3 simulation runs x 3 socioeconomic scenarios) for each future time-period. 
+CCISS quantifies three types of climate change uncertainty: modeling uncertainty, natural variability, and socioeconomic uncertainty. These uncertainties are represented by calculating CCISS results for a large ensemble of potential future climate states. Rather than producing a single species suitability value, CCISS provides a distribution of 72 suitability values (8 climate models x 3 simulation runs x 3 socioeconomic scenarios) for each future time-period. 
 
 #### Climate modeling uncertainty
  

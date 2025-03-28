@@ -80,13 +80,6 @@ $(document).ready(function(){
             )
           ),
           splitLayout(
-            # radioButtons(
-            #   "aggregation",
-            #   "Report Type",
-            #   c("Indiv Points" = "FALSE", "BGC avg" = "TRUE"),
-            #   inline = TRUE,
-            #   selected = "TRUE"
-            # ),
             tagList(
               br(),
               actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
@@ -204,7 +197,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('[data-toggle=\"popover\"]').popover(); 
 });"),
-    title = navhelplink("FEASIBILITY REPORT", "cciss_instructions_feasibility_report_nav"),
+    title = navhelplink("SUITABILITY REPORT", "cciss_instructions_feasibility_report_nav"),
     value = "feasibility",
     tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
     sidebarLayout(
@@ -223,12 +216,12 @@ $(document).ready(function(){
         selectInput("site_series_feas", label = "Choose Site Series", choices = character()),
         radioButtons(
           "filter_feas",
-          label = "Feasibility",
-          choices = c("All" = "a", "Feasible Only" = "f"),
+          label = "Suitability",
+          choices = c("All" = "a", "Suitable Only" = "f"),
           selected = "a",
           inline = T
         ),
-        h5("Feasibility Legend"),
+        h5("Suitability Legend"),
         bslib::tooltip(
           span(HTML(
             paste0(
@@ -482,7 +475,7 @@ $(document).ready(function(){
         selectInput(
           "report_filter_feas",
           label = "Tree Species",
-          choices = c("All" = "a", "Feasible Only" = "f")
+          choices = c("All" = "a", "Suitable Only" = "f")
         ),
         actionButton(
           "report_filter_all",
@@ -573,9 +566,9 @@ $(document).ready(function(){
               includeHTML("./instructions/2a_SelectSites.html") 
             ),
             tabPanel(
-              title = "Feasibility Report",
+              title = "Suitability Report",
               value = "cciss_instructions_feasibility_report",
-              includeHTML("./instructions/2b_FeasibilityReport.html") 
+              includeHTML("./instructions/2b_SuitabilityReport.html") 
             ),
             tabPanel(
               title = "BEC Futures",
@@ -623,9 +616,9 @@ $(document).ready(function(){
               includeHTML("./instructions/3b_BEC.html") 
             ),
             tabPanel(
-              title = "Feasibility Ratings",
+              title = "Suitability Ratings",
               value = "cciss_3c",
-              includeHTML("./instructions/3c_FeasibilityRatings.html") 
+              includeHTML("./instructions/3c_SuitabilityRatings.html") 
             ),
             tabPanel(
               title = "Climate Change Projections",
@@ -651,6 +644,21 @@ $(document).ready(function(){
               title = "Rule Sets",
               value = "cciss_3h",
               includeHTML("./instructions/3h_Rulesets.html") 
+            ),
+            tabPanel(
+              title = "Outside Home Range",
+              value = "cciss_3i",
+              includeHTML("./instructions/3i_OHR.html") 
+            ),
+            tabPanel(
+              title = "BEC 13",
+              value = "cciss_3j",
+              includeHTML("./instructions/3j_BEC13.html") 
+            ),
+            tabPanel(
+              title = "Expert Review",
+              value = "cciss_3k",
+              includeHTML("./instructions/3k_ExpertReview.html") 
             )
 
           )
@@ -677,11 +685,6 @@ $(document).ready(function(){
               title = "Sources of Error",
               value = "cciss_4b",
               includeHTML("./instructions/4b_SourcesOfError.html") 
-            ),
-            tabPanel(
-              title = "Novel Climates",
-              value = "cciss_4c",
-              includeHTML("./instructions/4c_NovelClimates.html") 
             ),
             tabPanel(
               title = "Space-for-time Substitution",

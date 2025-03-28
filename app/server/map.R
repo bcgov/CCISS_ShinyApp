@@ -2,7 +2,7 @@
 # Map main
 output$bec_map <- renderLeaflet({
   leaflet::leaflet() %>%
-    leaflet::setView(lng = -122.77222, lat = 51.2665, zoom = 7) %>%
+    leaflet::setView(lng = -122.77222, lat = 54.2665, zoom = 6) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterNoLabels, group = "DarkMatter",
@@ -26,16 +26,15 @@ output$bec_map <- renderLeaflet({
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     addBGC() %>%
-    #invokeMethod(data = subzones_colours_ref, method = "addBGCTiles", ~classification, ~colour) %>%
     leaflet::hideGroup("DarkMatter Labels") %>%
     leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "Hillshade"),
       overlayGroups = c("Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
-      position = "topright") %>%
+      position = "topright")
     ##leaflet::addPolygons(color = "purple") %>% 
-    leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
+    ##leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)
 })
 
 # Map proxy

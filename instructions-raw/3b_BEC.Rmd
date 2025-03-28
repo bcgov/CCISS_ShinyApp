@@ -55,11 +55,11 @@ describing climate and site level differences each based on biological
     of the over-arching climate regime).
 
 More information on BEC can be found at
-[BECweb](<https://www.for.gov.bc.ca/hre/becweb/>)
+[BECweb](https://www.for.gov.bc.ca/hre/becweb/)
 
 #### Composite BEC for western North America
 
-Creating species feasibility projections for the future climates of
+Creating species suitability projections for the future climates of
 British Columbia requires finding climate analogs in Alberta and the
 Western US. For Alberta, we adapted the Ecological Classification of
 Alberta (e.g., Archibald et al. 1996), with 21 natural subregions
@@ -70,12 +70,12 @@ draft biogeoclimatic ecosystem classification for the Western US
 developed by Del Meidinger and Will MacKenzie. The resulting composite
 biogeoclimatic units are shown at the zone level in Figure 1.
 
-<img src="Figure_BGCmap.png" alt="Baseline biogeoclimatic units of British Columbia and adjacent jurisdictions, excerpted from Mackenzie & Mahony (2021)" style="width:70%;"/>
+<img src="Figure_BGCmap.png" alt="Baseline biogeoclimatic units of British Columbia and adjacent jurisdictions, excerpted from Mackenzie &amp; Mahony (2021)" style="width:70%;"/>
 
 Figure 1: Baseline biogeoclimatic units of British Columbia and adjacent
 jurisdictions, inferred from 20th-century ecosystem observations.
-Excerpted from Mackenzie & Mahony (2021). (a) Biogeoclimatic zones are the
-highest level of the biogeoclimatic classification. (b) Each zone
+Excerpted from Mackenzie & Mahony (2021). (a) Biogeoclimatic zones are
+the highest level of the biogeoclimatic classification. (b) Each zone
 comprises several subzones and subzone/variants. Draft biogeoclimatic
 ecosystem classifications for jurisdictions adjacent to British Columbia
 have recently been developed to support climate change adaptation with

@@ -14,8 +14,8 @@ editor_options:
 
 #### Export Report
 
-The report is designed for documentation and off-line use of a CCISS tool report session, e.g. as an appendix to a site plan. We recommend including only the site series of interest to the user. Choose the "Feasible Only" option to limit list to species that meet the threshold for inclusion as feasible in any of the time periods.
+The report is designed for documentation and off-line use of a CCISS tool report session, e.g. as an appendix to a site plan. We recommend including only the site series of interest to the user. Choose the "Suitable Only" option to limit list to species that meet the threshold for inclusion as suitable in any of the time periods.
 
 #### Export data
 
-Feasibility data can be exported for conducting further analysis such as calculating summary statistics for your area of interest. Feasibility data exported from the CCISS tool is in "long form" with each row showing projected feasibility by site of interest, site series, and tree species. Data is exported as a .CSV file; a PDF metadata report is included in the export folder.
+Suitability data can be exported for conducting further analysis such as calculating summary statistics for your area of interest. Suitability data exported from the CCISS tool is in "long form" with each row showing projected suitability by site of interest, site series, and tree species. Data is exported as a .CSV file; a PDF metadata report is included in the export folder.
