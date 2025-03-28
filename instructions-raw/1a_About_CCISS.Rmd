@@ -21,11 +21,11 @@ To assist users, the tool compares the current species selection guidance in the
 ### How Can CCISS Be Applied In Climate Change Adaption?
 
 1. Designing Climate-change Stocking Standards
-2. Identifying current management practices that may lead to higer levels of risk with climate change.
-3. Setting Landscape Level Stocking Standards to Manage Uncertainty
+2. Identifying current management practices that may lead to higher levels of risk with climate change.
+3. Setting Landscape Level Stocking Standards to manage uncertainty
 4. Identifying best locations for off-site species reforestation trials/ assisted range expansion
 5. Identifying regions and site conditions where forests and tree species are at highest risk to climate change stresses.
-6. Identifying climate change refugia 
+6. Identifying potential climate change refugia 
 
 The CCISS tool is a web-based R-shiny application organized into six tabs.
 
@@ -34,12 +34,12 @@ The CCISS tool is a web-based R-shiny application organized into six tabs.
     ii.	By selected BGCs or BGCs within districts
     iii.	By submitted CSV file with user site locations
   
-2.	__Feasibility Report:__ 2 options
+2.	__Suitability Report:__ 2 options
     a.	__Detailed__: report suitability predictions for each species for a chosen site series at each point or AOI
     b.	__Stocking Standard__: A comparison of the CFRG stocking standards and the CCISS predicted suitability ratings
     
 3.	__BEC Futures:__ The model ratio of predicted BGCs by time period shown by 2 options.
-    a.	__Chart__: A stacked bar chart shows the ratio of biogeoclimatic units being predicted from the selected GMC and climate scenario models in each time period. Optionaly show the site series that are equivalent within each BGC
+    a.	__Chart__: A stacked bar chart shows the ratio of biogeoclimatic units being predicted from the selected GMC and climate scenario models in each time period. Optional to show the site series that are equivalent within each BGC
     b.	__Map__: Show BGC map of western North America with the target BGC highlighted and the source BGCs for a selected future time period shown in greyscale. 
 
 4.	__Supporting Info:__ This tab has several subtabs.

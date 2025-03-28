@@ -40,15 +40,15 @@ $$
 where $P(s)$ represents the proportion of votes for suitability $s$ and
 $P(E1) + P(E2) +P(E3) + P(X) = 1$. In essence, this is a weighted
 average of the suitability values, with slightly higher weight on
-non-suitable predictions.
+non-suitable predictions. (Note that the E4 suitability class is not yet incorporated into the CCISS model. For more information see "Methods- Suitability ratings") 
 
 #### Establishment and Maturity
 
 Using the projected suitability described above, CCISS then further
-summarises these over multiple time periods into an Establishment
+summarises these ratings over multiple time periods into an Establishment
 Suitability and a Maturity Suitability. Both of these are calculated as
 weighted averages of period-wise suitability: Establishment Suitability
-uses 1961-1990 (historic suitability), 2001-2020, and 2021-2040
+uses 1961-1990 (historic environmental suitability), 2001-2020, and 2021-2040
 projected suitabilities, while Maturity uses all future periods (2021 -
 2100). The weighting of the different periods are adjustable in "Model
 Parameters", and are by default almost equally weighted.
@@ -65,8 +65,8 @@ creates a projected Preferred/Acceptable rating, based on
 species-specific suitability cutoffs and the Maturity Suitability
 (described above). The CCISS tool uses these in the "Summary"
 suitability view, as well as in the exported data. For most conifer
-species, a suitability translates of 1E or E2 to $P$ (preferred), and a
+species, a suitability translates of E1 or E2 to $P$ (preferred), and a
 E3 suitability translates to $A$ (acceptable). There are a few
 exceptions, such as **Hm** (mountain hemlock), which is only assigned
 $P$ with a suitability of E1. With the exception of Oaks, most broadleaf
-species are not assigned a $P/A$ value.
+species are not assigned a $P/A$ value. This may be updated as additional information on broadleaf suitability becomes available. 

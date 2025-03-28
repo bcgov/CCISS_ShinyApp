@@ -87,6 +87,6 @@ This report compares CCISS maturation suitability with the Chief
 Forester's Reference Guide for Stocking Standards. Species codes are
 coloured according to trends in their future suitability using the
 legend at the bottom of the selection pane: improving (green),
-decreasing (red). Species added to the CCISS stocking standard are
-coloured purple, and species dropped from the CCISS stocking standard
-are strike-through.
+decreasing (red). Species added to the CCISS projected stocking standard* are
+coloured purple, and species dropped from the CCISS projected stocking standard*
+are strike-through.*Note these are not formally adopted stocking standards by BC Ministry of Forests. 

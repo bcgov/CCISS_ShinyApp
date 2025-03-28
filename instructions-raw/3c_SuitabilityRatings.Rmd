@@ -10,55 +10,202 @@ editor_options:
     wrap: 72
 ---
 
-### Feasibility (Environmental Suitability) Ratings
+**Environmental Suitability Ratings**
 
-CCISS estimates historical (1961-1990) tree species suitability ratings for all site series in British Columbia to reflect only the feasibility of species for reforestation based on species prominence in natural stands, observed plantation success, and autecological characteristics. Site-level variation in species feasibility within each biogeoclimatic unit for Alberta and the USA was similarly approximated using the plot data located in the modelled climate areas, descriptions available in publications describing forest associations or ecosites, and available autecological interpretations. We define reforestation feasibility using five categories: 
+CCISS incorporates historical (1961-1990) tree species environmental
+suitability ratings for all site series in British Columbia as
+determined by expert knowledge as data inputs. The primary criterion of
+this historical rating is an assessment of the probability of successful
+establishment and growth of a species across the entire environmental
+space of a site series, in the baseline (pre-climate change) climate
+normal period of 1961-90. These environmental suitability ratings
+conceptually represent a response curve of the species’ tolerances to
+environmental (climatic and edaphic) gradients (Fig 1). Site-level
+variation in species suitability within each biogeoclimatic unit for
+Alberta and the USA was similarly approximated using the plot data
+located in the modelled climate areas, descriptions available in
+publications describing forest associations or ecosites, and available
+autecological interpretations.
 
-**E1 -- High environmental suitability**: Typically, no environmental limiting conditions for establishment and growth across the full range of site series conditions.
+<img src="Enviro_suit_curve.jpg" alt="Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients." style="width:100%;"/>
 
-**E2 -- Moderate environmental suitability**: Once tree species are successfully established, they will generally perform well. However;
+**Suitability Definitions**
 
--   species may be more susceptible to occasional but expected climatic extremes leading to mortality, damage, or reduced growth (e.g. drought periods);
+We define environmental suitability using five categories:
 
--   some site types of the site series conditions may have higher constraints for the species leading to poor regeneration success or subsequent growth (e.g. frost prone locations or overly wet sites in Sx -- Horsetail site series),
+**E1 -- High environmental suitability**: Species well within its
+environmental tolerance range.
 
--   may express slow growth rates across all conditions (e.g. woodland subzones or Xeric sites with \~SI50 \< 8m)
+-   Widespread establishment/regeneration success on all climate and
+    edaphic conditions representative of the site series. Expect
+    continuous distribution at a landscape or stand level.
 
-**E3 -- Low environmental suitability**: Establishment and growth may be limited to specific site conditions of the site series but may perform well where successfully established.
+-   Good growth rate and form across the full range of site conditions.
 
--   expected climatic extremes have a high probability of causing reduced growth, damage or mortality in some years (e.g. drought periods);
+-   Typically, no geographic or environmental limitations within the
+    site series
 
--   a limited set of site series conditions are considered feasible for the species though it may perform well under these constraints (e.g. only feasible on warm aspect, lower elevations of the ESSF);
+-   The species is generally common and abundant in natural forests but
+    may be of variable abundance where disturbance regime/stand age
+    distribution is unfavorable (e.g., shade intolerant species in low
+    disturbance landscapes).
 
--   species may express very low growth rates across all conditions (e.g. parkland subzones or rock outcrops with SI50 \< 5m)
+**E2 -- Moderate environmental suitability**: Species occurring outside
+its core environmental tolerance range.
 
-**Non-local Feasibility**: Off-site trials indicate that a non-local species was feasible in the pre-climate change period but that migration lag or some other barrier restricted establishment.
+-   The species has variable abundance in natural forests and/or is
+    often concentrated in select site types of the site series (e.g.,
+    warm aspects, higher elevations, elevated micro sites). Patchy or
+    zoned distribution at a landscape and/or stand level are common.
 
-**Trial**: Species is not recognized as historically feasible for a site series but is projected to become feasible in the near future. Establishment of small operational trials recommended to provide information on possible inclusion of species in feasible species list.
+-    Not all site conditions of the site series may be suitable for
+    successful establishment/regeneration. o Species success is reduced
+    when established in the open and species is fully exposed to climate
+    conditions (e.g., Cw establishment in open conditions in drier ICH
+    climate is limited by heat and sun exposure).
 
-**Unsuitable**: Unlisted species are considered to be unsuitable to the site series in current and future periods. Future projections may indicate species are becoming unsuitable. This indicates that the climatic regime may impose serious growth constraints on the established species but may not necessarily indicate mortality.
+-   Species may be more susceptible to occasional but expected climatic
+    extremes leading to reduced growth, possible damaged form, or
+    mortality (e.g. drought periods, snowpress, extreme temperatures,
+    flooding).
 
-Feasibility for different time periods, given the progression of climate change, are given the following terms in the CCISS tool:
+-   The species may have good growth and survival where successfully
+    established on suitable landscape positions or microsites. However,
+    E2 rating may be used to reflect site series with broadly unsuitable
+    site conditions across species (e.g. frost prone locations, or
+    overly wet Spruce-horsetail site series).
 
-**Historic Feasibility**: The baseline environmental suitability rating based primarily on the CFRG and the historic period pre 1991.
+-   May express slow growth rates or poor form across all site series
+    conditions (e.g. site series within woodland subzones or xeric
+    sites).
 
-**Establishment Feasibility**: The feasibility rating based on the mean historic, current, and 2021-2040 future projected feasibilities. This indicates the likely level of constraints for successful establishment of the species now.
+-   Geographic, topographic, or other environmental limitations are
+    common.
 
-**Maturation Feasibility**: The mean feasibility rating based on the 4 future modelled 2021-2040 future projected feasibilities. This indicates the likely level of constraints for successful establishment of the species now.
+**E3 -- Low environmental suitability**: Species occurring near the
+limits of its climatic or site tolerance.
 
-Insect and disease risks need to be considered in reforestation, particularly in the context of climate change. These factors are currently being assessed by Forest Health researchers. However, currently forest health factors need to be assessed as an additional consideration to CCISS feasibility projections. 
+-   Species is likely to be adjacent to climates or site conditions that
+    do not support its growth and survival. The species is generally
+    infrequent in natural forests and/or has significant environmental
+    limitations in the site series.
 
+-   Only specific landscape positions or microsites in a site series are
+    likely to have establishment/regeneration success, but subsequent
+    good growth is possible when these conditions are met.
+
+-   The species may require canopy cover for establishment and growth.
+    Sites that are fully exposed and open to ambient climate are
+    unsuitable.
+
+-   E3 can be applied in BGCs with very limited growth potential (e.g.
+    site series in parkland subzones) or that have harsh site conditions
+    for trees (e.g. very xeric sites with shallow discontinuous soils).
+
+-   Climatic extremes have a higher probability of causing reduced
+    growth, damage or mortality (e.g. drought periods, snow damage,
+    extreme temperatures).
+
+-   Species express very low growth rates across all conditions (e.g.
+    site series in parkland subzones or treed rock outcrops).
+
+-   Multiple limiting environmental factors are common. Limited
+    viability of the site series for forestry may support an E3 rating
+    for all species in that site series.
+
+**E4 -- Minimal environmental suitability**: Species at the very limit
+of its climatic or site tolerance. (*NOT CURRENTLY INCORPORATED INTO
+CCISS PROJECTIONS*)
+
+-   Species may occur sporadically but typically not forming any
+    component of the forest canopy.
+
+-   Scattered occurrence of individuals in natural stands but not
+    reaching main canopy (e.g., Hw in the western SBSmc2).
+
+-    Species may have persistent cover but low survival and poor growth.
+
+-    Species assigned an E4 rating are not commercially viable due to
+    poor survival and growth.
+
+**E4 -- Not Suitable**: Species is outside of its environmental
+tolerance range.
+
+-   Environmental constraints preclude successful establishment, and
+    species is not present in natural forests.
+
+    -   E5 has been manually assigned only if the species was previously
+        ranked as suitable for a site series in the CFRG and is
+        reassessed as unsuitable. E5 rating is assumed where a species
+        has no rating (i.e. is absent) for a given site series in the
+        suitability tables.
+
+More information on the development of the expert Environmental
+Suitability ratings and the complete dataset of historic suitability
+ratings for BC and Western North America can be found on the BC Data Catalogue [BCDC](https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640)
+
+**Suitability for different time periods**
+
+Given the progression of climate change, the above suitability
+definitions are incorporated into suitability rating assessments that
+account for different time periods in the CCISS tool:
+
+**Historic Suitability**: The baseline environmental suitability rating
+based primarily on the expert suitability ratings of the historic period
+(19961-1990).
+
+**Establishment Suitability**: The suitability rating based on the mean
+historic, current (2001-2020), and 2021-2040 future projected
+suitabilities. This indicates the likely level of constraints for
+successful establishment of the species now.
+
+**Maturation Suitability**: The mean suitability rating projected across
+the four 20-year normal periods (2021-2100). This indicates the inferred
+suitability of successfully growing an established species to maturity
+(80 years).
+
+For additional information, see Instructions\> Suitability Report &
+Methods \>Rule Sets.
+
+**OHR Suitability**: Out of home range species -\> Off-site trials may
+indicate that a non-local species was suitable in the pre-climate change
+period but that migration lag or some other barrier restricted
+establishment. For further information see Methods \> Outside Home
+Range.
 
 ### Differences from the Chief Forester's Reference Guide
 
-The [Establishment to Free Growing Guidebooks](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards) and [Chief Forester's Reference Guide for Stocking Standards](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx) (CFRG) rank ecologically acceptable species for each site series. Three criteria are used to determine the most suitable species choices for sawlog production (the assumed management goal) based on an assessment of:
+The [Establishment to Free Growing
+Guidebooks](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards)
+and [Chief Forester's Reference Guide for Stocking
+Standards](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx)
+(CFRG) rank ecologically acceptable species for each site series. Three
+criteria are used to determine the most suitable species choices for
+sawlog production (the assumed management goal) based on an assessment
+of:
 
 -   maximum sustainable productivity
 -   crop reliability
--   silvicultural feasibility.
+-   silvicultural suitability.
 
-The rankings applied always have at least one "primary" species for each site series indicating the best species choice to meet the timber objective.
+The rankings applied always have at least one "primary" species for each
+site series indicating the best species choice to meet the timber
+objective.
 
-In contrast, the CCISS tool assesses the environmental suitability rating to species, which focuses on how well the species is suited to the climatic and site conditions of a site series regardless of management objective. Each tree species has adapted to a specific range of environmental conditions, and its growth and behaviour depend on the ecosystem in which it grows. In an unfavourable environment, that species growth potential will not be realized, and its susceptibility to damaging agents will increase. Unlike the ratings applied in the CFRG, site series with generally challenging growing conditions may have no tree species assigned to the highest suitability rating.
+In contrast, the CCISS tool assesses the environmental suitability
+rating to species, which focuses on how well the species is suited to
+the climatic and site conditions of a site series regardless of
+management objective. Each tree species has adapted to a specific range
+of environmental conditions, and its growth and behaviour depend on the
+ecosystem in which it grows. In an unfavourable environment, that
+species growth potential will not be realized, and its susceptibility to
+damaging agents will increase. Unlike the ratings applied in the CFRG,
+site series with generally challenging growing conditions may have no
+tree species assigned to the highest suitability rating. **DISCLAIMER**:
+Insect and disease risks need to be considered in reforestation,
+particularly in the context of climate change. These factors are
+currently being assessed by Forest Health researchers but are not
+directly incorporated into the historic ratings or CCISS environmental
+suitability projections.
 
-
+### 

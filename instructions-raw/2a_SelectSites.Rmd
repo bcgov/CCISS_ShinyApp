@@ -50,33 +50,24 @@ This dialog box allows users to view and adjust the default settings of the CCIS
 
 ### 1. Climatic novelty
 
-Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed feasibility results. Removal of novel climates can be disabled, and the 5$\sigma$ threshold can be adjusted. See Documentation - Methods - Novel Climates.  
+Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed suitability results. Removal of novel climates can be disabled, and the 5$\sigma$ threshold can be adjusted. See Documentation - Methods - Novel Climates.  
 
 ### 2. Outside of Home Range (OHR) suitabilities
 
 CCISS includes environmental suitability ratings for Douglas-fir and western larch in biogeoclimatic subzone-variants where there is strong evidence that they were suitable for the baseline 1961-1990 climate despite not occuring there naturally due to migration lag. The inclusion of OHR suitabilities can be disabled. See Documentation - Methods - OHR. 
 
-### 3. Establishment feasibility weights
+### 3. Establishment Suitability weights
 
-The Feasibility Report provides an assessment of **establishment
-feasibility**, representing the likelihood of success in establishing
-the species to free growing if planted in the present climate. This
-value is a weighted average of the environmental feasibility in the baseline
-1961-1990, observed 2001-2020, and projected 2021-2040 periods. The default weightings are
-even across these periods to reflect three perspectives on feasibility.
-First, the 1961-1990 period reflects the proven viability of the species
-in the ecosystem. Second, the observed 2001-2020 period reflects the actual
-climate experienced in the location of interest. Third, the projected 2021=2040
-period is the expected climate during the establishment of the species.
-Users may want to adjust the establishment feasibility weights based on
-whether they want a more historically-oriented or future-oriented
-assessment. Note that the feasibility in each of these periods is
-visible in the detailed feasibility report. See Documentation - Methods - Rule Sets.  
+The suitability Report provides an assessment of **establishment
+suitability**, representing the likelihood of success in establishing
+the species to free growing if planted in the present climate. 
+The default setting almost equally weights the environmental suitability (expert derived) in the baseline
+1961-1990 climate, and the model predicted environmental suitability from observed 2001-2020 climate, and projected 2021-2040 climate, with a slight weighting towards the 2 most recent time periods.  See Documentation - Methods - Rule Sets.  
 
-### 4. Maturation feasibility weights
+### 4. Maturation Suitability weights
 
-The Feasibility Report provides an assessment of **maturation
-feasibility**: the feasibility of the species through the entire future
+The suitability Report provides an assessment of **maturation
+suitability**: the suitability of the species through the entire future
 period to rotation (2021 to 2100). The default setting equally weights
 the four 20-year future time periods. See Documentation - Methods - Rule Sets.  
 
