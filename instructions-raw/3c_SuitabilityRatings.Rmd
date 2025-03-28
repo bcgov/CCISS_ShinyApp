@@ -58,7 +58,7 @@ its core environmental tolerance range.
     warm aspects, higher elevations, elevated micro sites). Patchy or
     zoned distribution at a landscape and/or stand level are common.
 
--    Not all site conditions of the site series may be suitable for
+-   Not all site conditions of the site series may be suitable for
     successful establishment/regeneration. o Species success is reduced
     when established in the open and species is fully exposed to climate
     conditions (e.g., Cw establishment in open conditions in drier ICH
@@ -123,9 +123,9 @@ CCISS PROJECTIONS*)
 -   Scattered occurrence of individuals in natural stands but not
     reaching main canopy (e.g., Hw in the western SBSmc2).
 
--    Species may have persistent cover but low survival and poor growth.
+-   Species may have persistent cover but low survival and poor growth.
 
--    Species assigned an E4 rating are not commercially viable due to
+-   Species assigned an E4 rating are not commercially viable due to
     poor survival and growth.
 
 **E4 -- Not Suitable**: Species is outside of its environmental
@@ -142,7 +142,9 @@ tolerance range.
 
 More information on the development of the expert Environmental
 Suitability ratings and the complete dataset of historic suitability
-ratings for BC and Western North America can be found on the BC Data Catalogue [BCDC](https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640)
+ratings for BC and Western North America can be found on the BC Data
+Catalogue
+[BCDC](https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640)
 
 **Suitability for different time periods**
 
@@ -201,11 +203,13 @@ ecosystem in which it grows. In an unfavourable environment, that
 species growth potential will not be realized, and its susceptibility to
 damaging agents will increase. Unlike the ratings applied in the CFRG,
 site series with generally challenging growing conditions may have no
-tree species assigned to the highest suitability rating. **DISCLAIMER**:
-Insect and disease risks need to be considered in reforestation,
-particularly in the context of climate change. These factors are
-currently being assessed by Forest Health researchers but are not
-directly incorporated into the historic ratings or CCISS environmental
-suitability projections.
+tree species assigned to the highest suitability rating.
+
+**DISCLAIMER**: Insect and disease risks need to be considered in
+reforestation, particularly in the context of climate change. These
+factors are currently being assessed by Forest Health researchers but
+are not directly incorporated into the historic ratings or CCISS
+environmental suitability projections. For more information please see
+"Using CCISS for Decisions" tab.
 
 ### 
