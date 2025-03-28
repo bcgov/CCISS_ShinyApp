@@ -14,13 +14,13 @@ editor_options:
 
 ### **Step 1.** Select points or areas of interest using **one of three methods**:
 
--   **Option 1**. Click on BGC map to add one or more individual
+-   **Option 1**. Click on the biogeoclimatic map to add one or more individual
     locations. Use this option if you have specific sites you are
     interested in or are exploring CCISS results. Where multiple sites
     are selected, the user can choose to generate a report where points
-    are averaged within a BGC (default) or for each individual site.
+    are averaged within a BGC unit (default) or for each individual site.
 
--   **Option 2**. Click on map to choose an entire BGC or a BGC within a
+-   **Option 2**. Click on map to choose an entire BGC unit or a BGC unit within a
     single Forest District. The CCISS tool will use a set of
     pre-selected random points for the units chosen. This option is to
     be used where general trends are desired by area. The BGC + District
@@ -29,16 +29,16 @@ editor_options:
 -   **Option 3**. User selects a formatted CSV file to upload
     user-specified and named points. The batch file must be in
     comma-separated (.csv) text format specifying a short sitename,
-    latitude, longitude, and (optionally) site series (Formatted like
+    latitude, longitude, and (optionally) site series (formatted like
     ICHmc2/01a with no spaces) for each site. Batch files of up to 4000 points 
     are supported and run at about 20 points/second. 
 
-### **Step 2**. Optionally change to report by individual point or average across all points in the same BGC.
+### **Step 2**. Optionally change to report by individual point or average across all points in the same BGC unit.
 
-Option 1 and 2 default to BGC averaged reports while option 3 defaults
+Option 1 and 2 default to BGC unit averaged reports while option 3 defaults
 to individual reports.
 
-### **Step 3**. Click the "Generate Results" at the top of the screen to complete the analysis for the points of interest.
+### **Step 3**. Click the big blue "Generate Results" button on the left side of the screen to complete the analysis for the points of interest.
 
 If additional points are added or other changes to parameters the
 "Generate Results' button will change to 'Refresh Results" to regenerate
@@ -56,28 +56,28 @@ Climatic novelty refers to the degree of mismatch between a future climate condi
 
 CCISS includes environmental suitability ratings for Douglas-fir and western larch in biogeoclimatic subzone-variants where there is strong evidence that they were suitable for the baseline 1961-1990 climate despite not occuring there naturally due to migration lag. The inclusion of OHR suitabilities can be disabled. See Documentation - Methods - OHR. 
 
-### 3. Establishment Suitability weights
+### 3. Establishment suitability weights
 
-The suitability Report provides an assessment of **establishment
+The suitability report provides an assessment of **establishment
 suitability**, representing the likelihood of success in establishing
 the species to free growing if planted in the present climate. 
 The default setting almost equally weights the environmental suitability (expert derived) in the baseline
-1961-1990 climate, and the model predicted environmental suitability from observed 2001-2020 climate, and projected 2021-2040 climate, with a slight weighting towards the 2 most recent time periods.  See Documentation - Methods - Rule Sets.  
+1961-1990 climate, and the model predicted environmental suitability from the observed 2001-2020 climate, and the projected 2021-2040 climate, with a slight weighting towards the two most recent time periods.  See Documentation - Methods - Rule Sets.  
 
-### 4. Maturation Suitability weights
+### 4. Maturation suitability weights
 
-The suitability Report provides an assessment of **maturation
+The suitability report provides an assessment of **maturation
 suitability**: the suitability of the species through the entire future
 period to rotation (2021 to 2100). The default setting equally weights
 the four 20-year future time periods. See Documentation - Methods - Rule Sets.  
 
-### 5. GCM weights
+### 5. Global Climate Model (GCM) weights
 
-There are 13 global climate models available in the CCISS tool. However,
-the CCISS tool defaults to the 8-model ensemble of global climate models
+There are 13 GCMs available in the CCISS tool. However,
+the CCISS tool defaults to the 8-model ensemble of GCMs
 recommended by [Mahony et al. (2022)](https://doi.org/10.1002/joc.7566)
-and assigns each of these models equal weighting. The five models were
-excluded because their warming rates aren't supported by observational
+and assigns each of these models equal weighting. The other five models were
+excluded because their warming rates are not supported by observational
 evidence (CanESM5, UKESM1, INM-CM5; explained
 [here](https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf)),
 because they only have a single run for each scenario (BCC-CSM2,
