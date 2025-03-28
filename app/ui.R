@@ -80,13 +80,6 @@ $(document).ready(function(){
             )
           ),
           splitLayout(
-            # radioButtons(
-            #   "aggregation",
-            #   "Report Type",
-            #   c("Indiv Points" = "FALSE", "BGC avg" = "TRUE"),
-            #   inline = TRUE,
-            #   selected = "TRUE"
-            # ),
             tagList(
               br(),
               actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
@@ -223,7 +216,7 @@ $(document).ready(function(){
         selectInput("site_series_feas", label = "Choose Site Series", choices = character()),
         radioButtons(
           "filter_feas",
-          label = "Feasibility",
+          label = "Suitability",
           choices = c("All" = "a", "Suitable Only" = "f"),
           selected = "a",
           inline = T

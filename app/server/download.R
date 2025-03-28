@@ -24,7 +24,7 @@ output$report_download <- downloadHandler(
     withProgress(min = 0, max = 4, value = 1, message = "Processing report", {
 
       if (input$report_format == "html") {
-        reportmd <- "reporthtml.Rmd"
+        reportmd <- "reportpdf.Rmd"
       } else if (input$report_format == "pdf") {
         reportmd <- "reportpdf.Rmd"
       } else {

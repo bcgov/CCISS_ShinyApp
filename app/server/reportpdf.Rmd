@@ -25,15 +25,16 @@ suppressPackageStartupMessages({
 opts_chunk$set(echo = FALSE, eval = TRUE, include = TRUE, message = FALSE, warning = FALSE)
 
 # Debug mode
-# userdata <- readRDS("~/Downloads/cciss_export.rds")
+# userdata <- readRDS("cciss_export.rds")
 # for (nm in names(userdata)) {assign(nm, userdata[[nm]])}
 # feasibility_filter = "a"
 # source("LeafletSource.R")
+# source("tooltip_verbage.R")
 # pool <- dbPool(
 #   drv = RPostgres::Postgres(),
 #   dbname = Sys.getenv("BCGOV_DB"),
 #   host = Sys.getenv("BCGOV_HOST"),
-#   port = 5432, 
+#   port = 5432,
 #   user = Sys.getenv("BCGOV_USR"),
 #   password = Sys.getenv("BCGOV_PWD")
 # )
@@ -56,7 +57,7 @@ if(exists("pts") & ncol(pts) > 2){
   # Define the reference for points lookup
   pts_ref <- pts[[{if (avg) {"BGC"} else {"Site"}}]]
 }else{
-  bbox <- st_read(pool, query = paste0("select ST_Transform(ST_Envelope(ST_Collect(geom)),4326) from bgc_map3005 where bgc IN ('",paste(bgc_select,collapse = "','"),"');"))
+  bbox <- st_read(pool, query = paste0("select ST_Envelope(ST_Collect(geom)) from bgc_map_v13 where \"BGC\" IN ('",paste(bgc_select,collapse = "','"),"');"))
   bbox2 <- st_coordinates(bbox)[,1:2]
   indPoints = F
 }
@@ -84,16 +85,16 @@ if(exists("pts") & ncol(pts) > 2){
 
 # Feasibility legend
 legend <- tags$span(
-  "Legend: ",
   htmltools::HTML(
-    paste0(
-      '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-      c("limegreen", "deepskyblue", "gold", "grey"),
-      '" /><span>&nbsp;',
-      c("Primary", "Secondary", "Tertiary", "Not Suitable"),
-      '</span>',
-      collapse = "&nbsp;&nbsp;&nbsp;"
-    )
+    "Legend: <br />",
+            paste0(
+              '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
+              c("limegreen", "deepskyblue", "gold", "grey","black"),
+              '" /><span style="vertical-align:middle">&nbsp;',
+              c("E1: High", "E2: Moderate", "E3: Low", "X: Not Suitable","Novel Climate"),
+              '</span>',
+              collapse = "<br />"
+            )
   )
 )
 
@@ -106,14 +107,25 @@ datTP <- dcast(datTP,Summary ~ TimePeriods)
 
 # Recompute svg with smaller height
 cciss_results[, PredFeasSVG := paste0(
-        feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`,height = 11), "<br />",
-        feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`,height = 11), "<br />",
-        feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`,height = 11), "<br />",
-        feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`,height = 11), "<br />",
-        feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`,height = 11), "<br />",
-        feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`,height = 11)
-      )
+          feasibility_svg(`1_1961`,`2_1961`,`3_1961`,`X_1961`,`NOV_1961`,height = 11), "<br />",
+          feasibility_svg(`1_1991`,`2_1991`,`3_1991`,`X_1991`,`NOV_1991`,height = 11), "<br />",
+          feasibility_svg(`1_2001`,`2_2001`,`3_2001`,`X_2001`,`NOV_2001`,height = 11), "<br />",
+          feasibility_svg(`1_2021`,`2_2021`,`3_2021`,`X_2021`,`NOV_2021`,height = 11), "<br />",
+          feasibility_svg(`1_2041`,`2_2041`,`3_2041`,`X_2041`,`NOV_2041`,height = 11), "<br />",
+          feasibility_svg(`1_2061`,`2_2061`,`3_2061`,`X_2061`,`NOV_2061`,height = 11), "<br />",
+          feasibility_svg(`1_2081`,`2_2081`,`3_2081`,`X_2081`,`NOV_2081`,height = 11)
+        )
 ]
+
+data <- copy(eda_out)
+  #browser()
+data[,Lab := paste(SS.pred,round(SSratio,digits = 2),sep = ": ")]
+data <- data[,.(SSLab = paste(Lab,collapse = "<br>")),
+             by = .(SiteRef,SS_NoSpace,FuturePeriod,BGC.pred)]
+dat_bgc <- bgc
+dat_bgc[,BGC := NULL]
+plotdat <- merge.data.table(data,dat_bgc, on = c("SiteRef","FuturePeriod","BGC.pred"), all= TRUE)
+
 ```
 
 <style type="text/css">
@@ -161,7 +173,7 @@ htmltools::tagList(
       ),
       tags$h5(class = "bordered", "PREDICTED BGC FUTURES"),
       tags$div(class = "bgc_future",
-        bgc_fut_plotly(eda_out, siteref, siteseries_list[[siteref]][1],0.1, period_map,height = 450)
+        bgc_fut_plotly(plotdat, siteref, siteseries_list[[siteref]][1],0.1,"BGC", period_map,height = 450)
       ),
       mapply(FUN = function(siteserie, nm) {
         htmltools::tagList(
