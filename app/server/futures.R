@@ -28,13 +28,13 @@ output$bgc_fut_plot <- plotly::renderPlotly({
   dat_bgc <- copy(uData$bgc)
   dat_bgc[,BGC := NULL]
   plotdat <- merge.data.table(data,dat_bgc, on = c("SiteRef","FuturePeriod","BGC.pred"), all= TRUE)
-  bgc_fut_plotly(plotdat, siteref, sseries, minallow)
+  bgc_fut_plotly(plotdat, siteref, sseries, minallow, show_ss = input$future_showss)
 })
 
 # Graph
 
 #' @param data BGC data.table
-bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$period_map, ...) {
+bgc_fut_plotly <- function(data, siteref, sseries, minallow, show_ss = "BGC", period_map = uData$period_map, ...) {
   #data <- data[SSratio > minallow,]
   dat_order <- data.table(FuturePeriod = c("1961","1991","2001","2021","2041","2061", "2081"), fpCode = c(1,2,3.5,4.5,5.5,6.5,7.5))
   #browser()
@@ -64,7 +64,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
   temp <- unique(data2$BGC.pred)
   data2[,BGC.pred := factor(BGC.pred, levels = c(sort(temp[-grep("Novel",temp)]),"Novel Climate"))]
   # data2[,BGC.pred := as.character(BGC.pred)]
-  if(input$future_showss == "BGC"){
+  if(show_ss == "BGC"){
     plotly::plot_ly(data = data2, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                     color = ~BGC.pred, colors = color_ref, hovertemplate = "%{y}",
@@ -74,7 +74,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, period_map = uData$
                      xaxis = list(showspikes = FALSE, title = list(text = "Period"),
                                   ticktext = unname(period_map),
                                   tickvals = dat_order$fpCode),
-                     barmode = 'stack', legend = l, hovermode = "x unified")
+                     barmode = 'stack', showlegend = FALSE, legend = l, hovermode = "x unified")
   }else{
     data <- data[SiteRef == siteref & SS_NoSpace == sseries,]
     data_ss <- merge(data2, data, on = c("SiteRef","FuturePeriod","BGC.pred"), all = T)
