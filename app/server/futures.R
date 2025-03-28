@@ -62,13 +62,19 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, show_ss = "BGC", pe
   # data2[,text_col := "#000000"]
   data2[BGC.pred == "novel", BGC.pred := "Novel Climate"]
   temp <- unique(data2$BGC.pred)
-  data2[,BGC.pred := factor(BGC.pred, levels = c(sort(temp[-grep("Novel",temp)]),"Novel Climate"))]
+  if(any(grepl("Novel",temp))) {
+    data2[,BGC.pred := factor(BGC.pred, levels = c(sort(temp[-grep("Novel",temp)]),"Novel Climate"))]
+  } else {
+    data2[,BGC.pred := factor(BGC.pred, levels = sort(temp))]
+  }
+  
   # data2[,BGC.pred := as.character(BGC.pred)]
   if(show_ss == "BGC"){
     plotly::plot_ly(data = data2, x = ~fpCode,
                     y = ~BGC.prop, split = ~BGC.pred, type = 'bar',
                     color = ~BGC.pred, colors = color_ref, hovertemplate = "%{y}",
-                    text = ~BGC.pred, insidetextfont = list(size = 12), textfont = list(color = "#FFF"), textposition = 'inside',
+                    text = ~BGC.pred, insidetextfont = list(size = 12), 
+                    textfont = list(color = "#FFF"), textposition = 'inside',
                     texttemplate = "%{text}") %>%
       plotly::layout(yaxis = list(title = "", tickformat = ".1%"),
                      xaxis = list(showspikes = FALSE, title = list(text = "Period"),
@@ -88,7 +94,7 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, show_ss = "BGC", pe
                      xaxis = list(showspikes = FALSE, title = list(text = "Period"),
                                   ticktext = unname(period_map),
                                   tickvals = dat_order$fpCode),
-                     barmode = 'stack', legend = l, hovermode = "x unified")
+                     barmode = 'stack',showlegend = FALSE, legend = l, hovermode = "x unified")
   }
   
 }

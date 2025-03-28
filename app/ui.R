@@ -566,9 +566,9 @@ $(document).ready(function(){
               includeHTML("./instructions/2a_SelectSites.html") 
             ),
             tabPanel(
-              title = "Feasibility Report",
+              title = "Suitability Report",
               value = "cciss_instructions_feasibility_report",
-              includeHTML("./instructions/2b_FeasibilityReport.html") 
+              includeHTML("./instructions/2b_SuitabilityReport.html") 
             ),
             tabPanel(
               title = "BEC Futures",
@@ -616,9 +616,9 @@ $(document).ready(function(){
               includeHTML("./instructions/3b_BEC.html") 
             ),
             tabPanel(
-              title = "Feasibility Ratings",
+              title = "Suitability Ratings",
               value = "cciss_3c",
-              includeHTML("./instructions/3c_FeasibilityRatings.html") 
+              includeHTML("./instructions/3c_SuitabilityRatings.html") 
             ),
             tabPanel(
               title = "Climate Change Projections",
@@ -649,6 +649,16 @@ $(document).ready(function(){
               title = "Outside Home Range",
               value = "cciss_3i",
               includeHTML("./instructions/3i_OHR.html") 
+            ),
+            tabPanel(
+              title = "BEC 13",
+              value = "cciss_3j",
+              includeHTML("./instructions/3j_BEC13.html") 
+            ),
+            tabPanel(
+              title = "Expert Review",
+              value = "cciss_3k",
+              includeHTML("./instructions/3k_ExpertReview.html") 
             )
 
           )
