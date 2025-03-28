@@ -16,7 +16,7 @@ This section summarizes the biogeoclimatic projections that underlie the species
 
 ### Chart
 
-The chart mode displays a stacked bar chart showing the ratio of future BGC analogs by time period predicted across range of global climate model-scenario climate projections. Hovering over a stacked bar will display these proportions numerically.
+The chart mode displays a stacked bar chart showing the ratio of future BGC analogs by time period predicted across a range of global climate model-scenario climate projections. Hovering over a stacked bar will display these proportions numerically.
 
 The recent time period (2001-2020) has two bars: one for the observed climate (measured by weather stations and interpolated across the province), and one for the modelled climates (simulated by global climate models). These two aren't expected to agree: The modelled climates sample a large range of possible recent conditions, of which the observed recent climate is only one.
 
