@@ -19,15 +19,15 @@ is best described as an ecological classification framework that uses
 units of a plant community classification to identify and delineate
 ecologically equivalent climatic regions and site environmental
 conditions. The classification approach has hierarchical components
-describing climate and site level differences each based on biological
+describing climate and site level differences, each based on biological
 (vegetation) differentiation:
 
--   **Biogeoclimatic units** are a specific type of bioclimate unit
+-   **Biogeoclimatic (BGC) units** are a specific type of bioclimate unit
     where the units are defined and differentiated based on mature plant
     associations that occur on specific site conditions known as zonal
     sites. Zonal sites are those positions on the landscape which best
     reflect climatic conditions: neutral aspect, deep loamy soils,
-    middle slope position, mesic/medium edatopic position.
+    middle slope position, and mesic/medium edatopic position.
     Biogeoclimatic zones describe areas where zonal sites are dominated
     by specific late seral tree species (for forested units) reflecting
     broad climatic differences. Subzone/variants differentiate areas
@@ -43,14 +43,14 @@ describing climate and site level differences each based on biological
     support similar mature plant communities are considered ecologically
     equivalent and treated as members of the same site series. An
     independent set of observations of soils and site conditions are
-    made during plot collection to determine its relative position on
+    made during plot collection to determine relative position on
     two important site level environmental gradients for forested
     ecosystems: relative soil moisture regime (very xeric to subhydric)
     and soil nutrient regime (very poor to very rich). BEC organizes
     site series by position along these two relative gradients on an
     edatopic grid. This relative environmental position within a
-    biogeoclimatic unit allows the linkage of equivalent site concepts
-    between BGC units in climate change modelling at a stand-level (i.e.
+    BGC unit allows the linkage of equivalent site concepts between BGC 
+    units in climate change modelling at a stand-level (i.e.
     a subxeric/poor site remains relatively subxeric and poor regardless
     of the over-arching climate regime).
 
@@ -68,7 +68,7 @@ ecological sites as the site series units. For Washington, Idaho,
 Montana, Oregon, northern California, and northwestern Wyoming, we use a
 draft biogeoclimatic ecosystem classification for the Western US
 developed by Del Meidinger and Will MacKenzie. The resulting composite
-biogeoclimatic units are shown at the zone level in Figure 1.
+BGC units are shown at the zone level in Figure 1.
 
 <img src="Figure_BGCmap.png" alt="Baseline biogeoclimatic units of British Columbia and adjacent jurisdictions, excerpted from Mackenzie &amp; Mahony (2021)" style="width:70%;"/>
 
@@ -84,3 +84,14 @@ cross-border climate analogs. Zone names are provided in Table 1.
 Table 1: Names and codes of biogeoclimatic zones of western North
 America
 <img src="Figure_ZoneNames.png" alt="Names and codes of biogeoclimatic zones of western North America" style="width:70%;"/>
+
+##### References: 
+
+Archibald, J.H., G.D. Klappstein, and I.G.W. Corns. 1996. Field guide to ecosites 
+of southwestern Alberta. Special Report 8. Natural Resources Canada, Canadian 
+Forest Service, Northwest Region, Northern Forestry Centre, Edmonton, Alberta. 
+
+MacKenzie, W.H. and C.R. Mahony. 2021. [An ecological approach to
+climate change-informed tree species selection for
+reforestation](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf).
+Forest Ecology and Management 481:118705
