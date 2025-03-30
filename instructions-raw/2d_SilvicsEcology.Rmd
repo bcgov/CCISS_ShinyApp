@@ -10,19 +10,20 @@ editor_options:
     wrap: 72
 ---
 
-## Supporting info
+## Supporting information
 
 This section contains information that may be useful for interpreting CCISS results and making management decisions.
 
 ### A. Silvics and Ecology
 
-This module summarizes the silvics of each species with historic or future feasibility in the selected BGC unit and site series. This information is drawn from Klinka et al. (1999). This information can be explored further at this [link](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
-
-Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and Silvical Characteristics of Tree Species of British Columbia’s Forests. Canadian Cartographics Ltd., Coquitlam, B.C. 
- 
+This module summarizes the silvics of each species with historic or future suitability in the selected BGC unit and site series. This information is drawn from Klinka et al. (2000). This information can be explored further at this [link](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
 
 ### B. Trends
 
 This module provides provincial-scale maps for user-selected species and site types. Three example site series representing different edatopic conditions are currently available: the B2 edatope (nutrient-poor, moisture-subxeric sites), C4 edatope (nutrient-medium, moisture-mesic sites), and D6 edatope (nutrient-rich, moisture-hygric sites).
 
-The figure provides three maps: (left) The historical environmental feasibility rating for each species; (center) the proportion of the GCM ensemble projecting the retreat (historically feasible but projected unfeasible) or expansion (historically unfeasible but projected to be feasible) of the species in the 2041--2060 period; and (right) the mean change in feasibility across the GCM ensemble by the 2041--2060 period.
+The figure provides three maps: (left) the historical environmental suitability rating for each species; (center) the proportion of the global climate model (GCM) ensemble projecting the retreat (historically suitable but projected unsuitable) or expansion (historically unsuitable but projected to be suitable) of the species in the 2041--2060 period; and (right) the mean change in suitability across the GCM ensemble by the 2041--2060 period.
+
+##### References: 
+
+Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and Silvical Characteristics of Tree Species of British Columbia’s Forests. Canadian Cartographics Ltd., Coquitlam, B.C. 

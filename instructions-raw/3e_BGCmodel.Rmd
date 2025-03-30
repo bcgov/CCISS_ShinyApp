@@ -13,7 +13,7 @@ editor_options:
 ### Biogeoclimatic modeling
 
 CCISS uses spatial climatic analogs to make inferences about future tree
-species feasibility. A spatial climate analog is a location with a
+species suitability. A spatial climate analog is a location with a
 historical climate that is similar to the current or future projected
 climate of a different location. Biogeoclimatic subzone/variants are a
 uniquely useful set of spatial climate analogs because they are familiar
@@ -129,7 +129,7 @@ south coast.
 Figure 2: An example of biogeoclimatic projections for British Columbia,
 excerpted from Mackenzie & Mahony (2021). (a) Mapped biogeoclimatic
 zones, which encompass the 211 biogeoclimatic subzone/variants used to
-model tree species feasibility. (b) Biogeoclimatic projection of the
+model tree species suitability. (b) Biogeoclimatic projection of the
 recent period (1991-2018). (c-e) Biogeoclimatic projections of the
 2041-2070 period (RCP4.5) for two GCMs with medium (CESM1-CAM5), low
 (MRI-CGCM3) and high (CanESM2) regional climate sensitivity. (f)
@@ -141,10 +141,10 @@ biogeoclimatic unit of the 1961-1990 reference period. Boxplots show the
 full range and 25th-75th percentile range of the temperature change
 projected by the 15-GCM ensemble in each RCP/time period combination.
 
-
 #### Guidance for interpretation of biogeoclimatic projections
 
 ##### Evaluating BGC Future Projections
+
 An important consideration when evaluating the quality of any BGC future
 projection is that, ideally, it should be compared to the baseline of
 the same model, rather than to the original BEC linework. In some cases,
@@ -156,26 +156,28 @@ errors in the baseline climate mapping, and should therefore be
 interpreted carefully on case-by-case basis rather than assumed to be
 inaccuracies.
 
-##### Interpreting Spatial Shifts in BGC Projections 
-Although the visual effect of biogeoclimatic projections is of BGC zones and
-subzone/variants shifting across the map, these spatial shifts should
-not be taken literally. No analog is perfect, and projected analogs may
-be highly imperfect for several reasons. The actual future climate at
-any location will be a hybrid of (1) the characteristics of the analog
-climate, (2) novel climatic characteristics (e.g., extremes) that are
-not represented by the analog, and (3) enduring features of the local
-climate such as frost pooling, lake effects, and wind patterns. The
-estimated BGC classifications from any location and time period require
-careful consideration by the end users of CCISS products. 
+##### Interpreting Spatial Shifts in BGC Projections
 
-##### BGC Mapping in a Changing Climate 
-The misinterpretation of biogeoclimatic projections as literal spatial shifts 
-in BGC units has led to a common perception that climate change is rendering
-biogeoclimatic mapping obsolete. This is not the case. The linework of
-biogeoclimatic subzone/variants in many cases will remain useful as
-units of relative climatic variation across landscapes. The terminology
-we use for biogeoclimatic projections can help to emphasize that
-biogeoclimatic analogs are only approximations and that the
+Although the visual effect of biogeoclimatic projections is of BGC zones
+and subzone/variants shifting across the map, these spatial shifts
+should not be taken literally. No analog is perfect, and projected
+analogs may be highly imperfect for several reasons. The actual future
+climate at any location will be a hybrid of (1) the characteristics of
+the analog climate, (2) novel climatic characteristics (e.g., extremes)
+that are not represented by the analog, and (3) enduring features of the
+local climate such as frost pooling, lake effects, and wind patterns.
+The estimated BGC classifications from any location and time period
+require careful consideration by the end users of CCISS products.
+
+##### BGC Mapping in a Changing Climate
+
+The misinterpretation of biogeoclimatic projections as literal spatial
+shifts in BGC units has led to a common perception that climate change
+is rendering biogeoclimatic mapping obsolete. This is not the case. The
+linework of biogeoclimatic subzone/variants in many cases will remain
+useful as units of relative climatic variation across landscapes. The
+terminology we use for biogeoclimatic projections can help to emphasize
+that biogeoclimatic analogs are only approximations and that the
 biogeoclimatic units themselves are not undergoing spatial shifts.
 Rather than saying “this location is becoming IDFxh1”, it is more
 correct to say “the future climate at this location is predicted to be

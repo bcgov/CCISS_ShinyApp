@@ -35,7 +35,6 @@ observeEvent(input$generate_results, priority = 100, {
   update_flag(update_flag() + 1) ##make sure things recalculate
   # UI select choices
   tic("Determine UI choices", ticker)
-  #browser()
   siterefs        <- uData$siterefs        <- sort(unique(bgc$SiteRef))
   ss_opts <- sort(unique(uData$sspreds$SS_NoSpace))
   bgc_opts <- unique(uData$bgc$BGC)
@@ -187,6 +186,7 @@ cciss <- function(bgc,estabWt,futWt) {
     bgc <- bgc[BGC.pred != "novel",]
   }
   edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
+  #browser()
   SSPred <- edaOut$NoPhase
   setorder(SSPred,SiteRef,SS_NoSpace,FuturePeriod,BGC.pred,-SSratio)
   uData$eda_out <- edaOut$phase

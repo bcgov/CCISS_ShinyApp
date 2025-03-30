@@ -1,0 +1,74 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### CCISS Expert Review
+
+#### As of March 2025
+
+Given the complexity of forest ecosystems and climate change impacts on
+tree species, it is essential that the CCISS tool undergoes evaluation
+by experts. The BC Ministry of Forest (FOR) Ecologists have conducted an
+initial review of the following aspects of the CCISS tool (outlined
+below). We are engaging with additional subject matter experts to
+provide a review, including silviculturists, forest health specialists,
+and tree breeders.
+
+#### 1. Tree Species Environmental Suitability Definitions
+
+FOR Ecologists have provided feedback on the supporting documentation
+and definitions of Tree Species Environmental Suitability ratings. An
+in-person meeting with the Provincial Ecology team to review CCISS model
+results and the historical species suitability ratings took place in
+November 2024. Per request of the Ecology team, the CCISS team developed
+new documentation outlining definitions and a multi-step rating process
+for species environmental suitability ratings, which we presented back
+to the Ecology team in December 2024. The CCISS team incorporated two
+rounds of revision to the Species Environmental Suitability ratings
+documentation resulting in a final version as of February 2025.
+
+See the "Methods - Suitability Ratings" tab for more information.
+
+#### 2. Tree Species Environmental Suitability Ratings
+
+FOR Ecologists are reviewing the existing environmental suitability
+ratings in their region. The objective of this review is to refine the
+suitability ratings using expert knowledge and available information
+sources, assist with filling in gaps if any, and document known issues
+for further follow-up. The resulting suitability ratings will provide a
+strong scientific foundation and provide a consistent baseline for
+further refinement using quantitative methods. Using the updated
+documentation and rating process outlined above, Ecologists began
+reviewing species suitability ratings in February 2025. This review is
+complete for the Coast Area, Omenica, Cariboo, and Thompson-Okanagan
+Regions.
+
+#### 3. CCISS Tool Results
+
+FOR Ecologists are core subject matter experts for CCISS and we have
+engaged this group to perform an initial review of CCISS tool results.
+The Ecologist review will provide insight into the CCISS tool’s
+ecological accuracy and alignment with current ecological knowledge,
+help identify issues, and inform readiness for broader implementation.
+An in-person meeting with the Provincial Ecology team to review CCISS
+model results and the historical species suitability ratings took place
+in November 2024. All Ecology team members created GitHub accounts and
+began documenting issues they identified with CCISS model results via
+Github issues. In addition to feedback provided through GitHub, we held
+individual meetings for each Forest Region to gather an initial round
+feedback in March 2025. This review is ongoing and iterative as we
+incorporate updates to the inputs (e.g. suitability ratings) and models
+(e.g. BGC model).
+
+#### 4. CCISS Tool Layout and Documentation
+
+FOR Ecologists have also provided feedback on the layout of the CCISS
+tool, information presentation and supporting documentation.
