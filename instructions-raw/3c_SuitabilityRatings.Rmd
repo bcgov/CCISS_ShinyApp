@@ -23,11 +23,13 @@ conceptually represent a response curve of the species’ tolerances to
 environmental (climatic and edaphic) gradients (Fig 1). Site-level
 variation in species suitability within each biogeoclimatic unit for
 Alberta and the USA was similarly approximated using the plot data
-located in the modelled climate areas, descriptions available in
-publications describing forest associations or ecosites, and available
-autecological interpretations.
+located in the modelled climate areas. More information is available in
+Archibald et al. (1996) and MacKenzie & Mahony (2021), describing forest 
+associations or ecosites, and available autecological interpretations.
 
 <img src="Enviro_suit_curve.jpg" alt="Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients." style="width:100%;"/>
+
+Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients.
 
 **Suitability Definitions**
 
@@ -128,7 +130,7 @@ CCISS PROJECTIONS*)
 -   Species assigned an E4 rating are not commercially viable due to
     poor survival and growth.
 
-**E4 -- Not Suitable**: Species is outside of its environmental
+**E5 -- Not Suitable**: Species is outside of its environmental
 tolerance range.
 
 -   Environmental constraints preclude successful establishment, and
@@ -137,7 +139,7 @@ tolerance range.
     -   E5 has been manually assigned only if the species was previously
         ranked as suitable for a site series in the CFRG and is
         reassessed as unsuitable. E5 rating is assumed where a species
-        has no rating (i.e. is absent) for a given site series in the
+        has no rating (i.e., is absent) for a given site series in the
         suitability tables.
 
 More information on the development of the expert Environmental
@@ -212,4 +214,7 @@ are not directly incorporated into the historic ratings or CCISS
 environmental suitability projections. For more information please see
 "Using CCISS for Decisions" tab.
 
-### 
+##### References: 
+Archibald, J. H., G. D. Klappstein, and I. G. W. Corns. 1996. Field guide to ecosites of southwestern Alberta. Special Report 8. Natural Resources Canada, Canadian Forest Service, Northwest Region, Northern Forestry Centre, Edmonton, Alberta.
+
+MacKenzie, W. H., and C. R. Mahony. 2021. An ecological approach to climate change-informed tree species selection for reforestation. Forest Ecology and Management 481:118705.
