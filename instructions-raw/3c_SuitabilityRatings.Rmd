@@ -43,7 +43,7 @@ environmental tolerance range.
 -   Good growth rate and form across the full range of site conditions.
 
 -   Typically, no geographic or environmental limitations within the
-    site series
+    site series.
 
 -   The species is generally common and abundant in natural forests but
     may be of variable abundance where disturbance regime/stand age
@@ -59,7 +59,7 @@ its core environmental tolerance range.
     zoned distribution at a landscape and/or stand level are common.
 
 -   Not all site conditions of the site series may be suitable for
-    successful establishment/regeneration. o Species success is reduced
+    successful establishment/regeneration. Species success is reduced
     when established in the open and species is fully exposed to climate
     conditions (e.g., Cw establishment in open conditions in drier ICH
     climate is limited by heat and sun exposure).
@@ -72,11 +72,11 @@ its core environmental tolerance range.
 -   The species may have good growth and survival where successfully
     established on suitable landscape positions or microsites. However,
     E2 rating may be used to reflect site series with broadly unsuitable
-    site conditions across species (e.g. frost prone locations, or
+    site conditions across species (e.g., frost prone locations, or
     overly wet Spruce-horsetail site series).
 
 -   May express slow growth rates or poor form across all site series
-    conditions (e.g. site series within woodland subzones or xeric
+    conditions (e.g., site series within woodland subzones or xeric
     sites).
 
 -   Geographic, topographic, or other environmental limitations are
@@ -98,15 +98,15 @@ limits of its climatic or site tolerance.
     Sites that are fully exposed and open to ambient climate are
     unsuitable.
 
--   E3 can be applied in BGCs with very limited growth potential (e.g.
+-   E3 can be applied in BGCs with very limited growth potential (e.g.,
     site series in parkland subzones) or that have harsh site conditions
-    for trees (e.g. very xeric sites with shallow discontinuous soils).
+    for trees (e.g., very xeric sites with shallow, discontinuous soils).
 
 -   Climatic extremes have a higher probability of causing reduced
-    growth, damage or mortality (e.g. drought periods, snow damage,
+    growth, damage, or mortality (e.g., drought periods, snow damage, and
     extreme temperatures).
 
--   Species express very low growth rates across all conditions (e.g.
+-   Species express very low growth rates across all conditions (e.g.,
     site series in parkland subzones or treed rock outcrops).
 
 -   Multiple limiting environmental factors are common. Limited
@@ -188,7 +188,7 @@ of:
 
 -   maximum sustainable productivity
 -   crop reliability
--   silvicultural suitability.
+-   silvicultural suitability
 
 The rankings applied always have at least one "primary" species for each
 site series indicating the best species choice to meet the timber
