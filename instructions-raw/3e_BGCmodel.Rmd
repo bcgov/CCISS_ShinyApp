@@ -10,14 +10,14 @@ editor_options:
     wrap: 72
 ---
 
-### Biogeoclimatic modeling
+### Biogeoclimatic (BGC) modeling
 
 CCISS uses spatial climatic analogs to make inferences about future tree
 species suitability. A spatial climate analog is a location with a
 historical climate that is similar to the current or future projected
-climate of a different location. Biogeoclimatic subzone/variants are a
-uniquely useful set of spatial climate analogs because they are familiar
-to resource management practitioners and are the organizing units for
+climate of a different location. Biogeoclimatic subzone-variants (a.k.a., BGC 
+units) are a uniquely useful set of spatial climate analogs because they are 
+familiar to resource management practitioners and are the organizing units for
 site-specific ecological interpretations accumulated over many decades.
 
 In the CCISS framework, biogeoclimatic analogs are identified by
@@ -44,15 +44,13 @@ spatial climatic variation receiving more training points (Figure 1).
 
 <img src="Figure_BGCprojections_sampling_scheme_diagnostics_v2.png" alt="Diagnostic plots for training point sampling scheme" style="width:70%;"/>
 
-Figure 1: Diagnostic plots for the chosen sampling scheme. Top panels
-show the number of possible points (i.e., pixels) by BGC
-subzone/variant, organized by smallest to largest BGC unit area on
-linear (top left) and logarithmic scale (top right), represented by the
-solid black line. The dashed line represents the number of training
-points (i.e., sample size). HVC labels on the axis are a subset of the
-300+ BGC units represented in the plot. Bottom panels show sample size
-selected by each BGC unit area (bottom left) and based on the IQR of MAT
-(bottom right).
+Figure 1: Diagnostic plots for the selected sampling scheme. Top panels show the 
+number of possible points (i.e., pixels) by BGC subzone/variant, organized by 
+smallest to largest BGC unit area on linear (top left) and logarithmic scale 
+(top right), represented by the solid black line. The dashed line represents the 
+number of training points (i.e., sample size). Labels on the x-axis are a subset 
+of the 300+ BGC units represented in the plot. Bottom panels show sample size 
+selected by each BGC unit area (bottom left) and based on the IQR of MAT (bottom right).
 
 ##### Climate variable set
 
@@ -66,10 +64,10 @@ selection approach. Specifically, a set of ecologically relevant
 seasonal and annual climate variables was pre-selected, in addition to
 several derived variables. Any highly correlated variables were removed
 at this stage. A list was created, where each BGC unit was paired with
-all neighbouring BGC units. Separate random forest models were run, each
+all neighbouring BGC units. Separate Random Forest models were run, each
 with 101 trees, to determine the most important climate variables for
 each BGC unit, considering only that BGC unit and its neighbouring BGC
-units. These RF models used the “Gini” split rule, and variable
+units. These Random Forest models used the “Gini” split rule, and variable
 importance was calculated based on Gini impurity. Once a list of
 variable importance was created for each BGC unit, the most important
 variables were retained. Care was taken to include even those that may
@@ -82,7 +80,7 @@ BGC unit.
 
 ##### Random forest model details
 
-To classify BGC units, a random forest (RF) machine learning model was
+To classify BGC units, a Random Forest machine learning model was
 trained using the ‘ranger’ package in R (Wright and Ziegler 2017). This
 model was built using 500 decision trees, the extraTrees split rule, and
 a minimum node size of two, with training points selected according to
@@ -90,12 +88,12 @@ the sampling scheme and climate variable set outlined above. This model
 underwent validation and comparison against alternative approaches,
 including multiple sensitivity analyses to assess robustness, accuracy,
 and sensitivity to training selection schemes and various model
-hyperparameters. For more information, see: LINK
+hyperparameters. 
 
 #### Overview of BGC projection trends
 
 Biogeoclimatic projections are illustrated in Figure 2, excerpted from
-Mackenzie & Mahony (2021). While there is considerable variability in
+MacKenzie & Mahony (2021). While there is considerable variability in
 the pace and character of biogeoclimatic projections driven by different
 climate models, there are some common zone-level trends: the expansion
 of the IDF analogs northward into the current SBPS zone and into higher
@@ -127,7 +125,7 @@ south coast.
 <img src="Figure_BGCprojections.Full.2055.png" alt="An example of biogeoclimatic projections for British Columbia, excerpted from Mackenzie &amp; Mahony (2021)" style="width:70%;"/>
 
 Figure 2: An example of biogeoclimatic projections for British Columbia,
-excerpted from Mackenzie & Mahony (2021). (a) Mapped biogeoclimatic
+excerpted from MacKenzie & Mahony (2021). (a) Mapped biogeoclimatic
 zones, which encompass the 211 biogeoclimatic subzone/variants used to
 model tree species suitability. (b) Biogeoclimatic projection of the
 recent period (1991-2018). (c-e) Biogeoclimatic projections of the
@@ -184,3 +182,8 @@ correct to say “the future climate at this location is predicted to be
 similar to the historical climate of the IDFxh1.” Rather than “the IDF
 is moving north into the SBS”, it is better to say “the SBS is
 transitioning into more IDF-like climates”.
+
+##### References: 
+MacKenzie, W. H., and C. R. Mahony. 2021. An ecological approach to climate change-informed tree species selection for reforestation. Forest Ecology and Management 481:118705.
+
+Wright, M. N., and A. Ziegler. 2017. ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R. Journal of Statistical Software 77
