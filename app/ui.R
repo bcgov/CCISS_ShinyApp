@@ -687,6 +687,11 @@ $(document).ready(function(){
               includeHTML("./instructions/4b_SourcesOfError.html") 
             ),
             tabPanel(
+              title = "BGC mapping as a baseline",
+              value = "cciss_4c",
+              includeHTML("./instructions/4c_BaselineBGCs.html") 
+            ),
+            tabPanel(
               title = "Space-for-time Substitution",
               value = "cciss_4d",
               includeHTML("./instructions/4d_SpaceForTime.html") 
