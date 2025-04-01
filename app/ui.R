@@ -589,6 +589,11 @@ $(document).ready(function(){
               title = "Export",
               value = "cciss_instructions_export",
               includeHTML("./instructions/2e_Export.html") 
+            ),
+            tabPanel(
+              title = "Export",
+              value = "cciss_instructions_spatial",
+              includeHTML("./instructions/2f_Spatial.html") 
             )
           )
         )
