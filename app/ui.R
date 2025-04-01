@@ -531,6 +531,110 @@ $(document).ready(function(){
                 })
     )
   ),
+  ### CCISS Spatial
+  tabPanel(
+    title = navhelplink("CCISS Spatial", "cciss_instructions_export_nav"),
+    useShinyjs(),
+    sidebarLayout(
+      sidebarPanel(
+        radioButtons("region_type","Subregion Type", choices = c("None", "District","FLP Area")),
+        radioButtons("type","Display BGC or Suitability", choices = c("BGC","Suitability"), selected = "BGC"),
+        radioButtons("period_type","Choose a Time Period", choices = list(
+          "Reference (1961-1990)" = "Historic", 
+          "Observed (2001-2020)" = "obs",
+          "Future (GCMs)" = "Future")),
+        conditionalPanel(
+          condition = "input.type == 'BGC' & input.period_type == 'Future'",
+          h1("GCM Options"),
+          selectInput("gcm_select","Select GCM", choices = gcms, selected = gcms[1]),
+          selectInput("period_select","Select Period", choices = periods, selected = periods[1])        
+        ),
+        
+        conditionalPanel(
+          condition = "input.type !== 'BGC'",
+          h1("Suitability Options"),
+          selectInput("edatope_feas","Select Edatope (SNR/SMR)", choices = c("B2","C4","D6"), selected = "C4", multiple = FALSE),
+          selectInput("species_feas", "Select Species", choices = c("Pl","Sx","Fd","Cw","Hw","Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw", "Sb"), multiple = FALSE)
+        ),
+        
+        conditionalPanel(
+          condition = "input.type !== 'BGC' & input.period_type !== 'Historic'",
+          selectInput("map_stat","Select Map Type", choices = list("Projected Suitability" = "NewFeas",
+                                                                   "Suitability Change" = "MeanChange"), multiple = FALSE)     
+        ),
+        
+        conditionalPanel(
+          condition = "input.type !== 'BGC' & input.period_type == 'Future'",
+          selectInput("period_feas","Select Period", choices = c(periods[-5])),     
+        ),
+        conditionalPanel(
+          condition = "input.period_type != 'Historic'",
+          checkboxInput("novelty","Display Novelty?", value = FALSE),
+        ),
+        actionButton("clear_map","Hide/Show Layer"),
+        
+        checkboxInput("findabec","Find-A-BEC"),
+        conditionalPanel(condition = "input.findabec == true",
+                         pickerInput("selectBGC","Select Zone", 
+                                     choices = c("(N)",zones), 
+                                     multiple = F,selected = "(N)"),
+                         pickerInput("selectSubzone","Select Subzone(s)", choices = "",options = pickerOptions(actionsBox = T), multiple = T),
+                         checkboxInput("gray_out", "Gray non-selected BGCs?", value = FALSE),
+                         actionButton("clearFAB","Clear Map"),
+                         span(textOutput("selectedBEC", inline = T),style= "font-size:24px")
+        ),
+        tags$head(tags$style(".modal-body{ min-height:70vh}")),
+        width = 2
+      )
+      ,
+    
+      # Export a Digital Report or Dataset for Analyzed Sites
+      mainPanel(width = 10,
+                title = "CCISS Spatial",
+                useShinyjs(),
+                  tags$head(
+                    tags$style(HTML("
+                              #map-container {
+                                width: 100%;
+                                height: 100vh;
+                                transition: width 0.5s ease-in-out;
+                              }
+                              .half-map {
+                                width: 60% !important;
+                                float: left;
+                              }
+                              #plot-container {
+                                width: 35%;
+                                float: right;
+                              }
+                            "))
+                  ),
+                  # Map container
+                  div(id = "map-container",
+                      leafletOutput("map", width = "100%", height = "100vh")
+                  ),
+                  
+                  # Plot container (initially hidden)
+                  conditionalPanel(condition = "input.region_type !== 'None'",
+                      div(id = "plot-container",
+                          wellPanel(
+                            h2("Summary by Region"),
+                            selectInput("xvariable","X-Axis Variable", choices = c("Time","MAT","MAP","CMD","DD5")),
+                            conditionalPanel(
+                              condition = "input.type == 'BGC'",
+                              checkboxInput("zone_sz","Summarise by Zone?",value = TRUE),
+                            ),
+                            checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE),
+                            actionButton("reset_plot","Reset Plot"),
+                            actionButton("reset_district","Clear Selected District"),
+                            actionButton("action_download","Download Data"),
+                            girafeOutput("summary_plot")
+                          )
+                      )
+                    )
+                  )
+    )  
+  ),
   # Tech specs ----
   navbarMenu(
     title = "DOCUMENTATION",

@@ -9,6 +9,17 @@ pool <- dbPool(
   user = Sys.getenv("BCGOV_USR"),
   password = Sys.getenv("BCGOV_PWD")
 )
+
+
+dbCon <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "cciss_spatial",
+  host = Sys.getenv("BCGOV_HOST"),
+  port = 5432, 
+  user = Sys.getenv("BCGOV_USR"),
+  password = Sys.getenv("BCGOV_PWD")
+)
+
 ##bybec db connection
 sppDb <- dbPool(
   drv = RPostgres::Postgres(),
@@ -18,6 +29,8 @@ sppDb <- dbPool(
   user = Sys.getenv("BCGOV_USR"),
   password = Sys.getenv("BCGOV_PWD")
 )
+
+
 # poolclim <- dbPool(
 #   drv = RPostgres::Postgres(),
 #   dbname = "bgc_climate_data",
@@ -29,6 +42,7 @@ sppDb <- dbPool(
 onStop(function() {
   poolClose(pool)
   poolClose(sppDb)
+  poolClose(dbCon)
   #poolClose(poolclim)
 })
 
@@ -94,7 +108,8 @@ shinyServer(function(input, output, session) {
   source("./server/silviculture.R", local = TRUE)
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
-  source("./server/generate_portfolio.R", local = TRUE)
+  source("./server/CCISS_Spatial.R", local = TRUE)
+  #source("./server/generate_portfolio.R", local = TRUE)
   source("./server/instructions.R", local = TRUE)
   
   ##login
