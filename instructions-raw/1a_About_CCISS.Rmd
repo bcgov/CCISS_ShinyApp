@@ -52,7 +52,11 @@ The CCISS tool is a web-based R-shiny application organized into six tabs.
     i. Produce report: Select report format (html or pdf)
     ii. Export data: Select data format (csv or rds)
 
-6.	__DOCUMENTATION__: Help files and data sources
+6.	__CCISS SPATIAL__: Explore maps of CCISS results and graphical summaries of subregions
+    i. Interactive maps of biogeoclimatic projections, climatic novelty, and tree species suitability changes
+    ii. Graphical summaries and spatial data download for subregions (Forest Districts and Forest Landscape Planning Areas)
+
+7.	__DOCUMENTATION__: Help files and data sources
     a.	__Overview__: 
     b.	__Instructions (How to CCISS)__: Instructions on how to use the tool
     c.	__Methods (How the tool works)__: Detailed background information about what's happening "under the hood"
@@ -60,9 +64,9 @@ The CCISS tool is a web-based R-shiny application organized into six tabs.
     e.  __Using CCISS for decisions__: Support and guidance for using CCISS as a decision-making tool
     f.  __Providing feedback__: Ways users can report issues or provide suggestions for future improvements
     g.  __FAQs__: Frequently asked questions
-    h.  __Model information__: Summary of the model information
-    i.  __Shiny app information__: Information about the Shiny app
-
+    h.  __Model information__: Version of input data and models
+    i.  __Shiny app information__: Github repo, license, and other info
+    
 ##### References: 
 Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
 

@@ -42,7 +42,7 @@ See the "Methods - Suitability Ratings" tab for more information.
 FOR Ecologists are reviewing the existing environmental suitability
 ratings in their region. The objective of this review is to refine the
 suitability ratings using expert knowledge and available information
-sources, assist with filling in gaps if any, and document known issues
+sources, assist with filling in gaps if any, and to document known issues
 for further follow-up. The resulting suitability ratings will provide a
 strong scientific foundation and provide a consistent baseline for
 further refinement using quantitative methods. Using the updated
@@ -65,10 +65,10 @@ began documenting issues they identified with CCISS model results via
 Github issues. In addition to feedback provided through GitHub, we held
 individual meetings for each Forest Region to gather an initial round
 feedback in March 2025. This review is ongoing and iterative as we
-incorporate updates to the inputs (e.g. suitability ratings) and models
-(e.g. BGC model).
+incorporate updates to the inputs (e.g., suitability ratings) and models
+(e.g., BGC model).
 
 #### 4. CCISS Tool Layout and Documentation
 
 FOR Ecologists have also provided feedback on the layout of the CCISS
-tool, information presentation and supporting documentation.
+tool, information presentation, and supporting documentation.

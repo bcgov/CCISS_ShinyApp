@@ -35,9 +35,9 @@ site-specific ecological interpretations accumulated over many decades.
 
 In the CCISS framework, biogeoclimatic analogs are identified by
 training a statistical or machine learning model to recognize
-biogeoclimatic subzone-variants in terms of their historical (1961-1990)
-climatic conditions, and then applying that classification model to new
-(current or projected) climate conditions (MacKenzie and Mahony 2021).
+biogeoclimatic subzone-variants (i.e., BGC units) in terms of their historical 
+(1961-1990) climatic conditions, and then applying that classification model to 
+new (current or projected) climate conditions (MacKenzie and Mahony 2021).
 The new climates are thus labelled using their best analog within the
 BEC system, a process called biogeoclimatic projections (Figure 1).
 
@@ -98,20 +98,20 @@ all site series in each biogeoclimatic unit through expert knowledge.
 Equivalent relative edatopes support different tree species under
 different climate regimes.
 
-### Further reading
+### Further reading:
 
 The other tabs in this section provide more detail on the methods
 underlying the CCISS tool:
 
 -   BEC---Basics of the Biogeoclimatic Ecosystem Classification and the
     draft classifications for the US and Alberta
--   suitability Ratings---Definitions of the tree species environmental
+-   Suitability Ratings---Definitions of the tree species environmental
     suitability ratings.
 -   Climate Change Projections---Details on the ensemble of climate
     model projections.
 -   BGC Model---Explanation of biogeoclimatic projections and guidance
     on interpreting them.
--   Novel climates---Measuring how well biogeoclimatic analogs match
+-   Novel Climates---Measuring how well biogeoclimatic analogs match
     current and future climates.
 -   Edatopic Overlap---Methods for aligning site series of the
     historical and analog BGC units.
@@ -120,7 +120,8 @@ underlying the CCISS tool:
 -   OHR suitabilities---Baseline suitability ratings for tree species
     outside their home range.
 
-Also, check out our peer-reviewed paper on CCISS:
+
+##### References: 
 
 MacKenzie, W.H. and C.R. Mahony. 2021. [An ecological approach to
 climate change-informed tree species selection for
