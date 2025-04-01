@@ -27,7 +27,7 @@ located in the modelled climate areas. More information is available in
 Archibald et al. (1996) and MacKenzie & Mahony (2021), describing forest 
 associations or ecosites, and available autecological interpretations.
 
-<img src="Enviro_suit_curve.jpg" alt="Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients." style="width:100%;"/>
+<img src="Enviro_suit_curve.jpg" alt="Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients." style="width:50%;"/>
 
 Figure 1: Conceptual model of Environmental Suitability Ratings as a response to environmental gradients.
 
