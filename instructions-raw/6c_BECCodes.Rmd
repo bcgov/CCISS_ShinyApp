@@ -9,3 +9,52 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+## Biogeoclimatic Ecosystem Classification (BEC) Codes: 
+
+Full lists of biogeoclimatic units and site series available [here](https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-becdb.html#intro). 
+
+Each biogeoclimatic unit (subzone/variant) is named with a combination of a biogeoclimatic zone (Table 1), a subzone code for precipitation and temperature (Table 2). Sometimes, a modifier for continentality and variant are also necessary.  
+
+Table 1. Codes of BEC 13 biogeoclimatic zones:
+
+|                                     |          |
+|-------------------------------------|----------|
+| **Name**                            | **Code** | 
+| *Alpine Tundra*                     | AT       |
+| *Boreal White and Black Spruce*     | BWBS     |
+| *Bunchgrass*                        | BG       |
+| *Coastal Douglas-fir*               | CDF      |
+| *Coastal Western Hemlock*           | CWH      |
+| *Engelmann Spruce - Subalpine Fir*  | ESSF     |
+| *Interior Cedar - Hemlock*          | ICH      |
+| *Interior Douglas-fir*              | IDF      |
+| *Montane Spruce*                    | MS       |
+| *Mountain Hemlock*                  | MH       |
+| *Ponderosa Pine*                    | PP       |
+| *Spruce - Willow - Birch*           | SWB      |
+| *Sub-Boreal Pine - Spruce*          | SBPS     |
+| *Sub-Boreal Spruce*                 | SBS      |
+
+
+Table 2. Subzone names and codes for relative precipitation, relative temperature, and continentality.
+
+|                                     |          |
+|-------------------------------------|----------|
+| **Name**                            | **Code** | 
+| *Very dry*                          | x        |
+| *Dry*                               | d        |
+| *Moist*                             | m        |
+| *Wet*                               | w        |
+| *Very wet*                          | v        |
+| &nbsp;                              |          |
+| *Hot*                               | h        |
+| *Warm*                              | w        |
+| *Mild*                              | m        |
+| *Cool*                              | k        |
+| *Cold*                              | c        |
+| *Very cold*                         | v        |
+| &nbsp;                              |          |
+| *Hypermaritime*                     | h        |
+| *Maritime*                          | m        |
+| *Submaritime*                       | s        |
