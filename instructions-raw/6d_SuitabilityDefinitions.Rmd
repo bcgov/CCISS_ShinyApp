@@ -1,0 +1,128 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### **Suitability Definitions**
+
+We define environmental suitability using five categories:
+
+**E1 -- High environmental suitability**: Species well within its
+environmental tolerance range.
+
+-   Widespread establishment/regeneration success on all climate and
+    edaphic conditions representative of the site series. Expect
+    continuous distribution at a landscape or stand level.
+
+-   Good growth rate and form across the full range of site conditions.
+
+-   Typically, no geographic or environmental limitations within the
+    site series.
+
+-   The species is generally common and abundant in natural forests but
+    may be of variable abundance where disturbance regime/stand age
+    distribution is unfavorable (e.g., shade intolerant species in low
+    disturbance landscapes).
+
+**E2 -- Moderate environmental suitability**: Species occurring outside
+its core environmental tolerance range.
+
+-   The species has variable abundance in natural forests and/or is
+    often concentrated in select site types of the site series (e.g.,
+    warm aspects, higher elevations, elevated micro sites). Patchy or
+    zoned distribution at a landscape and/or stand level are common.
+
+-   Not all site conditions of the site series may be suitable for
+    successful establishment/regeneration. Species success is reduced
+    when established in the open and species is fully exposed to climate
+    conditions (e.g., Cw establishment in open conditions in drier ICH
+    climate is limited by heat and sun exposure).
+
+-   Species may be more susceptible to occasional but expected climatic
+    extremes leading to reduced growth, possible damaged form, or
+    mortality (e.g. drought periods, snowpress, extreme temperatures,
+    flooding).
+
+-   The species may have good growth and survival where successfully
+    established on suitable landscape positions or microsites. However,
+    E2 rating may be used to reflect site series with broadly unsuitable
+    site conditions across species (e.g., frost prone locations, or
+    overly wet Spruce-horsetail site series).
+
+-   May express slow growth rates or poor form across all site series
+    conditions (e.g., site series within woodland subzones or xeric
+    sites).
+
+-   Geographic, topographic, or other environmental limitations are
+    common.
+
+**E3 -- Low environmental suitability**: Species occurring near the
+limits of its climatic or site tolerance.
+
+-   Species is likely to be adjacent to climates or site conditions that
+    do not support its growth and survival. The species is generally
+    infrequent in natural forests and/or has significant environmental
+    limitations in the site series.
+
+-   Only specific landscape positions or microsites in a site series are
+    likely to have establishment/regeneration success, but subsequent
+    good growth is possible when these conditions are met.
+
+-   The species may require canopy cover for establishment and growth.
+    Sites that are fully exposed and open to ambient climate are
+    unsuitable.
+
+-   E3 can be applied in BGCs with very limited growth potential (e.g.,
+    site series in parkland subzones) or that have harsh site conditions
+    for trees (e.g., very xeric sites with shallow, discontinuous soils).
+
+-   Climatic extremes have a higher probability of causing reduced
+    growth, damage, or mortality (e.g., drought periods, snow damage, and
+    extreme temperatures).
+
+-   Species express very low growth rates across all conditions (e.g.,
+    site series in parkland subzones or treed rock outcrops).
+
+-   Multiple limiting environmental factors are common. Limited
+    viability of the site series for forestry may support an E3 rating
+    for all species in that site series.
+
+**E4 -- Minimal environmental suitability**: Species at the very limit
+of its climatic or site tolerance. 
+(*NOT CURRENTLY INCORPORATED INTO CCISS PROJECTIONS*)
+
+-   Species may occur sporadically but typically not forming any
+    component of the forest canopy.
+
+-   Scattered occurrence of individuals in natural stands but not
+    reaching main canopy (e.g., Hw in the western SBSmc2).
+
+-   Species may have persistent cover but low survival and poor growth.
+
+-   Species assigned an E4 rating are not commercially viable due to
+    poor survival and growth.
+
+**E5 -- Not Suitable**: Species is outside of its environmental
+tolerance range.
+
+-   Environmental constraints preclude successful establishment, and
+    species is not present in natural forests.
+
+    -   E5 has been manually assigned only if the species was previously
+        ranked as suitable for a site series in the CFRG and is
+        reassessed as unsuitable. E5 rating is assumed where a species
+        has no rating (i.e., is absent) for a given site series in the
+        suitability tables.
+
+More information on the development of the expert Environmental
+Suitability ratings and the complete dataset of historic suitability
+ratings for BC and Western North America can be found on the BC Data
+Catalogue
+[BCDC](https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640)
