@@ -75,7 +75,8 @@ Cariboo-Chilcotin region. Stations are concentrated at low-elevations
 and are absent from large areas, demonstrating the potential for errors
 in the climate mapping.
 
-#### Biogeoclimatic modeling
+#### Biogeoclimatic (BGC) 
+modeling
 
 Biogeoclimatic modeling involves using machine learning to classify
 climate conditions as biogeoclimatic units (subzones/variants). We have
@@ -93,9 +94,10 @@ certain BGC units. For example, the Coastal Mountain-heather Alpine
 underrepresented.
 
 Additionally, future projections appear highly sensitive to changes in
-sampling scheme, climate variable sets, and RF model hyperparameters.
+sampling scheme, climate variable sets, and Random Forest model hyperparameters.
 These factors will be closely examined in future iterations to improve
-the model’s predictive ability.
+the model’s predictive ability. For more information, refer to the [Biogeoclimatic
+Projections technical report](https://catalogue.data.gov.bc.ca/dataset/bgc-projections).
 
 #### Climate data downscaling
 
