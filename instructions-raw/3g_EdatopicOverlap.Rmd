@@ -10,7 +10,7 @@ editor_options:
     wrap: 72
 ---
 
-### Aligning Site Series (edatopic overlap)
+### Aligning Site Series (Edatopic Overlap)
 
 #### The edatopic grid
 
@@ -34,4 +34,4 @@ Instead of choosing a single “best match” analog site series, the CCISS tool
 
 Figure 2: Calculation of the overlap agreement for the example shown in Figure 1. Overlap agreement is weight of each site series to contribute its tree species suitability ratings to the CCISS projection for the historical site series of interest.   
 
-Extra-edatopic site series (e.g. floodplains) are aligned to similar types by predefined rule sets (e.g. historical high-bench floodplain site series aligned to analog high-bench floodplain site series). 
+Extra-edatopic site series (e.g. floodplains) are aligned to similar types by predefined rule sets (e.g., historical high-bench floodplain site series aligned to analog high-bench floodplain site series). 
