@@ -11,13 +11,7 @@ plugins <- {
            version = "1.3.0",
            src = system.file("htmlwidgets", package = "ccissr"),
            script = "lfx-vgrid-prod.js"
-         ),
-       colourplugin = htmltools::htmlDependency(
-         name = "leaflet.colorPicker",
-         version = "1.0.0",
-         src = "htmlwidgets",
-         script = "leaflet-tilelayer-colorpicker.js"
-       )
+         )
   )
 }
 registerPlugin <- function(map, plugin) {
@@ -29,7 +23,6 @@ zone_colours <- fread("cciss_spatial/WNAv13_ZoneCols.csv")
 
 addBGCTiles <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
-  map <- registerPlugin(map, plugins$colourplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
       ', paste0("var subzoneColorsBGC = {", paste0("'", subzones_colours_ref$classification, "':'", 
