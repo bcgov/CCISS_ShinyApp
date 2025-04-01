@@ -9,3 +9,15 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+
+## Species codes: 
+
+Full list of tree species codes is available [here](https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-species.html). 
+
+Table 1. Codes of common tree species mentioned in the CCISS documentation 
+
+|                        |                           |          |
+|------------------------|---------------------------|----------|
+| **Common Name**        | **Latin Name**            | **Code** | 
+| Douglas-fir            | *Pseudotsuga menziesii*   | Fd       |
+| Western redcedar       | *Thuja plicata*           | Cw       |
