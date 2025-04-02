@@ -31,9 +31,11 @@ navbarPage(
   theme = {
     theme <- bslib::bs_theme(version = 5,
                              bootswatch = "sandstone",
-                             primary = "#003366")
-    # theme$layers$bootswatch$defaults[[3]][[2]] <-
-    #   "$navbar-default-bg: primary !default;"
+                             primary = "#003366") %>%
+      bs_add_variables(
+        "navbar-light-bg" = "#003366",  # Change this for a light navbar
+        "navbar-dark-bg" = "#003366"    # Change this for a dark navbar
+      )
     theme
   },
   collapsible = TRUE,
@@ -695,7 +697,7 @@ $(document).ready(function(){
               includeHTML("./instructions/2e_Export.html") 
             ),
             tabPanel(
-              title = "Export",
+              title = "CCISS Spatial",
               value = "cciss_instructions_spatial",
               includeHTML("./instructions/2f_Spatial.html") 
             )
