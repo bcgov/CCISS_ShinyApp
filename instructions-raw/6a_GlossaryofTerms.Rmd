@@ -13,54 +13,110 @@ editor_options:
 ## Glossary of Terms: ###
 
 **Assisted migration:**
+<p style="margin-left: 2em;"> Assisted migration is the human-assisted relocation of species to new habitats, where they have not occurred in the past, to help them adapt to environmental change, including climate change. One of the goals of the CCISS tools is to help identify tree species that would make good candidates for assisted migration. </p>
 
 **Biogeoclimatic Ecosystem Classification (BEC)**: 
+<p style="margin-left: 2em;"> Biogeoclimatic Ecosystem Classification is a tool used to classify ecosystems in British Columbia according to vegetation, climate, and soils. It is often used in forestry and conservation in the province, and relies on the classification of ecosystems according to mature (climax) successional stages. For more information, see the [BEC website](https://www.for.gov.bc.ca/hre/becweb/).</p>
 
 **Biogeoclimatic projections:**
+<p style="margin-left: 2em;"> </p>
 
 **Biogeoclimatic subzone/variants:**
+<p style="margin-left: 2em;"> </p>
+
+**Chief Forester's Reference Guide (CFRG):**
+<p style="margin-left: 2em;"> </p>
 
 **Classification model:**
+<p style="margin-left: 2em;"> </p>
 
-**Climate analogs:** Also known as biogeoclimatic (BGC) analogs,...
+**Climate:**  
+*Baseline climate:*  
+<p style="margin-left: 2em;"> The historical climate used to compare observed climates of more recent periods or simulated future climates. The CCISS baseline period is 1961-1990. </p>
+*Target climate:*  
+<p style="margin-left: 2em;"> The current or future climate condition for which a historical analog is identified, and for which novelty is being measured. In CCISS, these are climatic averages over 20-year periods (2001-2020 through 2081-2100) for locations throughout BC. </p>
+*Analog climate:*   
+<p style="margin-left: 2em;"> The baseline climate condition assessed as being most similar to the target condition, among a set of candidate analogs. The analog pool for CCISS is the 1961-1990 climates of the biogeoclimatic subzone-variants of Western North America. </p>
+
+**Climate analogs:** 
+<p style="margin-left: 2em;"> Also known as biogeoclimatic (BGC) analogs,... </p> 
 
 **Climate projections:**
+<p style="margin-left: 2em;"> </p>
+
+**Ecological suitability (for a timber objective):** 
+<p style="margin-left: 2em;"> From the Chief Forester's Reference Guide, </p>
 
 **Edatopic grids:**
+<p style="margin-left: 2em;"> </p>
 
 **Ensemble:**
+<p style="margin-left: 2em;"> </p>
 
 **Environmental suitability:**
+<p style="margin-left: 2em;"> </p>
+
+**Forecast:**   
+<p style="margin-left: 2em;">“Projection”, “prediction”, and “forecast” are related terms with varying usage in ecology and climate science. See also "projection" and "prediction" in this glossary for a better understanding of all three terms. </p>
+
+<p style="margin-left: 2em;">A forecast is an estimate of possible future states of a variable of interest. A forecast is not a “crystal ball” of what will happen, but a quantification of uncertainty in what could happen. Providing forecasts of environmental suitability for tree species is the ultimate goal of CCISS. CCISS forecasts are a synthesis of many projections of tree species suitability that have been carefully selected to provide a meaningful representation of uncertainty.</p> 
 
 **Fundamental niche:**
+<p style="margin-left: 2em;"> A fundamental niche represents the full potential range of conditions a species could occupy, in theory, without limitations imposed by biotic interactions, such as competition. Compare with *realized niche* below. </p>
 
 **Global climate model (GCM)**: 
+<p style="margin-left: 2em;"> </p>
 
 **Maturation suitability:**
+<p style="margin-left: 2em;"> </p>
 
 **Novel climate/novelty:**
+<p style="margin-left: 2em;"> A novel climate occurs when the projected future climate conditions in an area differ significantly from any historical climate analog available in western North America, making it difficult to find a reliable comparison. In the CCISS framework, climatic novelty is quantified using sigma dissimilarity, which compares future climates to the combined spatial and temporal variation of historical climate analogs.</p>
 
 **Off-site:** See Out Home Range (OHR). 
+<p style="margin-left: 2em;"> </p>
 
 **Out Home Range (OHR):** 
+<p style="margin-left: 2em;"> The term “outside home range” refers to tree species environmental suitability ratings that have been assigned in a geographical area (i.e. biogeoclimatic subzone-variant) where the species does not occur naturally. In some cases, OHR species were restricted by something other than climate, such as migration limitations (for example, western larch) or forest health factors (for example, Western white pine limited by blister rust). In CCISS, we have included an environmental suitability rating for OHR species with strong evidence of being well adapted to the climatic conditions of the historical reference period (1961–1990), which serves as the basis for these ratings. </p>
+
+**Prediction:**   
+<p style="margin-left: 2em;"> “Projection”, “prediction”, and “forecast” are related terms with varying usage in ecology and climate science. See also "projection" and "forecast" in this glossary for a better understanding of all three terms. </p>
+
+
+<p style="margin-left: 2em;"> In CCISS, the term prediction is used exclusively as *model prediction*: the process by which a statistical model estimates a response variable (i.e., biogeoclimatic subzone/variant analog) based on predictor variables (i.e., climate variables). A model prediction can be made for any values of the predictor variables regardless of whether they represent past, future, or hypothetical conditions. Each biogeoclimatic projection for one 20-year time period is a model prediction. </p>
+
+
+**Projection:**   
+<p style="margin-left: 2em;"> “Projection”, “prediction”, and “forecast” are related terms with varying usage in ecology and climate science. See also "forecast" and "prediction" in this glossary for a better understanding of all three terms. </p>
+
+<p style="margin-left: 2em;"> A projection is an estimate of the change over time in a variable of interest given a specific set of assumptions. CCISS provides one projection of tree species suitability for each of three simulations of eight global climate models following three atmospheric greenhouse gas concentration scenarios. The 2001-2020 period of these simulations is considered a projection even though it occurs in the past. </p>
 
 **Random Forest model:**
+<p style="margin-left: 2em;"> </p>
 
 **Realized niche:**
+<p style="margin-left: 2em;"> A realized niche is the actual environmental conditions and resources that a species occupies and uses, considering competition, predation, and other biotic interactions. This makes it narrower than a *fundamental niche* (see above). </p>
 
 **Regeneration suitability:**
+<p style="margin-left: 2em;"> </p>
 
 **Resistance:**
+<p style="margin-left: 2em;"> </p>
 
 **Shared socioeconomic pathway (SSP):**
+<p style="margin-left: 2em;"> </p>
 
 **Site series:**
+<p style="margin-left: 2em;"> </p>
 
 **Stocking standards:**
+<p style="margin-left: 2em;"> </p>
 
 **Suitability projections:**
+<p style="margin-left: 2em;"> </p>
 
 **Tolerance:**
+<p style="margin-left: 2em;"> </p>
 
 **Uncertainty:**
-
+<p style="margin-left: 2em;"> </p>
