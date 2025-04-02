@@ -22,11 +22,32 @@ below). We are engaging with additional subject matter experts to
 provide a review, including silviculturists, forest health specialists,
 and tree breeders.
 
-#### 1. Tree Species Environmental Suitability Definitions
+#### 1. Tree Species Environmental Suitability Ratings
+
+The initial environmental suitability ratings were assigned in 2017 by
+A. Banner (Coast and North Area), T. Braumandl (Kootenay-Boundary,
+Thompson-Okanagan), W. MacKenzie (Alberta), and D. Meidinger (USA). A
+subsequent review of this output in 2018-2019 led to some clarification
+of definitions and modifications of initial ratings. The initial ratings
+were reviewed in 2021 by regional experts, see Rating of Tree Species
+Environmental Suitability Technical Report (2025) for a full overview of
+the suitability process to date. FOR Ecologists are reviewing the
+existing environmental suitability ratings in their region. The
+objective of this review is to refine the suitability ratings using
+expert knowledge and available information sources, assist with filling
+in gaps if any, and to document known issues for further follow-up. The
+resulting suitability ratings will provide a strong scientific
+foundation and provide a consistent baseline for further refinement
+using quantitative methods. Using the updated documentation and rating
+process outlined above, Ecologists began reviewing species suitability
+ratings in February 2025. This review is complete for the Coast Area,
+Omenica, Cariboo, and Thompson-Okanagan Regions.
+
+#### 2. Tree Species Environmental Suitability Definitions
 
 FOR Ecologists have provided feedback on the supporting documentation
 and definitions of Tree Species Environmental Suitability ratings. An
-in-person meeting with the Provincial Ecology team to review CCISS model
+in-person meeting with the FOR Ecology team to review CCISS model
 results and the historical species suitability ratings took place in
 November 2024. Per request of the Ecology team, the CCISS team developed
 new documentation outlining definitions and a multi-step rating process
@@ -36,20 +57,6 @@ rounds of revision to the Species Environmental Suitability ratings
 documentation resulting in a final version as of February 2025.
 
 See the "Methods - Suitability Ratings" tab for more information.
-
-#### 2. Tree Species Environmental Suitability Ratings
-
-FOR Ecologists are reviewing the existing environmental suitability
-ratings in their region. The objective of this review is to refine the
-suitability ratings using expert knowledge and available information
-sources, assist with filling in gaps if any, and to document known issues
-for further follow-up. The resulting suitability ratings will provide a
-strong scientific foundation and provide a consistent baseline for
-further refinement using quantitative methods. Using the updated
-documentation and rating process outlined above, Ecologists began
-reviewing species suitability ratings in February 2025. This review is
-complete for the Coast Area, Omenica, Cariboo, and Thompson-Okanagan
-Regions.
 
 #### 3. CCISS Tool Results
 
