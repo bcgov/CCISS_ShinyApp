@@ -1,0 +1,145 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### BEC 13
+
+This version of CCISS uses BEC13, which includes the biogeoclimatic
+classification published in LMH77.
+
+#### LMH77 Updates
+
+LMH77 replaces the previously published site identification field guide
+for the Vancouver Forest Region (Green and Klinka 1994) and portions of
+the guide for the Prince Rupert Forest Region (Banner et al. 1993). The
+classification presented here differs from previous classifications in
+several ways: 
+
+-   the reclassification of the Coastal Western Hemlock Very Dry
+    Maritime (CWHxm) to the Dry Maritime CWH (CWHdm); the Central
+    variant (CWHdm1) and the Western variant (CWHdm2) replace the CWHxm1
+    and CWHxm2, respectively, and the Eastern variant (CWHdm3) replaces
+    the lower mainland portion of the old CWHdm;  
+
+<!-- -->
+
+-   the retirement of the CWH Southern Moist Submaritime variant
+    (CWHms1), now reclassified and split into three new variants: the
+    southern CWH Moist Submaritime Submontane (CWHms3), Montane
+    (CWHms4), and Subcontinental (CWHms5);  
+
+<!-- -->
+
+-   the retirement of the CWH Central Moist Submaritime variant
+    (CWHms2), now reclassified to the Central Wet Submaritime CWH
+    variant (CWHws3); 
+
+<!-- -->
+
+-   the reclassification of the Interior Douglas-fir Wet Warm (IDFww),
+    now split into two biogeoclimatic units: the IDFww in the south
+    coast and the ICHun in the central coast; 
+
+<!-- -->
+
+-   a new south coast subzone of the CWH zone is described, the Very Dry
+    Submaritime (CWHxs) replacing portions of the previous distribution
+    of the Interior Douglas-fir Wet Warm (IDFww); 
+
+<!-- -->
+
+-   the previous Submontane variant of the CWH Very Wet Maritime subzone
+    (CWHvm1) is now split into a Southern Submontane variant (CWHvm1)
+    and a Northern Submontane variant (CWHvm3);  
+
+<!-- -->
+
+-   the previous Montane variant of the CWH Very Wet Maritime subzone
+    (CWHvm2) is now split into a Southern Montane variant (CWHvm2) and a
+    Northern Montane variant (CWHvm4); 
+
+<!-- -->
+
+-   a new central/north coast subzone of the Mountain Hemlock zone is
+    described, the MH Very Wet Hypermaritime (MHvh) replacing the
+    previous distribution of the mainland MHwh; 
+
+<!-- -->
+
+-   a new northern subzone of the MH zone is described, the Moist
+    Submaritime MH (MHms) replacing a portion of the previous
+    distribution of Moist Maritime Leeward MH variant (MHmm2); 
+
+<!-- -->
+
+-   the mapping of biogeoclimatic units has been revised: reduction of
+    the IDFww resulting in increased areas of CWHds and creation of the
+    ICHun and CWHxs; reduction of the CWHdm (now the CWHdm3) resulting
+    in increased area and mainland distribution of the CWHdm2; CWHvm1
+    and CWHvm2 north-south split; northern CWHvh1 distribution reduced
+    southward resulting in increased area and Vancouver Island
+    distribution of the CWHvh2; MHvh replacing MHwh; and numerous other
+    minor boundary and elevational shifts 
+
+Reference: LMH77 Chapter 1
+
+#### Crosswalk Tables for BGC subzone-variants
+
+Table 1. Crosswalk tables of names of coast classification units used in BEC13
+(LMH77) and in BEC12 (previous guides LMH26 Banner et al. 1993; LMH28
+Green and Klinka 1994) are provided in table below. 
+
+|            |                                                             |
+|------------|-------------------------------------------------------------|
+| **BEC13**  | **BEC12**                                                   |
+| CDFmm      | CDFmm                                                       |
+| CMAun      | CMAun, CMAunp in part (alpine split from parkland)          |
+| CWHdm1     | CWHxm1                                                      |
+| CWHdm2     | CWHxm2                                                      |
+| CWHdm3     | CWHdm                                                       |
+| CWHds1     | CWHds1                                                      |
+| CWHds2     | CWHds2                                                      |
+| CWHmm1     | CWHmm1                                                      |
+| CWHmm2     | CWHmm2                                                      |
+| CWHms3     | CWHms1 in part                                              |
+| CWHms4     | CWHms1 in part                                              |
+| CWHms5     | CWHms1 in part                                              |
+| CWHvh1     | CWHvh1                                                      |
+| CWHvh2     | CWHvh2                                                      |
+| CWHvm1     | CWHvm1                                                      |
+| CWHvm2     | CWHvm2                                                      |
+| CWHvm3     | CWHvm1                                                      |
+| CWHvm4     | CWHvm2                                                      |
+| CWHwm      | CWHwm                                                       |
+| CWHws1     | CWHws1                                                      |
+| CWHws2     | CWHws2                                                      |
+| CWHws3     | CWHms2                                                      |
+| CWHxs      | IDFww                                                       |
+| ICHun      | IDFww - central coast                                       |
+| IDFww      | IDFww, IDFww1 – south coast-interior transition             |
+| ESSFun     | central coast portion of ESSFmw                             |
+| MHmm1      | MHmm1                                                       |
+| MHmm2      | MHmm2                                                       |
+| MHmmp      | MHmmp, CMAunp in part (parkland split from alpine)          |
+| MHms       | Portions of MHmm2 in part, ESSFwv in part, ESSFun in part   |
+| MHmsp      | Portions of MHmmp in part, ESSFwv in part, ESSFunp in part  |
+| MHun       | MHun, portions of MHmm2 north of Stewart                    |
+| MHunp      | MHunp, MHmmp north of Stewart                               |
+| MHvh       | MHwh1 mainland                                              |
+| MHvhp      | MHwhp, CMAunp in part (parkland split from alpine)          |
+
+
+
+##### References: 
+Banner, A., W. H. MacKenzie, S. Haeussler, and S. Thomson. 1993. A field guide to site identification and interpretation for the Prince Rupert Forest Region. Land Management Handbook No. 26. Ministry of Forests, Research Branch, Victoria, B.C.   
+
+Green, R.N., and K. Klinka. 1994. A field guide for site identification and interpretation for the Vancouver Forest Region. Land Management Handbook No. 28. Ministry of Forests, Research Branch, Victoria, B.C.
+

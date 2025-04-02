@@ -21,7 +21,8 @@ in each time period.
 
 The concept and definitions of environmental suitability ratings and their 
 relationship to stocking standards (according to the CFRG) and CCISS model 
-projections are discussed in more detail <a href="3c_SuitabilityRatings.html">here</a>.
+projections are discussed in more detail in the Suitability Ratings section of 
+the Methods documentation.
 
 ### Selection/Filter pane
 

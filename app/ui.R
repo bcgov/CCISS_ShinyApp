@@ -761,11 +761,11 @@ $(document).ready(function(){
               value = "cciss_3i",
               includeHTML("./instructions/3i_OHR.html") 
             ),
-            tabPanel(
-              title = "BEC 13",
-              value = "cciss_3j",
-              includeHTML("./instructions/3j_BEC13.html") 
-            ),
+            # tabPanel(
+            #   title = "BEC 13",
+            #   value = "cciss_3j",
+            #   includeHTML("./instructions/3j_BEC13.html") 
+            # ),
             tabPanel(
               title = "Expert Review",
               value = "cciss_3k",
@@ -826,6 +826,46 @@ $(document).ready(function(){
       )
     ),
     tabPanel(
+      title = "Definitions",
+      value = "cciss_definitions",
+      fluidRow(
+        column(
+          width = 8,
+          offset = 1,
+          tags$h4("Definitions"),
+          tabsetPanel(
+            id = "cciss_definitions",
+            type = "pills",
+            tabPanel(
+              title = "Glossary of Terms",
+              value = "cciss_6a",
+              includeHTML("./instructions/6a_GlossaryofTerms.html") 
+            ),
+            tabPanel(
+              title = "Species Codes",
+              value = "cciss_6b",
+              includeHTML("./instructions/6b_SpeciesCodes.html") 
+            ),
+            tabPanel(
+              title = "BEC Codes",
+              value = "cciss_6c",
+              includeHTML("./instructions/6c_BECCodes.html") 
+            ),
+            tabPanel(
+              title = "Suitability Definitions",
+              value = "cciss_6d",
+              includeHTML("./instructions/6d_SuitabilityDefinitions.html") 
+            ),
+            tabPanel(
+              title = "BEC 13 Crosswalk",
+              value = "cciss_6e",
+              includeHTML("./instructions/6e_BEC13Crosswalk.html") 
+            )
+          )
+        )
+      )       
+    ),
+    tabPanel(
       title = "Providing Feedback",
       value = "cciss_feedback",
       fluidRow(
@@ -834,7 +874,7 @@ $(document).ready(function(){
           offset = 1,
           tabPanel(
             title = "",
-            includeHTML("./instructions/6a_ProvidingFeedback.html") 
+            includeHTML("./instructions/7a_ProvidingFeedback.html") 
           )
         )
       )
@@ -848,7 +888,7 @@ $(document).ready(function(){
           offset = 1,
           tabPanel(
             title = "",
-            includeHTML("./instructions/7a_FAQs.html") 
+            includeHTML("./instructions/8a_FAQs.html") 
           )
         )
       )

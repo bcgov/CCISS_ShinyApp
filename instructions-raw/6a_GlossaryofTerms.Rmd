@@ -1,0 +1,66 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Glossary of Terms: ###
+
+**Assisted migration:**
+
+**Biogeoclimatic Ecosystem Classification (BEC)**: 
+
+**Biogeoclimatic projections:**
+
+**Biogeoclimatic subzone/variants:**
+
+**Classification model:**
+
+**Climate analogs:** Also known as biogeoclimatic (BGC) analogs,...
+
+**Climate projections:**
+
+**Edatopic grids:**
+
+**Ensemble:**
+
+**Environmental suitability:**
+
+**Fundamental niche:**
+
+**Global climate model (GCM)**: 
+
+**Maturation suitability:**
+
+**Novel climate/novelty:**
+
+**Off-site:** See Out Home Range (OHR). 
+
+**Out Home Range (OHR):** 
+
+**Random Forest model:**
+
+**Realized niche:**
+
+**Regeneration suitability:**
+
+**Resistance:**
+
+**Shared socioeconomic pathway (SSP):**
+
+**Site series:**
+
+**Stocking standards:**
+
+**Suitability projections:**
+
+**Tolerance:**
+
+**Uncertainty:**
+
