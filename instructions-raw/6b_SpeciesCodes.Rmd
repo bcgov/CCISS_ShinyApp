@@ -16,8 +16,22 @@ Full list of tree species codes is available [here](https://www.for.gov.bc.ca/hr
 
 Table 1. Codes of common tree species mentioned in the CCISS documentation 
 
-|                        |                           |          |
-|------------------------|---------------------------|----------|
-| **Common Name**        | **Latin Name**            | **Code** | 
-| Douglas-fir            | *Pseudotsuga menziesii*   | Fd       |
-| Western redcedar       | *Thuja plicata*           | Cw       |
+|                        |                              |          |
+|------------------------|------------------------------|----------|
+| **Common Name**        | **Latin Name**               | **Code** | 
+| Amabilis fir           | *Abies amabilis*             | Ba       |
+| Black cottonwood       | *Populus trichocarpa*        | Ac       |
+| Common paper birch     | *Betula papyrifera*          | Ep       |
+| Douglas-fir            | *Pseudotsuga menziesii*      | Fd       |
+| Grand fir              | *Abies grandis*              | Bg       |
+| Interior spruce        | *Picea glauca × engelmannii* | Sx       |
+| Limber pine            | *Pinus flexilis*             | Pf       |
+| Lodgepole pine         | *Pinus contorta*             | Pl       |
+| Ponderosa pine         | *Pinus ponderosa*            | Py       |
+| Rocky Mountain juniper | *Juniperus scopulorum*       | Jr       |
+| Subalpine fir          | *Abies lasiocarpa*           | Bl       |
+| Trembling aspen        | *Populus tremuloides*        | At       |
+| Western hemlock        | *Tsuga heterophylla*         | Hw       |
+| Western larch          | *Larix occidentalis*         | Lw       |
+| Western redcedar       | *Thuja plicata*              | Cw       |
+| Western white pine     | *Pinus monticola*            | Pw       |
