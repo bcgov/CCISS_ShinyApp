@@ -25,7 +25,7 @@ editor_options:
 <p style="margin-left: 2em;"> </p>
 
 **Chief Forester's Reference Guide (CFRG):**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> The [Chief Forester's Reference Guide for Stocking Standards](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx) is the official guide to choosing suitable species and stocking levels for reforestation programs in British Columbia. </p>
 
 **Classification model:**
 <p style="margin-left: 2em;"> </p>
@@ -44,17 +44,20 @@ editor_options:
 **Climate projections:**
 <p style="margin-left: 2em;"> </p>
 
-**Ecological suitability (for a timber objective):** 
-<p style="margin-left: 2em;"> From the Chief Forester's Reference Guide, </p>
+**Ecological suitability for a timber objective:** 
+<p style="margin-left: 2em;"> This is a term used in the Chief Forester's Reference Guide, meaning... </p>
 
-**Edatopic grids:**
-<p style="margin-left: 2em;"> </p>
+**Edatopic grid:**
+<p style="margin-left: 2em;"> In the BEC system, variations in site conditions within each climate type (i.e., biogeoclimatic subzone/variant) are represented by an edatopic grid. An edatopic grid has 8 relative soil moisture regimes (SMRs) and 5 soil nutrient regimes (SNRs). Each cell in this grid, called an edatope, is the combination of one SMR and one SNR, and represents the finest scale of site differentiation in the BEC system. A site series is a group of edatopes over which a classified BEC Plant Association has been observed to occur. The distribution of site series across the edatopic grid is unique to each biogeoclimatic subzone/variant. </p>
 
 **Ensemble:**
 <p style="margin-left: 2em;"> </p>
 
 **Environmental suitability:**
 <p style="margin-left: 2em;"> </p>
+
+**Establishment suitability:**
+<p style="margin-left: 2em;"> The suitability rating based on the mean historic, current (2001-2020), and 2021-2040 future projected suitabilities. This indicates the likely level of constraints for successful establishment of the species now.</p>
 
 **Forecast:**   
 <p style="margin-left: 2em;">“Projection”, “prediction”, and “forecast” are related terms with varying usage in ecology and climate science. See also "projection" and "prediction" in this glossary for a better understanding of all three terms. </p>
@@ -67,8 +70,11 @@ editor_options:
 **Global climate model (GCM)**: 
 <p style="margin-left: 2em;"> </p>
 
+**Historic suitability:**
+<p style="margin-left: 2em;">The baseline environmental suitability rating based primarily on the expert suitability ratings of the historic period (19961-1990).</p>
+
 **Maturation suitability:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;">The mean suitability rating projected across the four 20-year normal periods (2021-2100). This indicates the inferred suitability of successfully growing an established species to maturity (80 years). </p>
 
 **Novel climate/novelty:**
 <p style="margin-left: 2em;"> A novel climate occurs when the projected future climate conditions in an area differ significantly from any historical climate analog available in western North America, making it difficult to find a reliable comparison. In the CCISS framework, climatic novelty is quantified using sigma dissimilarity, which compares future climates to the combined spatial and temporal variation of historical climate analogs.</p>
@@ -76,7 +82,7 @@ editor_options:
 **Off-site:** See Out Home Range (OHR). 
 <p style="margin-left: 2em;"> </p>
 
-**Out Home Range (OHR):** 
+**Out Home Range (OHR) Suitability:** 
 <p style="margin-left: 2em;"> The term “outside home range” refers to tree species environmental suitability ratings that have been assigned in a geographical area (i.e. biogeoclimatic subzone-variant) where the species does not occur naturally. In some cases, OHR species were restricted by something other than climate, such as migration limitations (for example, western larch) or forest health factors (for example, Western white pine limited by blister rust). In CCISS, we have included an environmental suitability rating for OHR species with strong evidence of being well adapted to the climatic conditions of the historical reference period (1961–1990), which serves as the basis for these ratings. </p>
 
 **Prediction:**   
@@ -92,31 +98,39 @@ editor_options:
 <p style="margin-left: 2em;"> A projection is an estimate of the change over time in a variable of interest given a specific set of assumptions. CCISS provides one projection of tree species suitability for each of three simulations of eight global climate models following three atmospheric greenhouse gas concentration scenarios. The 2001-2020 period of these simulations is considered a projection even though it occurs in the past. </p>
 
 **Random Forest model:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> A Random Forest model is an ensemble learning method that constructs multiple decision trees during training, and combines their outputs to improve predictive accuracy and to prevent overfitting. It works by randomly selecting subsets of data and features (variables) for each tree. In the case of classification models, including the ones used in CCISS, it then uses majority voting to classify projected biogeoclimatic subzone/variants (i.e., the most frequently chosen BGC subzone/variant is the final classification). </p>
 
 **Realized niche:**
 <p style="margin-left: 2em;"> A realized niche is the actual environmental conditions and resources that a species occupies and uses, considering competition, predation, and other biotic interactions. This makes it narrower than a *fundamental niche* (see above). </p>
 
-**Regeneration suitability:**
-<p style="margin-left: 2em;"> </p>
-
 **Resistance:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> Tree species are compared based on their resistance to major environmental factors, including snow, wind damage, fire, insects, and fungi. The three interpretive classes used are: L – low, 
+M – medium, and H – high. Information directly from Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
+Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
+Coquitlam, B.C. </p>
 
-**Shared socioeconomic pathway (SSP):**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
+Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
+Coquitlam, B.C.</p>
+
+**Shared Socioeconomic Pathways (SSPs):**
+<p style="margin-left: 2em;">Shared Socioeconomic Pathways (SSPs) are future global development scenarios that describe different ways that society, economics, and policies might evolve regarding greenhouse gas emissions and their impacts on climate change. CCISS includes projections for three SSP scenarios: SSP1-2.6, SSP2-4.5, and SSP3-7.0, representing optimistic, moderate, and high-emission futures. SSP1-2.6 aligns with strong mitigation efforts to limit warming to 2°C, SSP2-4.5 reflects current policies with moderate mitigation, and SSP3-7.0 assumes no mitigation, leading to steadily increasing emissions.</p>
 
 **Site series:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> A site series is a group of edatopes (i.e., unique combinations of soil moisture regimes and soil nutrient regimes) over which a classified BEC Plant Association has been observed to occur. The distribution of site series across the edatopic grid is unique to each biogeoclimatic subzone/variant. See also *edatopic grid*.</p>
 
 **Stocking standards:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> Stocking standards are regulations or guidelines that define the distribution and composition of trees that must be established after harvesting to ensure successful forest regeneration. Specifically, these standards designate densities, acceptable species, and spacing requirements. </p>
 
 **Suitability projections:**
 <p style="margin-left: 2em;"> </p>
 
 **Tolerance:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;"> Tree species are compared based on their tolerance to the major environmental factors: low light, frost, 
+heat, water deficit, water surplus, and nitrogen deficiency. The three interpretive classes used are: L – low, 
+M – medium, and H – high. Information directly from Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
+Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
+Coquitlam, B.C.</p>
 
 **Uncertainty:**
-<p style="margin-left: 2em;"> </p>
+<p style="margin-left: 2em;">In reference to CCISS, uncertainty refers to the range of potential variability in model predictions, and comes from various sources. CCISS quantifies three types of climate change uncertainty: modeling uncertainty, natural variability, and socioeconomic uncertainty. These uncertainties are represented by calculating CCISS results for a large ensemble of potential future climate states. For more information, see Methods - Climate Change Projections.  </p>
