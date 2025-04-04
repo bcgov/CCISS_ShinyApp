@@ -16,6 +16,9 @@ Full lists of biogeoclimatic units and site series available [here](https://www.
 
 Each biogeoclimatic unit (subzone/variant) is named with a combination of a biogeoclimatic zone (Table 1), a subzone code for precipitation and temperature (Table 2). Sometimes, a modifier for continentality and variant are also necessary.  
 
+&nbsp;
+&nbsp;
+
 Table 1. Codes of BEC 13 biogeoclimatic zones:
 
 |                                     |          |
@@ -36,25 +39,29 @@ Table 1. Codes of BEC 13 biogeoclimatic zones:
 | *Sub-Boreal Pine - Spruce*          | SBPS     |
 | *Sub-Boreal Spruce*                 | SBS      |
 
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 
 Table 2. Subzone names and codes for relative precipitation, relative temperature, and continentality.
 
 |                                     |          |
 |-------------------------------------|----------|
 | **Name**                            | **Code** | 
-| *Very dry*                          | x        |
-| *Dry*                               | d        |
-| *Moist*                             | m        |
-| *Wet*                               | w        |
-| *Very wet*                          | v        |
+| Very dry                            | x        |
+| Dry                                 | d        |
+| Moist                               | m        |
+| Wet                                 | w        |
+| Very wet                            | v        |
 | &nbsp;                              |          |
-| *Hot*                               | h        |
-| *Warm*                              | w        |
-| *Mild*                              | m        |
-| *Cool*                              | k        |
-| *Cold*                              | c        |
-| *Very cold*                         | v        |
+| Hot                                 | h        |
+| Warm                                | w        |
+| Mild                                | m        |
+| Cool                                | k        |
+| Cold                                | c        |
+| Very cold                           | v        |
 | &nbsp;                              |          |
-| *Hypermaritime*                     | h        |
-| *Maritime*                          | m        |
-| *Submaritime*                       | s        |
+| Hypermaritime                       | h        |
+| Maritime                            | m        |
+| Submaritime                         | s        |
