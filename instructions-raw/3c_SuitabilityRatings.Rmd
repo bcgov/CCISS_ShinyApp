@@ -156,7 +156,7 @@ account for different time periods in the CCISS tool:
 
 **Historic Suitability**: The baseline environmental suitability rating
 based primarily on the expert suitability ratings of the historic period
-(19961-1990).
+(1961-1990).
 
 **Establishment Suitability**: The suitability rating based on the mean
 historic, current (2001-2020), and 2021-2040 future projected
