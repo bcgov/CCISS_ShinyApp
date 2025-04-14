@@ -11,7 +11,7 @@ editor_options:
 ---
 
 ## SELECT SITES: 
-### In the first tab of the CCISS tool, users can select points or areas of interest, and make manual adjustments to model parameters if necessary. 
+In the first tab of the CCISS tool, users can select points or areas of interest, and make manual adjustments to model parameters if necessary. For a very quick summary of functionality of this page, users can also click the *What does this page do* link at the top of the left-hand panel. 
 
 ## **Step 1.** Select points or areas of interest:
 Users can select points or areas of interest using **one of the following three methods**:
@@ -26,7 +26,7 @@ Users can select points or areas of interest using **one of the following three 
     single Forest District. The CCISS tool will use a set of
     pre-selected random points for the units chosen. This option is to
     be used where general trends are desired by area. The BGC + District
-    option is probably most appropriate for stocking standard revisions.
+    option is probably most appropriate for stocking standard revisions. To find a specific BGC unit, users can use the **Find-a-BEC** drop-down menu at the bottom of the left-hand panel. This will highlight the selected unit in yellow, with a red border. 
 
 -   **Option 3**. Select a formatted CSV file to upload
     user-specified and named points. The batch file must be in
@@ -51,7 +51,7 @@ the output. <br><br>
 
 ## <u>More information on adjusting session parameters:</u>
 
-<figure>
+<figure style="text-align:center;">
   <img src="Figure_Instructions_ModelParameters.png" alt="" style="width:40%;">
   <figcaption style="font-size: 0.8em; color: gray;">Figure 1: Example of the dialog box for adjusting **Model parameters**. Steps 1-6 correspond with the documentation below the figure.   </figcaption>
 </figure>
@@ -110,3 +110,11 @@ extremely unlikely based on current trends in energy economics and
 policy ([Hausfather and Peters
 2020](https://www.nature.com/articles/d41586-020-00177-3)). Users can adjust these weightings using the **Model parameters** dialog box. See Documentation - Methods - Climate Change Projections.  
 
+## Example: CWHdm1
+
+In this example, the user has manually selected five points of interest in the CWHdm1 BGC unit using Option 1 outlined in Step 1 above. Using the default model parameters and default settings for reporting, the results they receive will be averaged across the five selected points.  
+
+<figure style="text-align:center;">
+  <img src="Figure_Instructions_SelectSites.png" alt="" style="width:75%;">
+  <figcaption style="font-size: 0.8em; color: gray;">Figure 2: First panel of CCISS tool with five points selected in the CWHdm1 BGC unit.   </figcaption>
+</figure>
