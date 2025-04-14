@@ -59,7 +59,7 @@ output$map <- renderLeaflet({
     addSelectBEC() %>%
     addLayersControl(
       baseGroups = c("Hillshade","Satellite"),
-      overlayGroups = c("BGCs"),
+      overlayGroups = c("BGCs","Cities"),
       position = "topright") %>%
     hideGroup("BGCs")
 })
@@ -67,13 +67,22 @@ output$map <- renderLeaflet({
 ##add tiles
 observe({
   if(input$type == "BGC"){
-    globalLeg$Legend <- NULL
+    if(!input$novelty) {
+      globalLeg$Legend <- NULL
+    }
+    
     pnm <- "Historic"
     prd <- "1961_1990"
     ens_type <- "SZ"
     if(input$period_type == "Historic"){
-      pnm <- "Historic"
-      prd <- "1961_1990"
+      if(input$hist_type == "Mapped"){
+        pnm <- "Mapped"
+        prd <- "1961_1990"
+      } else {
+        pnm <- "Historic"
+        prd <- "1961_1990"
+      }
+
     } else if (input$period_type == "obs") {
       pnm <- "Obs"
       prd <- "2001_2020"
@@ -102,8 +111,14 @@ observe({
   if(!is.null(input$species_feas) & input$type != "BGC"){
     #browser()
     if(input$period_type == "Historic"){
-      stat <- "HistoricFeas"
-      period <- "2001_2020"
+      if(input$hist_type == "Mapped"){
+        stat <- "HistoricFeas"
+        period <- "2001_2020"
+      } else {
+        stat <- "NewFeas_Historic"
+        period <- "Predicted"
+      }
+      
     } else if (input$period_type == "obs") {
       stat <- input$map_stat
       period <- "obs_2001_2020"
@@ -126,8 +141,12 @@ observe({
   
 })
 
-observeEvent(input$map_stat,{
-  if(!is.null(input$map_stat)){
+observeEvent({c(input$map_stat,input$type, input$novelty)},{
+  if(input$novelty) {
+    globalLeg$Legend <- c(0,2,4,6,8)
+    globalLeg$Colours <- c("gray90", "gray50", "#FFF200", "#CD0000", "#000000")
+    globalLeg$Title <- "Sigma Novelty"
+  } else {
     if(input$map_stat == "NewFeas"){
       globalLeg$Legend <- c("Primary","Secondary","Tertiary")
       globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900")
@@ -138,9 +157,12 @@ observeEvent(input$map_stat,{
                              "#D1E5F0", "#4393C3", "#053061", "#000000", 
                              "#FFFFCC", "#FFEDA0", "#FED976")
       globalLeg$Title <- "Change in Suitability"
+    } else {
+      globalLeg$Legend <- c("Primary","Secondary","Tertiary")
+      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900")
+      globalLeg$Title <- "Climatic Suitability"
     }
   }
-  
 })
 
 observe({
@@ -491,7 +513,7 @@ output$download_cciss <- downloadHandler(
                       MeanChange = "MeanChange_")
       lname <- paste0(sname,input$period_feas,"_",input$edatope_feas,"_",input$species_feas,".tif")
       tname <- switch(input$map_stat,
-                      NewFeas = "feasibility_raw2",
+                      NewFeas = "feasibility_raw",
                       MeanChange = "meanchange_raw")
     }
     
@@ -500,9 +522,9 @@ output$download_cciss <- downloadHandler(
     rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = boundary)
     if(input$clip_download){
       if(input$region_type == "FLP Area"){
-        bnds <- vect("flp_bnds.gpkg")
+        bnds <- vect("cciss_spatial/flp_bnds.gpkg")
       }else{
-        bnds <- vect("district_bnds.gpkg")
+        bnds <- vect("cciss_spatial/district_bnds.gpkg")
       }
       bnd <- bnds[bnds$ORG_UNIT == input$dist_click,]
       rst <- mask(rst, bnd)
@@ -511,3 +533,55 @@ output$download_cciss <- downloadHandler(
     writeRaster(rst, file, datatype = "INT2S")
   }
 )
+
+output$download_full <- downloadHandler(
+  filename = function(){
+    if(input$novelty){
+      paste0("Novelty_",input$gcm_select,"_",input$period_select,".tif")
+    } else {
+      if(input$type == "BGC"){
+        paste0("bgc_raw_",input$dist_click, "_", input$gcm_select,"_", input$period_select,".tif")
+      }else{
+        paste0(input$map_stat,input$dist_click, "_", input$period_feas,"_", input$species_feas,"_",input$edatopic_feas,".tif")
+      }
+    }
+    
+  },
+  content = function(file){
+    if(input$novelty) {
+      withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+        if(input$period_type == "obs") {
+          dat <- dbGetQuery(dbCon, "select cellid, novelty from novelty_raw where model = 7")
+        } else {
+          id <- model_ids[grep(input$gcm_select,model), id]
+          dat <- dbGetQuery(dbCon, paste0("select cellid, novelty from novelty_raw where model = ",id," and fp_code = ",substr(input$period_select,1,4)))
+        }
+        rout <- copy(t_rast)
+        values(rout) <- NA
+        rout[dat$cellid] <- dat$novelty / 100
+      })
+      writeRaster(rout, file, datatype = "FLT4S")
+    } else {
+      if(input$type == "BGC"){
+        lname <- paste0("bgc_raw_",input$gcm_select,"_",input$period_select,".tif")
+        tname <- "bgc_raw"
+      }else{
+        #browser()
+        sname <- switch(input$map_stat,
+                        NewFeas = "Feasibility_",
+                        MeanChange = "MeanChange_")
+        lname <- paste0(sname,input$period_feas,"_",input$edatope_feas,"_",input$species_feas,".tif")
+        tname <- switch(input$map_stat,
+                        NewFeas = "feasibility_raw",
+                        MeanChange = "meanchange_raw")
+      }
+      withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+        rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = bc_bbox)
+        incProgress(1, message = "Writing raster...")
+        writeRaster(rst, file, datatype = "INT2S")
+      })
+    }
+    
+  }
+)
+

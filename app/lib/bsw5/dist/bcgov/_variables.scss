@@ -1,0 +1,102 @@
+// Change theme-colors
+$theme-colors: (
+  primary: #38598a,
+  secondary:#6c757d, // new entry
+  success: #43893e,
+  info: #96c0e6,
+  warning: #f9ca54,
+  danger: #d93e45,
+  // new entries
+    primary-nav: #036,
+  secondary-nav: #5475a7,
+  bcgold: #fcba19,
+  light:#f8f9fa, // new entries
+  dark: #212529, // new entries
+);
+
+//Theme-color function is initizled as it was dropped with version 5 migration
+@function theme-color($color-name){
+  @return map-get($map: $theme-colors, $key: $color-name);
+}
+
+// Add our font as default
+$bcgov-font-path: "../fonts" !default;
+$font-family-sans-serif: BCSans, "Noto Sans", Verdana, Arial, sans serif !default;
+$font-family-base: $font-family-sans-serif !default;
+$line-height-base: 1.6 !default;
+$body-color: #494949 !default;
+
+// Headings
+$headings-font-weight: 700 !default;
+$headings-line-height: 1.1 !default;
+$headings-margin-bottom: 1.25rem !default;
+$h1-font-size: 2.074rem !default;
+$h2-font-size: 1.54912rem !default;
+$h3-font-size: 1.33882rem !default;
+$h4-font-size: 1rem !default;
+$h5-font-size: 0.86425rem !default;
+$h6-font-size: 0.80345rem !default;
+
+// Links
+$link-text-decoration: underline !default;
+$link-color: #1a5a96 !default;
+$link-hover-color: #0631f3 !default;
+$btn-link-outline-color: rgba(theme-color(primary), 0.5) !default;
+
+// Navbar - header and footer
+$header-box-shadow-color: rgba(51, 51, 51, 0.5) !default;
+$nav-link-padding-x: 0.8rem !default;
+$nav-link-padding-y: 0.4rem !default;
+$navbar-nav-link-padding-x: 0.8rem !default;
+$navbar-nav-link-padding-y: 0.4rem !default;
+$navbar-dark-color: #fff !default;
+$navbar-dark-toggler-border-color: rgba(255, 255, 255, 0.6) !default;
+$footer-separator-color: #4b5e73 !default;
+
+// Table header
+$table-dark-bg: theme-color(primary) !default;
+$table-dark-border-color: theme-color(primary) !default;
+
+// Darker borders
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-450: #bdc5cc !default;
+$gray-500: #adb5bd !default;
+$alpha-border-color: rgba(black, 0.3) !default;
+$alert-border-level: -7 !default;
+$card-border-color: $alpha-border-color !default;
+$hr-border-color: $alpha-border-color !default;
+$border-color: $gray-400 !default;
+$input-border-color: $gray-500 !default;
+$list-group-border-color: $alpha-border-color !default;
+$nav-tabs-border-color: $gray-500 !default;
+$nav-tabs-link-active-border-color: $gray-500 $gray-500 white !default;
+$pagination-border-color: $gray-500 !default;
+$pagination-disabled-border-color: $gray-400 !default;
+// $pagination-active-border-color: $pagination-active-bg !default;
+$table-border-color: $gray-450 !default;
+$table-border-level: -5 !default;
+
+// Clearer hover states
+$control-link-color: white !default;
+$control-link-bg: tint-color( theme-color(secondary-nav),10%) !default; // custom var
+$control-link-border-color: tint-color( theme-color(secondary-nav),10%) !default; // custom var
+
+$pagination-active-bg:  theme-color(primary); //new entries
+$pagination-active-border-color: theme-color(primary); //new entries
+$pagination-hover-color: $control-link-color;
+$pagination-hover-bg: $control-link-bg !default;
+$pagination-hover-border-color: $control-link-border-color !default;
+$list-group-active-bg: $control-link-bg !default;
+$list-group-active-border-color: $control-link-border-color !default;
+$list-group-action-hover-color: $link-hover-color;
+$nav-tabs-link-hover-border-color: $control-link-color $control-link-color
+$nav-tabs-border-color !default;
+
+$list-group-item-padding-y: 12px; //for navbar spacing
+
+$nav-pills-link-active-bg: theme-color(primary); //new entry for active color on pills w/t dropdowns
+$progress-bar-bg:theme-color(primary); //new entry for progress bars
+$nav-underline-border-width: 0rem !default; 
+$theme: "bcgov" !default; 
+$navbar-bg: theme-color(primary-nav);
