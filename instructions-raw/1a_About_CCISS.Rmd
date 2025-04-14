@@ -18,16 +18,18 @@ To address this challenge, the CCISS tool projects changes to species environmen
 
 To assist users, the tool compares the current species selection guidance in the Chief Forester's Reference Guide (CFRG) with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.
 
-### How can CCISS be applied in climate change adaption?
+The CCISS tool has been designed to assist professional decisions in the following contexts:
 
-1. Designing stocking standards informed by climate change
-2. Identifying current management practices that may lead to higher levels of risk with climate change
-3. Setting landscape-level stocking standards to manage uncertainty
+1. Selecting tree species for individual reforestation prescriptions
+2. Designing stocking standards for reforestation policy
+3. Setting landscape-level stocking standards to manage risk
 4. Identifying best locations for off-site species reforestation trials and/or assisted range expansion
 5. Identifying regions and site conditions where forests and tree species are at highest risk to climate change stresses
-6. Identifying areas that could act as refugia from climate change
+6. Learning about the distribution and ecological tolerances of BC's tree species
 
-The CCISS tool is a web-based R-shiny application organized into six tabs.
+### Structure
+
+The CCISS tool is organized into seven tabs.
 
 1.	__SELECT SITES:__ User selects points or areas of interest using one of 3 methods
     i.	Single points
@@ -66,13 +68,34 @@ The CCISS tool is a web-based R-shiny application organized into six tabs.
     g.  __FAQs__: Frequently asked questions
     h.  __Model information__: Version of input data and models
     i.  __Shiny app information__: Github repo, license, and other info
+   
+### Acknowledgements
+
+The CCISS team is: 
+
+-	Will MacKenzie--—Lead Scientist
+-	Kiri Daust--—Software development 
+-	Vanessa Comeau--—Interpretations and engagement
+-	Courtney Collins—--Ecological modeling
+-	Destany Crane—--Open data standards
+-	Colin Mahony—--Team lead
+
+The following BC Ministry of Forests ecologists provided regional environmental suitability ratings for tree species: Allen Banner (ret.), Ray Coupe (ret.), Del Meidinger (ret.), Tom Braumandl (ret.), Bob Green (ret.), Bruce Rogers (dec.), Heather Klassen, Sari Saunders, Deb MacKillop, Hardy Griesbauer, and Daniel Sklar. 
+
+Pam Dykstra championed the CCISS project and its applications in ecosystem management and policy.
+
+Shirley Mah and Kevin Astridge led early work on climate change informed species selection, including concept development and public consultation. 
+
+Dr. Tongli Wang (University of British Columbia) and Dr. Andreas Hamann (University of Alberta) pioneered the core methods used in CCISS, namely biogeoclimatic projections and their translation into tree species suitability projection.
+
+Finally, we acknowledge the World Climate Research Program’s Working Group on Coupled Modelling, which is responsible for the Coupled Model Intercomparison Project (CMIP6), and we thank the global climate climate modelling groups for producing and making available their model output.
     
-##### References: 
+### References: 
+
 Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
 
 Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of 
-Ecological and Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics 
-Ltd., Coquitlam, B.C.
+Ecological and Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., Coquitlam, B.C.
 
 ##### Additional Documents:
 [Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf)
