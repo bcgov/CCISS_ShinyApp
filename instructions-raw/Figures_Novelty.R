@@ -42,6 +42,7 @@ plot(dem)
 grid <- as.data.frame(dem, cells = TRUE, xy = TRUE)
 colnames(grid) <- c("id", "lon", "lat", "elev") # rename column names to what climr expects
 clim.grid <- downscale(xyz = grid,
+                       which_refmap = "refmap_climr",
                        gcms = list_gcms()[5],
                        ssps = list_ssps()[2],
                        gcm_periods = list_gcm_periods(),
@@ -55,6 +56,7 @@ clim.grid <- clim.grid[is.finite(CMD.total)] #remove NA rows to have complete ca
 pts <- fread("//objectstore2.nrs.bcgov/ffec/BGC_models/points_WNA_simple200.csv")
 # pts <- fread("C:/Users/CMAHONY/Government of BC/Future Forest Ecosystems Centre - CCISS - CCISS/ccissv13_workingfiles/BGC_modelling/TrainingSamples/points_WNA_v2.1.csv")
 clim.pts <- downscale(xyz = pts,
+                      which_refmap = "refmap_climr",
                       vars = list_vars())
 addVars(clim.pts)
 clim.pts <- pts[clim.pts, on = "id"]
@@ -66,6 +68,7 @@ clim.pts.mean <- clim.pts[, lapply(.SD, mean), by = BGC, .SDcols = -c("id", "PER
 pts.mean <- pts[, lapply(.SD, mean), by = BGC]
 pts.mean$id <- 1:dim(pts.mean)[1]
 clim.icv.pts <- downscale(xyz = pts.mean,
+                          which_refmap = "refmap_climr",
                           obs_years = 1951:1990,
                           obs_ts_dataset = "cru.gpcc",
                           return_refperiod = FALSE,
@@ -92,6 +95,8 @@ bgc.focal <- "IDFmw2" # significant separation in the 4th PC.
 bgc.focal <- "CWHvh1" # how non-normality in the analog spatial distribution can distort novelty metric
 bgc.focal <- "IDFdxx_WY" #
 bgc.focal <- "IDFdk5" # low novelty in pred_vars but high novelty in basic variables
+bgc.focal <- "MHmm1" # 
+bgc.focal <- "CWHvm1" # 
 analog_novelty(clim.targets = clim.targets,
                clim.analogs = clim.pts,
                label.targets = bgc.pred,
@@ -107,7 +112,7 @@ analog_novelty(clim.targets = clim.targets,
                plot2d = TRUE,
                plot3d = TRUE,
                plot3d.pcs=c(1,2,3),
-               plot3d.candidates = TRUE
+               plot3d.candidates = FALSE
 )
 
 

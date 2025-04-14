@@ -105,16 +105,6 @@ editor_options:
 **Realized niche:**
 <p style="margin-left: 2em;"> A realized niche is the actual environmental conditions and resources that a species occupies and uses, considering competition, predation, and other biotic interactions. This makes it narrower than a *fundamental niche* (see above). </p>
 
-**Resistance:**
-<p style="margin-left: 2em;"> Tree species are compared based on their resistance to major environmental factors, including snow, wind damage, fire, insects, and fungi. The three interpretive classes used are: L – low, 
-M – medium, and H – high. Information directly from Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
-Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
-Coquitlam, B.C. </p>
-
-<p style="margin-left: 2em;"> Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
-Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
-Coquitlam, B.C.</p>
-
 **Shared Socioeconomic Pathways (SSPs):**
 <p style="margin-left: 2em;">Shared Socioeconomic Pathways (SSPs) are future global development scenarios that describe different ways that society, economics, and policies might evolve regarding greenhouse gas emissions and their impacts on climate change. CCISS includes projections for three SSP scenarios: SSP1-2.6, SSP2-4.5, and SSP3-7.0, representing optimistic, moderate, and high-emission futures. SSP1-2.6 aligns with strong mitigation efforts to limit warming to 2°C, SSP2-4.5 reflects current policies with moderate mitigation, and SSP3-7.0 assumes no mitigation, leading to steadily increasing emissions.</p>
 
@@ -126,13 +116,6 @@ Coquitlam, B.C.</p>
 
 **Suitability projections:**
 <p style="margin-left: 2em;"> Suitability projections refer to the future tree species suitability ratings forecasted by the CCISS tool (see Methods - Suitability Ratings). </p>
-
-**Tolerance:**
-<p style="margin-left: 2em;"> Tree species are compared based on their tolerance to the major environmental factors: low light, frost, 
-heat, water deficit, water surplus, and nitrogen deficiency. The three interpretive classes used are: L – low, 
-M – medium, and H – high. Information directly from Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of Ecological and 
-Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., 
-Coquitlam, B.C.</p>
 
 **Uncertainty:**
 <p style="margin-left: 2em;">In reference to CCISS, uncertainty refers to the range of potential variability in model predictions, and comes from various sources. CCISS quantifies three types of climate change uncertainty: modeling uncertainty, natural variability, and socioeconomic uncertainty. These uncertainties are represented by calculating CCISS results for a large ensemble of potential future climate states. For more information, see Methods - Climate Change Projections.  </p>
