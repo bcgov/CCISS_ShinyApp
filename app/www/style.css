@@ -32,7 +32,7 @@ table.table-centered {
 
 /* Reduce selectize font size */
 .selectize-dropdown, .selectize-input {
-  font-size: 0.65em !important;
+  font-size: 0.95em !important;
 }
 
 .navbar:not(.fixed-bottom):not(.navbar-fixed-bottom):not(.navbar-fixed-bottom) {
@@ -50,6 +50,10 @@ table.table-centered {
 /* To display over leaflet */
 .dropdown-menu.show {
   z-index: 1001;
+}
+
+.navbar {
+  background-color: #003366 !important;
 }
 
 #cciss_navbar .nav-item {

@@ -86,3 +86,34 @@ mbtk="pk.eyJ1Ijoid2htYWNrZW4iLCJhIjoiY2twaDVkNXU5MmJieTJybGE3cWRtY3Q4aCJ9.ISBkzS
 mblbsty = "whmacken/ckph5q6d21q1318nz4shnyp20"
 mbsty="whmacken/ckph5e7y01fhr17qk5nhnpo10"
 
+models_info <- fread("CCISS_Version_Info.csv")
+
+bcgov_theme <- function(action = c("install","remove")) {
+  action <- match.arg(action)
+  
+  # Injecting bcgov theme directly into bslib library
+  target <- find.package("bslib")
+  if (file.access(target,2) < 0) {
+    stop("This must be run with write access to the bslib package")
+  }
+  
+  src <- "./"
+  f <- dir(, recursive = TRUE) |> grep("^fonts|^lib", x = _, value = TRUE)
+  
+  if (action == "install") {
+    lapply(file.path(target, unique(dirname(f))), dir.create, showWarnings = FALSE, recursive = TRUE)
+    file.copy(file.path(src, f), file.path(target, f))
+  }
+  
+  if (action == "remove") {
+    unlink(file.path(target, f))
+    unlink(file.path(target, "lib/bsw5/dist/bcgov"), recursive = TRUE)
+  }
+  
+  return(invisible())
+  
+}
+
+if (!"bcgov" %in% bslib::bootswatch_themes()) {
+  bcgov_theme("install")
+}

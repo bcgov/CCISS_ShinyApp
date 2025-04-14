@@ -42,34 +42,34 @@ addBGCTiles <- function(map) {
       console.log("Working1");
       
       (function() {
-  L.TileLayer.ColorPicker = L.TileLayer.extend({
-    options: {
-      crossOrigin: "anonymous"
-    },
-    getColor: function(latlng) {
-      var size = this.getTileSize();
-      var point = this._map.project(latlng, this._tileZoom).floor();
-      var coords = point.unscaleBy(size).floor();
-      var offset = point.subtract(coords.scaleBy(size));
-      coords.z = this._tileZoom;
-      var tile = this._tiles[this._tileCoordsToKey(coords)];
-      if (!tile || !tile.loaded) return null;
-      try {
-        var canvas = document.createElement("canvas");
-        canvas.width = 1;
-        canvas.height = 1;
-        var context = canvas.getContext(\'2d\');
-        context.drawImage(tile.el, -offset.x, -offset.y, size.x, size.y);
-        return context.getImageData(0, 0, 1, 1).data;
-      } catch (e) {
-        return null;
-      }
-    }
-  });
-  L.tileLayer.colorPicker = function(url, options) {
-    return new L.TileLayer.ColorPicker(url, options);
-  };
-})();
+        L.TileLayer.ColorPicker = L.TileLayer.extend({
+          options: {
+            crossOrigin: "anonymous"
+          },
+          getColor: function(latlng) {
+            var size = this.getTileSize();
+            var point = this._map.project(latlng, this._tileZoom).floor();
+            var coords = point.unscaleBy(size).floor();
+            var offset = point.subtract(coords.scaleBy(size));
+            coords.z = this._tileZoom;
+            var tile = this._tiles[this._tileCoordsToKey(coords)];
+            if (!tile || !tile.loaded) return null;
+            try {
+              var canvas = document.createElement("canvas");
+              canvas.width = 1;
+              canvas.height = 1;
+              var context = canvas.getContext(\'2d\');
+              context.drawImage(tile.el, -offset.x, -offset.y, size.x, size.y);
+              return context.getImageData(0, 0, 1, 1).data;
+            } catch (e) {
+              return null;
+            }
+          }
+        });
+        L.tileLayer.colorPicker = function(url, options) {
+          return new L.TileLayer.ColorPicker(url, options);
+        };
+      })();
       
       var vectorTileOptions=function(layerName, layerId, activ,
                              lfPane, colorMap, prop, id) {
@@ -112,17 +112,23 @@ addBGCTiles <- function(map) {
         if (a !== null & a[3] > 0) {
           var bgcCol = findNearestColor(prepRgb(a), baseCols);
           //console.log(bgcCol);
-          var bgc = subzoneColors[bgcCol[0]];
+          if(type == "SZ"){
+            var bgc = subzoneColors[bgcCol[0]];
+            var mapped = e.layer.properties.BGC;
+          }else{
+            var bgc = zoneColors[bgcCol[0]];
+            var mapped = e.layer.properties.BGC.match(/[A-Z]+/g).join("")
+          }
           if (bgcCol[1] < 5) {
           infoBox.update(`
                   <b>Layer Info</b><br>
-                  <b>Mapped BGC:</b> ${e.layer.properties.BGC}<br>
+                  <b>Mapped BGC:</b> ${mapped}<br>
                   <b>Predicted BGC:</b> ${bgc}
               `)
           } else {
             infoBox.update(`
                   <b>Layer Info</b><br>
-                  <b>Mapped BGC:</b> ${e.layer.properties.BGC}<br>
+                  <b>Mapped BGC:</b> ${mapped}<br>
                   <b>Predicted BGC:</b> Zoom In
               `)
           }
@@ -358,7 +364,7 @@ addBGCTiles <- function(map) {
       if(!map.hasLayer(subzLayer)){
         if(type !== "CCISS" & !distFlag){
         var a = colorpicker.getColor(event.latlng);
-        console.log(a);
+        //console.log(a);
         if (a !== null & a[3] > 0) {
           var bgcCol = findNearestColor(prepRgb(a), baseCols);
           if(type == "SZ"){

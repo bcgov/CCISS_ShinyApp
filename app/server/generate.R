@@ -23,7 +23,7 @@ observeEvent(input$generate_results, priority = 100, {
     pts             <- uData$pts             <- userpoints$dt
   }
   uData$session_params <- reactiveValuesToList(session_params) 
-  
+  #browser()
   # Results from processing
   tic("Fetch CCISS Data from DB", ticker)
   bgc             <- uData$bgc             <- bgc(pool, pts$Site, avg, session_params$modelWt, 

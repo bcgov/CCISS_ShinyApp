@@ -37,6 +37,8 @@ library(shinyjs)
 #   user = Sys.getenv("BCGOV_USR"),
 #   password = Sys.getenv("BCGOV_PWD")
 # )
+# 
+# test <- dbGetFeasible(dbCon, "feasibility_raw", "Feasibility_2021_2040_C4_Fd.tif", bc_bbox)
 # # 
 # # bnds <- fread("./spatial_testing/district_bounds.csv")
 # # bnd <- bnds[ORG_UNIT == "DQU",.(ymax, ymin, xmax, xmin)]
@@ -52,6 +54,12 @@ library(shinyjs)
 # run_nm = "ensembleMean"
 # focal_species = "Fd"
 # edatope = "C4"
+
+bc_bbox <- c(60.0047792237624,48.22483456757,-114.054148536906,-139.061305880891)
+
+model_ids <- data.table(model = c("Novelty_ACCESS-ESM1-5.csv", "Novelty_EC-Earth3.csv", 
+           "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
+           "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
 
 temp <- c("Pl","Sx","Fd","Cw","Hw","Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
 cw_spp <- data.table(Spp = temp, spp_id = seq_along(temp))
@@ -92,7 +100,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
   dat2 <- melt(dat, id.vars = c("Period","CCISS_Suit"), variable.name = "Suitability")
   dat2 <- rbind(dat2, temp)
   dat2[, CCISS_Suit := paste0("CCISS Suit: ",CCISS_Suit)]
-  palette.suit <-   c("E1" = "#006400", "E2" = "#1E90FF", "E3" = "#EEC900", "EX" = "#000000")
+  palette.suit <-   c("E1" = "#006400", "E2" = "#1E90FF", "E3" = "#EEC900", "EX" = "grey")
   
   fplt <- ggplot(dat2, aes(x = Period, y = value, color = Suitability, fill = Suitability)) +
     geom_bar_interactive(stat = "identity", aes(tooltip = CCISS_Suit)) +
@@ -132,7 +140,7 @@ dbGetFeasible <- function(dbCon, table_name, layer_name, boundary){
     "))'),", projID, "))) as a;"
   ))
   
-  
+  incProgress(amount = 1, message = "This may take a minute...")
   rast_vals_temp <- dbGetQuery(dbCon, paste0(
     "SELECT UNNEST(ST_Dumpvalues(rast, 1)) as vals 
   from (SELECT ST_Union(rast) rast FROM \"", nameque, "\" 
@@ -143,7 +151,7 @@ dbGetFeasible <- function(dbCon, table_name, layer_name, boundary){
     " ", boundary[1], ",", boundary[4], " ", boundary[1],
     "))'),", projID, "))) as a;"
   ))
-  
+  incProgress(amount = 1, message = "Almost there...")
   rout <- rast(
     nrows = info$rows, ncols = info$cols, xmin = info$xmn,
     xmax = info$xmx, ymin = info$ymn, ymax = info$ymx,

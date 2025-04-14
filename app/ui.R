@@ -24,20 +24,33 @@ sidebarhelplink <- function(inputId) {
   ))
 }
 
+tags$head(
+  tags$link(rel="apple-touch-icon", href="images/bcid-apple-touch-icon.png", sizes="180x180"),
+  tags$link(rel="icon", href="images/bcid-favicon-32x32.png", sizes="32x32", type="image/png"),
+  tags$link(rel="icon", href="images/bcid-favicon-16x16.png", sizes="16x16", type="image/png"),
+  tags$link(rel="mask-icon", href="images/bcid-apple-icon.svg", color="#036"),
+  tags$link(rel="icon", href="images/bcid-favicon-32x32.png")
+)
 
 navbarPage(
   
-  title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">',navhelplink("The CCISS Tool", "cciss_about_nav")), ##navhelplink("The CCISS Tool", "cciss_about_nav")
-  theme = {
-    theme <- bslib::bs_theme(version = 5,
-                             bootswatch = "sandstone",
-                             primary = "#003366")
-    # theme$layers$bootswatch$defaults[[3]][[2]] <-
-    #   "$navbar-default-bg: primary !default;"
-    theme
-  },
+  #title = HTML('&nbsp;&nbsp;<img src="logo.svg" class="navbar-logo">',navhelplink("The CCISS Tool", "cciss_about_nav")), ##navhelplink("The CCISS Tool", "cciss_about_nav")
+  theme = bslib::bs_theme(
+    preset = "bcgov",
+    "navbar-brand-padding-y" = "0rem",
+    "navbar-brand-margin-end" = "4rem"
+  ),
+  title = shiny::tagList(
+    shiny::tags$image(
+      src = "images/bcid-logo-rev-en.svg",
+      style = "display: inline-block",
+      height = "35px",
+      alt = "British Columbia"
+    ),
+    "The CCISS Tool"
+  ),
   collapsible = TRUE,
-  windowTitle = "Climate Change Informed Species Selection Tool",
+  windowTitle = "CCISS",
   id = "cciss_navbar",
   # Select sites ----
   tabPanel(
@@ -112,7 +125,7 @@ $(document).ready(function(){
             ),
             DT::DTOutput("points_table", width = "100%"),
             actionButton("add_dialog", "Enter New", icon("plus"), width =
-                           120),
+                           140),
             actionButton("delete_button", "Selected", icon("trash-alt"), width =
                            120),
             value = "acc1"
@@ -187,7 +200,7 @@ $(document).ready(function(){
       
       mainPanel(width = 8,
                 # Biogeoclimatic Zones + Subzones Variants Map
-                leafletOutput("bec_map"))
+                leafletOutput("bec_map", height = "70vh"))
       
     )
   ),
@@ -465,7 +478,7 @@ $(document).ready(function(){
   # ),
   # Export ----
   tabPanel(
-    title = navhelplink("Export", "cciss_instructions_export_nav"),
+    title = navhelplink("EXPORT", "cciss_instructions_export_nav"),
     sidebarLayout(
       # Inputs
       sidebarPanel(
@@ -533,7 +546,7 @@ $(document).ready(function(){
   ),
   ### CCISS Spatial
   tabPanel(
-    title = navhelplink("CCISS Spatial", "cciss_instructions_export_nav"),
+    title = navhelplink("CCISS SPATIAL", "cciss_instructions_export_nav"),
     useShinyjs(),
     sidebarLayout(
       sidebarPanel(
@@ -543,6 +556,9 @@ $(document).ready(function(){
           "Reference (1961-1990)" = "Historic", 
           "Observed (2001-2020)" = "obs",
           "Future (GCMs)" = "Future")),
+        conditionalPanel(condition = "input.period_type == 'Historic'",
+                         radioButtons("hist_type", "Mapped or Predicted?", choices = c("Modelled","Mapped"))
+                         ),
         conditionalPanel(
           condition = "input.type == 'BGC' & input.period_type == 'Future'",
           h1("GCM Options"),
@@ -572,6 +588,7 @@ $(document).ready(function(){
           checkboxInput("novelty","Display Novelty?", value = FALSE),
         ),
         actionButton("clear_map","Hide/Show Layer"),
+        downloadButton("download_full","Download Province"),
         
         checkboxInput("findabec","Find-A-BEC"),
         conditionalPanel(condition = "input.findabec == true",
@@ -695,7 +712,7 @@ $(document).ready(function(){
               includeHTML("./instructions/2e_Export.html") 
             ),
             tabPanel(
-              title = "Export",
+              title = "CCISS Spatial",
               value = "cciss_instructions_spatial",
               includeHTML("./instructions/2f_Spatial.html") 
             )
@@ -872,7 +889,7 @@ $(document).ready(function(){
           offset = 1,
           tabPanel(
             title = "",
-            includeHTML("./instructions/7a_ProvidingFeedback.html") 
+            includeHTML("./instructions/6a_ProvidingFeedback.html") 
           )
         )
       )
@@ -886,7 +903,7 @@ $(document).ready(function(){
           offset = 1,
           tabPanel(
             title = "",
-            includeHTML("./instructions/8a_FAQs.html") 
+            includeHTML("./instructions/7a_FAQs.html") 
           )
         )
       )
@@ -921,6 +938,24 @@ $(document).ready(function(){
             tags$h4("Shiny App Information"),
             tableOutput("shinyinfo")
           )
+        )
+      )
+    )
+  ),
+  tags$footer(
+    class = "footer mt-5",
+    tags$nav(
+      class = "navbar navbar-expand-lg bottom-static navbar-dark bg-primary-nav",
+      tags$div(
+        class = "container",
+        tags$ul(
+          class = "navbar-nav",
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content/home", "Home", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=79F93E018712422FBC8E674A67A70535", "Disclaimer", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=9E890E16955E4FF4BF3B0E07B4722932", "Privacy", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=E08E79740F9C41B9B0C484685CC5E412", "Accessibility", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=1AAACC9C65754E4D89A118B875E0FBDA", "Copyright", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=6A77C17D0CCB48F897F8598CCC019111", "Contact Us", target = "_blank"))
         )
       )
     )
