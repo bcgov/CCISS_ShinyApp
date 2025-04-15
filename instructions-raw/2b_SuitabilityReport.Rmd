@@ -107,21 +107,30 @@ The following example continues from the five points selected previously in the 
   <figcaption style="font-size: 0.8em; color: gray;">Figure 1: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *Remove highly novel climates* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
 </figure>
 
-The **Detailed** report gives a wealth of information to the user. In this case, we can see the results for the 1st point (1 / 6530760). The seven-digit number here simply refers to the hex cell that the point is located in. In this example, we have selected the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see from the bars under *Modelled Suitability* that for Fd (Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High. Accordingly, the CFRG gives this species a **1** for *Primary* and a **P** for *Preferred* in this location. The Expert Review on species environmental suitabilities in the historic time period agrees - the experts rated this species an E1 (Documentation - Methods - Expert Review). We see that overall, CCISS gave Fd an E1 rating for Establishment Suitability, and an E2: Moderate for Maturity Suitability. 
+The **Detailed** report gives a wealth of information to the user. In this case, we can see the results for the 1st point (1 / 6530760). The seven-digit number here simply refers to the hex cell that the point is located in. In this example, we have selected the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see from the bars under *Modelled Suitability* that for **Fd** (Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High. Accordingly, the CFRG gives this species a **1** for *Primary* and a **P** for *Preferred* in this location. The Expert Review on species environmental suitabilities in the historic time period agrees - the experts rated this species an E1 (Documentation - Methods - Expert Review). We see that overall, CCISS gave **Fd** an E1 rating for Establishment Suitability, and an E2: Moderate for Maturity Suitability. 
 
-If we return to the bar chart, under the "Mapped" bar, we see the two bars that represent the recent time period (2001-2020). From this, we can see that the weather station data and the climates simulated by the ensemble of GCMs are in agreement. We can see that although some GCM runs predicted that 
+If we return to the bar chart, under the "Mapped" bar, we see the two bars that represent the recent time period (2001-2020). From this, we can see that the weather station data and the climates simulated by the ensemble of GCMs are in agreement that Fd has generally been a suitable species to plant here in recent times. 
 
-The CCISS tool gives the user a way to evaluate the future environmental suitability of a species in an area. As such, the  
+The CCISS tool allows us to evaluate the future environmental suitability of the tree species in the Slocan Valley. We see that in the first of the future periods (2021-2040), there is not much change in the suitability of **Fd**. However, in the next three future periods (2041-2060, 2061-2080, and 2081-2100), we can see the introduction of novel climates. Note that these are not just novel climates to this region, but climates for which there is no comparable analog in the pool of Western North America historical climates. See Documentation - Methods - Novel Climates for more information. Since the climate in this region is projected to be so different from other analogs in Western North America, we do not know how well Douglas-fir will grow in these conditions, which means there is increased uncertainty around planting it. 
+
+The next species on the list is **Lw** (western larch). The outlook for this species is even more bleak than for **Fd**. As can be seen by the green E1 bar for "Mapped", **Lw** used to be very suitable for the environmental conditions in this BGC unit. The CFRG and Expert Review ratings agree with this. However, the two bars for the recent period (2001-2020) generally agree that it decreased to an E2. CCISS projections suggest that as early as the current (2021-2040) time period, this suitability will drop to an E3. By the end of the century, only 17% of models suggest even an E3 rating for this species, with 42% predicting unsuitable, and the rest falling into a novel climate where we do not know how **Lw** will grow. This information shows us that **Lw** is a highly risky species to plant in the ICHdw1/101. 
 
 <figure style="text-align:center;">
   <img src="Figure_Instructions_Suitability_NoNovel.png" alt="" style="width:75%;">
   <figcaption style="font-size: 0.8em; color: gray;">Figure 2: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *No Novelty Analysis* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
 </figure>
 
+In Figure 2, we see the impact that including novel climates can have on our results. In this case, we have opted to ignore the 
+
+The modelled suitability ratios show that 92 percent of model "votes" suggested that the suitability of Fd would either improve or stay the same, and 8 percent suggested a decline in suitability. 
+
 <figure style="text-align:center;">
   <img src="Figure_Instructions_Suitability_Summary.png" alt="" style="width:75%;">
   <figcaption style="font-size: 0.8em; color: gray;">Figure 3: Example of a suitability summary report, which shows the difference between the CCISS projected suitabilities and the original suitability proposed by the Chief Forester's Reference Guide. </figcaption>
 </figure>
+
+- Note that Py has footnote 9 which means X but this is where expert knowledge is key because in novel climate you might actually want it on cool aspects. 
+
 
 ##### References: 
 Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
