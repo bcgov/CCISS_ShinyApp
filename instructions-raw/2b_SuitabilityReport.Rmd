@@ -85,7 +85,7 @@ the "Select Sites" tab.
 #### Novel climates
 
 Climatic novelty refers to the degree of mismatch between a future climate condition and the biogeoclimatic analog it is classified as. Valid inferences of species suitability are not possible in highly novel climates. By default, biogeoclimatic projections with high (5$\sigma$) novelty are removed from CCISS results and replaced with a black bar in the detailed suitability results. Removal of novel climates can be disabled or adjusted using the "Adjust Parameters" dialog box in
-the "Select Sites" tab. See Documentation - Methods - Novel Climates for more details.  
+the "Select Sites" tab. If novel climates are not removed, the user makes the assumption that all analogs are equal, despite the novel climates potentially not being good analogs. See Documentation - Methods - Novel Climates for more details.  
 
 ### Summary report
 
@@ -107,7 +107,7 @@ The following example continues from the five points selected previously in the 
   <figcaption style="font-size: 0.8em; color: gray;">Figure 1: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *Remove highly novel climates* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
 </figure>
 
-The **Detailed** report gives a wealth of information to the user. In this case, we can see the results for the 1st point (1 / 6530760). The seven-digit number here simply refers to the hex cell that the point is located in. In this example, we have selected the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see from the bars under *Modelled Suitability* that for **Fd** (Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High. Accordingly, the CFRG gives this species a **1** for *Primary* and a **P** for *Preferred* in this location. The Expert Review on species environmental suitabilities in the historic time period agrees - the experts rated this species an E1 (Documentation - Methods - Expert Review). We see that overall, CCISS gave **Fd** an E1 rating for Establishment Suitability, and an E2: Moderate for Maturity Suitability. 
+The **Detailed** report gives a wealth of information to the user. In this case, we can see the results for the 1st point (1 / 6530760). The seven-digit number here simply refers to the hex cell that the point is located in. In this example, we have selected the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see from the bars under *Modelled Suitability* that for **Fd** (Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High. Accordingly, the CFRG gives this species a **1** for *Primary* and a **P** for *Preferred* in this location. The Expert Review on species environmental suitabilities in the historic time period agrees - the experts rated this species an E1 (Documentation - Methods - Expert Review). We see that overall, CCISS gave **Fd** an E1 rating for Establishment Suitability, and an E2: Moderate for Maturity Suitability. The modelled suitability ratios show that 87 percent of model "votes" suggested that the suitability of **Fd** would either improve or stay the same, and 13 percent suggested a decline in suitability. 
 
 If we return to the bar chart, under the "Mapped" bar, we see the two bars that represent the recent time period (2001-2020). From this, we can see that the weather station data and the climates simulated by the ensemble of GCMs are in agreement that Fd has generally been a suitable species to plant here in recent times. 
 
@@ -120,17 +120,21 @@ The next species on the list is **Lw** (western larch). The outlook for this spe
   <figcaption style="font-size: 0.8em; color: gray;">Figure 2: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *No Novelty Analysis* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
 </figure>
 
-In Figure 2, we see the impact that including novel climates can have on our results. In this case, we have opted to ignore the 
-
-The modelled suitability ratios show that 92 percent of model "votes" suggested that the suitability of Fd would either improve or stay the same, and 8 percent suggested a decline in suitability. 
+In Figure 2, we see the impact that including the climate novelty analysis has on our results. In this scenario, we ignoring the fact that these novel climates may not be good analogs. As a result, the CCISS gives us a more confident answer about the suitability of **Fd**, suggesting that its suitability until 2100 will remain fairly stable. It promotes the Maturity Suitability to an E1, whereas in Figure 1, we see that it was demoted to an E2 due to the introduction of novel climates. In this case, the modelled suitability ratios show that 92 percent of model "votes" suggested that the suitability of Fd would either improve or stay the same, and 8 percent suggested a decline in suitability. 
 
 <figure style="text-align:center;">
   <img src="Figure_Instructions_Suitability_Summary.png" alt="" style="width:75%;">
   <figcaption style="font-size: 0.8em; color: gray;">Figure 3: Example of a suitability summary report, which shows the difference between the CCISS projected suitabilities and the original suitability proposed by the Chief Forester's Reference Guide. </figcaption>
 </figure>
 
-- Note that Py has footnote 9 which means X but this is where expert knowledge is key because in novel climate you might actually want it on cool aspects. 
+Finally, we see an example of a **Summary** report (Figure 3). This feature allows the user to explicitly compare CCISS results with those of the CFRG. The species shown in <span style="color:red">red</span> text are decreasing in suitability. Those that are crossed out have, on average, across all time periods, GCMs, and SSPs, decreased so much that they are now predicted to be unsuitable. Species marked in <span style="color:darkgreen">green</span> are improving in suitability, but none of those exist in the current example. Finally, if the user was to switch to *No Novelty Analysis* in the **Select Sites** tab, under **Model Parameters**, they would see some species show up here in <span style="color:purple">purple</span>. Purple species are those that were not included in the CFRG because they were historically unsuitable here, but CCISS predicts future climates in which they could be suitable. 
 
+In this case, we see that the only species that remains suitable according to the CCISS projections is **Fd**. **Py** (Ponderosa pine) is another interesting example, because it is possible that suitability may increase, but it is not possible to know for sure because of so many of the future climates are unprecedented. This species has 80 percent of model "votes" suggesting an increase in suitability, and only 20 percent suggest a decrease. Note that **Py** has footnote 9 in the CFRG, which means *most suitable on warm aspects*. This is where applying expert knowledge to CCISS results is key, because in the projected novel climates, it might actually be more suitable on cooler aspects instead. 
+
+<figure style="text-align:center;">
+  <img src="Figure_Instructions_PyExample.png" alt="" style="width:75%;">
+  <figcaption style="font-size: 0.8em; color: gray;">Figure 4: Suitability report for Ponderosa pine (Py) in this example scenario. </figcaption>
+</figure>
 
 ##### References: 
 Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
