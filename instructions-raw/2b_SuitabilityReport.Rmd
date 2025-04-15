@@ -27,7 +27,7 @@ the Methods documentation.
 
 In the left pane, users can select the BGC subzone/variant and then the site series of
 interest. The edatopic space of the selected site series is displayed in
-the graphic below for reference. By default the report will show all
+the graphic below for reference (see example in Figure 1 and 2 below). By default the report will show all
 species that are predicted to be suitable in at least one model and time
 period. Users have the option to choose the *Suitable Only* option to limit the list to species
 that meet the threshold for classification as suitable across the GCM ensemble 
@@ -35,7 +35,7 @@ in any of the time periods. Users can also opt to include OHR species
 
 ### Detailed report
 
-This report shows modelled suitability ratios for each species in the
+The **Detailed** report shows modelled suitability ratios for each species in the
 selected site series for each time period. The colour legend for
 suitability ratings is on the left hand pane. The mapped BGC
 unit represents the historical equilibrium climate approximated by the
@@ -64,7 +64,7 @@ projected suitability ratings for each species in the following order:
     projected climates. This indicates the likely level of constraints for 
     successful establishment of the species in the present climate. Default model 
     settings give roughly equal weight to the three time periods, with slightly 
-    more weight to the recent (2001+) periods.
+    more weight to the recent (2001+) periods. 
 
 5.  **CCISS Maturation Suitability**: The mean suitability rating projected across
     the four 20-year normal periods (2021-2100). This indicates the inferred
@@ -98,7 +98,24 @@ coloured purple, and species dropped from the CCISS projected stocking standard*
 are strike-through.
 *Note: These are not formally adopted stocking standards by BC Ministry of Forests. 
 
+## Example: ICHdw1 cont. 
+
+The following example continues from the five points selected previously in the *SELECT SITES* panel of the CCISS tool. Figure 1 shows the top few lines of the **Detailed** report, when the default *Remove highly novel climates* is selected through the dialog box accessed via the **Model Parameters** button, while Figure 2 shows how this report changes when the 
+
+<figure style="text-align:center;">
+  <img src="Figure_Instructions_Suitability_Novel.png" alt="" style="width:75%;">
+  <figcaption style="font-size: 0.8em; color: gray;">Figure 1: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *Remove highly novel climates* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
+</figure>
+
+<figure style="text-align:center;">
+  <img src="Figure_Instructions_Suitability_NoNovel.png" alt="" style="width:75%;">
+  <figcaption style="font-size: 0.8em; color: gray;">Figure 2: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *No Novelty Analysis* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
+</figure>
+
+<figure style="text-align:center;">
+  <img src="Figure_Instructions_Suitability_Summary.png" alt="" style="width:75%;">
+  <figcaption style="font-size: 0.8em; color: gray;">Figure 3: Example of a suitability summary report, which shows the difference between the CCISS projected suitabilities and the original suitability proposed by the Chief Forester's Reference Guide. </figcaption>
+</figure>
+
 ##### References: 
 Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
-
-## Example: CWHdm1 cont. 
