@@ -31,7 +31,7 @@ the graphic below for reference (see example in Figure 1 and 2 below). By defaul
 species that are predicted to be suitable in at least one model and time
 period. Users have the option to choose the *Suitable Only* option to limit the list to species
 that meet the threshold for classification as suitable across the GCM ensemble 
-in any of the time periods. Users can also opt to include OHR species 
+in any of the time periods. Users can also opt to include outside home range (OHR) species here. For more information on OHR species, visit Documentation - Methods - Outside Home Range.  
 
 ### Detailed report
 
@@ -100,12 +100,18 @@ are strike-through.
 
 ## Example: ICHdw1 cont. 
 
-The following example continues from the five points selected previously in the *SELECT SITES* panel of the CCISS tool. Figure 1 shows the top few lines of the **Detailed** report, when the default *Remove highly novel climates* is selected through the dialog box accessed via the **Model Parameters** button, while Figure 2 shows how this report changes when the 
+The following example continues from the five points selected previously in the *SELECT SITES* panel of the CCISS tool. Figure 1 shows the top few lines of the **Detailed** report, when the default *Remove highly novel climates* is selected through the dialog box accessed via the **Model Parameters** button, while Figure 2 shows how this report changes when *No Novelty Analysis* is selected instead. 
 
 <figure style="text-align:center;">
   <img src="Figure_Instructions_Suitability_Novel.png" alt="" style="width:75%;">
   <figcaption style="font-size: 0.8em; color: gray;">Figure 1: Example of a suitability report for five points selected in the ICHdw1 biogeoclimatic subzone/variant, with the option *Remove highly novel climates* selected in dialog box accessed through the **Model parameters** button.   </figcaption>
 </figure>
+
+The **Detailed** report gives a wealth of information to the user. In this case, we can see the results for the 1st point (1 / 6530760). The seven-digit number here simply refers to the hex cell that the point is located in. In this example, we have selected the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see from the bars under *Modelled Suitability* that for Fd (Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High. Accordingly, the CFRG gives this species a **1** for *Primary* and a **P** for *Preferred* in this location. The Expert Review on species environmental suitabilities in the historic time period agrees - the experts rated this species an E1 (Documentation - Methods - Expert Review). We see that overall, CCISS gave Fd an E1 rating for Establishment Suitability, and an E2: Moderate for Maturity Suitability. 
+
+If we return to the bar chart, under the "Mapped" bar, we see the two bars that represent the recent time period (2001-2020). From this, we can see that the weather station data and the climates simulated by the ensemble of GCMs are in agreement. We can see that although some GCM runs predicted that 
+
+The CCISS tool gives the user a way to evaluate the future environmental suitability of a species in an area. As such, the  
 
 <figure style="text-align:center;">
   <img src="Figure_Instructions_Suitability_NoNovel.png" alt="" style="width:75%;">
