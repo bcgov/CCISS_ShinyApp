@@ -9,6 +9,7 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+## CCISS SPATIAL 
 
 The spatial module of the CCISS tool allows users to explore CCISS data inputs and put CCISS results into spatial context. 
 
