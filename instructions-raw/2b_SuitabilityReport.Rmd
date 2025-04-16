@@ -29,7 +29,7 @@ Ratings section of the Methods documentation.
 
 ### Selection/Filter pane
 
-In the left pane, users can select the site or BGC subzone-variant and
+In the left pane, users can select the point or BGC subzone-variant and
 then the site series of interest. The edatopic space of the selected
 site series is displayed in the graphic below for reference (see example
 in Figure 1 and 2 below). By default the report will show all species
@@ -96,20 +96,20 @@ Climatic novelty refers to the difference between future climate
 condition and the climate condition of the closest biogeoclimatic
 analog. Where future climates are highly novel, i.e. there is
 substantial difference between the future climate condition and the
-closest analog, valid inferences of species suitability are not
-possible. By default, biogeoclimatic projections with high (5$\sigma$)
-novelty are removed from CCISS results and replaced with a black bar in
-the detailed suitability results. Removal of novel climates can be
-disabled or adjusted using the "Adjust Parameters" dialog box in the
-"Select Sites" tab. If novel climates are not removed, the CCISS tool
-makes the assumption that all future analogs are equal, despite the
-novel climates potentially not being good analogs. See Documentation -
-Methods - Novel Climates for more details.
+closest analog, there is much higher uncertainty around species
+suitability projections. By default, biogeoclimatic projections with
+high (5$\sigma$) novelty are removed from CCISS results and replaced
+with a black bar in the detailed suitability results. Removal of novel
+climates can be disabled or adjusted using the "Adjust Parameters"
+dialog box in the "Select Sites" tab. If novel climates are not removed,
+the CCISS tool makes the assumption that all future analogs are equal,
+despite the novel climates potentially not being good analogs. See
+Documentation - Methods - Novel Climates for more details.
 
 ### Summary report
 
 This report compares CCISS projected suitability at maturity with the
-Chief Forester's Reference Guide for Stocking Standards. Species codes
+Chief Forester's Reference Guide ecological suitability. Species codes
 are coloured according to trends in their future suitability using the
 legend at the bottom of the selection pane: improving (green), or
 decreasing (red). Species added to the CCISS projected stocking
@@ -149,15 +149,14 @@ point (1 / 6530760). The seven-digit number here simply refers to the
 hex cell that the point is located in. In this example, we have selected
 the ICHdw1/101 CwFd - Prince's pine - Twinflower site series. We can see
 from the bars under *Modelled Suitability* that for **Fd**
-(Douglas-fir), the mapped (historic: 1961-1990) suitability was E1:
-High. Accordingly, the CFRG rates Fd **1** for *Primary* and **P** for
-*Preferred* at this site. The historic *Environmental* suitability has
-been rated E1 (high) (Documentation - Methods - Suitability Ratings).
-The CCISS tool projections resulted in an E1 rating at *Establishment*,
-and an E2 (moderate) at *Maturity*. The modelled suitability ratios
-*Trend* shows that 87 percent of model "votes" suggested that the
-suitability of **Fd** would either improve or stay the same, and 13
-percent suggested a decline in suitability.
+(Douglas-fir), the mapped (historic: 1961-1990) suitability was E1: High
+(Documentation - Methods - Suitability Ratings). Accordingly, the CFRG
+rates Fd **1** for *Primary* and **P** for *Preferred* at this site. The
+CCISS tool projections resulted in an E1 rating at *Establishment*, and
+an E2 (moderate) at *Maturity*. The modelled suitability ratios *Trend*
+shows that 87 percent of model "votes" suggested that the suitability of
+**Fd** would either improve or stay the same, and 13 percent suggested a
+decline in suitability.
 
 If we return to the bar chart, under the "Mapped" bar, we see the two
 bars that represent the recent time period (2001-2020). From this, we
@@ -176,20 +175,22 @@ Documentation - Methods - Novel Climates for more information. Since the
 climate in this region is projected to be distinct from other BGC
 analogs in Western North America, we do not know how well Douglas-fir
 will fare in these conditions, which means there is increased
-uncertainty around future suitability.
+uncertainty around future suitability. Overall, the CCISS tool suggests
+that Fd will remain suitable to future climate at this location, with
+some caution around unknown suitability under novel future climate.
 
 The next species on the list is **Lw** (western larch). The outlook for
 this species is more unfavourable than for **Fd**. As can be seen by the
 green E1 bar for "Mapped", **Lw** was highly suitable under historical
-environmental conditions in this BGC unit. The CFRG and Environmental
-ratings agree with this. However, the two bars for the recent period
-(2001-2020) demonstrate decreasing suitability to E2. CCISS projections
-suggest that as early as the current (2021-2040) time period, this
-suitability will drop to an E3. By the end of the century, only 17% of
-models suggest an E3 rating for this species, with 42% predicting
-unsuitable, and the rest falling into a novel climate where we do not
-know how **Lw** will respond. This information suggests that **Lw** is a
-highly risky species to plant in the ICHdw1/101.
+environmental conditions in this BGC unit, and rated primary (1) by the
+CFRG. However, the two bars for the recent period (2001-2020)
+demonstrate decreasing suitability to E2. CCISS projections suggest that
+as early as the current (2021-2040) time period, this suitability will
+drop to an E3. By the end of the century, only 17% of models suggest an
+E3 rating for this species, with 42% predicting unsuitable, and the rest
+falling into a novel climate where we do not know how **Lw** will
+respond. This information suggests that **Lw** is a highly risky species
+to plant in the ICHdw1/101.
 
 <figure style="text-align:center;">
 
@@ -207,19 +208,21 @@ parameters** button.
 
 </figure>
 
-In Figure 2, we see the impact that selecting "no novelty analysis" has
-on our results. In this scenario, we are not removing highly novel
-predictions, instead displaying all BGC projections including those that
-may not be good analogs. As a result, the CCISS gives us a more
-confident answer about the suitability of **Fd**, suggesting that its
-suitability until 2100 will remain fairly stable. It promotes the
-Maturity Suitability to an E1, whereas in Figure 1, we see that it was
-demoted to an E2 due to the introduction of novel climates. In this
-case, the modelled suitability ratios show that 92 percent of model
-"votes" suggested that the suitability of Fd would either improve or
-stay the same, and 8 percent suggested a decline in suitability.
-Removing highly novel predictions represents a more conservative or
-cautious approach.
+In Figure 2, we see the impact that selecting "No Novelty Analysis" has
+on our results. In this scenario, the CCISS tool does not remove highly
+novel predictions, instead displaying all BGC projections including
+those that may not be good analogs. As a result, the CCISS gives us a
+more confident answer about the suitability of **Fd**, suggesting that
+its suitability until 2100 will remain fairly stable. In this example,
+the projected BGCs associated with novel climate contain an **Fd**
+species suitability rating of E1. Therefore, it promotes the Maturity
+Suitability to an E1, whereas in Figure 1, we see that it was demoted to
+an E2 due to the greater proportion of unsuitable (X) ratings in
+relation to suitable (E1) ratings. In Figure 2, the modelled suitability
+ratios show that 92 percent of model "votes" suggested that the
+suitability of Fd would either improve or stay the same, and 8 percent
+suggested a decline in suitability. Removing highly novel predictions
+represents a more conservative or cautious approach.
 
 <figure style="text-align:center;">
 
@@ -246,18 +249,24 @@ now predicted to be unsuitable. Species marked in
 of those exist in the current example. Finally, if the user was to
 switch to *No Novelty Analysis* in the **Select Sites** tab, under
 **Model Parameters**, they would see some species show up here in
-[purple]{style="color:purple"}. Purple species are those that were not
-included in the CFRG because they were historically unsuitable here, but
-CCISS predicts future climates in which they could be suitable.
+[purple]{style="color:purple"} (Adding). Purple species are those that
+were not included in the CFRG because they were historically unsuitable
+here, but CCISS predicts future climates in which they could be
+suitable.
 
-In this case, we see that the only species that remains suitable
-according to the CCISS projections is **Fd**. **Py** (Ponderosa pine) is
-another interesting example, because it is possible that suitability may
-increase, but it is not possible to know for sure because of so many of
-the future climates are novel. This species has 80 percent of model
-"votes" suggesting an increase in suitability, and only 20 percent
-suggest a decrease. Note that **Py** has footnote 9 in the CFRG, which
-means *most suitable on warm aspects*. This is where applying expert
+In this case, we see that only two species remain suitable according to
+the CCISS projections **Fd** (E2) and **Py** (E3). **Py** (Ponderosa
+pine) is another interesting example, because the displayed projections
+(i.e. not novel climate) predict a divergence in suitability (E1, E3 and
+unsuitable), tending towards an increase in suitability over time and
+averaging to an E3 rating (Figure 4). This species has 80 percent of
+model "votes" suggesting increasing/maintained suitability, and only 20
+percent suggest a decrease. However, much of the future climate is novel
+and there is a high degree of uncertainty around the future suitability
+of Py.
+
+Note on footnotes: **Py** has footnote 9 in the CFRG, which corresponds
+to *most suitable on warm aspects*. This is where applying expert
 knowledge to CCISS results is key, because under warmer future climate,
 it might actually be more suitable on cooler aspects instead.
 
