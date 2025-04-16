@@ -659,7 +659,8 @@ addSelectBEC <- function(map) {
 library(plotly)
 library(EnvStats)
 library(stats)
-plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+plot_analog_novelty <- function(clim.target, clim.analog, clim.point = NULL, analog.focal = NULL,
+                                vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
                                 clim.icv = NULL, weight.icv = 0.5, sigma = TRUE,
                                 threshold = 0.95, pcs = NULL, plot3d.pcs=c(1,2,3), biplot = TRUE){
   
@@ -668,10 +669,13 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
   clim.target <- clim.target[,..vars]
   clim.analog <- clim.analog[,..vars]
   clim.icv <- clim.icv[,..vars]
+  if(!is.null(clim.point)) clim.point <- clim.point[, ..vars]
+  
   
   clim.analog <- clim.analog[complete.cases(clim.analog)] # remove rows without data
   clim.analog <- clim.analog[, .SD, .SDcols = which(sapply(clim.analog, function(x) var(x, na.rm = TRUE) > 0))]  # Remove zero-variance columns
   clim.target <- clim.target[, .SD, .SDcols = names(clim.analog)]
+  if(!is.null(clim.point)) clim.point <- clim.point[, .SD, .SDcols = names(clim.analog)]
   if(!is.null(clim.icv)) clim.icv <- clim.icv[complete.cases(clim.icv)]
   if(!is.null(clim.icv)) clim.icv <- clim.icv[, .SD, .SDcols = names(clim.analog)]
   
@@ -681,11 +685,13 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
     clim.analog <- logVars(clim.analog, zero_adjust = TRUE)
     clim.target <- logVars(clim.target, zero_adjust = TRUE)
     clim.icv <- logVars(clim.icv, zero_adjust = TRUE)
+    if(!is.null(clim.point)) clim.point <- logVars(clim.point, zero_adjust = TRUE)
     
     ## remove variables with non-finite values in the target population (this is an edge case that occurs when the target population has a variable (typically CMD) with only zeroes)
     clim.target <- clim.target[, lapply(.SD, function(x) if (all(is.finite(x))) x else NULL)]
     clim.analog <- clim.analog[, .SD, .SDcols = names(clim.target)]
     clim.icv <- clim.icv[, .SD, .SDcols = names(clim.target)]
+    if(!is.null(clim.point)) clim.point <- clim.point[, .SD, .SDcols = names(clim.target)]
   }
   
   ## scale the data to the variance of the analog, since this is what we will ultimately be measuring the M distance in. 
@@ -695,6 +701,9 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
     (get(col) - unlist(clim.mean)[col]) / unlist(clim.sd)[col]
   })]
   clim.target[, (names(clim.target)) := lapply(names(clim.target), function(col) {
+    (get(col) - unlist(clim.mean)[col]) / unlist(clim.sd)[col]
+  })]
+  if(!is.null(clim.point)) clim.point[, (names(clim.point)) := lapply(names(clim.point), function(col) {
     (get(col) - unlist(clim.mean)[col]) / unlist(clim.sd)[col]
   })]
   if(!is.null(clim.icv)) clim.icv[, (names(clim.icv)) := lapply(names(clim.icv), function(col) {
@@ -708,6 +717,7 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
   pcs.analog <- data.table(predict(pca, clim.analog))
   pcs.target <- data.table(predict(pca, clim.target))
   if(!is.null(clim.icv)) pcs.icv <- data.table(predict(pca, clim.icv))
+  if(!is.null(clim.point)) pcs.point <- data.table(predict(pca, clim.point))
   
   if(is.null(pcs)){
     ## select number of pcs
@@ -731,6 +741,9 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
   })]
   if(!is.null(clim.icv)) pcs.icv[, (names(pcs.icv)) := lapply(names(pcs.icv), function(col) {
     (get(col) - unlist(pcs.icv[, lapply(.SD, mean, na.rm = TRUE)])[col]) / unlist(pcs.sd.use)[col] # separately centering on the ICV mean becuase sometime the ICV is not centred on the centroid, and we want it to be. 
+  })]
+  if(!is.null(clim.point)) pcs.point[, (names(pcs.point)) := lapply(names(pcs.point), function(col) {
+    (get(col) - unlist(pcs.mean.analog)[col]) / unlist(pcs.sd.use)[col]
   })]
   
   ## create a combined covariance matrix for spatial variation and ICV
@@ -795,6 +808,19 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
           name = "ICV"
         )
     }
+    # Add selected point if it exists
+    if(!is.null(clim.point)) {
+      f <- predict(pca, clim.point)
+      f <- sweep(f, 2, apply(a, 2, mean), '-') # shift the target data so that the analog centroid is at zero. this is done at a later stage than the pca in the distance calculation.
+      plot <- plot %>%
+        add_trace(
+          x = f[, plot3d.pcs[1]], y = f[, plot3d.pcs[2]], z = f[, plot3d.pcs[3]],
+          type = "scatter3d", mode = "markers",
+          marker = list(size = 20, color = "black", opacity = 1, symbol = 'cross'),
+          hoverinfo = "none", # Turn off hover labels
+          name = "Selected location"
+        )
+    }
     # Add biplot lines
     if(biplot) {
       loadings <- pca$rotation[, plot3d.pcs]
@@ -816,6 +842,9 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
           )
       }
     }
+    
+    if(!is.null(analog.focal)) tit = list(text = paste("\nNovelty of ",analog.focal," in", pcs, "PCs"), x = 0.05)
+    else title = list(text = paste("\nNovelty in", pcs, "PCs"), x = 0.05)
     plot <- plot %>%
       layout(
         scene = list(
@@ -823,7 +852,7 @@ plot_analog_novelty <- function(clim.target, clim.analog, vars = as.vector(outer
           yaxis = list(title = paste0("PC", plot3d.pcs[2])),
           zaxis = list(title = paste0("PC", plot3d.pcs[3]))
         ),
-        title = list(text = paste("\nNovelty in", pcs, "PCs"), x = 0.05)
+        title = list(text = tit, x = 0.05)
       )
   }
   return(plot)

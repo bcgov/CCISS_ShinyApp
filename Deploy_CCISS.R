@@ -37,7 +37,7 @@ analogsea::droplet_upload(server, "./app/server", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/cciss_spatial", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/instructions", "/srv/shiny-server/ccissdev")
 analogsea::droplet_upload(server, "./app/WNA_SZ_Cols_v13_6.csv", "/srv/shiny-server/ccissdev")
-analogsea::droplet_upload(server, c("./app/cciss_metadata.csv","./app/README.txt","./app/fonts","./app/lib"), "/srv/shiny-server/ccissdev")
+analogsea::droplet_upload(server, c("./app/cciss_metadata.csv","./app/README.txt","./app/fonts","./app/lib","./app/CCISS_Version_Info.csv"), "/srv/shiny-server/ccissdev")
 analogsea::droplet_ssh(server, "chown -R shiny:shiny /srv/shiny-server")
 analogsea::droplet_ssh(server, "systemctl restart shiny-server")
 

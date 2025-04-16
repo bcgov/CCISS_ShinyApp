@@ -323,40 +323,6 @@ $(document).ready(function(){
                          leafletOutput("wna_map"))
              ))
   ),
-  # Silvics & Ecology ----
-  tabPanel(title = navhelplink("SILVICS & ECOLOGY", "cciss_instructions_silvics_ecology_nav"),
-           sidebarLayout(
-             # Inputs
-             sidebarPanel(
-               width = 2,
-               sidebarhelplink("cciss_instructions_silvics_ecology"),
-               h6("Filters"),
-               selectInput("siteref_silv", label = "Sites:", choices = character()),
-               selectInput("site_series_silv", label = "Site Series", choices = character()),
-               selectInput(
-                 "filter_silv",
-                 label = "Tree Species",
-                 choices = c("Feasible Species" = "f", "All Species" = "a")
-               )
-             ),
-             mainPanel(
-               width = 10,
-               # Silvics & Ecology
-               tabsetPanel(
-                 type = "pills",
-                 # tabPanel(title = "Chief Forester Reference Guide",
-                 #          #uiOutput("silviculture_block")),
-                 tabPanel(title = "Tolerance",
-                          tableOutput("silvics_tol_dt")),
-                 tabPanel(title = "Resistance",
-                          tableOutput("silvics_resist_dt")),
-                 tabPanel(title = "Regeneration stage",
-                          tableOutput("silvics_regen_dt")),
-                 tabPanel(title = "Maturing stage",
-                          tableOutput("silvics_mature_dt"))
-               )
-             )
-           )),
   # Species portfolio draft ----
   # tabPanel(
   #   title = navhelplink("SPECIES PORTFOLIO<i><sup>Draft</sup></i>", "cciss_instructions_species_portfolio_nav"),
@@ -652,6 +618,41 @@ $(document).ready(function(){
                   )
     )  
   ),
+  # Silvics & Ecology ----
+  tabPanel(title = navhelplink("SILVICS & ECOLOGY", "cciss_instructions_silvics_ecology_nav"),
+           sidebarLayout(
+             # Inputs
+             sidebarPanel(
+               width = 2,
+               sidebarhelplink("cciss_instructions_silvics_ecology"),
+               h6("Filters"),
+               selectInput("siteref_silv", label = "Sites:", choices = character()),
+               selectInput("site_series_silv", label = "Site Series", choices = character()),
+               selectInput(
+                 "filter_silv",
+                 label = "Tree Species",
+                 choices = c("Suitable Species" = "f", "All Species" = "a")
+               )
+             ),
+             mainPanel(
+               width = 10,
+               # Silvics & Ecology
+               tabsetPanel(
+                 type = "pills",
+                 
+                 tabPanel(title = "Tolerance",
+                          tableOutput("silvics_tol_dt")),
+                 tabPanel(title = "Resistance",
+                          tableOutput("silvics_resist_dt")),
+                 tabPanel(title = "Regeneration stage",
+                          tableOutput("silvics_regen_dt")),
+                 tabPanel(title = "Maturing stage",
+                          tableOutput("silvics_mature_dt")),
+                 tabPanel(title = "About",
+                          includeHTML("./instructions/Silvics_About.html"))
+               )
+             )
+           )),
   # Tech specs ----
   navbarMenu(
     title = "DOCUMENTATION",
@@ -950,12 +951,11 @@ $(document).ready(function(){
         class = "container",
         tags$ul(
           class = "navbar-nav",
-          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content/home", "Home", target = "_blank")),
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/natural-resources-climate-change/future-forest-ecosystems-centre", "FFEC Home", target = "_blank")),
           tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=79F93E018712422FBC8E674A67A70535", "Disclaimer", target = "_blank")),
           tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=9E890E16955E4FF4BF3B0E07B4722932", "Privacy", target = "_blank")),
-          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=E08E79740F9C41B9B0C484685CC5E412", "Accessibility", target = "_blank")),
           tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=1AAACC9C65754E4D89A118B875E0FBDA", "Copyright", target = "_blank")),
-          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "https://www2.gov.bc.ca/gov/content?id=6A77C17D0CCB48F897F8598CCC019111", "Contact Us", target = "_blank"))
+          tags$li(class = "nav-item", tags$a(class = "nav-link", href = "mailto: ffec@gov.bc.ca", "Contact Us", target = "_blank"))
         )
       )
     )
