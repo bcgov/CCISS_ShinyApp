@@ -10,20 +10,40 @@ editor_options:
     wrap: 72
 ---
 
-The ratings presented on this tab come from The Distribution and Synopsis of Ecological and Silvical Characteristics of Tree Species of British Columbia’s Forests (Klinka et al. 2000). These ratings are not informed by the CCISS model or future climate projections but instead show silvics and ecology information from Klinka et al. 2000 for species with historic or future suitability at each site series for the subzone-variant(s) you have selected or uploaded site locations for. 
+The information presented on this tab come from The Distribution and
+Synopsis of Ecological and Silvical Characteristics of Tree Species of
+British Columbia’s Forests (Klinka et al. 2000). These ratings are not
+informed by the CCISS model or future climate projections but instead
+show silvics and ecology information from Klinka et al. 2000 for species
+with historic or future suitability at each site series for the
+subzone-variant(s) you have selected or uploaded site locations for.
 
-All ecological and silvical characteristics have been rated according to three classes: low (L), intermediate (M), and high (H) for the below characteristics. 
+All ecological and silvical characteristics have been rated according to
+three classes: low (**L**), intermediate (**M**), and high (**H**) for
+the below characteristics.
 
-Tolerance of tree species to major environmental factors – low light, frost, heat, water deficit, water surplus, and nutrient deficiency (mainly nitrogen).  
+**Tolerance** of tree species to major environmental factors – low
+light, frost, heat, water deficit, water surplus, and nutrient
+deficiency (mainly nitrogen).
 
-Resistance of tree species to potential snow and wind damage and risk of damaging agents – fire, insects, fungi and other agents (such as rodents, ungulates, etc.).  
+**Resistance** of tree species to potential snow and wind damage and
+**risk** of damaging agents – fire, insects, fungi and other agents
+(such as rodents, ungulates, etc.).
 
-Silvical characteristics, including those associated with the regeneration stage: reproductive capacity, seed dissemination capacity, potential for regeneration, potential for regeneration in the open, and potential for initial growth rate, and those associated with the maturing stage: response of advance regeneration to release, self-pruning capacity in dense stands, crown spatial requirements, light conditions beneath closed canopy, potential productivity, and longevity.  
+Silvical characteristics, including those associated with the
+**regeneration stage**: reproductive capacity, seed dissemination
+capacity, potential for regeneration, potential for regeneration in the
+open, and potential for initial growth rate, and those associated with
+the **maturing stage**: response of advance regeneration to release,
+self-pruning capacity in dense stands, crown spatial requirements, light
+conditions beneath closed canopy, potential productivity, and longevity.
 
-This information can be explored further [here](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons). 
+This information can be explored further
+[here](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
 
-#### References 
+#### References
 
-Klinka, K., Worrall, J., Skoda, L., and Varga, P. (2000). The distribution and synopsis of ecological and silvical characteristics of tree species of British Columbia’s forests. Canadian Cartographics Ltd., Coquitlam, Canada. 
-
-
+Klinka, K., Worrall, J., Skoda, L., and Varga, P. (2000). The
+distribution and synopsis of ecological and silvical characteristics of
+tree species of British Columbia’s forests. Canadian Cartographics Ltd.,
+Coquitlam, Canada.
