@@ -44,11 +44,12 @@ The CCISS tool is organized into seven tabs.
     a.	__Chart__: A stacked bar chart that shows the ratio of BGC units being predicted from the selected global climate models (GCMs) and climate scenario models in each time period. Optionally, the site series that are equivalent within each BGC unit can be displayed.
     b.	__Map__: Show biogeoclimatic map of western North America with the target BGC unit highlighted and the source BGC units for a selected future time period shown in greyscale. 
 
-4.	__SILVICS & ECOLOGY:__ This tab has several subtabs of tables, all based on Klinka et al. (2000)'s comparison of silvical characteristics.
-    a.	__Tolerance__: Comparison of species tolerances
-    b.	__Resistance__: Comparison of species resistance and potential risk comparisons
-    c.  __Regeneration stage__: Comparison of regeneration stage characteristics
-    d.  __Maturing stage__: Comparison of maturing stage characteristics
+4.	__SILVICS:__ This tab provides several tables of information based on Klinka et al. (2000)'s comparison of silvical characteristics.
+    a.	__About__: Explanation of the information
+    b.  __Tolerance__: Comparison of species tolerances
+    c.	__Resistance__: Comparison of species resistance and potential risk comparisons
+    d.  __Regeneration stage__: Comparison of regeneration stage characteristics
+    e.  __Maturing stage__: Comparison of maturing stage characteristics
 
 5.	__EXPORT__: Exporting reports or data for off-line use
     i. Produce report: Select report format (html or pdf)
@@ -64,10 +65,11 @@ The CCISS tool is organized into seven tabs.
     c.	__Methods (How the tool works)__: Detailed background information about what's happening "under the hood"
     d.	__Known issues__: Documentation on current known issues with the tool
     e.  __Using CCISS for decisions__: Support and guidance for using CCISS as a decision-making tool
-    f.  __Providing feedback__: Ways users can report issues or provide suggestions for future improvements
-    g.  __FAQs__: Frequently asked questions
-    h.  __Model information__: Version of input data and models
-    i.  __Shiny app information__: Github repo, license, and other info
+    f.  __Definitions__: Glossary of terms, BEC codes, species codes, etc.
+    g.  __Providing feedback__: Ways users can report issues or provide suggestions for future improvements
+    h.  __FAQs__: Frequently asked questions
+    i.  __Model information__: Version of input data and models
+    j.  __Shiny app information__: Github repo, license, and other info
    
 ### Acknowledgements
 
