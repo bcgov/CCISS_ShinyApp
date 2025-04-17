@@ -130,7 +130,7 @@ how this report changes when *No Novelty Analysis* is selected instead.
 
 <figure style="text-align:center;">
 
-<img src="Figure_Instructions_Suitability_Novel.png" style="width:75%;"/>
+<img src="Figure_Instructions_Suitability_Novel.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
@@ -194,7 +194,7 @@ to plant in the ICHdw1/101.
 
 <figure style="text-align:center;">
 
-<img src="Figure_Instructions_Suitability_NoNovel.png" style="width:75%;"/>
+<img src="Figure_Instructions_Suitability_NoNovel.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
@@ -226,7 +226,7 @@ represents a more conservative or cautious approach.
 
 <figure style="text-align:center;">
 
-<img src="Figure_Instructions_Suitability_Summary.png" style="width:75%;"/>
+<img src="Figure_Instructions_Suitability_Summary.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
