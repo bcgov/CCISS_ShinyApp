@@ -169,14 +169,14 @@ environmental suitability of the tree species. We see that in the first
 of the future periods (2021-2040), there is not much change in the
 suitability of **Fd**. However, in the next three future periods
 (2041-2060, 2061-2080, and 2081-2100), we can see the introduction of
-novel climates. Note that these climates for which there is no good
+novel climates. These are climates for which there is no good
 analog in the pool of Western North America historical climates. See
 Documentation - Methods - Novel Climates for more information. Since the
 climate in this region is projected to be distinct from other BGC
 analogs in Western North America, we do not know how well Douglas-fir
 will fare in these conditions, which means there is increased
 uncertainty around future suitability. Overall, the CCISS tool suggests
-that Fd will remain suitable to future climate at this location, with
+that **Fd** will remain suitable to future climate at this location, with
 some caution around unknown suitability under novel future climate.
 
 The next species on the list is **Lw** (western larch). The outlook for
@@ -187,7 +187,7 @@ CFRG. However, the two bars for the recent period (2001-2020)
 demonstrate decreasing suitability to E2. CCISS projections suggest that
 as early as the current (2021-2040) time period, this suitability will
 drop to an E3. By the end of the century, only 17% of models suggest an
-E3 rating for this species, with 42% predicting unsuitable, and the rest
+E3 rating for this species, with 31% predicting unsuitable, and the rest
 falling into a novel climate where we do not know how **Lw** will
 respond. This information suggests that **Lw** is a highly risky species
 to plant in the ICHdw1/101.
