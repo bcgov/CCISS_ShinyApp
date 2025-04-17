@@ -26,11 +26,7 @@ Here's what the output from the **Silvics** tab would look like given the exampl
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 2: Example of a **Detailed** suitability report for the 101 -
-CwFd-Prince's pine - Twinflower site series of the ICHdw1 biogeoclimatic
-subzone-variant in the Slocan Valley, with the option *No Novelty
-Analysis* selected in dialog box accessed through the **Model
-parameters** button.
+Figure 1: Example of the information provided by Klinka et al. (2000) for tolerance of species in the ICHdw1/101.
 
 </figcaption>
 
