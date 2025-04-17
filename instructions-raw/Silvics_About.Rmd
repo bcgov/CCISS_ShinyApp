@@ -12,8 +12,8 @@ editor_options:
 
 The information presented on this tab come from The Distribution and
 Synopsis of Ecological and Silvical Characteristics of Tree Species of
-British Columbia’s Forests (Klinka et al. 2000). These ratings are not
-informed by the CCISS model or future climate projections but instead
+British Columbia’s Forests (Klinka et al. 2000). This is not
+informed by the CCISS model directly, but instead
 show silvics and ecology information from Klinka et al. 2000 for species
 with historic or future suitability at each site series for the
 subzone-variant(s) you have selected or uploaded site locations for.
