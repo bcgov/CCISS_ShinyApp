@@ -85,7 +85,7 @@ The `Find-A-BEC` feature helps with locating specified biogeoclimatic units of W
 
 <figure style="text-align:center;">
 
-<img src="Figure_2f_FindABEC.png" alt="" style="width:60%;">
+<img src="Figure_2f_FindABEC.png" alt="" style="width:40%;">
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
@@ -105,11 +105,11 @@ Throughout the **Instructions**, we have been following an example of the ICHdw1
 
 <figure style="text-align:center;">
 
-<img src="Figure_Instructions_CCISSspatial_future_and_popup.png" style="width:85%;"/>
+<img src="Figure_Instructions_CCISSspatial_future_and_popup.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 3: .
+Figure 3: BGC projections - SZ_Ensemble, which displays the *biogeoclimatic subzone/variant* with the highest number of votes across the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black dot) added here, the ensemble vote winner (i.e., BGC unit with the most "votes", is CWFdm_OR). 
 
 </figcaption>
 
@@ -117,15 +117,16 @@ Figure 3: .
 
 <figure style="text-align:center;">
 
-<img src="Figure_Instructions_CCISSspatial_popup.png" style="width:55%;"/>
+<img src="Figure_Instructions_CCISSspatial_futureZONE.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 4: .
+Figure 4: BGC projections - ZONE_Ensemble, which displays the *biogeoclimatic zone* with the highest number of votes across the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black dot) added here, it is the CWF zone.
 
 </figcaption>
 
 </figure>
+
 
 <figure style="text-align:center;">
 
@@ -133,7 +134,31 @@ Figure 4: .
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 5: .
+Figure 4: Still centered around the Slocan Valley, this map shows projected future suitabilities for Fd (Douglas-fir) in the 2061-2080 future period. Green is E1: High, blue is E2: Moderate, yellow is E3: Low, and white is unsuitable.  
+
+</figcaption>
+
+</figure>
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_CCISSspatial_suitabilitychange.png" style="width:55%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 5: Instead of showing suitability, this map shows the change in suitability, as compared to the historic period (1961-1990).
+
+</figcaption>
+
+</figure>
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_CCISSspatial_novelty.png" style="width:55%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 6: Degree of climate novelty. Red is very high novelty (>5σ) and represents a very bad analog, yellow is high novelty (3-5σ) and represents a poor analog, and white represents areas without novel climates.
 
 </figcaption>
 
