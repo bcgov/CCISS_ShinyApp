@@ -236,8 +236,25 @@ observeEvent(input$map_click,{
                                              "' and \"PERIOD\" = '",input$period_select,"' and bgc_pred = '",input$bgc_pred_click,"'")) |> as.data.table()
         test_hist <- dbGetQuery(dbCon, paste0("select * from historic_climate where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
         test_icv <- dbGetQuery(dbCon, paste0("select * from historic_icv where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
+        
+        elev_info_sql <- paste0("
+          WITH pts4269 AS (SELECT st_transform(st_pointfromtext('POINT(", lng, " ", lat, ")', 4326), 4269) geom)
+          
+          SELECT MAX(ROUND(CAST(ST_Value(dem.rast, pts.geom) as NUMERIC), 2)) elevation_m
+          FROM bc_elevation dem
+          CROSS JOIN pts4269 pts
+          WHERE ST_Intersects(dem.rast, pts.geom)
+        ")
+        elev <- dbGetQuery(pool, elev_info_sql)
+        point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
+        point_clim <- climr::downscale_db(point_focal, gcms = input$gcm_select, 
+                                          ssps = "ssp245", gcm_periods = input$period_select,
+                                          run_nm = runs_use[gcms_use == input$gcm_select],
+                                          vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+                                          return_refperiod = FALSE)
+        
         output$feas_plot <- renderPlotly({
-          plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, pcs = NULL)
+          plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)
         })
         
         showModal(modalDialog(

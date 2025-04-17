@@ -1,5 +1,5 @@
 ---
-title: About Silvics & Ecology
+title: About Silvics
 output: 
     html_document:
         theme: null
