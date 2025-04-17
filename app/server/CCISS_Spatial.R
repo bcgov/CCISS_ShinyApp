@@ -247,11 +247,20 @@ observeEvent(input$map_click,{
         ")
         elev <- dbGetQuery(pool, elev_info_sql)
         point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
-        point_clim <- climr::downscale_db(point_focal, gcms = input$gcm_select, 
-                                          ssps = "ssp245", gcm_periods = input$period_select,
-                                          run_nm = runs_use[gcms_use == input$gcm_select],
-                                          vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
-                                          return_refperiod = FALSE)
+        if(input$gcm_select == "SZ_Ensemble") {
+          point_clim <- climr::downscale_db(point_focal, gcms = gcms_use, 
+                                            ssps = "ssp245", gcm_periods = input$period_select,
+                                            vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+                                            return_refperiod = FALSE)
+          point_clim <- point_clim[,lapply(.SD, mean), .SDcols = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_"))]
+        } else {
+          point_clim <- climr::downscale_db(point_focal, gcms = input$gcm_select, 
+                                            ssps = "ssp245", gcm_periods = input$period_select,
+                                            run_nm = runs_use[gcms_use == input$gcm_select],
+                                            vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+                                            return_refperiod = FALSE)
+        }
+        
         
         output$feas_plot <- renderPlotly({
           plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)

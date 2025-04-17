@@ -47,6 +47,7 @@ observeEvent(input$cciss_about_nav, {
 })
 
 observeEvent(input$cciss_instructions_select_sites_nav, {
+  print("Im here!")
   updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
   updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_select_sites")
 })

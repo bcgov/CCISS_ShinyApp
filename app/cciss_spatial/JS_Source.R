@@ -843,8 +843,8 @@ plot_analog_novelty <- function(clim.target, clim.analog, clim.point = NULL, ana
       }
     }
     
-    if(!is.null(analog.focal)) tit = list(text = paste("\nNovelty of ",analog.focal," in", pcs, "PCs"), x = 0.05)
-    else title = list(text = paste("\nNovelty in", pcs, "PCs"), x = 0.05)
+    if(!is.null(analog.focal)) tit = paste("\nNovelty of ",analog.focal," in", pcs, "PCs")
+    else tit = paste("\nNovelty in", pcs, "PCs")
     plot <- plot %>%
       layout(
         scene = list(

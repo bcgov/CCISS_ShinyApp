@@ -54,7 +54,6 @@ req_libs <- list(
 
 lapply(req_libs, library, character.only = TRUE)
 source("./server/tooltip_verbage.R")
-bgc_choices <- SS[grep("BEC",Source),BGC]
 
 ### CCISS Spatial
 source("cciss_spatial/JS_Source.R")
@@ -117,3 +116,38 @@ bcgov_theme <- function(action = c("install","remove")) {
 if (!"bcgov" %in% bslib::bootswatch_themes()) {
   bcgov_theme("install")
 }
+
+bgc_choices <- c("BAFAun", "BAFAunp", "BGxh1", "BGxh2", "BGxh3", "BGxw1", "BGxw2", 
+  "BWBSdk", "BWBSmk", "BWBSmw", "BWBSvk", "BWBSwk1", "BWBSwk2", 
+  "BWBSwk3", "CDFmm", "CMAun", "CMAunp", "CMAwh", "CWHdm1", "CWHdm2", 
+  "CWHdm3", "CWHds1", "CWHds2", "CWHmm1", "CWHmm2", "CWHms3", "CWHms4", 
+  "CWHms5", "CWHvh1", "CWHvh2", "CWHvh3", "CWHvm1", "CWHvm2", "CWHvm3", 
+  "CWHvm4", "CWHwh1", "CWHwh2", "CWHwm", "CWHws1", "CWHws2", "CWHws3", 
+  "CWHxs", "ESSFdc1", "ESSFdc2", "ESSFdc3", "ESSFdcp", "ESSFdcw", 
+  "ESSFdh1", "ESSFdh2", "ESSFdk1", "ESSFdk2", "ESSFdkp", "ESSFdkw", 
+  "ESSFdv1", "ESSFdv2", "ESSFdvp", "ESSFdvw", "ESSFmc", "ESSFmcp", 
+  "ESSFmcw", "ESSFmh", "ESSFmk", "ESSFmkp", "ESSFmkw", "ESSFmm1", 
+  "ESSFmm2", "ESSFmm3", "ESSFmmp", "ESSFmmw", "ESSFmv1", "ESSFmv2", 
+  "ESSFmv3", "ESSFmv4", "ESSFmvp", "ESSFmw", "ESSFmw1", "ESSFmw2", 
+  "ESSFmwp", "ESSFmww", "ESSFun", "ESSFunp", "ESSFvc", "ESSFvcp", 
+  "ESSFvcw", "ESSFwc2", "ESSFwc3", "ESSFwc4", "ESSFwcp", "ESSFwcw", 
+  "ESSFwh1", "ESSFwh2", "ESSFwh3", "ESSFwk1", "ESSFwk2", "ESSFwm1", 
+  "ESSFwm2", "ESSFwm3", "ESSFwm4", "ESSFwmp", "ESSFwmw", "ESSFwv", 
+  "ESSFwvp", "ESSFwvw", "ESSFxc1", "ESSFxc2", "ESSFxc3", "ESSFxcp", 
+  "ESSFxcw", "ESSFxv1", "ESSFxv2", "ESSFxvp", "ESSFxvw", "ICHdk", 
+  "ICHdm", "ICHdw1", "ICHdw3", "ICHdw4", "ICHmc1", "ICHmc1a", "ICHmc2", 
+  "ICHmk1", "ICHmk2", "ICHmk3", "ICHmk4", "ICHmk5", "ICHmm", "ICHmw1", 
+  "ICHmw2", "ICHmw3", "ICHmw4", "ICHmw5", "ICHun", "ICHvc", "ICHvk1", 
+  "ICHvk2", "ICHwc", "ICHwk1", "ICHwk2", "ICHwk3", "ICHwk4", "ICHxm1", 
+  "ICHxw", "ICHxwa", "IDFdc", "IDFdh", "IDFdk1", "IDFdk2", "IDFdk3", 
+  "IDFdk4", "IDFdk5", "IDFdm1", "IDFdm2", "IDFdw", "IDFmw2", "IDFww", 
+  "IDFxc", "IDFxh1", "IDFxh2", "IDFxk", "IDFxm", "IDFxw", "IDFxx1", 
+  "IDFxx2", "IMAun", "IMAunp", "MHmm1", "MHmm2", "MHmmp", "MHms", 
+  "MHmsp_WA", "MHun", "MHunp", "MHvh", "MHvhp", "MHwh", "MHwhp", 
+  "MSdc1", "MSdc2", "MSdc3", "MSdk", "MSdm1", "MSdm2", "MSdm3", 
+  "MSdv", "MSdw", "MSxk1", "MSxk2", "MSxk3", "MSxv", "PPxh1", "PPxh2", 
+  "SBPSdc", "SBPSmc", "SBPSmk", "SBPSxc", "SBSdh1", "SBSdh2", "SBSdk", 
+  "SBSdw1", "SBSdw2", "SBSdw3", "SBSmc1", "SBSmc2", "SBSmc3", "SBSmh", 
+  "SBSmk1", "SBSmk2", "SBSmm", "SBSmw", "SBSun", "SBSvk", "SBSwk1", 
+  "SBSwk2", "SBSwk3", "SBSwk3a", "SWBmk", "SWBmks", "SWBun", "SWBuns", 
+  "SWBvk", "SWBvks")

@@ -112,6 +112,10 @@ shinyServer(function(input, output, session) {
   #source("./server/generate_portfolio.R", local = TRUE)
   source("./server/instructions.R", local = TRUE)
   
+  output$modelsinfo <- function() {
+    knitr::kable(models_info, format = "html", table.attr = 'class="table table-hover"') 
+  }
+  
   ##login
   if(!DEV){
     showModal(

@@ -11,7 +11,7 @@ navhelplink <- function(title, inputId) {
       title,
       '</a><a id="',
       inputId,
-      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important; color: white !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
+      '" class="action-button shiny-bound-input" href="#" style="padding-left:0 !important"><sup><i class="fa fa-question-circle" role="presentation" aria-label="question-circle icon"></i></sup>'
     )
   )
 }
@@ -54,7 +54,7 @@ navbarPage(
   id = "cciss_navbar",
   # Select sites ----
   tabPanel(
-    title = navhelplink("SELECT SITES", "cciss_instructions_select_sites"),
+    title = "SELECT SITES",
     value = "sites",
     class = "tabcontainer",
     tags$head(includeCSS("./www/style.css")),
@@ -210,7 +210,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('[data-toggle=\"popover\"]').popover(); 
 });"),
-    title = navhelplink("SUITABILITY REPORT", "cciss_instructions_feasibility_report_nav"),
+    title = "SUITABILITY REPORT",
     value = "feasibility",
     tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
     sidebarLayout(
@@ -260,7 +260,7 @@ $(document).ready(function(){
   ),
   # BEC Futures ----
   navbarMenu(
-    title = navhelplink("BEC FUTURES", "cciss_instructions_bec_futures_nav"),
+    title = "BEC FUTURES",
     tabPanel(title = "Chart",
              sidebarLayout(
                # Inputs
@@ -323,128 +323,44 @@ $(document).ready(function(){
                          leafletOutput("wna_map"))
              ))
   ),
-  # Species portfolio draft ----
-  # tabPanel(
-  #   title = navhelplink("SPECIES PORTFOLIO<i><sup>Draft</sup></i>", "cciss_instructions_species_portfolio_nav"),
-  #   sidebarLayout(
-  #     # Inputs
-  #     sidebarPanel(
-  #       width = 3,
-  #       sidebarhelplink("cciss_instructions_species_portfolio"),
-  #       h6("Data Options"),
-  #       selectInput("port_bgc", label = "Select BGC:", choices = character()),
-  #       radioButtons(
-  #         "port_ss",
-  #         label = "Select Site Postion:",
-  #         choices = c("B2", "Zonal", "D6"),
-  #         selected = "Zonal"
-  #       ),
-  #       {
-  #         treeOpts <-
-  #           c("Py",
-  #             "Fd",
-  #             "At",
-  #             "Pl",
-  #             "Sx",
-  #             "Bl",
-  #             "Cw",
-  #             "Hw",
-  #             "Pw",
-  #             "Ss",
-  #             "Lw",
-  #             "Ba",
-  #             "Hm",
-  #             "Dr",
-  #             "Mb")
-  #         selectInput(
-  #           "tree_species",
-  #           label = "Included Species:",
-  #           choices = treeOpts,
-  #           selected = treeOpts,
-  #           multiple = T
-  #         )
-  #       },
-  #       radioButtons(
-  #         "port_length",
-  #         label = "Optimisation Period (Rotation Length):",
-  #         choiceNames = c("Current Period", "20 Year", "40 Year", "60 Year", "80 Year"),
-  #         choiceValues = c(1991, 2021, 2041, 2061, 2081),
-  #         selected = 2081
-  #       ),
-  #       # radioButtons(
-  #       #     "fut_scn",
-  #       #     "RCP Scenario:",
-  #       #     selected = "ssp370",
-  #       #     c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585"),
-  #       #
-  #       #   )
-  #       h6("Portfolio Parameters"),
-  #       rHandsontableOutput("setbounds"),
-  #       sliderInput(
-  #         "return_level",
-  #         "Specified Return:",
-  #         min = 0.5,
-  #         max = 1,
-  #         value = 0.9
-  #       ),
-  #       sliderInput(
-  #         "min_accept",
-  #         "Minimum allowed weight:",
-  #         min = 0.01,
-  #         max = 0.2,
-  #         value = 0.05
-  #       ),
-  #       actionButton(
-  #         "generate_portfolio",
-  #         label = "Run Portfolio",
-  #         icon = icon("plus-square"),
-  #         style = "width:100%; background-color:#003366; color: #FFF"
-  #       )
-  #     ),
-  #     {
-  #       div_style <-
-  #         "border:1px solid var(--lt-color-gray-400); padding: 0.25rem; margin-bottom: 0.25rem; min-height: 400px;"
-  #       p_style <-
-  #         "border-bottom: 1px solid var(--lt-color-gray-400);"
-  #       mainPanel(width = 9,
-  #                 fluidRow(column(
-  #                   width = 6,
-  #                   div(
-  #                     style = div_style,
-  #                     p("Efficient Frontier", style = p_style),
-  #                     plotOutput("efficient_frontier")
-  #                   )
-  #                 ),
-  #                 column(
-  #                   width = 6,
-  #                   div(
-  #                     style = div_style,
-  #                     p("Growth Simulations", style = p_style),
-  #                     plotOutput("growth_sim")
-  #                   )
-  #                 )),
-  #                 fluidRow(column(
-  #                   width = 6,
-  #                   div(
-  #                     style = div_style,
-  #                     p("Optimised Weights", style = p_style),
-  #                     tableOutput("port_table")
-  #                   )
-  #                 ),
-  #                 column(
-  #                   width = 6,
-  #                   div(
-  #                     style = div_style,
-  #                     p("Site Index and Feasibility", style = p_style),
-  #                     DTOutput("port_sssum")
-  #                   )
-  #                 )))
-  #     }
-  #   )
-  # ),
+  # Silvics & Ecology ----
+  tabPanel(title = "SILVICS",
+           sidebarLayout(
+             # Inputs
+             sidebarPanel(
+               width = 2,
+               sidebarhelplink("cciss_instructions_silvics_ecology"),
+               h6("Filters"),
+               selectInput("siteref_silv", label = "Sites:", choices = character()),
+               selectInput("site_series_silv", label = "Site Series", choices = character()),
+               selectInput(
+                 "filter_silv",
+                 label = "Tree Species",
+                 choices = c("Suitable Species" = "f", "All Species" = "a")
+               )
+             ),
+             mainPanel(
+               width = 10,
+               # Silvics & Ecology
+               tabsetPanel(
+                 type = "pills",
+                 tabPanel(title = "About",
+                          includeHTML("./instructions/Silvics_About.html")),
+                 tabPanel(title = "Tolerance",
+                          tableOutput("silvics_tol_dt")),
+                 tabPanel(title = "Resistance",
+                          tableOutput("silvics_resist_dt")),
+                 tabPanel(title = "Regeneration stage",
+                          tableOutput("silvics_regen_dt")),
+                 tabPanel(title = "Maturing stage",
+                          tableOutput("silvics_mature_dt"))
+               )
+             )
+           )),
+  
   # Export ----
   tabPanel(
-    title = navhelplink("EXPORT", "cciss_instructions_export_nav"),
+    title = "EXPORT",
     sidebarLayout(
       # Inputs
       sidebarPanel(
@@ -512,7 +428,7 @@ $(document).ready(function(){
   ),
   ### CCISS Spatial
   tabPanel(
-    title = navhelplink("CCISS SPATIAL", "cciss_instructions_export_nav"),
+    title = "CCISS SPATIAL", 
     useShinyjs(),
     sidebarLayout(
       sidebarPanel(
@@ -573,7 +489,6 @@ $(document).ready(function(){
     
       # Export a Digital Report or Dataset for Analyzed Sites
       mainPanel(width = 10,
-                title = "CCISS Spatial",
                 useShinyjs(),
                   tags$head(
                     tags$style(HTML("
@@ -618,41 +533,6 @@ $(document).ready(function(){
                   )
     )  
   ),
-  # Silvics & Ecology ----
-  tabPanel(title = navhelplink("SILVICS & ECOLOGY", "cciss_instructions_silvics_ecology_nav"),
-           sidebarLayout(
-             # Inputs
-             sidebarPanel(
-               width = 2,
-               sidebarhelplink("cciss_instructions_silvics_ecology"),
-               h6("Filters"),
-               selectInput("siteref_silv", label = "Sites:", choices = character()),
-               selectInput("site_series_silv", label = "Site Series", choices = character()),
-               selectInput(
-                 "filter_silv",
-                 label = "Tree Species",
-                 choices = c("Suitable Species" = "f", "All Species" = "a")
-               )
-             ),
-             mainPanel(
-               width = 10,
-               # Silvics & Ecology
-               tabsetPanel(
-                 type = "pills",
-                 
-                 tabPanel(title = "Tolerance",
-                          tableOutput("silvics_tol_dt")),
-                 tabPanel(title = "Resistance",
-                          tableOutput("silvics_resist_dt")),
-                 tabPanel(title = "Regeneration stage",
-                          tableOutput("silvics_regen_dt")),
-                 tabPanel(title = "Maturing stage",
-                          tableOutput("silvics_mature_dt")),
-                 tabPanel(title = "About",
-                          includeHTML("./instructions/Silvics_About.html"))
-               )
-             )
-           )),
   # Tech specs ----
   navbarMenu(
     title = "DOCUMENTATION",
@@ -962,3 +842,124 @@ $(document).ready(function(){
   )
 )
 #)
+
+
+# Species portfolio draft ----
+# tabPanel(
+#   title = navhelplink("SPECIES PORTFOLIO<i><sup>Draft</sup></i>", "cciss_instructions_species_portfolio_nav"),
+#   sidebarLayout(
+#     # Inputs
+#     sidebarPanel(
+#       width = 3,
+#       sidebarhelplink("cciss_instructions_species_portfolio"),
+#       h6("Data Options"),
+#       selectInput("port_bgc", label = "Select BGC:", choices = character()),
+#       radioButtons(
+#         "port_ss",
+#         label = "Select Site Postion:",
+#         choices = c("B2", "Zonal", "D6"),
+#         selected = "Zonal"
+#       ),
+#       {
+#         treeOpts <-
+#           c("Py",
+#             "Fd",
+#             "At",
+#             "Pl",
+#             "Sx",
+#             "Bl",
+#             "Cw",
+#             "Hw",
+#             "Pw",
+#             "Ss",
+#             "Lw",
+#             "Ba",
+#             "Hm",
+#             "Dr",
+#             "Mb")
+#         selectInput(
+#           "tree_species",
+#           label = "Included Species:",
+#           choices = treeOpts,
+#           selected = treeOpts,
+#           multiple = T
+#         )
+#       },
+#       radioButtons(
+#         "port_length",
+#         label = "Optimisation Period (Rotation Length):",
+#         choiceNames = c("Current Period", "20 Year", "40 Year", "60 Year", "80 Year"),
+#         choiceValues = c(1991, 2021, 2041, 2061, 2081),
+#         selected = 2081
+#       ),
+#       # radioButtons(
+#       #     "fut_scn",
+#       #     "RCP Scenario:",
+#       #     selected = "ssp370",
+#       #     c("2.6 W/m2" = "ssp126", "4.5 W/m2" = "ssp245", "7.0 W/m2" = "ssp370", "8.5 W/m2" = "ssp585"),
+#       #
+#       #   )
+#       h6("Portfolio Parameters"),
+#       rHandsontableOutput("setbounds"),
+#       sliderInput(
+#         "return_level",
+#         "Specified Return:",
+#         min = 0.5,
+#         max = 1,
+#         value = 0.9
+#       ),
+#       sliderInput(
+#         "min_accept",
+#         "Minimum allowed weight:",
+#         min = 0.01,
+#         max = 0.2,
+#         value = 0.05
+#       ),
+#       actionButton(
+#         "generate_portfolio",
+#         label = "Run Portfolio",
+#         icon = icon("plus-square"),
+#         style = "width:100%; background-color:#003366; color: #FFF"
+#       )
+#     ),
+#     {
+#       div_style <-
+#         "border:1px solid var(--lt-color-gray-400); padding: 0.25rem; margin-bottom: 0.25rem; min-height: 400px;"
+#       p_style <-
+#         "border-bottom: 1px solid var(--lt-color-gray-400);"
+#       mainPanel(width = 9,
+#                 fluidRow(column(
+#                   width = 6,
+#                   div(
+#                     style = div_style,
+#                     p("Efficient Frontier", style = p_style),
+#                     plotOutput("efficient_frontier")
+#                   )
+#                 ),
+#                 column(
+#                   width = 6,
+#                   div(
+#                     style = div_style,
+#                     p("Growth Simulations", style = p_style),
+#                     plotOutput("growth_sim")
+#                   )
+#                 )),
+#                 fluidRow(column(
+#                   width = 6,
+#                   div(
+#                     style = div_style,
+#                     p("Optimised Weights", style = p_style),
+#                     tableOutput("port_table")
+#                   )
+#                 ),
+#                 column(
+#                   width = 6,
+#                   div(
+#                     style = div_style,
+#                     p("Site Index and Feasibility", style = p_style),
+#                     DTOutput("port_sssum")
+#                   )
+#                 )))
+#     }
+#   )
+# ),
