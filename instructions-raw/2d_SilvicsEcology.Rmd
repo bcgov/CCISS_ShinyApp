@@ -10,11 +10,32 @@ editor_options:
     wrap: 72
 ---
 
-## SILVICS & ECOLOGY
+## SILVICS
 
-This section contains information that may be useful for interpreting CCISS results and making management decisions.
+This section contains information that may be useful for interpreting CCISS results and making management decisions. More information can be found in the **About** tab of this section. 
 
 This module summarizes the silvics of each species with historic or future suitability in the selected BGC unit and site series. This information is drawn from Klinka et al. (2000). This information can be explored further at this [link](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
+
+## Example: ICHdw1 cont.
+
+Here's what the output from the **Silvics** tab would look like given the example in the ICHdw1. The user can select the site series within the BGC subzone/variant, and select whether they want to see the Klinka et al. (2000) information for just suitable species, or for all species.
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_SilvicsEx.png" style="width:55%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 2: Example of a **Detailed** suitability report for the 101 -
+CwFd-Prince's pine - Twinflower site series of the ICHdw1 biogeoclimatic
+subzone-variant in the Slocan Valley, with the option *No Novelty
+Analysis* selected in dialog box accessed through the **Model
+parameters** button.
+
+</figcaption>
+
+</figure>
+
 
 ##### References: 
 
