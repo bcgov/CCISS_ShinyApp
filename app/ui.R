@@ -78,7 +78,7 @@ $(document).ready(function(){
       sidebarPanel(
         width = 4,
         sidebarhelplink("cciss_instructions_select_sites"),
-        p("Welcome to CCISS v0.999 (beta)! Note that this tool uses a yet-to-be released version of BEC (v13), which includes changes to the coastal BEC classification that will be published in Spring 2025. If you would like to use the previous version based on BEC 12, you can find it ", a("here!",href = "https://thebeczone.ca/shiny/cciss12")),
+        p("Welcome to CCISS v0.999 (beta)! Note that this tool uses a yet-to-be released version of BEC (v13), which includes changes to the coastal BEC classification that will be published in Fall 2025. If you would like to use the previous version based on BEC 12, you can find it ", a("here!",href = "https://thebeczone.ca/shiny/cciss12")),
         style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
         
         wellPanel(

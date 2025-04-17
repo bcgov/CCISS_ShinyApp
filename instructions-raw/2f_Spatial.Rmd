@@ -16,7 +16,7 @@ The spatial module of the CCISS tool allows users to explore CCISS data inputs a
 Functionality of the CCISS spatial module includes: 
 
 -	Maps of biogeoclimatic projections for the ensemble and for five representative GCM simulations; 
--	Maps of Tree species environmental suitability projections for three site types;
+-	Maps of tree species environmental suitability projections for three site types (i.e., edatopes);
 -	Overlays of climatic novelty for each biogeoclimatic or suitability projection;
 -	Pop-up interactive plots on user-selected locations ;
 -	Interactive plots of biogeoclimatic and suitability changes within user-selected subregions;
@@ -36,7 +36,9 @@ Select whether the map displays biogeoclimatic (BGC) units or species suitabilit
 Select reference period (baseline) historical climate, observed recent climate (2001-2020), or future climates. 
 
 -	When reference (1961-1990) is selected, there is the option of selecting `Mapped or Predicted`. The `Mapped` BGC units are a rasterization of the official linework of BEC version 13. The `Modeled` BGC units are the prediction of the biogeoclimatic model used to generate the CCISS projections. These are different because the model is trained with a sample of locations from each biogeoclimatic unit, and hence is not expected to perfectly reproduce the official linework. 
--	When `Future (GCMs)` is selected, `Select GCM` controls whether the map shows ensemble results or individual GCM simulations. `SZ_Ensemble` displays the biogeoclimatic subzone/variant with the highest number of votes across the ensemble of 60 simulations; `Zone_Ensemble` shows the biogeoclimatic zone with the most votes. These may be different because votes for the highest-voted subzone variant may be outnumbered by votes for multiple subzone/variants from another biogeoclimatic zone.
+-	When `Future (GCMs)` is selected, `Select GCM` controls whether the map shows ensemble results or individual GCM simulations. `SZ_Ensemble` displays the *biogeoclimatic subzone/variant* with the highest number of votes across the ensemble of 60 simulations (i.e., the ensemble vote winner); `Zone_Ensemble` shows the *biogeoclimatic zone* with the most votes. These may be different because votes for the highest-voted subzone variant may be outnumbered by votes for multiple subzone/variants from another biogeoclimatic zone. To see what the breakdown of votes was for any given location, users can click on the map, and a pop-up will appear with stacked bars showing the percent of votes for each BGC unit in each time period. For more information, see the example at the bottom of this page. 
+
+- Regional summaries can be viewed by selecting `District` or `FLP Area` from the left-hand panel, and clicking on the area of interest on the map. A box will appear on the right-hand panel of the screen, where users can adjust the x-variable of interest (time, MAT, MAP, CMD, or DD5). Users can also select whether they want to summarize by zone, and if they want to show the 2001-2020 observed period as points on the resulting plot. 
 
 ### Suitability mode 
 
@@ -48,7 +50,7 @@ Throughout Suitability mode, there is the option of choosing a representative ed
 When `Observed (2001-2020)` or `Future (GCMs)` is selected, there is the option of mapping `Projected Suitability` or `Suitability Change`.
 
 -	`Projected Suitability` displays the CCISS environmental suitability rating for the selected time period. The meanings of these ratings are defined in Documentation>Methods>SuitabilityRatings. 
--	`Suitability Change` displays the change in suitability relative to the mapped reference period (1961-1990) suitability rating. Suitabilties in historically unsuitable locations are mapped in yellow to differentiate this suitability range expansion from increases in suitability within the historically suitable range of the species. 
+-	`Suitability Change` displays the change in suitability relative to the mapped reference period (1961-1990) suitability rating. Suitabilities in historically unsuitable locations are mapped in yellow to differentiate this suitability range expansion from increases in suitability within the historically suitable range of the species. 
 
 #### Suitability pop-up plot
 
@@ -66,14 +68,73 @@ When a location on the novelty map is clicked, a pop-up is activated providing a
 
 This button removes the CCISS layer to reveal the basemap. This is useful for comparing the CCISS maps to the topography, satellite photo, or baseline BGC linework. These basemaps can be selected in the top right of the map: 
 
-<figure>
-  <img src="Figure_2f_basemaps.png" alt="" style="width:60%;">
+<figure style="text-align:center;">
+
+<img src="Figure_2f_basemaps.png" alt="" style="width:60%;">
+  
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 1: Demonstration of how basemaps can be selected in CCISS spatial. 
+
+</figcaption>
+
 </figure>
 
 ### Find-A-BEC
 The `Find-A-BEC` feature helps with locating specified biogeoclimatic units of Western North America. Select the BGC zone of interest and then use `Deselect All` to select a subset of subzone/variants within that zone. Applying the `Gray non-selected BGCs` checkbox assists with finding the selected unit(s). 
 
-<figure>
-  <img src="Figure_2f_FindABEC.png" alt="" style="width:60%;">
+<figure style="text-align:center;">
+
+<img src="Figure_2f_FindABEC.png" alt="" style="width:60%;">
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 2: Demonstration of the Find-a-BEC function in CCISS spatial. 
+
+</figcaption>
 </figure>
 
+### Export data from **CCISS Spatial**: 
+
+Data from **CCISS Spatial** are downloadable as raster files. Users can opt to download data for the whole province by clicking on the gray **Download Province** button at the bottom of the left-hand panel, or they can select a specific district or FLP area in the same panel. If they select a district or FLP area of interest, a pop up appears on the right-hand side (also where users can view the regional summaries). Here, users can download the raster file of the map they are currently viewing. 
+
+
+## Example: ICHdw1 cont.
+
+Throughout the **Instructions**, we have been following an example of the ICHdw1 in the Slocan Valley of BC. Here, we see what the BGC analogs of this area are projected to be.   
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_CCISSspatial_future_and_popup.png" style="width:85%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 3: .
+
+</figcaption>
+
+</figure>
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_CCISSspatial_popup.png" style="width:55%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 4: .
+
+</figcaption>
+
+</figure>
+
+<figure style="text-align:center;">
+
+<img src="Figure_Instructions_CCISSspatial_suitabilities.png" style="width:55%;"/>
+
+<figcaption style="font-size: 0.8em; color: gray;">
+
+Figure 5: .
+
+</figcaption>
+
+</figure>
