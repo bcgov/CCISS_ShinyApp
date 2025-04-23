@@ -1,0 +1,27 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+### Resources: 
+
+#### CCISS Technical Reports: 
+- [Ratings of Tree Species Environmental Suitability]() 
+- [Biogeoclimatic Projections](https://catalogue.data.gov.bc.ca/dataset/biogeoclimatic-projections)
+- [Expert Review]()
+
+#### CCISS Peer-reviewed Articles: 
+- MacKenzie, W.H. and C.R. Mahony. 2021. [An ecological approach to
+climate change-informed tree species selection for
+reforestation](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf).
+Forest Ecology and Management 481:118705
+
+#### Other: 
+- [Chief Forester's Reference Guide](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards)
