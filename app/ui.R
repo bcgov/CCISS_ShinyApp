@@ -910,6 +910,20 @@ $(document).ready(function(){
       )
     ),
     tabPanel(
+      title = "Resources",
+      value = "8a_Resources",
+      fluidRow(
+        column(
+          width = 6,
+          offset = 1,
+          tabPanel(
+            title = "",
+            includeHTML("./instructions/8a_Resources.html") 
+          )
+        )
+      )
+    ),
+    tabPanel(
       title = "Model information",
       value = "model_info",
       fluidRow(
