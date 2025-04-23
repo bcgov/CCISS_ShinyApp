@@ -41,6 +41,11 @@ observeEvent(input$cciss_instructions_export, {
   updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_export")
 })
 
+observeEvent(input$cciss_instructions_cciss_spatial, {
+  updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_instructions")
+  updateTabsetPanel(inputId = "cciss_instructions_set", selected = "cciss_instructions_spatial")
+})
+
 # Nav
 observeEvent(input$cciss_about_nav, {
   updateNavbarPage(inputId = "cciss_navbar", selected = "cciss_about")

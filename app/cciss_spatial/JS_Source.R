@@ -224,8 +224,6 @@ addBGCTiles <- function(map) {
     infoBox.update = function (content) {
         this._div.innerHTML = content;
     };
-    
-    infoBox.addTo(map);
       
       Shiny.addCustomMessageHandler("clear_tiles", function(dat){
       if(colorpicker !== null){
@@ -355,12 +353,13 @@ addBGCTiles <- function(map) {
       });
     
     map.on("mouseout", function () {
-        infoBox.update("<b>Nothing Here!</b>")
+        infoBox.update("")
     });
     
     var popup = L.popup({ closeButton: false, autoClose: false });
 
     map.on("mousemove", function(event) {
+      infoBox.addTo(map);
       if(!map.hasLayer(subzLayer)){
         if(type !== "CCISS" & !distFlag){
         var a = colorpicker.getColor(event.latlng);
@@ -386,8 +385,7 @@ addBGCTiles <- function(map) {
           }
           
         } else {
-          infoBox.update(`
-                <b>Nothing Here!</b>
+          infoBox.update(`""
             `)
         }
       }
