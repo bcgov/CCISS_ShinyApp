@@ -121,3 +121,7 @@ We are currently integrating updated BEC classification and mapping for
 BEC13 (coast region – LMH77). With new BEC, we are also updating mapping
 of US BEC and are working to align biogeoclimatic mapping across the US
 – Canada border.
+
+#### In the CCISS spatial popup charts, why do the proportions of suitabilities not match the proportions of BGC analogs? 
+
+If there was always only one site series for each edatope, then the proportions in the BGC and suitability plots would match. However, some site series overlap on the edatopic grid or share an edatope. In these cases, there will be two suitabilities for each BGC analog. As a result, the BGC and suitability proportions are not necessarily the same. See Documentation > Methods > Edatopic Overlap. 
