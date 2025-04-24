@@ -60,9 +60,9 @@ ul.task-list{list-style: none;}
 
 <div id="frequently-asked-questions" class="section level3">
 <h3>Frequently Asked Questions</h3>
-<p><strong>If the climate model ensemble mean is different than the
-historical climate, does this mean the climate models are
-wrong?</strong></p>
+<div id="if-the-climate-model-ensemble-mean-is-different-than-the-historical-climate-does-this-mean-the-climate-models-are-wrong" class="section level4">
+<h4>If the climate model ensemble mean is different than the historical
+climate, does this mean the climate models are wrong?</h4>
 <p>The historical climate is one observation of many possible climate
 states that could have occurred due to the internal variability
 (weather) of the Earth’s climate system. Differences between the
@@ -77,6 +77,102 @@ observations themselves are biased due to errors in the station
 observations or in the gridded interpolation between stations. Both of
 these potential sources of error are an active area of research by the
 CCISS team.</p>
+</div>
+<div id="does-the-cciss-tool-account-for-forest-health-factors" class="section level4">
+<h4>Does the CCISS tool account for forest health factors?</h4>
+<p>No. The role of forest health factors is explicitly excluded from the
+CCISS environmental suitability ratings, with the intention that they
+are a separate layer of information in reforestation decisions. CCISS is
+one modeling methodology that considers climate change implications for
+tree species suitability. Ultimately decisions on species selection
+should be made using multiple lines of evidence, including insects and
+disease.</p>
+</div>
+<div id="why-does-the-cciss-model-promote-or-demote-certain-species" class="section level4">
+<h4>Why does the CCISS model promote or demote certain species?</h4>
+<p>The species projected suitability ratings are based on environmental
+suitability assigned to a BGC subzone-variant. The CCISS model selects
+BGCs that match the future climate projections for the point(s) or BGC
+of interest. Future species suitability projections are then pulled from
+the BGCs projected for that point or area. Go to the “BEC futures” tab
+to see the breakdown of which BGCs are projected.</p>
+</div>
+<div id="what-are-the-climate-drivers-of-species-suitability-trends" class="section level4">
+<h4>What are the climate drivers of species suitability trends?</h4>
+<p>This functionality does not currently exist in the CCISS tool. We are
+planning to include a climate component in CCISS spatial in the
+future.</p>
+</div>
+<div id="what-do-c4-b2-and-d6-refer-to-in-the-cciss-spatial-module-and-why-does-snr-come-first" class="section level4">
+<h4>What do C4, B2 and D6 refer to in the CCISS Spatial Module? And why
+does SNR come first?</h4>
+<p>These are soil nutrient regime (SNR)/ soil moisture regime (SMR)
+edatopes, indicating poor/subxeric (B2), mesic/medium (C4) and
+rich/hygric (D6) site types across all BGCs. Providing spatial data for
+all 35 edatopes would be too computationally feasible, so we chose these
+three edatopes to represent distinct, common site types. Although it is
+typical to place SMR first in edatope names (e.g., 4C), we put SNR first
+because it is much more convenient in computer code.</p>
+</div>
+<div id="what-is-the-uncertainty-around-the-current-suitability-ratings-for-the-modeled-us-bec-units" class="section level4">
+<h4>What is the uncertainty around the current suitability ratings for
+the modeled US BEC units?</h4>
+<p>There is no equivalent, published biogeoclimatic ecosystem
+classification and mapping for the United States. We used a draft
+classification of biogeoclimatic units for Washington, Idaho, Montana,
+Oregon, northern California, and northwestern Wyoming to provide
+potential future climate analogues for British Columbia (MacKenzie &amp;
+Mahony 2021). Site series classification was developed and species
+suitability ratings were assigned by an expert ecologist based on veg
+plot data.</p>
+<p>There is a higher level of uncertainty associated with the US
+biogeoclimatic classification. The draft site series classification for
+US BGC units is generic and broader (i.e. larger edatopic range) than
+BC, consequently there is less specificity on tree species suitability.
+Additionally, biogeoclimatic units are at the subzone level, and in some
+cases are climatically more diverse than BC units which are at the
+subzone-variant level. However, the inclusion of these draft US BGC
+units results in much reduced uncertainty compared to their absence. The
+analogs for future climate in much of southern BC are located across the
+border in the US.</p>
+</div>
+<div id="what-is-the-difference-between-a-projection-and-a-prediction" class="section level4">
+<h4>What is the difference between a projection and a prediction?</h4>
+<p>“Projection”, “prediction”, and “forecast” are related terms with
+varying usage in ecology and climate science. For the purposes of CCISS
+we use the following definitions:</p>
+<ul>
+<li><p><strong>Forecast</strong>—A forecast is an estimate of possible
+future states of a variable of interest. A forecast is not a “crystal
+ball” of what will happen, but a quantification of uncertainty in what
+could happen. Providing forecasts of environmental suitability for tree
+species is the ultimate goal of CCISS. CCISS forecasts are a synthesis
+of many projections of tree species suitability that have been carefully
+selected to provide a meaningful representation of uncertainty.</p></li>
+<li><p><strong>Projection</strong>—A projection is an estimate of the
+change over time in a variable of interest given a specific set of
+assumptions. CCISS provides one projection of tree species suitability
+for each of three simulations of eight global climate models following
+three atmospheric greenhouse gas concentration scenarios. The 2001-2020
+period of these simulations is considered a projection even though it
+occurs in the past.</p></li>
+<li><p><strong>Prediction</strong>—In CCISS, the term prediction is used
+exclusively as model prediction: the process by which a statistical
+model estimates a response variable (i.e., biogeoclimatic
+subzone/variant analog) based on predictor variables (i.e., climate
+variables). A model prediction can be made for any values of the
+predictor variables regardless of whether they represent past, future,
+or hypothetical conditions. Each biogeoclimatic projection for one
+20-year time period is a model prediction.</p></li>
+</ul>
+</div>
+<div id="why-doesnt-the-us-bec-match-up-with-bc-bec-across-the-border" class="section level4">
+<h4>Why doesn’t the US BEC match up with BC BEC across the border?</h4>
+<p>We are currently integrating updated BEC classification and mapping
+for BEC13 (coast region – LMH77). With new BEC, we are also updating
+mapping of US BEC and are working to align biogeoclimatic mapping across
+the US – Canada border.</p>
+</div>
 </div>
 
 

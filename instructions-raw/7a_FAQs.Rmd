@@ -54,13 +54,12 @@ to see the breakdown of which BGCs are projected.
 This functionality does not currently exist in the CCISS tool. We are
 planning to include a climate component in CCISS spatial in the future.
 
-#### What do C4, B2 and D6 refer to? And why does SNR come first?
+#### What do C4, B2 and D6 refer to in the CCISS Spatial Module? And why does SNR come first?
 
 These are soil nutrient regime (SNR)/ soil moisture regime (SMR)
-edatopes. SNR is first because a number first value, e.g. 4C, does not
-work in R code, we need to have the letter first. We chose these three
-edatopes to represent a poor/subxeric (B2), mesic/medium (C4) and
-rich/hygric (D6) site type across all BGCs.
+edatopes, indicating poor/subxeric (B2), mesic/medium (C4) and
+rich/hygric (D6) site types across all BGCs. Providing spatial data for all 35 edatopes would be too computationally feasible, so we chose these three edatopes to represent distinct, common site types. 
+Although it is typical to place SMR first in edatope names (e.g., 4C), we put SNR first because it is much more convenient in computer code. 
 
 #### What is the uncertainty around the current suitability ratings for the modeled US BEC units?
 

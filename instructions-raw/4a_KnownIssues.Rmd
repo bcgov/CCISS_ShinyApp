@@ -12,10 +12,10 @@ editor_options:
 
 ### Known issues with the CCISS tool
 
-Understanding potential sources of error is essential for appropriate
-use of the CCISS tool. The CCISS methodology has many components such as
-the species suitability ratings, climate mapping, biogeoclimatic
-modeling, biogeoclimatic classification, and climate data downscaling.
-Each of these components have their own degree of error that can carry
-through into the CCISS tool results, emphasizing the importance of
-professional scrutiny in the interpretation of these results.
+This section is focused on aspects of the CCISS analysis related to trade-offs and intrinsic sources of error. We also list bugs or minor enhancements that have not yet been resolved. if you have an problem or suggestion to report, you can enter it as a "New issue" in our [GitHub repo}(https://github.com/bcgov/CCISS_ShinyApp/issues). 
+
+
+#### Issues requiring fixing
+
+- The CCISS tool should only take about 10 seconds to load at startup. However, it has recently been taking up to 50 seconds. We are investigating this issue. 
+- There currently are no site series names for most of the coastal subzone/variants. This is associated with updating to the new coastal BEC version (BEC13). As a result, the **Silvics** tab does not return results for coastal units. We will resolve this asap. 

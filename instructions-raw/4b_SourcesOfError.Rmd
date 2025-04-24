@@ -12,9 +12,14 @@ editor_options:
 
 ### Sources of error in data and analyses
 
-The CCISS methodology has many components (input data and analyses),
-each with their own sources of error in addition to the sources of
-uncertainty described previously. While often used interchangeably,
+Understanding potential sources of error is essential for appropriate
+use of the CCISS tool. The CCISS methodology has many components such as the species suitability ratings, climate mapping, biogeoclimatic
+modeling, biogeoclimatic classification, and climate data downscaling.
+Each of these components have their own degree of error that can carry
+through into the CCISS tool results, emphasizing the importance of
+professional scrutiny in the interpretation of these results.
+
+While often used interchangeably,
 error and uncertainty are different processes. Error is the absolute
 difference between an estimated value and the ‘true’ value for a
 quantity of interest that, in most cases, is unknown. Thus, unlike
@@ -75,8 +80,7 @@ Cariboo-Chilcotin region. Stations are concentrated at low-elevations
 and are absent from large areas, demonstrating the potential for errors
 in the climate mapping.
 
-#### Biogeoclimatic (BGC) 
-modeling
+#### Biogeoclimatic (BGC) modeling
 
 Biogeoclimatic modeling involves using machine learning to classify
 climate conditions as biogeoclimatic units (subzones/variants). We have
