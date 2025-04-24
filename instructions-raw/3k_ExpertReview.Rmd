@@ -18,9 +18,9 @@ Given the complexity of forest ecosystems and climate change impacts on
 tree species, it is essential that the CCISS tool undergoes evaluation
 by experts. In 2024-25, the BC Ministry of Forest (FOR) Ecologists
 conducted a review of the following aspects of the CCISS tool (outlined
-below). We are currently engaging with additional subject matter experts to
-provide a review, including silviculturists, forest health specialists,
-and tree breeders.
+below). We are currently engaging with additional subject matter experts
+to provide a review, including silviculturists, forest health
+specialists, and tree breeders.
 
 #### 1. Tree Species Environmental Suitability Ratings
 
@@ -28,20 +28,24 @@ The initial environmental suitability ratings were assigned in 2017 by
 A. Banner (Coast and North Area), T. Braumandl (Kootenay-Boundary and
 Thompson-Okanagan), W. MacKenzie (Alberta), and D. Meidinger (USA). A
 subsequent review of this output in 2018-2019 led to some clarification
-of definitions and modifications of initial ratings, which were reviewed 
-again by regional experts in 2021. In 2024/25, further discussions between 
-CCISS team members and FOR Ecologists led to a review of and several 
-modifications to suitability rating definitions. The objective of this latest 
-review was to refine the suitability ratings using expert knowledge and other 
-available information sources, to assist with filling in gaps, and to document 
-known issues for further follow-up in the future. The resulting suitability 
-ratings provide a strong scientific foundation and a consistent baseline for 
-further refinement using quantitative methods. Using the updated documentation 
-and rating process outlined above, the FOR Ecologists began reviewing species 
-suitability ratings in their respective regions in February 2025. This review is 
-complete for the Coast Area, Omenica, Cariboo, and Thompson-Okanagan Regions. 
-See Rating of Tree Species Environmental Suitability Technical Report (2025), 
-available from the BC Data Catalogue, for a full overview of the suitability process to date. 
+of definitions and modifications of initial ratings, which were reviewed
+again by regional experts in 2021. In 2024/25, further discussions
+between CCISS team members and FOR Ecologists led to a review of and
+several modifications to suitability rating definitions. Using the
+updated documentation and rating process outlined above, the FOR
+Ecologists began reviewing species suitability ratings in their
+respective regions in February 2025. The objective of this latest review
+was to refine the suitability ratings using expert knowledge and other
+available information sources, to assist with filling in gaps, and to
+document known issues for further follow-up in the future. The resulting
+suitability ratings provide a strong scientific foundation and a
+consistent baseline for further refinement using quantitative methods.
+The FOR Ecologist review is complete for the Coast Area, Omenica,
+Cariboo, and Thompson-Okanagan regions as
+of March 2025, and in progress for the Kootenay Boundary, Skeena and
+Northeast regions as of April 2025. See Ratings of Tree Species
+Environmental Suitability (Collins et al. 2025), available from the BC
+Data Catalogue, for a full overview of the suitability process to date.
 
 #### 2. Tree Species Environmental Suitability Definitions
 
