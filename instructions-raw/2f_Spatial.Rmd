@@ -9,99 +9,247 @@ editor_options:
   markdown: 
     wrap: 72
 ---
-## CCISS SPATIAL 
 
-The spatial module of the CCISS tool allows users to explore CCISS data inputs and put CCISS results into spatial context. 
+## CCISS SPATIAL
 
-Functionality of the CCISS spatial module includes: 
+The spatial module of the CCISS tool allows users to put CCISS results
+into spatial context and explore CCISS data inputs (i.e. BGC model and
+species environmental suitability ratings).
 
--	Maps of biogeoclimatic projections for the ensemble and for five representative GCM simulations; 
--	Maps of tree species environmental suitability projections for three site types (i.e., edatopes);
--	Overlays of climatic novelty for each biogeoclimatic or suitability projection;
--	Pop-up interactive plots on user-selected locations ;
--	Interactive plots of biogeoclimatic and suitability changes within user-selected subregions;
--	Downloads of spatial data for active map layer at 200m raster resolution; and 
--	Find-A-BEC for locating specified biogeoclimatic units of Western North America. 
+Functionality of the CCISS spatial module includes:
+
+-   Maps of biogeoclimatic projections for the GCM ensemble and for five
+    representative GCM simulations;
+-   Maps of tree species environmental suitability projections for three
+    site types (i.e., edatopes);
+-   Overlays of climatic novelty for each biogeoclimatic or suitability
+    projection;
+-   Pop-up interactive plots on user-selected locations ;
+-   Interactive plots of biogeoclimatic and suitability changes within
+    user-selected subregions;
+-   Downloads of spatial data for active map layer at 200m raster
+    resolution; and
+-   Find-A-BEC for locating specified biogeoclimatic units of Western
+    North America.
 
 ### Subregion type
 
-The options for Subregion type are “None”, BC Natural Resource Districts, and Forest Landscape Planning (FLP) areas. We currently provide functionality for 10 FLP areas; we will add more as they become publicly available. When a subregion is clicked on the map, an interactive plot appears to the right of the map. The plot shows ensemble mean changes in biogeoclimatic unit area or species suitability; lines on the map can be clicked to show the ensemble variation. 
+The options for Subregion type are `None`, `District` - BC Natural
+Resource Districts, and `FLP Area` - Forest Landscape Planning (FLP)
+areas. We currently provide functionality for 10 FLP areas; we will add
+more as they become publicly available. When a subregion is clicked on
+the map, an interactive plot appears to the right of the map. The plot
+shows ensemble mean change in biogeoclimatic unit area or species
+suitability; variation by GCM can be viewed by clicking the lines on the
+map.
 
 ### Display BGC or Suitability
 
-Select whether the map displays biogeoclimatic (BGC) units or species suitability. Subsequent dialogue boxes are customized for each of these two modes, as described below. 
+Select whether the map displays biogeoclimatic (BGC) units or species
+suitability. Subsequent dialogue boxes are customized for each of these
+two modes, as described below.
 
-### BGC mode 
+### BGC mode
 
-Select reference period (baseline) historical climate, observed recent climate (2001-2020), or future climates. 
+Select reference period (baseline) historical climate, observed recent
+climate (2001-2020), or future climates.
 
--	When reference (1961-1990) is selected, there is the option of selecting `Mapped or Predicted`. The `Mapped` BGC units are a rasterization of the official linework of BEC version 13. The `Modeled` BGC units are the prediction of the biogeoclimatic model used to generate the CCISS projections. These are different because the model is trained with a sample of locations from each biogeoclimatic unit, and hence is not expected to perfectly reproduce the official linework. 
--	When `Future (GCMs)` is selected, `Select GCM` controls whether the map shows ensemble results or individual GCM simulations. `SZ_Ensemble` displays the *biogeoclimatic subzone/variant* with the highest number of votes across the ensemble of 60 simulations (i.e., the ensemble vote winner); `Zone_Ensemble` shows the *biogeoclimatic zone* with the most votes. These may be different because votes for the highest-voted subzone variant may be outnumbered by votes for multiple subzone/variants from another biogeoclimatic zone. To see what the breakdown of votes was for any given location, users can click on the map, and a pop-up will appear with stacked bars showing the percent of votes for each BGC unit in each time period. For more information, see the example at the bottom of this page. 
+-   When `Reference (1961-1990)` is selected, there is the option of
+    selecting between `Mapped or Predicted` view. The `Mapped` BGC units
+    are a rasterization of the official linework of BEC version 13.
+    `Modelled` represents the BGC unit predicted by the biogeoclimatic
+    model used to generate the CCISS projections. The model is trained
+    with a sample of locations from each biogeoclimatic unit, and is not
+    expected to perfectly reproduce the official linework.
 
-- Regional summaries can be viewed by selecting `District` or `FLP Area` from the left-hand panel, and clicking on the area of interest on the map. A box will appear on the right-hand panel of the screen, where users can adjust the x-variable of interest (time, MAT, MAP, CMD, or DD5). Users can also select whether they want to summarize by zone, and if they want to show the 2001-2020 observed period as points on the resulting plot. 
+-   When `Observed (2001-2020)` is selected, this displays the BGC units
+    selected by the BGC model associated with the observed (recorded)
+    climate of 2001-2020. This time period already reflects a slight
+    shift in the climate associated with each BGC relative to the
+    1961-1990 reference period and therefore the BGC climate analog
+    selected by the model.
 
-### Suitability mode 
+-   When `Future (GCMs)` is selected, `Select GCM` controls whether the
+    map shows ensemble results or individual GCM simulations.
+    `SZ_Ensemble` displays the *biogeoclimatic subzone/variant* with the
+    highest number of votes across the ensemble of 60 simulations (i.e.,
+    the ensemble vote winner); `Zone_Ensemble` shows the *biogeoclimatic
+    zone* with the most votes. These may be different because votes for
+    the highest-voted subzone variant may be outnumbered by votes for
+    multiple subzone/variants from another biogeoclimatic zone. To see
+    what the breakdown of votes was for any given location, users can
+    click on the map, and a pop-up will appear with stacked bars showing
+    the percent of votes for each BGC unit in each time period. For more
+    information, see the example at the bottom of this page.
+    `Select period` allows the user to select a time period between 2001
+    and 2100, split in 20-year increments. Here 2001-2020 represents the
+    modeled results of the GCM simulations for that time period (not
+    observed climate records).
 
-Throughout Suitability mode, there is the option of choosing a representative edatope (site type) and tree species.  
+Regional summaries can be viewed by selecting `District` or `FLP Area`
+from the left-hand panel, and clicking on the area of interest on the
+map. A box will appear on the right-hand panel of the screen, where
+users can adjust the x-variable of interest (time, MAT - Mean Annual
+Temperature, MAP - Mean Annual Precipitation, CMD - Climatic Moisture
+Deficit , or DD5 - Growing Degree Days above 5°C). Users can also select
+whether they want to summarize by zone (or by subzone-variant if
+un-checked), and if they want to show the 2001-2020 observed period as
+points on the resulting plot.
 
--	`Select Edatope (SNR/SMR)` provides the option of B2 (nutrient-poor, subxeric), C4 (nutrient-medium, mesic), or D6 (Nutrient-rich, hygric). Displaying all 35 edatopes is computationally infeasible, so we chose these three edatopes to represent distinct, common site types.  
--	`Select species` allow selection of common native tree species of BC. We will add more species in the future. Codes for each species are defined in Documentation>Definitions>SpeciesCodes. 
+### Suitability mode
 
-When `Observed (2001-2020)` or `Future (GCMs)` is selected, there is the option of mapping `Projected Suitability` or `Suitability Change`.
+Throughout Suitability mode, there is the option of choosing a
+representative edatope (site type) and tree species.
 
--	`Projected Suitability` displays the CCISS environmental suitability rating for the selected time period. The meanings of these ratings are defined in Documentation>Methods>SuitabilityRatings. 
--	`Suitability Change` displays the change in suitability relative to the mapped reference period (1961-1990) suitability rating. Suitabilities in historically unsuitable locations are mapped in yellow to differentiate this suitability range expansion from increases in suitability within the historically suitable range of the species. 
+-   `Select Edatope (SNR/SMR)` represents a Soil Nutrient Regime/Soil
+    Moisture Regime combination. The dropdown provides the option of B2
+    (nutrient-poor, subxeric), C4 (nutrient-medium, mesic), or D6
+    (nutrient-rich, hygric). Displaying all 35 edatopes is
+    computationally infeasible, so we chose these three edatopes to
+    represent distinct, common site types.\
+-   `Select species` allows for selection among 15 common native BC tree
+    species. Additional species will be added in the future. Codes for
+    each species are defined in
+    Documentation\>Definitions\>SpeciesCodes.
+
+The mapping of suitability for each time period selected reflects the
+underlying BGC unit(s) mapped or projected.
+
+When `Reference (1961-1990)` is selected, this displayed the expert
+assigned suitability rating for site series that overlap the selected
+edatope. When `Mapped` is selected the mapping of BGC units reflects the
+BEC version 13 linework. When `Modelled` is selected the mapping
+reflects the BGC units predicted by the biogeoclimatic model used to
+generate the CCISS projections. The methods for assigning and
+definitions of these ratings are defined in
+Documentation\>Methods\>SuitabilityRatings.
+
+When `Observed (2001-2020)` or `Future (GCMs)` is selected, there is the
+option of mapping `Projected Suitability` or `Suitability Change`.
+
+-   `Projected Suitability` displays the CCISS environmental suitability
+    rating for the selected time period associated with the projected
+    BGC units.
+-   `Suitability Change` displays the change in suitability relative to
+    the mapped reference period (1961-1990) suitability rating,
+    increasing (blue), decreasing (red) or no change (grey). Species
+    that are projected to become "newly suitable" in areas where they
+    were historically unsuitable are mapped in yellow to differentiate
+    this suitability range expansion from increases in suitability
+    within the historically suitable range of the species (represented
+    in blue).
 
 #### Suitability pop-up plot
 
-When a location on the suitability map is clicked, a pop-up is activated providing interactive 2D plots of the change in biogeoclimatic analogs and species suitability over time at that location. There may be more than one suitability rating for individual biogeoclimatic units because in some cases the selected edatope is shared by two site series with different suitability ratings (see Documentation>Methods>EdatopicOverlap). 
+When a location on the suitability map is clicked, a pop-up is activated
+providing interactive 2D plots of the change in biogeoclimatic analogs
+and species suitability over time at that location. There may be more
+than one suitability rating for individual biogeoclimatic units because
+in some cases the selected edatope is shared by two site series with
+different suitability ratings (see Documentation\>Methods\>Edatopic
+Overlap).
 
 ### Display Novelty
 
-In BGC or Suitability mode, the `Display Novelty?` checkbox overlays a map of estimate climatic novelty. High climatic novelty (>5σ, red colors) indicates that the biogeoclimatic subzone/variant identified by the biogeoclimatic model is a very poor analog for the future climate condition, even though it is the best available. The CCISS tool uses a default dissimilarity threshold of 5-sigma (5σ) to infer a novel climate and discard the biogeoclimatic analog. Novelty in the 3-5σ  range can be interpreted as a poor analog. In this range, species suitability inferences may be useful but are also likely to be somewhat misleading. The methods and interpretation of climatic novelty are explained in Documentation>Methods>NovelClimates
+In BGC or Suitability mode, the `Display Novelty?` checkbox overlays a
+map of estimated climatic novelty. High climatic novelty (\>5σ, red
+colors) indicates that the biogeoclimatic subzone/variant identified by
+the biogeoclimatic model is a very poor analog for the future climate
+condition, even though it is the best (i.e. closest in climatic space)
+available. The CCISS tool uses a default dissimilarity threshold of
+5-sigma (5σ) to infer a novel climate and exclude the biogeoclimatic
+analog. Novelty in the 3-5σ range can be interpreted as a poor analog.
+In this range, species suitability inferences may be useful but are also
+likely to be somewhat misleading. The methods and interpretation of
+climatic novelty are explained in Documentation\>Methods\>Novel
+Climates.
 
 #### Novelty pop-up plot
 
-When a location on the novelty map is clicked, a pop-up is activated providing an interactive 3D plot comparing future climates to the historical climate of the analog. click and drag to spin the plot. This plot is the same for all locations that have the same biogeoclimatic analog for the selected GCM and time period. Blue dots are the spatial variation in baseline (1961-1990) climates of the analog. Black dots are the 1951-1990 interannual variability of the analog. Filled circles are projected climates of locations in British Columbia that are assigned the analog by the BGC model, with colours indicating sigma novelty consistent with the map legend. The axes of the plot are principal components (PCs) of analog variation, with PC1 being the axis with the most variation in the plotted points, and PC3 having the least. Labelled lines indicate correlations of the input variables with the 3 PCs that comprise the viewspace.
+When a location on the novelty map is clicked, a pop-up is activated
+providing an interactive 3D plot comparing future climates to the
+historical climate of the analog. Click and drag to spin the plot. This
+plot is the same for all locations that have the same biogeoclimatic
+analog for the selected GCM and time period. Blue dots are the spatial
+variation in baseline (1961-1990) climates of the analog. Black dots are
+the 1951-1990 interannual climatic variability (ICV) of the BGC analog.
+Filled circles (grey-yellow-red) are projected climates of locations in
+British Columbia that are assigned the analog by the BGC model, with
+colours indicating sigma novelty consistent with the map legend. The
+cross symbol represents the 'selected location', the average climate of
+the projected future/observed time period selected for the location that
+has been clicked (i.e. individual raster cell). The axes of the plot are
+principal components (PCs) of analog variation, with PC1 being the axis
+with the most variation in the plotted points, and PC3 having the least.
+Labelled lines indicate correlations of the input variables with the 3
+PCs that comprise the viewspace.
 
 ### Hide/Show Layer
 
-This button removes the CCISS layer to reveal the basemap. This is useful for comparing the CCISS maps to the topography, satellite photo, or baseline BGC linework. These basemaps can be selected in the top right of the map: 
+This button removes the CCISS layer to reveal the basemap. This is
+useful for comparing the CCISS maps to the topography, satellite photo,
+or baseline BGC linework. These basemaps can be selected in the top
+right-hand corner of the map:
 
 <figure style="text-align:center;">
 
-<img src="Figure_2f_basemaps.png" alt="" style="width:60%;">
-  
+<img src="Figure_2f_basemaps.png" style="width:60%;"/>
+
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 1: Demonstration of how basemaps can be selected in CCISS spatial. 
+Figure 1: Demonstration of how basemaps can be selected in CCISS
+spatial.
 
 </figcaption>
 
 </figure>
 
 ### Find-A-BEC
-The `Find-A-BEC` feature helps with locating specified biogeoclimatic units of Western North America. Select the BGC zone of interest and then use `Deselect All` to select a subset of subzone/variants within that zone. Applying the `Gray non-selected BGCs` checkbox assists with finding the selected unit(s). 
+
+The `Find-A-BEC` feature helps with locating specified biogeoclimatic
+units of Western North America. Select the BGC zone of interest and then
+use `Deselect All` to select a subset of subzone/variants within that
+zone. Applying the `Gray non-selected BGCs` checkbox assists with
+finding the selected unit(s).
 
 <figure style="text-align:center;">
 
-<img src="Figure_2f_FindABEC.png" alt="" style="width:40%;">
+<img src="Figure_2f_FindABEC.png" style="width:40%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 2: Demonstration of the Find-a-BEC function in CCISS spatial. 
+Figure 2: Demonstration of the Find-a-BEC function in CCISS spatial.
 
 </figcaption>
+
 </figure>
 
-### Export data from **CCISS Spatial**: 
+### Export data from **CCISS Spatial**:
 
-Data from **CCISS Spatial** are downloadable as raster files. Users can opt to download data for the whole province by clicking on the gray **Download Province** button at the bottom of the left-hand panel, or they can select a specific district or FLP area in the same panel. If they select a district or FLP area of interest, a pop up appears on the right-hand side (also where users can view the regional summaries). Here, users can download the raster file of the map they are currently viewing. 
-
+Data from **CCISS Spatial** are downloadable as raster files. Users can
+opt to download data for the whole province by clicking on the gray
+**Download Province** button at the bottom of the left-hand panel, or
+they can select a specific district or FLP area in the same panel. If
+they select a district or FLP area of interest, a pop up appears on the
+right-hand side (also where users can view the regional summaries).
+Here, users can download the raster file of the map they are currently
+viewing.
 
 ## Example: ICHdw1 cont.
 
-Throughout the **Instructions**, we have been following an example of the ICHdw1 in the Slocan Valley of BC. Here, we see what the BGC analogs of this area are projected to be. In Figure 3, we have selected to display BGCs, and are opting to look at the future. We selected the `SZ_Ensemble`, which represents the ensemble vote winner (i.e., BGC analog with the most votes) in the 2061-2080 time period. When we hover over the area represented by the black dot, we can see the Layer Info box that reads **Predicted BGC: CWFdm_OR**. When we click on this spot, the BGC Projections pop-up appears, which gives a breakdown of the different BGC units (i.e., subzone/variants) that were predicted by each of the model runs. We can see that indeed, in the 2061-2080 period, the CWFdm_OR has the most votes, and that it received roughly 50% of votes for that period.
+Throughout the **Instructions**, we have been following an example of
+the ICHdw1 in the Slocan Valley of BC. Here, here we see the projected
+BGC analogs for this area. In Figure 3, we have selected to display
+BGCs, and are opting to look at the future. We selected the
+`SZ_Ensemble`, which represents the ensemble vote winner (i.e., BGC
+analog with the most votes) in the 2061-2080 time period. When we hover
+over the area represented by the black dot, we can see the Layer Info
+box that reads **Predicted BGC: CWFdm_OR**. When we click on this spot,
+the BGC Projections pop-up appears, which gives a breakdown of the
+different BGC units (i.e., subzone/variants) that were predicted by each
+of the model runs. We can see that indeed, in the 2061-2080 period, the
+CWFdm_OR - Coastal White Fir dry maritime Oregon - has the most votes,
+and that it received roughly 50% of votes for that period.
 
 <figure style="text-align:center;">
 
@@ -109,13 +257,22 @@ Throughout the **Instructions**, we have been following an example of the ICHdw1
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 3: BGC projections - SZ_Ensemble, which displays the *biogeoclimatic subzone/variant* with the highest number of votes across the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black dot) added here, the ensemble vote winner (i.e., BGC unit with the most "votes", is CWFdm_OR). 
+Figure 3: BGC projections - SZ_Ensemble, which displays the
+*biogeoclimatic subzone/variant* with the highest number of votes across
+the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5,
+EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of
+interest (black dot) added here, the ensemble vote winner (i.e., BGC
+unit with the most "votes", is CWFdm_OR).
 
 </figcaption>
 
 </figure>
 
-Next, in Figure 4, we have selected `Zone_Ensemble` from the **Select GCM** dropdown menu. We can now see the predicted biogeoclimatic zone rather than subzone/variant. This zone is selected by adding up the votes for each zone, ignoring subzone/variant. We can see that it is the CWF that has the most votes in the present time period. 
+Next, in Figure 4, we have selected `Zone_Ensemble` from the **Select
+GCM** dropdown menu. We can now see the predicted biogeoclimatic zone
+rather than subzone/variant. This zone is selected by adding up the
+votes for each zone. We can see that it is the CWF - Coastal White Fir -
+that has the most votes in the 2061-2080 time period.
 
 <figure style="text-align:center;">
 
@@ -123,28 +280,56 @@ Next, in Figure 4, we have selected `Zone_Ensemble` from the **Select GCM** drop
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 4: BGC projections - ZONE_Ensemble, which displays the *biogeoclimatic zone* with the highest number of votes across the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black dot) added here, it is the CWF zone.
+Figure 4: BGC projections - ZONE_Ensemble, which displays the
+*biogeoclimatic zone* with the highest number of votes across the
+**small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3,
+GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black
+dot) added here, it is the CWF zone.
 
 </figcaption>
 
 </figure>
 
-Using the **CCISS Spatial** feature, we can look at maps of tree species suitability over time, in three different edatopes. In Figure 5, we remain centered on the Slocan Valley of British Columbia. In this example, we have now selected to display `Suitability` rather than `BGC`. We selected the C4 edatope, and the **Fd** (Douglas-fir) species. For a list of species codes, see Documentation>Definitions>Species Codes. 
+We can also look at tree species suitability over time, in three
+different edatopes. In Figure 5, we remain centered on the Slocan Valley
+of British Columbia. In this example, we have now selected to display
+`Suitability` rather than `BGC`. We selected the C4 edatope, and **Fd**
+(Douglas-fir). For a list of species codes, see
+Documentation\>Definitions\>Species Codes.
 
-In this map, we are looking at projected suitabilities for the 2061-2080 time period. The <span style="color:darkgreen">green</span> text represents areas with E1, or high suitability, while <span style="color:blue">blue</span> demonstrates areas with E2, or moderate suitability. The <span style="color:yellow">yellow</span> areas have low suitability, and white areas are unsuitable for **Fd**. 
+In this map, we are looking at projected suitabilities for the 2061-2080
+time period. The [green]{style="color:darkgreen"} text represents areas
+with E1, or high suitability, while [blue]{style="color:blue"}
+demonstrates areas with E2, or moderate suitability. The
+[yellow]{style="color:yellow"} areas have low suitability, and white
+areas are unsuitable for **Fd**.
+
 <figure style="text-align:center;">
 
 <img src="Figure_Instructions_CCISSspatial_suitabilities.png" style="width:55%;"/>
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 5: Still centered around the Slocan Valley, this map shows projected future suitabilities for Fd (Douglas-fir) in the 2061-2080 future period. Green is E1: High, blue is E2: Moderate, yellow is E3: Low, and white is unsuitable.  
+Figure 5: Still centered around the Slocan Valley, this map shows
+projected future suitabilities for Fd (Douglas-fir) in the 2061-2080
+future period. Green is E1: High, blue is E2: Moderate, yellow is E3:
+Low suitability, and white is unsuitable.
 
 </figcaption>
 
 </figure>
 
-We can also look at suitability in a different way. Rather than viewing the suitability for a species in each time period separately, we can opt to look at the *change* in suitability over time. In this map, we see that the suitability ratings for **Fd** in the C4 edatope in the Slocan Valley are expected to decrease by the 2061-2080s. These areas of decrease are marked with a gradient of shades of <span style="color:red">red</span>. Meanwhile, higher elevation areas upward from the valley are projected to increase in suitability. Areas where suitability is expected to increase are shown in <span style="color:blue">blue</span>. Finally, areas that are becoming newly suitable are shown in various shades of <span style="color:yellow">yellow</span>. 
+We can also look at suitability in a different way. Rather than viewing
+the suitability for a species in each time period separately, we can opt
+to look at the *change* in suitability over time (selecting
+`Suitability Change`). In this map, we see that the suitability ratings
+for **Fd** in the C4 edatope in the Slocan Valley are expected to
+decrease by the 2061-2080s. These areas of decrease are marked with a
+gradient of shades of [red]{style="color:red"}. Meanwhile, higher
+elevation areas upward from the valley are projected to increase in
+suitability. Areas where suitability is expected to increase are shown
+in [blue]{style="color:blue"}. Finally, areas that are becoming newly
+suitable are shown in shades of [yellow]{style="color:yellow"}.
 
 <figure style="text-align:center;">
 
@@ -152,13 +337,20 @@ We can also look at suitability in a different way. Rather than viewing the suit
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 6: Instead of showing suitability, this map shows the change in suitability, as compared to the historic period (1961-1990).
+Figure 6: Map representing the change in suitability, as compared to the
+historic period (1961-1990) in the Slocan Valley area.
 
 </figcaption>
 
 </figure>
 
-In this area, the CCISS tool predicts a lot of novel climates (i.e., climates with no good historical analogs). We can see that by clicking on the `Display Novelty?` checkbox at the bottom of the left-hand panel. This means that there is much uncertainty about how species will respond to changes in climate here, because there are no historical areas within Western North America that have experienced these exact combinations of temperature and precipitation.  
+In this area, the CCISS tool predicts a lot of novel climates (i.e.,
+climates with no good historical analogs). We can see that by clicking
+on the `Display Novelty?` checkbox at the bottom of the left-hand panel.
+This means that there is much uncertainty about how species will respond
+to changes in climate here, because there are no historical areas within
+Western North America that have experienced these exact climate
+conditions.
 
 <figure style="text-align:center;">
 
@@ -166,7 +358,10 @@ In this area, the CCISS tool predicts a lot of novel climates (i.e., climates wi
 
 <figcaption style="font-size: 0.8em; color: gray;">
 
-Figure 7: Degree of climate novelty. Red is very high novelty (>5σ) and represents a very bad analog, yellow is high novelty (3-5σ) and represents a poor analog, and white represents areas without novel climates.
+Figure 7: Degree of climate novelty. Red is very high novelty (\>5σ) and
+represents a very bad analog, yellow is high novelty (3-5σ) and
+represents a poor analog, and white represents areas without novel
+climates.
 
 </figcaption>
 
