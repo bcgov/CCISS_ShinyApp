@@ -284,6 +284,4 @@ scenario for ICHdw1/101.
 </figure>
 
 ##### References:
-
-Chief Forester's Reference Guide:
-<https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards>
+<a href="https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards" target="_blank">Chief Forester's Reference Guide</a>
