@@ -12,7 +12,7 @@ editor_options:
 
 ## Species codes: 
 
-Full list of tree species codes is available [here](https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-species.html). 
+Full list of tree species codes is available <a href="https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-species.html" target="_blank">here</a>. 
 
 Table 1. Codes of common tree species mentioned in the CCISS documentation 
 
