@@ -94,12 +94,10 @@ Dr. Tongli Wang (University of British Columbia) and Dr. Andreas Hamann (Univers
 Finally, we acknowledge the World Climate Research Program’s Working Group on Coupled Modelling, which is responsible for the Coupled Model Intercomparison Project (CMIP6), and we thank the global climate climate modelling groups for producing and making available their model output.
     
 ### References: 
-
-Chief Forester's Reference Guide: https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards
-
+<a href="https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards" target="_blank">Chief Forester's Reference Guide</a>
+ 
 Klinka, K., J. Worrall, L. Skoda, and P. Varga. 2000. The Distribution and Synopsis of 
 Ecological and Silvical Characteristics of Tree Species of British Columbia's Forests. Canadian Cartographics Ltd., Coquitlam, B.C.
 
 ##### Additional Documents:
-[Forest Ecology and Management Science Paper](./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf)
-
+<a href="./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf" target="_blank">Forest Ecology and Management Science Paper</a>
