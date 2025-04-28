@@ -134,12 +134,11 @@ Documentation - Methods - Rule Sets.
 ### 5. Global Climate Model (GCM) weights
 
 There are 13 GCMs available in the CCISS tool. However, the CCISS tool
-defaults to the 8-model ensemble of GCMs recommended by [Mahony et al.
-(2022)](https://doi.org/10.1002/joc.7566) and assigns each of these
+defaults to the 8-model ensemble of GCMs recommended by <a href="https://doi.org/10.1002/joc.7566" target="_blank">Mahony et al.
+(2022) </a> and assigns each of these
 models equal weighting. The other five models were excluded because
 their warming rates are not supported by observational evidence
-(CanESM5, UKESM1, INM-CM5; explained
-[here](https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf)),
+(CanESM5, UKESM1, INM-CM5; explained <a href="https://www2.gov.bc.ca/assets/gov/environment/natural-resource-stewardship/nrs-climate-change/climatena_8modelrationale.pdf" target="_blank">here</a>,
 because they only have a single run for each scenario (BCC-CSM2,
 INM-CM5), or because they exhibit unrealistic localized warming in BC
 (IPSL-CM6A). Using the **Model parameters** dialog box, users can adjust
@@ -149,9 +148,8 @@ Methods - Climate Change Projections.
 ### 6. Scenario weights
 
 Global climate model projections follow scenarios of future greenhouse
-gas emissions called [Shared Socioeconomic
-Pathways](https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change)
-(SSPs). The CCISS tool provides the option of giving different weights
+gas emissions called <a href="https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change" target="_blank">Shared Socioeconomic Pathways</a> (SSPs). 
+The CCISS tool provides the option of giving different weights
 to the four major SSP scenarios: SSP1-2.6, SSP2-4.5, SSP3-7.0, and
 SSP5-8.5. Collectively, SSP1-2.6, SSP2-4.5, and SSP3-7.0 provide a
 reasonable representation of optimistic, neutral, and pessimistic
@@ -160,8 +158,7 @@ CCISS tool defaults to equal weighting of these three scenarios to
 represent scenario uncertainty in climate change projections. We have
 set SSP5-8.5 weighting to 0 in the default scenarios because it is
 extremely unlikely based on current trends in energy economics and
-policy ([Hausfather and Peters
-2020](https://www.nature.com/articles/d41586-020-00177-3)). Users can
+policy (<a href="https://www.nature.com/articles/d41586-020-00177-3" target="_blank">Hausfather and Peters 2020</a>). Users can
 adjust these weightings using the **Model parameters** dialog box. See
 Documentation - Methods - Climate Change Projections.
 
