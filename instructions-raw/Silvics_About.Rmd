@@ -39,7 +39,7 @@ self-pruning capacity in dense stands, crown spatial requirements, light
 conditions beneath closed canopy, potential productivity, and longevity.
 
 This information can be explored further
-[here](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons).
+<a href="https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tool-introduction/tree-species-silvics-and-comparisons" target="_blank">here</a>.
 
 #### References
 
