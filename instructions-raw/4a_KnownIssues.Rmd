@@ -12,7 +12,7 @@ editor_options:
 
 ### Known issues with the CCISS tool
 
-This section is focused on aspects of the CCISS analysis related to trade-offs and intrinsic sources of error. We also list bugs or minor enhancements that have not yet been resolved. if you have an problem or suggestion to report, you can enter it as a "New issue" in our [GitHub repo}(https://github.com/bcgov/CCISS_ShinyApp/issues). 
+This section is focused on aspects of the CCISS analysis related to trade-offs and intrinsic sources of error. We also list bugs or minor enhancements that have not yet been resolved. If you have an problem or suggestion to report, you can enter it as a "New issue" in our <a href="https://github.com/bcgov/CCISS_ShinyApp/issues" target="_blank">GitHub repo </a>. 
 
 
 #### Issues requiring fixing
