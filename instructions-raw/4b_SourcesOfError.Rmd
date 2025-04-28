@@ -42,12 +42,11 @@ predictive modeling to quantitatively evaluate and refine suitability
 ratings. For more information see Methods \> Expert Review
 
 ```{=html}
-<img src="Figure_ByBECexample.png" alt="Figure 1: Screenshot of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert review and revisions of the CCISS suitability ratings. This example shows
+<img src="Figure_ByBECexample.png" alt="Figure 1: Screenshot of the By-BEC portal, which facilitates expert review and revisions of the CCISS suitability ratings. This example shows
 suitability ratings for western redcedar on zonal sites, with editing
 for the CWHdm open." style="width:70%;"/>
 ```
-Figure 1: Screenshot of the [By-BEC
-Portal](https://thebeczone.ca/shiny/bybecmap/), which facilitates expert
+Figure 1: Screenshot of the <a href="https://thebeczone.ca/shiny/bybecmap/" target="_blank">By-BEC Portal</a>, which facilitates expert
 review and revisions of the CCISS suitability ratings. This example
 shows suitability ratings for western redcedar on zonal sites, with
 editing for the CWHdm open.
@@ -56,9 +55,8 @@ editing for the CWHdm open.
 
 The reference climate maps for CCISS are the PRISM (Parameter-elevation
 Regressions on Independent Slopes Model) climate surfaces of temperature
-and precipitation at 800m spatial resolution developed by the [Pacific
-Climate Impacts
-Consortium](https://www.pacificclimate.org/data/prism-climatology-and-monthly-timeseries).
+and precipitation at 800m spatial resolution developed by the <a href="https://www.pacificclimate.org/data/prism-climatology-and-monthly-timeseries" target="_blank">Pacific
+Climate Impacts Consortium</a>.
 These surfaces are best-in-class, but they have important limitations.
 They are interpolated from weather station data that is sparse in many
 regions of BC (Figure 2). Most valleys and some larger regions have no
@@ -100,15 +98,14 @@ underrepresented.
 Additionally, future projections appear highly sensitive to changes in
 sampling scheme, climate variable sets, and Random Forest model hyperparameters.
 These factors will be closely examined in future iterations to improve
-the model’s predictive ability. For more information, refer to the [Biogeoclimatic
-Projections technical report](https://catalogue.data.gov.bc.ca/dataset/bgc-projections).
+the model’s predictive ability. For more information, refer to the <a href="https://catalogue.data.gov.bc.ca/dataset/biogeoclimatic-projections" target="_blank">Biogeoclimatic
+Projections</a> technical report.
 
 #### Climate data downscaling
 
 Climate changes are modeled in CCISS by overlaying very coarse-scale
 global climate model projections (50-150km resolution; Figure 3) onto
-the 800m PRISM climate maps, a method called [change-factor
-downscaling](https://bcgov.github.io/climr/articles/methods_downscaling.html).
+the 800m PRISM climate maps, a method called <a href="https://bcgov.github.io/climr/articles/methods_downscaling.html" target="_blank">change-factor downscaling</a>.
 This approach results in a uniform warming rate from valley bottom to
 mountain top. In reality, we would expect elevation-dependent
 differences in warming rate due to loss of snowpack, for example.
