@@ -124,5 +124,4 @@ tolerance range.
 More information on the development of the expert Environmental
 Suitability ratings and the complete dataset of historic suitability
 ratings for BC and Western North America can be found on the BC Data
-Catalogue
-[BCDC](https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640)
+Catalogue <a href="https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640" target="_blank">BCDC</a>.
