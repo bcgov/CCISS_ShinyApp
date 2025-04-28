@@ -259,10 +259,8 @@ and that it received roughly 50% of votes for that period.
 
 Figure 3: BGC projections - SZ_Ensemble, which displays the
 *biogeoclimatic subzone/variant* with the highest number of votes across
-the **small** ensemble of simulations (i.e., the ACCESS-ESM1-5,
-EC-Earth3, GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of
-interest (black dot) added here, the ensemble vote winner (i.e., BGC
-unit with the most "votes", is CWFdm_OR).
+simulations. At the point of interest (black dot) added here, the ensemble vote 
+winner (i.e., BGC unit with the most "votes", is CWFdm_OR).
 
 </figcaption>
 
@@ -281,9 +279,7 @@ that has the most votes in the 2061-2080 time period.
 <figcaption style="font-size: 0.8em; color: gray;">
 
 Figure 4: BGC projections - ZONE_Ensemble, which displays the
-*biogeoclimatic zone* with the highest number of votes across the
-**small** ensemble of simulations (i.e., the ACCESS-ESM1-5, EC-Earth3,
-GISS-E2-1-G, MIROC6, and MPI-ESM1-2-HR). At the point of interest (black
+*biogeoclimatic zone* with the highest number of votes across simulations. At the point of interest (black
 dot) added here, it is the CWF zone.
 
 </figcaption>
