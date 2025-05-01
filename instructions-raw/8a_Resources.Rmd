@@ -10,20 +10,49 @@ editor_options:
     wrap: 72
 ---
 
-### Resources: 
+### Resources:
 
-#### CCISS Technical Reports: 
-- <a href="https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640" target="_blank">Ratings of Tree Species Environmental Suitability</a>
-- <a href="https://catalogue.data.gov.bc.ca/dataset/biogeoclimatic-projections" target="_blank">Biogeoclimatic Projections</a>
-- Expert Review
+#### CCISS Technical Reports:
 
-#### CCISS Peer-reviewed Articles: 
-- MacKenzie, W.H. and C.R. Mahony. 2021.
-<a href="./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf" target="_blank">An ecological approach to
-climate change-informed tree species selection for
-reforestation </a>.
-Forest Ecology and Management 481:118705
+-   Collins, C. G., MacKenzie, W. H., Comeau, V. M., and Daust, K. 2025.
+    <a href="https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640" target="_blank">Ratings
+    of Tree Species Environmental Suitability</a>. Version 1.0.
+-   C. Mahony, Obrist, D., MacKenzie, W., and Daust, K. 2025.
+    <a href="https://catalogue.data.gov.bc.ca/dataset/biogeoclimatic-projections" target="_blank">Biogeoclimatic
+    Projections for British Columbia</a>. Version 1.0.
+-   Comeau, V. M., and Collins, C. G. 2025. Climate Change Informed
+    Species Selection (CCISS) Expert Review.
 
-#### Other: 
-- <a href="https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx" target="_blank">Chief Forester's Reference Guide for Stocking
-Standards</a>
+#### CCISS Peer-reviewed Articles:
+
+-   MacKenzie, W.H. and C.R. Mahony. 2021.
+    <a href="./downloadable_docs/MacKenzieMahony2021_CCISS_FEM.pdf" target="_blank">An
+    ecological approach to climate change-informed tree species
+    selection for reforestation</a>. Forest Ecology and Management
+    481:118705
+
+#### **Data:**
+
+-   All data in this tool is available under the Open Government
+    Licence - British Columbia (OGL-BC):
+    <https://www2.gov.bc.ca/gov/content/data/policy-standards/data-policies/open-data/open-government-licence-bc>
+
+-   Metadata and related resources for the Biogeoclimatic Projections
+    can be found on the BC Data Catalogue
+
+    -   <a href="https://catalogue.data.gov.bc.ca/dataset/biogeoclimatic-projections" target="_blank">Biogeoclimatic
+        Projections</a>
+
+-   CCISS input tables and associated metadata can be accessed and
+    downloaded from the BC Data Catalogue
+
+    -   <a href="https://catalogue.data.gov.bc.ca/dataset/1810fdca-8762-4d6a-8886-4e8cefbdb640" target="_blank">CCISS
+        Environmental Suitability Ratings</a>
+
+    -   `<a href="`{=html}<https://catalogue.data.gov.bc.ca/dataset/cciss-western-north-america-bec-tables>"` target="_blank">`{=html}CCISS
+        Western North America BEC Tables</a>
+
+#### Other:
+
+-   <a href="https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/silviculture/stocking-standards/reference-guide/reference_guide_stocking_standards_20210907.xlsx" target="_blank">Chief
+    Forester's Reference Guide for Stocking Standards</a>
