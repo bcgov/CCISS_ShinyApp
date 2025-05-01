@@ -18,4 +18,4 @@ This section is focused on aspects of the CCISS analysis related to trade-offs a
 #### Issues requiring fixing
 
 - The CCISS tool should only take about 10 seconds to load at startup. However, it has recently been taking up to 50 seconds. We are investigating this issue. 
-- There currently are no site series names for most of the coastal subzone/variants. This is associated with updating to the new coastal BEC version (BEC13). As a result, the **Silvics** tab does not return results for coastal units. We will resolve this asap. 
+- The CCISS tool is currently missing CFRG species suitability ratings ("Suitability" tab) and silvics information ("Silvics" tab) for coastal subzone/variants, this is associated with updating to the new coastal BEC version (BEC13). We will update this information using a crosswalk table from BEC v12 coastal site series (LMH 26 & 28) to BEC v13 (LHM77) asap. 
