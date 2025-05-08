@@ -91,11 +91,12 @@ disease.</p>
 <div id="why-does-the-cciss-model-promote-or-demote-certain-species" class="section level4">
 <h4>Why does the CCISS model promote or demote certain species?</h4>
 <p>The species projected suitability ratings are based on environmental
-suitability assigned to a BGC subzone-variant. The CCISS model selects
-BGCs that match the future climate projections for the point(s) or BGC
-of interest. Future species suitability projections are then pulled from
-the BGCs projected for that point or area. Go to the “BEC futures” tab
-to see the breakdown of which BGCs are projected.</p>
+suitability assigned to site series within each BGC subzone-variant. The
+CCISS model selects BGCs that match the future climate projections for
+the point(s) or BGC of interest. Future species suitability projections
+are then pulled from the BGCs projected for that point or area. Go to
+the “BEC futures” tab to see the breakdown of which BGCs are
+projected.</p>
 </div>
 <div id="what-are-the-climate-drivers-of-species-suitability-trends" class="section level4">
 <h4>What are the climate drivers of species suitability trends?</h4>
@@ -118,23 +119,36 @@ because it is much more convenient in computer code.</p>
 <h4>What is the uncertainty around the current suitability ratings for
 the modeled US BEC units?</h4>
 <p>There is no equivalent, published biogeoclimatic ecosystem
-classification and mapping for the United States. We used a draft
-classification of biogeoclimatic units for Washington, Idaho, Montana,
-Oregon, northern California, and northwestern Wyoming to provide
-potential future climate analogues for British Columbia (MacKenzie &amp;
-Mahony 2021). Site series classification was developed and species
-suitability ratings were assigned by an expert ecologist based on veg
-plot data.</p>
+classification and mapping for forest ecosystems of the United States.
+In the CCISS tool, we use a draft classification of biogeoclimatic units
+for Washington, Idaho, Montana, Oregon, northern California, and
+northwestern Wyoming to provide potential future climate analogues for
+British Columbia (details in MacKenzie &amp; Meidinger 2024 - <a href="https://catalogue.data.gov.bc.ca/dataset/cciss-western-north-america-bec-tables">BC
+Data Catalogue</a>). Site series classifications were developed, and
+species suitability ratings were assigned by an expert ecologist based
+on available plot data from the US and site visits.</p>
 <p>There is a higher level of uncertainty associated with the US
-biogeoclimatic classification. The draft site series classification for
-US BGC units is generic and broader (i.e. larger edatopic range) than
-BC, consequently there is less specificity on tree species suitability.
-Additionally, biogeoclimatic units are at the subzone level, and in some
-cases are climatically more diverse than BC units which are at the
-subzone-variant level. However, the inclusion of these draft US BGC
-units results in much reduced uncertainty compared to their absence. The
+biogeoclimatic classification as the draft site series classification
+for US BGC units is more generic and broader (i.e. larger edatopic
+range) than BC, consequently there is less specificity on tree species
+suitability. Additionally, biogeoclimatic units are at the subzone
+level, and in some cases are climatically more diverse than BC units
+which are at the subzone-variant level. Finally, the species ratings
+have received less expert review and quantitative validation than those
+in BC, although they are expert derived and site visits have
+occurred.</p>
+<p>Despite these limitations, the inclusion of these draft US BGC units
+and associated environmental suitability ratings result in much reduced
+uncertainty in CCISS projections compared to their absence, as the
 analogs for future climate in much of southern BC are located across the
-border in the US.</p>
+border in the US. .</p>
+</div>
+<div id="why-doesnt-the-us-bec-match-up-with-bc-bec-across-the-border" class="section level4">
+<h4>Why doesn’t the US BEC match up with BC BEC across the border?</h4>
+<p>We are currently integrating the updated BEC classification and
+mapping for BEC13 (coast region – LMH77). With BEC13, we are also
+updating mapping of US BEC and are working to align biogeoclimatic
+mapping across the US – Canada border.</p>
 </div>
 <div id="what-is-the-difference-between-a-projection-and-a-prediction" class="section level4">
 <h4>What is the difference between a projection and a prediction?</h4>
@@ -147,7 +161,7 @@ future states of a variable of interest. A forecast is not a “crystal
 ball” of what will happen, but a quantification of uncertainty in what
 could happen. Providing forecasts of environmental suitability for tree
 species is the ultimate goal of CCISS. CCISS forecasts are a synthesis
-of many projections of tree species suitability that have been carefully
+of many estimates of tree species suitability that have been carefully
 selected to provide a meaningful representation of uncertainty.</p></li>
 <li><p><strong>Projection</strong>—A projection is an estimate of the
 change over time in a variable of interest given a specific set of
@@ -166,13 +180,6 @@ or hypothetical conditions. Each biogeoclimatic projection for one
 20-year time period is a model prediction.</p></li>
 </ul>
 </div>
-<div id="why-doesnt-the-us-bec-match-up-with-bc-bec-across-the-border" class="section level4">
-<h4>Why doesn’t the US BEC match up with BC BEC across the border?</h4>
-<p>We are currently integrating updated BEC classification and mapping
-for BEC13 (coast region – LMH77). With new BEC, we are also updating
-mapping of US BEC and are working to align biogeoclimatic mapping across
-the US – Canada border.</p>
-</div>
 <div id="in-the-cciss-spatial-popup-charts-why-do-the-proportions-of-suitabilities-not-match-the-proportions-of-bgc-analogs" class="section level4">
 <h4>In the CCISS spatial popup charts, why do the proportions of
 suitabilities not match the proportions of BGC analogs?</h4>
@@ -182,6 +189,81 @@ site series overlap on the edatopic grid or share an edatope. In these
 cases, there will be two suitabilities for each BGC analog. As a result,
 the BGC and suitability proportions are not necessarily the same. See
 Documentation &gt; Methods &gt; Edatopic Overlap.</p>
+</div>
+<div id="in-the-cciss-spatial-popup-charts-why-do-the-proportions-of-suitabilities-not-match-the-proportions-of-bgc-analogs-1" class="section level4">
+<h4>In the CCISS spatial popup charts, why do the proportions of
+suitabilities not match the proportions of BGC analogs?</h4>
+<p>If there was always only one site series for each edatope, then the
+proportions in the BGC and suitability plots would match. However, some
+site series overlap on the edatopic grid or share an edatope. In these
+cases, there will be two suitabilities for each BGC analog. As a result,
+the BGC and suitability proportions are not necessarily the same. See
+Documentation &gt; Methods &gt; Edatopic Overlap.</p>
+</div>
+<div id="what-does-decrease-of-1-in-environmental-suitability-mean-in-practical-terms-how-we-should-i-interpret-this-in-situations-like-ops-planning" class="section level4">
+<h4>What does “decrease of 1” in environmental suitability mean in
+practical terms? How we should I interpret this in situations like ops
+planning?</h4>
+<p>A decrease of 1 means that suitability is expected to decline. For
+operational purposes, the actual change in rating is important. For
+example where a species is historically rated an E1 and drops to an E2 -
+this represents a species that was well within its environmental
+tolerance (high environmental suitability), which is projected to become
+moderately suitable - i.e. is outside of its core environmental
+tolerance range, may be more susceptible to climatic extremes and may
+have lower growth and survival, but is still suitable and could remain a
+good choice for planting depending on the specific values/goals for that
+stand. That would be quite different from a species that was an E3 - low
+environmental suitability - dropping to “unsuitable”, this would
+represent a species that was at the edge of its environmental
+suitability, will likely become unsuitable in the future, and would not
+be a good choice for planting.</p>
+<p>It is important to emphasize that CCISS is a “tool” and should be
+used alongside local knowledge and within the context of desired
+values/goals to make reforestation decisions. So a decrease of 1, while
+at a broad scale means suitability is declining, could lead to different
+management decisions in practice.</p>
+</div>
+<div id="are-the-tree-species-environmental-suitability-ratings-consistent-across-all-species" class="section level4">
+<h4>Are the tree species environmental suitability ratings consistent
+across all species?</h4>
+<p>Ratings are applied consistently across species (See “Methods” –
+“Suitability Ratings”). While they are not perfect, they are expert
+derived and have gone through an expert review process to achieve a
+strong scientific foundation (See “Methods” – “Expert Review”).
+Quantitative validation of the environmental suitability ratings is
+currently underway (See “Resources”- “CCISS Technical Reports” - “<a href="https://catalogue.data.gov.bc.ca/dataset/cciss-environmental-suitability-ratings-">Ratings
+of Tree Species Environmental Suitability</a>”). Note that environmental
+suitability does not include forest health factors so those may vary
+from species to species even where the suitability rating is
+equivalent.</p>
+</div>
+<div id="do-the-environmental-suitability-ratings-represent-a-linear-scale" class="section level4">
+<h4>Do the environmental suitability ratings represent a linear
+scale?</h4>
+<p>Species environmental suitability is not rated on a strictly linear
+scale. See “Methods” – “Suitability Ratings” for the ratings
+definitions. Furthermore, increases or decreases in environmental
+suitability ratings do not necessarily scale linearly with changes in
+relative abundance for a species, but these metrics are generally
+positively correlated. Depending on the application it can be useful to
+look at trends in suitability change. For example, in CCISS Spatial we
+use the relative change in species suitability to demonstrate broad
+scale trends in a species across the province. See the CCISS Spatial tab
+on CCISS and choose “Suitability” - “Future (GCMs)” - “Suitability
+Change”.</p>
+<p>In a case study on Douglas-fir, species environmental suitability
+ratings showed a positive relationship with relative abundance of the
+species in the BEC plot dataset. In other words, site series with higher
+environmental suitability ratings also had higher relative % cover of
+Douglas-fir. However, the strength of this positive relationship varied
+by biogeoclimatic zones, with higher agreement in zones where
+Doughlas-fir is a dominant species at the regional scale, (e.g. Interior
+Douglas-fir (IDF), Coastal Douglas-fir (CDF) zones) and less agreement
+in zones with more mixed species composition (e.g. Interior Coastal
+Hemlock (ICH), and Sub Boreal Spruce (SBS) zones). For more details see
+“Documents”- “CCISS Technical Reports” - “<a href="https://catalogue.data.gov.bc.ca/dataset/cciss-environmental-suitability-ratings-">Ratings
+of Tree Species Environmental Suitability</a>”).</p>
 </div>
 </div>
 
