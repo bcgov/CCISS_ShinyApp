@@ -12,10 +12,39 @@ editor_options:
 
 ### Known issues with the CCISS tool
 
-This section is focused on aspects of the CCISS analysis related to trade-offs and intrinsic sources of error. We also list bugs or minor enhancements that have not yet been resolved. If you have an problem or suggestion to report, you can enter it as a "New issue" in our <a href="https://github.com/bcgov/CCISS_ShinyApp/issues" target="_blank">GitHub repo </a>. 
-
+This section is focused on aspects of the CCISS analysis related to
+trade-offs and intrinsic sources of error. We also list bugs or minor
+enhancements that have not yet been resolved. If you have an problem or
+suggestion to report, you can enter it as a "New issue" in our
+<a href="https://github.com/bcgov/CCISS_ShinyApp/issues" target="_blank">GitHub
+repo </a>.
 
 #### Issues requiring fixing
 
-- The CCISS tool should only take about 10 seconds to load at startup. However, it has recently been taking up to 50 seconds. We are investigating this issue. 
-- The CCISS tool is currently missing CFRG species suitability ratings ("Suitability" tab) and silvics information ("Silvics" tab) for coastal subzone/variants, this is associated with updating to the new coastal BEC version (BEC13). We will update this information using a crosswalk table from BEC v12 coastal site series (LMH 26 & 28) to BEC v13 (LHM77) asap. 
+-   The CCISS tool should only take about 10 seconds to load at startup.
+    However, it has recently been taking up to 50 seconds. We are
+    investigating this issue.
+
+-   The CCISS tool is currently missing CFRG species suitability ratings
+    ("Suitability" tab) and silvics information ("Silvics" tab) for
+    coastal subzone/variants, this is associated with updating to the
+    new coastal BEC version (BEC13). We will update this information
+    using a crosswalk table from BEC v12 coastal site series (LMH 26 and
+    28) to BEC v13 (LHM77) asap.
+
+-   OHR (Outside Home Range) species suitability ratings for white pine
+    (Pw) have been added in the Skeena Region. However, the CCISS tool
+    does not include the full extent of white pine suitability outside
+    of home range. Additional modeling and expert knowledge is needed to
+    complete the distribution of white pine OHR suitability. This work
+    is ongoing and will be documented and integrated into the CCISS
+    tool. See "Methods" - "Outside Home Range" for more information.
+
+-   There are known issues related to the classification and mapping of
+    northern BGC units. This includes unclassified units, labeled "un",
+    for example SWBun or ESSFun. Additionally, some current BGC units
+    may need to be split in the future. For example, the SBSwk1 has been
+    mapped differently in the Omineca vs. Cariboo Regions. Douglas-fir
+    is very rare in the Cariboo SBSwk1 but more common in the Omineca.
+    SBSwk1 mapping will likely need substantial revisions in the
+    Omineca.
