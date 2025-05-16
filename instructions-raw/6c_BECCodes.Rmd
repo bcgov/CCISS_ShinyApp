@@ -10,58 +10,118 @@ editor_options:
     wrap: 72
 ---
 
-## Biogeoclimatic Ecosystem Classification (BEC) Codes: 
+## Biogeoclimatic Ecosystem Classification (BEC) Codes:
 
-Full lists of biogeoclimatic units and site series available <a href="https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-becdb.html#intro" target="_blank">here</a>. 
+Full lists of biogeoclimatic units and site series available
+<a href="https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-becdb.html#intro" target="_blank">here</a>.
 
-Each biogeoclimatic unit (subzone/variant) is named with a combination of a biogeoclimatic zone (Table 1), a subzone code for precipitation and temperature (Table 2). Sometimes, a modifier for continentality (Table 2) and variant are also necessary. Variants are numeric designations that refer to adjacent biogeoclimatic subzones at different locations in the province. Numbers are assigned in a south-to-north fashion. For example, consider the ICHmc1 unit. The ICH indicates that the unit is in the Interior Cedar - Hemlock biogeoclimatic zone (Table 1). The *m* indicates that the precipitation is *moist*, and the *c* indicates that the temperature is *cold*. Several discrete areas (i.e., variants) in the province fall into the ICHmc biogeoclimatic subzone, so the 1 represents the Nass regional variant of ICHmc.       
+Each biogeoclimatic unit (subzone/variant) is named with a combination
+of a biogeoclimatic zone (Tables 1 & 2), a subzone code for
+precipitation and temperature (Table 3). Sometimes, a modifier for
+continentality (Table 3) and variant are also necessary. Variants are
+numeric designations that refer to adjacent biogeoclimatic subzones at
+different locations in the province. Numbers are assigned in a
+south-to-north fashion. For example, consider the ICHmc1 unit. The ICH
+indicates that the unit is in the Interior Cedar - Hemlock
+biogeoclimatic zone (Table 1). The *m* indicates that the precipitation
+is *moist*, and the *c* indicates that the temperature is *cold*.
+Several discrete areas (i.e., variants) in the province fall into the
+ICHmc biogeoclimatic subzone, so the 1 represents the Nass regional
+variant of ICHmc. For subzone/variants in the USA a state code has been
+added following an underscore (Table 4), e.g. CWHdm_OR.
 
-&nbsp;
-&nbsp;
+   
 
-Table 1. Codes of BEC 13 biogeoclimatic zones:
+Table 1. Codes of BEC 13 biogeoclimatic zones with BC:
 
-|                                     |          |
-|-------------------------------------|----------|
-| **Name**                            | **Code** | 
-| *Alpine Tundra*                     | AT       |
-| *Boreal White and Black Spruce*     | BWBS     |
-| *Bunchgrass*                        | BG       |
-| *Coastal Douglas-fir*               | CDF      |
-| *Coastal Western Hemlock*           | CWH      |
-| *Engelmann Spruce - Subalpine Fir*  | ESSF     |
-| *Interior Cedar - Hemlock*          | ICH      |
-| *Interior Douglas-fir*              | IDF      |
-| *Montane Spruce*                    | MS       |
-| *Mountain Hemlock*                  | MH       |
-| *Ponderosa Pine*                    | PP       |
-| *Spruce - Willow - Birch*           | SWB      |
-| *Sub-Boreal Pine - Spruce*          | SBPS     |
-| *Sub-Boreal Spruce*                 | SBS      |
+|                                    |           |
+|------------------------------------|-----------|
+| **Name**                           | **Code**  |
+| *Boreal Altai Fescue Alpine*       | BAFA      |
+| *Bunchgrass*                       | BG        |
+| *Boreal White and Black Spruce*    | BWBS      |
+| *Coastal Douglas-fir*              | CDF       |
+| *Coastal Mountain-heather Alpine*  | CMA       |
+| *Coastal Western Hemlock*          | CWH       |
+| *Engelmann Spruce - Subalpine Fir* | ESSF      |
+| *Interior Cedar - Hemlock*         | ICH       |
+| *Interior Douglas-fir*             | IDF       |
+| *Interior Mountain-heather Alpine* | IMA       |
+| *Mountain Hemlock*                 | MH        |
+| *Montane Spruce*                   | MS        |
+| *Ponderosa Pine*                   | PP        |
+| *Sub-Boreal Pine - Spruce*         | SBPS      |
+| *Sub-Boreal Spruce*                | SBS       |
+| *Spruce - Willow - Birch*          | SWB       |
 
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
+   
 
-Table 2. Subzone names and codes for relative precipitation, relative temperature, and continentality.
+Table 2. Codes of BEC 13 biogeoclimatic external to BC:
 
-|                                     |          |
-|-------------------------------------|----------|
-| **Name**                            | **Code** | 
-| Very dry                            | x        |
-| Dry                                 | d        |
-| Moist                               | m        |
-| Wet                                 | w        |
-| Very wet                            | v        |
-| &nbsp;                              |          |
-| Hot                                 | h        |
-| Warm                                | w        |
-| Mild                                | m        |
-| Cool                                | k        |
-| Cold                                | c        |
-| Very cold                           | v        |
-| &nbsp;                              |          |
-| Hypermaritime                       | h        |
-| Maritime                            | m        |
-| Submaritime                         | s        |
+|                                           |           |
+|-------------------------------------------|-----------|
+| **Name**                                  | **Code**  |
+| *Boreal Spruce and Jack Pine*             | BSJP      |
+| *California Chaparrel*                    | CCH       |
+| *Coastal Mixed Evergreen*                 | CMX       |
+| *Coastal Redwood Forest*                  | CRG       |
+| *California Valley Grassland*             | CVG       |
+| *Coastal White Fir*                       | CWF       |
+| *Fescue Grassland*                        | FG        |
+| *Great Basin Desert*                      | GBD       |
+| *Gambel Oak*                              | GO        |
+| *Interior Grand Fir*                      | IGF       |
+| *Interior White Fir*                      | IWF       |
+| *Juniper – Pine Woodland*                 | JPW       |
+| *Madrean Chaparral*                       | MDCH      |
+| *Mixed-grass Prairie*                     | MGP       |
+| *Mountain Hemlock Cedar – Shasta Red Fir* | MHRF      |
+| *Montane Mountain Mahogony*               | MMM       |
+| *Mojave – Sonoran Semi-Desert*            | MSSD      |
+| *Oak Woodland*                            | OW        |
+| *Sub-arctic Spruce*                       | SAS       |
+| *Sub-boreal Aspen Parkland*               | SBAP      |
+| *Shortgrass Prairie*                      | SGP       |
+| *Western Juniper – Pine*                  | WJP       |
+
+   
+
+Table 3. Subzone names and codes for relative precipitation, relative
+temperature, and continentality.
+
+|               |           |
+|---------------|-----------|
+| **Name**      | **Code**  |
+| Very dry      | x         |
+| Dry           | d         |
+| Moist         | m         |
+| Wet           | w         |
+| Very wet      | v         |
+|               |           |
+| Hot           | h         |
+| Warm          | w         |
+| Mild          | m         |
+| Cool          | k         |
+| Cold          | c         |
+| Very cold     | v         |
+|               |           |
+| Hypermaritime | h         |
+| Maritime      | m         |
+| Submaritime   | s         |
+
+   
+
+Table 4. State codes for subzones in the USA (e.g. CDFmm_OR).
+
+|            |           |
+|------------|-----------|
+| **State**  | **Code**  |
+| California | CA        |
+| Colorado   | CO        |
+| Idaho      | ID        |
+| Montana    | MT        |
+| Nevada     | NV        |
+| Oregon     | OR        |
+| Utah       | UT        |
+| Washington | WA        |
+| Wyoming    | WY        |
