@@ -10,28 +10,33 @@ editor_options:
     wrap: 72
 ---
 
-## Species codes: 
+## Species codes:
 
-Full list of tree species codes is available <a href="https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-species.html" target="_blank">here</a>. 
+Full list of tree species codes is available
+<a href="https://www.for.gov.bc.ca/hre/becweb/resources/codes-standards/standards-species.html" target="_blank">here</a>.
 
-Table 1. Codes of common tree species mentioned in the CCISS documentation 
+Table 1. Codes of common tree species mentioned in the CCISS
+documentation and CCISS Spatial. 
 
-|                        |                              |          |
-|------------------------|------------------------------|----------|
-| **Common Name**        | **Latin Name**               | **Code** | 
-| Amabilis fir           | *Abies amabilis*             | Ba       |
-| Black cottonwood       | *Populus trichocarpa*        | Ac       |
-| Common paper birch     | *Betula papyrifera*          | Ep       |
-| Douglas-fir            | *Pseudotsuga menziesii*      | Fd       |
-| Grand fir              | *Abies grandis*              | Bg       |
-| Interior spruce        | *Picea glauca × engelmannii* | Sx       |
-| Limber pine            | *Pinus flexilis*             | Pf       |
-| Lodgepole pine         | *Pinus contorta*             | Pl       |
-| Ponderosa pine         | *Pinus ponderosa*            | Py       |
-| Rocky Mountain juniper | *Juniperus scopulorum*       | Jr       |
-| Subalpine fir          | *Abies lasiocarpa*           | Bl       |
-| Trembling aspen        | *Populus tremuloides*        | At       |
-| Western hemlock        | *Tsuga heterophylla*         | Hw       |
-| Western larch          | *Larix occidentalis*         | Lw       |
-| Western redcedar       | *Thuja plicata*              | Cw       |
-| Western white pine     | *Pinus monticola*            | Pw       |
+|                        |                              |           |
+|------------------------|------------------------------|-----------|
+| **Common Name**        | **Latin Name**               | **Code**  |
+| Amabilis fir           | *Abies amabilis*             | Ba        |
+| Black cottonwood       | *Populus trichocarpa*        | Ac        |
+| Black spruce           | *Picea mariana*              | Sb        |
+| Common paper birch     | *Betula papyrifera*          | Ep        |
+| Douglas-fir            | *Pseudotsuga menziesii*      | Fd        |
+| Grand fir              | *Abies grandis*              | Bg        |
+| Interior spruce        | *Picea glauca × engelmannii* | Sx        |
+| Limber pine            | *Pinus flexilis*             | Pf        |
+| Lodgepole pine         | *Pinus contorta*             | Pl        |
+| Ponderosa pine         | *Pinus ponderosa*            | Py        |
+| Rocky Mountain juniper | *Juniperus scopulorum*       | Jr        |
+| Sitka spruce           | *Picea sitchensis*           | Ss        |
+| Subalpine fir          | *Abies lasiocarpa*           | Bl        |
+| Trembling aspen        | *Populus tremuloides*        | At        |
+| Western hemlock        | *Tsuga heterophylla*         | Hw        |
+| Western larch          | *Larix occidentalis*         | Lw        |
+| Western redcedar       | *Thuja plicata*              | Cw        |
+| Western white pine     | *Pinus monticola*            | Pw        |
+| Yellow-cedar           | *Callitropsis nootkatensis*  | Yc        |
