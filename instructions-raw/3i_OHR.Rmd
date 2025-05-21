@@ -70,6 +70,11 @@ ratings in that BEC subzone-variant.
 of Western white pine in the AOI. E.g plantations in the ICHmc2 of the
 Skeena region.
 
+Note: OHR suitability ratings are incomplete for Pw, resulting in a
+large distance between the historical range of Pw and OHR suitabilities
+currently included in CCISS. A fuller scale review and rating of OHR Pw
+(and other species) is currently in progress.
+
 <img src="Figure_Pw_Historic_Range.png" alt="Figure 1. Range and environmental suitability of western white pine in grey, historical range from the By-BEC tool.  "/>
 <img src="Figure_Pw_OHR.png" alt="Figure 1. Range and environmental suitability of western white pine in grey, historical range OHR ratings from the By-BEC tool.  "/>
 
