@@ -87,12 +87,13 @@ observeEvent(input$acc, {
     clear_mk()
     session$sendCustomMessage("selectBGC","puppy")
     session$sendCustomMessage("typeFlag","select")
+    updateRadioButtons(session, inputId = "preselected", selected = "BGC")
   }
 })
 
 
 observeEvent(input$preselected,{
-  print(input$preselected)
+  #print(input$preselected)
   if(input$acc == "acc2"){
     if(input$preselected == "BGC_Dist"){
       userpoints$dt <- uData$basepoints
@@ -100,6 +101,7 @@ observeEvent(input$preselected,{
       session$sendCustomMessage("selectDist","puppy")
     }else if(input$preselected == "BGC"){
       userpoints$dt <- uData$basepoints
+      output$dist_click_show <- NULL
       clear_mk()
       session$sendCustomMessage("selectBGC","puppy")
       session$sendCustomMessage("typeFlag","select")

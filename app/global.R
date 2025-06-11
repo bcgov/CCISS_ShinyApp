@@ -53,6 +53,7 @@ req_libs <- list(
 )
 
 lapply(req_libs, library, character.only = TRUE)
+
 source("./server/tooltip_verbage.R")
 
 ### CCISS Spatial

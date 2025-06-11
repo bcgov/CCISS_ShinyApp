@@ -6,7 +6,7 @@ district_tilelayer <- "Districts"
 wna_tileserver <- "https://tileserver.thebeczone.ca/data/WNA_MAP/{z}/{x}/{y}.pbf"
 wna_tilelayer <- "WNA_MAP"
 
-subzones_colours_ref <- fread("WNA_SZ_Cols_v13_6.csv")
+#subzones_colours_ref <- fread("WNA_SZ_Cols_v13_6.csv")
 
 plugins <- {
   list(vgplugin =

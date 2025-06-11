@@ -427,9 +427,9 @@ observe({
   }
 })
 
-observeEvent(input$dist_flag,{
-  print(input$dist_flag)
-})
+# observeEvent(input$dist_flag,{
+#   print(input$dist_flag)
+# })
 
 
 observeEvent(input$dist_click,{
@@ -446,7 +446,7 @@ observeEvent(input$reset_district,{
 output$summary_plot <- renderGirafe({
   if(is.null(input$dist_click)) return(NULL)
   stdarea <- input$dist_click
-  #print(input$dist_click)
+  print(input$dist_click)
   if(input$period_type %in% c("Historic","obs")){
     gcm_curr <- "ensembleMean"
     run_curr <- "ensembleMean"
@@ -508,6 +508,15 @@ observeEvent(input$action_download, {
   }
 })
 
+observeEvent(input$download_full, {
+    showModal(modalDialog(
+      title = "Download Provincial Raster",
+      downloadButton("download_cciss_full","Download Tif"),
+      uiOutput("download_legend",inline = F)
+    ))
+})
+
+
 output$download_legend <- renderUI(
   if(input$type == "BGC"){
     a(href="downloadable_docs/BGC_Legend.csv", "Download Legend", download=NA, target="_blank")
@@ -560,7 +569,7 @@ output$download_cciss <- downloadHandler(
   }
 )
 
-output$download_full <- downloadHandler(
+output$download_cciss_full <- downloadHandler(
   filename = function(){
     if(input$novelty){
       paste0("Novelty_",input$gcm_select,"_",input$period_select,".tif")

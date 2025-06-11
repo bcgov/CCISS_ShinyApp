@@ -25,10 +25,10 @@ addBGCTiles <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColorsBGC = {", paste0("'", subzones_colours_ref$classification, "':'", 
-                                                subzones_colours_ref$colour,"'", collapse = ","), "};"),
-                                           paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$colour, "':'", 
-                                                                                  subzones_colours_ref$classification,"'", collapse = ","), "};"),
+      ', paste0("var subzoneColorsBGC = {", paste0("'", ccissr::subzones_colours_ref$classification, "':'", 
+                                                   ccissr::subzones_colours_ref$colour,"'", collapse = ","), "};"),
+                                           paste0("var subzoneColors = {", paste0("'", ccissr::subzones_colours_ref$colour, "':'", 
+                                                                                  ccissr::subzones_colours_ref$classification,"'", collapse = ","), "};"),
                                            paste0("var zoneColors = {", paste0("'", zone_colours$colour, "':'", 
                                                                                zone_colours$classification,"'", collapse = ","), "};"),
                                                 '
@@ -107,7 +107,7 @@ addBGCTiles <- function(map) {
      
      subzLayer.on("mousemove",function(e){
         var a = colorpicker.getColor(e.latlng);
-        //console.log(a);
+        //console.log("In mousemove");
         var content = "Current: " + e.layer.properties.BGC;
         if (a !== null & a[3] > 0) {
           var bgcCol = findNearestColor(prepRgb(a), baseCols);
@@ -119,7 +119,8 @@ addBGCTiles <- function(map) {
             var bgc = zoneColors[bgcCol[0]];
             var mapped = e.layer.properties.BGC.match(/[A-Z]+/g).join("")
           }
-          if (bgcCol[1] < 5) {
+          if (bgcCol[1] < 3) {
+          console.log("infobox update")
           infoBox.update(`
                   <b>Layer Info</b><br>
                   <b>Mapped BGC:</b> ${mapped}<br>
@@ -244,7 +245,7 @@ addBGCTiles <- function(map) {
         }
     `;
     document.head.appendChild(style);
-
+    infoBox.addTo(map);
     
     Shiny.addCustomMessageHandler("unclear_tiles", function(dat){
       if(colorpicker !== null){
@@ -359,7 +360,6 @@ addBGCTiles <- function(map) {
     var popup = L.popup({ closeButton: false, autoClose: false });
 
     map.on("mousemove", function(event) {
-      infoBox.addTo(map);
       if(!map.hasLayer(subzLayer)){
         if(type !== "CCISS" & !distFlag){
         var a = colorpicker.getColor(event.latlng);
@@ -372,7 +372,7 @@ addBGCTiles <- function(map) {
             var bgc = zoneColors[bgcCol[0]];
           }
           
-          if(bgcCol[1] < 4.5){
+          if(bgcCol[1] < 3){
             infoBox.update(`
                 <b>Layer Info</b><br>
                 <b>Predicted BGC:</b> ${bgc}
@@ -385,8 +385,7 @@ addBGCTiles <- function(map) {
           }
           
         } else {
-          infoBox.update(`""
-            `)
+          infoBox.update("")
         }
       }
       }
@@ -477,21 +476,25 @@ addDistricts <- function(map) {
       Shiny.addCustomMessageHandler("clear_district",function(x){
         map.removeLayer(distLayer);
         distFlag = false;
+        Shiny.setInputValue("dist_flag",distFlag);
       });
 
       Shiny.addCustomMessageHandler("selectDist",function(x){
         distLayer.bringToFront();
         distFlag = true;
+        Shiny.setInputValue("dist_flag",distFlag);
       });
       
       Shiny.addCustomMessageHandler("clearTooltips",function(x){
         distLayer.unbindTooltip();
         distFlag = false;
+        Shiny.setInputValue("dist_flag",distFlag);
       });
       
       Shiny.addCustomMessageHandler("reset_district",function(x){
         distLayer.resetFeatureStyle(distHL);
         distFlag = true;
+        Shiny.setInputValue("dist_flag",distFlag);
         distLayer.bindTooltip(function(e) {
           const fieldNames = Object.keys(e.properties);
           return e.properties[fieldNames[0]];
@@ -776,8 +779,11 @@ plot_analog_novelty <- function(clim.target, clim.analog, clim.point = NULL, ana
     a <- predict(pca, clim.analog)
     b <- predict(pca, clim.target)
     b <- sweep(b, 2, apply(a, 2, mean), '-') # shift the target data so that the analog centroid is at zero. this is done at a later stage than the pca in the distance calculation.
+    if(!is.null(clim.point)) { # predict and centre the selected point. need to do this here because we centre the analogs at the end of this code block. 
+      f <- predict(pca, clim.point)
+      f <- sweep(f, 2, apply(a, 2, mean), '-') # shift the target data so that the analog centroid is at zero. this is done at a later stage than the pca in the distance calculation.
+    }
     a <- sweep(a, 2, apply(a, 2, mean), '-') # centre the analog centroid on zero. this is done at a later stage than the pca in the distance calculation.
-    
     b_colors <- ColScheme[cut(q, breakpoints)] # Define colors for points in 'b'
     
     # Create the 3D scatterplot
@@ -808,9 +814,7 @@ plot_analog_novelty <- function(clim.target, clim.analog, clim.point = NULL, ana
     }
     # Add selected point if it exists
     if(!is.null(clim.point)) {
-      f <- predict(pca, clim.point)
-      f <- sweep(f, 2, apply(a, 2, mean), '-') # shift the target data so that the analog centroid is at zero. this is done at a later stage than the pca in the distance calculation.
-      plot <- plot %>%
+        plot <- plot %>%
         add_trace(
           x = f[, plot3d.pcs[1]], y = f[, plot3d.pcs[2]], z = f[, plot3d.pcs[3]],
           type = "scatter3d", mode = "markers",

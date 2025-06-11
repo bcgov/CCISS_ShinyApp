@@ -58,8 +58,8 @@ library(shinyjs)
 bc_bbox <- c(60.0047792237624,48.22483456757,-114.054148536906,-139.061305880891)
 
 model_ids <- data.table(model = c("Novelty_ACCESS-ESM1-5.csv", "Novelty_EC-Earth3.csv", 
-           "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
-           "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
+                                  "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
+                                  "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
 
 temp <- c("Pl","Sx","Fd","Cw","Hw","Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
 cw_spp <- data.table(Spp = temp, spp_id = seq_along(temp))
@@ -75,7 +75,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
   dat <- dbGetQuery(dbCon, paste0("select fp_code, newsuit, prop1, prop2, prop3 from cciss_feas where cellid = ",
                                   cellid," and edatope = ",eda," and spp_id = ",spp_id)) |> as.data.table()
   dat_h <- dbGetQuery(dbCon, paste0("select suit from cciss_historic where cellid = ",
-                      cellid," and edatope = ",eda," and spp_id = ",spp_id))[,1]
+                                    cellid," and edatope = ",eda," and spp_id = ",spp_id))[,1]
   
   if(length(dat_h) == 0){
     res <- "X"
@@ -108,7 +108,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
     ylab("Percent of Votes") +
     theme_bw() +
     scale_x_continuous(breaks=seq(1961,2070,by = 20),labels = c("1961-1990","2001-2020 (obs)","2001-2020","2021-2040","2041-2060","2061-2080"))
-
+  
   x <- girafe(ggobj = fplt)
   x <- girafe_options(x,
                       opts_tooltip(zindex = 1000000000) )
@@ -173,6 +173,14 @@ zone_scheme <- c(PP = "#ea7200", MH = "#6f2997", SBS = "#2f7bd2", ESSF = "#ae38b
 
 sz_scheme <- subzones_colours_ref$colour
 names(sz_scheme) <- subzones_colours_ref$classification
+
+# studyarea = "DSI"
+# xvariable = "MAT"
+# gcm_nm = "ensembleMean"
+# run_nm = "ensembleMean"
+# unit = "Zone"
+# focal_bgc = "CRF"
+# plot_obs = TRUE
 
 plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone","Subzone"), focal_bgc = NULL, plot_obs = TRUE){
   
@@ -251,7 +259,7 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
   
   if(!is.null(focal_bgc)){
     temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = bgc_area_f[gcm == "obs",freq], xvar = bgc_area_f[gcm == "obs",xvar])
-    temp[is.na(xvar), xvar := 1971]
+    temp[is.na(xvar), xvar := if(xvariable == "Time") 1971 else 0]
     bgc_area_f <- rbind(temp, bgc_area_f)[gcm != "obs",]
     temp_wide <- dcast(bgc_area_f, xvar ~ gcm, value.var = "freq")
     temp_wide[is.na(temp_wide)] <- 0
@@ -268,6 +276,7 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
       geom_line_interactive(data = dat_spline[bgc_pred != focal_bgc,], aes(x = xval, y = area, group = bgc_pred, data_id = bgc_pred, tooltip = bgc_pred), color = "grey") +
       {if(plot_obs) geom_point(data = dat_obs[xvar == max(xvar),], aes(x = xvar, y = area, group = bgc_pred), color = "grey")} +
       {if(plot_obs) geom_line(data = dat_obs, aes(x = xvar, y = area, group = bgc_pred), linetype = "dashed", color = "grey")} + 
+      #{if(xvariable != "Time") geom_point(data = dat_time, aes(x = xvar, y = area, group = bgc_pred), color = "grey", size = 4)} + 
       geom_line(data = dat_spline[bgc_pred == focal_bgc,], aes(x = xval, y = area), color = "black", linewidth = 1.5) +
       geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = bgc_pred)) +
       geom_line_interactive(data = dat_ens_f, aes(x = xval, y = area, col = gcm, data_id = gcm, tooltip = gcm), linewidth = 1.2) +

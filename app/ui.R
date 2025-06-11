@@ -218,7 +218,8 @@ $(document).ready(function(){
       # Inputs
       sidebarPanel(
         width = 2,
-        sidebarhelplink("cciss_instructions_feasibility_report"),
+        a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#suitability-report", target = "_blank"), 
+        #sidebarhelplink("cciss_instructions_feasibility_report"),
         h5("Report Type"),
         switchInput("feas_type", value = TRUE, onLabel = "Detailed", offLabel = "Summary", width = '200%'),
         switchInput("ohr_feas", value = TRUE, onLabel = "Use OHR", 
@@ -266,7 +267,8 @@ $(document).ready(function(){
                # Inputs
                sidebarPanel(
                  width = 2,
-                 sidebarhelplink("cciss_instructions_bec_futures"),
+                 a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#bec-futures", target = "_blank"),
+                 #sidebarhelplink("cciss_instructions_bec_futures"),
                  h6("Filter"),
                  selectInput("siteref_bgc_fut", label = "Sites:", choices = character()),
                  selectInput("ss_bgc_fut", label = "Site Series:", choices = character()),
@@ -297,7 +299,8 @@ $(document).ready(function(){
                # Inputs
                sidebarPanel(
                  width = 2,
-                 sidebarhelplink("cciss_instructions_bec_futures_spatial"),
+                 a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#map", target = "_blank"),
+                 #sidebarhelplink("cciss_instructions_bec_futures_spatial"),
                  h6("Filter"),
                  selectInput(
                    "siteref_bgc_fut_spatial",
@@ -329,7 +332,9 @@ $(document).ready(function(){
              # Inputs
              sidebarPanel(
                width = 2,
-               sidebarhelplink("cciss_instructions_silvics_ecology"),
+               a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#silvics", target = "_blank"),
+               
+               #sidebarhelplink("cciss_instructions_silvics_ecology"),
                h6("Filters"),
                selectInput("siteref_silv", label = "Sites:", choices = character()),
                selectInput("site_series_silv", label = "Site Series", choices = character()),
@@ -365,7 +370,8 @@ $(document).ready(function(){
       # Inputs
       sidebarPanel(
         width = 2,
-        sidebarhelplink("cciss_instructions_export"),
+        a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#export", target = "_blank"),
+        #sidebarhelplink("cciss_instructions_export"),
         h6("Filter"),
         selectInput(
           "report_filter_feas",
@@ -432,7 +438,8 @@ $(document).ready(function(){
     useShinyjs(),
     sidebarLayout(
       sidebarPanel(
-        sidebarhelplink("cciss_instructions_cciss_spatial"),
+        #sidebarhelplink("cciss_instructions_cciss_spatial"),
+        a("What does this page do?", href = "https://bcgov-ffec.ca/cciss-docs/Instructions.html#cciss-spatial", target = "_blank"),
         radioButtons("region_type","Subregion Type", choices = c("None", "District","FLP Area")),
         radioButtons("type","Display BGC or Suitability", choices = c("BGC","Suitability"), selected = "BGC"),
         radioButtons("period_type","Choose a Time Period", choices = list(
@@ -467,11 +474,11 @@ $(document).ready(function(){
           selectInput("period_feas","Select Period", choices = c(periods[-5])),     
         ),
         conditionalPanel(
-          condition = "input.period_type != 'Historic'",
+          condition = "input.period_type !== 'Historic' & input.gcm_select !== 'Zone_Ensemble'",
           checkboxInput("novelty","Display Novelty?", value = FALSE),
         ),
         actionButton("clear_map","Hide/Show Layer"),
-        downloadButton("download_full","Download Province"),
+        actionButton("download_full","Download Province"),
         
         checkboxInput("findabec","Find-A-BEC"),
         conditionalPanel(condition = "input.findabec == true",
@@ -525,7 +532,7 @@ $(document).ready(function(){
                             ),
                             checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE),
                             actionButton("reset_plot","Reset Plot"),
-                            actionButton("reset_district","Clear Selected District"),
+                            actionButton("reset_district","Clear Selected Subregion"),
                             actionButton("action_download","Download Data"),
                             girafeOutput("summary_plot")
                           )
@@ -539,271 +546,284 @@ $(document).ready(function(){
     title = "DOCUMENTATION",
     menuName = "cciss_help",
     tabPanel(
-      title = "Overview",
-      value = "cciss_about",
-      fluidRow(
-        column(
-          width = 6,
-          offset = 1,
-          tabPanel(
-            title = "",
-            includeHTML("./instructions/1a_About_CCISS.html") 
-          )
-        )
-      )
+      title = "CCISS Documentation",
+      value = "cciss_docs",
+      tags$iframe(src = "https://bcgov-ffec.ca/cciss-docs/index.html",
+                  width = "100%", frameborder = "0", height = "900px")
     ),
-    tabPanel(
-      title = "Instructions (How to CCISS)",
-      value = "cciss_instructions",
-      fluidRow(
-        column(
-          width = 8,
-          offset = 1,
-          tags$h4("Instructions (How to CCISS)"),
-          tabsetPanel(
-            id = "cciss_instructions_set",
-            type = "pills",
-            tabPanel(
-              title = "Select Sites",
-              value = "cciss_instructions_select_sites",
-              includeHTML("./instructions/2a_SelectSites.html") 
-            ),
-            tabPanel(
-              title = "Suitability Report",
-              value = "cciss_instructions_feasibility_report",
-              includeHTML("./instructions/2b_SuitabilityReport.html") 
-            ),
-            tabPanel(
-              title = "BEC Futures",
-              value = "cciss_instructions_bec_futures",
-              includeHTML("./instructions/2c_BECFutures.html") 
-            ),
-            tabPanel(
-              title = "Silvics & Ecology",
-              value = "cciss_instructions_silvics_ecology",
-              includeHTML("./instructions/2d_SilvicsEcology.html") 
-            ),
-            # tabPanel(
-            #   title = "Species Portfolio",
-            #   value = "cciss_instructions_species_portfolio",
-            #   includeHTML("./instructions/SpeciesPortfolio.html") 
-            # ),
-            tabPanel(
-              title = "Export",
-              value = "cciss_instructions_export",
-              includeHTML("./instructions/2e_Export.html") 
-            ),
-            tabPanel(
-              title = "CCISS Spatial",
-              value = "cciss_instructions_spatial",
-              includeHTML("./instructions/2f_Spatial.html") 
-            )
-          )
-        )
-      )       
-    ),
-    tabPanel(
-      title = "Methods (how the tool works)",
-      value = "cciss_methods",
-      fluidRow(
-        column(
-          width = 8,
-          offset = 1,
-          tags$h4("Methods"),
-          tabsetPanel(
-            id = "cciss_methods_set",
-            type = "pills",
-            tabPanel(
-              title = "Overview",
-              value = "cciss_3a",
-              includeHTML("./instructions/3a_MethodsOverview.html") 
-            ),
-            tabPanel(
-              title = "BEC",
-              value = "cciss_3b",
-              includeHTML("./instructions/3b_BEC.html") 
-            ),
-            tabPanel(
-              title = "Suitability Ratings",
-              value = "cciss_3c",
-              includeHTML("./instructions/3c_SuitabilityRatings.html") 
-            ),
-            tabPanel(
-              title = "Climate Change Projections",
-              value = "cciss_3d",
-              includeHTML("./instructions/3d_ClimateProjections.html") 
-            ),
-            tabPanel(
-              title = "BGC Model",
-              value = "cciss_3e",
-              includeHTML("./instructions/3e_BGCmodel.html") 
-            ),
-            tabPanel(
-              title = "Novel Climates",
-              value = "cciss_3f",
-              includeHTML("./instructions/3f_NovelClimates.html") 
-            ),
-            tabPanel(
-              title = "Edatopic Overlap",
-              value = "cciss_3g",
-              includeHTML("./instructions/3g_EdatopicOverlap.html") 
-            ),
-            tabPanel(
-              title = "Rule Sets",
-              value = "cciss_3h",
-              includeHTML("./instructions/3h_Rulesets.html") 
-            ),
-            tabPanel(
-              title = "Outside Home Range",
-              value = "cciss_3i",
-              includeHTML("./instructions/3i_OHR.html") 
-            ),
-            # tabPanel(
-            #   title = "BEC 13",
-            #   value = "cciss_3j",
-            #   includeHTML("./instructions/3j_BEC13.html") 
-            # ),
-            tabPanel(
-              title = "Expert Review",
-              value = "cciss_3k",
-              includeHTML("./instructions/3k_ExpertReview.html") 
-            )
-
-          )
-        )
-      )       
-    ),
-    tabPanel(
-      title = "Known Issues",
-      value = "cciss_issues",
-      fluidRow(
-        column(
-          width = 8,
-          offset = 1,
-          tags$h4("Known Issues"),
-          tabsetPanel(
-            id = "cciss_issues",
-            type = "pills",
-            tabPanel(
-              title = "Overview",
-              value = "cciss_4a",
-              includeHTML("./instructions/4a_KnownIssues.html") 
-            ),
-            tabPanel(
-              title = "Sources of Error",
-              value = "cciss_4b",
-              includeHTML("./instructions/4b_SourcesOfError.html") 
-            ),
-            tabPanel(
-              title = "BGC mapping as a baseline",
-              value = "cciss_4c",
-              includeHTML("./instructions/4c_BaselineBGCs.html") 
-            ),
-            tabPanel(
-              title = "Space-for-time Substitution",
-              value = "cciss_4d",
-              includeHTML("./instructions/4d_SpaceForTime.html") 
-            )
-          )
-        )
-      )       
-    ),
-    tabPanel(
-      title = "Using CCISS for Decisions",
-      value = "cciss_decisions",
-      fluidRow(
-        column(
-          width = 6,
-          offset = 1,
-          tabPanel(
-            title = "",
-            includeHTML("./instructions/5a_DecisionGuidance.html") 
-          )
-        )
-      )
-    ),
-    tabPanel(
-      title = "Definitions",
-      value = "cciss_definitions",
-      fluidRow(
-        column(
-          width = 8,
-          offset = 1,
-          tags$h4("Definitions"),
-          tabsetPanel(
-            id = "cciss_definitions",
-            type = "pills",
-            tabPanel(
-              title = "Glossary of Terms",
-              value = "cciss_6a",
-              includeHTML("./instructions/6a_GlossaryofTerms.html") 
-            ),
-            tabPanel(
-              title = "Species Codes",
-              value = "cciss_6b",
-              includeHTML("./instructions/6b_SpeciesCodes.html") 
-            ),
-            tabPanel(
-              title = "BEC Codes",
-              value = "cciss_6c",
-              includeHTML("./instructions/6c_BECCodes.html") 
-            ),
-            tabPanel(
-              title = "Suitability Definitions",
-              value = "cciss_6d",
-              includeHTML("./instructions/6d_SuitabilityDefinitions.html") 
-            ),
-            tabPanel(
-              title = "BEC 13 Crosswalk",
-              value = "cciss_6e",
-              includeHTML("./instructions/6e_BEC13Crosswalk.html") 
-            )
-          )
-        )
-      )       
-    ),
-    tabPanel(
-      title = "Providing Feedback",
-      value = "cciss_feedback",
-      fluidRow(
-        column(
-          width = 6,
-          offset = 1,
-          tabPanel(
-            title = "",
-            includeHTML("./instructions/6a_ProvidingFeedback.html") 
-          )
-        )
-      )
-    ),
-    tabPanel(
-      title = "FAQs",
-      value = "cciss_faqs",
-      fluidRow(
-        column(
-          width = 6,
-          offset = 1,
-          tabPanel(
-            title = "",
-            includeHTML("./instructions/7a_FAQs.html") 
-          )
-        )
-      )
-    ),
-    tabPanel(
-      title = "Resources",
-      value = "8a_Resources",
-      fluidRow(
-        column(
-          width = 6,
-          offset = 1,
-          tabPanel(
-            title = "",
-            includeHTML("./instructions/8a_Resources.html") 
-          )
-        )
-      )
-    ),
+    # tabPanel(
+    #   title = "Overview",
+    #   value = "cciss_about",
+    #   fluidRow(
+    #     column(
+    #       width = 6,
+    #       offset = 1,
+    #       tabPanel(
+    #         title = "",
+    #         tags$style(HTML("
+    #                 iframe {
+    #                   border: none;
+    #                   width: 100%;
+    #                   height: 80vh;
+    #                 }
+    #               ")),
+    #         tags$iframe(src = "instructions/1a_About_CCISS.html")
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Instructions (How to CCISS)",
+    #   value = "cciss_instructions",
+    #   fluidRow(
+    #     column(
+    #       width = 8,
+    #       offset = 1,
+    #       tags$h4("Instructions (How to CCISS)"),
+    #       tabsetPanel(
+    #         id = "cciss_instructions_set",
+    #         type = "pills",
+    #         tabPanel(
+    #           title = "Select Sites",
+    #           value = "cciss_instructions_select_sites",
+    #           tags$iframe(src = "instructions/2a_SelectSites.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Suitability Report",
+    #           value = "cciss_instructions_feasibility_report",
+    #           tags$iframe(src = "instructions/2b_SuitabilityReport.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BEC Futures",
+    #           value = "cciss_instructions_bec_futures",
+    #           tags$iframe(src = "instructions/2c_BECFutures.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Silvics & Ecology",
+    #           value = "cciss_instructions_silvics_ecology",
+    #           tags$iframe(src = "instructions/2d_SilvicsEcology.html")
+    #         ),
+    #         # tabPanel(
+    #         #   title = "Species Portfolio",
+    #         #   value = "cciss_instructions_species_portfolio",
+    #         #   includeHTML("./instructions/SpeciesPortfolio.html")
+    #         # ),
+    #         tabPanel(
+    #           title = "Export",
+    #           value = "cciss_instructions_export",
+    #           tags$iframe(src = "instructions/2e_Export.html")
+    #         ),
+    #         tabPanel(
+    #           title = "CCISS Spatial",
+    #           value = "cciss_instructions_spatial",
+    #           tags$iframe(src = "instructions/2f_Spatial.html")
+    #         )
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Methods (how the tool works)",
+    #   value = "cciss_methods",
+    #   fluidRow(
+    #     column(
+    #       width = 8,
+    #       offset = 1,
+    #       tags$h4("Methods"),
+    #       tabsetPanel(
+    #         id = "cciss_methods_set",
+    #         type = "pills",
+    #         tabPanel(
+    #           title = "Overview",
+    #           value = "cciss_3a",
+    #           tags$iframe(src = "instructions/3a_MethodsOverview.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BEC",
+    #           value = "cciss_3b",
+    #           tags$iframe(src = "instructions/3b_BEC.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Suitability Ratings",
+    #           value = "cciss_3c",
+    #           tags$iframe(src = "instructions/3c_SuitabilityRatings.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Climate Change Projections",
+    #           value = "cciss_3d",
+    #           tags$iframe(src = "instructions/3d_ClimateProjections.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BGC Model",
+    #           value = "cciss_3e",
+    #           tags$iframe(src = "instructions/3e_BGCmodel.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Novel Climates",
+    #           value = "cciss_3f",
+    #           tags$iframe(src = "instructions/3f_NovelClimates.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Edatopic Overlap",
+    #           value = "cciss_3g",
+    #           tags$iframe(src = "instructions/3g_EdatopicOverlap.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Rule Sets",
+    #           value = "cciss_3h",
+    #           tags$iframe(src = "instructions/3h_Rulesets.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Outside Home Range",
+    #           value = "cciss_3i",
+    #           tags$iframe(src = "instructions/3i_OHR.html")
+    #         ),
+    #         # tabPanel(
+    #         #   title = "BEC 13",
+    #         #   value = "cciss_3j",
+    #         #   includeHTML("./instructions/3j_BEC13.html")
+    #         # ),
+    #         tabPanel(
+    #           title = "Expert Review",
+    #           value = "cciss_3k",
+    #           tags$iframe(src = "instructions/3k_ExpertReview.html")
+    #         )
+    # 
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Known Issues",
+    #   value = "cciss_issues",
+    #   fluidRow(
+    #     column(
+    #       width = 8,
+    #       offset = 1,
+    #       tags$h4("Known Issues"),
+    #       tabsetPanel(
+    #         id = "cciss_issues",
+    #         type = "pills",
+    #         tabPanel(
+    #           title = "Overview",
+    #           value = "cciss_4a",
+    #           tags$iframe(src = "instructions/4a_KnownIssues.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Sources of Error",
+    #           value = "cciss_4b",
+    #           tags$iframe(src = "instructions/4b_SourcesOfError.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BGC mapping as a baseline",
+    #           value = "cciss_4c",
+    #           tags$iframe(src = "instructions/4c_BaselineBGCs.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Space-for-time Substitution",
+    #           value = "cciss_4d",
+    #           tags$iframe(src = "instructions/4d_SpaceForTime.html")
+    #         )
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Using CCISS for Decisions",
+    #   value = "cciss_decisions",
+    #   fluidRow(
+    #     column(
+    #       width = 6,
+    #       offset = 1,
+    #       tabPanel(
+    #         title = "",
+    #         tags$iframe(src = "instructions/5a_DecisionGuidance.html")
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Definitions",
+    #   value = "cciss_definitions",
+    #   fluidRow(
+    #     column(
+    #       width = 8,
+    #       offset = 1,
+    #       tags$h4("Definitions"),
+    #       tabsetPanel(
+    #         id = "cciss_definitions",
+    #         type = "pills",
+    #         tabPanel(
+    #           title = "Glossary of Terms",
+    #           value = "cciss_6a",
+    #           tags$iframe(src = "instructions/6a_GlossaryofTerms.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Species Codes",
+    #           value = "cciss_6b",
+    #           tags$iframe(src = "instructions/6b_SpeciesCodes.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BEC Codes",
+    #           value = "cciss_6c",
+    #           tags$iframe(src = "instructions/6c_BECCodes.html")
+    #         ),
+    #         tabPanel(
+    #           title = "Suitability Definitions",
+    #           value = "cciss_6d",
+    #           tags$iframe(src = "instructions/6d_SuitabilityDefinitions.html")
+    #         ),
+    #         tabPanel(
+    #           title = "BEC 13 Crosswalk",
+    #           value = "cciss_6e",
+    #           tags$iframe(src = "instructions/6e_BEC13Crosswalk.html")
+    #         )
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Providing Feedback",
+    #   value = "cciss_feedback",
+    #   fluidRow(
+    #     column(
+    #       width = 6,
+    #       offset = 1,
+    #       tabPanel(
+    #         title = "",
+    #         tags$iframe(src = "instructions/6a_ProvidingFeedback.html")
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "FAQs",
+    #   value = "cciss_faqs",
+    #   fluidRow(
+    #     column(
+    #       width = 6,
+    #       offset = 1,
+    #       tabPanel(
+    #         title = "",
+    #         tags$iframe(src = "instructions/7a_FAQs.html")
+    #       )
+    #     )
+    #   )
+    # ),
+    # tabPanel(
+    #   title = "Resources",
+    #   value = "8a_Resources",
+    #   fluidRow(
+    #     column(
+    #       width = 6,
+    #       offset = 1,
+    #       tabPanel(
+    #         title = "",
+    #         tags$iframe(src = "instructions/8a_Resources.html")
+    #       )
+    #     )
+    #   )
+    # ),
     tabPanel(
       title = "Model information",
       value = "model_info",
