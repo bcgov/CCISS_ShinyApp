@@ -460,7 +460,7 @@ $(document).ready(function(){
           condition = "input.type !== 'BGC'",
           h1("Suitability Options"),
           selectInput("edatope_feas","Select Edatope (SNR/SMR)", choices = c("B2","C4","D6"), selected = "C4", multiple = FALSE),
-          selectInput("species_feas", "Select Species", choices = c("Pl","Sx","Fd","Cw","Hw","Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw", "Sb"), multiple = FALSE)
+          selectInput("species_feas", "Select Species", choices = c("Pl","Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw", "Sb"), multiple = FALSE)
         ),
         
         conditionalPanel(
@@ -471,7 +471,7 @@ $(document).ready(function(){
         
         conditionalPanel(
           condition = "input.type !== 'BGC' & input.period_type == 'Future'",
-          selectInput("period_feas","Select Period", choices = c(periods[-5])),     
+          selectInput("period_feas","Select Period", choices = c(periods)),     
         ),
         conditionalPanel(
           condition = "input.period_type !== 'Historic' & input.gcm_select !== 'Zone_Ensemble'",
@@ -534,7 +534,8 @@ $(document).ready(function(){
                             actionButton("reset_plot","Reset Plot"),
                             actionButton("reset_district","Clear Selected Subregion"),
                             actionButton("action_download","Download Data"),
-                            girafeOutput("summary_plot")
+                            girafeOutput("summary_plot"),
+                            downloadButton("sum_plt_download","Download Plot")
                           )
                       )
                     )

@@ -55,3 +55,10 @@ writeLines(f8, bsw)
 v <- "lib/bsw5/dist/bcgov/_variables.scss"
 cat(c("\n$nav-underline-border-width: 0rem !default;", '\n$theme: "bcgov" !default;', '\n$navbar-bg: theme-color(primary-nav);'), file = v, append = TRUE)
 
+bslib::bs_theme(
+  preset = "bcgov",
+  "navbar-brand-padding-y" = "0rem",
+  "navbar-brand-margin-end" = "4rem"
+) |>
+  sass::sass_bundle() |>
+  writeLines("theme.scss")

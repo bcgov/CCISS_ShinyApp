@@ -61,7 +61,7 @@ model_ids <- data.table(model = c("Novelty_ACCESS-ESM1-5.csv", "Novelty_EC-Earth
                                   "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
                                   "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
 
-temp <- c("Pl","Sx","Fd","Cw","Hw","Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
+temp <- temp <- c("Pl","Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
 cw_spp <- data.table(Spp = temp, spp_id = seq_along(temp))
 
 plot_suitability <- function(dbCon, cellid, edatope, spp_name){
@@ -71,7 +71,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
                 "C4" = 2,
                 "D6" = 3
   )
-  
+  browser()
   dat <- dbGetQuery(dbCon, paste0("select fp_code, newsuit, prop1, prop2, prop3 from cciss_feas where cellid = ",
                                   cellid," and edatope = ",eda," and spp_id = ",spp_id)) |> as.data.table()
   dat_h <- dbGetQuery(dbCon, paste0("select suit from cciss_historic where cellid = ",
@@ -92,7 +92,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
   dat[,EX := 100L - (E1 + E2 + E3)]
   dat[,CCISS_Suit := as.character(CCISS_Suit/100)]
   dat[CCISS_Suit > 3.5, CCISS_Suit := "X"]
-  missing <- setdiff(c(1981,2001,2021,2041,2061), dat$Period)
+  missing <- setdiff(c(1981,2001,2021,2041,2061, 2081), dat$Period)
   if(length(missing) >= 1) {
     temp2 <- data.table(Period = missing, CCISS_Suit = "X", E1 = 0, E2 = 0, E3 = 0, EX = 100)
     dat <- rbind(dat, temp2)
@@ -107,7 +107,8 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
     scale_color_manual(values = palette.suit, aesthetics = c("colour","fill")) +
     ylab("Percent of Votes") +
     theme_bw() +
-    scale_x_continuous(breaks=seq(1961,2070,by = 20),labels = c("1961-1990","2001-2020 (obs)","2001-2020","2021-2040","2041-2060","2061-2080"))
+    scale_x_continuous(breaks=seq(1961,2090,by = 20),labels = c("1961-1990","2001-2020 (obs)","2001-2020","2021-2040","2041-2060","2061-2080","2081-2100")) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
   x <- girafe(ggobj = fplt)
   x <- girafe_options(x,
@@ -258,7 +259,11 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
   dat_obs[,area := freq/1000]
   
   if(!is.null(focal_bgc)){
+    #browser()
     temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = bgc_area_f[gcm == "obs",freq], xvar = bgc_area_f[gcm == "obs",xvar])
+    if(nrow(temp) == 0) {
+      temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = 0, xvar = 1971)
+    }
     temp[is.na(xvar), xvar := if(xvariable == "Time") 1971 else 0]
     bgc_area_f <- rbind(temp, bgc_area_f)[gcm != "obs",]
     temp_wide <- dcast(bgc_area_f, xvar ~ gcm, value.var = "freq")
@@ -300,10 +305,7 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
       ylab(ylabel) +
       xlab(xlabel)
   }
-  x <- girafe(ggobj = ggobj)
-  x <- girafe_options(x,
-                      opts_toolbar(hidden = c("lasso_select","lasso_deselect")))
-  x
+  ggobj
 }
 
 plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, spp_select = NULL, focal_species = NULL, plot_obs = TRUE){
@@ -423,10 +425,7 @@ plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, 
       ylab("Suitable Area ('000 sq.km)")
     
   }
-  x <- girafe(ggobj = ggobj)
-  x <- girafe_options(x,
-                      opts_toolbar(hidden = c("lasso_select","lasso_deselect")))
-  x
+  ggobj
 }
 
 

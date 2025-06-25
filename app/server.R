@@ -94,7 +94,7 @@ shinyServer(function(input, output, session) {
   # Reusing Shiny session userData environment
   uData <- session$userData
   portfolio_results <- reactiveValues(data = NULL)
-  session_params <- reactiveValues(estabWt = c(0.3,0.35,0.35),futWt = c(0.25,0.25,0.25,0.25),
+  session_params <- reactiveValues(estabWt = c(0.25,0.25,0.50),futWt = c(0.1,0.3,0.3,0.3),
                                    modelWt = all_weight, rcpWt = rcp_weight, gcmWt = gcm_weight,
                                    show_novelty = TRUE, nov_c = 5, show_ohr = TRUE)
   update_flag <- reactiveVal(0)

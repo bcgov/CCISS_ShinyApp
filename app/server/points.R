@@ -30,7 +30,7 @@ output$points_table <- DT::renderDataTable({
       pts[, uData$pts_show_col, with = FALSE], rownames = FALSE,
       options = list(searching = FALSE, lengthChange = TRUE, pageLength = 5,
                      scrollX = FALSE, scrollY = "185px", scrollCollapse = FALSE),
-      editable = list(target = "row", disable = list(columns = c(1,5)))
+      editable = list(target = "row", disable = list(columns = c(0,4)))
     )
   }else{
     NULL
@@ -59,8 +59,8 @@ new_points <- function(points) {
       res <- as.data.table(dbPointInfo(pool, points))
       if(nrow(points) > 1){
         setnames(res, old = "id", new = "ID")
-        points[,ID := as.numeric(ID)]
-        res[,ID := as.numeric(ID)]
+        # points[,ID := as.numeric(ID)]
+        # res[,ID := as.numeric(ID)]
         setorder(res, ID)
         setorder(points, ID)
         # res[, popups := paste("<b>", tools::toTitleCase(gsub("_", " ", names(.SD))), ":</b>", .SD, collapse = "<br />"),
@@ -302,11 +302,12 @@ observeEvent(input$points_table_cell_edit, {
   points <- data.table(
     ID = as.character(info$value[1]),
     Site = as.character(1),
-    Lat = as.numeric(info$value[3]),
-    Long = as.numeric(info$value[4]),
-    Elev = as.numeric(info$value[5]),
-    BGC = as.character(1)
+    Lat = as.numeric(info$value[2]),
+    Long = as.numeric(info$value[3]),
+    Elev = as.numeric(info$value[4]),
+    BGC = as.character(5)
   )
+  #browser()
   points <- new_points(points)
   # Using a copy to trigger reactive change in `userpoints$dt`
   pts <- copy(userpoints$dt)

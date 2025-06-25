@@ -141,26 +141,28 @@ observe({
   
 })
 
+##turn off novelty when type is changed
+observeEvent(input$type,{
+  updateCheckboxInput(session, "novelty", value = FALSE)
+})
+
 observeEvent({c(input$map_stat,input$type, input$novelty)},{
   if(input$novelty) {
     globalLeg$Legend <- c(0,2,4,6,8)
     globalLeg$Colours <- c("gray90", "gray50", "#FFF200", "#CD0000", "#000000")
     globalLeg$Title <- "Sigma Novelty"
   } else {
-    if(input$map_stat == "NewFeas"){
-      globalLeg$Legend <- c("Primary","Secondary","Tertiary")
-      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900")
+    if(input$type == "Suitability"){
+      globalLeg$Legend <- c("E1: High","E2: Moderate","E3: Low","EX: Unsuitable")
+      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900","#F7F7F7")
       globalLeg$Title <- "Climatic Suitability"
-    } else if(input$map_stat == "MeanChange") {
+    }
+    if(input$map_stat == "MeanChange") {
       globalLeg$Legend <- c("-3","-2","-1","No change","+1","+2","+3","Becoming unsuitable","Newly Suitable (3)","Newly Suitable (2)","Newly Suitable (1)")
       globalLeg$Colours <- c("#67001F", "#D6604D", "#FDDBC7", "#F7F7F7", 
                              "#D1E5F0", "#4393C3", "#053061", "#000000", 
                              "#FFFFCC", "#FFEDA0", "#FED976")
       globalLeg$Title <- "Change in Suitability"
-    } else {
-      globalLeg$Legend <- c("Primary","Secondary","Tertiary")
-      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900")
-      globalLeg$Title <- "Climatic Suitability"
     }
   }
 })
@@ -168,8 +170,8 @@ observeEvent({c(input$map_stat,input$type, input$novelty)},{
 observe({
   if(!is.null(input$period_type) & input$type != "BGC") {
     if(input$period_type == "Historic"){
-      globalLeg$Legend <- c("Primary","Secondary","Tertiary")
-      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900")
+      globalLeg$Legend <- c("E1: High","E2: Moderate","E3: Low","EX: Unsuitable")
+      globalLeg$Colours <- c("#006400", "#1E90FF", "#EEC900","#F7F7F7")
       globalLeg$Title <- "Climatic Suitability"
     }
   }
@@ -212,19 +214,28 @@ observeEvent(input$map_click,{
                        texttemplate = "%{text}") %>%
           layout(yaxis = list(title = "", tickformat = ".1%"),
                  xaxis = list(showspikes = FALSE, title = list(text = "Period"),
-                              ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080"),
-                              tickvals = c(1961,1981,2001,2021,2041,2061)),
+                              ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080","2081-2100"),
+                              tickvals = c(1961,1981,2001,2021,2041,2061,2081)),
                  barmode = 'stack')
         fig
       })
       
-      output$feas_plot <- renderGirafe({
-        plot_suitability(dbCon, cellid = cell_click, edatope = input$edatope_feas, spp_name = input$species_feas)
-      })
+      
+      
+      if(input$species_feas %in% c("Ac","Ep","Pw","Ss","Bg")) {
+        output$feas_plot <- NULL
+        output$feas_message <- renderText("Sorry, plots for this species are not currently available.")
+      } else {
+        output$feas_plot <- renderGirafe({
+          plot_suitability(dbCon, cellid = cell_click, edatope = input$edatope_feas, spp_name = input$species_feas)
+        })
+        output$feas_message <- NULL
+      }
       
       showModal(modalDialog(
         title = paste0("BGC and Suitability Projections"),
         plotlyOutput("bgc_plot"),
+        textOutput("feas_message"),
         girafeOutput("feas_plot"),
         easyClose = TRUE,
         footer = NULL,
@@ -248,27 +259,28 @@ observeEvent(input$map_click,{
         elev <- dbGetQuery(pool, elev_info_sql)
         point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
         if(input$gcm_select == "SZ_Ensemble") {
-          point_clim <- climr::downscale_db(point_focal, gcms = gcms_use, 
+          point_clim <- climr::downscale(point_focal, gcms = gcms_use, 
                                             ssps = "ssp245", gcm_periods = input$period_select,
                                             vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
                                             return_refperiod = FALSE)
           point_clim <- point_clim[,lapply(.SD, mean), .SDcols = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_"))]
         } else {
-          point_clim <- climr::downscale_db(point_focal, gcms = input$gcm_select, 
+          point_clim <- climr::downscale(point_focal, gcms = input$gcm_select, 
                                             ssps = "ssp245", gcm_periods = input$period_select,
                                             run_nm = runs_use[gcms_use == input$gcm_select],
                                             vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
                                             return_refperiod = FALSE)
+          point_clim <- point_clim[PERIOD != "1961_1990",]
         }
         
         
-        output$feas_plot <- renderPlotly({
+        output$novelty_plot <- renderPlotly({
           plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)
         })
         
         showModal(modalDialog(
           title = paste0("Analog Novelty Plot"),
-          plotlyOutput("feas_plot", height = "70vh"),
+          plotlyOutput("novelty_plot", height = "70vh"),
           size = "l",
           easyClose = TRUE,
           footer = NULL
@@ -292,8 +304,8 @@ observeEvent(input$map_click,{
                          texttemplate = "%{text}") %>%
             layout(yaxis = list(title = "", tickformat = ".1%"),
                    xaxis = list(showspikes = FALSE, title = list(text = "Period"),
-                                ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080"),
-                                tickvals = c(1961,1981,2001,2021,2041,2061)),
+                                ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080","2081-2100"),
+                                tickvals = c(1961,1981,2001,2021,2041,2061,2081)),
                    barmode = 'stack')
           fig
         })
@@ -402,16 +414,6 @@ observeEvent(input$region_type,{
   session$sendCustomMessage("resize_map","waddles")
 })
 
-# Show or hide the plot based on toggle input
-# observeEvent(input$region_type, {
-#   if (input$region_type == "None") {
-#     print("show plot")
-#     show("plot-container")
-#   } else {
-#     hide("plot-container")
-#   }
-# })
-
 
 observe({
   if(input$region_type != "None"){
@@ -463,15 +465,52 @@ output$summary_plot <- renderGirafe({
   if(input$type == "BGC"){
     if(input$zone_sz) smry <- "Zone"
     else smry <- "Subzone"
-    plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
-             unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
+    p <- plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
+                                 unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
+
   }else{
-    #browser()
-    plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
-                 run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
-                 focal_species = plot_vals(), plot_obs = input$plot_obs)
+    p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
+                      run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
+                      focal_species = plot_vals(), plot_obs = input$plot_obs)
   }
+  x <- girafe(ggobj = p)
+  x <- girafe_options(x,
+                      opts_toolbar(hidden = c("lasso_select","lasso_deselect")))
+  x
 })
+
+output$sum_plt_download <- downloadHandler(
+  filename = function(){
+    paste0(input$type, "_Summary_", input$dist_click, ".png")
+  },
+  content = function(file) {
+    stdarea <- input$dist_click
+    if(input$period_type %in% c("Historic","obs")){
+      gcm_curr <- "ensembleMean"
+      run_curr <- "ensembleMean"
+    } else {
+      if(grepl("Ensemble", input$gcm_select)){
+        gcm_curr <- "ensembleMean"
+        run_curr <- "ensembleMean"
+      }else{
+        gcm_curr <- input$gcm_select
+        run_curr <- runs_use[gcms_use == input$gcm_select]
+      }
+    }
+    if(input$type == "BGC"){
+      if(input$zone_sz) smry <- "Zone"
+      else smry <- "Subzone"
+      p <- plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
+               unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
+    }else{
+      #browser()
+      p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
+                   run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
+                   focal_species = plot_vals(), plot_obs = input$plot_obs)
+    }
+    ggsave(file, plot = p, width = 8, height = 6, dpi = 300)
+  }
+)
 
 observeEvent(input$summary_plot_selected,{
   plot_vals(input$summary_plot_selected)
