@@ -18,3 +18,9 @@ tooltip_text$trends <-  "Ratio of models indicting improving/stable trends/ mode
 tooltip_text$upload_csv <- HTML(paste("Upload a csv file with columns sitename, latitude, longitude, and (optionally) siteseries with your points of interest."))
 tooltip_text$bgc_click <- HTML(paste("Click on map to use preselected points across an entire BGC subzone/variant or only BGCs within a Forest District"))
 tooltip_text$select_points <- HTML(paste("Click on the map to add one or more points or use 'Enter New' to manually add lat/long coordinates"))
+
+tooltip_text$suit_summary <- HTML(paste0("The summary table above provides information from the CFRG for the location of interest, as well as summarised long-term projected suitability.
+                                         We flag species based on their projected change in suitability from the baseline environmental suitability. Note that while this is often similar
+                                         to CFRG suitability, it is not the same and thus flags may not correspond with changes from CFRG suitability. Species in parentheses are those
+                                         not present (i.e. unsuitable) in the CFRG, although they may be suitable in the baseline ecological suitability. The intention of this table is
+                                         not the suggest a new stocking standard, but rather flag species in the CFRG that should be investigated for potential challenges."))

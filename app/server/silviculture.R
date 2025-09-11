@@ -87,7 +87,7 @@ uData$sppnotes <- sppnotes
 sppnotes_cciss <- function(spp, textstyle) {
   ret <- vector("list", length(spp))
   for (i in seq_len(length(spp))) {
-    ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i]),
+    ret[[i]] <- tags$span(tags$span(style = textstyle[i], spp[i], .noWS = htmltools:::noWSOptions),
                           if (i < length(spp)) {", "} else {""}, .noWS = htmltools:::noWSOptions)
   }
   ret[["style"]] <- "white-space:normal; border-left: 1px solid;"
@@ -100,11 +100,10 @@ uData$sppnotes_cciss <- sppnotes_cciss
 standardblocks <- function(data, siteref, siteserie) {
   sc <- data[
     SiteRef %in% siteref & SS_NoSpace %in% siteserie,
-    list(Region, ZoneSubzone, SS_NoSpace, ccissFeas,EstabFeas, Improve,PrefAcc, Spp)
+    list(Region, ZoneSubzone, SS_NoSpace, Curr, ccissFeas,EstabFeas, Improve,PrefAcc, Spp)
     ]
-  ss <- stocking_standards[
-    SS_NoSpace %in% sc$SS_NoSpace
-    ] #Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & 
+  ss <- stocking_standards[Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
+    ] #
   if(nrow(ss) > 1){
     res <- do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
   } else {
@@ -116,87 +115,95 @@ standardblocks <- function(data, siteref, siteserie) {
 uData$standardblocks <- standardblocks
 
 standardblock <- function(std, ss, sc) {
+  #browser()
   sc[,TxtCciss := ""]
   if(!is.null(ss)){
     ss <- ss[Standard %in% std]
     ss[, TextStyle := ""]
     
-    ss[sc, on = "Species==Spp", ProjFeas := suppressWarnings(as.integer(i.ccissFeas))]
-    setnafill(ss, fill = 4L, cols = "ProjFeas")
-    ss[Suitability > ProjFeas, TextStyle := "color:green"]
-    ss[Suitability < ProjFeas, TextStyle := "color:red"]
+    ss[sc, on = "Species==Spp", `:=`(ProjFeas = suppressWarnings(as.integer(i.ccissFeas)),Curr = suppressWarnings(as.integer(i.Curr)))]
+    setnafill(ss, fill = 4L, cols = c("ProjFeas","Curr"))
+    ss[Curr > ProjFeas, TextStyle := "color:blue"]
+    ss[Curr < ProjFeas, TextStyle := "color:red"]
     ss[!ProjFeas %in% c(1,2,3), TextStyle := "color:red;text-decoration:line-through"]
-    ss[Suitability == 0, TextStyle := NA]
     
-    #browser()
     # cciss colouring
     sc[ss, on = "Spp == Species", CFRGSuit := i.Suitability]
-    sc[ccissFeas < CFRGSuit, TxtCciss := "color:green"]
-    sc[ccissFeas > CFRGSuit, TxtCciss := "color:red"]
-    sc[!CFRGSuit %in% c(1,2,3), TxtCciss := "color:purple"]
-    sc[CFRGSuit == 0, TxtCciss := NA]
+    sc[ccissFeas < Curr, TxtCciss := "color:blue"]
+    sc[ccissFeas > Curr, TxtCciss := "color:red"]
+    sc[!Curr %in% c(1,2,3), TxtCciss := "color:purple"]
+    sc[is.na(CFRGSuit), Spp := paste0("(",Spp,")")]
     
     si <- stocking_info[Standard == std]
     sh <- stocking_height[Standard == std]
-    list(
+    sblock <- list(
       
       #tags$h6("CFRG: ", tags$b(si$Region, .noWS = c("before", "after")), "Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), .noWS = "inside"),
-      tags$h5("CFRG Standards_ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), tags$p(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
+      tags$h5("CFRG Standards ID: ", paste(ss[!is.na(Standard), unique(Standard)], collapse = ", "), tags$p(si$Region, .noWS = c("before", "after")), .noWS = "inside"),
       tags$table(style = "max-width: 100%; white-space: nowrap;",
                  # Report formatting gray out the first row, so faking a row
                  tags$tr(
                    tags$td(width = "50%", style = "vertical-align: top; padding:0; background-color:white; border:1px solid black",
                            
                            tags$table(
-                             width = "500px",
+                             #width = "500px",
                              
                              tags$th(
-                               tags$td(tags$b("CFRG"), style = "border-left: 1px solid; width: 150px;"),
-                               tags$td(tags$b("CCISS"), style = "border-left: 1px solid; width: 150px;")
+                               tags$td(tags$b("CFRG"), style = "border-bottom:3px solid black; width: 33%;"),
+                               tags$td("",style = "border-left: 1px solid; border-bottom:3px solid black; width: 5%;"),
+                               tags$td(tags$b("CCISS"), style = "border-bottom:3px solid black; width: 33%;"),
+                               style = "border-bottom:3px solid black;"
                              ),
                              
                              
                              tags$tr(
-                               tags$td("Primary/E1", style = "border-right: 1px solid;"),
+                               tags$td("Primary", style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & Suitability %in% 1L, sppnotes(Species, Footnotes, TextStyle)],
-                               sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)]
+                               tags$td("E1", style = "border-left: 1px solid;"),
+                               sc[!is.na(Spp) & ccissFeas %in% "1", sppnotes_cciss(Spp,TxtCciss)],
+                               style = "border-bottom:1px solid black;"
                              ),
                              
                              #tags$hr(style = "padding: 0px; margin: 0 0 3px 0; height: 2px; background-color: darkgreen; border: 0px"),
                              
                              tags$tr(
-                               tags$td("Secondary/E2", style = "border-right: 1px solid;"),
+                               tags$td("Secondary", style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & Suitability %in% 2L, sppnotes(Species, Footnotes, TextStyle)],
-                               sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)]
+                               tags$td("E2", style = "border-left: 1px solid;"),
+                               sc[!is.na(Spp) & ccissFeas %in% "2", sppnotes_cciss(Spp,TxtCciss)],
+                               style = "border-bottom:1px solid black;"
                              ),
                              
                              tags$tr(
-                               tags$td("Tertiary/E3", style = "border-right: 1px solid;"),
+                               tags$td("Tertiary", style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & Suitability %in% 3L, sppnotes(Species, Footnotes, TextStyle)],
-                               sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)]
+                               tags$td("E3", style = "border-left: 1px solid;"),
+                               sc[!is.na(Spp) & ccissFeas %in% "3", sppnotes_cciss(Spp,TxtCciss)],
+                               style = "border-bottom:1px solid black;"
                              ),
                              
-                             tags$tr(
-                               tags$td("Trial",style = "border-right: 1px solid;" ),
-                               tags$td(""),
-                               sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)]
-                             ),
+                             # tags$tr(
+                             #   tags$td("Trial",style = "border-right: 1px solid;" ),
+                             #   tags$td(""),
+                             #   sc[!is.na(Spp) & EstabFeas == "Trial", sppnotes_cciss(Spp,TxtCciss)],
+                             #   style = "border-bottom:1px solid black;"
+                             # ),
                              tags$tr(
                                tags$td("Broadleaf", style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & Suitability %in% 0L, sppnotes(Species, Footnotes, TextStyle)],
-                               tags$td("", style = "border-left: 1px solid;"),
-                               style = "border-bottom:1px solid black;"
+                               style = "border-bottom:3px solid black;"
+                               #tags$td("", style = "border-left: 1px solid;")
                              ),
                              
                              tags$tr(
                                tags$td("Preferred (p)",style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & PreferredAcceptable %in% "P", sppnotes(Species, Footnotes, TextStyle)],
-                               sc[!is.na(Spp) & PrefAcc %in% "P", sppnotes_cciss(Spp,TxtCciss)],
+                               "",
                              ),
                              tags$tr(
                                tags$td("Acceptable (a)",style = "border-right: 1px solid;"),
                                ss[!is.na(Species) & PreferredAcceptable %in% "A", sppnotes(Species, Footnotes, TextStyle)],
-                               sc[!is.na(Spp) & PrefAcc %in% "A", sppnotes_cciss(Spp,TxtCciss)],
+                               "",
                                style = "border-bottom:1px solid black;"
                              ),
                              tags$tr(
@@ -252,17 +259,7 @@ standardblock <- function(std, ss, sc) {
                    )
                  )
       ),
-      h6("Legend"),
-      HTML(
-        paste0(
-          '<svg viewBox="0 0 1 1" height="14px" width="14px"><rect height=1 width=1 style="fill : ',
-          c("green", "red", "purple"),
-          '" /><span style="vertical-align:middle">&nbsp;',
-          c("Improving", "Decreasing", "Adding"),
-          '</span>',
-          collapse = "<br />"
-        )
-      )
+      tooltip_text$suit_summary
     )
   } else {
     list(

@@ -14,6 +14,7 @@ output$results_feas_all <- renderUI({
     siteref <- selected_site$siteref
     siteserie <- selected_site$ss
     cciss_results <- uData$cciss_results
+    print(names(cciss_results))
     if (is.null(cciss_results)) return(NULL)
     temp <- standardblocks(cciss_results, siteref, siteserie)
     temp
@@ -139,26 +140,29 @@ cciss_results_dt <- function(data, siteref, siteserie, filter, format = "html") 
   
 }
 uData$cciss_results_dt <- cciss_results_dt
+# 
+# ###simple output
+# output$silviculture_block <- renderUI({
+#   siteref <- selected_site$siteref
+#   siteserie <- selected_site$ss
+#   cciss_results <- uData$cciss_results
+#   print(names(cciss_results))
+#   if (is.null(cciss_results)) return(NULL)
+#   standardblocks(cciss_results, siteref, siteserie)
+# })
 
-###simple output
-output$silviculture_block <- renderUI({
-  siteref <- selected_site$siteref
-  siteserie <- selected_site$ss
-  cciss_results <- uData$cciss_results
-  if (is.null(cciss_results)) return(NULL)
-  standardblocks(cciss_results, siteref, siteserie)
-})
-
-standardblocks <- function(data, siteref, siteserie) {
-  sc <- data[
-    SiteRef %in% siteref & SS_NoSpace %in% siteserie,
-    list(Region, ZoneSubzone, SS_NoSpace, ccissFeas,EstabFeas, Improve,PrefAcc, Spp)
-  ]
-  ss <- stocking_standards[
-    Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
-  ]
-  do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
-}
-
-uData$standardblocks <- standardblocks
+# standardblocks <- function(data, siteref, siteserie) {
+#   
+#   sc <- data[
+#     SiteRef %in% siteref & SS_NoSpace %in% siteserie,
+#     list(Region, ZoneSubzone, SS_NoSpace, Curr, ccissFeas, EstabFeas, Improve,PrefAcc, Spp)
+#   ]
+#   browser()
+#   ss <- stocking_standards[
+#     Region %in% sc$Region & ZoneSubzone %in% sc$ZoneSubzone & SS_NoSpace %in% sc$SS_NoSpace
+#   ]
+#   do.call(span, lapply(unique(ss$Standard), standardblock, ss = ss, sc = sc))
+# }
+# 
+# uData$standardblocks <- standardblocks
 
