@@ -35,6 +35,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="Draft_Spp_Summary_Template_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Draft_Spp_Summary_Template_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Draft_Spp_Summary_Template_files/libs/bootstrap/bootstrap-889347afa0e18f2ab2e857d77b27f773.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 </head>
@@ -286,6 +287,13 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -604,4 +612,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="Draft_Spp_Summary_Template_files/libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

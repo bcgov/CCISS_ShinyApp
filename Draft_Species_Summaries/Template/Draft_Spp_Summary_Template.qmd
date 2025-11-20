@@ -1,10 +1,16 @@
 ---
 title: "Species Summary Template"
-format: html
+format: 
+  html:
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
 editor: visual
 theme: sandstone
 toc: true
 toc-title: "On this page"
+execute:
+  echo: false
 ---
 
 # Common name (latin name) - species code
