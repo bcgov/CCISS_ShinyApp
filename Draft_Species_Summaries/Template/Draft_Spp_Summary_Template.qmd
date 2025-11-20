@@ -1,0 +1,107 @@
+---
+title: "Species Summary Template"
+format: html
+editor: visual
+---
+
+# Common name (latin name) - species code
+
+*\<tree image\>*
+
+![](images/MoF_FFEC logo.png){fig-alt="BC Ministry of Forests - Future Forest Ecosystems Centre" fig-align="center" width="392"}
+
+## Table of Contents
+
+ToC possible?
+
+## Importance in British Columbia
+
+### Ecological importance
+
+text
+
+### Cultural importance
+
+text
+
+### Economic importance
+
+text
+
+## Silvics and Ecological Overview
+
+### Preferred edatopic conditions (suitability)
+
+*\<plot: generalized edaphic grid\>*
+
+summary text
+
+### Light, moisture, and temperature tolerance
+
+text
+
+### Disturbance tolerance
+
+text
+
+## Current and historical distribution in BC
+
+### Current biogeographic range
+
+*\<maps: current (observed) distribution for B2, C4, and D6 edatopes\>*
+
+summary text: BEC zones where it is currently established
+
+#### Anthropogenic influences on distribution (?)
+
+text
+
+#### Current status in BC (?)
+
+text
+
+## Projected future shifts in biogeographic distribution
+
+### Overall climatic sensitivity
+
+text: adaptive capacity and climate sensitivity
+
+*\<plot: bubbles of the ensemble mean of each edatope, y = expansion, x = persistence\>*
+
+### Shifts in suitability
+
+text: Shifts in BGC subzone suitability.
+
+*\<map: overall mean change in feasibility (2050s)\>*
+
+*\<plot: mean feasibility change boxplot, by BGC zone\>*
+
+text: Summarize particular areas of interest and/or large change
+
+*\<map: grey with red highlights on problematic (range contraction) areas\>*
+
+### Elevational patterns
+
+summary text
+
+*\<plot: gradient of zone suitability shifts up elevations, from CCISS hex grid/elevation raster\>*
+
+## Caveats
+
+text
+
+## Other silvics considerations and resources
+
+-   current forest health hazards
+
+-   link to [by-BEC](https://thebeczone.ca/shiny/bybecmap/) map
+
+-   climate based seed transfer
+
+-   bark beetle portal
+
+-   other pre-existing silvics documents for the species
+
+## References
+
+list
