@@ -2,17 +2,16 @@
 title: "Species Summary Template"
 format: html
 editor: visual
+theme: sandstone
+toc: true
+toc-title: "On this page"
 ---
 
 # Common name (latin name) - species code
 
 *\<tree image\>*
 
-![](images/MoF_FFEC logo.png){fig-alt="BC Ministry of Forests - Future Forest Ecosystems Centre" fig-align="center" width="392"}
-
-## Table of Contents
-
-ToC possible?
+![](images/MoF_FFEC_logo-04.png){fig-alt="BC Ministry of Forests and Future Forest Ecosystems Centre Logo" fig-align="center" width="392"}
 
 ## Importance in British Columbia
 
@@ -52,11 +51,11 @@ text
 
 summary text: BEC zones where it is currently established
 
-#### Anthropogenic influences on distribution (?)
+### Anthropogenic influences on distribution (?)
 
 text
 
-#### Current status in BC (?)
+### Current status in BC (?)
 
 text
 
@@ -86,7 +85,7 @@ summary text
 
 *\<plot: gradient of zone suitability shifts up elevations, from CCISS hex grid/elevation raster\>*
 
-## Caveats
+## CCISS caveats and uncertainty
 
 text
 
