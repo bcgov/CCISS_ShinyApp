@@ -1,0 +1,231 @@
+---
+title: "Species name (abbrv)"
+format: 
+  dashboard:
+    scrolling: true
+    orientation: rows
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(gt)
+```
+
+
+
+
+# Current range
+
+## Summary text
+
+Summary text box. Should take up the full row
+
+## Current range maps
+
+### Current B2
+
+```{r}
+#| title: Current B2 map
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+
+```
+
+Figure caption for panel 1
+
+### Current C4
+
+```{r}
+#| title: Current C4 map
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+Figure caption for panel 2
+
+### Current D6
+
+```{r}
+#| title: Current D6 map
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+Figure caption for panel 3
+
+
+
+
+
+
+
+# CCISS projections
+
+## Overall summary
+
+Overall summary text describing future trends for this species. maybe some preface text to get user oriented to what to look for below.
+
+
+
+## Overall trends
+
+### Column - Bubble plot
+
+```{r}
+#| title: Bubble plot showing ensemble mean for each edatope
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+
+### Column - Plot description
+
+Text to describe the bubble plot
+
+## Shifts in BGC suitability
+
+Text to describe shifts in BGC suitability
+
+## Plots
+
+### A - Changes in suitability: map {.tabset} 
+
+#### B2
+
+```{r}
+#| title: Map showing overall mean change in suitability (2081-2100)
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+ 
+#### C4
+
+```{r}
+#| title: Map showing overall mean change in suitability (2081-2100)
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+
+#### D6
+
+```{r}
+#| title: Map showing overall mean change in suitability (2081-2100)
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+ 
+### B - Mean change box plot
+```{r}
+#| title: Boxplot showing mean change in suitability in each BGC zone
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Placeholder plot") +
+  theme_classic()
+```
+
+## Figure captions for A and B above
+
+Text summarizing the trends in the plots above, as a combined figure caption
+
+## Suitability area
+
+### Total suitable area change
+
+```{r}
+#| title: Plot showing the change in total suitable area between historical and far future (stacked bar plot and/or donut plot) AND spaghetti plots (3-panel plot (by edatope) showing the ensemble variation)
+#| layout-ncol: 2
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Total suitable area by BGC zone") +
+  theme_classic()
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Spaghetti plots") +
+  theme_classic() +
+  facet_wrap(~Species, ncol = 3)
+
+```
+
+
+## Figure descriptions
+
+ Text to describe the two plots above
+ 
+## Areas of interest
+
+Regions of interest:
+Text and maps and/or plots zooming in to any particular geographic areas of interest
+
+## Elevational patterns
+
+Elevational patterns: Text to summarize
+
+### Elevation plots
+
+
+```{r}
+#| title: Plot showing the change in total suitable area between historical and far future (stacked bar plot and/or donut plot) AND spaghetti plots (3-panel plot (by edatope) showing the ensemble variation)
+#| layout-ncol: 3
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Elevation plot 1") +
+  theme_classic()
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Elevation plot 2") +
+  theme_classic()
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  labs(title = "Elevation plot 3") +
+  theme_classic()
+
+```
+
+
+
+
+
+# Forest health
+
+## Text row
+
+Page describing the potential forest health considerations for each species, as appropriate
+
+
+
+# Additional resources
+
+| Resource | Description |
+|-----------------------|-------------------------------------------------|
+| [Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index) | Descriptions and characteristics of tree species found in British Columbia and comparison information regarding each species ecological suitability and tolerances to a variety of external factors. |
+| Another link | description |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
+|  |  |
