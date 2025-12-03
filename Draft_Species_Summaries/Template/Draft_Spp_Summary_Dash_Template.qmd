@@ -4,6 +4,9 @@ format:
   dashboard:
     scrolling: true
     orientation: rows
+    theme: 
+      - sandstone
+      - Draft_Species_Summaries/Template/sp_summaries_dash.scss
 ---
 
 ```{r}
@@ -97,7 +100,7 @@ Text to describe shifts in BGC suitability
 
 ### A - Changes in suitability: map {.tabset} 
 
-#### B2
+#### Poor/subxeric (B2)
 
 ```{r}
 #| title: Map showing overall mean change in suitability (2081-2100)
@@ -108,7 +111,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
   theme_classic()
 ```
  
-#### C4
+#### Mesic/zonal (C4)
 
 ```{r}
 #| title: Map showing overall mean change in suitability (2081-2100)
@@ -119,7 +122,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
   theme_classic()
 ```
 
-#### D6
+#### Rich/hygric (D6)
 
 ```{r}
 #| title: Map showing overall mean change in suitability (2081-2100)
@@ -175,15 +178,16 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
 Regions of interest:
 Text and maps and/or plots zooming in to any particular geographic areas of interest
 
-## Elevational patterns
-
-Elevational patterns: Text to summarize
+## Elevational patterns {.flow}
+::: {.card title = "Elevational patterns"}
+Text to summarize elevational patterns
+:::
 
 ### Elevation plots
 
 
 ```{r}
-#| title: Plot showing the change in total suitable area between historical and far future (stacked bar plot and/or donut plot) AND spaghetti plots (3-panel plot (by edatope) showing the ensemble variation)
+#| title: Elevational patterns plots, for each edatope? Or each BGC?
 #| layout-ncol: 3
 
 ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +

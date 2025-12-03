@@ -153,6 +153,8 @@ list
 
 -   Field guides
 
+-   [E-Flora trees of BC (UBC Geography and herbarium)](https://ibis.geog.ubc.ca/biodiversity/eflora/E-FloraTreesofBritishColumbia.html)
+
 -   Other unpublished expert ecological knowledge
 
     -   Communication with regional ecologists
