@@ -182,7 +182,7 @@ Meanwhile, many parts of the CWH and ICH zones where suitability was high during
 ```{r}
 #| title: 2021-2040 change in environmental suitability
 #| fill: false
-#| fig-cap: Already in 2021-2040, a large portion of BC's northern interior plateau is projected to have newly suitable mesic areas for Cw. Meanwhile, mesic areas of low elevation zones among the Coast and Columbia mountains are projected to decrease in suitability, driven by changes in their mean daily minimum temperature and precipitation as these areas become more climatically similar to southern BGC zones. (add description of boxplot for more detail on BGC zones)
+#| fig-cap: Already in 2021-2040, a large portion of BC's northern interior plateau is projected to have newly suitable mesic areas for Cw (yellow regions on the map). Meanwhile, mesic areas of low elevation zones among the Coast and Columbia mountains are projected to decrease in suitability (pink to black colors on the map), driven by changes in their mean daily minimum temperature and precipitation as these areas become more climatically similar to southern BGC zones. Relatively few areas will increase in suitability (blue shades on the map). The boxplot shows overall mean changes in suitability ranking across the province, by BGC zone.
 #| padding: 0px
 
 fig("Future_Map_Box.Cw.C4.2021_2040.png")
@@ -220,7 +220,7 @@ fig("Future_Map_Box.Cw.D6.2021_2040.png")
 ```{r}
 #| title: 2041-2060 change in environmental suitability
 #| fill: false
-#| fig-cap: In 2041-2060, Redcedar's newly suitable mesic range is projected to continue expanding across the SBS in the interior plateau, becoming more dense, especially in the West toward and around Smithers. Meanwhile, it's range throughout the lowland areas of the Coast and Columbia mountains is projected to continue contracting, with larger areas becoming increasingly unsuitable. (add description of boxplot for more detail on BGC zones)
+#| fig-cap: In 2041-2060, Redcedar's newly suitable mesic range (yellow) is projected to continue expanding across the SBS in the interior plateau, becoming more dense, especially in the West toward and around Smithers. Meanwhile, it's range throughout the lowland areas of the Coast and Columbia mountains is projected to continue contracting (pink to black), with larger areas becoming increasingly unsuitable. Meanwhile, its mean suitability is projected to increase more in the CDF and MH zones (boxplot and blue areas of map).
 #| padding: 0px
 
 fig("Future_Map_Box.Cw.C4.2041_2060.png")
@@ -260,7 +260,7 @@ fig("Future_Map_Box.Cw.D6.2041_2060.png")
 ```{r}
 #| title: 2061-2080 change in environmental suitability
 #| fill: false
-#| fig-cap: The 2061-2080 time period is projected to see continuated expansion of newly suitable habitat across the northern Interior Plateau, as well as along low-elevation edges of the Coast mountains (Eastern edge) and Columbia mountains (Western edge). Previously suitable habitat in the CWH and ICH zones of these mountain ranges remain unsuitable. (add description of boxplot for more detail on BGC zones)
+#| fig-cap: The 2061-2080 time period is projected to see continuated expansion of newly suitable habitat (yellow on the map) across the northern Interior Plateau, as well as along low-elevation edges of the Coast mountains (Eastern edge) and Columbia mountains (Western edge). Previously suitable habitat in the CWH and ICH zones of these mountain ranges continue to decrease in suitability. The boxplot shows overall mean changes in suitability ranking across the province, by BGC zone.
 #| padding: 0px
 
 fig("Future_Map_Box.Cw.C4.2061_2080.png")
@@ -300,7 +300,7 @@ fig("Future_Map_Box.Cw.D6.2061_2080.png")
 ```{r}
 #| title: 2081-2100 change in environmental suitability
 #| fill: false
-#| fig-cap: By the 2081-2100 period, much of the Sub-boreal Spruce (SBS) zone is projected to be newly suitable for Redcedar, while much of its previous range in southern BC is projected to be less suitable or fully unsuitable. This is particularly true in low-elevation subzones on the south end of Vancouver Island, around Squamish and the Vancouver lower mainland, and in the major valleys of the Columbia mountains, where suitibility is projected to increase up-slope but decrease/disappear at its previously favorable low elevations. (add description of boxplot for more detail on BGC zones)
+#| fig-cap: By the 2081-2100 period, much of the Sub-boreal Spruce (SBS) zone is projected to be newly suitable for Redcedar, while much of its previous range in southern BC is projected to be less suitable or fully unsuitable. This is particularly true in low-elevation CWH and CDF subzones on the south end of Vancouver Island, around Squamish and the Vancouver lower mainland, and in the major valleys of the Columbia mountains (particularly in the ICH and IDF zones). In both mountain ranges, suitibility is projected to increase up-slope (into the ESSF in the interior, and the MH zones of the Coastal mountains) but decrease/disappear at its previously favorable low elevations. 
 #| padding: 0px
 
 fig("Future_Map_Box.Cw.C4.2081_2100.png")
@@ -345,20 +345,16 @@ fig("Future_Map_Box.Cw.D6.2081_2100.png")
 
 ### Col - description
 
-**Summary:** 
-
-The figures to the right show the changes in Western Redcedar's suitable area in BC (Km^2) over time in each edatope (tabs).  The height of each bar represents the total projected area of Cw's range in each time period, which is then distributed across the different BGC zones that it occupies during that time period. The first time period shown on the left of each graph is the historical reference period (1961-1990). It is important to remember that for the future projected time periods, the BGC zones remain static within the province (e.g., they are not shrinking or growing), and the projected changes in proportional coverage of the focal species across zones represents changes in their range spanning these static zones, as they track novel changes in the climate. 
+The figures to the right show the changes in Western Redcedar's suitable area in BC (Km^2^) over time in each edatope (tabs).  The height of each bar represents the total projected area of Cw's range in each time period, which is then distributed across the different BGC zones that it occupies during that time period. The first time period shown on the left of each graph is the historical reference period (1961-1990). It is important to remember that for the future projected time periods, the BGC zones remain static within the province (e.g., they are not shrinking or growing), and the projected changes in proportional coverage of the focal species across zones represents changes in their range spanning these static zones, as they track novel changes in the climate. 
 
 In general, Redcedar's range is projected to expand across BC over the century, with increased coverage in the ESSF, MH, and SBS zones, and relatively stable coverage overall in the CWH and ICH. 
-In mesic/zonal and rich/hygric sites, where higher amounts of soil moisture and nutrients are more suitable for Redcedar, some novel expansion into the BWBS, IDF, MS, and SBPS zones is also projected.
+In mesic/zonal and rich/hygric sites, where higher amounts of soil moisture and nutrients are more suitable for Redcedar, some novel expansion into the BWBS, IDF, MS, and SBPS zones is also projected as these zones become warmer and wetter over time.
 
-**Interpretation:**
 
-According to CCISS projections, many mapped units within the Sub-Boreal Spruce (SBS) zone, especially wetter subzone/variants, are projected to shift towards more Interior Cedar-Hemlock (ICH)-like climates in the future. This likely explains Redcedar's projected range expansion into the SBS zone. 
+According to CCISS projections, many mapped units within the Sub-Boreal Spruce (SBS) zone, especially wetter subzone/variants, are projected to shift towards more Interior Cedar-Hemlock (ICH)-like climates in the future. This likely explains Redcedar's projected range expansion into the SBS zone, as well as small portions of the BWBS and SBPS zones. 
 Similarly, wet variants in the lower elevation portions of the ESSF zone are projected to undergo similar shifts toward more ICH-like climates, which means that Redcedar's projected expansion into this zone will likely be driven by up-slope range expansion. 
 The Mountain Hemlock (MS) zone is above the CWH in elevation throughout the Coast mountains and currently supports small populations of Redcedar at low elevations. Warming temperatures in this zone are the likely driver of Redcedar's projected expansion in this zone as well.
 
-[To do: describe the novel mesic/hygric expansions]
   
 
 ### Col - Alluvial figure {.tabset}
@@ -416,7 +412,7 @@ BAFA: Boreal Altai Fescue Alpine, BG: Bunchgrass, BWBS: Boreal White and Black S
 
 ## Row - spacer
 
-**Broad trends**
+**Broad trends in projected suitability changes**
 
 
 ## Row - Suitability area spaghetti plots
@@ -444,13 +440,13 @@ fig("Cw_spag2.png")
 
 :::
 
+
 ::: {.column}
+
 
 ### Col - Description
 
-**Summary:**   
-
-Projected trends for the change in proportion of the species' historically suitable area within the three representative edatopes (poor/subxeric B2, mesic/zonal C4, and rich/hygric D6), from the years 2000 to 2080. Note there are two tabs: the first plotted by time period, and the second plotted by mean annual temperature (MAT). Each thin line represents a different biogeoclimatic projection model and the thick lines represent the overall mean.
+The figure to the left shows the projected trends for the change in proportion of the species' historically suitable area within the three representative edatopes (poor/subxeric B2, mesic/zonal C4, and rich/hygric D6), from the years 2000 to 2080. Note there are two tabs: the first plotted by time period, and the second plotted by mean annual temperature (MAT) in Celcius. Each thin line represents a different biogeoclimatic projection model and the thick lines represent the overall mean.
 
 On the first tab, each colored line represents one of the Shared Socioeconomic Pathways (SSPs): 
 
@@ -468,24 +464,46 @@ The second figure shows that the projected proportion of historically suitable a
 
 ### L Column - Plot description
 
-**Figure description:** 
 
-This "bubble plot" shows the projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range. Each point represents the mean of the 15-member GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province, with the surrounding shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing or shrinking. Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled.
+The figure on the left shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in each of the three main Shared Socioeconomic Pathways (SSPs; tabs). Each colorful point represents the mean of the 15-member GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province, with the surrounding shaded ellipses ("bubbles") representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled.
 
-Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the size of the bubbles shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province, with following plots unpacking more of the underlying variation in trends across zones.
+Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the size of the bubbles shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province.
 
-**Figure summary for Western Redcedar:** 
+This figure shows that Western Redcedar is overall projected to persist within about 60% of its historically suitable range, while its expanded range is projected to be about 1.5 times larger. This is true across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
 
-This figure shows that Western Redcedar is overall projected to persist within about 60% of its historically suitable range, and expand beyond it by about 50%. This is true across the three edatopes, which are shown to be clustered tightly together.
+### R Column - Bubble plot {.tabset}
 
-### R Column - Bubble plot
+#### SSP126
 
 ```{r}
-#| title: Bubble figure showing ensemble mean for each edatope
+#| title: Bubble figure showing the ensemble mean for each edatope in the SSP126 scenario
 #| fill: FALSE
 
-fig("Cw_ssp245_bub_screenshot.png") #this is a screenshot for now because I couldn't figure out yet how to save the bubble plots with ggsave
+fig("Cw_ssp126_bub.png") 
 ```
+
+
+#### SSP245
+
+```{r}
+#| title: Bubble figure showing the ensemble mean for each edatope in the SSP245 scenario
+#| fill: FALSE
+
+fig("Cw_ssp245_bub.png") 
+```
+
+#### SSP370
+
+```{r}
+#| title: Bubble figure showing the ensemble mean for each edatope in the SSP370 scenario
+#| fill: FALSE
+
+fig("Cw_ssp370_bub.png") 
+```
+
+
+
+
 
 ## Areas of interest
 
@@ -519,6 +537,268 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
   theme_classic()
 
 ```
+
+
+
+
+
+
+
+
+
+
+# Test page 
+
+#### Mesic/zonal (C4)
+
+```{=html}
+### Changes in suitability: map {.tabset .flow}
+
+#### Mesic/zonal (C4)
+
+<div id="c4-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#c4-carousel" data-bs-slide-to="0"
+            class="active" aria-current="true" aria-label="2021–2040"></button>
+    <button type="button" data-bs-target="#c4-carousel" data-bs-slide-to="1"
+            aria-label="2041–2060"></button>
+    <button type="button" data-bs-target="#c4-carousel" data-bs-slide-to="2"
+            aria-label="2061–2080"></button>
+    <button type="button" data-bs-target="#c4-carousel" data-bs-slide-to="3"
+            aria-label="2081–2100"></button>
+  </div>
+
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.C4.2021_2040.png"
+             class="d-block w-100"
+             alt="2021–2040 change in environmental suitability (C4)">
+        <figcaption class="small text-muted mt-2">
+          Already in 2021–2040, a large portion of BC's northern interior plateau is projected to have newly suitable mesic areas for Cw. Meanwhile, mesic areas of low elevation zones among the Coast and Columbia mountains are projected to decrease in suitability, driven by changes in their mean daily minimum temperature and precipitation as these areas become more climatically similar to southern BGC zones. (add description of boxplot for more detail on BGC zones)
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.C4.2041_2060.png"
+             class="d-block w-100"
+             alt="2041–2060 change in environmental suitability (C4)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2041–2060 (C4)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.C4.2061_2080.png"
+             class="d-block w-100"
+             alt="2061–2080 change in environmental suitability (C4)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2061–2080 (C4)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.C4.2081_2100.png"
+             class="d-block w-100"
+             alt="2081–2100 change in environmental suitability (C4)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2081–2100 (C4)…
+        </figcaption>
+      </figure>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#c4-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#c4-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+```
+
+#### Poor/subxeric (B2)
+
+```{=html}
+<div id="b2-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#b2-carousel" data-bs-slide-to="0"
+            class="active" aria-current="true" aria-label="2021–2040"></button>
+    <button type="button" data-bs-target="#b2-carousel" data-bs-slide-to="1"
+            aria-label="2041–2060"></button>
+    <button type="button" data-bs-target="#b2-carousel" data-bs-slide-to="2"
+            aria-label="2061–2080"></button>
+    <button type="button" data-bs-target="#b2-carousel" data-bs-slide-to="3"
+            aria-label="2081–2100"></button>
+  </div>
+
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.B2.2021_2040.png"
+             class="d-block w-100"
+             alt="2021–2040 change in environmental suitability (B2)">
+        <figcaption class="small text-muted mt-2">
+          Text summarizing the map
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.B2.2041_2060.png"
+             class="d-block w-100"
+             alt="2041–2060 change in environmental suitability (B2)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2041–2060 (B2)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.B2.2061_2080.png"
+             class="d-block w-100"
+             alt="2061–2080 change in environmental suitability (B2)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2061–2080 (B2)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.B2.2081_2100.png"
+             class="d-block w-100"
+             alt="2081–2100 change in environmental suitability (B2)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2081–2100 (B2)…
+        </figcaption>
+      </figure>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#b2-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#b2-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+```
+
+#### Rich/hygric (D6)
+
+```{=html}
+<div id="d6-carousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#d6-carousel" data-bs-slide-to="0"
+            class="active" aria-current="true" aria-label="2021–2040"></button>
+    <button type="button" data-bs-target="#d6-carousel" data-bs-slide-to="1"
+            aria-label="2041–2060"></button>
+    <button type="button" data-bs-target="#d6-carousel" data-bs-slide-to="2"
+            aria-label="2061–2080"></button>
+    <button type="button" data-bs-target="#d6-carousel" data-bs-slide-to="3"
+            aria-label="2081–2100"></button>
+  </div>
+
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.D6.2021_2040.png"
+             class="d-block w-100"
+             alt="2021–2040 change in environmental suitability (D6)">
+        <figcaption class="small text-muted mt-2">
+          Text summarizing the map
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.D6.2041_2060.png"
+             class="d-block w-100"
+             alt="2041–2060 change in environmental suitability (D6)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2041–2060 (D6)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.D6.2061_2080.png"
+             class="d-block w-100"
+             alt="2061–2080 change in environmental suitability (D6)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2061–2080 (D6)…
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="carousel-item">
+      <figure class="m-0">
+        <img src="./Figures/Future_Map_Box.Cw.D6.2081_2100.png"
+             class="d-block w-100"
+             alt="2081–2100 change in environmental suitability (D6)">
+        <figcaption class="small text-muted mt-2">
+          Caption for 2081–2100 (D6)…
+        </figcaption>
+      </figure>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button"
+          data-bs-target="#d6-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button"
+          data-bs-target="#d6-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+```
+
+
+
+
+
+
+
+
 
 # Forest health
 
