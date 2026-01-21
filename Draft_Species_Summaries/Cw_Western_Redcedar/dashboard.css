@@ -1,0 +1,120 @@
+/* Hide the INNER (glitchy) expand control inside tab content and nested cards */
+.quarto-dashboard .tab-content .bslib-full-screen-enter,
+.quarto-dashboard .tab-pane .bslib-full-screen-enter,
+.quarto-dashboard .card .card .bslib-full-screen-enter {
+  display: none !important;
+}
+
+/* Re-enable the OUTER expand control (direct child of the card, wrapped in bslib-tooltip) */
+.quarto-dashboard .card > bslib-tooltip > .bslib-full-screen-enter {
+  display: inline-flex !important;
+}
+
+
+
+
+
+/* Remove card borders ONLY on the Landing page */
+#landing-page .card {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+
+
+
+/* Style tabset headers */
+/* Unified background for entire tabset header area */
+.quarto-dashboard .card-header,
+.quarto-dashboard .card-header .nav-tabs {
+  background-color: #DCD2A7 !important;
+}
+
+/* Remove default tabset borders that cause color breaks */
+.quarto-dashboard .card-header .nav-tabs {
+  border-bottom: none;
+}
+
+/* Inactive tabs blend into header */
+.quarto-dashboard .card-header .nav-tabs .nav-link {
+  background-color: transparent;
+  font-weight: 600;
+  border: none;
+  color: #2b2b2b;
+}
+
+/* Active tab pops */
+.quarto-dashboard .card-header .nav-tabs .nav-link.active {
+  background-color: #ffffff;
+  border-radius: 0.375rem 0.375rem 0 0;
+  font-weight: 700;
+  color: #000000;
+}
+
+
+
+/* Match panel-tabset tabs that are NOT in .card-header (e.g., nested tabsets) */
+
+/* Unified background for tab headers inside panel-tabset */
+.quarto-dashboard .panel-tabset > .nav-tabs,
+.quarto-dashboard .panel-tabset > .nav-pills {
+  background-color: #DCD2A7 !important;
+}
+
+/* Remove default borders that create breaks */
+.quarto-dashboard .panel-tabset > .nav-tabs {
+  border-bottom: none !important;
+}
+
+/* Inactive tabs blend into header */
+.quarto-dashboard .panel-tabset > .nav-tabs .nav-link,
+.quarto-dashboard .panel-tabset > .nav-pills .nav-link {
+  background-color: transparent !important;
+  font-weight: 600;
+  border: none !important;
+  color: #2b2b2b !important;
+}
+
+/* Active tab pops */
+.quarto-dashboard .panel-tabset > .nav-tabs .nav-link.active,
+.quarto-dashboard .panel-tabset > .nav-pills .nav-link.active {
+  background-color: #ffffff !important;
+  border-radius: 0.375rem 0.375rem 0 0;
+  font-weight: 700;
+  color: #000000 !important;
+}
+
+
+
+
+
+/* Nav bar */
+.quarto-dashboard .navbar {
+  background-color: #003366 !important;
+}
+
+
+
+
+
+/* Highlight spacer rows */
+.spacer-row {
+  background-color: #D7E3EA !important;
+  padding: 1rem 1.25rem !important;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Clear common inner container backgrounds that may be white */
+.spacer-row .cell,
+.spacer-row .cell-output,
+.spacer-row .cell-content,
+.spacer-row .content,
+.spacer-row .markdown,
+.spacer-row .card,
+.spacer-row .card-body {
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
