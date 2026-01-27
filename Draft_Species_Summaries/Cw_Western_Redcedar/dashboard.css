@@ -101,9 +101,12 @@
 /* Highlight spacer rows */
 .spacer-row {
   background-color: #D7E3EA !important;
-  padding: 1rem 1.25rem !important;
+  padding: 0.4rem 1.25rem !important;
   border-radius: 0.5rem;
-  margin: 1rem 0;
+  margin: 0.2rem 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 /* Clear common inner container backgrounds that may be white */
