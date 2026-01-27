@@ -28,7 +28,7 @@
 /* Unified background for entire tabset header area */
 .quarto-dashboard .card-header,
 .quarto-dashboard .card-header .nav-tabs {
-  background-color: #DCD2A7 !important;
+  background-color: #fae5a0 !important;
 }
 
 /* Remove default tabset borders that cause color breaks */
@@ -59,7 +59,7 @@
 /* Unified background for tab headers inside panel-tabset */
 .quarto-dashboard .panel-tabset > .nav-tabs,
 .quarto-dashboard .panel-tabset > .nav-pills {
-  background-color: #DCD2A7 !important;
+  background-color: #fae5a0 !important;
 }
 
 /* Remove default borders that create breaks */
