@@ -183,7 +183,7 @@ On this page, you will find a visual and interpretive synthesis of the CCISS too
 
 ::: card
 
-Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand slightly, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under the increased warming scenarios of SSP245 and SSP370. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
+Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand slightly, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
 :::
 
 ### R Column - Bubble plot {width="60%"}
@@ -203,9 +203,9 @@ fig("Cw_ssp245_bub.png")
 
 **Mean projected suitability changes across BC**
 
-## Maps {height=700px}
+## Maps {height=800px}
 
-### L col {width="30%"}
+### L col {width="35%"}
 
 Overall, the total suitable area in BC for Western Redcedar is projected to increase with climate change, but the specific locations where it is most suitable will shift.
 
@@ -217,7 +217,7 @@ Meanwhile, many parts of the Coastal Western Hemlock (CWH) and ICH zones where s
 
 These patterns are shown in 20-year intervals and by Edatopic space in the figures to the right.
 
-### R col {width="70%"}
+### R col {width="65%"}
 
 ::: {.card .fit-screen-card}
 
@@ -235,8 +235,9 @@ These patterns are shown in 20-year intervals and by Edatopic space in the figur
 ##### 2001–2020
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2001-C4
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 
@@ -246,8 +247,9 @@ fig("Two_panel.Cw.C4.2001_2020.png")
 ##### 2021–2040
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2021-C4
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.C4.2021_2040.png")
@@ -256,8 +258,9 @@ fig("Two_panel.Cw.C4.2021_2040.png")
 ##### 2041–2060
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2041-C4
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.C4.2041_2060.png")
@@ -266,8 +269,9 @@ fig("Two_panel.Cw.C4.2041_2060.png")
 ##### 2061–2080
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2061-C4
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.C4.2061_2080.png")
@@ -276,8 +280,9 @@ fig("Two_panel.Cw.C4.2061_2080.png")
 ##### 2081–2100
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2081-C4
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.C4.2081_2100.png")
@@ -294,8 +299,9 @@ fig("Two_panel.Cw.C4.2081_2100.png")
 ##### 2001–2020
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2001-B2
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.B2.2001_2020.png")
@@ -304,8 +310,9 @@ fig("Two_panel.Cw.B2.2001_2020.png")
 ##### 2021–2040
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2021-B2
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.B2.2021_2040.png")
@@ -314,8 +321,9 @@ fig("Two_panel.Cw.B2.2021_2040.png")
 ##### 2041–2060
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2041-B2
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.B2.2041_2060.png")
@@ -324,8 +332,9 @@ fig("Two_panel.Cw.B2.2041_2060.png")
 ##### 2061–2080
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2061-B2
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.B2.2061_2080.png")
@@ -334,8 +343,9 @@ fig("Two_panel.Cw.B2.2061_2080.png")
 ##### 2081–2100
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2081-B2
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.B2.2081_2100.png")
@@ -350,8 +360,9 @@ fig("Two_panel.Cw.B2.2081_2100.png")
 ##### 2001–2020
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2001-D6
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.D6.2001_2020.png")
@@ -360,8 +371,9 @@ fig("Two_panel.Cw.D6.2001_2020.png")
 ##### 2021–2040
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2021-D6
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false 
 #| out-width: 70%
 
 fig("Two_panel.Cw.D6.2021_2040.png")
@@ -370,8 +382,9 @@ fig("Two_panel.Cw.D6.2021_2040.png")
 ##### 2041–2060
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2041-D6
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.D6.2041_2060.png")
@@ -380,8 +393,9 @@ fig("Two_panel.Cw.D6.2041_2060.png")
 ##### 2061–2080
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2061-D6
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.D6.2061_2080.png")
@@ -390,8 +404,9 @@ fig("Two_panel.Cw.D6.2061_2080.png")
 ##### 2081–2100
 
 ```{r}
-##| title: Change in environmental suitability
-##| fig-cap: 
+#| label: 2081-D6
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fill: false
 #| out-width: 70%
 
 fig("Two_panel.Cw.D6.2081_2100.png")
