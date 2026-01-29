@@ -20,7 +20,7 @@ library(tidyverse)
 library(gt)
 
 #Use this to set up the file path for all figures saved in ccissr. Unfortunately, Quarto dashboards can't display images from absolute filepaths outside the project folder (I was hoping to be able to pull figures directly from the ccissr project folder). This means that every time figures are updated in the Figures subfolder in ccissr, the easiest thing to do is copy that whole "Figures" folder and paste/replace it here. Then set up the file path here to make it slightly easier to call figures where needed below: 
-fig_path <- "./Figures" #Since this qmd file is in the Pl_Western_Redcedar folder, the Figures folder also has to be inside Pl_Western_Redcedar. This means that in ccissr, it will make the most sense to create a species-specific figure folder, to then copy/paste into the specific species dashboard folders here.
+fig_path <- "./Figures" 
 
 # Wrapper function for loading figures
 fig <- function(filename) {
