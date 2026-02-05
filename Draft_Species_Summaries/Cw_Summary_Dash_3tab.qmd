@@ -37,6 +37,10 @@ fig <- function(filename) {
 
 Welcome to the Species Summary Dashboard for Western Redcedar (abbreviated as "Cw"), a place for species-specific summaries of the inputs and outputs of the Climate Change Informed Species Selection (CCISS) tool. This dashboard is intended to support forest practitioners, planners, and land managers, in making informed, forward-looking decisions about where Cw may be suitable to plant over the coming decades. As climate conditions shift, these decisions will become increasingly critical for maintaining productive, resilient, and adaptive forest landscapes.
 
+**For Western Redcedar, a species with high ecological, cultural, and economic value, the CCISS projections reveal a complex pattern: potential expansion of suitability upwards in elevation and into more northern areas, and localized declines in low-elevation and drought-prone regions.**
+
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Western Redcedar management.
+
 At the top of the page, you will find tabs for the following summaries:
 
 -   **Reference (historical baseline) Period**
@@ -44,15 +48,18 @@ At the top of the page, you will find tabs for the following summaries:
         -   Poor/subxeric (B2)
         -   Mesic/zonal (C4)
         -   Rich/hygric (D6)
+        
 -   **CCISS Projections**
     -   A collection of visualizations and interpretations of the CCISS tool projections through 2100 for this species in British Columbia, exploring the changes in its suitable range over time. This includes:
         -   Projected persistence and expansion of its suitable range relative to its historically suitable range
-        -   Shifts in its suitability within each BGC zone
-        -   Predictions according to the different Shared Socioeconomic Pathways (SSPs) and increasing mean annual temperature (MAT)
-        -   A summary of projected changes in particular areas of interest in BC
-        -   Projected changes along elevational gradients
--   **Forest Health**
+        -   Shifts in its environmental suitability across the province and for each BGC zone
+        -   Shifts in its environmentally suitable area across the province and for each BGC zone
+        -   A summary of projected changes in particular areas of interest in BC (IN DEVELOPMENT)
+        -   Projected changes along elevational gradients (IN DEVELOPMENT)
+        
+-   **Forest Health** (IN DEVELOPMENT)
     -   A summary of forest health considerations and concerns for this species, interpreted in light of CCISS projections
+    
 -   **Additional Resources**
     -   A collection of other tools, websites, and guides that provide additional information about this species, particularly covering background ecology and silvics information not summarized here
 
@@ -60,7 +67,6 @@ At the top of the page, you will find tabs for the following summaries:
 
 This dashboard is intended to provide a species-specific overview and interpretation of the data from the CCISS tool and does not represent management recommendations. Please see the CCISS Documentation tab \> Decision Guidance section for more information on the appropriate and intended uses of these data.
 
-For Western Redcedar, a species with high ecological, cultural, and economic value, the CCISS projections reveal a complex pattern: potential expansion of suitability into upslope and northern areas, and localized declines in low-elevation and drought-prone regions. While the tool offers valuable insights into broad-scale trends, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Western Redcedar management.
 
 ## Row - logos
 
@@ -134,7 +140,7 @@ How is the total environmentally suitable area of the province (all colored area
 
 *Summary of its prevalence within these BGC zones*
 
-On the coast, Redcedar is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, Grandfir, and Bigleaf Maple [@egan1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and low in the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
+On the coast, Western Redcedar is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, Grandfir, and Bigleaf Maple [@egan1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and low in the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
 
 In the Interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the IDF, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce - Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/western-redcedar)).
 
@@ -162,13 +168,11 @@ fig("Cw_histpie.png")
 
 On this page, you will find a visual and interpretive synthesis of the CCISS tool projections for this species, including:
 
-1.  Proportion of the historic range that the species will remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by edatope.
+1.  Proportion of the historic range that the species is predicted to remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by edatope.
 
-2.  Mean changes in environmental suitability across its geographic range in BC, by future time period and edatope.
+2.  Predicted mean changes in environmental suitability across its geographic range in BC, by future time period and edatope.
 
-3.  Shifts in suitability across specific provincial biogeoclimatic (BGC) zones.
-
-
+3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
 
 
 ## Row - broad trends {.spacer-row}
@@ -181,7 +185,7 @@ On this page, you will find a visual and interpretive synthesis of the CCISS too
 
 ::: card
 
-Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand slightly, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
+Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures under increased warming scenarios. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
 :::
 
 ### R Column - Bubble plot {width="60%"}
