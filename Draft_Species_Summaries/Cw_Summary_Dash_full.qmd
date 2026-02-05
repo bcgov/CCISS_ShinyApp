@@ -17,13 +17,72 @@ bibliography: references.bib
 library(tidyverse)
 library(gt)
 
+library(ccissr)
+library(terra)
+library(duckdb)
+library(data.table)
+library(RColorBrewer)
+library(bcmaps)
+library(climr)
+
+# Load data ----------
+dir <- "//objectstore2.nrs.bcgov/ffec/BGC_models/" #permanent location
+BGCmodel <- readRDS(paste0(dir, "BGCmodel_WNA_V2.1.rds"))
+
+# each user must set this directory for your own location of the ccissr R project:
+dir <- "C:/Users/miawater/Documents/ccissr/" # local copy
+
+#dem2 <- rast(paste0(dir, "dem_BC2kmGrid.tif"))
+dem2 <- rast("//objectstore2.nrs.bcgov/ffec/DEM/dem_BC2kmGrid.tif") #permanent location
+dem_table <- climr::dem_to_table(dem2)
+
+# setup parameters for model
+gcms_cciss <- c("ACCESS-ESM1-5", "CNRM-ESM2-1", "EC-Earth3", "GFDL-ESM4",
+                "GISS-E2-1-G", "MIROC6", "MPI-ESM1-2-HR", "MRI-ESM2-0")
+
+vars_needed <- c("CMD_sm", "DDsub0_sp", "DD5_sp", "Eref_sm", "Eref_sp", "EXT", 
+                 "MWMT", "NFFD_sm", "NFFD_sp", "PAS_an", "PAS_sp", "SHM", "Tave_sm", 
+                 "Tave_sp", "Tmax_sm", "Tmax_sp", "Tmin_an", "Tmin_at", "Tmin_sm", 
+                 "Tmin_sp", "Tmin_wt","CMI_an", "PPT_05","PPT_06","PPT_07","PPT_08",
+                 "PPT_09","PPT_at","PPT_wt","CMD_07","CMD_an"
+)
+
+# Create mapped BGC raster
+bgcs <- vect(paste0(dir, "BEC13Draft_Simplified.gpkg"))
+bgc_template <- make_bgc_template(dem2, bgcs)
+plot(bgc_template$bgc_rast)
+
+
+#Set up database
+con <- dbCon_cciss(paste0(dir, "bc_2km.duckdb"), threads = 8)
+dbPopulate(con, bgc_template)
+
+# Run raw BGC predictions
+predict_bgc(con, dem_table, BGCmodel, vars_needed, gcms_cciss, periods_use = list_gcm_periods(), max_runs_use = 4L)
+
+# Set up for bubble plots 
+  # Calculate species persistence and expansion
+
+DBI::dbExecute(con, "PRAGMA max_temp_directory_size='20GiB'") #if needed
+
+for (sp in c(
+  "Pl", "Fd", "Cw", "Sx", "At", "Py", "Ba", "Bl", "Bg",
+  "Yc", "Hm", "Lw", "Hw", "Dr", "Ep", "Act", "Sb", "Mb", "Ss"
+)) {
+  perexp <- spp_persist_expand(con, spp_list = sp, fractional = TRUE)
+} #run for one species at a time if machine can't handle more, then run this to cache them all together:
+perexp <- spp_persist_expand(con, spp_list = c("Pl", "Fd", "Cw", "Sx", "At", "Py", "Ba", "Bl", "Bg", "Yc", "Hm", "Lw", "Hw","Dr", "Ep", "Act", "Sb", "Mb", "Ss"), fractional = TRUE)
+
+
+
+
 #Use this to set up the file path for all figures saved in ccissr. Unfortunately, Quarto dashboards can't display images from absolute filepaths outside the project folder (I was hoping to be able to pull figures directly from the ccissr project folder). This means that every time figures are updated in the Figures subfolder in ccissr, the easiest thing to do is copy that whole "Figures" folder and paste/replace it here. Then set up the file path here to make it slightly easier to call figures where needed below: 
-fig_path <- "./Figures" 
+#fig_path <- "./Figures" 
 
 # Wrapper function for loading figures
-fig <- function(filename) {
-  knitr::include_graphics(file.path(fig_path, filename))
-} #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
+# fig <- function(filename) {
+#   knitr::include_graphics(file.path(fig_path, filename))
+# } #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
 ```
 
 # Landing page
@@ -176,29 +235,79 @@ On this page, you will find a visual and interpretive synthesis of the CCISS too
 
 **Broad trends**
 
-## Row - Bubble plot {height=700px}
+## Row - Bubble plot {height="700px"}
 
 ### L Column - Plot description {width="40%"}
 
 ::: card
+Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand over time, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes (tabs), which are shown to be very similar for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
 
-Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand slightly, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
+
+
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (X axis) and Expansion (Y axis) are subtly different in how they relate to the historical range of the species:
+
+$$
+\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
+
+
+$$
+\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
+
 :::
 
 ### R Column - Bubble plot {width="60%"}
 
+::: panel-tabset
+#### Mesic/zonal (C4)
+
 ::: card
 ```{r}
-#| title: Bubble figure showing the ensemble mean for each edatope in the SSP2-4.5 scenario
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2-4.5 scenario given current policies for moderate emission mitigation. Each colorful point represents the mean of the 15-member GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province, with the surrounding shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the size of the bubbles shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2-4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041-2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
 
-fig("Cw_ssp245_bub.png") 
+
+spp_bubbleplot(persist_expand, period = "2041_2060", scenario = "ssp245", species.focal = "Cw", edatope = c("C4")) 
 ```
 :::
 
-## Row - broad trends {.spacer-row}
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2-4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041-2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+
+spp_bubbleplot(persist_expand, period = "2041_2060", scenario = "ssp245", species.focal = "Cw", edatope = c("B2")) 
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2-4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041-2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+
+spp_bubbleplot(persist_expand, period = "2041_2060", scenario = "ssp245", species.focal = "Cw", edatope = c("D6"))
+```
+:::
+:::
+
+## Row {.spacer-row}
 
 **Suitability changes**
 

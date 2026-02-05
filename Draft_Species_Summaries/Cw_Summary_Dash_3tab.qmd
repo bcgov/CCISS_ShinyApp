@@ -40,7 +40,7 @@ Welcome to the Species Summary Dashboard for Western Redcedar (abbreviated as "C
 At the top of the page, you will find tabs for the following summaries:
 
 -   **Reference (historical baseline) Period**
-    -   Maps and descriptive summary of the species range in British Columbia during the baseline climate normal period of 1961-1990 in terms of its environmental suitability across Biogeoclimatic (BGC) zones and across three edatopic (soil nutrient x moisture) regimes, relative to the local biogeoclimatic subzone:
+    -   Maps and descriptive summary of the species range in British Columbia during the baseline climate normal period of 1961--1990 in terms of its environmental suitability across Biogeoclimatic (BGC) zones and across three edatopic (soil nutrient x moisture) regimes, relative to the local biogeoclimatic subzone:
         -   Poor/subxeric (B2)
         -   Mesic/zonal (C4)
         -   Rich/hygric (D6)
@@ -78,7 +78,7 @@ Western Redcedar is best adapted to climates with abundant precipitation and hig
 
 In British Columbia, Western Redcedar is found in two distinct populations: a coastal population, and an interior population. Approximately 81% of the province’s mature Cw volume is found in the coastal population [@20093107527]. These two populations are ecologically distinct due to differences in climatic regimes, topography, and associated vegetation, but genetically, they are quite similar [@20093107527]. It is common for Western Redcedar to co-occur on mesic and wet sites with Western Hemlock (*Tsuga heterophylla*) throughout its range in BC.
 
-In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
 \*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
 
@@ -89,7 +89,7 @@ In the maps below, each color represents the species environmental suitability d
 #### Mesic/zonal (C4)
 
 ```{r}
-#| title: Environmental Suitability in mesic/zonal (C4) edatopes under baseline climate (1961-1990)
+#| title: Environmental Suitability in mesic/zonal (C4) edatopes under baseline climate (1961--1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -102,7 +102,7 @@ fig("Historic_Suit_Map.Cw.C4.png")
 #### Poor/subxeric (B2)
 
 ```{r}
-#| title: Environmental Suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| title: Environmental Suitability in poor/subxeric (B2) edatopes under baseline climate (1961--1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -116,7 +116,7 @@ fig("Historic_Suit_Map.Cw.B2.png")
 #### Rich/hygric (D6)
 
 ```{r}
-#| title: Environmental Suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| title: Environmental Suitability in rich/hygric (D6) edatopes under baseline climate (1961--1990) 
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -128,15 +128,15 @@ fig("Historic_Suit_Map.Cw.D6.png")
 
 ### BGC text
 
-**Range by Biogeoclimatic Ecosystem Classification (BEC)**
+**Total suitable area across Biogeoclimatic zones**
 
-How is the total environmentally suitable area of the province (all colored areas on the maps) split across Biogeoclimatic (BGC) zones? The pie chart to the right explores this by showing the total suitable area (Km^2^) of BC for Western Redcedar by BGC zone based on climates of the historical reference period (1961-1990).
+How is the total environmentally suitable area of the province (all colored areas on the maps) split across Biogeoclimatic (BGC) zones? The pie chart to the right explores this by showing the total suitable area (Km^2^) of BC for Western Redcedar by BGC zone based on climates of the historical reference period (1961--1990).
 
-*Summary of its prevalence within these BGC zones*
+*Summary of prevalence within these BGC zones*
 
 On the coast, Redcedar is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, Grandfir, and Bigleaf Maple [@egan1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and low in the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
 
-In the Interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the IDF, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce - Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/western-redcedar)).
+In the Interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the IDF, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/western-redcedar)).
 
 ### Pie chart
 
@@ -168,73 +168,115 @@ On this page, you will find a visual and interpretive synthesis of the CCISS too
 
 3.  Shifts in suitability across specific provincial biogeoclimatic (BGC) zones.
 
-
-
-
 ## Row - broad trends {.spacer-row}
 
 **Broad trends**
 
-## Row - Bubble plot {height=700px}
+## Row - Bubble plot {height="700px"}
 
 ### L Column - Plot description {width="40%"}
 
 ::: card
+Western Redcedar is overall projected to persist within about 40--60% of its historically suitable range, while its suitable range is projected to expand over time, to be about 1--1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes (tabs), which are shown to be very similar for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes might respond similarly to climate change.
 
-Western Redcedar is overall projected to persist within about 40-60% of its historically suitable range, while its suitable range is projected to expand slightly, to be about 1-1.5 times larger than the historically suitable range. Expansion of Cw's suitable area is projected to be driven by higher temperatures expected under increased warming scenarios. These trends are similar across the three edatopes, which are shown to be clustered tightly together for this species. This suggests that within a BGC zone, populations of Redcedar in different edatopes will respond similarly to climate change.
+
+
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (X axis) and Expansion (Y axis) are subtly different in how they relate to the historical range of the species:
+
+$$
+\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
+
+
+$$
+\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
 :::
 
 ### R Column - Bubble plot {width="60%"}
 
+::: panel-tabset
+#### Mesic/zonal (C4)
+
 ::: card
 ```{r}
-#| title: Bubble figure showing the ensemble mean for each edatope in the SSP2-4.5 scenario
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2-4.5 scenario given current policies for moderate emission mitigation. Each colorful point represents the mean of the 15-member GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province, with the surrounding shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the size of the bubbles shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
 
-fig("Cw_ssp245_bub.png") 
+fig("Cw_C4_bub.png") 
 ```
 :::
 
-## Row - broad trends {.spacer-row}
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+
+fig("Cw_B2_bub.png") 
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Western Redcedar relative to its historically suitable range, in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are emphasized (in blue) due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the amount of variation shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
+
+fig("Cw_D6_bub.png") 
+```
+:::
+:::
+
+## Row {.spacer-row}
 
 **Suitability changes**
 
-## Maps {height=800px}
+## Row - Maps {height="800px"}
 
 ### L col {width="35%"}
 
+:::card
+
 Overall, the total suitable area in BC for Western Redcedar is projected to increase with climate change, but the specific locations where it is most suitable will shift.
 
-The most notable pattern observed in the interior of BC is the expansion of Cw suitability into the sub-boreal, as ICH (Interior Cedar - Hemlock)-like climates are projected to spread northward and westward into the (current) Sub-Boreal Spruce (SBS) zone. Under historical climate (1961-1990), the area between Smithers and Prince George, including the whole Interior Plateau, was unsuitable for Cw. CCISS projections suggest that much of this area will not only become suitable for Cw, but may even become moderately (E2) to highly (E1) suitable by 2100.
+The most notable pattern observed in the interior of BC is the expansion of Cw suitability into the sub-boreal, as ICH (Interior Cedar -- Hemlock)-like climates are projected to spread northward and westward into the (current) Sub-Boreal Spruce (SBS) zone. Under historical climate (1961--1990), the area between Smithers and Prince George, including the whole Interior Plateau, was unsuitable for Cw. CCISS projections suggest that much of this area will not only become suitable for Cw, but may even become moderately (E2) to highly (E1) suitable by 2100.
 
-In addition, locations in the southeast of the province that are currently Engelmann Spruce - Subalpine Fir (ESSF) or Montane Spruce (MS) zones, are predicted to become more climatically like ICH zones in the near future, making them newly suitable for Western Redcedar. As these are two zones that are upslope of Cw’s current range, this means that higher elevation areas will become more environmentally suitable for Cw over time.
+In addition, locations in the southeast of the province that are currently Engelmann Spruce -- Subalpine Fir (ESSF) or Montane Spruce (MS) zones, are predicted to become more climatically like ICH zones in the near future, making them newly suitable for Western Redcedar. As these are two zones that are upslope of Cw’s current range, this means that higher elevation areas will become more environmentally suitable for Cw over time.
 
 Meanwhile, many parts of the Coastal Western Hemlock (CWH) and ICH zones where suitability was high during the reference period are projected to decrease in suitability and in some cases become fully unsuitable as these areas become more climatically similar to drier and/or warmer southern zones in Washington, Oregon, and California. However, in many of its most suitable habitats along the coast (e.g., with an E1 suitability ranking historically) there is little projected change in suitability. This is likely because climates are not projected to change dramatically in these subzones, but rather will be maintained by coastal upwelling and weather patterns.
 
 These patterns are shown in 20-year intervals and by Edatopic space in the figures to the right.
 
+:::
+
 ### R col {width="65%"}
 
-::: {.card .fit-screen-card}
-
-
-::: {.card-body}
-
-
-::: {.panel-tabset}
-
-
+:::::::: {.card .fit-screen-card}
+::::::: card-body
+:::::: panel-tabset
 #### Mesic/zonal (C4)
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ##### 2001–2020
 
 ```{r}
 #| label: 2001-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -246,7 +288,7 @@ fig("Two_panel.Cw.C4.2001_2020.png")
 
 ```{r}
 #| label: 2021-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -257,7 +299,7 @@ fig("Two_panel.Cw.C4.2021_2040.png")
 
 ```{r}
 #| label: 2041-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -268,7 +310,7 @@ fig("Two_panel.Cw.C4.2041_2060.png")
 
 ```{r}
 #| label: 2061-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -279,26 +321,22 @@ fig("Two_panel.Cw.C4.2061_2080.png")
 
 ```{r}
 #| label: 2081-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
 fig("Two_panel.Cw.C4.2081_2100.png")
 ```
-
-
-
 :::
 
 #### Poor/subxeric (B2)
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ##### 2001–2020
 
 ```{r}
 #| label: 2001-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -309,7 +347,7 @@ fig("Two_panel.Cw.B2.2001_2020.png")
 
 ```{r}
 #| label: 2021-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -320,7 +358,7 @@ fig("Two_panel.Cw.B2.2021_2040.png")
 
 ```{r}
 #| label: 2041-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -331,7 +369,7 @@ fig("Two_panel.Cw.B2.2041_2060.png")
 
 ```{r}
 #| label: 2061-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -342,24 +380,22 @@ fig("Two_panel.Cw.B2.2061_2080.png")
 
 ```{r}
 #| label: 2081-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
 fig("Two_panel.Cw.B2.2081_2100.png")
 ```
-
 :::
 
 #### Rich/hygric (D6)
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ##### 2001–2020
 
 ```{r}
 #| label: 2001-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -370,7 +406,7 @@ fig("Two_panel.Cw.D6.2001_2020.png")
 
 ```{r}
 #| label: 2021-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false 
 #| out-width: 65%
 
@@ -381,7 +417,7 @@ fig("Two_panel.Cw.D6.2021_2040.png")
 
 ```{r}
 #| label: 2041-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -392,7 +428,7 @@ fig("Two_panel.Cw.D6.2041_2060.png")
 
 ```{r}
 #| label: 2061-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -403,29 +439,22 @@ fig("Two_panel.Cw.D6.2061_2080.png")
 
 ```{r}
 #| label: 2081-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961--90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
 fig("Two_panel.Cw.D6.2081_2100.png")
 ```
-
 :::
-
-:::
-
-:::
-
-:::
-
-
+::::::
+:::::::
+::::::::
 
 ## Row - Shifts in BGC suitability {.spacer-row}
 
 **Shifts in suitable area**
 
-## Row - Suitability area: alluvial plots {height=750px}
-
+## Row - Suitability area: alluvial plots {height="750px"}
 
 ### Col - Alluvial figure {.tabset width="70%"}
 
@@ -434,7 +463,7 @@ fig("Two_panel.Cw.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
+#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -443,17 +472,16 @@ fig("Two_panel.Cw.D6.2081_2100.png")
 fig("Cw_C4_alluv.png")
 
 ```
+
 **Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
-
 :::
-
 
 #### Poor/subxeric (B2)
 
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
+#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -463,7 +491,6 @@ fig("Cw_B2_alluv.png")
 ```
 
 **Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
-
 :::
 
 #### Rich/hygric (D6)
@@ -471,7 +498,7 @@ fig("Cw_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
+#| fig-cap: This figure shows the projected changes in Western Redcedar's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Cw in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones (e.g., SBS climate becoming more 'ICH-like' which makes it suitable for Cw).
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -481,18 +508,15 @@ fig("Cw_D6_alluv.png")
 ```
 
 **Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
-
 :::
 
 ### Col - description {width="30%"}
 
-In general, Western Redcedar's total suitable area is projected to expand across BC over the century, with increased suitability in the ESSF, MH, and SBS zones, and relatively stable suitability overall in the CWH and ICH. Some expansion of suitability into the Boreal White and Black Spruce (BWBS), IDF, MS, and Sub-Boreal Pine - Spruce (SBPS) zones is also projected as these zones are projected to become warmer and wetter over time.
+:::card
+In general, Western Redcedar's total suitable area is projected to expand across BC over the century, with increased suitability in the ESSF, MH, and SBS zones, and relatively stable suitability overall in the CWH and ICH. Some expansion of suitability into the Boreal White and Black Spruce (BWBS), IDF, MS, and Sub-Boreal Pine -- Spruce (SBPS) zones is also projected as these zones are projected to become warmer and wetter over time.
 
 According to CCISS projections, many mapped units within the Sub-Boreal Spruce (SBS) zone, especially wetter subzone/variants, are projected to shift towards more Interior Cedar-Hemlock (ICH)-like climates in the future. This likely explains Cw's projected expansion of suitable area into the SBS zone, as well as small portions of the BWBS and SBPS zones. Similarly, wet variants in the lower elevation portions of the ESSF zone are projected to undergo similar shifts toward more ICH-like climates, which means that Cw's expanded suitability projected in this higher-elevation zone may lead to up-slope range expansion. The Mountain Hemlock (MS) zone is above the CWH in elevation throughout the Coast mountains and historically supported small populations of Cw at low elevations. Warming temperatures are the likely driver of expanded suitability for Cw projected in this zone as well.
-
-
-
-
+:::
 
 # References
 
@@ -500,4 +524,3 @@ According to CCISS projections, many mapped units within the Sub-Boreal Spruce (
 
 ::: {#refs}
 :::
-
