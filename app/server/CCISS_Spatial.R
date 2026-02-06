@@ -532,14 +532,16 @@ observeEvent(input$reset_plot,{
   plot_vals(NULL)
 })
 
-observeEvent(input$action_download, {
+observeEvent(input$download_spatial, {
   if(is.null(input$dist_click)){
     showModal(modalDialog(
-      "Please select a district first."
+      title = "Download Provincial Raster",
+      downloadButton("download_cciss","Download Raster"),
+      uiOutput("download_legend",inline = F)
     ))
-  }else{
+  } else {
     showModal(modalDialog(
-      title = "Download CCISS Raster",
+      title = "Download Regional Raster",
       checkboxInput("clip_download","Clip Raster to Region?"),
       downloadButton("download_cciss","Download Raster"),
       uiOutput("download_legend",inline = F)
@@ -547,14 +549,13 @@ observeEvent(input$action_download, {
   }
 })
 
-observeEvent(input$download_full, {
-    showModal(modalDialog(
-      title = "Download Provincial Raster",
-      downloadButton("download_cciss_full","Download Tif"),
-      uiOutput("download_legend",inline = F)
-    ))
+observeEvent(input$dist_click, {
+  if(is.null(input$dist_click)) {
+    updateActionButton(session, "download_spatial", label = "Download Province")
+  } else {
+    updateActionButton(session, "download_spatial", label = "Download Region")
+  }
 })
-
 
 output$download_legend <- renderUI(
   if(input$type == "BGC"){
@@ -570,92 +571,157 @@ output$download_legend <- renderUI(
 
 output$download_cciss <- downloadHandler(
   filename = function(){
+    if(is.null(input$dist_click)) distnm <- "Provincial"
+    else distnm <- input$dist_click
+    
     if(input$type == "BGC"){
-      paste0("bgc_raw_",input$dist_click, "_", input$gcm_select,"_", input$period_select,".tif")
+      if(input$period_type == "Historic") {
+        gcms <- "Reference"
+        period <- "1961_1990"
+      } else if(input$period_type == "obs") {
+        gcms <- "Observed"
+        period <- "2001_2020"
+      } else {
+        gcms <- input$gcm_select
+        period <- input$period_select
+      }
+      if(input$novelty) bname <- "ClimaticNovelty_"
+      else bname <- "BGCs_"
+      paste0(bname,distnm, "_", gcms,"_", period,".tif")
     }else{
-      paste0(input$map_stat,input$dist_click, "_", input$period_feas,"_", input$species_feas,"_",input$edatopic_feas,".tif")
+      period <- input$period_feas
+      if(input$period_type == "Historic") {
+        period <- "1961_1990" 
+      } else if(input$period_type == "obs") {
+        period <- "Observed_2001_2020"
+      }
+      if(input$novelty) bname <- "ClimaticNovelty_"
+      else bname <- input$map_stat
+      paste0(bname,distnm, "_", period,"_", input$species_feas,"_",input$edatopic_feas,".tif")
     }
   },
   content = function(file){
     if(input$type == "BGC"){
-      lname <- paste0("bgc_raw_",input$gcm_select,"_",input$period_select,".tif")
+      if(input$period_type == "Historic") {
+        gcms <- "refperiod"
+        period <- "1961_1990"
+      } else if(input$period_type == "obs") {
+        gcms <- "Obs"
+        period <- "2001_2020"
+      } else {
+        gcms <- input$gcm_select
+        period <- input$period_select
+      }
+      lname <- paste0("bgc_raw_",gcms,"_",period,".tif")
       tname <- "bgc_raw"
     }else{
-      #browser()
+      if(input$period_type == "Historic") {
+        period <- "1961_1990"
+      } else if(input$period_type == "obs") {
+        period <- "obs_2001_2020"
+      } else {
+        period <- input$period_feas
+      }
       sname <- switch(input$map_stat,
                       NewFeas = "Feasibility_",
                       MeanChange = "MeanChange_")
-      lname <- paste0(sname,input$period_feas,"_",input$edatope_feas,"_",input$species_feas,".tif")
+      lname <- paste0(sname,period,"_",input$edatope_feas,"_",input$species_feas,".tif")
       tname <- switch(input$map_stat,
                       NewFeas = "feasibility_raw",
                       MeanChange = "meanchange_raw")
     }
     
-    bnd <- dist_bnds[ORG_UNIT == input$dist_click,.(ymax, ymin, xmax, xmin)]
-    boundary <- t(bnd)[,1]
-    rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = boundary)
-    if(input$clip_download){
-      if(input$region_type == "FLP Area"){
-        bnds <- vect("cciss_spatial/flp_bnds.gpkg")
-      }else{
-        bnds <- vect("cciss_spatial/district_bnds.gpkg")
+    avail_lyrs <- dbGetQuery(dbCon, sprintf("select distinct filename from %s",tname))$filename
+    if(!lname %in% avail_lyrs){
+      showModal(modalDialog(
+        title = "Selected Layer Not Available for Download"
+      ))
+    } else {
+      if(!is.null(input$dist_click)){
+        bnd <- dist_bnds[ORG_UNIT == input$dist_click,.(ymax, ymin, xmax, xmin)]
+        boundary <- t(bnd)[,1]
+        #browser()
+        withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+          rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = boundary)
+        })
+        
+        if(input$clip_download){
+          if(input$region_type == "FLP Area"){
+            bnds <- vect("cciss_spatial/flp_bnds.gpkg")
+          }else{
+            bnds <- vect("cciss_spatial/district_bnds.gpkg")
+          }
+          bnd_shp <- bnds[bnds$ORG_UNIT == input$dist_click,]
+          rst <- mask(rst, bnd_shp)
+        }
+        writeRaster(rst, file, datatype = "INT2S")
+      } else {
+        if(input$novelty) {
+          withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+            if(input$period_type == "obs") {
+              dat <- dbGetQuery(dbCon, "select cellid, novelty from novelty_raw where model = 7")
+            } else {
+              id <- model_ids[grep(input$gcm_select,model), id]
+              dat <- dbGetQuery(dbCon, paste0("select cellid, novelty from novelty_raw where model = ",id," and fp_code = ",substr(input$period_select,1,4)))
+            }
+            rout <- copy(t_rast)
+            values(rout) <- NA
+            rout[dat$cellid] <- dat$novelty / 100
+          })
+          writeRaster(rout, file, datatype = "FLT4S")
+        } else {
+          withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+            rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = bc_bbox)
+            incProgress(1, message = "Writing raster...")
+          })
+          writeRaster(rst, file, datatype = "INT2S")
+        }
+        
       }
-      bnd <- bnds[bnds$ORG_UNIT == input$dist_click,]
-      rst <- mask(rst, bnd)
+        
     }
-    #rst <- rst/10
-    writeRaster(rst, file, datatype = "INT2S")
-  }
+    }
+    
+    
 )
 
-output$download_cciss_full <- downloadHandler(
-  filename = function(){
-    if(input$novelty){
-      paste0("Novelty_",input$gcm_select,"_",input$period_select,".tif")
-    } else {
-      if(input$type == "BGC"){
-        paste0("bgc_raw_",input$dist_click, "_", input$gcm_select,"_", input$period_select,".tif")
-      }else{
-        paste0(input$map_stat,input$dist_click, "_", input$period_feas,"_", input$species_feas,"_",input$edatopic_feas,".tif")
-      }
-    }
-    
-  },
-  content = function(file){
-    if(input$novelty) {
-      withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
-        if(input$period_type == "obs") {
-          dat <- dbGetQuery(dbCon, "select cellid, novelty from novelty_raw where model = 7")
-        } else {
-          id <- model_ids[grep(input$gcm_select,model), id]
-          dat <- dbGetQuery(dbCon, paste0("select cellid, novelty from novelty_raw where model = ",id," and fp_code = ",substr(input$period_select,1,4)))
-        }
-        rout <- copy(t_rast)
-        values(rout) <- NA
-        rout[dat$cellid] <- dat$novelty / 100
-      })
-      writeRaster(rout, file, datatype = "FLT4S")
-    } else {
-      if(input$type == "BGC"){
-        lname <- paste0("bgc_raw_",input$gcm_select,"_",input$period_select,".tif")
-        tname <- "bgc_raw"
-      }else{
-        #browser()
-        sname <- switch(input$map_stat,
-                        NewFeas = "Feasibility_",
-                        MeanChange = "MeanChange_")
-        lname <- paste0(sname,input$period_feas,"_",input$edatope_feas,"_",input$species_feas,".tif")
-        tname <- switch(input$map_stat,
-                        NewFeas = "feasibility_raw",
-                        MeanChange = "meanchange_raw")
-      }
-      withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
-        rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = bc_bbox)
-        incProgress(1, message = "Writing raster...")
-        writeRaster(rst, file, datatype = "INT2S")
-      })
-    }
-    
-  }
-)
+# output$download_cciss_full <- downloadHandler(
+#   filename = function(){
+#     if(input$novelty){
+#       paste0("Novelty_",input$gcm_select,"_",input$period_select,".tif")
+#     } else {
+#       if(input$type == "BGC"){
+#         paste0("bgc_raw_",input$dist_click, "_", input$gcm_select,"_", input$period_select,".tif")
+#       }else{
+#         paste0(input$map_stat,input$dist_click, "_", input$period_feas,"_", input$species_feas,"_",input$edatopic_feas,".tif")
+#       }
+#     }
+#     
+#   },
+#   content = function(file){
+#     if(input$novelty) {
+
+#     } else {
+#       if(input$type == "BGC"){
+#         lname <- paste0("bgc_raw_",input$gcm_select,"_",input$period_select,".tif")
+#         tname <- "bgc_raw"
+#       }else{
+#         #browser()
+#         sname <- switch(input$map_stat,
+#                         NewFeas = "Feasibility_",
+#                         MeanChange = "MeanChange_")
+#         lname <- paste0(sname,input$period_feas,"_",input$edatope_feas,"_",input$species_feas,".tif")
+#         tname <- switch(input$map_stat,
+#                         NewFeas = "feasibility_raw",
+#                         MeanChange = "meanchange_raw")
+#       }
+#       withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
+#         rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = bc_bbox)
+#         incProgress(1, message = "Writing raster...")
+#         writeRaster(rst, file, datatype = "INT2S")
+#       })
+#     }
+#     
+#   }
+# )
 

@@ -501,7 +501,7 @@ $(document).ready(function(){
           checkboxInput("novelty","Display Novelty?", value = FALSE),
         ),
         actionButton("clear_map","Hide/Show Layer"),
-        actionButton("download_full","Download Province"),
+        actionButton("download_spatial","Download Province"),
         
         checkboxInput("findabec","Find-A-BEC"),
         conditionalPanel(condition = "input.findabec == true",
@@ -556,7 +556,6 @@ $(document).ready(function(){
                             checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE),
                             actionButton("reset_plot","Reset Plot"),
                             actionButton("reset_district","Clear Selected Subregion"),
-                            actionButton("action_download","Download Data"),
                             girafeOutput("summary_plot"),
                             downloadButton("sum_plt_download","Download Plot")
                           )

@@ -9,12 +9,14 @@ droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/instructions")
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/points.R")
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/")
+
 analogsea::droplet_upload(server, "./app/server/points.R", "/srv/shiny-server/cciss/server/")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/cciss")
-#analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/ccissr', upgrade = FALSE)\"")
+analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/ccissr@development', upgrade = FALSE)\"")
 analogsea::droplet_upload(server, "./app/global.R", "/srv/shiny-server/cciss/global.R")
 analogsea::droplet_upload(server, "./app/server.R", "/srv/shiny-server/cciss/server.R")
 analogsea::droplet_upload(server, "./app/ui.R", "/srv/shiny-server/cciss/ui.R")
