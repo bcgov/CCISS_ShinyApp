@@ -101,6 +101,15 @@ shinyServer(function(input, output, session) {
   selected_site <- reactiveValues(siteref = NULL, ss = NULL)
   login_text <- reactiveValues(message = '')
   
+  ##allow connection to specific tabs
+  observe({
+    hash <- session$clientData$url_hash  # e.g. "#cciss_spatial"
+    if (!is.null(hash) && nzchar(hash)) {
+      tab <- sub("^#", "", hash)
+      updateTabsetPanel(session, "cciss_navbar", selected = tab)
+    }
+  })
+  
   source("./server/generate.R", local = TRUE)
   source("./server/points.R", local = TRUE)
   source("./server/map.R", local = TRUE)

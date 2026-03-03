@@ -55,7 +55,7 @@ navbarPage(
   # Select sites ----
   tabPanel(
     title = "SELECT SITES",
-    value = "sites",
+    value = "cciss_home",
     class = "tabcontainer",
     tags$head(includeCSS("./www/style.css")),
     prompter::use_prompt(),
@@ -211,7 +211,7 @@ $(document).ready(function(){
     $('[data-toggle=\"popover\"]').popover(); 
 });"),
     title = "SUITABILITY REPORT",
-    value = "feasibility",
+    value = "suitability_report",
     tags$style(type='text/css', ".selectize-input { font-size: 54px; line-height: 32px;} .selectize-dropdown { font-size: 28px; line-height: 28px; }"),
     sidebarLayout(
       
@@ -286,6 +286,7 @@ $(document).ready(function(){
   navbarMenu(
     title = "BEC FUTURES",
     tabPanel(title = "Chart",
+             value = "bec_futures",
              sidebarLayout(
                # Inputs
                sidebarPanel(
@@ -351,6 +352,7 @@ $(document).ready(function(){
   ),
   # Silvics & Ecology ----
   tabPanel(title = "SILVICS",
+           value = "silvics",
            sidebarLayout(
              # Inputs
              sidebarPanel(
@@ -389,6 +391,7 @@ $(document).ready(function(){
   # Export ----
   tabPanel(
     title = "EXPORT",
+    value = "export",
     sidebarLayout(
       # Inputs
       sidebarPanel(
@@ -458,6 +461,7 @@ $(document).ready(function(){
   ### CCISS Spatial
   tabPanel(
     title = "CCISS SPATIAL", 
+    value = "cciss_spatial",
     useShinyjs(),
     sidebarLayout(
       sidebarPanel(
@@ -556,7 +560,19 @@ $(document).ready(function(){
                             checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE),
                             actionButton("reset_plot","Reset Plot"),
                             actionButton("reset_district","Clear Selected Subregion"),
-                            girafeOutput("summary_plot"),
+                            radioButtons("cs_plot_type", "Choose a plot type:", choices = c("Area", "Persistance/Expansion", "Alluvial"), selected = "Area"),
+                            
+                            div(
+                              style = "width: 100%;",
+                              conditionalPanel(
+                                "input.cs_plot_type == 'Area'",
+                                girafeOutput("summary_plot")
+                              ),
+                              conditionalPanel(
+                                "input.cs_plot_type != 'Area'",
+                                plotOutput("summary_plot_base", click = "per_exp_click")
+                              )
+                            ),
                             downloadButton("sum_plt_download","Download Plot")
                           )
                       )

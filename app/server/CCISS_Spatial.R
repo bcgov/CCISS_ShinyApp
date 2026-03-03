@@ -382,6 +382,7 @@ observeEvent(input$becselect_click,{
 ## Summary Figures
 ##-----------------------------------------
 plot_vals <- reactiveVal()
+bubble_click <- reactiveVal(NULL)
 
 observeEvent(input$region_type, {
   if(input$region_type == "None"){
@@ -445,8 +446,54 @@ observeEvent(input$reset_district,{
   session$sendCustomMessage("reset_district","Luna")
 })
 
+output$summary_plot_base <- renderPlot({
+  if(is.null(input$dist_click) | input$cs_plot_type != "Persistance/Expansion") return(NULL)
+  stdarea <- input$dist_click
+  #print(input$dist_click)
+  if(input$period_type  == "Historic"){
+    return(NULL)
+  } else if (input$period_type == "obs"){
+    period_sel <- "2001_2020_obs"
+  } else {
+    period_sel <- input$period_feas
+  }
+  
+  if(input$type == "BGC"){
+    return(NULL)
+  }else{
+    dat <- dbGetQuery(dbCon, glue_sql("select * from spp_per_exp where region = {input$dist_click} and edatopic = {input$edatope_feas} and ssp = 'ssp245'", .con = dbCon))
+    names(dat) <- c("region", "spp", "Edatopic", "ssp", "period", "MappedSuit", "Persistance", "Expansion")
+    setDT(dat)
+    dat <- na.omit(dat)
+    spp_bubbleplot(dat, species.focal = bubble_click(), period = period_sel, scenario = "ssp245", edatope = input$edatope_feas)
+  }
+})
+
+observeEvent(input$per_exp_click,{
+  if (input$period_type == "obs"){
+    period_sel <- "2001_2020_obs"
+  } else {
+    period_sel <- input$period_feas
+  }
+  if(!is.null(input$per_exp_click)){
+    dat <- dbGetQuery(dbCon, glue_sql("select spp, AVG(persistance) AS per, AVG(expansion) AS expand from spp_per_exp 
+                                      where period = {period_sel} 
+                                      and region = {input$dist_click} 
+                                      and edatopic = {input$edatope_feas} 
+                                      and ssp = 'ssp245'
+                                      and persistance IS NOT NULL
+                                      group by spp", .con = dbCon))
+    setDT(dat)
+    dat[, expand := log2(expand)]
+    #browser()
+    temp_near <- nearPoints(dat, input$per_exp_click, xvar = "per", yvar = "expand", threshold = 50)
+    if(nrow(temp_near) == 0) bubble_click(NULL)
+    else bubble_click(temp_near$spp[1])
+  }
+})
+
 output$summary_plot <- renderGirafe({
-  if(is.null(input$dist_click)) return(NULL)
+  if(is.null(input$dist_click) | input$cs_plot_type != "Area") return(NULL)
   stdarea <- input$dist_click
   print(input$dist_click)
   if(input$period_type %in% c("Historic","obs")){
@@ -522,14 +569,17 @@ observeEvent(input$zone_sz,{
 
 observeEvent(input$reset_district,{
   plot_vals(NULL)
+  bubble_click(NULL)
 })
 
 observeEvent(input$type,{
   plot_vals(NULL)
+  bubble_click(NULL)
 })
 
 observeEvent(input$reset_plot,{
   plot_vals(NULL)
+  bubble_click(NULL)
 })
 
 observeEvent(input$download_spatial, {

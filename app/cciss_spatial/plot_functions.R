@@ -71,7 +71,7 @@ plot_suitability <- function(dbCon, cellid, edatope, spp_name){
                 "C4" = 2,
                 "D6" = 3
   )
-  browser()
+  #browser()
   dat <- dbGetQuery(dbCon, paste0("select fp_code, newsuit, prop1, prop2, prop3 from cciss_feas where cellid = ",
                                   cellid," and edatope = ",eda," and spp_id = ",spp_id)) |> as.data.table()
   dat_h <- dbGetQuery(dbCon, paste0("select suit from cciss_historic where cellid = ",

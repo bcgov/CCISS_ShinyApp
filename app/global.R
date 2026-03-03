@@ -49,7 +49,8 @@ req_libs <- list(
   "shiny",
   "shinyWidgets",
   "RPostgres",
-  "shinyjs"
+  "shinyjs",
+  "glue"
 )
 
 lapply(req_libs, library, character.only = TRUE)
