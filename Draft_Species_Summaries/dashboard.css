@@ -121,3 +121,17 @@
   border: 0 !important;
   box-shadow: none !important;
 }
+
+/* Bibliography formatting - each reference block */
+.csl-entry {
+  display: block !important;
+  margin-bottom: 0.8em !important;
+  padding-bottom: 0.2em;
+  line-height: 1.4;
+}
+
+/* Prevent ugly DOI/URL breaks but keep normal wrapping */
+.csl-entry a {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}

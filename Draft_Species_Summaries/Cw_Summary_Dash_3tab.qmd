@@ -7,7 +7,9 @@ format:
     orientation: rows
     css: dashboard.css
     embed-resources: true
-bibliography: references.bib
+bibliography: referencesCw.bib
+csl: apa.csl
+
 ---
 
 ```{r}
@@ -39,17 +41,17 @@ Welcome to the Species Summary Dashboard for western redcedar (abbreviated as "C
 
 **For western redcedar, a species with high ecological, cultural, and economic value, the CCISS projections reveal a complex pattern: potential expansion of suitability upwards in elevation and into more northern areas, and localized declines in low-elevation and drought-prone regions.**
 
-While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Western Redcedar management.
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future western redcedar management.
 
 At the top of the page, you will find tabs for the following summaries:
 
--   **Reference (historical baseline) Period**
+-   **Reference (historical baseline) period**
     -   Maps and descriptive summary of the species range in British Columbia during the baseline climate normal period of 1961--1990 in terms of its environmental suitability across Biogeoclimatic (BGC) zones and across three edatopic (soil nutrient x moisture) regimes, relative to the local biogeoclimatic subzone:
         -   Poor/subxeric (B2)
         -   Medium/mesic (C4)
         -   Rich/hygric (D6)
         
--   **CCISS Projections**
+-   **CCISS projections**
     -   A collection of visualizations and interpretations of the CCISS tool projections through 2100 for this species in British Columbia, exploring the changes in its suitable range over time. This includes:
         -   Projected persistence and expansion of its suitable range relative to its historically suitable range
         -   Shifts in its environmental suitability across the province and for each BGC zone
@@ -57,10 +59,11 @@ At the top of the page, you will find tabs for the following summaries:
         -   A summary of projected changes in particular areas of interest in BC (IN DEVELOPMENT)
         -   Projected changes along elevational gradients (IN DEVELOPMENT)
         
--   **Forest Health** (IN DEVELOPMENT)
-    -   A summary of forest health considerations and concerns for this species, interpreted in light of CCISS projections
+-   **Forest health**
+    -   A summary of forest health considerations and concerns for this species
     
--   **Additional Resources**
+-   **References**
+    -   Bibliography of works cited
     -   A collection of other tools, websites, and guides that provide additional information about this species, particularly covering background ecology and silvics information not summarized here
 
 **Notes for Interpreting and Applying this Summary**
@@ -76,13 +79,15 @@ This dashboard is intended to provide a species-specific overview and interpreta
 
 ## Summary text
 
-**Reference period**
+**Species geographic range**
 
 Western redcedar (Cw) is native to the Pacific Northwest of North America, with a broad geographic range extending from northern California, through Oregon, Washington, and British Columbia, into southeastern Alaska. Eastward, it extends as far inland as the western slopes of the Rocky Mountains in Montana and Idaho.
 
-Western redcedar is best adapted to climates with abundant precipitation and high humidity but can tolerate a range of conditions. In BC, Cw is most commonly found in cool and cold mesothermal climates on the coast and in montane continental cool temperate climates in the interior wet belt [@20093107527]. The species grows across a wide variety of soil types, but is most productive on fresh to moist, nutrient-rich soils [@20093107527].
+Western redcedar is best adapted to climates with abundant precipitation and high humidity but can tolerate a range of conditions. In BC, Cw is most commonly found in cool and cold mesothermal climates on the coast and in montane continental cool temperate climates in the interior wet belt [@klinka_silvics_2009]. The species grows across a wide variety of soil types, but is most productive on fresh to moist, nutrient-rich soils [@klinka_silvics_2009].
 
-In British Columbia, western redcedar is found in two distinct populations: a coastal population, and an interior population. Approximately 81% of the province’s mature Cw volume is found in the coastal population [@20093107527]. These two populations are ecologically distinct due to differences in climatic regimes, topography, and associated vegetation, but genetically, they are quite similar [@20093107527]. It is common for western redcedar to co-occur on mesic and wet sites with western hemlock (*Tsuga heterophylla*) throughout its range in BC.
+In British Columbia, western redcedar is found in two distinct populations: a coastal population, and an interior population. Approximately 81% of the province’s mature Cw volume is found in the coastal population [@klinka_silvics_2009]. These two populations are ecologically distinct due to differences in climatic regimes, topography, and associated vegetation, but genetically, they are quite similar [@klinka_silvics_2009]. It is common for western redcedar to co-occur on mesic and wet sites with western hemlock (*Tsuga heterophylla*) throughout its range in BC.
+
+*Species suitability during the reference period (1961--1990)*
 
 In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--1990 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
@@ -95,7 +100,7 @@ In the maps below, each color represents the species environmental suitability d
 #### Medium/mesic (C4)
 
 ```{r}
-#| title: Environmental Suitability on medium/mesic sites (C4 edatope) under baseline climate (1961--1990)
+#| title: Environmental suitability on medium/mesic sites (C4 edatope) under baseline climate (1961--1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -108,7 +113,7 @@ fig("Historic_Suit_Map.Cw.C4.png")
 #### Poor/subxeric (B2)
 
 ```{r}
-#| title: Environmental Suitability in poor/subxeric sites (B2 edatope) under baseline climate (1961--1990)
+#| title: Environmental suitability in poor/subxeric sites (B2 edatope) under baseline climate (1961--1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -122,7 +127,7 @@ fig("Historic_Suit_Map.Cw.B2.png")
 #### Rich/hygric (D6)
 
 ```{r}
-#| title: Environmental Suitability in rich/hygric sites (D6 edatope) under baseline climate (1961--1990) 
+#| title: Environmental suitability in rich/hygric sites (D6 edatope) under baseline climate (1961--1990) 
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -138,7 +143,7 @@ fig("Historic_Suit_Map.Cw.D6.png")
 
 The pie chart to the right depicts the distribution of the total environmentally suitable area of western redcedar in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990). 
 
-On the coast, western redcedar is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, grand fir, and bigleaf maple [@egan1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and in the lower elevation of the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
+On the coast, western redcedar is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and in the lower elevation of the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
 
 In the interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the Interior Douglas-fir (IDF) zone, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/western-redcedar)).
 
@@ -217,7 +222,7 @@ $$
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitable range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing an average for each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitable range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing an average for each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
 fig("Cw_C4_bub.png") 
 ```
 :::
@@ -228,7 +233,7 @@ fig("Cw_C4_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
 
 fig("Cw_B2_bub.png") 
 ```
@@ -240,7 +245,7 @@ fig("Cw_B2_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@Mahony2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability range of western redcedar in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing each time period. The first and last time periods are labeled, and the model results for the 2041--2060 are depicted in blue due to the relevance of this time period for management planning. The small colorful points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large colorful point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone), differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s)."
 
 fig("Cw_D6_bub.png") 
 ```
@@ -540,9 +545,51 @@ Many mapped units within the Sub-Boreal Spruce (SBS) zone, especially wetter sub
 These broad patterns are generally consistent across site types, with more pronounced increases in suitable area in the SBS zone for mesic/zonal (C4) site types, and for ESSF zones in poor/subxeric B2, and rich/hygric D6 site types.
 :::
 
+# Forest health
+
+## Biotic factors text
+
+**Biotic factors**
+
+Redcedar is generally more resistant to pests and pathogens than other timber species [@klinka_silvics_2009]. However, opportunistic biotic agents can take advantage of already stressed trees. Cedar leaf blight (*Didyamascella thujina*) is the most severe pathogen currently affecting redcedar. Infecting leaflets of seedlings and mature trees, it causes gradual decrease in growth through a loss of photosynthetic area, eventually leading to tree death [@aldana_western_2023]. This pathogen is most common in dense stands with high humidity [@klinka_silvics_2009]. The prevalence of and damage associated with cedar leaf blight is projected to increase under future climate scenarios [@aldana_western_2023]. Since genetic factors appear to influence susceptibility, selecting or breeding for resistance could be important in future management strategies for cedar leaf blight [@aldana_western_2023].
+
+Several species of heart- and butt-rotting fungi have long been associated with mature redcedar, including brown cubical pocket and butt rot (*Poria asiatica*), white ring rot (*Poria albipellucida*), white pitted trunk rot (*Fomes pini*), brown crumbly butt rot (*Merulius* spp.), and spongy white rot (*Poria subacida*, summarized in @seebacher_western_2007). To a lesser extent, *Armillaria ostoyae* (Armillaria root disease) and *Phellinus weirii* (laminated root rot) can also afflict redcedar trees.
+
+Few insects are known to attack redcedar directly. These include the western cedar borer (*Trachykele blondeli*, also known as the powderworm), the western cedar bark beetle (*Phloeosinus punctatus*), and the hemlock looper (*Lambdina fiscellaria lugubrosa*), which feeds broadly on conifer foliage (summarized in @seebacher_western_2007).
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf).
+
+## Redcedar dieback text
+
+**Western redcedar dieback**
+
+Widespread western redcedar dieback has been documented throughout the southern portion of the species' range [@andrus_canary_2023], particularly in Washington state and southwestern British Columbia (Georgia Depression). This dieback is, at least in part, driven by drought, extreme heat events, and exacerbated by consecutive drought events without adequate recovery time. 
+
+Dieback in redcedar is typically identified through a range of visible canopy symptoms. The most commonly reported indicators include thinning or death of the live crown (top kill), foliage yellowing (chlorosis), branch die-off (flagging), thinning, and in some cases, complete tree mortality. Trees may also exhibit increased cone production, which has been interpreted as a possible stress response. These symptoms often occur in the absence of obvious biotic agents, and are instead linked to environmental stressors, particularly drought and heat. 
+
+Since 2015, a pronounced increase in reports and field observations suggests that dieback is becoming more widespread in low-elevation coastal forests. A significant pulse of mortality was reported around 2017-2018, affecting forests from the Willamette Valley in Oregon, through western Washington, and into southern British Columbia [@mcwilliams_western_2024]. Similar reports come from southeastern Vancouver Island and parts of the lower mainland [@tomaszewski_hot_2022].
+
+The causes of redcedar dieback are increasingly understood to be multi-factorial, with climate water stress emerging as the dominant driver across most affected regions. While exact mechanism may vary by site and context, evidence consistently points toward seasonal drought, elevated temperatures, and increased vapor pressure deficit (VPD)—particularly during late spring and early summer—as key stressors contributing to decline and mortality. 
+
+Redcedar mortality is often associated with multiple consecutive years of water deficit, which leads to compounded physiological stress. Redcedar can recover from a single year of drought if followed by cooler, wetter conditions in subsequent years, but recovery slowed or failed when drought persisted across years  [@andrus_canary_2023;  @goodrich_western_2025]. 
+
 # References
 
-**Works Cited**
+**Works cited**
 
 ::: {#refs}
 :::
+
+## Other reference materials 
+
+**Reference materials**
+
+[CCISS tool](https://bcgov-ffec.ca/cciss/)
+
+[Western Redcedar - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/western-redcedar)
+
+[Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)
+
+[Western Redcedar Dieback - USDA Forest Service Factsheet](https://research.fs.usda.gov/pnw/understory/western-redcedar-dieback)
+
+
