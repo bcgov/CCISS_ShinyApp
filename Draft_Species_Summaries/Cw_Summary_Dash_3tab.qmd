@@ -29,19 +29,9 @@ fig <- function(filename) {
 
 # Landing page
 
-## Welcome information
+## Welcome information for all species
+Welcome to the Species Summary Dashboard, a place for species-specific summaries of the inputs and outputs of the Climate Change Informed Species Selection (CCISS) tool. This dashboard is intended to support forest practitioners, planners, and land managers, in making informed, forward-looking decisions about where tree species may be suitable to plant over the coming decades. As climate conditions shift, these decisions will become increasingly critical for maintaining productive, resilient, and adaptive forest landscapes.
 
-### Col - Tree image {width="20%"}
-
-![Western Redcedar (*Thuja plicata*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR01_Thuja_pli_silhouette.gif){fig-alt="Silhouette of mature western redcedar tree"}
-
-### Col - Welcome text {width="80%"}
-
-Welcome to the Species Summary Dashboard for western redcedar (abbreviated as "Cw"), a place for species-specific summaries of the inputs and outputs of the Climate Change Informed Species Selection (CCISS) tool. This dashboard is intended to support forest practitioners, planners, and land managers, in making informed, forward-looking decisions about where Cw may be suitable to plant over the coming decades. As climate conditions shift, these decisions will become increasingly critical for maintaining productive, resilient, and adaptive forest landscapes.
-
-**For western redcedar, a species with high ecological, cultural, and economic value, the CCISS projections reveal a complex pattern: potential expansion of suitability upwards in elevation and into more northern areas, and localized declines in low-elevation and drought-prone regions.**
-
-While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future western redcedar management.
 
 At the top of the page, you will find tabs for the following summaries:
 
@@ -68,12 +58,28 @@ At the top of the page, you will find tabs for the following summaries:
 
 **Notes for Interpreting and Applying this Summary**
 
-This dashboard is intended to provide a species-specific overview and interpretation of the data from the CCISS tool and does not represent management recommendations. Please see the CCISS Documentation tab \> Decision Guidance section for more information on the appropriate and intended uses of these data.
+This dashboard is intended to provide a species-specific overview and interpretation of the data from the CCISS tool and does not represent management recommendations. Please see the [CCISS Documentation tab \> Decision Guidance](https://bcgov-ffec.ca/cciss-docs/Decisions.html) section for more information on the appropriate and intended uses of these data.
 
 
 ## Row - logos
 
 ![](images/MoF_FFEC_logo.png){fig-align="center" width="400"}
+
+# Western redcedar
+
+## Summary info for Cw
+
+### Col - Tree image {width="20%"}
+
+![Western Redcedar (*Thuja plicata*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR01_Thuja_pli_silhouette.gif){fig-alt="Silhouette of mature western redcedar tree"}
+
+### Col - Welcome text {width="80%"}
+
+**Western redcedar (abbreviated as Cw) is a species with high ecological, cultural, and economic value. The CCISS projections for Cw reveal a complex pattern: potential expansion of suitability upwards in elevation and into more northern areas, and localized declines in low-elevation and drought-prone regions.**
+
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future western redcedar management.
+
+
 
 # Reference period
 
@@ -87,7 +93,7 @@ Western redcedar is best adapted to climates with abundant precipitation and hig
 
 In British Columbia, western redcedar is found in two distinct populations: a coastal population, and an interior population. Approximately 81% of the province’s mature Cw volume is found in the coastal population [@klinka_silvics_2009]. These two populations are ecologically distinct due to differences in climatic regimes, topography, and associated vegetation, but genetically, they are quite similar [@klinka_silvics_2009]. It is common for western redcedar to co-occur on mesic and wet sites with western hemlock (*Tsuga heterophylla*) throughout its range in BC.
 
-*Species suitability during the reference period (1961--1990)*
+**Species suitability during the reference period (1961--1990)**
 
 In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--1990 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
