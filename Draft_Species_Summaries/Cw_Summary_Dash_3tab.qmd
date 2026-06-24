@@ -294,7 +294,7 @@ These patterns are shown in 20-year intervals and by edatopic space in the figur
 
 ```{r}
 #| label: 2001-C4
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -306,7 +306,7 @@ fig("Two_panel.Cw.C4.2001_2020.png")
 
 ```{r}
 #| label: 2021-C4
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -317,7 +317,7 @@ fig("Two_panel.Cw.C4.2021_2040.png")
 
 ```{r}
 #| label: 2041-C4
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 
 #| fill: false
 #| out-width: 65%
@@ -329,7 +329,7 @@ fig("Two_panel.Cw.C4.2041_2060.png")
 
 ```{r}
 #| label: 2061-C4
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 
 #| fill: false
 #| out-width: 65%
@@ -341,7 +341,7 @@ fig("Two_panel.Cw.C4.2061_2080.png")
 
 ```{r}
 #| label: 2081-C4
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -357,7 +357,7 @@ fig("Two_panel.Cw.C4.2081_2100.png")
 
 ```{r}
 #| label: 2001-B2
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -369,7 +369,7 @@ fig("Two_panel.Cw.B2.2001_2020.png")
 
 ```{r}
 #| label: 2021-B2
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -381,7 +381,7 @@ fig("Two_panel.Cw.B2.2021_2040.png")
 
 ```{r}
 #| label: 2041-B2
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -393,7 +393,7 @@ fig("Two_panel.Cw.B2.2041_2060.png")
 
 ```{r}
 #| label: 2061-B2
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -405,7 +405,7 @@ fig("Two_panel.Cw.B2.2061_2080.png")
 
 ```{r}
 #| label: 2081-B2
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -421,7 +421,7 @@ fig("Two_panel.Cw.B2.2081_2100.png")
 
 ```{r}
 #| label: 2001-D6
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -433,7 +433,7 @@ fig("Two_panel.Cw.D6.2001_2020.png")
 
 ```{r}
 #| label: 2021-D6
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false 
 #| out-width: 65%
@@ -445,7 +445,7 @@ fig("Two_panel.Cw.D6.2021_2040.png")
 
 ```{r}
 #| label: 2041-D6
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -457,7 +457,7 @@ fig("Two_panel.Cw.D6.2041_2060.png")
 
 ```{r}
 #| label: 2061-D6
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
@@ -469,7 +469,7 @@ fig("Two_panel.Cw.D6.2061_2080.png")
 
 ```{r}
 #| label: 2081-D6
-#| fig-cap: "This figure depicts, a) the species' historical environmental suitability rating, during the reference period of 1961--1990 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability (expansion), blue shades representing increased suitability, red shades representing decreased suitability, and black representing a loss of suitability. c) Mean changes in suitability rating within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 
 #| fill: false
 #| out-width: 65%
