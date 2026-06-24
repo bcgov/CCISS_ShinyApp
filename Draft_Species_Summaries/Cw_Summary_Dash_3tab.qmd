@@ -222,7 +222,7 @@ $$
 ### R Column - Bubble plot {width="60%"}
 
 ::: panel-tabset
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: card
 ```{r}
@@ -548,7 +548,7 @@ In general, western redcedar's total suitable area is projected to expand across
 
 Many mapped units within the Sub-Boreal Spruce (SBS) zone, especially wetter subzone/variants, are projected to become warmer and wetter over time, shifting towards more Interior Cedar-Hemlock (ICH)-like climates in the future. This likely explains Cw's projected expansion of suitable area into the SBS zone, as well as small portions of the BWBS and SBPS zones. Similarly, wet variants in the lower elevation portions of the ESSF zone are also projected to undergo shifts toward more ICH-like climates, which means that the increased suitable area projected for Cw in this higher-elevation zone may lead to up-slope movement of the species. The Mountain Hemlock (MH) zone is above the CWH zone in elevation throughout the Coast mountains and historically supported small populations of Cw at lower elevations of the zone. Warming temperatures are the likely driver of increases in suitable area for Cw projected at higher elevation into the MH zone.
 
-These broad patterns are generally consistent across site types, with more pronounced increases in suitable area in the SBS zone for mesic/zonal (C4) site types, and for ESSF zones in poor/subxeric B2, and rich/hygric D6 site types.
+These broad patterns are generally consistent across site types, with more pronounced increases in suitable area in the SBS zone for medium/mesic (C4) site types, and for ESSF zones in poor/subxeric B2, and rich/hygric D6 site types.
 :::
 
 # Forest health
