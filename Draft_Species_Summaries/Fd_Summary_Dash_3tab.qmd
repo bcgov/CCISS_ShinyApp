@@ -7,7 +7,9 @@ format:
     orientation: rows
     css: dashboard.css
     embed-resources: true
-bibliography: references.bib
+bibliography: referencesFd.bib
+csl: apa.csl
+
 ---
 
 ```{r}
@@ -25,9 +27,9 @@ fig <- function(filename) {
 } #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
 ```
 
-# Landing page
+# Douglas-fir
 
-## Welcome information
+## Summary info for Fd
 
 ### Col - Tree image {width="20%"}
 
@@ -35,46 +37,31 @@ fig <- function(filename) {
 
 ### Col - Welcome text {width="80%"}
 
-Welcome to the Species Summary Dashboard for Douglas Fir (abbreviated as "Fd"), a place for species-specific summaries of the inputs and outputs of the Climate Change Informed Species Selection (CCISS) tool. This dashboard is intended to support forest practitioners, planners, and land managers, in making informed, forward-looking decisions about where Fd may be suitable to plant over the coming decades. As climate conditions shift, these decisions will become increasingly critical for maintaining productive, resilient, and adaptive forest landscapes.
+**Douglas-fir (abbreviated as Fd) is one of the most important and valuable tree species in British Columbia. The CCISS model predicts warmer temperatures will facilitate increased suitability of Fd throughout much of its current range and expansion of suitable range at higher elevations and further north, especially on mesic and drier sites. Fd is predicted to become less suitable in the hottest and driest sites, i.e. valley bottoms of the southern interior.**
+<br>
 
-At the top of the page, you will find tabs for the following summaries:
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Douglas-fir management.
 
--   **Reference (historical baseline) Period**
-    -   Maps and descriptive summary of the species range in British Columbia during the baseline climate normal period of 1961-1990 in terms of its environmental suitability across Biogeoclimatic (BGC) zones and across three edatopic (soil nutrient x moisture) regimes, relative to the local biogeoclimatic subzone:
-        -   Poor/subxeric (B2)
-        -   Mesic/zonal (C4)
-        -   Rich/hygric (D6)
--   **CCISS Projections**
-    -   A collection of visualizations and interpretations of the CCISS tool projections through 2100 for this species in British Columbia, exploring the changes in its suitable range over time. This includes:
-        -   Projected persistence and expansion of its suitable range relative to its historically suitable range
-        -   Shifts in its suitability within each BGC zone
-        -   Predictions according to the different Shared Socioeconomic Pathways (SSPs) and increasing mean annual temperature (MAT)
-        -   A summary of projected changes in particular areas of interest in BC
-        -   Projected changes along elevational gradients
--   **Forest Health**
-    -   A summary of forest health considerations and concerns for this species, interpreted in light of CCISS projections
--   **Additional Resources**
-    -   A collection of other tools, websites, and guides that provide additional information about this species, particularly covering background ecology and silvics information not summarized here
-
-**Notes for Interpreting and Applying this Summary**
-
-This dashboard is intended to provide a species-specific overview and interpretation of the data from the CCISS tool and does not represent management recommendations. Fdease see the CCISS Documentation tab \> Decision Guidance section for more information on the appropriate and intended uses of these data.
-
-For Douglas Fir, ...summarize.
-
-## Row - logos
-
-![](images/MoF_FFEC_logo.png){fig-align="center" width="400"}
 
 # Reference period
 
 ## Summary text
 
-**Reference period**
+**Species geographic and climatic range**
 
-...Summary text...
+Douglas-fir (Fd) is native to the Pacific and Cordilleran regions of Western North America. In BC is is found throughout the central and southern interior, along the coast and Vancouver Island. It is most common in the montane zone, but also occurs in the submontane zone and to a lesser extent subalpine zone [@klinka_distribution_2000]. 
 
-In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+Fd is best adapted to cool/warm temperate and cool(warm) mesothermal climates [@klinka_distribution_2000].The distribution of Fd in the interior of BC represents its northernmost latitudinal range, limited by cold temperatures. Fd is also limited by high-elevation and forest-grassland transitions [@griesbauer_regional_2010].
+
+The growth response of Fd to climate varies over the species' broad geographic and climatic range. Fd populations growing in relatively warm and dry climates are limited by growing season precipitation and water availability [@case_fine-scale_2005; @watson_dendroclimatic_2002; @griesbauer_regional_2010], with trees on drier stands having greater sensitivity to drought conditions [@adams_tree_2005]. Meanwhile, Fd populations growing in high-elevation wet and cold climates are limited by snowfall, and cold annual and winter temperatures [@griesbauer_regional_2010;  @case_fine-scale_2005]. 
+
+Fd has a wide ecological amplitude, but is most commonly found on moderately dry to slightly dry sites with medium soil nutrients [@klinka_distribution_2000]. Fd is found on a variety of soil types, but grows best on deep well-drained, sandy loams where moisture in the soil is plentiful. 
+
+Fd is commonly a pioneer species that regenerates after forest fires, logging or other disturbances, forming pure even-aged stands. It is also found in un-even aged stands or in mixed-species stands, often with western hemlock, western redcedar, trembling aspen, ponderosa pine, lodgepole pine, or western larch [@klinka_distribution_2000]. Fd is a major component in old-growth forests in boreal, cool temperate and cool mesothermal climates. 
+
+**Species suitability during the reference period (1961--1990)**
+
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
 \*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
 
@@ -82,10 +69,10 @@ In the maps below, each color represents the species environmental suitability d
 
 ### Reference period maps {.tabset}
 
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ```{r}
-#| title: Environmental Suitability in mesic/zonal (C4) edatopes under baseline climate (1961-1990)
+#| title: Environmental suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -98,7 +85,7 @@ fig("Historic_Suit_Map.Fd.C4.png")
 #### Poor/subxeric (B2)
 
 ```{r}
-#| title: Environmental Suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| title: Environmental suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -112,7 +99,7 @@ fig("Historic_Suit_Map.Fd.B2.png")
 #### Rich/hygric (D6)
 
 ```{r}
-#| title: Environmental Suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| title: Environmental suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
@@ -124,13 +111,13 @@ fig("Historic_Suit_Map.Fd.D6.png")
 
 ### BGC text
 
-**Range by Biogeoclimatic Ecosystem Classification (BEC)**
+**Distribution of Fd across BGC zones**
 
-How is the total environmentally suitable area of the province (all colored areas on the maps) split across Biogeoclimatic (BGC) zones? The pie chart to the right explores this by showing the total suitable area (Km^2^) of BC for Douglas Fir by BGC zone based on climates of the historical reference period (1961-1990).
+The pie chart to the right depicts the distribution of the total environmentally suitable area of Douglas-fir in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990). 
 
-*Summary of its prevalence within these BGC zones*
+On the coast, Douglas-fir is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside western redcedar, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs in the Coastal Douglas-fir (CDF) zone, which is characterized by Douglas-fir, often with grand fir.
 
-...Summary text...
+In the interior, Douglas-fir is a key species in the southern subzones of the Interior Cedar-Hemlock (ICH) and Sub-Boreal Spruce (SBS) zones, and dominates the Interior Douglas-fir (IDF) zone. It can also be found in the Montane Spruce (MS) and the lower southern Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/douglas-fir)).
 
 ### Pie chart
 
@@ -140,6 +127,9 @@ How is the total environmentally suitable area of the province (all colored area
 ##| fig-show: hold
 ##| layout-ncol: 2
 #| out-width: "70%"
+#| 
+
+
 
 fig("Fd_histpie.png")
 ```
@@ -151,15 +141,16 @@ fig("Fd_histpie.png")
 
 ## Overall summary
 
-**CCISS projections for Douglas Fir**
+**Future projected environmental suitability for Douglas-fir**
 
-On this page, you will find a visual and interpretive synthesis of the CCISS tool projections for this species, including:
+On this page, you will find a visual and interpretive synthesis of the environmental suitability projections calculated using the Climate Change Informed Species Selection [CCISS](https://bcgov-ffec.ca/cciss-docs/) tool, including:
 
-1.  Proportion of the historic range that the species will remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by edatope.
+1.  Proportion of the historic range that the species is predicted to remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by site type (edatope).
 
-2.  Mean changes in environmental suitability across its geographic range in BC, by future time period and edatope.
+2.  Predicted mean changes in environmental suitability across its geographic range in BC, by future time period and site type (edatope).
 
-3.  Shifts in suitability across specific provincial biogeoclimatic (BGC) zones.
+3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
+
 
 ## Row - broad trends {.spacer-row}
 
@@ -170,30 +161,77 @@ On this page, you will find a visual and interpretive synthesis of the CCISS too
 ### L Column - Fdot description {width="40%"}
 
 ::: card
-Douglas Fir is overall projected to persist within about 40-80% of its historically suitable range, and its suitable range is projected to shrink substantially...
+Douglas-fir is overall projected to persist within about 40-80% of its historically suitable range, and its suitable range is projected to shrink substantially...
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+
+$$
+\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
+
+
+$$
+\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100
+$$
 
 :::
 
 ### R Column - Bubble plot {width="60%"}
 
+::: panel-tabset
+#### Mesic/zonal (C4)
+
 ::: card
 ```{r}
-#| title: Bubble figure showing the ensemble mean for each edatope in the SSP2-4.5 scenario
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitability of Douglas Fir relative to its historically suitable range, in the SSP2-4.5 scenario given current policies for moderate emission mitigation. Each colorful point represents the mean of the 15-member GCM ensemble for an edatope (B2: Poor/subxeric sites, C4: mesic/zonal sites, D6: rich/hygric sites) averaged across all BGC zones in the province, with the surrounding shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total feasible area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC (e.g., a mesic site in the Coastal Western Hemlock (CWH) zone is relatively wetter than a mesic site in the Interior Douglas Fir (IDF)), it's important to note that the size of the bubbles shown here are likely influenced by the underlying differences in magnitude of suitability across biogeoclimatic zones. Thus, this plot is meant to be a broad overview perspective by edatope across the entire province."
-
-fig("Fd_ssp245_bub.png") 
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitable range of Douglas-fir in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing an average for each time period. The first and last time periods are labeled, and the model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC, differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s) (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone)."
+fig("Fd_C4_bub.png") 
 ```
 :::
 
-## Row - broad trends {.spacer-row}
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitable range of Douglas-fir in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing an average for each time period. The first and last time periods are labeled, and the model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC, differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s) (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone)."
+
+fig("Fd_B2_bub.png") 
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "This figure shows the overall projected persistence and expansion of the suitable range of Douglas-fir in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time for this species, with black points representing an average for each time period. The first and last time periods are labeled, and the model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections [@mahony_global_2022]. The large blue point with the species abbreviation is the mean of the entire GCM ensemble for an edatope averaged across all BGC zones in the province. Other species are shown for reference in the background, as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled. Because an edatope is relative to each BGC, differences among edatope tabs should not be compared absolutely but rather within the context of their regional climate(s) (e.g., a mesic site in a Coastal Western Hemlock (CWH) subzone is relatively wetter than a mesic site in an Interior Douglas-fir (IDF) subzone)."
+
+fig("Fd_D6_bub.png") 
+```
+:::
+:::
+
+## Row {.spacer-row}
 
 **Suitability changes**
 
-## Maps {height="800px"}
+## Row - Maps {height="800px"}
 
 ### L col {width="35%"}
+
+:::card
 
 Overall, the total suitable area in BC for Douglas Fir is projected to decrease with climate change, with large areas of its historic range projected to become unsuitable.
 
@@ -201,12 +239,14 @@ Overall, the total suitable area in BC for Douglas Fir is projected to decrease 
 
 These patterns are shown in 20-year intervals and by Edatopic space in the figures to the right.
 
+:::
+
 ### R col {width="65%"}
 
 :::::::: {.card .fit-screen-card}
 ::::::: card-body
 :::::: panel-tabset
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: panel-tabset
 ##### 2001–2020
@@ -395,12 +435,12 @@ fig("Two_panel.Fd.D6.2081_2100.png")
 
 ### Col - Alluvial figure {.tabset width="70%"}
 
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -418,7 +458,7 @@ fig("Fd_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -435,7 +475,7 @@ fig("Fd_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colors) within the three representative edatopes (mesic/zonal C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -451,6 +491,23 @@ fig("Fd_D6_alluv.png")
 
 In general, Douglas Fir's total suitable area is projected to shrink across BC over the century, with ....
 
+# Forest health
+
+## Biotic factors text
+
+**Biotic factors**
+
+...Summary text...
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf).
+
+## Climate change/drought
+
+
+**Climate change impacts**
+
+ ...Summary text...
+
 
 # References
 
@@ -458,3 +515,14 @@ In general, Douglas Fir's total suitable area is projected to shrink across BC o
 
 ::: {#refs}
 :::
+
+## Other reference materials 
+
+**Reference materials**
+
+[CCISS tool](https://bcgov-ffec.ca/cciss/)
+
+[Douglas-fir - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/douglas-fir)
+
+[Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)
+
