@@ -9,7 +9,6 @@ format:
     embed-resources: true
 bibliography: referencesFd.bib
 csl: apa.csl
-
 ---
 
 ```{r}
@@ -37,11 +36,9 @@ fig <- function(filename) {
 
 ### Col - Welcome text {width="80%"}
 
-**Douglas-fir (abbreviated as Fd) is one of the most important and valuable tree species in British Columbia. The CCISS model predicts warmer temperatures will facilitate increased suitability of Fd throughout much of its current range and expansion of suitable range at higher elevations and further north, especially on mesic and drier sites. Fd is predicted to become less suitable in the hottest and driest sites, i.e. valley bottoms of the southern interior.**
-<br>
+**Douglas-fir (abbreviated as Fd) is one of the most important and valuable tree species in British Columbia. The CCISS model predicts warmer temperatures will facilitate increased suitability of Fd throughout much of its current range and expansion of suitable range at higher elevations and further north, especially on mesic and drier sites. Fd is predicted to become less suitable in the hottest and driest sites, i.e. valley bottoms of the Southern Interior.** <br>
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Douglas-fir management.
-
 
 # Reference period
 
@@ -49,17 +46,17 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-Douglas-fir (Fd) is native to the Pacific and Cordilleran regions of Western North America. In BC is is found throughout the central and southern interior, along the coast and Vancouver Island. It is most common in the montane zone, but also occurs in the submontane zone and to a lesser extent subalpine zone [@klinka_distribution_2000]. 
+Douglas-fir (Fd) is native to the Pacific and Cordilleran regions of Western North America. In BC there are two varieties, interior Douglas-fir (*Pseudotsuga menziesii* var. *glauca*) found throughout the Central and Southern Interior and coastal Douglas-fir (*Pseudotsuga menziesii* var. *menziesii*) found along the south coast and Vancouver Island. It is most common in the montane zone, but also occurs in the submontane zone and to a lesser extent subalpine zone [@klinka_distribution_2000].
 
 Fd is best adapted to cool/warm temperate and cool(warm) mesothermal climates [@klinka_distribution_2000].The distribution of Fd in the interior of BC represents its northernmost latitudinal range, limited by cold temperatures. Fd is also limited by high-elevation and forest-grassland transitions [@griesbauer_regional_2010].
 
-The growth response of Fd to climate varies over the species' broad geographic and climatic range. Fd populations growing in relatively warm and dry climates are limited by growing season precipitation and water availability [@case_fine-scale_2005; @watson_dendroclimatic_2002; @griesbauer_regional_2010], with trees on drier stands having greater sensitivity to drought conditions [@adams_tree_2005]. Meanwhile, Fd populations growing in high-elevation wet and cold climates are limited by snowfall, and cold annual and winter temperatures [@griesbauer_regional_2010;  @case_fine-scale_2005]. 
+The growth response of Fd to climate varies over the species' broad geographic and climatic range. Fd populations growing in relatively warm and dry climates are limited by growing season precipitation and water availability [@case_fine-scale_2005; @watson_dendroclimatic_2002; @griesbauer_regional_2010], with trees on drier stands having greater sensitivity to drought conditions [@adams_tree_2005]. Meanwhile, Fd populations growing in high-elevation wet and cold climates are limited by snowfall, and cold annual and winter temperatures [@griesbauer_regional_2010; @case_fine-scale_2005].
 
-Fd has a wide ecological amplitude, but is most commonly found on moderately dry to slightly dry sites with medium soil nutrients [@klinka_distribution_2000]. Fd is found on a variety of soil types, but grows best on deep well-drained, sandy loams where moisture in the soil is plentiful. 
+Fd has a wide ecological amplitude, but is most commonly found on moderately dry to slightly dry sites with medium soil nutrients [@klinka_distribution_2000]. Fd is found on a variety of soil types, but grows best on deep well-drained, sandy loams where moisture in the soil is plentiful.
 
-Fd is commonly a pioneer species that regenerates after forest fires, logging or other disturbances, forming pure even-aged stands. It is also found in un-even aged stands or in mixed-species stands, often with western hemlock, western redcedar, trembling aspen, ponderosa pine, lodgepole pine, or western larch [@klinka_distribution_2000]. Fd is a major component in old-growth forests in boreal, cool temperate and cool mesothermal climates. 
+Fd is commonly a pioneer species that regenerates after forest fires, logging or other disturbances, forming pure even-aged stands. It is also found in un-even aged stands or in mixed-species stands, often with western hemlock, western redcedar, trembling aspen, ponderosa pine, lodgepole pine, or western larch [@klinka_distribution_2000]. Fd is a major component in old-growth forests in boreal, cool temperate and cool mesothermal climates.
 
-**Species suitability during the reference period (1961--1990)**
+**Species environmental suitability during the reference period (1961--1990)**
 
 In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
@@ -77,7 +74,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: 
+#| fig-cap: On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout.
 
 fig("Historic_Suit_Map.Fd.C4.png")
 ```
@@ -90,7 +87,7 @@ fig("Historic_Suit_Map.Fd.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: 
+#| fig-cap: On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench.
 
 fig("Historic_Suit_Map.Fd.B2.png") 
 
@@ -104,7 +101,7 @@ fig("Historic_Suit_Map.Fd.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: 
+#| fig-cap: Fd has a more limited range on rich/hygric sites and environmental suitability is mostly low (E3). With smaller areas of moderate (E2) suitability, including lower slopes in the Okanagan Valley (IDFxh1), in the Rocky Mountain Trench (ICHmw1), and southern Vancouver Island (CDFmm).
 
 fig("Historic_Suit_Map.Fd.D6.png")
 ```
@@ -113,9 +110,9 @@ fig("Historic_Suit_Map.Fd.D6.png")
 
 **Distribution of Fd across BGC zones**
 
-The pie chart to the right depicts the distribution of the total environmentally suitable area of Douglas-fir in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990). 
+The pie chart to the right depicts the distribution of the total environmentally suitable area of Douglas-fir in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
 
-On the coast, Douglas-fir is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside western redcedar, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs in the Coastal Douglas-fir (CDF) zone, which is characterized by Douglas-fir, often with grand fir.
+On the coast, Douglas-fir is most abundant in the southern Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside western redcedar, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs in the Coastal Douglas-fir (CDF) zone, which is characterized by Douglas-fir, often with grand fir.
 
 In the interior, Douglas-fir is a key species in the southern subzones of the Interior Cedar-Hemlock (ICH) and Sub-Boreal Spruce (SBS) zones, and dominates the Interior Douglas-fir (IDF) zone. It can also be found in the Montane Spruce (MS) and the lower southern Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/douglas-fir)).
 
@@ -151,7 +148,6 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
 
-
 ## Row - broad trends {.spacer-row}
 
 **Broad trends**
@@ -161,32 +157,26 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Fdot description {width="40%"}
 
 ::: card
-Douglas-fir is overall projected to persist within about 40-80% of its historically suitable range, and its suitable range is projected to shrink substantially...
+Douglas-fir is projected to persist within 60--100% of its historically suitable range under climat change. In addition the climatically suitable range of Fd is projected to expand over time into an area 0.75-1.5 times the size of the historical range. The projected expansion of Fd's suitable area is driven by warming temperatures, for example portions of the Engelmann Spruce--Subalpine Fir (ESSF) and Montane Spruce (MS) zones becoming warmer and therefore more suitable for Fd. <br> **CHECK THESE NUMBERS**
 
 *Notes on interpretation of persistence and expansion*
 
 Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
 
-$$
-\text{Persistence (\%)} =
+$$\text{Persistence (\%)} =
 \frac{\text{future suitable area within historical range of suitability}}
 {\text{historically suitable area}}
-\times 100
-$$
+\times 100$$
 
-
-$$
-\text{Expansion (\%)} =
+$$\text{Expansion (\%)} =
 \frac{\text{future suitable area outside historical range of suitability}}
 {\text{historically suitable area}}
-\times 100
-$$
-
+\times 100$$
 :::
 
 ### R Column - Bubble plot {width="60%"}
 
-::: panel-tabset
+:::::: panel-tabset
 #### Mesic/zonal (C4)
 
 ::: card
@@ -221,7 +211,7 @@ fig("Fd_B2_bub.png")
 fig("Fd_D6_bub.png") 
 ```
 :::
-:::
+::::::
 
 ## Row {.spacer-row}
 
@@ -231,14 +221,16 @@ fig("Fd_D6_bub.png")
 
 ### L col {width="35%"}
 
-:::card
+::: card
+Overall, the CCISS model predicts warmer temperatures will facilitate increased suitability of Douglas-fir across the province. The total area suitable for Fd is projected to increase with climate change, however large areas of the hottest/driest portions of its historical range are projected to become unsuitable.
 
-Overall, the total suitable area in BC for Douglas Fir is projected to decrease with climate change, with large areas of its historic range projected to become unsuitable.
+The suitable range of Fd is projected to expand (yellow shades on the maps) at higher elevation and further north, especially on mesic (C4) and drier (B2) site types. Major increases in suitability occur east of the coast transition, in the Central Interior, Sub-boreal Interior, in the Boreal Plains, and on Haida Gwaii. Increasing Fd suitability throughout much of the interior is driven by a shift to Interior Douglas-fir (IDF) and Interior Cedar Hemlock (ICH) climate conditions. However, cold air and frost is likely still a hazard.
 
-...More summary...
+The CCISS model predicts a loss of Fd suitability at low elevation in the Okanagan Valley, Central Interior, Rocky Mountain Trench, and Chilcotin River Valley. These declines in suitability are driven by warmer temperatures creating drought conditions in these low elevation valley bottoms. The climate is shifting to that characterizing Bunchgrass (BG) units and will not support Fd.
 
-These patterns are shown in 20-year intervals and by Edatopic space in the figures to the right.
+There is lower confidence in the loss of Fd suitability on rich/hygric (D6) sites around Prince George and in the Central Interior. This is possibly an artefact of the BGC climate futures that are projected. Climate models predict warmer, wetter conditions. We would expect Fd to remain suitable on wet sites under warmer-wetter conditions. See the CCISS Tool Documentation for more information on how [BGC projections](https://bcgov-ffec.ca/cciss-docs/Methods.html) work and the [sources of error](https://bcgov-ffec.ca/cciss-docs/Issues.html).
 
+These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
 :::
 
 ### R col {width="65%"}
@@ -253,7 +245,7 @@ These patterns are shown in 20-year intervals and by Edatopic space in the figur
 
 ```{r}
 #| label: 2001-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -265,7 +257,7 @@ fig("Two_panel.Fd.C4.2001_2020.png")
 
 ```{r}
 #| label: 2021-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -276,7 +268,7 @@ fig("Two_panel.Fd.C4.2021_2040.png")
 
 ```{r}
 #| label: 2041-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -287,7 +279,7 @@ fig("Two_panel.Fd.C4.2041_2060.png")
 
 ```{r}
 #| label: 2061-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
 #| fill: false
 #| out-width: 65%
 
@@ -298,7 +290,7 @@ fig("Two_panel.Fd.C4.2061_2080.png")
 
 ```{r}
 #| label: 2081-C4
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -313,7 +305,7 @@ fig("Two_panel.Fd.C4.2081_2100.png")
 
 ```{r}
 #| label: 2001-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -324,7 +316,7 @@ fig("Two_panel.Fd.B2.2001_2020.png")
 
 ```{r}
 #| label: 2021-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -335,7 +327,7 @@ fig("Two_panel.Fd.B2.2021_2040.png")
 
 ```{r}
 #| label: 2041-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -346,7 +338,7 @@ fig("Two_panel.Fd.B2.2041_2060.png")
 
 ```{r}
 #| label: 2061-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -357,7 +349,7 @@ fig("Two_panel.Fd.B2.2061_2080.png")
 
 ```{r}
 #| label: 2081-B2
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -372,7 +364,7 @@ fig("Two_panel.Fd.B2.2081_2100.png")
 
 ```{r}
 #| label: 2001-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -383,7 +375,7 @@ fig("Two_panel.Fd.D6.2001_2020.png")
 
 ```{r}
 #| label: 2021-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false 
 #| out-width: 65%
 
@@ -394,7 +386,7 @@ fig("Two_panel.Fd.D6.2021_2040.png")
 
 ```{r}
 #| label: 2041-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -405,7 +397,7 @@ fig("Two_panel.Fd.D6.2041_2060.png")
 
 ```{r}
 #| label: 2061-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -416,7 +408,7 @@ fig("Two_panel.Fd.D6.2061_2080.png")
 
 ```{r}
 #| label: 2081-D6
-#| fig-cap: "a) The species' historical environmental suitability rating, during the historical reference period of 1961-90 as determined by expert ratings. b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. c) Overall mean changes in suitability ranking across the province, within each BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
 #| fill: false
 #| out-width: 65%
 
@@ -440,7 +432,7 @@ fig("Two_panel.Fd.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas-fir's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -458,7 +450,7 @@ fig("Fd_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas-fir's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -475,7 +467,7 @@ fig("Fd_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Douglas Fir's suitable area in BC (Km^2^) over time by biogeoclimatic zone (colours) within the three representative edatopes (medium/mesic C4, poor/subxeric B2, and rich/hygric D6; tabs). The height of each bar represents the total environmentally suitable area for Fd in each time period, distributed across the different BGC zones. The first time period shown on the left of each graph is the historical reference period (1961-1990), where environmental suitability is determined by expert ratings (see Reference tab). The remaining time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. It is important to remember that for the future projected time periods, the relative areas of BGC zones remain static within the province (e.g., they are not shrinking or growing). Rather, this reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Douglas-fir's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -489,7 +481,13 @@ fig("Fd_D6_alluv.png")
 
 ### Col - description {width="30%"}
 
-In general, Douglas Fir's total suitable area is projected to shrink across BC over the century, with ....
+Fd's total suitable area is projected to expand across BC over the 21st century, driven by increases in suitable area in the ESSF, SBS, and CWH. Additionally there are smaller increases in suitable area in the SBPS, MH, BWBS, MS, and ICH. This broad pattern is offset by a decrease in the suitable area in the hottest and driest zones; the IDF, CDF, BG, and PP (which represent a smaller area proportionally).
+
+Many mapped subzones within the Sub-Boreal Spruce (SBS) zone in the Skeena Region are projected to become warmer, shifting towards Interior Douglas-fir (IDF)-like climate or warmer and wetter, shifting towards Interior Cedar--Hemlock (ICH)-like climate in the future. These climates are suitable for Fd and expand the total suitable area for Fd. Similarly, on the Chilcotin Plateau Sub-Boreal Pine--Spruce (SBPS) units are projected to shift towards IDF-like climate. The Engelmann Spruce--Subalpine Fir (ESSF) occurs on all major mountains surrounding the interior plateau (found above the MS, SBS, ICH and BWBS zones) and historically supported small populations of Fd in the warmer ESSF subzones (e.g. ESSFdh1). Warming temperatures are the likely driver of increases in suitable area for Fd projected into the ESSF zone. Fd is also projected to become suitable in a greater portion of the Coastal Western Hemlock (CWH) zone, as this area becomes warmer and drier, shifting to climates of warmer/drier CWH and Coastal Douglas-fir (CDF) subzones which are climatically suitable to Fd.
+
+The loss of environmentally suitable area in the IDF zone is driven by a shift to Bunchgrass (BG)-like climates, which does not support Fd.
+
+These broad patterns are similar across the medium/mesic (C4) and poor/subxeric (B2) site types. Rich/hygric (D6) sites have an increased projected area in CWH and decreases in ESSF, IDF and SBS. This is a possible artefact of the BGC projection method and the site series crosswalk, with many fewer D6 site series containing Fd overall, compared to C4 and B2 edatopes (see [CCISS tool documentation](https://bcgov-ffec.ca/cciss-docs/Methods.html) for more information).
 
 # Forest health
 
@@ -503,11 +501,9 @@ For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.c
 
 ## Climate change/drought
 
-
 **Climate change impacts**
 
- ...Summary text...
-
+...Summary text...
 
 # References
 
@@ -516,7 +512,7 @@ For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.c
 ::: {#refs}
 :::
 
-## Other reference materials 
+## Other reference materials
 
 **Reference materials**
 
@@ -525,4 +521,3 @@ For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.c
 [Douglas-fir - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/douglas-fir)
 
 [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)
-
