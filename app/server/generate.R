@@ -162,22 +162,21 @@ bgc <- function(con, siteno, avg, modWeights, novelty, nov_c = 5) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
     if(novelty){
-      dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, nov_cutoff = nov_c)
+      dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, cciss_table = "cciss_future14_array", 
+                                novelty_table = "cciss_novelty14_array",
+                                cciss_observed = "cciss_current14",
+                                bgc_table = "bgc_attribution14", 
+                                bgc_lookup = "bgc14", nov_cutoff = nov_c)
     } else {
-      dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights)
+      dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights, cciss_table = "cciss_future14_array", 
+                            cciss_observed = "cciss_current14",
+                            bgc_table = "bgc_attribution14", 
+                            bgc_lookup = "bgc14")
     }
     
   })
   dat
 }
-
-# bgc <- dbGetCCISS(pool,siteno = 676813, avg = F, modWeights = all_weight)
-# SSPreds <- edatopicOverlap(bgc, E1, E1_Phase)
-# out <- ccissOutput(SSPred = SSPreds, suit = S1, rules = R1, feasFlag = F1,
-#             histWeights = c(0.3,0.35,0.35), futureWeights = rep(0.25,4))
-
-# bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
-
 
 cciss <- function(bgc,estabWt,futWt) {
   if(session_params$show_novelty){

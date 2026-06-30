@@ -1,6 +1,6 @@
 ##javascript source
-bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BGC_v13_Mar10/{z}/{x}/{y}.pbf"
-bcgov_tilelayer <- "BEC13_Mar9"
+bcgov_tileserver <- "https://tileserver.thebeczone.ca/data/BC_BGC_v13_26/{z}/{x}/{y}.pbf"
+bcgov_tilelayer <- "BC_BGC_v13_26"
 district_tileserver <- "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf"
 district_tilelayer <- "Districts"
 wna_tileserver <- "https://tileserver.thebeczone.ca/data/WNA_MAP/{z}/{x}/{y}.pbf"
@@ -39,7 +39,7 @@ add_wna <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var subzoneColors = {", paste0("'", WNA_BGCs$BGC, "':'", WNA_BGCs$SubzoneColour,"'", collapse = ","), "}"), '
       
       var vectorTileOptions=function(layerName, layerId, activ,
                              lfPane, colorMap, prop, id) {
@@ -117,7 +117,7 @@ addBGC <- function(map) {
   map <- registerPlugin(map, plugins$sliderplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var subzoneColors = {", paste0("'", WNA_BGCs$BGC, "':'", WNA_BGCs$SubzoneColour,"'", collapse = ","), "}"), '
       
       L.bec_layer_opacity2 = 0.65
       var selectHighlight;
@@ -338,7 +338,7 @@ addBGC_report <- function(map,bgcSelect,distSelect) {
       bgcHL = data.bgc;
       distHL = data.district;
       console.log(bgcHL);
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var subzoneColors = {", paste0("'", WNA_BGCs$BGC, "':'", WNA_BGCs$SubzoneColour,"'", collapse = ","), "}"), '
       
       L.bec_layer_opacity2 = 0.65
       var selectHighlight;

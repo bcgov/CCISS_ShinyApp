@@ -78,34 +78,8 @@ $(document).ready(function(){
       sidebarPanel(
         width = 4,
         sidebarhelplink("cciss_instructions_select_sites"),
-        p("Welcome to CCISS 1.0! Note that this tool uses a yet-to-be released version of BEC (v13), which includes changes to the coastal BEC classification that will be published in Fall 2025. If you would like to use the previous version based on BEC 12, you can find it ", a("here!",href = "https://bcgov-ffec.ca/cciss12/")),
+        p("Welcome to CCISS v13.1!"),
         style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
-        
-        wellPanel(
-          splitLayout(
-            actionButton("clear_selections", "Clear Selections",
-                         style = "width:100%; height:70px; background-color:#c21104; color: #FFF"),
-            actionButton(
-              "generate_results",
-              label = "Generate results",
-              icon = icon("plus-square"),
-              style = "width:100%; height:70px; background-color:#003366; color: #FFF"
-            )
-          ),
-          splitLayout(
-            tagList(
-              br(),
-              actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
-            ),
-            tagList(
-              br(),
-              # p("Report by:"),
-              switchInput("aggregation", value = FALSE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
-            )
-            
-          )
-          
-        ),
         
         hr(style = "border-top: 1px solid #8f0e7e;"),
         h4("Add Sites Using One of the 3 Methods Below"),
@@ -175,11 +149,36 @@ $(document).ready(function(){
           ),
           id = "acc"),
         br(),
+        wellPanel(
+          splitLayout(
+            actionButton("clear_selections", "Clear Selections",
+                         style = "width:100%; height:70px; background-color:#c21104; color: #FFF"),
+            actionButton(
+              "generate_results",
+              label = "Generate results",
+              icon = icon("plus-square"),
+              style = "width:100%; height:70px; background-color:#003366; color: #FFF"
+            )
+          ),
+          splitLayout(
+            tagList(
+              br(),
+              actionButton("sesh_params", "Model Parameters", icon = icon("sliders-h"), style = "width:100%; align:center;")
+            ),
+            tagList(
+              br(),
+              # p("Report by:"),
+              switchInput("aggregation", value = FALSE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
+            )
+            
+          )
+          
+        ),
         hr(style = "border-top: 1px solid #8f0e7e;"),
         #wellPanel(
         splitLayout(
           selectInput("findbec","Find-a-BEC", 
-                      choices = c("(N)",bgc_choices), 
+                      choices = c("(N)",WNA_BGCs$BGC), 
                       multiple = F),
           tagList(br(),
                   actionButton("findbecclear","Clear")
@@ -484,6 +483,11 @@ $(document).ready(function(){
         ),
         
         conditionalPanel(
+          condition = "(input.type == 'BGC' & input.period_type != 'Future') | (input.type == 'BGC' & input.gcm_select == 'Ensemble')",
+          checkboxInput("byzone","Show map by zone?", value = FALSE)
+        ),
+        
+        conditionalPanel(
           condition = "input.type !== 'BGC'",
           h1("Suitability Options"),
           selectInput("edatope_feas","Select Edatope (SNR/SMR)", choices = c("B2","C4","D6"), selected = "C4", multiple = FALSE),
@@ -552,16 +556,27 @@ $(document).ready(function(){
                       div(id = "plot-container",
                           wellPanel(
                             h2("Summary by Region"),
-                            selectInput("xvariable","X-Axis Variable", choices = c("Time","MAT","MAP","CMD","DD5")),
                             conditionalPanel(
-                              condition = "input.type == 'BGC'",
-                              checkboxInput("zone_sz","Summarise by Zone?",value = TRUE),
+                              condition = "input.cs_plot_type == 'Area'",
+                              selectInput("xvariable","X-Axis Variable", choices = c("Time","MAT","MAP","CMD","DD5")),
+                              # conditionalPanel(
+                              #   condition = "input.type == 'BGC'",
+                              #   checkboxInput("zone_sz","Summarise by Zone?",value = TRUE),
+                              # ),
+                              checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE)
                             ),
-                            checkboxInput("plot_obs","Show 2001-2020 Observed?", value = TRUE),
-                            actionButton("reset_plot","Reset Plot"),
-                            actionButton("reset_district","Clear Selected Subregion"),
-                            radioButtons("cs_plot_type", "Choose a plot type:", choices = c("Area", "Persistance/Expansion", "Alluvial"), selected = "Area"),
                             
+                            radioButtons("cs_plot_type", "Choose a plot type:", choices = c("Area"), selected = "Area"),
+                            conditionalPanel(condition = "input.cs_plot_type == 'Area' & input.type != 'BGC'",
+                                             checkboxInput("frac_suit", "Use Fractional Suitabilities?", value = TRUE)
+                                             ),
+                            conditionalPanel(condition = "input.type != 'BGC' & input.cs_plot_type == 'Area' & input.frac_suit == false",
+                                             radioButtons("binary_type", "Select Included Suitabilities:", 
+                                                          choices = c("E1" = "spp_area_bin1","E1&E2" = "spp_area_bin2","E1&E2&E3" = "spp_area_bin3"), selected = "spp_area_bin1")
+                            ),
+                            conditionalPanel(condition = "input.cs_plot_type == 'Persistance/Expansion' & input.type == 'Suitability'",
+                                             checkboxInput("per_exp_focal","Highlight focal species?", value = FALSE)
+                                             ),
                             div(
                               style = "width: 100%;",
                               conditionalPanel(
@@ -573,6 +588,8 @@ $(document).ready(function(){
                                 plotOutput("summary_plot_base", click = "per_exp_click")
                               )
                             ),
+                            actionButton("reset_plot","Reset Plot"),
+                            actionButton("reset_district","Clear Selected Subregion"),
                             downloadButton("sum_plt_download","Download Plot")
                           )
                       )

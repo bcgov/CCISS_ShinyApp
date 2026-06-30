@@ -206,7 +206,7 @@ shinyServer(function(input, output, session) {
       valueFormatter = "#.##",
       theme = "dataviz")
   })
-  output$gcm_select <- renderAmChart4({
+  output$gcm_select_chart <- renderAmChart4({
     amBarChart(
       data = session_params$gcmWt,
       category = "gcm", values = "weight",
@@ -253,7 +253,7 @@ shinyServer(function(input, output, session) {
       ),
       h6("GCM Weights"),
       p("Click and drag bars to adjust weights"),
-      amChart4Output("gcm_select",width = "790px"),
+      amChart4Output("gcm_select_chart",width = "790px"),
       h6("Scenario Weights"),
       amChart4Output("rcp_select"),
       footer = tagList(
@@ -271,7 +271,7 @@ shinyServer(function(input, output, session) {
     futWt <- as.numeric(c(input$wt21,input$wt41,input$wt61,input$wt81))
     futWt <- futWt/sum(futWt)
     
-    gcm_weight <- as.data.table(input$gcm_select)
+    gcm_weight <- as.data.table(input$gcm_select_chart)
     setnames(gcm_weight,c("gcm","weight"))
     rcp_weight <- as.data.table(input$rcp_select)
     setnames(rcp_weight,c("rcp","weight"))

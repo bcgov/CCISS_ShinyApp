@@ -25,7 +25,7 @@ observeEvent({c(input$novelty, input$period_feas, input$gcm_select, input$period
       prd <- input$period_select
     }
     if(input$type == "Suitability"){
-      pnm <- "SZ_Ensemble"
+      pnm <- "Ensemble"
       prd <- input$period_feas
     }
     tile_url <- gsub("GCM", pnm, novelty_tileserver)
@@ -71,34 +71,32 @@ observe({
       globalLeg$Legend <- NULL
     }
     
-    pnm <- "Historic"
+    pnm <- "Ensemble"
     prd <- "1961_1990"
-    ens_type <- "SZ"
+    ens_type <- if(is.null(input$byzone)) "Subzone" else if(input$byzone) "Zone" else "Subzone"
     if(input$period_type == "Historic"){
       if(input$hist_type == "Mapped"){
         pnm <- "Mapped"
         prd <- "1961_1990"
       } else {
-        pnm <- "Historic"
+        pnm <- "Ensemble"
         prd <- "1961_1990"
       }
 
     } else if (input$period_type == "obs") {
-      pnm <- "Obs"
-      prd <- "2001_2020"
+      pnm <- "Ensemble"
+      prd <- "2001_2020_obs"
     } else if (input$period_type == "Future") {
       if(!is.null(input$gcm_select)){
-        if(input$gcm_select == "Zone_Ensemble"){
-          ens_type <- "Zone"
-        }
         pnm <- input$gcm_select
         prd <- input$period_select
       }
     }
     tile_url <- gsub("GCM", pnm, base_tileserver)
     tile_url <- gsub("PERIOD", prd, tile_url)
+    tile_url <- gsub("SUBZONE", ens_type, tile_url)
     print(tile_url)
-    dat <- list(url = tile_url, type = ens_type)
+    dat <- list(url = tile_url, type = if(ens_type == "Zone") "Zone" else "SZ")
     #message("Sending to JS")
     session$sendCustomMessage("update_tiles",dat)
     # if(input$novelty){
@@ -112,16 +110,16 @@ observe({
     #browser()
     if(input$period_type == "Historic"){
       if(input$hist_type == "Mapped"){
-        stat <- "HistoricFeas"
-        period <- "2001_2020"
+        stat <- "NewFeas"
+        period <- "1961_1990_mapped"
       } else {
-        stat <- "NewFeas_Historic"
-        period <- "Predicted"
+        stat <- "NewFeas"
+        period <- "1961_1990"
       }
       
     } else if (input$period_type == "obs") {
       stat <- input$map_stat
-      period <- "obs_2001_2020"
+      period <- "2001_2020_obs"
     } else if (input$period_type == "Future") {
       stat <- input$map_stat
       period <- input$period_feas
@@ -258,7 +256,7 @@ observeEvent(input$map_click,{
         ")
         elev <- dbGetQuery(pool, elev_info_sql)
         point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
-        if(input$gcm_select == "SZ_Ensemble") {
+        if(input$gcm_select == "Ensemble") {
           point_clim <- climr::downscale(point_focal, gcms = gcms_use, 
                                             ssps = "ssp245", gcm_periods = input$period_select,
                                             vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
@@ -421,7 +419,7 @@ observe({
     if(input$region_type == "District"){
       dat <- list(url = "https://tileserver.thebeczone.ca/data/Districts/{z}/{x}/{y}.pbf", name = "Districts", id = "dist_code")
     }else{
-      dat <- list(url = "https://tileserver.thebeczone.ca/data/flp_bnd/{z}/{x}/{y}.pbf", name = "flp", id = "ORG_UNIT")
+      dat <- list(url = "https://tileserver.thebeczone.ca/data/flp_2026/{z}/{x}/{y}.pbf", name = "flp_bnd", id = "ORG_UNIT")
     }
     session$sendCustomMessage("addRegionTile",dat)
     session$sendCustomMessage("reset_district","Luna")
@@ -446,49 +444,119 @@ observeEvent(input$reset_district,{
   session$sendCustomMessage("reset_district","Luna")
 })
 
-output$summary_plot_base <- renderPlot({
-  if(is.null(input$dist_click) | input$cs_plot_type != "Persistance/Expansion") return(NULL)
-  stdarea <- input$dist_click
-  #print(input$dist_click)
-  if(input$period_type  == "Historic"){
-    return(NULL)
-  } else if (input$period_type == "obs"){
-    period_sel <- "2001_2020_obs"
-  } else {
-    period_sel <- input$period_feas
+observe({
+  if(input$type == "Suitability" & input$period_type != "Historic"){
+    updateRadioButtons(session, "cs_plot_type", choices = c("Area", "Persistance/Expansion", "Alluvial"))
+  } else if (input$type != "Historic"){
+    updateRadioButtons(session, "cs_plot_type", choices = c("Area", "Persistance/Expansion"))
   }
+  if(input$period_type == "Historic" & input$type == "BGC") {
+    updateRadioButtons(session, "cs_plot_type", choices = c("Area"))
+  } else if(input$period_type == "Historic") {
+    updateRadioButtons(session, "cs_plot_type", choices = c("Area", "Alluvial"))
+  }
+})
+
+output$summary_plot_base <- renderPlot({
+  if(is.null(input$dist_click)) return(NULL)
+  stdarea <- input$dist_click
   
-  if(input$type == "BGC"){
-    return(NULL)
-  }else{
-    dat <- dbGetQuery(dbCon, glue_sql("select * from spp_per_exp where region = {input$dist_click} and edatopic = {input$edatope_feas} and ssp = 'ssp245'", .con = dbCon))
-    names(dat) <- c("region", "spp", "Edatopic", "ssp", "period", "MappedSuit", "Persistance", "Expansion")
+  if(input$cs_plot_type == "Alluvial") {
+    dat <- dbGetQuery(dbCon, glue_sql("select * from alluvial_area 
+                                      where region = {stdarea} 
+                                      AND spp = {input$species_feas} 
+                                      AND edatope = {input$edatope_feas}", .con = dbCon))
     setDT(dat)
-    dat <- na.omit(dat)
-    spp_bubbleplot(dat, species.focal = bubble_click(), period = period_sel, scenario = "ssp245", edatope = input$edatope_feas)
+    setnames(dat, c("region", "bgc", "Edatope", "Spp", "FuturePeriod", "SppArea"))
+    #browser()
+    plot_alluvial(dat, spp = input$species_feas, edatope = input$edatope_feas)
+  } else if (input$cs_plot_type == "Persistance/Expansion") {
+    #print(input$dist_click)
+    if(input$period_type  == "Historic"){
+      return(NULL)
+    } else if (input$period_type == "obs"){
+      period_sel <- "2001_2020_obs"
+    } else {
+      if(input$type == "BGC") period_sel <- input$period_select
+      else period_sel <- input$period_feas
+    }
+    
+    if(input$type == "BGC"){
+      dat <- dbGetQuery(dbCon, glue_sql("select ssp, gcm, run, period, bgc_pred, persistance, expansion from bgc_per_exp 
+                                      where region = {input$dist_click}", .con = dbCon))
+      names(dat) <- c("ssp", "gcm", "run", "period", "bgc_pred", "Persistance", "Expansion")
+      setDT(dat)
+      bgc_bubbleplot(dat, period = period_sel, unit.focal = bubble_click(), scenario = "ssp245")
+    }else{
+      dat <- dbGetQuery(dbCon, glue_sql("select * from spp_per_exp where region = {input$dist_click} and edatopic = {input$edatope_feas}", .con = dbCon))
+      names(dat) <- c("region", "spp", "Edatopic", "ssp", "period", "MappedSuit", "Persistance", "Expansion")
+      setDT(dat)
+      dat <- na.omit(dat, cols = c("Persistance", "Expansion"))
+      spp_bubbleplot(dat, species.focal = bubble_click(), period = period_sel, scenario = "ssp245", edatope = input$edatope_feas, xlim = c(0, 1.4))
+    }
+  }
+})
+
+observe({
+  input$per_exp_focal
+  input$species_feas
+  if(input$per_exp_focal) {
+    bubble_click(input$species_feas)
+  } else {
+    bubble_click(NULL)
   }
 })
 
 observeEvent(input$per_exp_click,{
-  if (input$period_type == "obs"){
-    period_sel <- "2001_2020_obs"
-  } else {
-    period_sel <- input$period_feas
-  }
   if(!is.null(input$per_exp_click)){
-    dat <- dbGetQuery(dbCon, glue_sql("select spp, AVG(persistance) AS per, AVG(expansion) AS expand from spp_per_exp 
+    if(input$type == "Suitability") {
+      if (input$period_type == "obs"){
+        period_sel <- "2001_2020_obs"
+      } else {
+        period_sel <- input$period_feas
+      }
+      dat <- dbGetQuery(dbCon, glue_sql("select spp, AVG(persistance) AS per, AVG(expansion) AS expand from spp_per_exp 
                                       where period = {period_sel} 
                                       and region = {input$dist_click} 
                                       and edatopic = {input$edatope_feas} 
                                       and ssp = 'ssp245'
                                       and persistance IS NOT NULL
                                       group by spp", .con = dbCon))
-    setDT(dat)
-    dat[, expand := log2(expand)]
-    #browser()
-    temp_near <- nearPoints(dat, input$per_exp_click, xvar = "per", yvar = "expand", threshold = 50)
-    if(nrow(temp_near) == 0) bubble_click(NULL)
-    else bubble_click(temp_near$spp[1])
+      setDT(dat)
+      dat[, expand := log2(expand)]
+      #browser()
+      temp_near <- nearPoints(dat, input$per_exp_click, xvar = "per", yvar = "expand", threshold = 50)
+      if(nrow(temp_near) == 0) bubble_click(NULL)
+      else {
+        print(temp_near$spp[1])
+        bubble_click(temp_near$spp[1])
+      } 
+    } else {
+      #browser()
+      if (input$period_type == "obs"){
+        period_sel <- "2001_2020_obs"
+      } else {
+        period_sel <- input$period_select
+      }
+      dat <- dbGetQuery(dbCon, glue_sql("select bgc_pred AS bgc, AVG(persistance) AS per, AVG(expansion) AS expand from bgc_per_exp 
+                                      where period = {period_sel} 
+                                      and region = {input$dist_click} 
+                                      and ssp = 'ssp245'
+                                      and persistance IS NOT NULL
+                                      group by bgc_pred", .con = dbCon))
+      setDT(dat)
+      ylim <- -5
+      dat[expand<2^(ylim[1]-1), expand := 2^(ylim[1]-1)]
+      dat[, expand := log2(expand)]
+      #browser()
+      temp_near <- nearPoints(dat, input$per_exp_click, xvar = "per", yvar = "expand", threshold = 50)
+      if(nrow(temp_near) == 0) bubble_click(NULL)
+      else {
+        print(temp_near$bgc[1])
+        bubble_click(temp_near$bgc[1])
+      }
+    }
+    
   }
 })
 
@@ -510,15 +578,16 @@ output$summary_plot <- renderGirafe({
   }
   
   if(input$type == "BGC"){
-    if(input$zone_sz) smry <- "Zone"
-    else smry <- "Subzone"
+    smry <- "Zone"
+    #else smry <- "Subzone"
     p <- plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
                                  unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
 
   }else{
-    p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
-                      run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
-                      focal_species = plot_vals(), plot_obs = input$plot_obs)
+    if(input$frac_suit) tname <- "spp_area_frac"
+    else tname <- input$binary_type
+    p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, edatope = input$edatope_feas, table_name = tname,
+                      spp_select = input$species_feas, focal_spp = plot_vals(), plot_obs = input$plot_obs)
   }
   x <- girafe(ggobj = p)
   x <- girafe_options(x,
@@ -544,18 +613,59 @@ output$sum_plt_download <- downloadHandler(
         run_curr <- runs_use[gcms_use == input$gcm_select]
       }
     }
-    if(input$type == "BGC"){
-      if(input$zone_sz) smry <- "Zone"
-      else smry <- "Subzone"
-      p <- plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
-               unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
-    }else{
+    
+    ##plot type
+    if(input$cs_plot_type == "Alluvial") {
+      dat <- dbGetQuery(dbCon, glue_sql("select * from alluvial_area 
+                                      where region = {stdarea} 
+                                      AND spp = {input$species_feas} 
+                                      AND edatope = {input$edatope_feas}", .con = dbCon))
+      setDT(dat)
+      setnames(dat, c("region", "bgc", "Edatope", "Spp", "FuturePeriod", "SppArea"))
       #browser()
-      p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
-                   run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
-                   focal_species = plot_vals(), plot_obs = input$plot_obs)
+      p <- plot_alluvial(dat, spp = input$species_feas, edatope = input$edatope_feas)
+      ggsave(file, plot = p, width = 8, height = 6, dpi = 300)
+    } else if (input$cs_plot_type == "Persistance/Expansion") {
+      #print(input$dist_click)
+      if(input$period_type  == "Historic"){
+        return(NULL)
+      } else if (input$period_type == "obs"){
+        period_sel <- "2001_2020_obs"
+      } else {
+        if(input$type == "BGC") period_sel <- input$period_select
+        else period_sel <- input$period_feas
+      }
+      
+      png(filename = file, width = 8, height = 5, units = "in", res = 400)
+      if(input$type == "BGC"){
+        dat <- dbGetQuery(dbCon, glue_sql("select ssp, gcm, run, period, bgc_pred, persistance, expansion from bgc_per_exp 
+                                      where region = {input$dist_click}", .con = dbCon))
+        names(dat) <- c("ssp", "gcm", "run", "period", "bgc_pred", "Persistance", "Expansion")
+        setDT(dat)
+        bgc_bubbleplot(dat, period = period_sel, unit.focal = bubble_click(),ylim = c(-5,4), scenario = "ssp245")
+      }else{
+        dat <- dbGetQuery(dbCon, glue_sql("select * from spp_per_exp where region = {input$dist_click} and edatopic = {input$edatope_feas}", .con = dbCon))
+        names(dat) <- c("region", "spp", "Edatopic", "ssp", "period", "MappedSuit", "Persistance", "Expansion")
+        setDT(dat)
+        dat <- na.omit(dat, cols = c("Persistance", "Expansion"))
+        spp_bubbleplot(dat, species.focal = bubble_click(), period = period_sel, scenario = "ssp245", ylim = c(-5,4), edatope = input$edatope_feas, xlim = c(0, 1.4))
+      }
+      dev.off()
+    } else {
+      if(input$type == "BGC"){
+        if(input$zone_sz) smry <- "Zone"
+        else smry <- "Subzone"
+        p <- plot_bgc(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, run_nm = run_curr, 
+                      unit = smry, focal_bgc = plot_vals(), plot_obs = input$plot_obs)
+      }else{
+        #browser()
+        p <- plot_species(dbCon, stdarea, xvariable = input$xvariable, gcm_nm = gcm_curr, 
+                          run_nm = run_curr, edatope = input$edatope_feas, spp_select = input$species_feas, 
+                          focal_species = plot_vals(), plot_obs = input$plot_obs)
+      }
+      ggsave(file, plot = p, width = 8, height = 6, dpi = 300)
     }
-    ggsave(file, plot = p, width = 8, height = 6, dpi = 300)
+    
   }
 )
 
@@ -653,32 +763,33 @@ output$download_cciss <- downloadHandler(
   content = function(file){
     if(input$type == "BGC"){
       if(input$period_type == "Historic") {
-        gcms <- "refperiod"
+        gcms <- "Ensemble"
         period <- "1961_1990"
       } else if(input$period_type == "obs") {
-        gcms <- "Obs"
-        period <- "2001_2020"
+        gcms <- "Ensemble"
+        period <- "2001_2020_obs"
       } else {
         gcms <- input$gcm_select
         period <- input$period_select
       }
-      lname <- paste0("bgc_raw_",gcms,"_",period,".tif")
-      tname <- "bgc_raw"
+      sz <- "Subzone"
+      if(!is.null(input$byzone)) if(input$byzone) sz <- "Zone"
+      lname <- paste0("bgcRaw_",gcms,"_",period,"_",sz,".tif")
+      print(lname)
+      tname <- "cciss_download"
     }else{
       if(input$period_type == "Historic") {
         period <- "1961_1990"
       } else if(input$period_type == "obs") {
-        period <- "obs_2001_2020"
+        period <- "2001_2020_obs"
       } else {
         period <- input$period_feas
       }
       sname <- switch(input$map_stat,
-                      NewFeas = "Feasibility_",
-                      MeanChange = "MeanChange_")
+                      NewFeas = "FeasibilityRaw_",
+                      MeanChange = "MeanChangeRaw_")
       lname <- paste0(sname,period,"_",input$edatope_feas,"_",input$species_feas,".tif")
-      tname <- switch(input$map_stat,
-                      NewFeas = "feasibility_raw",
-                      MeanChange = "meanchange_raw")
+      tname <- "cciss_download"
     }
     
     avail_lyrs <- dbGetQuery(dbCon, sprintf("select distinct filename from %s",tname))$filename
