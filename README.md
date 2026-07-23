@@ -14,9 +14,8 @@ To address this challenge, the CCISS tool projects changes to species environmen
 
 To assist users, the tool compares the current species selection guidance in the Chief Foresters Reference Guide with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.
 
-The CCISS tool is written in R, using the Shiny package. The main codebase in contained here in `./app`, which relies on functions from the corresponding R package, `ccissr`.
+The CCISS tool is written in R, using the Shiny package. The main codebase in contained here in `./app`, which relies on functions from the corresponding R package, `ccissr`. Note that CCISS relies heavily on a remote Postgres server as well as a tileserver, and so will in general not be possible to run locally. 
 
-Note that CCISS relies heavily on a remote Postgres server as well as a tileserver, and so will in general not be possible to run locally. 
 ------------------------------------------------------------------------
 
 
