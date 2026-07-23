@@ -18,18 +18,20 @@ observeEvent(input$clear_map,{
 observeEvent({c(input$novelty, input$period_feas, input$gcm_select, input$period_select)},{
   if(input$novelty & input$period_type != "Historic"){
     if(input$period_type == "obs"){
-      pnm <- "Obs"
-      prd <- "2001_2020"
+      pnm <- "ensemble"
+      prd <- "2001_2020_obs"
     }else{
       pnm <- input$gcm_select
       prd <- input$period_select
     }
     if(input$type == "Suitability"){
-      pnm <- "Ensemble"
+      pnm <- "ensemble"
       prd <- input$period_feas
     }
+    if(pnm == "Ensemble") pnm <- "ensemble"
     tile_url <- gsub("GCM", pnm, novelty_tileserver)
     tile_url <- gsub("PERIOD", prd, tile_url)
+    print(tile_url)
     session$sendCustomMessage("add_novelty",tile_url)
   }else{
     session$sendCustomMessage("remove_novelty","puppy")
@@ -76,8 +78,8 @@ observe({
     ens_type <- if(is.null(input$byzone)) "Subzone" else if(input$byzone) "Zone" else "Subzone"
     if(input$period_type == "Historic"){
       if(input$hist_type == "Mapped"){
-        pnm <- "Mapped"
-        prd <- "1961_1990"
+        pnm <- "Ensemble"
+        prd <- "1961_1990_ref"
       } else {
         pnm <- "Ensemble"
         prd <- "1961_1990"
@@ -111,7 +113,7 @@ observe({
     if(input$period_type == "Historic"){
       if(input$hist_type == "Mapped"){
         stat <- "NewFeas"
-        period <- "1961_1990_mapped"
+        period <- "1961_1990_ref"
       } else {
         stat <- "NewFeas"
         period <- "1961_1990"
@@ -194,59 +196,13 @@ observeEvent(input$map_click,{
   lng <- input$map_click$lng
   #browser()
   if(!input$dist_flag & !input$findabec){
-    if(input$type == "Suitability"){
-      cell_click <- cellFromXY(t_rast, cbind(lng,lat))
-      print(cell_click)
-      curr_cell(cell_click)
-      qry <- paste0("select * from bgc_preds where cellid = ",cell_click)
-      #cat(qry)
-      dat <- dbGetQuery(dbCon, qry)|> setDT()
-      dat[,bgc_prop := bgc_prop / sum(bgc_prop), by = fp_code]
+    if(input$novelty){
+      test_fut <- dbGetQuery(dbCon, paste0("select * from future_climate where \"GCM\" = '",input$gcm_select,
+                                           "' and \"PERIOD\" = '",input$period_select,"' and bgc_pred = '",input$bgc_pred_click,"'")) |> as.data.table()
+      test_hist <- dbGetQuery(dbCon, paste0("select * from historic_climate where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
+      test_icv <- dbGetQuery(dbCon, paste0("select * from historic_icv where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
       
-      output$bgc_plot <- renderPlotly({
-        
-        fig <- plot_ly(data = dat, x = ~fp_code,
-                       y = ~bgc_prop, split = ~bgc_pred, type = 'bar',
-                       color = ~bgc_pred, colors = colour_ref, hovertemplate = "%{y}",
-                       text = ~bgc_pred, textposition = 'inside', textfont = list(color = "black", size = 12),
-                       texttemplate = "%{text}") %>%
-          layout(yaxis = list(title = "", tickformat = ".1%"),
-                 xaxis = list(showspikes = FALSE, title = list(text = "Period"),
-                              ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080","2081-2100"),
-                              tickvals = c(1961,1981,2001,2021,2041,2061,2081)),
-                 barmode = 'stack')
-        fig
-      })
-      
-      
-      
-      if(input$species_feas %in% c("Ac","Ep","Pw","Ss","Bg")) {
-        output$feas_plot <- NULL
-        output$feas_message <- renderText("Sorry, plots for this species are not currently available.")
-      } else {
-        output$feas_plot <- renderGirafe({
-          plot_suitability(dbCon, cellid = cell_click, edatope = input$edatope_feas, spp_name = input$species_feas)
-        })
-        output$feas_message <- NULL
-      }
-      
-      showModal(modalDialog(
-        title = paste0("BGC and Suitability Projections"),
-        plotlyOutput("bgc_plot"),
-        textOutput("feas_message"),
-        girafeOutput("feas_plot"),
-        easyClose = TRUE,
-        footer = NULL,
-        size = "m"
-      ))
-    } else {
-      if(input$novelty){
-        test_fut <- dbGetQuery(dbCon, paste0("select * from future_climate where \"GCM\" = '",input$gcm_select,
-                                             "' and \"PERIOD\" = '",input$period_select,"' and bgc_pred = '",input$bgc_pred_click,"'")) |> as.data.table()
-        test_hist <- dbGetQuery(dbCon, paste0("select * from historic_climate where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
-        test_icv <- dbGetQuery(dbCon, paste0("select * from historic_icv where bgc = '",input$bgc_pred_click,"'")) |> as.data.table()
-        
-        elev_info_sql <- paste0("
+      elev_info_sql <- paste0("
           WITH pts4269 AS (SELECT st_transform(st_pointfromtext('POINT(", lng, " ", lat, ")', 4326), 4269) geom)
           
           SELECT MAX(ROUND(CAST(ST_Value(dem.rast, pts.geom) as NUMERIC), 2)) elevation_m
@@ -254,34 +210,80 @@ observeEvent(input$map_click,{
           CROSS JOIN pts4269 pts
           WHERE ST_Intersects(dem.rast, pts.geom)
         ")
-        elev <- dbGetQuery(pool, elev_info_sql)
-        point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
-        if(input$gcm_select == "Ensemble") {
-          point_clim <- climr::downscale(point_focal, gcms = gcms_use, 
-                                            ssps = "ssp245", gcm_periods = input$period_select,
-                                            vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
-                                            return_refperiod = FALSE)
-          point_clim <- point_clim[,lapply(.SD, mean), .SDcols = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_"))]
-        } else {
-          point_clim <- climr::downscale(point_focal, gcms = input$gcm_select, 
-                                            ssps = "ssp245", gcm_periods = input$period_select,
-                                            run_nm = runs_use[gcms_use == input$gcm_select],
-                                            vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
-                                            return_refperiod = FALSE)
-          point_clim <- point_clim[PERIOD != "1961_1990",]
-        }
+      elev <- dbGetQuery(pool, elev_info_sql)
+      point_focal <- data.table(lon = lng, lat = lat, elev = elev$elevation_m[1], id = 1)
+      if(input$gcm_select == "Ensemble") {
+        point_clim <- climr::downscale(point_focal, gcms = gcms_use, 
+                                       ssps = "ssp245", gcm_periods = input$period_select,
+                                       vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+                                       return_refperiod = FALSE)
+        point_clim <- point_clim[,lapply(.SD, mean), .SDcols = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_"))]
+      } else {
+        point_clim <- climr::downscale(point_focal, gcms = input$gcm_select, 
+                                       ssps = "ssp245", gcm_periods = input$period_select,
+                                       run_nm = runs_use[gcms_use == input$gcm_select],
+                                       vars = as.vector(outer(c("Tmin", "Tmax", "PPT"), c("wt", "sp", "sm", "at"), paste, sep = "_")),
+                                       return_refperiod = FALSE)
+        point_clim <- point_clim[PERIOD != "1961_1990",]
+      }
+      
+      
+      output$novelty_plot <- renderPlotly({
+        plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)
+      })
+      
+      showModal(modalDialog(
+        title = paste0("Analog Novelty Plot"),
+        plotlyOutput("novelty_plot", height = "70vh"),
+        size = "l",
+        easyClose = TRUE,
+        footer = NULL
+      ))
+    } else {
+      if(input$type == "Suitability"){
+        cell_click <- cellFromXY(t_rast, cbind(lng,lat))
+        print(cell_click)
+        curr_cell(cell_click)
+        qry <- paste0("select * from bgc_preds where cellid = ",cell_click)
+        #cat(qry)
+        dat <- dbGetQuery(dbCon, qry)|> setDT()
+        dat[,bgc_prop := bgc_prop / sum(bgc_prop), by = fp_code]
         
-        
-        output$novelty_plot <- renderPlotly({
-          plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)
+        output$bgc_plot <- renderPlotly({
+          
+          fig <- plot_ly(data = dat, x = ~fp_code,
+                         y = ~bgc_prop, split = ~bgc_pred, type = 'bar',
+                         color = ~bgc_pred, colors = colour_ref, hovertemplate = "%{y}",
+                         text = ~bgc_pred, textposition = 'inside', textfont = list(color = "black", size = 12),
+                         texttemplate = "%{text}") %>%
+            layout(yaxis = list(title = "", tickformat = ".1%"),
+                   xaxis = list(showspikes = FALSE, title = list(text = "Period"),
+                                ticktext = c("1961-1990","2001-2020 (obs)", "2001-2020", "2021-2040","2041-2060","2061-2080","2081-2100"),
+                                tickvals = c(1961,1981,2001,2021,2041,2061,2081)),
+                   barmode = 'stack')
+          fig
         })
         
+        
+        
+        if(input$species_feas %in% c("Kd")) {
+          output$feas_plot <- NULL
+          output$feas_message <- renderText("Sorry, plots for this species are not currently available.")
+        } else {
+          output$feas_plot <- renderGirafe({
+            plot_suitability(dbCon, cellid = cell_click, edatope = input$edatope_feas, spp_name = input$species_feas)
+          })
+          output$feas_message <- NULL
+        }
+        
         showModal(modalDialog(
-          title = paste0("Analog Novelty Plot"),
-          plotlyOutput("novelty_plot", height = "70vh"),
-          size = "l",
+          title = paste0("BGC and Suitability Projections"),
+          plotlyOutput("bgc_plot"),
+          textOutput("feas_message"),
+          girafeOutput("feas_plot"),
           easyClose = TRUE,
-          footer = NULL
+          footer = NULL,
+          size = "m"
         ))
       } else {
         cell_click <- cellFromXY(t_rast, cbind(lng,lat))
@@ -316,11 +318,9 @@ observeEvent(input$map_click,{
           size = "m"
         ))
       }
-      
     }
+    
   }
-  
-  
 })
 
 ############FIND a BEC#######################
@@ -718,15 +718,21 @@ observeEvent(input$dist_click, {
 })
 
 output$download_legend <- renderUI(
-  if(input$type == "BGC"){
-    a(href="downloadable_docs/BGC_Legend.csv", "Download Legend", download=NA, target="_blank")
-  }else{
-    if(input$map_stat == "Feasibility"){
-      a(href="downloadable_docs/Feasibility_Legend.csv", "Download Legend", download=NA, target="_blank")
+  if(input$novelty){
+    h4("Values in the raster are multiplied by 100 and stored as integers (so a value of 800 corresponds to a sigma novelty of 8).")
+  } else {
+    if(input$type == "BGC"){
+      if(input$byzone) a(href="downloadable_docs/Zone_Legend.csv", "Download Zone Legend", download=NA, target="_blank")
+      else a(href="downloadable_docs/Subzone_Legend.csv", "Download BGC Legend", download=NA, target="_blank")
     }else{
-      a(href="downloadable_docs/MeanChange_Legend.csv", "Download Legend", download=NA, target="_blank")
+      if(input$map_stat == "NewFeas"){
+        a(href="downloadable_docs/Feasibility_Legend.csv", "Download Suitability Legend", download=NA, target="_blank")
+      }else{
+        a(href="downloadable_docs/MeanChange_Legend.csv", "Download Mean Change Legend", download=NA, target="_blank")
+      }
     }
   }
+  
 )
 
 output$download_cciss <- downloadHandler(
@@ -761,38 +767,60 @@ output$download_cciss <- downloadHandler(
     }
   },
   content = function(file){
-    if(input$type == "BGC"){
-      if(input$period_type == "Historic") {
-        gcms <- "Ensemble"
-        period <- "1961_1990"
-      } else if(input$period_type == "obs") {
-        gcms <- "Ensemble"
-        period <- "2001_2020_obs"
+    
+    tname = "cciss_download"
+    if(input$novelty) {
+      if(input$type != "BGC" | input$gcm_select == "Ensemble") {
+        gcm <- "ensemble"
       } else {
-        gcms <- input$gcm_select
-        period <- input$period_select
+        gcm <- paste0(input$gcm_select,".*")
       }
-      sz <- "Subzone"
-      if(!is.null(input$byzone)) if(input$byzone) sz <- "Zone"
-      lname <- paste0("bgcRaw_",gcms,"_",period,"_",sz,".tif")
-      print(lname)
-      tname <- "cciss_download"
-    }else{
-      if(input$period_type == "Historic") {
-        period <- "1961_1990"
-      } else if(input$period_type == "obs") {
+      
+      if(input$period_type == "obs") {
         period <- "2001_2020_obs"
+      } else if(input$type == "BGC") {
+        period <- input$period_select
       } else {
         period <- input$period_feas
       }
-      sname <- switch(input$map_stat,
-                      NewFeas = "FeasibilityRaw_",
-                      MeanChange = "MeanChangeRaw_")
-      lname <- paste0(sname,period,"_",input$edatope_feas,"_",input$species_feas,".tif")
-      tname <- "cciss_download"
+      
+      lname <- paste0("noveltyRaw_",gcm,"_",period,".tif")
+      
+    } else {
+      if(input$type == "BGC"){
+        sz <- "Subzone"
+        if(!is.null(input$byzone)) if(input$byzone) sz <- "Zone"
+        if(input$period_type == "Historic") {
+          gcms <- "Ensemble"
+          period <- "1961_1990"
+        } else if(input$period_type == "obs") {
+          gcms <- "Ensemble"
+          period <- "2001_2020_obs"
+        } else {
+          gcms <- input$gcm_select
+          period <- input$period_select
+        }
+        lname <- paste0("bgcRaw_",gcms,".*_",period,"_",sz,".tif")
+        print(lname)
+      }else{
+        if(input$period_type == "Historic") {
+          period <- "1961_1990"
+        } else if(input$period_type == "obs") {
+          period <- "2001_2020_obs"
+        } else {
+          period <- input$period_feas
+        }
+        sname <- switch(input$map_stat,
+                        NewFeas = "FeasibilityRaw_",
+                        MeanChange = "MeanChangeRaw_")
+        lname <- paste0(sname,period,"_",input$edatope_feas,"_",input$species_feas,".tif")
+      }
+      
     }
-    
-    avail_lyrs <- dbGetQuery(dbCon, sprintf("select distinct filename from %s",tname))$filename
+       
+    #browser() 
+    avail_lyrs <- dbGetQuery(dbCon, sprintf("select filename from %s",tname))$filename
+    if(input$type == "BGC") lname <- avail_lyrs[grep(lname, avail_lyrs)][1]
     if(!lname %in% avail_lyrs){
       showModal(modalDialog(
         title = "Selected Layer Not Available for Download"
@@ -817,28 +845,13 @@ output$download_cciss <- downloadHandler(
         }
         writeRaster(rst, file, datatype = "INT2S")
       } else {
-        if(input$novelty) {
-          withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
-            if(input$period_type == "obs") {
-              dat <- dbGetQuery(dbCon, "select cellid, novelty from novelty_raw where model = 7")
-            } else {
-              id <- model_ids[grep(input$gcm_select,model), id]
-              dat <- dbGetQuery(dbCon, paste0("select cellid, novelty from novelty_raw where model = ",id," and fp_code = ",substr(input$period_select,1,4)))
-            }
-            rout <- copy(t_rast)
-            values(rout) <- NA
-            rout[dat$cellid] <- dat$novelty / 100
-          })
-          writeRaster(rout, file, datatype = "FLT4S")
-        } else {
+        
           withProgress(min = 0, max = 5, value = 1, message = "Preparing Data", {
             rst <- dbGetFeasible(dbCon, table_name = tname, layer_name = lname, boundary = bc_bbox)
             incProgress(1, message = "Writing raster...")
           })
           writeRaster(rst, file, datatype = "INT2S")
         }
-        
-      }
         
     }
     }

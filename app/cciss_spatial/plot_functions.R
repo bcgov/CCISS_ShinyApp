@@ -62,44 +62,72 @@ model_ids <- data.table(model = c("Novelty_ACCESS-ESM1-5.csv", "Novelty_EC-Earth
                                   "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
                                   "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
 
-temp <- temp <- c("Pl","Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
+temp <- c("Ac", "At", "Bg", "Bl", "Cw", "Ep", "Fd", "Hw", "Lw", "Mb", 
+          "Pl", "Pw", "Py", "Ss", "Sx", "Yc")
 cw_spp <- data.table(Spp = temp, spp_id = seq_along(temp))
 
-plot_suitability <- function(dbCon, cellid, edatope, spp_name){
-  spp_id <- cw_spp[Spp == spp_name,spp_id]
-  eda <- switch(edatope,
-                "B2" = 1,
-                "C4" = 2,
-                "D6" = 3
-  )
-  #browser()
-  dat <- dbGetQuery(dbCon, paste0("select fp_code, newsuit, prop1, prop2, prop3 from cciss_feas where cellid = ",
-                                  cellid," and edatope = ",eda," and spp_id = ",spp_id)) |> as.data.table()
-  dat_h <- dbGetQuery(dbCon, paste0("select suit from cciss_historic where cellid = ",
-                                    cellid," and edatope = ",eda," and spp_id = ",spp_id))[,1]
+dbGetSuitPopup <- function(dbCon, cellid, spp_id, edatope) {
+  sql <- glue::glue_sql("
+  SELECT suit, prop1, prop2, prop3
+  FROM cciss_feas_array
+  WHERE cellid = {cellid}
+    AND spp_id = {spp_id}
+    AND edatope = {edatope}
+", .con = dbCon)
   
-  if(length(dat_h) == 0){
-    res <- "X"
-  }else if(dat_h > 300) {
-    res <- "X"
+  x <- dbGetQuery(dbCon, sql)
+  if (nrow(x) == 0L) {
+    dat <- NULL
   } else {
-    res <- as.character(dat_h/100)
+    dat <- data.table::data.table(
+      fp_code = c(1961L,1981L, 2001L, 2021L, 2041L, 2061L, 2081L),
+      suit =  pgArrayToInt(x$suit),
+      prop1 = c(NA_integer_,  pgArrayToInt(x$prop1)),
+      prop2 = c(NA_integer_,  pgArrayToInt(x$prop2)),
+      prop3 = c(NA_integer_,  pgArrayToInt(x$prop3))
+    )
+    dat[fp_code == 1961L, `:=`(
+      prop1 = data.table::fifelse(suit == 100L, 100L, 0L),
+      prop2 = data.table::fifelse(suit == 200L, 100L, 0L),
+      prop3 = data.table::fifelse(suit == 300L, 100L, 0L)
+    )]
   }
+  return(dat)
+}
+
+pgArrayToInt <- function(x) {
+  if (is.na(x) || x == "{}")
+    return(integer())
   
-  temp <- data.table(Period = 1961, CCISS_Suit = res, Suitability = c("E1","E2","E3","EX"), value = 0)
-  temp[grep(res, Suitability),value := 100]
+  scan(
+    text = substring(x, 2, nchar(x) - 1),
+    sep = ",",
+    what = integer(),
+    quiet = TRUE
+  )
+}
+
+plot_suitability <- function(dbCon, cellid, edatope, spp_name){
+  spp_id <- as.integer(cw_spp[Spp == spp_name,spp_id])
+  eda <- switch(edatope,
+                "B2" = 1L,
+                "C4" = 2L,
+                "D6" = 3L
+  )
+  cellid <- as.integer(cellid)
+  
+  dat <- dbGetSuitPopup(dbCon, cellid, spp_id, eda)
   
   setnames(dat, c("Period","CCISS_Suit","E1","E2","E3"))
   dat[,EX := 100L - (E1 + E2 + E3)]
   dat[,CCISS_Suit := as.character(CCISS_Suit/100)]
   dat[CCISS_Suit > 3.5, CCISS_Suit := "X"]
-  missing <- setdiff(c(1981,2001,2021,2041,2061, 2081), dat$Period)
-  if(length(missing) >= 1) {
-    temp2 <- data.table(Period = missing, CCISS_Suit = "X", E1 = 0, E2 = 0, E3 = 0, EX = 100)
-    dat <- rbind(dat, temp2)
-  }
+  # missing <- setdiff(c(1981,2001,2021,2041,2061, 2081), dat$Period)
+  # if(length(missing) >= 1) {
+  #   temp2 <- data.table(Period = missing, CCISS_Suit = "X", E1 = 0, E2 = 0, E3 = 0, EX = 100)
+  #   dat <- rbind(dat, temp2)
+  # }
   dat2 <- melt(dat, id.vars = c("Period","CCISS_Suit"), variable.name = "Suitability")
-  dat2 <- rbind(dat2, temp)
   dat2[, CCISS_Suit := paste0("CCISS Suit: ",CCISS_Suit)]
   palette.suit <-   c("E1" = "#006400", "E2" = "#1E90FF", "E3" = "#EEC900", "EX" = "grey")
   
@@ -173,7 +201,7 @@ zone_scheme <- c(PP = "#ea7200", MH = "#6f2997", SBS = "#2f7bd2", ESSF = "#ae38b
                  BSJP = "#424160", MSSD = "#dac370", MDCH = "#2d0cd4", CVG = "#c9edd3", 
                  SAS = "#92b1b6", CCH = "#7e22ca")
 
-sz_scheme <- WNA_BGCs$SubzoneColour
+sz_scheme <- trimws(WNA_BGCs$SubzoneColour)
 names(sz_scheme) <- WNA_BGCs$BGC
 
 # studyarea = "DSI"

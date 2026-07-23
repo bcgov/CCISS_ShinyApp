@@ -78,7 +78,7 @@ $(document).ready(function(){
       sidebarPanel(
         width = 4,
         sidebarhelplink("cciss_instructions_select_sites"),
-        p("Welcome to CCISS v13.1!"),
+        p("Welcome to CCISS v13.1! The tool is now fully updated based on the published BECv13, and includes updated suitability tables and BGC model."),
         style = "padding: 5px 5px 5px 5px; margin:0%; overflow-y:scroll; max-height: 90vh; position:relative; align: centre",
         
         hr(style = "border-top: 1px solid #8f0e7e;"),
@@ -168,7 +168,9 @@ $(document).ready(function(){
             tagList(
               br(),
               # p("Report by:"),
-              switchInput("aggregation", value = FALSE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = '100%')
+              conditionalPanel("input.acc != 'acc2'",
+                               switchInput("aggregation", value = FALSE, onLabel = "Report averaged by BGC    ", offLabel = "Report by individual sites", width = "auto")
+                               )
             )
             
           )
@@ -491,7 +493,7 @@ $(document).ready(function(){
           condition = "input.type !== 'BGC'",
           h1("Suitability Options"),
           selectInput("edatope_feas","Select Edatope (SNR/SMR)", choices = c("B2","C4","D6"), selected = "C4", multiple = FALSE),
-          selectInput("species_feas", "Select Species", choices = c("Pl","Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw", "Sb"), multiple = FALSE)
+          selectInput("species_feas", "Select Species", choices = c("Pl", "Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw", "Mb"), multiple = FALSE)
         ),
         
         conditionalPanel(

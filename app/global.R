@@ -71,7 +71,7 @@ base_tileserver <- "https://tileserver.thebeczone.ca/data/bgc_GCM_PERIOD_SUBZONE
 novelty_tileserver <- "https://tileserver.thebeczone.ca/data/novelty_GCM_PERIOD/{z}/{x}/{y}.webp"
 species_tileserver <- "https://tileserver.thebeczone.ca/data/STAT_PERIOD_EDATOPE_SPECIES/{z}/{x}/{y}.webp"
 
-colour_ref <- WNA_BGCs$SubzoneColour
+colour_ref <- trimws(WNA_BGCs$SubzoneColour)
 names(colour_ref) <- WNA_BGCs$BGC
 
 subzones <- sort(WNA_BGCs$BGC)

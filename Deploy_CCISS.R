@@ -8,10 +8,10 @@ droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server")
 #analogsea::droplet_ssh(server,"rm -R /srv/shiny-server/ccissr/.Renviron")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/instructions")
-analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/points.R")
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/generate.R")
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/")
 
-analogsea::droplet_upload(server, "./app/server/points.R", "/srv/shiny-server/cciss/server/")
+analogsea::droplet_upload(server, "./app/server/generate.R", "/srv/shiny-server/cciss/server/")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")

@@ -70,9 +70,9 @@ observeEvent(input$generate_results, priority = 100, {
     N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
   
-  
-  siteseries_list <- uData$siteseries_list <- ssl
-  siteseries_all  <- uData$siteseries_all  <- ssa
+  #browser()
+  siteseries_list <- uData$siteseries_list <- lapply(ssl, function(x){x[!grepl(".*/Ro.*|.*/Gg.*", x)]}) ## remove Ro and Gg
+  siteseries_all  <- uData$siteseries_all  <- ssa[!grepl(".*/Ro.*|.*/Gg.*", ssa)]
   
   if (!isTRUE(avg)) {
     # ordering choices to match order in points table and create a name for each choice
@@ -162,6 +162,7 @@ bgc <- function(con, siteno, avg, modWeights, novelty, nov_c = 5) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
     if(novelty){
+      #browser()
       dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, cciss_table = "cciss_future14_array", 
                                 novelty_table = "cciss_novelty14_array",
                                 cciss_observed = "cciss_current14",
@@ -182,6 +183,8 @@ cciss <- function(bgc,estabWt,futWt) {
   if(session_params$show_novelty){
     bgc <- bgc[BGC.pred != "novel",]
   }
+  # temp <- copy(E1)
+  # temp[grep(".*/Ro", SS_NoSpace), SpecialCode := "Ro"]
   edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
   #browser()
   SSPred <- edaOut$NoPhase
