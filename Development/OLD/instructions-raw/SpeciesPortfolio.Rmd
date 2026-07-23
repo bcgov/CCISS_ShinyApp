@@ -1,0 +1,18 @@
+---
+title: 
+output: 
+    html_document:
+        theme: null
+        highlight: null
+        mathjax: null
+---
+
+#### Species Portfolio
+
+Welcome to the *coolest* tab! The portfolio analysis is still in draft form and should not be heavily relied upon. 
+
+##### Background
+
+Markowitz portfolio theory is commonly used in finance to optimise stock investments. We have applied this approach to tree species, allowing us to optimise the "portfolio" of species to be planted in a specific area. The optimisation takes into account species growth rate, potential loss factors (stochastic loss, pest damage), and climatic suitability under projected climate change. Tree growth is modelled for each species and the optimisation is run on the modelled growth rate and covariance. We use a monte carlo approach to account for stochasticity in the model; hundreds of simulations are run and optimised, before being combined.
+
+#####

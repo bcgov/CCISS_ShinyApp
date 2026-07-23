@@ -1,0 +1,40 @@
+---
+title: "Methods"
+author: "Colin Mahony"
+date: "27/11/2020"
+output: html_document
+---
+
+## About this app
+
+This is a draft app to explore biogeoclimatic projections and associated changes in regeneration feasiblity for tree species at the landscape scale. it is a companion to the Climate Change Informed Species Selection (CCISS) tool. The purpose of the app is to support practitioners and land use planning tables by translating climate change trends into information that is more directly applicable to ecosystem management.   
+
+**Open Source**--Code and data for this app is publicly available at [https://github.com/bcgov/CCISS_ShinyApp](https://github.com/bcgov/CCISS_ShinyApp)
+
+### Contributors
+App created by:<br>
+Colin Mahony, Research Climatologist, BC Ministry of Forests, colin.mahony@gov.bc.ca
+Kiri Daust, Data Scientist, BC Ministry of Forests, kiri.daust@gov.bc.ca
+
+### Methods
+
+This app follows the methods described in [MacKenzie and Mahony (2021)](https://www.researchgate.net/profile/Colin_Mahony/publication/345634719_An_ecological_approach_to_climate_change-informed_tree_species_selection_for_reforestation/links/5fa98d28a6fdcc062420460a/An-ecological-approach-to-climate-change-informed-tree-species-selection-for-reforestation.pdf). 
+
+**Summary values**--All values presented in the summary figures are averages of the full set of raster values shown on the maps. 
+
+**Climate Data**--Climate data are derived from [climr](https://github.com/bcgov/climr), an open-source R package for climate downscaling developed by British Columbia Ministry of Forests. climr follows the downscaling methodology of ClimateNA [Wang et al. (2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0156720). 
+
+**Climate Variables**--Although there are many types of climate variables in this app, values for many of these variables are estimated from monthly values of three basic climate elements: mean daily maximum temperature (T<sub>max</sub>), mean daily minimum temperature (T<sub>min</sub>), and precipitation (PPT). The method for estimating derived variables is given in [Wang et al. (2016)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0156720). Since other climate elements (e.g., degree-days, precipitation as snow, frost-free days, cumulative moisture deficit) are not calculated directly from daily data, some caution is warranted. 
+
+
+#### Global Climate Model (GCM) ensemble
+
+**Climate models**--This app features 8 of the 13 climate models that are available in climr. These models are a balanced ensemble that is more consistent with the IPCC's assessment of climate sensitivity than the full 13-model climr ensemble, and excludes a model with problematic spatial artefacts in BC Coast Mountains [Mahony et al. (2022)](https://rmets.onlinelibrary.wiley.com/doi/10.1002/joc.7566). The 'Model Info' tab provides basic details of each GCM.  
+
+**Multiple runs per global climate model**--This app features up to three simulation runs for each of the eight climate models. The purpose of having multiple simulation runs per model is to better represent the natural long-term variability in precipitation.  The individual simulations are portrayed in the scatterplots as small dots with the same colour as the large labeled dot representing their climatic mean.  
+
+**Sample runs**--users have the option of viewing biogeoclimatic projection maps for six simulations representing the range of climate changes in the ensemble. This subset was selected using the KKZ method of <a href="https://journals.ametsoc.org/view/journals/clim/28/3/jcli-d-14-00636.1.xml" target="_blank">Cannon (2015)</a>. 
+
+**Emissions scenario**--CMIP6 climate projections follow scenarios of future greenhouse gas emissions called [Shared Socioeconomic Pathways](https://www.carbonbrief.org/explainer-how-shared-socioeconomic-pathways-explore-future-climate-change) (SSPs). For simplicity, this app features a single emissions scenario, SSP2-4.5, which features a leveling-off and gradual decline in human-caused greenhouse gas emissions. This scenario is roughly consistent with current emissions policies and economic trends ([Hausfather and Peters 2020](https://www.nature.com/articles/d41586-020-00177-3)). SSP2-4.5 is intermediate between two other scenarios: SSP1-2.6 and SSP3-7.0.  SSP1-2.6 features strong emissions reductions (mitigation) roughly consistent with the goals of the Paris Climate Accords to limit global warming to 2<sup>o</sup>C above pre-industrial temperatures. SSP3-7.0 is representative of a broader range of "baseline" scenarios that assume the absence of mitigation policies, and is associated with linear increase in the rate of greenhouse gas emissions. This app provides an indication of trends in biogeoclimatic and species feasibilty shifts, but the timing of these shifts may be faster or slower, depending on whether actual emissions are higher or lower than SSP2-4.5. 
+
+

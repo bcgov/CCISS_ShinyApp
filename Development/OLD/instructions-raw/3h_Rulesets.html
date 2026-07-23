@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>3h_Rulesets.knit</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+
+
+
+<div id="cciss-rulesets" class="section level3">
+<h3>CCISS Rulesets</h3>
+<p>CCISS tries to account for uncertainty in future climates by using a
+suite of global climate models (GCMs) and emission scenarios (SSPs).
+This strategy usually leads to multiple projected BGCs for each
+requested location (as shown in the “BGC Futures” tab) and thus, a range
+of projected suitabilities. While it is often informative to observe the
+full distribution of projected suitabilities, CCISS also uses rulesets
+to “summarise” the projected suitabilities into a single value.</p>
+<div id="cciss-suitability" class="section level4">
+<h4>CCISS Suitability</h4>
+<p>For each future period, the raw output of CCISS projections consist
+of possible suitability values (1,2,3 or X), and the number of
+models/scenario combinations that “vote” for a given suitability. (Note
+that due to overlapping edatopic space, there is often not a one-to-one
+connection between models and suitability values.) To summarise these
+votes into a single “projected suitability”, we use the following
+equation:</p>
+<p><span class="math display">Projected
+Suitability = <em>P</em>(1) + 2<em>P</em>(2) + 3<em>P</em>(3) + 5<em>P</em>(<em>X</em>)</span></p>
+<p>where <span class="math inline"><em>P</em>(<em>s</em>)</span>
+represents the proportion of votes for suitability <span class="math inline"><em>s</em></span> and <span class="math inline"><em>P</em>(1) + <em>P</em>(2) + <em>P</em>(3) + <em>P</em>(<em>X</em>) = 1</span>.
+In essence, this is a weighted average of the suitability values, with
+slightly higher weight on non-suitable predictions.</p>
+</div>
+<div id="establishment-and-maturity" class="section level4">
+<h4>Establishment and Maturity</h4>
+<p>Using the projected suitability described above, CCISS then further
+summarises these over multiple time periods into an Establishment
+Suitability and a Maturity Suitability. Both of these are calculated as
+weighted averages of period-wise suitability, but differ in their
+periods: Establishment Suitability uses 1961-1990 (historic
+suitability), 2001-2020, and 2021-2040 projected suitabilities, while
+Maturity uses all future periods (2021 - 2100). The weighting of the
+different periods are adjustable in “Model Parameters”, and are by
+default almost equally weighted.</p>
+<p>There is one exception to the Establishment Suitability values: if a
+species is listed as historically unsuitable, but has a 1,2 or 3
+Maturity Suitability, it gets listed as a “Trial” in Establishment
+Suitability.</p>
+</div>
+<div id="preferredacceptable" class="section level4">
+<h4>Preferred/Acceptable</h4>
+<p>In order to align with the Chief Forester’s Reference Guide, CCISS
+also creates a projected Preferred/Acceptable rating, based on
+species-specific suitability cutoffs and the Maturity Suitability
+(described above). The CCISS tool uses these in the “Summary”
+suitability view, as well as in the exported data. For most conifer
+species, a primary or secondary suitability translates to <span class="math inline"><em>P</em></span>, and a tertiary suitability
+translates to <span class="math inline"><em>A</em></span>. There are a
+few exceptions, such as <strong>Hm</strong>, which is only assigned
+<span class="math inline"><em>P</em></span> with a primary suitability.
+While most broadleaf species are not assigned <span class="math inline"><em>P</em>/<em>A</em></span> values, some Oaks are
+given a <span class="math inline"><em>P</em></span> with a primary
+suitability.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

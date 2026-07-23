@@ -1,0 +1,47 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "styles": "",
+      "mbtiles": ""
+    },
+    "formatQuality": {
+      "jpeg": 80,
+      "webp": 90
+    },
+    "maxScaleFactor": 3,
+    "maxSize": 2048,
+    "pbfAlias": "pbf",
+    "serveAllFonts": false,
+    "serveAllStyles": false,
+    "serveStaticMaps": true,
+    "tileMargin": 0
+  },
+  "styles": {
+    "basic": {
+      "serve_rendered": false,
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [-139.06131, 48.29681, -114.05415, 60.00478]
+      }
+    },
+    "rendered": {
+      "serve_rendered": true,
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [-139.06131, 48.29681, -114.05415, 60.00478]
+      }
+    }
+  },
+  "data": {
+    "WNA_MAP": {
+      "mbtiles": "wnabgc.mbtiles"
+    },
+    "Districts": {
+      "mbtiles": "districts.mbtiles"
+    },
+    "BC_BGC": {
+      "mbtiles": "bc_bgc12.mbtiles"
+    }
+  }
+}

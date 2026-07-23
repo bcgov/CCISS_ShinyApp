@@ -1,0 +1,12 @@
+name: Nanwakolas_IRMP
+title: Nanwakolas_IRMP
+username: bcgov-env
+account: bcgov-env
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11573528
+bundleId: 8410346
+url: https://bcgov-env.shinyapps.io/Nanwakolas_IRMP/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>4c_BaselineBGCs.knit</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+
+
+
+<div id="bgc-mapping-as-a-baseline" class="section level3">
+<h3>BGC mapping as a baseline</h3>
+<p>CCISS results assess change in species suitability relative to the
+official biogeoclimatic mapping, rather than the baseline prediction of
+the biogeoclimatic model. This approach breaks a standard practice of
+climate impacts modeling: Change in a modeled quantity should be
+assessed against a modeled baseline. We have taken this approach to
+simplify interpretation of CCISS results. Our rationale is explained
+below.</p>
+<p>Biogeoclimatic models are trained on biogeoclimatic mapping (the
+response variable) and 1961-1990 climate normals (the predictor
+variables) for a sample of locations. When the model is then used to
+predict the biogeoclimatic unit from 1961-1990 climate normals, this is
+called a <em>baseline prediction</em>. Baseline predictions do not
+perfectly reproduce the original biogeoclimatic mapping because of
+imperfections in the biogeoclimatic model, biogeoclimatic mapping, and
+climate mapping. Biogeoclimatic models typically have baseline
+prediction error of ~20%, meaning that the baseline biogeoclimatic
+prediction is different than the official biogeoclimatic subzone/variant
+mapping on about 20% of the landscape. In many cases where these
+differences occur, the predicted unit is closely related to the mapped
+unit and there is negligible consequence for tree species suitability
+inferences.</p>
+<p>Baseline predictions are the technically correct point of comparison
+for biogeoclimatic projections of recent or future climates. If the
+mapped biogeoclimatic unit is used as a baseline, there is the potential
+to confuse model error with an actual change in climate. This conflation
+of model error with real changes causes overestimation of biogeoclimatic
+turn-over, but it can produce underestimation or overestimation of
+changes in species suitability. The impact of this conflation will be
+greatest in the recent period (2001-2020) since the magnitude of
+prediction error relative to climate change decreases over time.</p>
+<p>Even though a modeled baseline prediction is strictly more correct,
+we have chosen to use the official biogeoclimatic mapping as the
+baseline for CCISS results. The benefit of this approach is that the
+starting point for users will be the expected biogeoclimatic unit and
+species suitability ratings of their locations of interest. The
+alternative–using the modeled baseline prediction–would in some cases
+produce a baseline biogeoclimatic unit that is different than the
+biogeoclimatic unit of interest. This would not be tenable for core
+CCISS end uses such as silviculture prescriptions and stocking standards
+development.</p>
+<p>Given that the mapped and predicted baseline BGC unit are different
+on &lt;20% of most landscapes, and that these differences are
+inconsequential for species suitability interpretations in many cases,
+the practical impact of this approach is likely not large. Nevertheless,
+we have not yet assessed this issue quantitatively. Users are encouraged
+to use the CCISS spatial module to assess baseline prediction errors for
+locations of critical interest and to consider the implications for
+species suitability interpretations.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+
+</body>
+</html>

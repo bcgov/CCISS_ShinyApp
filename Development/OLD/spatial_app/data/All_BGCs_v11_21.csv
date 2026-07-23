@@ -1,0 +1,365 @@
+Source,Zone,BGC_Label,Map_Label,ZoneName,SubzoneName,General Location,OldSubzoneLabel,DataSet,State
+BGCv11,BAFA,BAFAun,BAFAun,Boreal Altai Fescue Alpine,Undifferentiated  BAFA,Undifferentiated,,BC,BC
+BGCv11,BAFA,BAFAunp,BAFAunp,Boreal Altai Fescue Alpine,Undifferentiated and Parkland  BAFA,Undifferentiated and Parkland,,BC,BC
+USA_2019,BG,BG  dh_OR,BGdh_OR,Bunchgrass,Dry Hot Oregon BG,"SE OR, S ID, N NV",BG  xhy,USA,OR
+USA_2019,BG,BG  dw_WA,BGdw_WA,Bunchgrass,Dry Warm Washington BG,Central WA - Artetrp - Pseuspi - Festida,BG  mmz,USA,WA
+USA_2019,BG,BG  mk_MT,BGmk_MT,Bunchgrass,Moist Cool Montana BG,SW Montana,BG  mmx,USA,MT
+USA_2019,BG,BG  mm_MT,BGmm_MT,Bunchgrass,Moist Mild Montana BG,SW Montana,new,USA,MT
+USA_2019,BG,BG  mw_WA,BGmw_WA,Bunchgrass,Moist Warm Washington BG,Central WA  - Pseuspi-Festida,BG  dwz,USA,WA
+USA_2019,BG,BG  wm_WA,BGwm_WA,Bunchgrass,Wet Mild Washington BG,Central WA - Sympalb-Pseuspi-Festida,BG  wmz,USA,WA
+BGCv11,BG  ,BG  xh 1,BGxh1,Bunchgrass,Very Dry Hot Okanagan BG  ,Very Dry Hot,,BC,BC
+BGCv11,BG  ,BG  xh 2,BGxh2,Bunchgrass,Very Dry Hot Thompson BG  ,Very Dry Hot,,BC,BC
+BGCv11,BG  ,BG  xh 3,BGxh3,Bunchgrass,Very Dry Hot Fraser BG  ,Very Dry Hot,,BC,BC
+USA_2019,BG,BG  xh_WA,BGxh_WA,Bunchgrass,Very Dry Hot Washington BG,Central WA - Artetri-Pseuspi,BG  xhz,USA,WA
+BGCv11,BG  ,BG  xw 1,BGxw1,Bunchgrass,Very Dry Warm Nicola BG  ,Very Dry Warm,,BC,BC
+BGCv11,BG  ,BG  xw 2,BGxw2,Bunchgrass,Very Dry Warm Alkali BG  ,Very Dry Warm,,BC,BC
+AB_2018,BSJP,BSJPap,BSJPap,Boreal Spruce and Jack Pine,Athabasca Plain BSJP,NE Alberta,BWSPap,AB,AB
+AB_2018,BSJP,BSJPku,BSJPku,Boreal Spruce and Jack Pine,Kazan Upland BSJP,NE Alberta,SAWSku,AB,AB
+AB_2018,BSJP,BSJPpa,BSJPpa,Boreal Spruce and Jack Pine,Peace - Athabasca Delta BSJP,NE Alberta,BWSPpa,AB,AB
+AB_2018,BWBS,BWBScm,BWBScm,Boreal White and Black Spruce,Central Mixedwood BWBS,N Alberta,BWSPcm,AB,AB
+BGCv11,BWBS,BWBSdk,BWBSdk,Boreal White and Black Spruce,Dry Cool  BWBS,Dry Cool,,BC,BC
+AB_2018,BWBS,BWBSdm,BWBSdm,Boreal White and Black Spruce,Dry Mixedwood BWBS,NW Alberta,BWSPdm,AB,AB
+AB_2018,BWBS,BWBSlb,BWBSlb,Boreal White and Black Spruce,Lower Boreal Highlands BWBS,W Central Alberta ,BWSPlb,AB,AB
+AB_2018,BWBS,BWBSlf,BWBSlf,Boreal White and Black Spruce,Lower Foothills BWBS,WC Alberta,SBPAlf,AB,AB
+BGCv11,BWBS,BWBSmk,BWBSmk,Boreal White and Black Spruce,Moist Cool  BWBS,Moist Cool,,BC,BC
+BGCv11,BWBS,BWBSmw,BWBSmw,Boreal White and Black Spruce,Moist Warm  BWBS,Moist Warm,,BC,BC
+AB_2018,BWBS,BWBSnm,BWBSnm,Boreal White and Black Spruce,Northern Mixedwood BWBS,Northern Alberta,BWSPnm,AB,AB
+AB_2018,BWBS,BWBSpp,BWBSpp,Boreal White and Black Spruce,Peace River Parkland BWSP,West Central Alberta,BWSPpp,AB,AB
+AB_2018,BWBS,BWBSub,BWBSub,Boreal White and Black Spruce,Upper Boreal Highlands BWSP,West Central Alberta,BWSPup,AB,AB
+AB_2018,BWBS,BWBSuf,BWBSuf,Boreal White and Black Spruce,Upper Foothills BWBS,WC Alberta,SBPAuf,AB,AB
+BGCv11,BWBS,BWBSvk,BWBSvk,Boreal White and Black Spruce,Very Wet Cool   BWBS,Very Wet Cool,,BC,BC
+BGCv11,BWBS,BWBSwk 1,BWBSwk1,Boreal White and Black Spruce,Wet Cool Murray BWBS,Wet Cool,,BC,BC
+BGCv11,BWBS,BWBSwk 2,BWBSwk2,Boreal White and Black Spruce,Wet Cool Graham BWBS,Wet Cool,,BC,BC
+BGCv11,BWBS,BWBSwk 3,BWBSwk3,Boreal White and Black Spruce,Wet Cool Kledo BWBS,Wet Cool,,BC,BC
+USA_2019,CCH,CCH un_CA,CCHun_CA,California Chaparrel ,Undifferentiated CCH,Northern California ,CCH un,USA,CA
+BGCv11,CDF ,CDF mm,CDFmm,Coastal Douglas-fir,Moist Maritime   CDF ,Moist Maritime,,BC,BC
+USA_2019,CDF,CDF mm_OR,CDFmm_OR,Coastal Douglas-fir,Moist Maritime Oregon CDF,W Central W & NW Oregon,CDF dmz,USA,OR
+USA_2019,CDF,CDF mm_WA,CDFmm_WA,Coastal Douglas-fir,Moist Maritime Washington CDF,SW BC and NW Washington,CDF mmz,USA,WA
+USA_2019,CDF,CDF xm_CA,CDFxm_CA,Coastal Douglas-fir,Very Dry Maritime California CDF,SW Oregon and NC California,CDF xmz,USA,CA
+BGCv11,CMA ,CMA un,CMAun,Coastal Mountain-heather Alpine,Undifferentiated  CMA ,Undifferentiated,,BC,BC
+USA_2019,CMA,CMA un_CA,CMAun_CA,Coastal Mountain-heather Alpine,California CMA,California,CMA us,USA,CA
+USA_2019,CMA,CMA un_OR,CMAun_OR,Coastal Mountain-heather Alpine,Oregon CMA,Oregon,CMA us,USA,OR
+USA_2019,CMA,CMA un_WA,CMAun_WA,Coastal Mountain-heather Alpine,Washington CMA,Washington,CMA us,USA,WA
+BGCv11,CMA ,CMA unp,CMAunp,Coastal Mountain-heather Alpine,Undifferentiated and Parkland  CMA ,Undifferentiated and Parkland,,BC,BC
+BGCv11,CMA ,CMA wh,CMAwh,Coastal Mountain-heather Alpine,Wet Hypermaritime  CMA ,Wet Hypermaritime,,BC,BC
+USA_2019,CMX,CMX dm_OR,CMXdm_OR,Coastal Mixed Evergreen,Dry Maritime Oregon CMX,SW Oregon and NW California,CMX dmz,USA,OR
+USA_2019,CMX,CMX wm_OR,CMXwm_OR,Coastal Mixed Evergreen,Wet Maritime Oregon CMX,SW Oregon and NW California,CMX wmz,USA,OR
+USA_2019,CMX,CMX xm_CA,CMXxm_CA,Coastal Mixed Evergreen,Very Dry Maritime California CMX,California,CMX dmy,USA,CA
+USA_2019,CRF,CRF dh_CA,CRFdh_CA,Coastal Redwood Forest,Dry Hypermaritime USA CRF,N California,CRF dhz,USA,CA
+USA_2019,CVG,CVG dm_CA,CVGdm_CA,California Valley Grassland ,Undifferentiated CVG,"Central Valley, California",CVG un,USA,CA
+USA_2019,CWF,CWF ds_CA,CWFds_CA,Coastal White Fir,Dry Submaritime California CWF,EC California,CWF msz,USA,CA
+USA_2019,CWF,CWF mm_OR,CWFmm_OR,Coastal White Fir,Moist Maritime Oregon CWF,SW Oregon and NW California,CWF wsz,USA,OR
+USA_2019,CWF,CWF wm_OR,CWFwm_OR,Coastal White Fir,Wet Maritime Oregon CWF,SW Oregon and NW California,CWF wmz,USA,OR
+BGCv11,CWH ,CWH dm,CWHdm,Coastal Western Hemlock,Dry Maritime   CWH ,Dry Maritime,,BC,BC
+USA_2019,CWH,CWH dm_OR,CWHdm_OR,Coastal Western Hemlock,Dry Maritime Oregon CWH,W Oregon,CWH dmx,USA,OR
+USA_2019,CWH,CWH dm_WA,CWHdm_WA,Coastal Western Hemlock,Dry Maritime Washington CWH,W Washington,CWH dmz,USA,WA
+BGCv11,CWH ,CWH ds 1,CWHds1,Coastal Western Hemlock,Dry Submaritime Southern CWH ,Dry Submaritime,,BC,BC
+BGCv11,CWH ,CWH ds 2,CWHds2,Coastal Western Hemlock,Dry Submaritime Central CWH ,Dry Submaritime,,BC,BC
+USA_2019,CWH,CWH ds_WA,CWHds_WA,Coastal Western Hemlock,Dry Submaritime Washington CWH,NW Washington,CWH dsz,USA,WA
+USA_2019,CWH,CWH mh_OR,CWHmh_OR,Coastal Western Hemlock,Moist Hypermaritime Oregon CWH,W Oregon,CWH mhz,USA,OR
+BGCv11,CWH ,CWH mm 1,CWHmm1,Coastal Western Hemlock,Moist Maritime Submontane CWH ,Moist Maritime,,BC,BC
+BGCv11,CWH ,CWH mm 2,CWHmm2,Coastal Western Hemlock,Moist Maritime Montane CWH ,Moist Maritime,,BC,BC
+BGCv11,CWH ,CWH ms 1,CWHms1,Coastal Western Hemlock,Moist Submaritime Southern CWH ,Moist Submaritime,,BC,BC
+BGCv11,CWH ,CWH ms 2,CWHms2,Coastal Western Hemlock,Moist Submaritime Central CWH ,Moist Submaritime,,BC,BC
+USA_2019,CWH,CWH ms_OR,CWHms_OR,Coastal Western Hemlock,Moist Submaritime Oregon CWH,W Oregon,CWH msy,USA,OR
+USA_2019,CWH,CWH ms_WA,CWHms_WA,Coastal Western Hemlock,Moist Submaritime Washington CWH,W Washington,CWH msz,USA,WA
+BGCv11,CWH ,CWH vh 1,CWHvh1,Coastal Western Hemlock,Very Wet Hypermaritime Southern CWH ,Very Wet Hypermaritime,,BC,BC
+BGCv11,CWH ,CWH vh 2,CWHvh2,Coastal Western Hemlock,Very Wet Hypermaritime Central CWH ,Very Wet Hypermaritime,,BC,BC
+BGCv11,CWH ,CWH vh 3,CWHvh3,Coastal Western Hemlock,Very Wet Hypermaritime Haida Gwaii CWH ,Very Wet Hypermaritime,,BC,BC
+USA_2019,CWH,CWH vh_WA,CWHvh_WA,Coastal Western Hemlock,Very Wet Hypermaritime Washington CWH,W Washington,CWH vhz,USA,WA
+BGCv11,CWH ,CWH vm 1,CWHvm1,Coastal Western Hemlock,Very Wet Maritime Submontane CWH ,Very Wet Maritime,,BC,BC
+BGCv11+,CWH ,CWH vm 1_PR,CWHvm1_PR,Coastal Western Hemlock,Very Wet Maritime Submontane CWH_PrinceRupert,Very Wet Maritime,,BC,BC
+BGCv11,CWH ,CWH vm 2,CWHvm2,Coastal Western Hemlock,Very Wet Maritime Montane CWH ,Very Wet Maritime,,BC,BC
+USA_2019,CWH,CWH vm_OR,CWHvm_OR,Coastal Western Hemlock,Very Wet Maritime Oregon CWH,"W Washington & Oregon, S of Mt Ranier",CWH vmy,USA,OR
+USA_2019,CWH,CWH vm_WA,CWHvm_WA,Coastal Western Hemlock,Very Wet Maritime Washington CWH,W Washington,CWH vmz,USA,WA
+BGCv11,CWH ,CWH wh 1,CWHwh1,Coastal Western Hemlock,Wet Hypermaritime Submontane CWH ,Wet Hypermaritime,,BC,BC
+BGCv11,CWH ,CWH wh 2,CWHwh2,Coastal Western Hemlock,Wet Hypermaritime Montane CWH ,Wet Hypermaritime,,BC,BC
+USA_2019,CWH,CWH wh_WA,CWHwh_WA,Coastal Western Hemlock,Wet Hypermaritime Washington CWH,"W Oregon, Washington",CWH whz,USA,WA
+BGCv11,CWH ,CWH wm,CWHwm,Coastal Western Hemlock,Wet Maritime   CWH ,Wet Maritime,,BC,BC
+BGCv11,CWH ,CWH ws 1,CWHws1,Coastal Western Hemlock,Wet Submaritime Submontane CWH ,Wet Submaritime,,BC,BC
+BGCv11,CWH ,CWH ws 2,CWHws2,Coastal Western Hemlock,Wet Submaritime Montane CWH ,Wet Submaritime,,BC,BC
+BGCv11,CWH ,CWH xm 1,CWHxm1,Coastal Western Hemlock,Very Dry Maritime Eastern CWH ,Very Dry Maritime,,BC,BC
+BGCv11,CWH ,CWH xm 2,CWHxm2,Coastal Western Hemlock,Very Dry Maritime Western CWH ,Very Dry Maritime,,BC,BC
+USA_2019,CWH,CWH xm_OR,CWHxm_OR,Coastal Western Hemlock,Very Dry Maritime Oregon CWH,"W Oregon, S of Eugene",CWH xmy,USA,OR
+USA_2019,CWH,CWH xm_WA,CWHxm_WA,Coastal Western Hemlock,Very Dry Maritime Washington CWH,W WA and OR,CWH xmz,USA,WA
+AB_2018,ESSF,ESSFab,ESSFab,Engelmann Spruce -- Subalpine Fir,Alberta ESSF,SW Alberta,ESLPab,AB,AB
+BGCv11,ESSF,ESSFdc 1,ESSFdc1,Engelmann Spruce -- Subalpine Fir,Dry Cold Monashee ESSF,Dry Cold,,BC,BC
+BGCv11,ESSF,ESSFdc 2,ESSFdc2,Engelmann Spruce -- Subalpine Fir,Dry Cold Cascade ESSF,Dry Cold,,BC,BC
+BGCv11,ESSF,ESSFdc 3,ESSFdc3,Engelmann Spruce -- Subalpine Fir,Dry Cold North Thompson ESSF,Dry Cold,,BC,BC
+BGCv11,ESSF,ESSFdcp,ESSFdcp,Engelmann Spruce -- Subalpine Fir,Dry Cold Parkland   ESSF,Dry Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFdcw,ESSFdcw,Engelmann Spruce -- Subalpine Fir,Dry Cold Woodland   ESSF,Dry Cold Woodland,,BC,BC
+USA_2019,ESSF,ESSFdh_WA,ESSFdh_WA,Engelmann Spruce - Subalpine Fir,Dry Hot Washington ESSF,NW Washington,ESSFdhz,USA,WA
+BGCv11,ESSF,ESSFdk 1,ESSFdk1,Engelmann Spruce -- Subalpine Fir,Dry Cool Elk ESSF,Dry Cool,,BC,BC
+BGCv11,ESSF,ESSFdk 2,ESSFdk2,Engelmann Spruce -- Subalpine Fir,Dry Cool Columbia ESSF,Dry Cool,,BC,BC
+USA_2019,ESSF,ESSFdk_MT,ESSFdk_MT,Engelmann Spruce - Subalpine Fir,Dry Cool Montana ESSF,SE BC & NW Montana,ESSFdkz,USA,MT
+BGCv11,ESSF,ESSFdkp,ESSFdkp,Engelmann Spruce -- Subalpine Fir,Dry Cool Parkland   ESSF,Dry Cool Parkland,,BC,BC
+USA_2019,ESSF,ESSFdkp_MT,ESSFdkp_MT,Engelmann Spruce - Subalpine Fir,Dry Cool Montana Parkland ESSF,SE BC & NW Montana,ESSFdkzp,USA,MT
+BGCv11,ESSF,ESSFdkw,ESSFdkw,Engelmann Spruce -- Subalpine Fir,Dry Cool Woodland   ESSF,Dry Cool Woodland,,BC,BC
+USA_2019,ESSF,ESSFdm_ID,ESSFdm_ID,Engelmann Spruce - Subalpine Fir,Dry Mild Idaho ESSF,EC Idaho & WC Montana,ESSFxmz,USA,ID
+USA_2019,ESSF,ESSFdmp_ID,ESSFdmp_ID,Engelmann Spruce - Subalpine Fir,Dry Mild Idaho Parkland ESSF,EC Idaho & WC Montana,ESSFxmzp,USA,ID
+BGCv11,ESSF,ESSFdv 1,ESSFdv1,Engelmann Spruce -- Subalpine Fir,Dry Very Cold Cayoosh ESSF,Dry Very Cold,,BC,BC
+BGCv11,ESSF,ESSFdv 2,ESSFdv2,Engelmann Spruce -- Subalpine Fir,Dry Very Cold Tyaughton ESSF,Dry Very Cold,,BC,BC
+BGCv11,ESSF,ESSFdvp,ESSFdvp,Engelmann Spruce -- Subalpine Fir,Dry Very Cold Parkland   ESSF,Dry Very Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFdvw,ESSFdvw,Engelmann Spruce -- Subalpine Fir,Dry Very Cold Woodland  ESSF,Dry Very Cold Woodland,,BC,BC
+BGCv11,ESSF,ESSFmc,ESSFmc,Engelmann Spruce -- Subalpine Fir,Moist Cold   ESSF,Moist Cold,,BC,BC
+BGCv11,ESSF,ESSFmcp,ESSFmcp,Engelmann Spruce -- Subalpine Fir,Moist Cold Parkland   ESSF,Moist Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFmh,ESSFmh,Engelmann Spruce -- Subalpine Fir,Moist Hot  ESSF,Moist Hot,,BC,BC
+BGCv11,ESSF,ESSFmk,ESSFmk,Engelmann Spruce -- Subalpine Fir,Moist Cool   ESSF,Moist Cool,,BC,BC
+BGCv11,ESSF,ESSFmkp,ESSFmkp,Engelmann Spruce -- Subalpine Fir,Moist Cool Parkland   ESSF,Moist Cool Parkland,,BC,BC
+BGCv11,ESSF,ESSFmm 1,ESSFmm1,Engelmann Spruce -- Subalpine Fir,Moist Mild Raush ESSF,Moist Mild,,BC,BC
+BGCv11,ESSF,ESSFmm 2,ESSFmm2,Engelmann Spruce -- Subalpine Fir,Moist Mild Robson ESSF,Moist Mild,,BC,BC
+BGCv11,ESSF,ESSFmm 3,ESSFmm3,Engelmann Spruce -- Subalpine Fir,Moist Mild Spillimacheen ESSF,Moist Mild,,BC,BC
+BGCv11,ESSF,ESSFmmp,ESSFmmp,Engelmann Spruce -- Subalpine Fir,Moist Mild Parkland   ESSF,Moist Mild Parkland,,BC,BC
+BGCv11,ESSF,ESSFmmw,ESSFmmw,Engelmann Spruce -- Subalpine Fir,Moist Mild Woodland  ESSF,Moist Mild Woodland,,BC,BC
+BGCv11,ESSF,ESSFmv 1,ESSFmv1,Engelmann Spruce -- Subalpine Fir,Moist Very Cold Nechako ESSF,Moist Very Cold,,BC,BC
+BGCv11,ESSF,ESSFmv 2,ESSFmv2,Engelmann Spruce -- Subalpine Fir,Moist Very Cold Bullmoose ESSF,Moist Very Cold,,BC,BC
+BGCv11,ESSF,ESSFmv 3,ESSFmv3,Engelmann Spruce -- Subalpine Fir,Moist Very Cold Omineca ESSF,Moist Very Cold,,BC,BC
+BGCv11,ESSF,ESSFmv 4,ESSFmv4,Engelmann Spruce -- Subalpine Fir,Moist Very Cold Graham ESSF,Moist Very Cold,,BC,BC
+BGCv11,ESSF,ESSFmvp,ESSFmvp,Engelmann Spruce -- Subalpine Fir,Moist Very Cold Parkland   ESSF,Moist Very Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFmw,ESSFmw,Engelmann Spruce -- Subalpine Fir,Moist Warm   ESSF,Moist Warm,,BC,BC
+BGCv11,ESSF,ESSFmw 1,ESSFmw1,Engelmann Spruce -- Subalpine Fir,Moist Warm Cascade ESSF,Moist Warm,,BC,BC
+BGCv11,ESSF,ESSFmw 2,ESSFmw2,Engelmann Spruce -- Subalpine Fir,Moist Warm Stein ESSF,Moist Warm,,BC,BC
+USA_2019,ESSF,ESSFmw_WA,ESSFmw_WA,Engelmann Spruce - Subalpine Fir,Moist Warm Washington ESSF,NW Washington,ESSFmwz,USA,WA
+BGCv11,ESSF,ESSFmwp,ESSFmwp,Engelmann Spruce -- Subalpine Fir,Moist Warm Parkland   ESSF,Moist Warm Parkland,,BC,BC
+USA_2019,ESSF,ESSFmwp_WA,ESSFmwp_WA,Engelmann Spruce - Subalpine Fir,Moist Warm Washington Parkland ESSF,NW Washington,ESSFmwzp,USA,WA
+BGCv11,ESSF,ESSFmww,ESSFmww,Engelmann Spruce -- Subalpine Fir,Moist Warm Woodland  ESSF,Moist Warm Woodland,,BC,BC
+BGCv11,ESSF,ESSFun,ESSFun,Engelmann Spruce -- Subalpine Fir,Undifferentiated   ESSF,Undifferentiated,,BC,BC
+BGCv11,ESSF,ESSFunp,ESSFunp,Engelmann Spruce -- Subalpine Fir,Undifferentiated parkland  ESSF,Undifferentiated parkland,,BC,BC
+BGCv11,ESSF,ESSFvc,ESSFvc,Engelmann Spruce -- Subalpine Fir,Very Wet Cold   ESSF,Very Wet Cold,,BC,BC
+BGCv11,ESSF,ESSFvcp,ESSFvcp,Engelmann Spruce -- Subalpine Fir,Very Wet Cold Parkland   ESSF,Very Wet Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFvcw,ESSFvcw,Engelmann Spruce -- Subalpine Fir,Very Wet Cold Woodland  ESSF,Very Wet Cold Woodland,,BC,BC
+USA_2019,ESSF,ESSFvh_ID,ESSFvh_ID,Engelmann Spruce - Subalpine Fir,Very Wet Hot Idaho ESSF,E Idaho & W Montana,ESSFvmz,USA,ID
+BGCv11,ESSF,ESSFwc 2,ESSFwc2,Engelmann Spruce -- Subalpine Fir,Wet Cold Monashee ESSF,Wet Cold,,BC,BC
+BGCv11,ESSF,ESSFwc 3,ESSFwc3,Engelmann Spruce -- Subalpine Fir,Wet Cold Cariboo ESSF,Wet Cold,,BC,BC
+BGCv11,ESSF,ESSFwc 4,ESSFwc4,Engelmann Spruce -- Subalpine Fir,Wet Cold Selkirk ESSF,Wet Cold,,BC,BC
+BGCv11,ESSF,ESSFwcp,ESSFwcp,Engelmann Spruce -- Subalpine Fir,Wet Cold Parkland   ESSF,Wet Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFwcw,ESSFwcw,Engelmann Spruce -- Subalpine Fir,Wet Cold Woodland   ESSF,Wet Cold Woodland,,BC,BC
+BGCv11,ESSF,ESSFwh 1,ESSFwh1,Engelmann Spruce -- Subalpine Fir,Wet Hot Columbia ESSF,Wet Hot,,BC,BC
+BGCv11,ESSF,ESSFwh 2,ESSFwh2,Engelmann Spruce -- Subalpine Fir,Wet Hot St Mary ESSF,Wet Hot,,BC,BC
+BGCv11,ESSF,ESSFwh 3,ESSFwh3,Engelmann Spruce -- Subalpine Fir,Wet Hot Salmo ESSF,Wet Hot,,BC,BC
+USA_2019,ESSF,ESSFwh_MT,ESSFwh_MT,Engelmann Spruce - Subalpine Fir,Wet Hot Montana ESSF,NE Washington & NW Montana (prob. ID),ESSFwhz,USA,MT
+BGCv11,ESSF,ESSFwk 1,ESSFwk1,Engelmann Spruce -- Subalpine Fir,Wet Cool Cariboo ESSF,Wet Cool,,BC,BC
+BGCv11,ESSF,ESSFwk 2,ESSFwk2,Engelmann Spruce -- Subalpine Fir,Wet Cool Misinchinka ESSF,Wet Cool,,BC,BC
+BGCv11,ESSF,ESSFwm 1,ESSFwm1,Engelmann Spruce -- Subalpine Fir,Wet Mild Fernie ESSF,Wet Mild,,BC,BC
+BGCv11,ESSF,ESSFwm 2,ESSFwm2,Engelmann Spruce -- Subalpine Fir,Wet Mild Purcell ESSF,Wet Mild,,BC,BC
+BGCv11,ESSF,ESSFwm 3,ESSFwm3,Engelmann Spruce -- Subalpine Fir,Wet Mild Ymir ESSF,Wet Mild,,BC,BC
+BGCv11,ESSF,ESSFwm 4,ESSFwm4,Engelmann Spruce -- Subalpine Fir,Wet Mild Moyie ESSF,Wet Mild,,BC,BC
+USA_2019,ESSF,ESSFwm_MT,ESSFwm_MT,Engelmann Spruce - Subalpine Fir,Wet Mild Montana ESSF,NE Washington & NW Montana (prob. ID),ESSFwmz,USA,MT
+BGCv11,ESSF,ESSFwmp,ESSFwmp,Engelmann Spruce -- Subalpine Fir,Wet Mild Parkland   ESSF,Wet Mild Parkland,,BC,BC
+USA_2019,ESSF,ESSFwmp_MT,ESSFwmp_MT,Engelmann Spruce - Subalpine Fir,Wet Mild Montana Parkland ESSF,NE Washington & N Idaho,ESSFwmzp,USA,MT
+BGCv11,ESSF,ESSFwmw,ESSFwmw,Engelmann Spruce -- Subalpine Fir,Wet Mild Woodland   ESSF,Wet Mild Woodland,,BC,BC
+BGCv11,ESSF,ESSFwv,ESSFwv,Engelmann Spruce -- Subalpine Fir,Wet Very Cold   ESSF,Wet Very Cold,,BC,BC
+BGCv11,ESSF,ESSFwvp,ESSFwvp,Engelmann Spruce -- Subalpine Fir,Wet Very Cold Parkland   ESSF,Wet Very Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFxc 1,ESSFxc1,Engelmann Spruce -- Subalpine Fir,Very Dry Cold Similkameen ESSF,Very Dry Cold,,BC,BC
+BGCv11,ESSF,ESSFxc 2,ESSFxc2,Engelmann Spruce -- Subalpine Fir,Very Dry Cold Thompson ESSF,Very Dry Cold,,BC,BC
+BGCv11,ESSF,ESSFxc 3,ESSFxc3,Engelmann Spruce -- Subalpine Fir,Very Dry Cold Pavillion ESSF,Very Dry Cold,,BC,BC
+USA_2019,ESSF,ESSFxc_CO,ESSFxc_CO,Engelmann Spruce - Subalpine Fir,Very Dry Cold Colorado ESSF,Colorado,ESSFcoz,USA,CO
+USA_2019,ESSF,ESSFxc_WA,ESSFxc_WA,Engelmann Spruce - Subalpine Fir,Very Dry Cold Washington ESSF,WC Washington,ESSFxcz,USA,WA
+BGCv11,ESSF,ESSFxcp,ESSFxcp,Engelmann Spruce -- Subalpine Fir,Very Dry Cold Parkland   ESSF,Very Dry Cold Parkland,,BC,BC
+USA_2019,ESSF,ESSFxcp_CO,ESSFxcp_CO,Engelmann Spruce - Subalpine Fir,Very Dry Cold Colorado Parkland ESSF,Colorado,ESSFcozp,USA,CO
+USA_2019,ESSF,ESSFxcp_WA,ESSFxcp_WA,Engelmann Spruce - Subalpine Fir,Very Dry Cold Washington Parkland ESSF,WC Washington,ESSFxczp,USA,WA
+BGCv11,ESSF,ESSFxcw,ESSFxcw,Engelmann Spruce -- Subalpine Fir,Very Dry Cold Woodland  ESSF,Very Dry Cold Woodland,,BC,BC
+USA_2019,ESSF,ESSFxh_WA,ESSFxh_WA,Engelmann Spruce - Subalpine Fir,Very Dry Hot Washington ESSF,NE Washington & NW Montana (prob. ID),ESSFxhz,USA,WA
+USA_2019,ESSF,ESSFxk_MT,ESSFxk_MT,Engelmann Spruce - Subalpine Fir,Very Dry Cool Montana ESSF,"S MT, SE ID, WY",ESSFxxz,USA,MT
+USA_2019,ESSF,ESSFxk_UT,ESSFxk_UT,Engelmann Spruce - Subalpine Fir,Very Dry Cool Utah ESSF,Utah,ESSFutz,USA,UT
+USA_2019,ESSF,ESSFxkp_MT,ESSFxkp_MT,Engelmann Spruce - Subalpine Fir,Very Dry Cool Montana Parkland ESSF,"S MT, SE ID, WY",ESSFxxzp,USA,MT
+USA_2019,ESSF,ESSFxkp_UT,ESSFxkp_UT,Engelmann Spruce - Subalpine Fir,Very Dry Cool Utah Parkland ESSF,Utah,ESSFutzp,USA,UT
+BGCv11,ESSF,ESSFxv 1,ESSFxv1,Engelmann Spruce -- Subalpine Fir,Very Dry Very Cold West Chilcotin ESSF,Very Dry Very Cold,,BC,BC
+BGCv11,ESSF,ESSFxv 2,ESSFxv2,Engelmann Spruce -- Subalpine Fir,Very Dry Very Cold Big Creek ESSF,Very Dry Very Cold,,BC,BC
+BGCv11,ESSF,ESSFxvp,ESSFxvp,Engelmann Spruce -- Subalpine Fir,Very Dry Very Cold Parkland   ESSF,Very Dry Very Cold Parkland,,BC,BC
+BGCv11,ESSF,ESSFxvw,ESSFxvw,Engelmann Spruce -- Subalpine Fir,Very Dry Very Cold Woodland  ESSF,Very Dry Very Cold Woodland,,BC,BC
+USA_2019,ESSF,ESSFxw_OR,ESSFxw_OR,Engelmann Spruce - Subalpine Fir,Very Dry Warm Oregon ESSF,NE Oregon,ESSFxcy,USA,OR
+USA_2019,ESSF,ESSFxwp_OR,ESSFxwp_OR,Engelmann Spruce - Subalpine Fir,Very Dry Warm Oregon Parkland ESSF,NE Oregon,ESSFxcyp,USA,OR
+AB_2018,FG  ,FG  ff,FGff,Fescue Grassland,Foothills FG,SW Alberta,FG  ff,AB,AB
+AB_2018,FG  ,FG  nf,FGnf,Fescue Grassland,Northern FG,S Alberta,FG  nf,AB,AB
+USA_2019,GBD,GBD dw_UT,GBDdw_UT,Great Basin Desert,Dry Warm Utah GBD,"E Nevada, Utah, SW Wyoming",GBD xxx,USA,UT
+USA_2019,GBD,GBD xh_NV,GBDxh_NV,Great Basin Desert,Very Dry Hot Nevada GBD,"E California, W Nevada",GBD xxy,USA,NV
+USA_2019,GBD,GBD xx_UT,GBDxx_UT,Great Basin Desert,Very Dry Very Hot Utah GBD,SE Utah,GBD xxw,USA,UT
+USA_2019,GO,GO  un_CO,GOun_CO,Gambel Oak ,Colorado USA GO,Colorado & Utah,GO  coz,USA,CO
+USA_2019,ICH,ICH dh_ID,ICHdh_ID,Interior Cedar - Hemlock,Dry Hot Idaho ICH,Idaho & W Montana,ICH dhz,USA,ID
+BGCv11,ICH ,ICH dk,ICHdk,Interior Cedar -- Hemlock,Dry Cool   ICH ,Dry Cool,,BC,BC
+BGCv11,ICH ,ICH dm,ICHdm,Interior Cedar -- Hemlock,Dry Mild   ICH ,Dry Mild,,BC,BC
+BGCv11,ICH ,ICH dw 1,ICHdw1,Interior Cedar -- Hemlock,Dry Warm West Kootenay ICH ,Dry Warm,,BC,BC
+BGCv11,ICH ,ICH dw 3,ICHdw3,Interior Cedar -- Hemlock,Dry Warm North Thompson ICH ,Dry Warm,,BC,BC
+BGCv11,ICH ,ICH dw 4,ICHdw4,Interior Cedar -- Hemlock,Dry Warm Shuswap ICH ,Dry Warm,,BC,BC
+USA_2019,ICH,ICH dw_ID,ICHdw_ID,Interior Cedar - Hemlock,Dry Warm Idaho ICH,NE Washington & N Idaho,ICH dwz,USA,ID
+BGCv11,ICH ,ICH mc 1,ICHmc1,Interior Cedar -- Hemlock,Moist Cold Nass ICH ,Moist Cold,,BC,BC
+BGCv11,ICH ,ICH mc 1a,ICHmc1a,Interior Cedar -- Hemlock,Moist Cold Nass ICH ,Moist Cold,,BC,BC
+BGCv11,ICH ,ICH mc 2,ICHmc2,Interior Cedar -- Hemlock,Moist Cold Hazelton ICH ,Moist Cold,,BC,BC
+USA_2019,ICH,ICH mh_MT,ICHmh_MT,Interior Cedar - Hemlock,Moist Hot Montana ICH,NW Montana,ICH mwz,USA,MT
+BGCv11,ICH ,ICH mk 1,ICHmk1,Interior Cedar -- Hemlock,Moist Cool Okanagan ICH ,Moist Cool,,BC,BC
+BGCv11,ICH ,ICH mk 2,ICHmk2,Interior Cedar -- Hemlock,Moist Cool Thompson ICH ,Moist Cool,,BC,BC
+BGCv11,ICH ,ICH mk 3,ICHmk3,Interior Cedar -- Hemlock,Moist Cool Horsefly ICH ,Moist Cool,,BC,BC
+BGCv11,ICH ,ICH mk 4,ICHmk4,Interior Cedar -- Hemlock,Moist Cool Kootenay ICH ,Moist Cool,,BC,BC
+BGCv11,ICH ,ICH mk 5,ICHmk5,Interior Cedar -- Hemlock,Moist Cool Kootenay ICH ,Moist Cool,,BC,BC
+BGCv11,ICH ,ICH mm,ICHmm,Interior Cedar -- Hemlock,Moist Mild   ICH ,Moist Mild,,BC,BC
+BGCv11,ICH ,ICH mw 1,ICHmw1,Interior Cedar -- Hemlock,Moist Warm Kinbasket ICH ,Moist Warm,,BC,BC
+BGCv11,ICH ,ICH mw 2,ICHmw2,Interior Cedar -- Hemlock,Moist Warm Slocan ICH ,Moist Warm,,BC,BC
+BGCv11,ICH ,ICH mw 3,ICHmw3,Interior Cedar -- Hemlock,Moist Warm Thompson ICH ,Moist Warm,,BC,BC
+BGCv11,ICH ,ICH mw 4,ICHmw4,Interior Cedar -- Hemlock,Moist Warm Ymir ICH ,Moist Warm,,BC,BC
+BGCv11,ICH ,ICH mw 5,ICHmw5,Interior Cedar -- Hemlock,Moist Warm Granby ICH ,Moist Warm,,BC,BC
+USA_2019,ICH,ICH mw_MT,ICHmw_MT,Interior Cedar - Hemlock,Moist Warm Montana ICH,NW Montana,ICH mwy,USA,MT
+BGCv11,ICH ,ICH vc,ICHvc,Interior Cedar -- Hemlock,Very Wet Cold   ICH ,Very Wet Cold,,BC,BC
+BGCv11,ICH ,ICH vk 1,ICHvk1,Interior Cedar -- Hemlock,Very Wet Cool Columbia ICH ,Very Wet Cool,,BC,BC
+BGCv11,ICH ,ICH vk 2,ICHvk2,Interior Cedar -- Hemlock,Very Wet Cool Slim ICH ,Very Wet Cool,,BC,BC
+USA_2019,ICH,ICH vk_ID,ICHvk_ID,Interior Cedar - Hemlock,Very Wet Cool Idaho ICH,W Montana,ICH dmz,USA,ID
+BGCv11,ICH ,ICH wc,ICHwc,Interior Cedar -- Hemlock,Wet Cold   ICH ,Wet Cold,,BC,BC
+BGCv11,ICH ,ICH wk 1,ICHwk1,Interior Cedar -- Hemlock,Wet Cool Shuswap ICH ,Wet Cool,,BC,BC
+BGCv11,ICH ,ICH wk 2,ICHwk2,Interior Cedar -- Hemlock,Wet Cool Quesnel ICH ,Wet Cool,,BC,BC
+BGCv11,ICH ,ICH wk 3,ICHwk3,Interior Cedar -- Hemlock,Wet Cool Goat ICH ,Wet Cool,,BC,BC
+BGCv11,ICH ,ICH wk 4,ICHwk4,Interior Cedar -- Hemlock,Wet Cool Cariboo ICH ,Wet Cool,,BC,BC
+BGCv11,ICH ,ICH xw,ICHxw,Interior Cedar -- Hemlock,Very Dry Warm   ICH ,Very Dry Warm,,BC,BC
+BGCv11,ICH ,ICH xw  a,ICHxwa,Interior Cedar -- Hemlock,Very Dry Warm  ICH ,Very Dry Warm,,BC,BC
+USA_2019,ICH,ICH xw_WA,ICHxw_WA,Interior Cedar - Hemlock,Very Dry Warm Washington ICH,NE Washington,ICH xwz,USA,WA
+BGCv11,IDF ,IDF dc,IDFdc,Interior Douglas-fir,Dry Cold  IDF ,Dry Cold,,BC,BC
+USA_2019,IDF,IDF dh_MT,IDFdh_MT,Interior Douglas-fir,Dry Hot Montana IDF,Montana,IDF dhx,USA,MT
+USA_2019,IDF,IDF dh_UT,IDFdh_UT,Interior Douglas-fir,Dry Hot Utah IDF,Utah,IDF utz,USA,UT
+USA_2019,IDF,IDF dh_WA,IDFdh_WA,Interior Douglas-fir,Dry Hot Washington IDF,NE Washington,IDF dhy,USA,WA
+BGCv11,IDF ,IDF dk 1,IDFdk1,Interior Douglas-fir,Dry Cool Thompson IDF ,Dry Cool,,BC,BC
+BGCv11,IDF ,IDF dk 2,IDFdk2,Interior Douglas-fir,Dry Cool Cascade IDF ,Dry Cool,,BC,BC
+BGCv11,IDF ,IDF dk 3,IDFdk3,Interior Douglas-fir,Dry Cool Fraser IDF ,Dry Cool,,BC,BC
+BGCv11,IDF ,IDF dk 4,IDFdk4,Interior Douglas-fir,Dry Cool Chilcotin IDF ,Dry Cool,,BC,BC
+BGCv11,IDF ,IDF dk 5,IDFdk5,Interior Douglas-fir,Dry Cool Columbia IDF ,Dry Cool,,BC,BC
+USA_2019,IDF,IDF dk_MT,IDFdk_MT,Interior Douglas-fir,Dry Cool Montana IDF,SW Montana,IDF dxz,USA,MT
+USA_2019,IDF,IDF dk_WA,IDFdk_WA,Interior Douglas-fir,Dry Cool Washington IDF,NC Washington,IDF dky,USA,WA
+BGCv11,IDF ,IDF dm 1,IDFdm1,Interior Douglas-fir,Dry Mild Kettle IDF ,Dry Mild,,BC,BC
+BGCv11,IDF ,IDF dm 2,IDFdm2,Interior Douglas-fir,Dry Mild Kootenay IDF ,Dry Mild,,BC,BC
+USA_2019,IDF,IDF dm_MT,IDFdm_MT,Interior Douglas-fir,Dry Mild Montana IDF,W Montana,IDF dmz,USA,MT
+USA_2019,IDF,IDF dm_WA,IDFdm_WA,Interior Douglas-fir,Dry Mild Washington IDF,NE Washington,IDF dmy,USA,WA
+BGCv11,IDF ,IDF dw,IDFdw,Interior Douglas-fir,Dry Warm   IDF ,Dry Warm,,BC,BC
+USA_2019,IDF,IDF dx_MT,IDFdx_MT,Interior Douglas-fir,Dry Very Hot Montana IDF,W Montana,IDF xxz,USA,MT
+BGCv11,IDF ,IDF mw 1,IDFmw1,Interior Douglas-fir,Moist Warm Shuswap IDF ,Moist Warm,,BC,BC
+BGCv11,IDF ,IDF mw 2,IDFmw2,Interior Douglas-fir,Moist Warm Thompson IDF ,Moist Warm,,BC,BC
+BGCv11,IDF ,IDF ww,IDFww,Interior Douglas-fir,Wet Warm   IDF ,Wet Warm,,BC,BC
+BGCv11,IDF ,IDF ww 1,IDFww1,Interior Douglas-fir,Wet Warm Stein IDF ,Wet Warm,,BC,BC
+BGCv11,IDF ,IDF xc,IDFxc,Interior Douglas-fir,Very Dry Cold  IDF ,Very Dry Cold,,BC,BC
+BGCv11,IDF ,IDF xh 1,IDFxh1,Interior Douglas-fir,Very Dry Hot Okanagan IDF ,Very Dry Hot,,BC,BC
+BGCv11,IDF ,IDF xh 2,IDFxh2,Interior Douglas-fir,Very Dry Hot Thompson IDF ,Very Dry Hot,,BC,BC
+BGCv11,IDF ,IDF xh 4,IDFxh4,Interior Douglas-fir,Very Dry Hot Boundary IDF ,Very Dry Hot,,BC,BC
+USA_2019,IDF,IDF xh_ID,IDFxh_ID,Interior Douglas-fir,Very Dry Hot Idaho IDF,NE Oregon & SW Idaho,IDF xhz,USA,ID
+USA_2019,IDF,IDF xh_WA,IDFxh_WA,Interior Douglas-fir,Very Dry Hot Washington IDF,WC Washington,IDF xhy,USA,WA
+BGCv11,IDF ,IDF xk,IDFxk,Interior Douglas-fir,Very Dry Cool   IDF ,Very Dry Cool,,BC,BC
+BGCv11,IDF ,IDF xm,IDFxm,Interior Douglas-fir,Very Dry Mild   IDF ,Very Dry Mild,,BC,BC
+USA_2019,IDF,IDF xm_CO,IDFxm_CO,Interior Douglas-fir,Very Dry Mild Colorado IDF,N and Central Colorado,IDF coz,USA,CO
+BGCv11,IDF ,IDF xw,IDFxw,Interior Douglas-fir,Very Dry Warm IDF,,IDF xw,BC,BC
+BGCv12,IDF ,IDF xx 1,IDFxx1,Interior Douglas-fir,Very Dry Very Hot Kettle IDF ,Very Dry Very Hot,,BC/USA,BC
+BGCv11,IDF ,IDF xx 2,IDFxx2,Interior Douglas-fir,Very Dry Very Hot Kootenay IDF ,Very Dry Very Hot,,BC,BC
+USA_2019,IDF,IDF xx_MT,IDFxx_MT,Interior Douglas-fir,Very Dry Very Hot Montana IDF,NE Washington & NW Montana (prob. ID),IDF xxy,USA,MT
+USA_2019,IDF,IDF xx_WA,IDFxx_WA,Interior Douglas-fir,Very Dry Very Hot Washington IDF,WC Washington,IDF xyz,USA,WA
+USA_2019,IGF,IGF dk_WA,IGFdk_WA,Interior Grand Fir,Dry Cool Washington IGF,WC Washington,IGF dmz,USA,WA
+USA_2019,IGF,IGF dw_OR,IGFdw_OR,Interior Grand Fir,Dry Warm Oregon IGF,NW Oregon & SC Washington,IGF mwz,USA,OR
+USA_2019,IGF,IGF mm_OR,IGFmm_OR,Interior Grand Fir,Moist Mild Oregon IGF,NE Oregon & SW Idaho,IGF mmz,USA,OR
+AB_2018,IMA ,IMA  ab,IMAab,Interior Mountain-heather Alpine,Alberta IMA,Alberta Rocky Mountains,AT  ab,AB,AB
+BGCv11,IMA ,IMA un,IMAun,Interior Mountain-heather Alpine,Undifferentiated  IMA ,Undifferentiated,,BC,BC
+USA_2019,IMA,IMA un_CO,IMAun_CO,Interior Mountain-heather Alpine,Colorado IMA,Colorado,IMA us,USA,CO
+USA_2019,IMA,IMA un_MT,IMAun_MT,Interior Mountain-heather Alpine,Montana IMA,Montana,IMA us,USA,MT
+USA_2019,IMA,IMA un_WA,IMAun_WA,Interior Mountain-heather Alpine,Washington IMA,Washington,IMA us,USA,WA
+USA_2019,IMA,IMA un_WY,IMAun_WY,Interior Mountain-heather Alpine,Wyoming IMA,Wyoming,IMA us,USA,WY
+BGCv11,IMA ,IMA unp,IMAunp,Interior Mountain-heather Alpine,Undifferentiated and Parkland  IMA ,Undifferentiated and Parkland,,BC,BC
+USA_2019,IWF,IWF dm_CO,IWFdm_CO,Interior White Fir,Dry Mild Colorado IWF,S Colorado,IWF cow,USA,CO
+USA_2019,IWF,IWF dw_OR,IWFdw_OR,Interior White Fir,Dry Warm Oregon IWF,C Oregon,IWF dcz,USA,OR
+USA_2019,IWF,IWF xk_NV,IWFxk_NV,Interior White Fir,Very Dry Cool Nevada IWF,NV,new,USA,NV
+USA_2019,IWF,IWF xm_CA,IWFxm_CA,Interior White Fir,Very Dry Mild Nevada IWF,"E CA, W NV, near Lake Tahoe",IWF nvy,USA,CA
+USA_2019,JPW,JPW dm_WY,JPWdm_WY,Juniper -  Pine Woodland,Dry Mild Wyoming JPW,Wyoming,JPW wy,USA,WY
+USA_2019,JPW,JPW dw_UT,JPWdw_UT,Juniper -  Pine Woodland,Dry Warm Utah JPW,"E Utah, W Colorado",JPW cop,USA,UT
+USA_2019,JPW,JPW mk_WY,JPWmk_WY,Juniper -  Pine Woodland,Moist Cool Wyoming JPW,Wyoming,JPW wyp,USA,WY
+USA_2019,JPW,JPW wm_CO,JPWwm_CO,Juniper -  Pine Woodland,Wet Mild Colorado JPW,S Colorado,JPW srm,USA,CO
+USA_2019,JPW,JPW xh_CA,JPWxh_CA,Juniper -  Pine Woodland,Very Dry Hot California JPW,S CA,new,USA,CA
+USA_2019,JPW,JPW xw_NV,JPWxw_NV,Juniper -  Pine Woodland,Very Dry Warm Nevada JPW,"CA, NV, W Utah, S ID",JPW gbz,USA,NV
+USA_2019,MDCH,MDCHun_NV,MDCHun_NV,Madrean Chaparral,Undifferentiated USA MDCH,,MDCH un,USA,NV
+AB_2018,MGP,MGP dm,MGPdm,Mixed-grass Prairie,Dry Mixed Grass MGP,Alberta,FF  dm,USA,MT
+AB_2018,MGP,MGP mg,MGPmg,Mixed-grass Prairie,Mixed Grass MGP,Alberta,FF  mg,USA,MT
+USA_2019,MGP,MGP mw_MT,MGPmw_MT,Mixed-grass Prairie,Moist Warm Montana MGP,,MGP un,USA,MT
+USA_2019,MH,MH  dm_OR,MHdm_OR,Mountain Hemlock,Dry Maritime Oregon MH,SW Washington & W Oregon,MH  dmz,USA,OR
+USA_2019,MH,MH  ds_OR,MHds_OR,Mountain Hemlock,Dry Submaritime Oregon MH,W Oregon,MH  dsz,USA,OR
+BGCv11,MH  ,MH  mm 1,MHmm1,Mountain Hemlock,Moist Maritime Windward MH  ,Moist Maritime,,BC,BC
+BGCv11,MH  ,MH  mm 2,MHmm2,Mountain Hemlock,Moist Maritime Leeward MH  ,Moist Maritime,,BC,BC
+USA_2019,MH,MH  mm_WA,MHmm_WA,Mountain Hemlock,Moist Maritime Washington MH,NW Washington,MH  mmz,USA,WA
+BGCv11,MH  ,MH  mmp,MHmmp,Mountain Hemlock,Moist Maritime Parkland   MH  ,Moist Maritime Parkland,,BC,BC
+USA_2019,MH,MH  mmp_WA,MHmmp_WA,Mountain Hemlock,Moist Maritime Washington Parkland MH,NW Washington,MH  mmzp,USA,WA
+USA_2019,MH,MH  ms_WA,MHms_WA,Mountain Hemlock,Moist Submaritime Washington MH,NW Washington,MH  msz,USA,WA
+USA_2019,MH,MH  msp_WA,MHmsp_WA,Mountain Hemlock,Moist Submaritime Washington Parkland MH,NW Washington,MH  mszp,USA,WA
+BGCv11,MH  ,MH  un,MHun,Mountain Hemlock,Undifferentiated   MH  ,Undifferentiated,,BC,BC
+BGCv11,MH  ,MH  unp,MHunp,Mountain Hemlock,Undifferentiated parkland  MH  ,Undifferentiated parkland,,BC,BC
+BGCv11,MH  ,MH  wh,MHwh,Mountain Hemlock,Wet Hypermaritime   MH  ,Wet Hypermaritime,,BC,BC
+BGCv11,MH  ,MH  wh 1,MHwh1,Mountain Hemlock,Wet Hypermaritime Windward MH  ,Wet Hypermaritime,,BC,BC
+BGCv11,MH  ,MH  whp,MHwhp,Mountain Hemlock,Wet Hypermaritime Parkland   MH  ,Wet Hypermaritime Parkland,,BC,BC
+USA_2019,MHRF,MHRFdm_OR,MHRFdm_OR,Mountain Hemlock - Shasta Red Fir,Dry Maritime Oregon MHRF,"SW Oregon, California",MHRFmmz,USA,OR
+USA_2019,MHRF,MHRFds_CA,MHRFds_CA,Mountain Hemlock - Shasta Red Fir,Dry Submaritime California MHRF,"SW Oregon, California",MHRFmsz,USA,CA
+USA_2019,MHRF,MHRFdsp_CA,MHRFdsp_CA,Mountain Hemlock - Shasta Red Fir,Dry Submaritime California Parkland MHRF,"SW Oregon, California",MHRFmszp,USA,CA
+USA_2019,MHRF,MHRFmm_OR,MHRFmm_OR,Mountain Hemlock - Shasta Red Fir,Moist Maritime Oregon MHRF,Oregon,MHRFwmz,USA,OR
+USA_2019,MHRF,MHRFmmp_OR,MHRFmmp_OR,Mountain Hemlock - Shasta Red Fir,Moist Maritime Oregon Parkland MHRF,Oregon,MHRFwmzp,USA,OR
+AB_2018,MS  ,MS  ab,MSab,Montane Spruce,Alberta MS,SW Alberta,MSFPab,AB,AB
+AB_2018+,MS  ,MS  ab_N,MSab_N,Montane Spruce,Alberta MS North,W Alberta,MSFPab,AB,AB
+BGCv11,MS  ,MS  dc 1,MSdc1,Montane Spruce,Dry Cold Cayoosh MS  ,Dry Cold,,BC,BC
+BGCv11,MS  ,MS  dc 2,MSdc2,Montane Spruce,Dry Cold Tatlayoko MS  ,Dry Cold,,BC,BC
+BGCv11,MS  ,MS  dc 3,MSdc3,Montane Spruce,Dry Cold Tyaughton MS  ,Dry Cold,,BC,BC
+USA_2019,MS,MS  dh_UT,MSdh_UT,Montane Spruce ,Dry Hot Utah MS,Utah,MS  utz,USA,UT
+USA_2019,MS,MS  dh_WY,MSdh_WY,Montane Spruce ,Dry Hot Wyoming MS,"SE Idaho, MT, WY",MS  xxz,USA,WY
+BGCv11,MS  ,MS  dk,MSdk,Montane Spruce,Dry Cool   MS  ,Dry Cool,,BC,BC
+USA_2019,MS,MS  dk_CO,MSdk_CO,Montane Spruce ,Dry Cool Colorado  MS,S Colorado,MS  cow,USA,CO
+BGCv11,MS  ,MS  dm 1,MSdm1,Montane Spruce,Dry Mild Okanagan MS  ,Dry Mild,,BC,BC
+BGCv11,MS  ,MS  dm 2,MSdm2,Montane Spruce,Dry Mild Cascade MS  ,Dry Mild,,BC,BC
+BGCv11,MS  ,MS  dm 3,MSdm3,Montane Spruce,Dry Mild North Thompson MS  ,Dry Mild,,BC,BC
+USA_2019,MS,MS  dm_WA,MSdm_WA,Montane Spruce ,Dry Mild Washington MS,NW & NC Washington,MS  dmz,USA,WA
+BGCv11,MS  ,MS  dv,MSdv,Montane Spruce,Dry Very Cold   MS  ,Dry Very Cold,,BC,BC
+BGCv11,MS  ,MS  dw,MSdw,Montane Spruce,Dry Warm  MS  ,Dry Warm,,BC,BC
+USA_2019,MS,MS  dw_MT,MSdw_MT,Montane Spruce ,Dry Warm Montana MS,NW Montana,MS  dwz,USA,MT
+USA_2019,MS,MS  mm_ID,MSmm_ID,Montane Spruce ,Moist Mild Idaho MS,SW Montana,MS  xmz,USA,ID
+BGCv11,MS  ,MS  mw 1,MSmw1,Montane Spruce,Moist Warm Cascade MS  ,Moist Warm,,BC,BC
+BGCv11,MS  ,MS  mw 2,MSmw2,Montane Spruce,Moist Warm Stein MS  ,Moist Warm,,BC,BC
+USA_2019,MS,MS  xh_OR,MSxh_OR,Montane Spruce ,Very Dry Hot Oregon MS,NE Oregon,MS  xcy,USA,OR
+BGCv11,MS  ,MS  xk 1,MSxk1,Montane Spruce,Very Dry Cool Similkameen MS  ,Very Dry Cool,,BC,BC
+BGCv11,MS  ,MS  xk 2,MSxk2,Montane Spruce,Very Dry Cool South Thompson MS  ,Very Dry Cool,,BC,BC
+BGCv11,MS  ,MS  xk 3,MSxk3,Montane Spruce,Very Dry Cool Pavillion MS  ,Very Dry Cool,,BC,BC
+USA_2019,MS,MS  xk_WA,MSxk_WA,Montane Spruce ,Very Dry Cool Washington MS,NW Washington,MS  xkz,USA,WA
+USA_2019,MS,MS  xm_CO,MSxm_CO,Montane Spruce ,Very Dry Mild Colorado MS,C and N Colorado,MS  coa,USA,CO
+BGCv11,MS  ,MS  xv,MSxv,Montane Spruce,Very Dry Very Cold   MS  ,Very Dry Very Cold,,BC,BC
+USA_2019,MS,MS  xx_NV,MSxx_NV,Montane Spruce ,Very Dry Very Hot Nevada  MS,Nevada,MS  nvz,USA,CO
+USA_2019,MSSD,MSSDun_NV,MSSDun_NV,Mojave - Sonoran Semi-Desert,Undifferentiated MSSD,"E CA, W NV",MSSD un,USA,NV
+USA_2019,OW,OW  un_CA,OWun_CA,Oak Woodland,California USA OW,C CA,OW  caz,USA,CA
+USA_2019,PP,PP  mx_WY,PPmx_WY,Ponderosa Pine,Moist Very Hot Wyoming PP,NW Wyoming,PP  wy,USA,WY
+BGCv11,PP  ,PP  xh 1,PPxh1,Ponderosa Pine,Very Dry Hot Okanagan PP  ,Very Dry Hot,,BC,BC
+BGCv11,PP  ,PP  xh 2,PPxh2,Ponderosa Pine,Very Dry Hot Thompson PP  ,Very Dry Hot,,BC,BC
+BGCv11,PP  ,PP  xh 3,PPxh3,Ponderosa Pine,Very Dry Hot Kettle PP  ,Very Dry Hot,,BC,BC
+USA_2019,PP,PP  xh_CO,PPxh_CO,Ponderosa Pine,Very Dry Hot Colorado PP,Colorado,PP  coz,USA,CO
+USA_2019,PP,PP  xh_WA,PPxh_WA,Ponderosa Pine,Very Dry Hot Washington PP,NE Washington & SW Idaho,PP  xhz,USA,WA
+USA_2019,PP,PP  xk_OR,PPxk_OR,Ponderosa Pine,Very Dry Cool Oregon PP,C Oregon and NE CA,PP  pum,USA,OR
+USA_2019,PP,PP  xm_OR,PPxm_OR,Ponderosa Pine,Very Dry Mild Oregon PP,Central Oregon to NE CA,PP  orz,USA,OR
+USA_2019,PP,PP  xw_MT,PPxw_MT,Ponderosa Pine,Very Dry Warm Montana PP,"Montana, Wyoming",PP  xxz,USA,MT
+USA_2019,PP,PP  xx_OR,PPxx_OR,Ponderosa Pine,Very Dry Very Hot Oregon PP,"SC Washington, NC Oregon",PP  xyz,USA,OR
+AB_2018,SAS ,SAS bo,SASbo,Sub-arctic Spruce ,Boreal SAS,N Alberta,SAWSbo,AB,AB
+AB_2018,SBAP,SBAPcp,SBAPcp,Sub-boreal Aspen Parkland,Central Parkland BWSP,E Central Alberta,SBAPcp,AB,AB
+AB_2018,SBAP,SBAPfp,SBAPfp,Sub-boreal Aspen Parkland,Foothills Parkland BWSP,SW Alberta,SBAPfp,AB,AB
+BGCv11,SBPS,SBPSdc,SBPSdc,Sub-boreal Pine -- Spruce,Dry Cold   SBPS,Dry Cold,,BC,BC
+BGCv11,SBPS,SBPSmc,SBPSmc,Sub-boreal Pine -- Spruce,Moist Cold   SBPS,Moist Cold,,BC,BC
+BGCv11,SBPS,SBPSmk,SBPSmk,Sub-boreal Pine -- Spruce,Moist Cool   SBPS,Moist Cool,,BC,BC
+BGCv11,SBPS,SBPSxc,SBPSxc,Sub-boreal Pine -- Spruce,Very Dry Cold   SBPS,Very Dry Cold,,BC,BC
+BGCv11,SBS ,SBS dh 1,SBSdh1,Sub-boreal Spruce,Dry Hot McLennan SBS ,Dry Hot,,BC,BC
+BGCv11,SBS ,SBS dh 2,SBSdh2,Sub-boreal Spruce,Dry Hot Robson SBS ,Dry Hot,,BC,BC
+BGCv11,SBS ,SBS dk,SBSdk,Sub-boreal Spruce,Dry Cool   SBS ,Dry Cool,,BC,BC
+BGCv11,SBS ,SBS dw 1,SBSdw1,Sub-boreal Spruce,Dry Warm Horsefly SBS ,Dry Warm,,BC,BC
+BGCv11,SBS ,SBS dw 2,SBSdw2,Sub-boreal Spruce,Dry Warm Blackwater SBS ,Dry Warm,,BC,BC
+BGCv11,SBS ,SBS dw 3,SBSdw3,Sub-boreal Spruce,Dry Warm Stuart SBS ,Dry Warm,,BC,BC
+BGCv11,SBS ,SBS mc 1,SBSmc1,Sub-boreal Spruce,Moist Cold Moffat SBS ,Moist Cold,,BC,BC
+BGCv11,SBS ,SBS mc 2,SBSmc2,Sub-boreal Spruce,Moist Cold Babine SBS ,Moist Cold,,BC,BC
+BGCv11,SBS ,SBS mc 3,SBSmc3,Sub-boreal Spruce,Moist Cold Kluskus SBS ,Moist Cold,,BC,BC
+BGCv11,SBS ,SBS mh,SBSmh,Sub-boreal Spruce,Moist Hot   SBS ,Moist Hot,,BC,BC
+BGCv11,SBS ,SBS mk 1,SBSmk1,Sub-boreal Spruce,Moist Cool Mossvale SBS ,Moist Cool,,BC,BC
+BGCv11,SBS ,SBS mk 2,SBSmk2,Sub-boreal Spruce,Moist Cool Williston SBS ,Moist Cool,,BC,BC
+BGCv11,SBS ,SBS mm,SBSmm,Sub-boreal Spruce,Moist Mild   SBS ,Moist Mild,,BC,BC
+BGCv11,SBS ,SBS mw,SBSmw,Sub-boreal Spruce,Moist Warm   SBS ,Moist Warm,,BC,BC
+BGCv11,SBS ,SBS un,SBSun,Sub-boreal Spruce,Undifferentiated   SBS ,Undifferentiated,,BC,BC
+BGCv11,SBS ,SBS vk,SBSvk,Sub-boreal Spruce,Very Wet Cool   SBS ,Very Wet Cool,,BC,BC
+BGCv11,SBS ,SBS wk 1,SBSwk1,Sub-boreal Spruce,Wet Cool Willow SBS ,Wet Cool,,BC,BC
+BGCv11,SBS ,SBS wk 2,SBSwk2,Sub-boreal Spruce,Wet Cool Finlay-Peace SBS ,Wet Cool,,BC,BC
+BGCv11,SBS ,SBS wk 3,SBSwk3,Sub-boreal Spruce,Wet Cool Takla SBS ,Wet Cool,,BC,BC
+BGCv11,SBS ,SBS wk 3a,SBSwk3a,Sub-boreal Spruce,Wet Cool Takla SBS ,Wet Cool,,BC,BC
+USA_2019,SGP,SGP dm_CO,SGPdm_CO,Shortgrass Prairie,Dry Mild Colorado SGP,Colorado,SGP un,USA,CO
+BGCv11,SWB ,SWB mk,SWBmk,Spruce - Willow - Birch,Moist Cool   SWB ,Moist Cool,,BC,BC
+BGCv11,SWB ,SWB mks,SWBmks,Spruce - Willow - Birch,Moist Cool Scrub   SWB ,Moist Cool Scrub,,BC,BC
+BGCv11,SWB ,SWB un,SWBun,Spruce - Willow - Birch,Undifferentiated   SWB ,Undifferentiated,,BC,BC
+BGCv11,SWB ,SWB uns,SWBuns,Spruce - Willow - Birch,Undifferentiated scrub  SWB ,Undifferentiated scrub,,BC,BC
+BGCv11,SWB ,SWB vk,SWBvk,Spruce - Willow - Birch,Very Wet Cool   SWB ,Very Wet Cool,,BC,BC
+BGCv11,SWB ,SWB vks,SWBvks,Spruce - Willow - Birch,Very Wet Cool Scrub   SWB ,Very Wet Cool Scrub,,BC,BC
+USA_2019,WJP,WJP xm_OR,WJPxm_OR,Western Juniper - Pine,Undifferentiated USA WJP,Oregon,WJP juz,USA,OR
