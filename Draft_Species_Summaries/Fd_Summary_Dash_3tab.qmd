@@ -497,13 +497,13 @@ Note that the **D6 edatope** (wet rich sites) makes up a small area proportional
 
 **Biotic factors**
 
-Douglas-fir beetle (*Dendroctonus pseudotsugae*) is one of the primary killers of mature Douglas-fir (Fd) in BC and usually attacks weakened or dying trees. Occasionally the beetle populations increase to the extent that it infests and kills large numbers of healthy trees [@noauthor_douglas-fir_2025]. It is most common in BC's interior and less common in coastal forests where it rarely causes the large-scale damage seen in the interior. Trees are killed when the flow of food and water between the roots and needles is blocked by feeding larvae and by dead sapwood cells killed by the blue-stain fungus carried by the Douglas-fir beetle adults [forest guide to tree health].
+Douglas-fir beetle (*Dendroctonus pseudotsugae*) is one of the primary killers of mature Douglas-fir (Fd) in BC and usually attacks weakened or dying trees. Occasionally the beetle populations increase to the extent that it infests and kills large numbers of healthy trees [@noauthor_douglas-fir_2025]. It is most common in BC's interior and less common in coastal forests where it rarely causes the large-scale damage seen in the interior. Trees are killed when the flow of food and water between the roots and needles is blocked by feeding larvae and by dead sapwood cells killed by the blue-stain fungus carried by the Douglas-fir beetle adults [@burleigh_field_2014].
 
 Fd is also attacked by western spruce budworm (*Choristoneura occidentalis*), a native defoliator found southern BC in the coast, montane and Columbia forest types. Population levels periodically reach outbreaks which can last up to 25 years [@noauthor_western_2025]. When trees are stressed they are more likely to die. Repeated budworm defoliation causes tree mortality over large areas. Sustained attack results in complete defoliation in four to five years. Once an infestation has subsided, surviving trees take several years to regain full foliage and resume growth. Successive years of defoliation in stands may predispose trees to other insects and pathogens such as bark beetles and root disease.
 
 Douglas-fir tussock moth (*Orgyia pseudotsugata*) another is a defoliator of concern, found at low elevations in the warm dry areas of the Southern Interior and occasionally on the south coast. Defoliated trees may die after one or more years of severe defoliation. Douglas-fir tussock moth outbreaks can cause extensive mortality of interior Fd [@noauthor_douglas-fir_2025-1]. 
 
-In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopus gaeumannii*) is a fungus that causes a major foliar disease [SWISS NEEDLE CAST PAGE]. Swiss needle cast has emerged as a serious concern in recent decades, with increased incidence due to warmer winters and increased spring moisture. It often affects young stands of Fd leading to premature foliar drop, loss of growth and occasionally mortality. 
+In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopus gaeumannii*) is a fungus that causes a major foliar disease [@noauthor_swiss_2025]. Swiss needle cast has emerged as a serious concern in recent decades, with increased incidence due to warmer winters and increased spring moisture. It often affects young stands of Fd leading to premature foliar drop, loss of growth and occasionally mortality. 
 
 Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], laminated root rot [*Coniferiporia sulphurascens*], and Armillaria root disease [*Armillaria ostoyae*]) are a major and increasing concern for Fd.
 
@@ -512,9 +512,16 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 ## Climate change/drought
 
-**Climate change impacts**
+**Climate change and drought**
 
-Higher summer temperatures and drought are causing reduced Fd growth, increased mortality and susceptibility to pests and pathogens. For example, in western Oregon, USA, Fd mortality increased from 2000 to 2023, a prolonged period of drought and warming, associated with decreasing summer available soil water and increasing summer temperature and vapour pressure deficit (Cline et al. 2025).
+Higher summer temperatures and drought are causing reduced Fd growth, increased mortality and susceptibility to pests and pathogens. Increased Fd mortality has been observed following periods of prolonged drought and warming, associated with decreasing summer available soil water and increasing summer temperature and rising vapour pressure deficit (for example in western Oregon, @cline_warming_2025). 
+
+These trends are driven by specific physiological vulnerabilities. Fd has a large foliage area and fairly high water consumption at maturity compared to co-occurring conifers, making it vulnerable to a warmer drier climate [@leuschner_drought_2024]. Additionally, evidence suggests that the root system of juvenile Fd is highly drought-sensitive, while drought susceptibility decreases with age, when root penetration is deeper [@leuschner_drought_2024]. Tap root growth of Fd seedlings and saplings is slow, and root system remains shallow, meaning young plants are susceptible to desiccation. Consequently, seedlings may face high drought induced mortality in large open gaps or when planted on clear cuts. To mitigate these vulnerabilities, research from BC’s coastal forests suggests that a lower planting density improved the drought tolerance of Fd [@lukose_mixing_2025; @damen_drought_2025].
+
+Numerous dendrochronological studies have demonstrated that reduced Fd growth is linked to increased temperature and vapour pressure deficit [@restaino_increased_2016; @gazol_douglas_2022; @leuschner_drought_2024]. During severe droughts, annual radial growth can be reduced by 30 %, or more and consecutive droughts increase the negative impact on growth [@sergent_coastal_2014; @montwe_five_2015; @charlet_de_sauvage_species_2023]. The hot droughts of 2015 and 2021 in the Pacific Northwest have led to growth decline, crown damage, and mortality of Fd in low-elevation regions, often linked to fungal and insect infestations [@leuschner_drought_2024].
+
+In southern and lowland areas Fd growth is expected to slow and pathogen/insect attack and mortality will increase [@leuschner_drought_2024]. On the coast, warming winters may increase susceptibility to fungal attack (notably Swiss needle cast), causing defoliation, growth decline and mortality. Conversely, climate warming will likely promote Fd growth in the cooler and wetter areas of its range. 
+
 
 # References
 

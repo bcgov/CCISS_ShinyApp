@@ -577,7 +577,7 @@ Since 2015, a pronounced increase in reports and field observations suggests tha
 
 The causes of Cw dieback are increasingly understood to be multi-factorial, with climate water stress emerging as the dominant driver across most affected regions. While exact mechanism may vary by site and context, evidence consistently points toward seasonal drought, elevated temperatures, and increased vapor pressure deficit (VPD)—particularly during late spring and early summer—as key stressors contributing to decline and mortality. 
 
-Cw mortality is often associated with multiple consecutive years of water deficit, which leads to compounded physiological stress. Cw can recover from a single year of drought if followed by cooler, wetter conditions in subsequent years, but recovery slowed or failed when drought persisted across years  [@andrus_canary_2023;  @goodrich_western_2025]. 
+Cw mortality is often associated with multiple consecutive years of water deficit, which leads to compounded physiological stress. Cw can recover from a single year of drought if followed by cooler, wetter conditions in subsequent years, but recovery slowed or failed when drought persisted across years  [@andrus_canary_2023; @goodrich_western_2025]. 
 
 # References
 
