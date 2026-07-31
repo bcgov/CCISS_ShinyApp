@@ -36,7 +36,7 @@ fig <- function(filename) {
 
 ### Col - Welcome text {width="80%"}
 
-**Douglas-fir (abbreviated as Fd) is one of the most important and valuable tree species in British Columbia. The CCISS model predicts warmer temperatures will facilitate increased suitability of Fd throughout much of its current range and expansion of suitable range at higher elevations and further north, especially on mesic and drier sites. Fd is predicted to become less suitable in the hottest and driest sites, i.e. valley bottoms of the Southern Interior.** <br>
+**Douglas-fir (abbreviated as Fd) is one of the most prevalent and valuable tree species in British Columbia. The CCISS model predicts warmer temperatures will facilitate increased suitability of Fd throughout much of its current range and expansion of suitable range at higher elevations and further north, especially on mesic and drier sites. Fd is predicted to become less suitable in the hottest and driest sites, i.e. valley bottoms of the Southern Interior.** <br>
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future Douglas-fir management.
 
@@ -54,7 +54,7 @@ The growth response of Fd to climate varies over the species' broad geographic a
 
 Fd has a wide ecological amplitude, but is most commonly found on moderately dry to slightly dry sites with medium soil nutrients [@klinka_distribution_2000]. Fd is found on a variety of soil types, but grows best on deep well-drained, sandy loams where moisture in the soil is plentiful.
 
-Fd is commonly a pioneer species that regenerates after forest fires, logging or other disturbances, forming pure even-aged stands. It is also found in un-even aged stands or in mixed-species stands, often with western hemlock, western redcedar, trembling aspen, ponderosa pine, lodgepole pine, or western larch [@klinka_distribution_2000]. Fd is a major component in old-growth forests in boreal, cool temperate and cool mesothermal climates.
+Fd is commonly a pioneer species that regenerates after forest fires, logging or other disturbances, forming single-species even-aged stands. It is also found in un-even aged stands or in mixed-species stands, often with western hemlock, western redcedar, trembling aspen, ponderosa pine, lodgepole pine, or western larch [@klinka_distribution_2000]. Fd is a major component in old-growth forests in boreal, cool temperate and cool mesothermal climates.
 
 **Species environmental suitability during the reference period (1961--1990)**
 
@@ -487,7 +487,9 @@ Many mapped subzones within the Sub-Boreal Spruce (SBS) zone in the Skeena Regio
 
 The loss of environmentally suitable area in the IDF zone is driven by a shift to Bunchgrass (BG)-like climates, which does not support Fd.
 
-These broad patterns are similar across the medium/mesic (C4) and poor/subxeric (B2) site types. Rich/hygric (D6) sites have an increased projected area in CWH and decreases in ESSF, IDF and SBS. This is a possible artefact of the BGC projection method and the site series crosswalk, with many fewer D6 site series containing Fd overall, compared to C4 and B2 edatopes (see [CCISS tool documentation](https://bcgov-ffec.ca/cciss-docs/Methods.html) for more information).
+These broad patterns are similar across the medium/mesic (C4) and poor/subxeric (B2) site types. 
+
+Note that the D6 edatope (rich/hygric) makes up a small area proportionally to the total range of Fd in BC, an order of magnitude less than the area occupied by Fd on C4 or B2 sites. Historical suitability is low (E3) on most D6 sites, therefore decreases in suitability associated with the projection of warmer climates often result in a loss of Fd suitability. The total area suitable to Fd is projected to decrease or be lost in the ESSF, IDF, and SBS, while there is an increased projected area in the CWH. It is also possible that these projected decreases in Fd suitability on wet rich sites are an artefact of the BGC projection method and site series crosswalk, with many fewer D6 sites containing Fd overall, compared to the C4 and B2 edatopes (see [CCISS tool documentation](https://bcgov-ffec.ca/cciss-docs/Methods.html) for more information). Use caution when interpreting a loss of Fd suitability on wet/rich sites where Fd was historically suitable.
 
 # Forest health
 
@@ -495,15 +497,31 @@ These broad patterns are similar across the medium/mesic (C4) and poor/subxeric 
 
 **Biotic factors**
 
-...Summary text...
+Douglas-fir beetle (*Dendroctonus pseudotsugae*) is one of the primary killers of mature Douglas-fir (Fd) in BC and usually attacks weakened or dying trees. Occasionally the beetle populations increase to the extent that it infests and kills large numbers of healthy trees [@noauthor_douglas-fir_2025]. It is most common in BC's interior and less common in coastal forests where it rarely causes the large-scale damage seen in the interior. Trees are killed when the flow of food and water between the roots and needles is blocked by feeding larvae and by dead sapwood cells killed by the blue-stain fungus carried by the Douglas-fir beetle adults [@burleigh_field_2014].
 
-For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf).
+Fd is also attacked by western spruce budworm (*Choristoneura occidentalis*), a native defoliator found southern BC in the coast, montane and Columbia forest types. Population levels periodically reach outbreaks which can last up to 25 years [@noauthor_western_2025]. When trees are stressed they are more likely to die. Repeated budworm defoliation causes tree mortality over large areas. Sustained attack results in complete defoliation in four to five years. Once an infestation has subsided, surviving trees take several years to regain full foliage and resume growth. Successive years of defoliation in stands may predispose trees to other insects and pathogens such as bark beetles and root disease.
+
+Douglas-fir tussock moth (*Orgyia pseudotsugata*) another is a defoliator of concern, found at low elevations in the warm dry areas of the Southern Interior and occasionally on the south coast. Defoliated trees may die after one or more years of severe defoliation. Douglas-fir tussock moth outbreaks can cause extensive mortality of interior Fd [@noauthor_douglas-fir_2025-1]. 
+
+In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopus gaeumannii*) is a fungus that causes a major foliar disease [@noauthor_swiss_2025]. Swiss needle cast has emerged as a serious concern in recent decades, with increased incidence due to warmer winters and increased spring moisture. It often affects young stands of Fd leading to premature foliar drop, loss of growth and occasionally mortality. 
+
+Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], laminated root rot [*Coniferiporia sulphurascens*], and Armillaria root disease [*Armillaria ostoyae*]) are a major and increasing concern for Fd.
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
+To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
 ## Climate change/drought
 
-**Climate change impacts**
+**Climate change and drought**
 
-...Summary text...
+Higher summer temperatures and drought are causing reduced Fd growth, increased mortality and susceptibility to pests and pathogens. Increased Fd mortality has been observed following periods of prolonged drought and warming, associated with decreasing summer available soil water and increasing summer temperature and rising vapour pressure deficit (for example in western Oregon, @cline_warming_2025). 
+
+These trends are driven by specific the physiological vulnerabilities of Fd. Fd has a large foliage area and fairly high water consumption at maturity compared to co-occurring conifers, making it vulnerable to a warmer drier climate [@leuschner_drought_2024]. Additionally, evidence suggests that the root system of juvenile Fd is highly drought-sensitive, while drought susceptibility decreases with age, when root penetration is deeper [@leuschner_drought_2024]. Tap root growth of Fd seedlings and saplings is slow, and root system remains shallow, meaning young plants are susceptible to desiccation. Consequently, seedlings may face high drought induced mortality in large open gaps or when planted on clear cuts. To mitigate these vulnerabilities, research from BC’s coastal forests suggests that a lower planting density improved the drought tolerance of Fd [@lukose_mixing_2025; @damen_drought_2025].
+
+Numerous dendrochronological studies have demonstrated that reduced Fd growth is linked to increased temperature and vapour pressure deficit [@restaino_increased_2016; @gazol_douglas_2022; @leuschner_drought_2024]. During severe droughts, annual radial growth can be reduced by 30 %, or more and consecutive droughts increase the negative impact on growth [@sergent_coastal_2014; @montwe_five_2015; @charlet_de_sauvage_species_2023]. The hot droughts of 2015 and 2021 in the Pacific Northwest have led to growth decline, crown damage, and mortality of Fd in low-elevation regions, often linked to fungal and insect infestations [@leuschner_drought_2024].
+
+In southern and lowland areas Fd growth is expected to slow and pathogen/insect attack and mortality will increase [@leuschner_drought_2024]. On the coast, warming winters may increase susceptibility to fungal attack (notably Swiss needle cast), causing defoliation, growth decline and mortality. Conversely, climate warming will likely promote Fd growth in the cooler and wetter areas of its range. 
+
 
 # References
 
