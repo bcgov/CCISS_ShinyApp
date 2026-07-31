@@ -154,7 +154,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 ## Row - Bubble plot {height="700px"}
 
-### L Column - Fdot description {width="40%"}
+### L Column - Plot description {width="40%"}
 
 ::: card
 Douglas-fir (Fd) is projected to persist within 70--90% of its historically suitable range under climate change. In addition the climatically suitable range of Fd is projected to expand over time into an area 0.75-2 times the size of the historical range. The projected expansion of Fd's suitable area is driven by warming temperatures, for example portions of the Engelmann Spruce--Subalpine Fir (ESSF) and Montane Spruce (MS) zones becoming warmer and therefore more suitable for Fd. <br>
@@ -177,7 +177,7 @@ $$\text{Expansion (\%)} =
 ### R Column - Bubble plot {width="60%"}
 
 :::::: panel-tabset
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: card
 ```{r}

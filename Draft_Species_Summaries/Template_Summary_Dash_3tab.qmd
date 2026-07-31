@@ -145,7 +145,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 ## Row - Bubble plot {height="700px"}
 
-### L Column - Fdot description {width="40%"}
+### L Column - Plot description {width="40%"}
 
 ::: card
 ...summary text...
@@ -169,7 +169,7 @@ $$\text{Expansion (\%)} =
 ### R Column - Bubble plot {width="60%"}
 
 :::::: panel-tabset
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: card
 ```{r}
