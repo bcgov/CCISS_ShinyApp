@@ -507,7 +507,7 @@ In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopu
 
 Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], laminated root rot [*Coniferiporia sulphurascens*], and Armillaria root disease [*Armillaria ostoyae*]) are a major and increasing concern for Fd.
 
-For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
 ## Climate change/drought
