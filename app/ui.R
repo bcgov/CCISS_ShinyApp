@@ -599,6 +599,23 @@ $(document).ready(function(){
                   )
     )  
   ),
+  tabPanel(
+    title = "SPECIES OUTLOOKS",
+    value = "species_outlooks",
+    
+    fluidRow(
+      column(
+        width = 10,
+        offset = 1,
+        
+        species_outlooks_intro_ui(),
+        
+        tags$hr(),
+        
+        species_outlooks_selector_ui()
+      )
+    )
+  ),
   # Tech specs ----
   navbarMenu(
     title = "DOCUMENTATION",

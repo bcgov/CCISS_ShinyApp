@@ -468,7 +468,6 @@ output$summary_plot_base <- renderPlot({
                                       AND edatope = {input$edatope_feas}", .con = dbCon))
     setDT(dat)
     setnames(dat, c("region", "bgc", "Edatope", "Spp", "FuturePeriod", "SppArea"))
-    #browser()
     plot_alluvial(dat, spp = input$species_feas, edatope = input$edatope_feas)
   } else if (input$cs_plot_type == "Persistance/Expansion") {
     #print(input$dist_click)

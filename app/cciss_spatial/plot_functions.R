@@ -357,10 +357,11 @@ plot_species <- function(dbCon, studyarea, xvariable, edatope, table_name = "spp
                                        UNION ALL
                                        select spp, period, AVG(proj_area) AS area
                                        from ",table_name," where region = '",
-                                       studyarea,"' and (run = 'ensembleMean' OR run IS NULL) and edatopic = '",edatope,"'
+                                       studyarea,"' and edatopic = '",edatope,"'
                                        GROUP BY spp, period"))
   
   setDT(spp_area)
+  #browser()
   
   metadt <- unique(dbGetQuery(dbCon, paste0("select * from su_meta where studyarea = '",studyarea,"'")))
   cellarea <- 4

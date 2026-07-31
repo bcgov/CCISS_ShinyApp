@@ -63,3 +63,324 @@ table.table-centered {
 #cciss_navbar .nav-link {
   padding-right: 0 !important;
 }
+
+.species-outlooks-intro {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 8px 12px;
+  color: #333;
+}
+
+.species-outlooks-intro > h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #234f33;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.species-outlooks-lead {
+  max-width: 950px;
+  margin-bottom: 26px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.outlook-section {
+  margin: 18px 0;
+  padding: 18px 22px;
+  border-left: 5px solid #4f7d5b;
+  border-radius: 3px;
+  background-color: #f5f8f5;
+}
+
+.outlook-section h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #234f33;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.outlook-section h3 .fa,
+.outlook-section h3 .fas {
+  width: 25px;
+  margin-right: 5px;
+  color: #4f7d5b;
+  text-align: center;
+}
+
+.outlook-section p {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.outlook-section ul {
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding-left: 24px;
+}
+
+.outlook-section li {
+  margin-bottom: 6px;
+  line-height: 1.45;
+}
+
+.development-label {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background-color: #e5e5e5;
+  color: #555;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
+.outlook-note {
+  margin-top: 28px;
+  padding: 18px 22px;
+  border: 1px solid #c6d8e5;
+  border-radius: 4px;
+  background-color: #eef6fb;
+}
+
+.outlook-note h3 {
+  margin-top: 0;
+  color: #24536d;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.outlook-note h3 .fa,
+.outlook-note h3 .fas {
+  margin-right: 7px;
+}
+
+.outlook-note p {
+  margin-bottom: 0;
+  line-height: 1.55;
+}
+
+.species-selector {
+  max-width: 1100px;
+  margin: 18px auto 40px;
+  padding: 0 8px;
+}
+
+.species-selector-header {
+  margin-bottom: 20px;
+}
+
+.species-selector-header h2 {
+  margin: 0 0 7px;
+  color: #234f33;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.species-selector-header p {
+  margin: 0;
+  color: #555;
+  font-size: 15px;
+}
+
+/* Responsive grid */
+
+.species-card-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 360px), 1fr)
+  );
+  gap: 22px;
+}
+
+/* Card */
+
+.species-outlook-card {
+  display: grid;
+  grid-template-columns: 135px minmax(0, 1fr);
+  min-height: 270px;
+  overflow: hidden;
+  border: 1px solid #ccd6ce;
+  border-radius: 7px;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 2px 7px rgba(30, 60, 40, 0.09);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.species-outlook-card:hover,
+.species-outlook-card:focus {
+  border-color: #4f7d5b;
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 7px 18px rgba(30, 60, 40, 0.16);
+  transform: translateY(-3px);
+}
+
+.species-outlook-card:focus-visible {
+  outline: 3px solid #78a98a;
+  outline-offset: 3px;
+}
+
+/* Silhouette panel */
+
+.species-card-image {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 270px;
+  padding: 18px 12px 0;
+  background:
+    linear-gradient(
+      to bottom,
+      #f4f8f4 0%,
+      #e5eee6 100%
+    );
+}
+
+.species-card-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 225px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+/* Text panel */
+
+.species-card-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 21px 20px 18px;
+}
+
+.species-card-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.species-code {
+  flex: 0 0 auto;
+  min-width: 38px;
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: #315c3d;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.species-card-heading h3 {
+  margin: 0 0 3px;
+  color: #234f33;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.scientific-name {
+  margin: 0;
+  color: #626c65;
+  font-size: 14px;
+}
+
+.species-card-description {
+  margin: 16px 0 20px;
+  color: #4b514d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.species-card-action {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  color: #315c3d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.species-card-action .fa,
+.species-card-action .fas {
+  font-size: 12px;
+}
+
+/* Unavailable cards for future species */
+
+.species-outlook-card.unavailable {
+  opacity: 0.7;
+  cursor: default;
+  box-shadow: none;
+}
+
+.coming-soon-label {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 11px;
+  background: #e3e5e3;
+  color: #555;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Attribution */
+
+.species-image-credit {
+  margin-top: 13px;
+  color: #6b6b6b;
+  font-size: 11px;
+  text-align: right;
+}
+
+/* Narrow screens */
+
+@media (max-width: 600px) {
+  .species-outlook-card {
+    grid-template-columns: 105px minmax(0, 1fr);
+    min-height: 245px;
+  }
+
+  .species-card-image {
+    min-height: 245px;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .species-card-image img {
+    height: 200px;
+  }
+
+  .species-card-content {
+    padding: 18px 15px 16px;
+  }
+
+  .species-card-heading {
+    display: block;
+  }
+
+  .species-code {
+    display: inline-block;
+    margin-bottom: 9px;
+  }
+
+  .species-card-heading h3 {
+    font-size: 18px;
+  }
+}
