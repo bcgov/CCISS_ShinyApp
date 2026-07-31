@@ -115,7 +115,8 @@ The pie chart to the right depicts the distribution of the total environmentally
 
 On the coast, Cw is most abundant in the Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside Douglas-fir, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs, though less frequently, in the Coastal Douglas-fir (CDF) zone and in the lower elevation of the Mountain Hemlock (MH) zones, where it tends to be subdominant or scattered.
 
-In the interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the Interior Douglas-fir (IDF) zone, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/western-redcedar)).
+In the interior, it is a key species in the Interior Cedar-Hemlock (ICH) zone, particularly in the wetter subzones of southeastern and central British Columbia, and in the Interior Douglas-fir (IDF) zone, although typically as a minor component. It can also occasionally be found in the wetter subzones of the Sub-Boreal Spruce (SBS), Montane Spruce (MS), Ponderosa Pine (PP), and lower Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/western-redcedar)).
+
 
 ### Pie chart
 
