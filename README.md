@@ -2,7 +2,7 @@
 
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](<Redirect-URL>)
 
-This is the main github repo for the CCISS web tool.
+This is the main github repo for the [CCISS Web Tool](https://bcgov-ffec.ca/cciss/).
 
 ## What is CCISS?
 
@@ -14,70 +14,7 @@ To address this challenge, the CCISS tool projects changes to species environmen
 
 To assist users, the tool compares the current species selection guidance in the Chief Foresters Reference Guide with the future forecast from the CCISS analysis. Reports from the tool highlight where currently acceptable species are stable/improving or declining/unsuitable and where new species have become suitable and could be considered as candidates for assisted migration.
 
-## Usage
-
-### Install `shiny`
-
-```r
-install.packages("shiny")
-```
-
-### Run locally
-
- - Clone repository
- - Setup environment variables
- - Open project
- - Run `shiny::runApp("./app")`
-
-### .Renviron
-
-The app requires the following environment variables.
-
-```bash
-BCGOV_USR={postgres user}
-BCGOV_PWD={postgres password}
-BCGOV_DB={postgres database}
-BCGOV_HOST={postgres host}
-BCGOV_TILESERVER={tileserver gl x, y, z url template}
-BCGOV_TILELAYER={tileserver layer}
-BCGOV_MAPBOX_TOKEN={mapbox api key}
-BCGOV_MAPBOX_LABELS_STYLE={mapbox labels style ref user/styleref}
-BCGOV_MAPBOX_HILLSHADE_STYLE={mapbox hillshade style ref user/styleref}
-```
-
-## Repository structure
-
-#### R packages folders
-
-#### Special
-
-##### .gitignore
-Tells git which files to ignore.
-See [git documentation](https://git-scm.com/docs/gitignore).
-
-##### .Rbuildignore
-Tells R which files to ignore when it builds the package.
-See [Writing R extension](https://cran.r-project.org/doc/manuals/R-exts.html#index-_002eRbuildignore-file).
-
-##### .github
-Github actions workflows.
- - Package checks (R-CMD-check)
- - Online documentation (pkgdown),
- - Tests coverages report (test-coverage)
- - Style code / run roxygen2 (pr-commands)
-You can read more about actions from [r-lib/actions](https://github.com/r-lib/actions)
-
-Workflows are setup or updated with the following instruction.
-
-```r
-usethis::use_tidy_github_actions()
-```
-Custom modifications made.  
- - Reduce the number of target for R CMD check.
-
-To disable a workflow,
-go the github actions tab, select a workflow, click on the ... dots on the right
-and select disable workflow.
+The CCISS tool is written in R, using the Shiny package. The main codebase in contained here in `./app`, which relies on functions from the corresponding R package, `ccissr`. Note that CCISS relies heavily on a remote Postgres server as well as a tileserver, and so will in general not be possible to run locally. 
 
 ------------------------------------------------------------------------
 
