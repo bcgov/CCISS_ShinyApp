@@ -65,17 +65,17 @@ flp_bnds <- fread("cciss_spatial/flp_bounds.csv")
 dist_bnds <- rbind(dist_bnds,flp_bnds)
 t_rast <- rast("cciss_spatial/Raster_Templated.tif")
 
-gcms <- c("SZ_Ensemble", "Zone_Ensemble", "ACCESS-ESM1-5","EC-Earth3","GISS-E2-1-G","MIROC6","MPI-ESM1-2-HR")
+gcms <- c("Ensemble", "ACCESS-ESM1-5","EC-Earth3","GISS-E2-1-G","MIROC6","MPI-ESM1-2-HR")
 periods <- c("2001_2020", "2021_2040", "2041_2060", "2061_2080","2081_2100")
-base_tileserver <- "https://tileserver.thebeczone.ca/data/bgc_GCM_PERIOD/{z}/{x}/{y}.webp"
-novelty_tileserver <- "https://tileserver.thebeczone.ca/data/Novelty_GCM_PERIOD/{z}/{x}/{y}.webp"
+base_tileserver <- "https://tileserver.thebeczone.ca/data/bgc_GCM_PERIOD_SUBZONE/{z}/{x}/{y}.webp"
+novelty_tileserver <- "https://tileserver.thebeczone.ca/data/novelty_GCM_PERIOD/{z}/{x}/{y}.webp"
 species_tileserver <- "https://tileserver.thebeczone.ca/data/STAT_PERIOD_EDATOPE_SPECIES/{z}/{x}/{y}.webp"
 
-colour_ref <- subzones_colours_ref$colour
-names(colour_ref) <- subzones_colours_ref$classification
+colour_ref <- trimws(WNA_BGCs$SubzoneColour)
+names(colour_ref) <- WNA_BGCs$BGC
 
-subzones <- sort(subzones_colours_ref$classification)
-zones <- sort(zone_colours$classification)
+subzones <- sort(WNA_BGCs$BGC)
+zones <- sort(unique(WNA_BGCs$Zone))
 
 gcms_use <- c("ACCESS-ESM1-5","EC-Earth3","GISS-E2-1-G","MIROC6","MPI-ESM1-2-HR","MRI-ESM2-0")
 runs_use <- c("r1i1p1f1","r4i1p1f1","r2i1p3f1","r2i1p1f1","r1i1p1f1","r1i1p1f1")
@@ -88,6 +88,330 @@ mblbsty = "whmacken/ckph5q6d21q1318nz4shnyp20"
 mbsty="whmacken/ckph5e7y01fhr17qk5nhnpo10"
 
 models_info <- fread("CCISS_Version_Info.csv")
+
+## species outlooks summary
+species_outlooks_intro_ui <- function() {
+  tagList(
+    tags$div(
+      class = "species-outlooks-intro",
+      
+      tags$p(
+        class = "species-outlooks-lead",
+        paste(
+          "Welcome to Species Outlooks, a collection of species-specific",
+          "dashboard summaries of the inputs and outputs of the Climate Change Informed",
+          "Species Selection (CCISS) tool. These dashboards are intended to support",
+          "forest practitioners, planners, and land managers in making informed,",
+          "forward-looking decisions about where tree species may be suitable to",
+          "plant over the coming decades. As climate conditions shift, these",
+          "decisions will become increasingly important for maintaining productive,",
+          "resilient, and adaptive forest landscapes."
+        )
+      ),
+      
+      tags$p(
+        "Each Species Outlook includes the following sections:"
+      ),
+      
+      tags$div(
+        class = "outlook-section",
+        
+        tags$h3(
+          icon("clock-rotate-left"),
+          "Reference (historical baseline) period"
+        ),
+        
+        tags$p(
+          paste(
+            "Maps and a descriptive summary of the species’ range in British",
+            "Columbia during the 1961–1990 baseline climate period.",
+            "Environmental suitability is summarized across Biogeoclimatic (BGC)",
+            "units and across three edatopic (soil nutrient × moisture) regimes,",
+            "relative to the local biogeoclimatic subzone:"
+          )
+        ),
+        
+        tags$ul(
+          tags$li("Poor/subxeric (B2)"),
+          tags$li("Medium/mesic (C4)"),
+          tags$li("Rich/hygric (D6)")
+        )
+      ),
+      
+      tags$div(
+        class = "outlook-section",
+        
+        tags$h3(
+          icon("chart-line"),
+          "CCISS projections"
+        ),
+        
+        tags$p(
+          paste(
+            "Visualizations and interpretations of CCISS projections through",
+            "2100, exploring potential changes in the species’ suitable range",
+            "across British Columbia. These include:"
+          )
+        ),
+        
+        tags$ul(
+          tags$li(
+            paste(
+              "Projected persistence and expansion of suitable range relative",
+              "to the historically suitable range"
+            )
+          ),
+          tags$li(
+            paste(
+              "Shifts in environmental suitability across the province and",
+              "within individual BGC zones"
+            )
+          ),
+          tags$li(
+            paste(
+              "Shifts in environmentally suitable area across the province",
+              "and within individual BGC zones"
+            )
+          ),
+          tags$li(
+            "Projected changes in particular areas of interest in BC ",
+            tags$span(class = "development-label", "In development")
+          ),
+          tags$li(
+            "Projected changes along elevational gradients ",
+            tags$span(class = "development-label", "In development")
+          )
+        )
+      ),
+      
+      tags$div(
+        class = "outlook-section",
+        
+        tags$h3(
+          icon("shield-halved"),
+          "Forest health"
+        ),
+        
+        tags$p(
+          paste(
+            "A summary of important forest health considerations and concerns",
+            "for the species."
+          )
+        )
+      ),
+      
+      tags$div(
+        class = "outlook-section",
+        
+        tags$h3(
+          icon("book"),
+          "References and additional resources"
+        ),
+        
+        tags$ul(
+          tags$li("A bibliography of works cited"),
+          tags$li(
+            paste(
+              "Other tools, websites, and guides providing additional information",
+              "about the species, particularly background ecology and silvics",
+              "information not summarized in the outlook"
+            )
+          )
+        )
+      ),
+      
+      tags$div(
+        class = "outlook-note",
+        
+        tags$h3(
+          icon("circle-info"),
+          "Interpreting and applying the Species Outlooks"
+        ),
+        
+        tags$p(
+          paste(
+            "These outlooks provide species-specific overviews and interpretations",
+            "of CCISS data. They do not represent management recommendations."
+          ),
+          " Please see ",
+          tags$a(
+            "CCISS Documentation: Decision Guidance",
+            href = paste0(
+              "https://bcgov-ffec.ca/cciss-docs/",
+              "Decisions.html"
+            ),
+            target = "_blank",
+            rel = "noopener noreferrer"
+          ),
+          paste(
+            " for information about the appropriate and intended uses of",
+            "these data."
+          )
+        )
+      )
+    )
+  )
+}
+
+## species outlook cards
+species_outlooks <- data.frame(
+  code = c("Cw", "Fd"),
+  common_name = c(
+    "Western redcedar",
+    "Douglas-fir"
+  ),
+  scientific_name = c(
+    "Thuja plicata",
+    "Pseudotsuga menziesii"
+  ),
+  description = c(
+    paste(
+      "View the province-wide CCISS outlook for western redcedar,",
+      "including historical suitability, future projections,",
+      "and forest health considerations."
+    ),
+    paste(
+      "View the province-wide CCISS outlook for Douglas-fir,",
+      "including historical suitability, future projections,",
+      "and forest health considerations."
+    )
+  ),
+  image = c(
+    "images/Cw_shadow.gif",
+    "images/Fd_shadow.gif"
+  ),
+  url = c(
+    "/spp-outlooks/Cw/",
+    "/spp-outlooks/Fd/"
+  ),
+  available = c(TRUE, FALSE),
+  stringsAsFactors = FALSE
+)
+
+species_outlook_card <- function(code,
+                                 common_name,
+                                 scientific_name,
+                                 description,
+                                 image,
+                                 url,
+                                 available = TRUE) {
+  
+  card_contents <- tagList(
+    tags$div(
+      class = "species-card-image",
+      
+      tags$img(
+        src = image,
+        alt = paste("Silhouette of", common_name),
+        loading = "lazy"
+      )
+    ),
+    
+    tags$div(
+      class = "species-card-content",
+      
+      tags$div(
+        class = "species-card-heading",
+        
+        tags$span(
+          class = "species-code",
+          code
+        ),
+        
+        tags$div(
+          tags$h3(common_name),
+          tags$p(
+            class = "scientific-name",
+            tags$em(scientific_name)
+          )
+        )
+      ),
+      
+      tags$p(
+        class = "species-card-description",
+        description
+      ),
+      
+      tags$div(
+        class = "species-card-action",
+        
+        if (available) {
+          tagList(
+            tags$span("View Species Outlook"),
+            icon("arrow-up-right-from-square")
+          )
+        } else {
+          tags$span(
+            class = "coming-soon-label",
+            "Coming soon"
+          )
+        }
+      )
+    )
+  )
+  
+  if (available) {
+    tags$a(
+      class = "species-outlook-card",
+      href = url,
+      target = "_blank",
+      rel = "noopener noreferrer",
+      `aria-label` = paste(
+        "Open the",
+        common_name,
+        "Species Outlook in a new tab"
+      ),
+      card_contents
+    )
+  } else {
+    tags$div(
+      class = "species-outlook-card unavailable",
+      card_contents
+    )
+  }
+}
+
+species_outlooks_selector_ui <- function() {
+  tags$section(
+    class = "species-selector",
+    `aria-labelledby` = "species-selector-heading",
+    
+    tags$div(
+      class = "species-selector-header",
+      
+      tags$h2(
+        id = "species-selector-heading",
+        "Explore Species Outlooks"
+      ),
+      
+      tags$p(
+        paste(
+          "Select a species to open its complete outlook.",
+          "The outlook will open in a new browser tab."
+        )
+      )
+    ),
+    
+    tags$div(
+      class = "species-card-grid",
+      
+      lapply(
+        seq_len(nrow(species_outlooks)),
+        function(i) {
+          do.call(
+            species_outlook_card,
+            as.list(species_outlooks[i, ])
+          )
+        }
+      )
+    ),
+    
+    tags$p(
+      class = "species-image-credit",
+      "Tree silhouettes: Natural Resources Canada, Canadian Forest Service."
+    )
+  )
+}
 
 bcgov_theme <- function(action = c("install","remove")) {
   action <- match.arg(action)
@@ -118,38 +442,3 @@ bcgov_theme <- function(action = c("install","remove")) {
 if (!"bcgov" %in% bslib::bootswatch_themes()) {
   bcgov_theme("install")
 }
-
-bgc_choices <- c("BAFAun", "BAFAunp", "BGxh1", "BGxh2", "BGxh3", "BGxw1", "BGxw2", 
-  "BWBSdk", "BWBSmk", "BWBSmw", "BWBSvk", "BWBSwk1", "BWBSwk2", 
-  "BWBSwk3", "CDFmm", "CMAun", "CMAunp", "CMAwh", "CWHdm1", "CWHdm2", 
-  "CWHdm3", "CWHds1", "CWHds2", "CWHmm1", "CWHmm2", "CWHms3", "CWHms4", 
-  "CWHms5", "CWHvh1", "CWHvh2", "CWHvh3", "CWHvm1", "CWHvm2", "CWHvm3", 
-  "CWHvm4", "CWHwh1", "CWHwh2", "CWHwm", "CWHws1", "CWHws2", "CWHws3", 
-  "CWHxs", "ESSFdc1", "ESSFdc2", "ESSFdc3", "ESSFdcp", "ESSFdcw", 
-  "ESSFdh1", "ESSFdh2", "ESSFdk1", "ESSFdk2", "ESSFdkp", "ESSFdkw", 
-  "ESSFdv1", "ESSFdv2", "ESSFdvp", "ESSFdvw", "ESSFmc", "ESSFmcp", 
-  "ESSFmcw", "ESSFmh", "ESSFmk", "ESSFmkp", "ESSFmkw", "ESSFmm1", 
-  "ESSFmm2", "ESSFmm3", "ESSFmmp", "ESSFmmw", "ESSFmv1", "ESSFmv2", 
-  "ESSFmv3", "ESSFmv4", "ESSFmvp", "ESSFmw", "ESSFmw1", "ESSFmw2", 
-  "ESSFmwp", "ESSFmww", "ESSFun", "ESSFunp", "ESSFvc", "ESSFvcp", 
-  "ESSFvcw", "ESSFwc2", "ESSFwc3", "ESSFwc4", "ESSFwcp", "ESSFwcw", 
-  "ESSFwh1", "ESSFwh2", "ESSFwh3", "ESSFwk1", "ESSFwk2", "ESSFwm1", 
-  "ESSFwm2", "ESSFwm3", "ESSFwm4", "ESSFwmp", "ESSFwmw", "ESSFwv", 
-  "ESSFwvp", "ESSFwvw", "ESSFxc1", "ESSFxc2", "ESSFxc3", "ESSFxcp", 
-  "ESSFxcw", "ESSFxv1", "ESSFxv2", "ESSFxvp", "ESSFxvw", "ICHdk", 
-  "ICHdm", "ICHdw1", "ICHdw3", "ICHdw4", "ICHmc1", "ICHmc1a", "ICHmc2", 
-  "ICHmk1", "ICHmk2", "ICHmk3", "ICHmk4", "ICHmk5", "ICHmm", "ICHmw1", 
-  "ICHmw2", "ICHmw3", "ICHmw4", "ICHmw5", "ICHun", "ICHvc", "ICHvk1", 
-  "ICHvk2", "ICHwc", "ICHwk1", "ICHwk2", "ICHwk3", "ICHwk4", "ICHxm1", 
-  "ICHxw", "ICHxwa", "IDFdc", "IDFdh", "IDFdk1", "IDFdk2", "IDFdk3", 
-  "IDFdk4", "IDFdk5", "IDFdm1", "IDFdm2", "IDFdw", "IDFmw2", "IDFww", 
-  "IDFxc", "IDFxh1", "IDFxh2", "IDFxk", "IDFxm", "IDFxw", "IDFxx1", 
-  "IDFxx2", "IMAun", "IMAunp", "MHmm1", "MHmm2", "MHmmp", "MHms", 
-  "MHmsp_WA", "MHun", "MHunp", "MHvh", "MHvhp", "MHwh", "MHwhp", 
-  "MSdc1", "MSdc2", "MSdc3", "MSdk", "MSdm1", "MSdm2", "MSdm3", 
-  "MSdv", "MSdw", "MSxk1", "MSxk2", "MSxk3", "MSxv", "PPxh1", "PPxh2", 
-  "SBPSdc", "SBPSmc", "SBPSmk", "SBPSxc", "SBSdh1", "SBSdh2", "SBSdk", 
-  "SBSdw1", "SBSdw2", "SBSdw3", "SBSmc1", "SBSmc2", "SBSmc3", "SBSmh", 
-  "SBSmk1", "SBSmk2", "SBSmm", "SBSmw", "SBSun", "SBSvk", "SBSwk1", 
-  "SBSwk2", "SBSwk3", "SBSwk3a", "SWBmk", "SWBmks", "SWBun", "SWBuns", 
-  "SWBvk", "SWBvks")

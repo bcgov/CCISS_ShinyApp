@@ -19,18 +19,18 @@ registerPlugin <- function(map, plugin) {
   map
 }
 
-zone_colours <- fread("cciss_spatial/WNAv13_ZoneCols.csv")
+zone_colours <- unique(WNA_BGCs[,.(Zone,ZoneColour)])
 
 addBGCTiles <- function(map) {
   map <- registerPlugin(map, plugins$vgplugin)
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColorsBGC = {", paste0("'", ccissr::subzones_colours_ref$classification, "':'", 
-                                                   ccissr::subzones_colours_ref$colour,"'", collapse = ","), "};"),
-                                           paste0("var subzoneColors = {", paste0("'", ccissr::subzones_colours_ref$colour, "':'", 
-                                                                                  ccissr::subzones_colours_ref$classification,"'", collapse = ","), "};"),
-                                           paste0("var zoneColors = {", paste0("'", zone_colours$colour, "':'", 
-                                                                               zone_colours$classification,"'", collapse = ","), "};"),
+      ', paste0("var subzoneColorsBGC = {", paste0("'", ccissr::WNA_BGCs$BGC, "':'", 
+                                                   ccissr::WNA_BGCs$SubzoneColour,"'", collapse = ","), "};"),
+         paste0("var subzoneColors = {", paste0("'", ccissr::WNA_BGCs$SubzoneColour, "':'", 
+                                                ccissr::WNA_BGCs$BGC,"'", collapse = ","), "};"),
+         paste0("var zoneColors = {", paste0("'", zone_colours$ZoneColour, "':'", 
+                                             zone_colours$Zone,"'", collapse = ","), "};"),
                                                 '
       
       L.bec_layer_opacity = 1
@@ -295,7 +295,7 @@ addBGCTiles <- function(map) {
       }, 600);
     });
     
-    colorpicker = L.tileLayer.colorPicker("https://tileserver.thebeczone.ca/data/bgc_Historic_1961_1990/{z}/{x}/{y}.webp?nochache", {
+    colorpicker = L.tileLayer.colorPicker("https://tileserver.thebeczone.ca/data/bgc_Ensemble_1961_1990_Subzone/{z}/{x}/{y}.webp?nochache", {
         maxNativeZoom: 12,
         maxZoom: 14,
         minNativeZoom: 5,
@@ -517,7 +517,7 @@ addDistricts <- function(map) {
 addSelectBEC <- function(map) {
   map <- htmlwidgets::onRender(map, paste0('
     function(el, x, data) {
-      ', paste0("var subzoneColors = {", paste0("'", subzones_colours_ref$classification, "':'", subzones_colours_ref$colour,"'", collapse = ","), "}"), '
+      ', paste0("var subzoneColors = {", paste0("'", ccissr::WNA_BGCs$BGC, "':'", ccissr::WNA_BGCs$SubzoneColour,"'", collapse = ","), "}"), '
       
       isGray = false;
       var bgc_ids = Object.keys(subzoneColors);

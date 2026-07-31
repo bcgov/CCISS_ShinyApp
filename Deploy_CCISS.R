@@ -8,15 +8,15 @@ droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server")
 #analogsea::droplet_ssh(server,"rm -R /srv/shiny-server/ccissr/.Renviron")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/instructions")
-analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/points.R")
+analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/generate.R")
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss/server/")
 
-analogsea::droplet_upload(server, "./app/server/points.R", "/srv/shiny-server/cciss/server/")
+analogsea::droplet_upload(server, "./app/server/generate.R", "/srv/shiny-server/cciss/server/")
 
 analogsea::droplet_ssh(server, "rm -R /srv/shiny-server/cciss")
 analogsea::droplet_ssh(server, "mkdir /srv/shiny-server/cciss")
 analogsea::droplet_upload(server, "./.Renviron", "/srv/shiny-server/cciss")
-analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/ccissr@development', upgrade = FALSE)\"")
+#analogsea::droplet_ssh(server, "R -e \"remotes::install_github('bcgov/ccissr@development', upgrade = FALSE)\"")
 analogsea::droplet_upload(server, "./app/global.R", "/srv/shiny-server/cciss/global.R")
 analogsea::droplet_upload(server, "./app/server.R", "/srv/shiny-server/cciss/server.R")
 analogsea::droplet_upload(server, "./app/ui.R", "/srv/shiny-server/cciss/ui.R")
@@ -54,3 +54,35 @@ library(data.table)
 dat <- fread("WNA_BGCs_Info.csv")
 bgcs <- dat[DataSet == "BC",BGC]
 dput(sort(bgcs))
+
+library(ccissr)
+library(RPostgres)
+library(pool)
+dbCon <- dbPool(
+  drv = RPostgres::Postgres(),
+  dbname = "cciss_spatial",
+  host = "178.128.233.227",
+  port = 5432, 
+  user = "cciss_user",
+  password = "powerofbec"
+)
+dat <- dbGetQuery(dbCon, glue_sql("select ssp, gcm, run, period, bgc_pred, persistance, expansion from bgc_per_exp 
+                                      where region = 'DCC' 
+                                      and period = '2001_2020_obs'", .con = dbCon))
+names(dat) <- c("ssp", "gcm", "run", "period", "bgc_pred", "Persistance", "Expansion")
+setDT(dat)
+
+period_sel <- "2001_2020_obs"
+bgc_bubbleplot(dat, period = period_sel, scenario = "ssp245")
+
+dat <- fread("app/test_alluvial_data.csv")
+plot_alluvial(dat, spp = "Py", edatope = "C4")
+
+for f in bgc_Ensemble*.mbtiles; do
+sqlite3 "$f" "
+  insert or replace into metadata(name,value) values
+  ('minzoom','5'),
+  ('maxzoom','12'),
+  ('center','-126.526528,54.154306,6');
+  "
+done

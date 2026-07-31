@@ -56,49 +56,78 @@ library(shinyjs)
 # edatope = "C4"
 
 bc_bbox <- c(60.0047792237624,48.22483456757,-114.054148536906,-139.061305880891)
+#rst <- dbGetFeasible(dbCon, table_name = "cciss_download", layer_name = "MeanChangeRaw_2081_2100_B2_Pl.tif", boundary = bc_bbox)
 
 model_ids <- data.table(model = c("Novelty_ACCESS-ESM1-5.csv", "Novelty_EC-Earth3.csv", 
                                   "Novelty_GISS-E2-1-G.csv", "Novelty_MIROC6.csv", "Novelty_MPI-ESM1-2-HR.csv", 
                                   "Novelty_MRI-ESM2-0.csv", "Novelty_Obs.csv", "Novelty_SZ_Ensemble.csv"), id = 1:8)
 
-temp <- temp <- c("Pl","Sx","Fd","Cw","Hw","Py", "Bl","At", "Ac", "Ep", "Yc", "Pw", "Ss", "Bg", "Lw")
+temp <- c("Ac", "At", "Bg", "Bl", "Cw", "Ep", "Fd", "Hw", "Lw", "Mb", 
+          "Pl", "Pw", "Py", "Ss", "Sx", "Yc")
 cw_spp <- data.table(Spp = temp, spp_id = seq_along(temp))
 
-plot_suitability <- function(dbCon, cellid, edatope, spp_name){
-  spp_id <- cw_spp[Spp == spp_name,spp_id]
-  eda <- switch(edatope,
-                "B2" = 1,
-                "C4" = 2,
-                "D6" = 3
-  )
-  #browser()
-  dat <- dbGetQuery(dbCon, paste0("select fp_code, newsuit, prop1, prop2, prop3 from cciss_feas where cellid = ",
-                                  cellid," and edatope = ",eda," and spp_id = ",spp_id)) |> as.data.table()
-  dat_h <- dbGetQuery(dbCon, paste0("select suit from cciss_historic where cellid = ",
-                                    cellid," and edatope = ",eda," and spp_id = ",spp_id))[,1]
+dbGetSuitPopup <- function(dbCon, cellid, spp_id, edatope) {
+  sql <- glue::glue_sql("
+  SELECT suit, prop1, prop2, prop3
+  FROM cciss_feas_array
+  WHERE cellid = {cellid}
+    AND spp_id = {spp_id}
+    AND edatope = {edatope}
+", .con = dbCon)
   
-  if(length(dat_h) == 0){
-    res <- "X"
-  }else if(dat_h > 300) {
-    res <- "X"
+  x <- dbGetQuery(dbCon, sql)
+  if (nrow(x) == 0L) {
+    dat <- NULL
   } else {
-    res <- as.character(dat_h/100)
+    dat <- data.table::data.table(
+      fp_code = c(1961L,1981L, 2001L, 2021L, 2041L, 2061L, 2081L),
+      suit =  pgArrayToInt(x$suit),
+      prop1 = c(NA_integer_,  pgArrayToInt(x$prop1)),
+      prop2 = c(NA_integer_,  pgArrayToInt(x$prop2)),
+      prop3 = c(NA_integer_,  pgArrayToInt(x$prop3))
+    )
+    dat[fp_code == 1961L, `:=`(
+      prop1 = data.table::fifelse(suit == 100L, 100L, 0L),
+      prop2 = data.table::fifelse(suit == 200L, 100L, 0L),
+      prop3 = data.table::fifelse(suit == 300L, 100L, 0L)
+    )]
   }
+  return(dat)
+}
+
+pgArrayToInt <- function(x) {
+  if (is.na(x) || x == "{}")
+    return(integer())
   
-  temp <- data.table(Period = 1961, CCISS_Suit = res, Suitability = c("E1","E2","E3","EX"), value = 0)
-  temp[grep(res, Suitability),value := 100]
+  scan(
+    text = substring(x, 2, nchar(x) - 1),
+    sep = ",",
+    what = integer(),
+    quiet = TRUE
+  )
+}
+
+plot_suitability <- function(dbCon, cellid, edatope, spp_name){
+  spp_id <- as.integer(cw_spp[Spp == spp_name,spp_id])
+  eda <- switch(edatope,
+                "B2" = 1L,
+                "C4" = 2L,
+                "D6" = 3L
+  )
+  cellid <- as.integer(cellid)
+  
+  dat <- dbGetSuitPopup(dbCon, cellid, spp_id, eda)
   
   setnames(dat, c("Period","CCISS_Suit","E1","E2","E3"))
   dat[,EX := 100L - (E1 + E2 + E3)]
   dat[,CCISS_Suit := as.character(CCISS_Suit/100)]
   dat[CCISS_Suit > 3.5, CCISS_Suit := "X"]
-  missing <- setdiff(c(1981,2001,2021,2041,2061, 2081), dat$Period)
-  if(length(missing) >= 1) {
-    temp2 <- data.table(Period = missing, CCISS_Suit = "X", E1 = 0, E2 = 0, E3 = 0, EX = 100)
-    dat <- rbind(dat, temp2)
-  }
+  # missing <- setdiff(c(1981,2001,2021,2041,2061, 2081), dat$Period)
+  # if(length(missing) >= 1) {
+  #   temp2 <- data.table(Period = missing, CCISS_Suit = "X", E1 = 0, E2 = 0, E3 = 0, EX = 100)
+  #   dat <- rbind(dat, temp2)
+  # }
   dat2 <- melt(dat, id.vars = c("Period","CCISS_Suit"), variable.name = "Suitability")
-  dat2 <- rbind(dat2, temp)
   dat2[, CCISS_Suit := paste0("CCISS Suit: ",CCISS_Suit)]
   palette.suit <-   c("E1" = "#006400", "E2" = "#1E90FF", "E3" = "#EEC900", "EX" = "grey")
   
@@ -141,7 +170,7 @@ dbGetFeasible <- function(dbCon, table_name, layer_name, boundary){
     "))'),", projID, "))) as a;"
   ))
   
-  incProgress(amount = 1, message = "This may take a minute...")
+  #incProgress(amount = 1, message = "This may take a minute...")
   rast_vals_temp <- dbGetQuery(dbCon, paste0(
     "SELECT UNNEST(ST_Dumpvalues(rast, 1)) as vals 
   from (SELECT ST_Union(rast) rast FROM \"", nameque, "\" 
@@ -152,7 +181,7 @@ dbGetFeasible <- function(dbCon, table_name, layer_name, boundary){
     " ", boundary[1], ",", boundary[4], " ", boundary[1],
     "))'),", projID, "))) as a;"
   ))
-  incProgress(amount = 1, message = "Almost there...")
+  #incProgress(amount = 1, message = "Almost there...")
   rout <- rast(
     nrows = info$rows, ncols = info$cols, xmin = info$xmn,
     xmax = info$xmx, ymin = info$ymn, ymax = info$ymx,
@@ -172,8 +201,8 @@ zone_scheme <- c(PP = "#ea7200", MH = "#6f2997", SBS = "#2f7bd2", ESSF = "#ae38b
                  BSJP = "#424160", MSSD = "#dac370", MDCH = "#2d0cd4", CVG = "#c9edd3", 
                  SAS = "#92b1b6", CCH = "#7e22ca")
 
-sz_scheme <- subzones_colours_ref$colour
-names(sz_scheme) <- subzones_colours_ref$classification
+sz_scheme <- trimws(WNA_BGCs$SubzoneColour)
+names(sz_scheme) <- WNA_BGCs$BGC
 
 # studyarea = "DSI"
 # xvariable = "MAT"
@@ -186,7 +215,7 @@ names(sz_scheme) <- subzones_colours_ref$classification
 plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone","Subzone"), focal_bgc = NULL, plot_obs = TRUE){
   
   if(unit == "Zone"){
-    tabnm <- "predsum_zone"
+    tabnm <- "bgc_area"
     col_scheme <- zone_scheme
     ylabel <- "BGC Zone Area ('000 sq.km)"
   } else {
@@ -195,35 +224,47 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
     ylabel <- "BGC Subzone Area ('000 sq.km)"
   } 
   #browser()
-  bgc_area <- dbGetQuery(dbCon, paste0("select * from ",tabnm," where studyarea = '",
-                                       studyarea,"' and not home and gcm = '",gcm_nm,"' and run = '",run_nm,"'"))
-  bgc_obs <- dbGetQuery(dbCon, paste0("select * from ",tabnm," where studyarea = '",studyarea,"'and not home and gcm = 'obs'")) |> as.data.table()
-  bgc_area <- rbind(bgc_area, bgc_obs[period == "1961_1990",])
-  setDT(bgc_area)
+  bgc_area <- dbGetQuery(dbCon, paste0("
+                                        SELECT bgc_pred AS bgc, '1961_1990' AS period, AVG(bgc_mapped) AS area
+                                        from ",tabnm," where region = '",
+                                       studyarea,"' and period = '2001_2020_obs'
+                                       GROUP BY bgc_pred
+                                       UNION ALL
+                                       select bgc_pred AS bgc, period, AVG(bgc_area) AS area
+                                       from ",tabnm," where region = '",
+                                       studyarea,"' and (run = 'ensembleMean' OR run IS NULL)
+                                       GROUP BY bgc_pred, period"))
   
+  setDT(bgc_area)
   metadt <- unique(dbGetQuery(dbCon, paste0("select * from su_meta where studyarea = '",studyarea,"'")))
   
-  cellarea <- (metadt$res*111)*(metadt$res*111*cos(metadt$mn_lat * pi / 180))
-  bgc_area[,freq := freq * cellarea]
-  bgc_obs[,freq := freq * cellarea]
-  
+  cellarea <- 4
+  if(metadt$res != 2000)   cellarea <- (metadt$res*111)*(metadt$res*111*cos(metadt$mn_lat * pi / 180))
+  bgc_area[,area := area * cellarea]
+
   if(!is.null(focal_bgc)){
-    bgc_area_f <- dbGetQuery(dbCon, paste0("select * from ",tabnm," where studyarea = '",
-                                           studyarea,"' and not home and bgc_pred = '",focal_bgc,"'"))
+    bgc_area_f <- dbGetQuery(dbCon, paste0("
+                                        SELECT bgc_pred AS bgc, gcm, run, '1961_1990' AS period, bgc_mapped AS area
+                                        from ",tabnm," where region = '",
+                                           studyarea,"' and period = '2021_2040'
+                                         and ssp = 'ssp245' and run <> 'ensembleMean' and bgc_pred = '",focal_bgc,"'                                       
+                                         UNION ALL
+                                       select bgc_pred AS bgc, gcm, run, period, bgc_area AS area
+                                       from ",tabnm," where region = '",
+                                           studyarea,"' and run <> 'ensembleMean'
+                                         and (ssp = 'ssp245' OR ssp IS NULL) and bgc_pred = '",focal_bgc,"'"))
     setDT(bgc_area_f)
     bgc_area_f[gcm_run, keep := i.keep, on = c("gcm","run")]
     bgc_area_f <- bgc_area_f[(keep),]
-    bgc_area_f[,freq := freq * cellarea]
-    bgc_area_f <- bgc_area_f[!(gcm == "obs" & period == "2001_2020"), .(gcm, period,freq)] #
+    bgc_area_f[,area := area * cellarea]
   }
   
-  bgc_temp <- bgc_area[,.(totalarea = sum(freq)), by = .(bgc_pred)]
+  bgc_temp <- bgc_area[,.(totalarea = sum(area)), by = .(bgc)]
   bgc_temp[,prop := totalarea/(metadt$tot_area * cellarea)]
   setorder(bgc_temp, -totalarea)
-  bgc_keep <- bgc_temp[prop > 0.15, bgc_pred]
-  dat_ens <- bgc_area[bgc_pred %in% bgc_keep,]
-  dat_obs <- bgc_obs[bgc_pred %in% bgc_keep,]
-  
+  bgc_keep <- bgc_temp[prop > 0.15, bgc]
+  dat_ens <- bgc_area[bgc %in% bgc_keep,]
+
   if(xvariable != "Time"){
     clim_data <- dbGetQuery(dbCon, paste0("select * from clim_change where var = '",xvariable,
                                           "' and studyarea = '",studyarea,"' and gcm = '",gcm_nm,"' and run = '",run_nm,"'"))
@@ -239,34 +280,33 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
     xlabel <- paste0("Change in ", xvariable)
   }else{
     dat_ens[, xvar := as.numeric(substr(period,1,4)) + 10]
-    dat_obs[, xvar := as.numeric(substr(period,1,4)) + 10]
     if(!is.null(focal_bgc)){
       bgc_area_f[, xvar := as.numeric(substr(period,1,4)) + 10]
     }
     xlabel <- "Year"
   }
   
-  temp_wide <- dcast(dat_ens, xvar ~ bgc_pred, value.var = "freq")
+  temp_wide <- dcast(dat_ens, xvar + period ~ bgc, value.var = "area")
   temp_wide[is.na(temp_wide)] <- 0
-  dat_ens <- melt(temp_wide, id.vars = "xvar", variable.name = "bgc_pred", value.name = "area")
+  dat_ens <- melt(temp_wide, id.vars = c("xvar", "period"), variable.name = "bgc", value.name = "area")
+  dat_obs <- dat_ens[period %in% c("2001_2020_obs", "1961_1990"),]
+  dat_ens <- dat_ens[period != "2001_2020_obs",]
   
   dat_spline <- dat_ens[,.(area = stinterp(xvar,area,seq(min(xvar),max(xvar), diff(range(xvar))/200))$y,
                            xval = seq(min(xvar),max(xvar), diff(range(xvar))/200)),
-                        by = .(bgc_pred)]
+                        by = .(bgc)]
   dat_spline[, area := area/1000]
-  dat_ends <- dat_spline[dat_spline[, .I[which.max(area)], by=bgc_pred]$V1]
+  dat_ends <- dat_spline[dat_spline[, .I[which.max(area)], by=bgc]$V1]
   
-  dat_obs[,area := freq/1000]
+  dat_obs[,area := area/1000]
   
   if(!is.null(focal_bgc)){
     #browser()
-    temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = bgc_area_f[gcm == "obs",freq], xvar = bgc_area_f[gcm == "obs",xvar])
-    if(nrow(temp) == 0) {
-      temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = 0, xvar = 1971)
-    }
-    temp[is.na(xvar), xvar := if(xvariable == "Time") 1971 else 0]
-    bgc_area_f <- rbind(temp, bgc_area_f)[gcm != "obs",]
-    temp_wide <- dcast(bgc_area_f, xvar ~ gcm, value.var = "freq")
+    # temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = bgc_area_f[gcm == "obs",freq], xvar = bgc_area_f[gcm == "obs",xvar])
+    # if(nrow(temp) == 0) {
+    #   temp <- data.table(gcm = unique(bgc_area_f$gcm),period = NA, freq = 0, xvar = 1971)
+    # }
+    temp_wide <- dcast(bgc_area_f, xvar ~ gcm, value.var = "area")
     temp_wide[is.na(temp_wide)] <- 0
     dat_ens_f <- melt(temp_wide, id.vars = "xvar", variable.name = "gcm", value.name = "area")
     
@@ -278,12 +318,12 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
     
     
     ggobj <- ggplot() +
-      geom_line_interactive(data = dat_spline[bgc_pred != focal_bgc,], aes(x = xval, y = area, group = bgc_pred, data_id = bgc_pred, tooltip = bgc_pred), color = "grey") +
-      {if(plot_obs) geom_point(data = dat_obs[xvar == max(xvar),], aes(x = xvar, y = area, group = bgc_pred), color = "grey")} +
-      {if(plot_obs) geom_line(data = dat_obs, aes(x = xvar, y = area, group = bgc_pred), linetype = "dashed", color = "grey")} + 
-      #{if(xvariable != "Time") geom_point(data = dat_time, aes(x = xvar, y = area, group = bgc_pred), color = "grey", size = 4)} + 
-      geom_line(data = dat_spline[bgc_pred == focal_bgc,], aes(x = xval, y = area), color = "black", linewidth = 1.5) +
-      geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = bgc_pred)) +
+      geom_line_interactive(data = dat_spline[bgc != focal_bgc,], aes(x = xval, y = area, group = bgc, data_id = bgc, tooltip = bgc), color = "grey") +
+      {if(plot_obs) geom_point(data = dat_obs[xvar == max(xvar),], aes(x = xvar, y = area, group = bgc), color = "grey")} +
+      {if(plot_obs) geom_line(data = dat_obs, aes(x = xvar, y = area, group = bgc), linetype = "dashed", color = "grey")} + 
+      #{if(xvariable != "Time") geom_point(data = dat_time, aes(x = xvar, y = area, group = bgc), color = "grey", size = 4)} + 
+      geom_line(data = dat_spline[bgc == focal_bgc,], aes(x = xval, y = area), color = "black", linewidth = 1.5) +
+      geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = bgc)) +
       geom_line_interactive(data = dat_ens_f, aes(x = xval, y = area, col = gcm, data_id = gcm, tooltip = gcm), linewidth = 1.2) +
       geom_text_repel(data = dat_ends_f, aes(x = xval, y = area, label = gcm, col = gcm)) +
       scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) + 
@@ -292,11 +332,11 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
       ylab(ylabel) +
       xlab(xlabel)
   } else {
-    ggobj <- ggplot(dat_spline, aes(x = xval, y = area, col = bgc_pred, data_id = bgc_pred, tooltip = bgc_pred)) +
+    ggobj <- ggplot(dat_spline, aes(x = xval, y = area, col = bgc, data_id = bgc, tooltip = bgc)) +
       geom_line_interactive() +
-      {if(plot_obs) geom_point(data = dat_obs[xvar == max(xvar),], aes(x = xvar, y = area, col = bgc_pred))} +
-      {if(plot_obs) geom_line(data = dat_obs, aes(x = xvar, y = area, col = bgc_pred), linetype = "dashed")} + 
-      geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = bgc_pred)) +
+      {if(plot_obs) geom_point(data = dat_obs[xvar == max(xvar),], aes(x = xvar, y = area, col = bgc))} +
+      {if(plot_obs) geom_line(data = dat_obs, aes(x = xvar, y = area, col = bgc), linetype = "dashed")} + 
+      geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = bgc)) +
       scale_fill_manual(values = col_scheme) +
       scale_colour_manual(values = col_scheme) +
       scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) + 
@@ -308,19 +348,24 @@ plot_bgc <- function(dbCon, studyarea, xvariable, gcm_nm, run_nm, unit = c("Zone
   ggobj
 }
 
-plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, spp_select = NULL, focal_species = NULL, plot_obs = TRUE){
-  if(is.null(spp_select)) spp_select <- "Fd"
-  spp_area <- dbGetQuery(dbCon, paste0("select * from predsum_spp where studyarea = '",
-                                       studyarea,"' and not home and gcm = '",gcm_nm,"' and run = '",run_nm,"' and edatope = '",edatope,"'"))
+plot_species <- function(dbCon, studyarea, xvariable, edatope, table_name = "spp_area_frac", spp_select = NULL, focal_spp = NULL, plot_obs = TRUE){
+  spp_area <- dbGetQuery(dbCon, paste0("
+                                        SELECT spp, '1961_1990' AS period, AVG(mappedsuit) AS area
+                                        from ",table_name," where region = '",
+                                       studyarea,"' and period = '2001_2020_obs' and edatopic = '",edatope,"'
+                                       GROUP BY spp
+                                       UNION ALL
+                                       select spp, period, AVG(proj_area) AS area
+                                       from ",table_name," where region = '",
+                                       studyarea,"' and edatopic = '",edatope,"'
+                                       GROUP BY spp, period"))
   
-  spp_obs <- dbGetQuery(dbCon, paste0("select * from predsum_spp where studyarea = '",
-                                      studyarea,"'and not home and gcm = 'obs' and edatope = '",edatope,"'"))
-  
-  spp_area <- rbind(spp_area, spp_obs)
   setDT(spp_area)
+  #browser()
   
   metadt <- unique(dbGetQuery(dbCon, paste0("select * from su_meta where studyarea = '",studyarea,"'")))
-  cellarea <- (metadt$res*111)*(metadt$res*111*cos(metadt$mn_lat * pi / 180))
+  cellarea <- 4
+  if(metadt$res != 2000)   cellarea <- (metadt$res*111)*(metadt$res*111*cos(metadt$mn_lat * pi / 180))
   spp_area[,area := area * cellarea]
   
   spp_temp <- spp_area[,.(totalarea = sum(area)), by = .(spp)]
@@ -329,19 +374,24 @@ plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, 
   spp_keep <- spp_temp[prop > 0.75, spp]
   spp_area <- spp_area[spp %in% spp_keep,]
   
-  spp_obs <- spp_area[gcm == "obs",]
-  spp_area <- spp_area[!(gcm == "obs" & period == "2001_2020"),]
-  
-  if(!is.null(focal_species)){
-    spp_area_f <- dbGetQuery(dbCon, paste0("select * from predsum_spp where studyarea = '",
-                                           studyarea,"' and not home and edatope = '",edatope,"' and spp = '",focal_species,"'"))
+  if(!is.null(focal_spp)){
+    spp_area_f <- dbGetQuery(dbCon, paste0("
+                                        SELECT spp, gcm, run, '1961_1990' AS period, mappedsuit AS area
+                                        from ",table_name," where region = '",
+                                           studyarea,"' and period = '2021_2040' and edatopic = '",edatope,"'
+                                         and ssp = 'ssp245' and run <> 'ensembleMean' and spp = '",focal_spp,"'                                       
+                                         UNION ALL
+                                       select spp, gcm, run, period, proj_area AS area
+                                       from ",table_name," where region = '",
+                                           studyarea,"' and run <> 'ensembleMean'and edatopic = '",edatope,"'
+                                         and (ssp = 'ssp245' OR ssp IS NULL) and spp = '",focal_spp,"'"))
+    
     setDT(spp_area_f)
     spp_area_f[gcm_run, keep := i.keep, on = c("gcm","run")]
     spp_area_f <- spp_area_f[(keep),]
     spp_area_f[,area := area * cellarea]
-    spp_area_f <- spp_area_f[!(gcm == "obs" & period == "2001_2020"), .(gcm, period,area)]
   }
-  
+  # 
   if(xvariable != "Time"){
     clim_data <- dbGetQuery(dbCon, paste0("select * from clim_change where var = '",xvariable,
                                           "' and studyarea = '",studyarea,"' and gcm = '",gcm_nm,"' and run = '",run_nm,"'"))
@@ -354,23 +404,25 @@ plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, 
     
     spp_area[clim_data, xvar := i.value, on = "period"]
     spp_obs[clim_obs, xvar := i.value, on = "period"]
-    if(!is.null(focal_species)){
+    if(!is.null(focal_spp)){
       spp_area_f[clim_data, xvar := i.value, on = "period"]
     }
     xlabel <- paste0("Change in ", xvariable)
   }else{
     spp_area[,xvar := as.numeric(substr(period,1,4)) + 10]
-    spp_obs[,xvar := as.numeric(substr(period,1,4)) + 10]
-    if(!is.null(focal_species)){
+    if(!is.null(focal_spp)){
       spp_area_f[,xvar := as.numeric(substr(period,1,4)) + 10]
     }
     xlabel <- "Year"
   }
   
   #print(spp_area)
-  temp_wide <- dcast(spp_area, xvar ~ spp, value.var = "area")
+  temp_wide <- dcast(spp_area, xvar + period ~ spp, value.var = "area")
   temp_wide[is.na(temp_wide)] <- 0
-  dat_ens <- melt(temp_wide, id.vars = "xvar", variable.name = "spp", value.name = "area")
+  dat_ens <- melt(temp_wide, id.vars = c("xvar","period"), variable.name = "spp", value.name = "area")
+  
+  spp_obs <- dat_ens[period %in% c('2001_2020_obs', '1961_1990'),]
+  dat_ens <- dat_ens[period != '2001_2020_obs',]
   
   dat_spline <- dat_ens[,.(area = stinterp(xvar,area,seq(min(xvar),max(xvar), diff(range(xvar))/200))$y,
                            xval = seq(min(xvar),max(xvar), diff(range(xvar))/200)),
@@ -378,12 +430,11 @@ plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, 
   dat_spline[,area := area/1000]
   dat_ends <- dat_spline[dat_spline[, .I[which.max(area)], by=spp]$V1]
   spp_obs[,area := area/1000]
+  #dat_spline[,`:=`(ltype = "solid", lwidth = 1)]
   dat_spline[, ltype := fifelse(spp == spp_select, "solid","dashed")]
   dat_spline[, lwidth := fifelse(spp == spp_select, 1.5,0.8)]
   
-  if(!is.null(focal_species)){
-    temp <- data.table(gcm = unique(spp_area_f$gcm),period = NA, area = spp_area_f[gcm == "obs",area], xvar = spp_area_f[gcm == "obs",xvar])
-    spp_area_f <- rbind(temp, spp_area_f)[gcm != "obs",]
+  if(!is.null(focal_spp)){
     temp_wide <- dcast(spp_area_f, xvar ~ gcm, value.var = "area")
     temp_wide[is.na(temp_wide)] <- 0
     dat_ens_f <- melt(temp_wide, id.vars = "xvar", variable.name = "gcm", value.name = "area")
@@ -417,7 +468,7 @@ plot_species <- function(dbCon, studyarea, xvariable,  gcm_nm, run_nm, edatope, 
       {if(plot_obs) geom_point(data = spp_obs[xvar == max(xvar),], aes(x = xvar, y = area, col = spp))} +
       {if(plot_obs) geom_line(data = spp_obs, aes(x = xvar, y = area, col = spp), linetype = "dashed")} + 
       geom_text_repel(data = dat_ends, aes(x = xval, y = area, label = spp)) +
-      geom_point(data = spp_obs, aes(x = xvar, y = area, col = spp)) +
+      #geom_point(data = spp_obs, aes(x = xvar, y = area, col = spp)) +
       scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) + 
       theme_bw(base_size = 14) +
       theme(legend.position = "none") +

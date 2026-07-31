@@ -54,9 +54,9 @@ bgc_fut_plotly <- function(data, siteref, sseries, minallow, show_ss = "BGC", pe
     y = 1.25,
     x = -0.05)
   color_ref <- {
-    colors <- subzones_colours_ref[classification %in% unique(data2$BGC.pred)]
-    col <- c(colors$colour,"#000000")
-    names(col) <- c(colors$classification,"Novel Climate")
+    colors <- WNA_BGCs[BGC %in% unique(data2$BGC.pred),.(BGC,SubzoneColour)]
+    col <- c(colors$SubzoneColour,"#000000")
+    names(col) <- c(colors$BGC,"Novel Climate")
     col
   }
   # data2[,text_col := "#000000"]

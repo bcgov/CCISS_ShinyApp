@@ -70,9 +70,9 @@ observeEvent(input$generate_results, priority = 100, {
     N1$SiteSeriesLongName[match(ssa, N1$SS_NoSpace)]
   )
   
-  
-  siteseries_list <- uData$siteseries_list <- ssl
-  siteseries_all  <- uData$siteseries_all  <- ssa
+  #browser()
+  siteseries_list <- uData$siteseries_list <- lapply(ssl, function(x){x[!grepl(".*/Ro.*|.*/Gg.*", x)]}) ## remove Ro and Gg
+  siteseries_all  <- uData$siteseries_all  <- ssa[!grepl(".*/Ro.*|.*/Gg.*", ssa)]
   
   if (!isTRUE(avg)) {
     # ordering choices to match order in points table and create a name for each choice
@@ -162,27 +162,29 @@ bgc <- function(con, siteno, avg, modWeights, novelty, nov_c = 5) {
   siteno <- siteno[!is.na(siteno)]
   withProgress(message = "Processing...", detail = "Futures", {
     if(novelty){
-      dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, nov_cutoff = nov_c)
+      #browser()
+      dat <- dbGetCCISS_novelty(con, siteno, avg, modWeights = modWeights, cciss_table = "cciss_future14_array", 
+                                novelty_table = "cciss_novelty14_array",
+                                cciss_observed = "cciss_current14",
+                                bgc_table = "bgc_attribution14", 
+                                bgc_lookup = "bgc14", nov_cutoff = nov_c)
     } else {
-      dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights)
+      dat <- dbGetCCISS_v13(con, siteno, avg, modWeights = modWeights, cciss_table = "cciss_future14_array", 
+                            cciss_observed = "cciss_current14",
+                            bgc_table = "bgc_attribution14", 
+                            bgc_lookup = "bgc14")
     }
     
   })
   dat
 }
 
-# bgc <- dbGetCCISS(pool,siteno = 676813, avg = F, modWeights = all_weight)
-# SSPreds <- edatopicOverlap(bgc, E1, E1_Phase)
-# out <- ccissOutput(SSPred = SSPreds, suit = S1, rules = R1, feasFlag = F1,
-#             histWeights = c(0.3,0.35,0.35), futureWeights = rep(0.25,4))
-
-# bgc <- sqlTest(pool,siteno = c(6476259,6477778,6691980,6699297),avg = T, scn = "ssp370")
-
-
 cciss <- function(bgc,estabWt,futWt) {
   if(session_params$show_novelty){
     bgc <- bgc[BGC.pred != "novel",]
   }
+  # temp <- copy(E1)
+  # temp[grep(".*/Ro", SS_NoSpace), SpecialCode := "Ro"]
   edaOut <- edatopicOverlap(bgc, copy(E1), copy(E1_Phase))
   #browser()
   SSPred <- edaOut$NoPhase

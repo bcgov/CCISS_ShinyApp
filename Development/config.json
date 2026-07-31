@@ -1,0 +1,79 @@
+{
+    "options": {
+        "paths": {
+            "root": "",
+            "styles": "",
+            "mbtiles": ""
+        },
+        "formatQuality": {
+            "jpeg": 80,
+            "webp": 90
+        },
+        "maxScaleFactor": 3,
+        "maxSize": 2048,
+        "pbfAlias": "pbf",
+        "serveAllFonts": false,
+        "serveAllStyles": false,
+        "serveStaticMaps": true,
+        "tileMargin": 0
+    },
+    "styles": {
+        "basic": {
+            "serve_rendered": false,
+            "tilejson": {
+                "type": "overlay",
+                "bounds": [
+                    -139.0613,
+                    48.2968,
+                    -114.0542,
+                    60.0048
+                ]
+            }
+        },
+        "rendered": {
+            "serve_rendered": true,
+            "tilejson": {
+                "type": "overlay",
+                "bounds": [
+                    -139.0613,
+                    48.2968,
+                    -114.0542,
+                    60.0048
+                ]
+            }
+        }
+    },
+    "data": {
+        "bgc_MIROC6_2001_2020": {
+            "mbtiles": "bgc_MIROC6_2001_2020.mbtiles"
+        },
+        "bgc_MIROC6_2021_2040": {
+            "mbtiles": "bgc_MIROC6_2021_2040.mbtiles"
+        },
+        "bgc_MIROC6_2041_2060": {
+            "mbtiles": "bgc_MIROC6_2041_2060.mbtiles"
+        },
+        "bgc_MIROC6_2061_2080": {
+            "mbtiles": "bgc_MIROC6_2061_2080.mbtiles"
+        },
+        "bgc_MIROC6_2081_2100": {
+            "mbtiles": "bgc_MIROC6_2081_2100.mbtiles"
+        },
+        "bgc_MPI-ESM1-2-HR_2001_2020": {
+            "mbtiles": "bgc_MPI-ESM1-2-HR_2001_2020.mbtiles"
+        },
+        "bgc_MPI-ESM1-2-HR_2021_2040": {
+            "mbtiles": "bgc_MPI-ESM1-2-HR_2021_2040.mbtiles"
+        },
+        "bgc_MPI-ESM1-2-HR_2041_2060": {
+            "mbtiles": "bgc_MPI-ESM1-2-HR_2041_2060.mbtiles"
+        },
+        "bgc_MPI-ESM1-2-HR_2061_2080": {
+            "mbtiles": "bgc_MPI-ESM1-2-HR_2061_2080.mbtiles"
+        },
+        "bgc_MPI-ESM1-2-HR_2081_2100": {
+            "mbtiles": "bgc_MPI-ESM1-2-HR_2081_2100.mbtiles"
+        }
+    }
+}
+
