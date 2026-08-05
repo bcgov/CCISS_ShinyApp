@@ -46,7 +46,15 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-...Summary text...
+Lodgepole pine (Pl) is the most widely distributed pine species in western Canada and is an important timber species. In British Columbia Pl is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as shore pine (Plc), and *P. contorta* var. *latifolia* which occurs throughout interior BC and is known as lodgepole pine (Pli). The figures and summaries on this dashboard address both Plc and Pli combined. 
+
+Plc occurs throughout the coast in the lowland, montane and subalpine zones, found on poorer sites, including rock outcrops, rocky soils, shorelines, coastal sand dunes and wet to dry bogs [@klinkenberg_pinus_2020]. Pli is found in the interior of BC, from dry submontane forests to the subalpine region, but is most common in montane forests [@klinka_distribution_2000].
+
+Pl grows under a wide variety of climate conditions across a large geographic range (the full habitat range of Pl spans from the Yukon in the north to Baja California, Mexico in the south), both the temperature and moisture regime varies greatly [@lotan_lodgepole_1990]. In BC, Pl is most common in the montane boreal climate and also occurs from cool mesothermal to continental subalpine boreal climates [@klinka_distribution_2000]. The climatic range of Pl spans the ocean moderated temperate climates of the coast, to the extreme cold winters of the Northern Rocky Mountains, to hot dry summers of the Southern Interior. It is found from the wet North Coast of BC to the dry interior where the majority of the soil water is supplied by snowfall [@lotan_lodgepole_1990].
+
+Pl has a very wide ecological amplitude and tolerance, occurring on very dry to slightly dry, as well as wet soil moisture regimes, and on very poor to medium soil nutrient regimes [@klinka_distribution_2000]. It is highly tolerant of nutrient deficiencies and tolerates wet depressions, high water tables, and acidic bogs. Pl also occurs on a wide range of soils. 
+
+In BC, Pl grows predominantly in even-aged, post-fire forests, in single-species or, less commonly in mixed-species stands. It is a pioneer species on rock outcrops and bogs, and is present in early through late stages of secondary succession on water deficient and waterlogged sites [@klinka_distribution_2000]. Pl is intolerant of shade and generally grows best in full sunlight [@lotan_lodgepole_1990].
 
 **Species environmental suitability during the reference period (1961--1990)**
 
@@ -66,7 +74,7 @@ In the maps below, each color represents the species environmental suitability d
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: FILL IN
+#| fig-cap: On medium/mesic sites Pl is moderately to highly suitable across much of the province. Suitability is high (E1) in the Central Interior, Sub-boreal interior, Boreal Plains, and southern Rocky Mountain Trench. Suitability is moderate (E2) in the Taiga Plains and Northern Boreal, on the Fraser Plateau and outer Central to North Coast. Pl suitability is low (E3) on a smaller proportional area, including the west coast of Vancouver Island and Haida Gwaii, Georgia Basin, and lower slopes of the southern Columbia Mountains.
 
 fig("Historic_Suit_Map.Pl.C4.png")
 ```
@@ -79,7 +87,7 @@ fig("Historic_Suit_Map.Pl.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: FILL IN
+#| fig-cap: On poor/subxeric sites Pl is moderately suitable (E2) across much of the province, including the Taiga Plains, Boreal Plains, Sub-Boreal Interior western Columbia Mountains and the outer coast. Pl suitability is high (E1) in the Sub-Boreal Spruce subzones surrounding Prince George, valley bottom of the northern Rocky Mountain Trench, and the mid-upper slopes of the Southern Interior. 
 
 fig("Historic_Suit_Map.Pl.B2.png") 
 
@@ -93,7 +101,7 @@ fig("Historic_Suit_Map.Pl.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: FILL IN
+##| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the interior and northwest of BC. Pl is more suitable on poorer wet sites (e.g. bogs) across its range. (and wetter sites????)
 
 fig("Historic_Suit_Map.Pl.D6.png")
 ```
@@ -104,7 +112,12 @@ fig("Historic_Suit_Map.Pl.D6.png")
 
 The pie chart to the right depicts the distribution of the total environmentally suitable area of Pl in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
 
-([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/lodgepole-pine)).
+Pl occupies the greatest area in the Boreal White and Black Spruce (BWBS) zone in the northeastern corner of BC and in the Sub-Boreal Spruce (SBS) zone in the Central Interior. In the BWBS zone mixed stands of Pl and black spruce are common in upland forests, and on drier sites open Pl -- lichen forests are common. In the SBS zone younger forests are dominated by Pl, alongside trembling aspen and paper birch.
+
+Pl is the dominant species of both the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rainshadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl. 
+
+In the Engelmann Spruce -- Subalpine Fir (ESSF) zone Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+
 
 ### Pie chart
 
