@@ -114,7 +114,7 @@ The pie chart to the right depicts the distribution of the total environmentally
 
 On the coast, Fd is most abundant in the southern Coastal Western Hemlock (CWH) zone, especially on mesic to wet sites, where it grows alongside western redcedar, grand fir, and bigleaf maple [@egan_ecology_1999]. It also occurs in the Coastal Douglas-fir (CDF) zone, which is characterized by Fd, often with grand fir.
 
-In the interior, Fd is a key species in the southern subzones of the Interior Cedar-Hemlock (ICH) and Sub-Boreal Spruce (SBS) zones, and dominates the Interior Douglas-fir (IDF) zone. It can also be found in the Montane Spruce (MS) and the lower southern Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/douglas-fir)).
+In the interior, Fd is a key species in the southern subzones of the Interior Cedar-Hemlock (ICH) and Sub-Boreal Spruce (SBS) zones, where it is abundant on warm, dry and rich sites. Fd dominates the Interior Douglas-fir (IDF) zone, where open canopy, un-even aged stands of Fd are common. It can also be found in the Montane Spruce (MS) and the lower southern Engelmann Spruce -- Subalpine Fir (ESSF) zones ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/douglas-fir)).
 
 ### Pie chart
 
@@ -154,7 +154,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 ## Row - Bubble plot {height="700px"}
 
-### L Column - Fdot description {width="40%"}
+### L Column - Plot description {width="40%"}
 
 ::: card
 Douglas-fir (Fd) is projected to persist within 70--90% of its historically suitable range under climate change. In addition the climatically suitable range of Fd is projected to expand over time into an area 0.75-2 times the size of the historical range. The projected expansion of Fd's suitable area is driven by warming temperatures, for example portions of the Engelmann Spruce--Subalpine Fir (ESSF) and Montane Spruce (MS) zones becoming warmer and therefore more suitable for Fd. <br>
@@ -177,7 +177,7 @@ $$\text{Expansion (\%)} =
 ### R Column - Bubble plot {width="60%"}
 
 :::::: panel-tabset
-#### Mesic/zonal (C4)
+#### Medium/mesic (C4)
 
 ::: card
 ```{r}
@@ -507,7 +507,7 @@ In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopu
 
 Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], laminated root rot [*Coniferiporia sulphurascens*], and Armillaria root disease [*Armillaria ostoyae*]) are a major and increasing concern for Fd.
 
-For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
 ## Climate change/drought
