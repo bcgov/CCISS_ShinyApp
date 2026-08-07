@@ -36,7 +36,7 @@ fig <- function(filename) {
 
 ### Col - Welcome text {width="80%"}
 
-**Lodgepole pine (abbreviated as Pl) ...summary text...** <br>
+**Lodgepole pine (abbreviated as Pl) is the most widely distributed pine species in western Canada and is an important timber species. The CCISS model predicts a decline or loss of suitability throughout much of the historic range of Pl under future climate warming. There is some opportunity for the expansion of Pl's suitable range at higher elevation and further north.** <br>
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future lodgepole pine management.
 
@@ -46,11 +46,11 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-Lodgepole pine (Pl) is the most widely distributed pine species in western Canada and is an important timber species. In British Columbia Pl is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as shore pine (Plc), and *P. contorta* var. *latifolia* which occurs throughout interior BC and is known as lodgepole pine (Pli). The figures and summaries on this dashboard address both Plc and Pli combined. 
+In British Columbia lodgepole pine (Pl) is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as "shore pine" (Plc), and *P. contorta* var. *latifolia* which occurs throughout the interior of BC and is known as "interior lodgepole pine" (Pli) or simply "lodgepole pine". The figures and summaries on this dashboard address both Plc and Pli combined. 
 
 Plc occurs throughout the coast in the lowland, montane and subalpine zones, found on poorer sites, including rock outcrops, rocky soils, shorelines, coastal sand dunes and wet to dry bogs [@klinkenberg_pinus_2020]. Pli is found in the interior of BC, from dry submontane forests to the subalpine region, but is most common in montane forests [@klinka_distribution_2000].
 
-Pl grows under a wide variety of climate conditions across a large geographic range (the full habitat range of Pl spans from the Yukon in the north to Baja California, Mexico in the south), both the temperature and moisture regime varies greatly [@lotan_lodgepole_1990]. In BC, Pl is most common in the montane boreal climate and also occurs from cool mesothermal to continental subalpine boreal climates [@klinka_distribution_2000]. The climatic range of Pl spans the ocean moderated temperate climates of the coast, to the extreme cold winters of the Northern Rocky Mountains, to hot dry summers of the Southern Interior. It is found from the wet North Coast of BC to the dry interior where the majority of the soil water is supplied by snowfall [@lotan_lodgepole_1990].
+Pl grows under a wide variety of climate conditions across a large geographic range (the full habitat range of Pl spans from the Yukon in the north to Baja California, Mexico in the south), both the temperature and moisture regime varies greatly [@lotan_lodgepole_1990]. In BC, Pl is most common in the montane boreal climate and also occurs from cool mesothermal to continental subalpine boreal climates [@klinka_distribution_2000]. The temperature range of Pl spans the ocean moderated temperate climates of the coast, to the extreme cold winters of the Northern Rocky Mountains, to hot dry summers of the Southern Interior. Pl also occurs across a wide range of precipitation regimes, from the wet North Coast of BC to the dry interior where the majority of the soil water is supplied by snowfall [@lotan_lodgepole_1990].
 
 Pl has a very wide ecological amplitude and tolerance, occurring on very dry to slightly dry, as well as wet soil moisture regimes, and on very poor to medium soil nutrient regimes [@klinka_distribution_2000]. It is highly tolerant of nutrient deficiencies and tolerates wet depressions, high water tables, and acidic bogs. Pl also occurs on a wide range of soils. 
 
@@ -58,7 +58,7 @@ In BC, Pl grows predominantly in even-aged, post-fire forests, in single-species
 
 **Species environmental suitability during the reference period (1961--1990)**
 
-In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
 \*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
 
@@ -69,12 +69,12 @@ In the maps below, each color represents the species environmental suitability d
 #### Medium/mesic (C4)
 
 ```{r}
-#| title: Environmental Suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
+#| title: Environmental suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On medium/mesic sites Pl is moderately to highly suitable across much of the province. Suitability is high (E1) in the Central Interior, Sub-boreal interior, Boreal Plains, and southern Rocky Mountain Trench. Suitability is moderate (E2) in the Taiga Plains and Northern Boreal, on the Fraser Plateau and outer Central to North Coast. Pl suitability is low (E3) on a smaller proportional area, including the west coast of Vancouver Island and Haida Gwaii, Georgia Basin, and lower slopes of the southern Columbia Mountains.
+#| fig-cap: On medium/mesic sites Pl is moderately to highly suitable across much of the province. Suitability is high (E1) in the Central Interior, Sub-boreal Interior, Boreal Plains, and southern Rocky Mountain Trench (SBS, MS, SBPS) . Suitability is moderate (E2) in the Taiga Plains (BWBSmk) and Northern Boreal (SWB), on the Fraser Plateau (IDFdk3) and outer coast (CWH hypermaritime). Pl suitability is low (E3) on a smaller proportional area, including the CWH maritime (and CWHvh3 on Haida Gwaii), and mid slopes of the southern Columbia Mountains (ESSF).
 
 fig("Historic_Suit_Map.Pl.C4.png")
 ```
@@ -82,12 +82,12 @@ fig("Historic_Suit_Map.Pl.C4.png")
 #### Poor/subxeric (B2)
 
 ```{r}
-#| title: Environmental Suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| title: Environmental suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On poor/subxeric sites Pl is moderately suitable (E2) across much of the province, including the Taiga Plains, Boreal Plains, Sub-Boreal Interior western Columbia Mountains and the outer coast. Pl suitability is high (E1) in the Sub-Boreal Spruce subzones surrounding Prince George, valley bottom of the northern Rocky Mountain Trench, and the mid-upper slopes of the Southern Interior. 
+#| fig-cap: On poor/subxeric sites Pl is moderately suitable (E2) across much of the province, including the Taiga and Boreal Plains (BWBS), Sub-Boreal Interior (SBS), Central Interior (SBS, SBPS), western Columbia Mountains (ICH, ESSF), and the outer coast (hypermaritime CWH). Pl suitability is high (E1) in the Sub-Boreal Spruce (SBS) subzones surrounding Prince George, valley bottom of the northern Rocky Mountain Trench (moist ICH), and the mid-upper slopes of the Southern Interior (dry and very dry MS and ESSF). 
 
 fig("Historic_Suit_Map.Pl.B2.png") 
 
@@ -96,12 +96,12 @@ fig("Historic_Suit_Map.Pl.B2.png")
 #### Rich/hygric (D6)
 
 ```{r}
-#| title: Environmental Suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| title: Environmental suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
 #| fig-asp: 1
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-##| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the interior and northwest of BC. Pl is more suitable on poorer wet sites (e.g. bogs) across its range. (and wetter sites????)
+#| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the interior and northwest of BC. Note that Pl is suitable on wetter and poorer sites (e.g. bogs) across its range.
 
 fig("Historic_Suit_Map.Pl.D6.png")
 ```
@@ -114,9 +114,9 @@ The pie chart to the right depicts the distribution of the total environmentally
 
 Pl occupies the greatest area in the Boreal White and Black Spruce (BWBS) zone in the northeastern corner of BC and in the Sub-Boreal Spruce (SBS) zone in the Central Interior. In the BWBS zone mixed stands of Pl and black spruce are common in upland forests, and on drier sites open Pl -- lichen forests are common. In the SBS zone younger forests are dominated by Pl, alongside trembling aspen and paper birch.
 
-Pl is the dominant species of both the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rainshadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl. 
+Pl is the dominant species of the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rain shadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl. 
 
-In the Engelmann Spruce -- Subalpine Fir (ESSF) zone Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+In the Engelmann Spruce -- Subalpine Fir (ESSF) zone Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock (CWH) zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@meidinger_ecosystems_1991; @centre_for_forest_conservation_genetics_cataloguing_nodate].
 
 
 ### Pie chart
@@ -157,10 +157,8 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-Lodgepole pine is overall projected to persist within about 40-80% of its historically suitable range, and its suitable range is projected to shrink substantially…
-
-
-
+Lodgepole pine (Pl) is projected to persist within about 60--80% of its historically suitable range, and is projected expand its suitable range into an additional area amounting to 10--25% of its historical total range. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Pl. When combined with the loss of suitable area, the overall total suitable area decreases over time (e.g. in the figure to the right the blue dots depicting persistence/expansion of Pl are below the grey dotted line signifying the maintenance of the same total suitable area). This loss of Pl suitability is driven by physiological drought under the warmer climate conditions projected for future time periods.
+<br>
 
 *Notes on interpretation of persistence and expansion*
 
@@ -231,9 +229,14 @@ fig("Pl_D6_bub.png")
 ### L col {width="35%"}
 
 ::: card
-Overall, the total suitable area in BC for Pl is projected to decrease with climate change, with large areas of its historic range projected to become unsuitable.
+*(still editing this text)*
+The CCISS model predicts that climate change will lead to a decline in suitability of Pl across most of its historical range, with large areas projected to become unsuitable. 
 
-...More summary...
+Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone. But common across most of its range (declines in the southern interior, outer coast, kootenays and northeast) and all site types. Except for where it occurs in the Northern Boreal Mountains, where suitability is increasing. 
+
+The climate is projected to become no longer suitable for Pl in much of the northeast in the Boreal White and Black Spruce (BWBS) zone, specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. Suitability is lost from dry Interior Douglas-fir (IDF) subzones in  valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, suitability is lost from the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (IDFxh2) which does not support Pl (on C4 and D6 sites). Suitability is lost from smaller area on Vancouver Island, the South Coast and rain shadow of the Coast Mountains. These declines are driven by physiological drought under warming climate conditions. 
+
+At the same time, as climate warms, an increase in Pl suitability is projected for higher elevations on the coast, Columbia Mountains, and further north in the central northern portion of the province. Most notable is the increasing suitability and expansion of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevation on the coast (in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones).
 
 These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
 :::
@@ -487,6 +490,7 @@ fig("Pl_D6_alluv.png")
 ### Col - description {width="30%"}
 
 In general, lodgepole pine's total suitable area is projected to shrink across BC over the century, with ....
+
 
 # Forest health
 

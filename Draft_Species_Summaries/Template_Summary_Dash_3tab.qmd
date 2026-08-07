@@ -1,5 +1,5 @@
 ---
-title: "XXXX (XX)"  ##Find and replace all XXXX - Full name or XX - sp code
+title: "XXXX (XX)"  ##Find and replace all XXXX = Full name or XX = sp code
 format: 
   dashboard:
     logo: images/BCID_H_RGB_rev.png
@@ -50,7 +50,7 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species environmental suitability during the reference period (1961--1990)**
 
-In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
 \*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
 
