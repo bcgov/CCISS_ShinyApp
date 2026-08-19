@@ -1,5 +1,5 @@
 ---
-title: "XXXX (XX)"  ##Find and replace all XXXX - Full name or XX - sp code
+title: "XXXX (XX)"  ##Find and replace all XXXX = Full name or XX = sp code
 format: 
   dashboard:
     logo: images/BCID_H_RGB_rev.png
@@ -50,9 +50,9 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species environmental suitability during the reference period (1961--1990)**
 
-In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
-\*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime and soil moisture  regime at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
 
 ## Reference period plots
 
@@ -153,7 +153,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 *Notes on interpretation of persistence and expansion*
 
-Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
 
 $$\text{Persistence (\%)} =
 \frac{\text{future suitable area within historical range of suitability}}
@@ -175,7 +175,7 @@ $$\text{Expansion (\%)} =
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 fig("XX_C4_bub.png") 
 ```
 :::
@@ -186,7 +186,7 @@ fig("XX_C4_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("XX_B2_bub.png") 
 ```
@@ -198,7 +198,7 @@ fig("XX_B2_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of XX in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("XX_D6_bub.png") 
 ```
@@ -216,7 +216,6 @@ fig("XX_D6_bub.png")
 ::: card
 ...summary text...
 
-These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
 :::
 
 ### R col {width="65%"}
@@ -418,7 +417,7 @@ fig("Two_panel.XX.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in XX's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -436,7 +435,7 @@ fig("XX_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in XX's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -453,7 +452,7 @@ fig("XX_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in XX's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px

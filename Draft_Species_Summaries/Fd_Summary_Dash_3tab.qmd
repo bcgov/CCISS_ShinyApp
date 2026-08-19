@@ -60,7 +60,7 @@ Fd is commonly a pioneer species that regenerates after forest fires, logging or
 
 In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961-90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
-\*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime (SNR) and soil moisture  regime (SMR) at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
 
 ## Reference period plots
 
@@ -161,7 +161,7 @@ Douglas-fir (Fd) is projected to persist within 70--90% of its historically suit
 
 *Notes on interpretation of persistence and expansion*
 
-Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
 
 $$\text{Persistence (\%)} =
 \frac{\text{future suitable area within historical range of suitability}}
@@ -183,7 +183,7 @@ $$\text{Expansion (\%)} =
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 fig("Fd_C4_bub.png") 
 ```
 :::
@@ -194,7 +194,7 @@ fig("Fd_C4_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Fd_B2_bub.png") 
 ```
@@ -206,7 +206,7 @@ fig("Fd_B2_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Fd in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Fd_D6_bub.png") 
 ```
@@ -224,13 +224,12 @@ fig("Fd_D6_bub.png")
 ::: card
 Overall, the CCISS model predicts warmer temperatures will facilitate increased suitability of Fd across the province. The total area suitable for Fd is projected to increase with climate change, however large areas of the hottest/driest portions of its historical range are projected to become unsuitable.
 
-The suitable range of Fd is projected to expand (yellow shades on the maps) at higher elevation and further north, especially on mesic (C4) and drier (B2) site types. Major increases in suitability occur east of the coast transition, in the Central Interior, Sub-boreal Interior, in the Boreal Plains, and on Haida Gwaii. Increasing Fd suitability throughout much of the interior is driven by a shift to Interior Douglas-fir (IDF) and Interior Cedar Hemlock (ICH) climate conditions. However, cold air and frost is likely still a hazard.
+The suitable range of Fd is projected to expand (yellow shades on map (b)) into previously unsuitable areas at higher elevations and more northern latitudes, especially on mesic (C4) and drier (B2) site types. This is most likelt to occur east of the coast transition, in the Central Interior, Sub-boreal Interior, in the Boreal Plains, and on Haida Gwaii. Increasing or expanding Fd suitability (blue or yellow shades on map (b))throughout much of the interior is driven by a shift to Interior Douglas-fir (IDF) and Interior Cedar Hemlock (ICH)-like climate conditions. However, cold air and frost is likely still a hazard for Fd in these areas.
 
-The CCISS model predicts a loss of Fd suitability at low elevation in the Okanagan Valley, Central Interior, Rocky Mountain Trench, and Chilcotin River Valley. These declines in suitability are driven by warmer temperatures creating drought conditions in these low elevation valley bottoms. The climate is shifting to that characterizing Bunchgrass (BG) units and will not support Fd.
+The CCISS model predicts a loss or decline of Fd suitability (black or red shades on map (b)) at low elevations in the Okanagan Valley, Central Interior, Rocky Mountain Trench, and Chilcotin River Valley on C4 and D6 site types, driven by warmer temperatures creating drought conditions in these low elevation valley bottoms. The climate in these areas is predicted to become more characteristic of Bunchgrass (BG) ecosystems and therefore will not support Fd.
 
-There is lower confidence in the loss of Fd suitability on rich/hygric (D6) sites around Prince George and in the Central Interior. This is possibly an artefact of the BGC climate futures that are projected. Climate models predict warmer, wetter conditions. We would expect Fd to remain suitable on wet sites under warmer-wetter conditions. See the CCISS Tool Documentation for more information on how [BGC projections](https://bcgov-ffec.ca/cciss-docs/Methods.html) work and the [sources of error](https://bcgov-ffec.ca/cciss-docs/Issues.html).
+See the CCISS Tool Documentation for more information on how [BGC projections](https://bcgov-ffec.ca/cciss-docs/Methods.html) work and the [sources of error](https://bcgov-ffec.ca/cciss-docs/Issues.html).
 
-These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
 :::
 
 ### R col {width="65%"}
@@ -432,7 +431,7 @@ fig("Two_panel.Fd.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Fd's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -450,7 +449,7 @@ fig("Fd_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Fd's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -467,7 +466,7 @@ fig("Fd_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Fd's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -497,20 +496,20 @@ Note that the D6 edatope (rich/hygric) makes up a small area proportionally to t
 
 **Biotic factors**
 
-Douglas-fir beetle (*Dendroctonus pseudotsugae*) is one of the primary killers of mature Douglas-fir (Fd) in BC and usually attacks weakened or dying trees. Occasionally the beetle populations increase to the extent that it infests and kills large numbers of healthy trees [@noauthor_douglas-fir_2025]. It is most common in BC's interior and less common in coastal forests where it rarely causes the large-scale damage seen in the interior. Trees are killed when the flow of food and water between the roots and needles is blocked by feeding larvae and by dead sapwood cells killed by the blue-stain fungus carried by the Douglas-fir beetle adults [@burleigh_field_2014].
+Douglas-fir beetle (*Dendroctonus pseudotsugae*) is one of the primary killers of mature Douglas-fir (Fd) in BC and usually attacks weakened or dying trees. Occasionally the beetle populations increase to the extent that they infest and kill large numbers of healthy trees [@noauthor_douglas-fir_2025]. The beetle is most common in BC's interior and less common in coastal forests where it rarely causes the large-scale damage seen in the interior. Trees are killed when the flow of food and water between the roots and needles is blocked by feeding larvae and by dead sapwood cells killed by the blue-stain fungus carried by the Douglas-fir beetle adults [@burleigh_field_2014].
 
 Fd is also attacked by western spruce budworm (*Choristoneura occidentalis*), a native defoliator found southern BC in the coast, montane and Columbia forest types. Population levels periodically reach outbreaks which can last up to 25 years [@noauthor_western_2025]. When trees are stressed they are more likely to die. Repeated budworm defoliation causes tree mortality over large areas. Sustained attack results in complete defoliation in four to five years. Once an infestation has subsided, surviving trees take several years to regain full foliage and resume growth. Successive years of defoliation in stands may predispose trees to other insects and pathogens such as bark beetles and root disease.
 
-Douglas-fir tussock moth (*Orgyia pseudotsugata*) another is a defoliator of concern, found at low elevations in the warm dry areas of the Southern Interior and occasionally on the south coast. Defoliated trees may die after one or more years of severe defoliation. Douglas-fir tussock moth outbreaks can cause extensive mortality of interior Fd [@noauthor_douglas-fir_2025-1]. 
+Douglas-fir tussock moth (*Orgyia pseudotsugata*) is another defoliator of concern, found at low elevations in the warm dry areas of the Southern Interior and occasionally on the south coast. Defoliated trees may die after one or more years of severe defoliation. Douglas-fir tussock moth outbreaks can cause extensive mortality of interior Fd [@noauthor_douglas-fir_2025-1]. 
 
-In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopus gaeumannii*) is a fungus that causes a major foliar disease [@noauthor_swiss_2025]. Swiss needle cast has emerged as a serious concern in recent decades, with increased incidence due to warmer winters and increased spring moisture. It often affects young stands of Fd leading to premature foliar drop, loss of growth and occasionally mortality. 
+In coastal populations, Fd is affected by Swiss needle cast (*Nothophaeocryptopus gaeumannii*), a fungus that causes a major foliar disease [@noauthor_swiss_2025]. Swiss needle cast has emerged as a serious concern in recent decades, with increased incidence due to warmer winters and wetter springs. It often affects young stands of Fd leading to premature foliar drop, loss of growth and occasionally mortality. 
 
 Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], laminated root rot [*Coniferiporia sulphurascens*], and Armillaria root disease [*Armillaria ostoyae*]) are a major and increasing concern for Fd.
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
-## Climate change/drought
+## Climate change and drought
 
 **Climate change and drought**
 
@@ -520,7 +519,7 @@ These trends are driven by specific the physiological vulnerabilities of Fd. Fd 
 
 Numerous dendrochronological studies have demonstrated that reduced Fd growth is linked to increased temperature and vapour pressure deficit [@restaino_increased_2016; @gazol_douglas_2022; @leuschner_drought_2024]. During severe droughts, annual radial growth can be reduced by 30 %, or more and consecutive droughts increase the negative impact on growth [@sergent_coastal_2014; @montwe_five_2015; @charlet_de_sauvage_species_2023]. The hot droughts of 2015 and 2021 in the Pacific Northwest have led to growth decline, crown damage, and mortality of Fd in low-elevation regions, often linked to fungal and insect infestations [@leuschner_drought_2024].
 
-In southern and lowland areas Fd growth is expected to slow and pathogen/insect attack and mortality will increase [@leuschner_drought_2024]. On the coast, warming winters may increase susceptibility to fungal attack (notably Swiss needle cast), causing defoliation, growth decline and mortality. Conversely, climate warming will likely promote Fd growth in the cooler and wetter areas of its range. 
+In southern and lowland areas, Fd growth is expected to slow and pathogen/insect attack and mortality will increase [@leuschner_drought_2024]. On the coast, warming winters may increase susceptibility to fungal attack (notably Swiss needle cast), causing defoliation, growth decline and mortality. Conversely, climate warming will likely promote Fd growth in the cooler and wetter areas of its range. 
 
 
 # References
