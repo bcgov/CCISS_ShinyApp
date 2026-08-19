@@ -52,7 +52,7 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
-\*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime and soil moisture  regime at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
 
 ## Reference period plots
 
@@ -153,7 +153,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 *Notes on interpretation of persistence and expansion*
 
-Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
 
 $$\text{Persistence (\%)} =
 \frac{\text{future suitable area within historical range of suitability}}
@@ -216,7 +216,6 @@ fig("XX_D6_bub.png")
 ::: card
 ...summary text...
 
-These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
 :::
 
 ### R col {width="65%"}
