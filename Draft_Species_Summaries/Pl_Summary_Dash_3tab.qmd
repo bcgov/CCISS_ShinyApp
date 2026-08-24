@@ -46,13 +46,13 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-In British Columbia lodgepole pine (Pl) is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as "shore pine" (Plc), and *P. contorta* var. *latifolia* which occurs throughout the interior of BC and is known as "interior lodgepole pine" (Pli) or simply "lodgepole pine". The figures and summaries on this dashboard address both Plc and Pli combined. 
+In British Columbia lodgepole pine (Pl) is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as "shore pine" (Plc), and *P. contorta* var. *latifolia* which occurs throughout the interior of BC and is known as "interior lodgepole pine" (Pli) or simply "lodgepole pine". The figures and summaries on this dashboard address both Plc and Pli combined.
 
 Plc occurs throughout the coast in the lowland, montane and subalpine zones, found on poorer sites, including rock outcrops, rocky soils, shorelines, coastal sand dunes and wet to dry bogs [@klinkenberg_pinus_2020]. Pli is found in the interior of BC, from dry submontane forests to the subalpine region, but is most common in montane forests [@klinka_distribution_2000].
 
 Pl grows under a wide variety of climate conditions across a large geographic range (the full habitat range of Pl spans from the Yukon in the north to Baja California, Mexico in the south), both the temperature and moisture regime varies greatly [@lotan_lodgepole_1990]. In BC, Pl is most common in the montane boreal climate and also occurs from cool mesothermal to continental subalpine boreal climates [@klinka_distribution_2000]. The temperature range of Pl spans the ocean moderated temperate climates of the coast, to the extreme cold winters of the Northern Rocky Mountains, to hot dry summers of the Southern Interior. Pl also occurs across a wide range of precipitation regimes, from the wet North Coast of BC to the dry interior where the majority of the soil water is supplied by snowfall [@lotan_lodgepole_1990].
 
-Pl has a very wide ecological amplitude and tolerance, occurring on very dry to slightly dry, as well as wet soil moisture regimes, and on very poor to medium soil nutrient regimes [@klinka_distribution_2000]. It is highly tolerant of nutrient deficiencies and tolerates wet depressions, high water tables, and acidic bogs. Pl also occurs on a wide range of soils. 
+Pl has a very wide ecological amplitude and tolerance, occurring on very dry to slightly dry, as well as wet soil moisture regimes, and on very poor to medium soil nutrient regimes [@klinka_distribution_2000]. It is highly tolerant of nutrient deficiencies and tolerates wet depressions, high water tables, and acidic bogs. Pl also occurs on a wide range of soils.
 
 In BC, Pl grows predominantly in even-aged, post-fire forests, in single-species or, less commonly in mixed-species stands. It is a pioneer species on rock outcrops and bogs, and is present in early through late stages of secondary succession on water deficient and waterlogged sites [@klinka_distribution_2000]. Pl is intolerant of shade and generally grows best in full sunlight [@lotan_lodgepole_1990].
 
@@ -60,7 +60,7 @@ In BC, Pl grows predominantly in even-aged, post-fire forests, in single-species
 
 In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
-\*Note on terminology: The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period.
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime (SNR) and soil moisture  regime (SMR) at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
 
 ## Reference period plots
 
@@ -114,10 +114,9 @@ The pie chart to the right depicts the distribution of the total environmentally
 
 Pl occupies the greatest area in the Boreal White and Black Spruce (BWBS) zone in the northeastern corner of BC and in the Sub-Boreal Spruce (SBS) zone in the Central Interior. In the BWBS zone mixed stands of Pl and black spruce are common in upland forests, and on drier sites open Pl -- lichen forests are common. In the SBS zone younger forests are dominated by Pl, alongside trembling aspen and paper birch.
 
-Pl is the dominant species of the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rain shadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl. 
+Pl is the dominant species of the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rain shadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl.
 
 In the Engelmann Spruce -- Subalpine Fir (ESSF) zone Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock (CWH) zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@meidinger_ecosystems_1991; @centre_for_forest_conservation_genetics_cataloguing_nodate].
-
 
 ### Pie chart
 
@@ -157,39 +156,33 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-Lodgepole pine (Pl) is projected to persist within about 60--80% of its historically suitable range, and is projected expand its suitable range into an additional area amounting to 10--25% of its historical total range. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Pl. When combined with the loss of suitable area, the overall total suitable area decreases over time (e.g. in the figure to the right the blue dots depicting persistence/expansion of Pl are below the grey dotted line signifying the maintenance of the same total suitable area). This loss of Pl suitability is driven by physiological drought under the warmer climate conditions projected for future time periods.
-<br>
+Lodgepole pine (Pl) is projected to persist within 60--80% of its historically suitable range, and is projected to expand its suitable range into an additional area amounting to 10--25% of its historical total range. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Pl. When combined with the loss of suitable area, the overall total suitable area decreases over time (in the figure to the right the blue dots depicting persistence/expansion of Pl are below the grey dotted line signifying the maintenance of the same total suitable area). This loss of Pl suitability is driven by physiological drought under the warmer climate conditions projected for future time periods. <br>
 
 *Notes on interpretation of persistence and expansion*
 
-Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. While Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
 
-$$
-\text{Persistence (\%)} =
+$$\text{Persistence (\%)} =
 \frac{\text{future suitable area within historical range of suitability}}
 {\text{historically suitable area}}
-\times 100
-$$
+\times 100$$
 
-$$
-\text{Expansion (\%)} =
+$$\text{Expansion (\%)} =
 \frac{\text{future suitable area outside historical range of suitability}}
 {\text{historically suitable area}}
-\times 100
-$$
+\times 100$$
 :::
-
 
 ### R Column - Bubble plot {width="60%"}
 
-::: panel-tabset
+:::::: panel-tabset
 #### Mesic/zonal (C4)
 
 ::: card
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_C4_bub.png") 
 ```
@@ -201,7 +194,7 @@ fig("Pl_C4_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_B2_bub.png") 
 ```
@@ -213,12 +206,12 @@ fig("Pl_B2_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change over time, with black points representing an average for each time period (first and last time periods are labeled). The model results for the 2041--2060 period are depicted in blue due to the relevance of this time period for management planning. The small blue points represent simulation runs of the various global climate models (GCMs) used in the CCISS projections and the large blue point with species abbreviation is the mean [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses representing the 1-standard deviation probability of the ensemble calculated for each point. The grey dashed line divides areas of the plot for which total suitable area is either growing (above the line) or shrinking (below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_D6_bub.png") 
 ```
 :::
-:::
+::::::
 
 ## Row - broad trends {.spacer-row}
 
@@ -229,16 +222,18 @@ fig("Pl_D6_bub.png")
 ### L col {width="35%"}
 
 ::: card
-*(still editing this text)*
-The CCISS model predicts that climate change will lead to a decline in suitability of Pl across most of its historical range, with large areas projected to become unsuitable. 
+The CCISS model predicts that climate change will lead to a decline in Pl suitability across most of its historical range (red shades on the map), with large areas projected to become unsuitable (black on the map). These declines are driven by physiological drought under warming climate conditions.
 
-Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone. But common across most of its range (declines in the southern interior, outer coast, kootenays and northeast) and all site types. Except for where it occurs in the Northern Boreal Mountains, where suitability is increasing. 
+The climate is projected to become less suitable or unsuitable for Pl in much of the northeast in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. 
 
-The climate is projected to become no longer suitable for Pl in much of the northeast in the Boreal White and Black Spruce (BWBS) zone, specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. Suitability is lost from dry Interior Douglas-fir (IDF) subzones in  valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, suitability is lost from the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (IDFxh2) which does not support Pl (on C4 and D6 sites). Suitability is lost from smaller area on Vancouver Island, the South Coast and rain shadow of the Coast Mountains. These declines are driven by physiological drought under warming climate conditions. 
+Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone on C4 and D6 edatopes. This is driven by a shift to IDF- and ICH-like climates where Pl has a lower suitability (for examples in the SBSdw2 and SBSdw3 suitability declines from E1 to E2 on C4 sites).
 
-At the same time, as climate warms, an increase in Pl suitability is projected for higher elevations on the coast, Columbia Mountains, and further north in the central northern portion of the province. Most notable is the increasing suitability and expansion of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevation on the coast (in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones).
+Pl suitability is predicted to decline or be lost from dry Interior Douglas-fir (IDF) subzones in valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, the climate is projected to become unsuitable in the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (IDFxh2) which does not support Pl (on C4 and D6 sites). 
 
-These patterns are shown in 20-year intervals and by edatopic space in the figures to the right.
+Suitability is projected to decline and be lost in smaller areas on Vancouver Island, the South Coast and the rain shadow of the Coast Mountains. 
+
+At the same time, as climate warms, an increase in Pl suitability (blue shades on the map) is projected for higher elevations on the coast, Columbia Mountains, and further north in the central northern portion of the province (on C4 and B2 site types). Most notable is the increasing suitability and expansion (blue and yellow shades on the map) of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevation on the coast, in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones.
+
 :::
 
 ### R col {width="65%"}
@@ -440,7 +435,7 @@ fig("Two_panel.Pl.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -458,7 +453,7 @@ fig("Pl_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -475,7 +470,7 @@ fig("Pl_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl's suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first time period shown on the left of each graph is the historical reference period (1961--1990), where environmental suitability is determined by expert ratings. Subsequent time periods are based on CCISS model projections incorporating environmental suitability (from the reference period) and future climate data. For future projected time periods, the relative areas of BGC zones remain static within the province (i.e., they are not shrinking or growing). Rather, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across these static zones.
+#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -489,8 +484,17 @@ fig("Pl_D6_alluv.png")
 
 ### Col - description {width="30%"}
 
-In general, lodgepole pine's total suitable area is projected to shrink across BC over the century, with ....
+Pl's total suitable area is projected to shrink across BC over the 21st century, with the greatest decrease in suitable area in the BWBS and lesser decreases in the IDF, CWH and ICH zones. There is a slight increase in suitable area in the SWB, and Pl becomes suitable in the MH and BAFA zones. 
 
+In the northeastern corner of the province Pl is projected to becomes unsuitable in much of the moist Boreal White and Black Spruce (BWBS) subzones on all site types, i.e. BWBSmw and BWBSmk. The future climate is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. 
+
+There are lesser declines in suitable area of the Interior Douglas-fir (IDF) and Interior Cedar--Hemlock (ICH) zones on C4 site types. The warmest driest portions of these units are projected to become too hot and dry for Pl, shifting to climates similar to those of the very dry IDF and ICH. For example, the IDFdm1 is projected to become unsuitable to Pl during the second half of the 21st century, shifting to climates of very dry IDF and ICH BGC units from BC, Oregon and Washington.
+
+Additionally, there is a decline in suitable area in the Coastal Western Hemlock (CWH) and Coastal Douglas-fir (CDF) zones on C4 and B2 sites. Climate is projected to become unsuitable for Pl in portions of the CWH, for example CWHvh1 and CWHvm3, where the climate is predicted to shift to that of dry or very dry CWH subzones and novel climate (i.e. unlike any of the mapped BGC subzone/variants - see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). Climate of the CDF is projected to shift to climates characterizing very dry CWH, Coastal Redwood Forest (CRF), and a novel climate. There are no species suitability ratings associated with novel climates, therefore this portion of the future CCISS projections are associated with "not suitable". It is unknown whether Pl will remain suitable. 
+
+There is a slight increase in area in the Spruce--Willow--Birch (SWB). Pl also becomes suitable in the Mountain Hemlock (MH) and Boreal Altai Fesuce Alpine (BAFA) zones. Pl is suitable in the areas below the MH (i.e. in the CWH) and the BAFA (i.e. in the SWB and ESSF). As climate warms, the lower portions of the MH and BAFA become suitable for Pl. 
+
+*(these are patterns are for C4 and B2 patterns -- come back to D6 after new maps)*
 
 # Forest health
 
@@ -498,16 +502,23 @@ In general, lodgepole pine's total suitable area is projected to shrink across B
 
 **Biotic factors**
 
-...text...
+Mountain pine beetle (*Dendroctonus ponderosae*), a native insect in pine ecosystems of western North America, is the most severe biotic factor impacting lodgepole pine (Pl). Epidemics of mountain pine beetle occur periodically, impacting the growth and survival of Pl. In the late 1990s, following several relatively warm winters, a massive outbreak resulted in the loss of millions of hectares of pine forest in British Columbia over the next 15 years [@noauthor_mountain_2026]. The mountain pine beetle can attack and kill mature trees by boring through the bark and mining the phloem. The eggs hatch into larvae that consume the phloem. Together with blue stain fungus (*Grosmannia clavigera*) carried by the beetles, which prevents the tree's defenses, can kill Pl trees. The beetles are killed by very cold winter weather, which has historically kept their numbers in check. As winter climate warms, more beetles survive the winter, which can exacerbate a mountain pine beetle epidemic [@noauthor_mountain_2012]. 
 
-For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
-To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
+After mountain pine beetle, the biotic factor with the second largest impact on Pl is lodgepole pine dwarf mistletoe (*Arceuthobium americanum*), an obligate parasitic plant [@brandt_lodgepole_2024]. Lodgepole pine dwarf mistletoe seeds landing on a susceptible host germinate and infect the tree by growing a root-like structure that penetrates young bark [@noauthor_lodgepole_2026]. Lodgepole pine dwarf mistletoe causes widespread damage throughout interior Pl stands. It's northern distribution is limited by extremely cold winter temperature (about -40°C), which kills overwintering seeds [@noauthor_lodgepole_2026].
+
+Other pests of note include the the pine engraver (*Ips pini*), which primarily attacks trees of smaller diameter (12-20cm). The northern lodgepole pine needle miner (*Coleotechnites milleri*), a defoliator which causes damage to foliage of crown, can cause stress to the tree and predispose the tree to secondary bark beetle attacks. The lodgepole pine terminal weevil (*Pissodes terminalis*), which damages and often kills the tree leader by laying eggs in the newly expanding terminal shoot. The weevil attacks immature Pl throughout British Columbia, typically targeting young regenerating stands containing trees less than 10 meters in height [@noauthor_lodgepole_2025].
+
+Damaging fungi of Pl include atropellis canker (*Atropellis piniphila*), comandra blister rust (*Cronartium comandrae*), and western gall rust (*Cronartium harknessii*) [@noauthor_lodgepole_2025-1].
+
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br> To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
 ## Climate change
 
 **Climate change**
 
-...text...
+Key climate pressures include insect infestations, drought and heat stress, shifting species composition/competition, and altered fire regimes. 
+
 
 
 # References
