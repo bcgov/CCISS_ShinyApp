@@ -253,7 +253,7 @@ At the same time, as climate warms, an increase in Pl suitability (blue shades o
 #| out-width: 65%
 
 
-fig("Two_panel.Pl.C4.2001_2020.png")
+fig("One_panel.Pl.C4.2001_2020.png")
 ```
 
 ##### 2021–2040
@@ -264,7 +264,7 @@ fig("Two_panel.Pl.C4.2001_2020.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.C4.2021_2040.png")
+fig("One_panel.Pl.C4.2021_2040.png")
 ```
 
 ##### 2041–2060
@@ -275,7 +275,7 @@ fig("Two_panel.Pl.C4.2021_2040.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.C4.2041_2060.png")
+fig("One_panel.Pl.C4.2041_2060.png")
 ```
 
 ##### 2061–2080
@@ -286,7 +286,7 @@ fig("Two_panel.Pl.C4.2041_2060.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.C4.2061_2080.png")
+fig("One_panel.Pl.C4.2061_2080.png")
 ```
 
 ##### 2081–2100
@@ -297,7 +297,7 @@ fig("Two_panel.Pl.C4.2061_2080.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.C4.2081_2100.png")
+fig("One_panel.Pl.C4.2081_2100.png")
 ```
 :::
 
@@ -312,7 +312,7 @@ fig("Two_panel.Pl.C4.2081_2100.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.B2.2001_2020.png")
+fig("One_panel.Pl.B2.2001_2020.png")
 ```
 
 ##### 2021–2040
@@ -323,7 +323,7 @@ fig("Two_panel.Pl.B2.2001_2020.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.B2.2021_2040.png")
+fig("One_panel.Pl.B2.2021_2040.png")
 ```
 
 ##### 2041–2060
@@ -334,7 +334,7 @@ fig("Two_panel.Pl.B2.2021_2040.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.B2.2041_2060.png")
+fig("One_panel.Pl.B2.2041_2060.png")
 ```
 
 ##### 2061–2080
@@ -345,7 +345,7 @@ fig("Two_panel.Pl.B2.2041_2060.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.B2.2061_2080.png")
+fig("One_panel.Pl.B2.2061_2080.png")
 ```
 
 ##### 2081–2100
@@ -356,7 +356,7 @@ fig("Two_panel.Pl.B2.2061_2080.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.B2.2081_2100.png")
+fig("One_panel.Pl.B2.2081_2100.png")
 ```
 :::
 
@@ -371,7 +371,7 @@ fig("Two_panel.Pl.B2.2081_2100.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.D6.2001_2020.png")
+fig("One_panel.Pl.D6.2001_2020.png")
 ```
 
 ##### 2021–2040
@@ -382,7 +382,7 @@ fig("Two_panel.Pl.D6.2001_2020.png")
 #| fill: false 
 #| out-width: 65%
 
-fig("Two_panel.Pl.D6.2021_2040.png")
+fig("One_panel.Pl.D6.2021_2040.png")
 ```
 
 ##### 2041–2060
@@ -393,7 +393,7 @@ fig("Two_panel.Pl.D6.2021_2040.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.D6.2041_2060.png")
+fig("One_panel.Pl.D6.2041_2060.png")
 ```
 
 ##### 2061–2080
@@ -404,7 +404,7 @@ fig("Two_panel.Pl.D6.2041_2060.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.D6.2061_2080.png")
+fig("One_panel.Pl.D6.2061_2080.png")
 ```
 
 ##### 2081–2100
@@ -415,7 +415,7 @@ fig("Two_panel.Pl.D6.2061_2080.png")
 #| fill: false
 #| out-width: 65%
 
-fig("Two_panel.Pl.D6.2081_2100.png")
+fig("One_panel.Pl.D6.2081_2100.png")
 ```
 :::
 ::::::
