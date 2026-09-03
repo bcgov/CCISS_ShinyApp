@@ -58,7 +58,7 @@ In BC, Pl grows predominantly in even-aged, post-fire forests, in single-species
 
 **Species environmental suitability during the reference period (1961--1990)**
 
-In the maps below, each color represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
 \*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime (SNR) and soil moisture  regime (SMR) at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
 
@@ -87,7 +87,7 @@ fig("Historic_Suit_Map.Pl.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On poor/subxeric sites Pl is moderately suitable (E2) across much of the province, including the Taiga and Boreal Plains (BWBS), Sub-Boreal Interior (SBS), Central Interior (SBS, SBPS), western Columbia Mountains (ICH, ESSF), and the outer coast (hypermaritime CWH). Pl suitability is high (E1) in the Sub-Boreal Spruce (SBS) subzones surrounding Prince George, valley bottom of the northern Rocky Mountain Trench (moist ICH), and the mid-upper slopes of the Southern Interior (dry and very dry MS and ESSF). 
+#| fig-cap: On poor/subxeric sites Pl is moderately suitable (E2) across much of the province, including the Taiga and Boreal Plains (BWBS), Sub-Boreal Interior (SBS), Central Interior (SBS, SBPS), and the western Columbia Mountains (ICH, ESSF). Pl suitability is high (E1) on the outer coast (hypermaritime CWH), in the Sub-Boreal Spruce (SBS) subzones surrounding Prince George, valley bottom of the northern Rocky Mountain Trench (moist ICH), and the mid-upper slopes of the Southern Interior (dry and very dry MS and ESSF). 
 
 fig("Historic_Suit_Map.Pl.B2.png") 
 
@@ -101,7 +101,7 @@ fig("Historic_Suit_Map.Pl.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the interior and northwest of BC. Note that Pl is suitable on wetter and poorer sites (e.g. bogs) across its range.
+#| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the interior and northwest of BC. Suitability is high (E1) on the mid slopes of the southern Okanage (MSxk1). Note that Pl is suitable on sites that are wetter and poorer than the D6 edatope (e.g. bogs) across its range. 
 
 fig("Historic_Suit_Map.Pl.D6.png")
 ```
@@ -151,6 +151,12 @@ On this page, you will find a visual and interpretive synthesis of the environme
 
 **Broad trends**
 
+<style>
+.card .math.display {
+  font-size: 0.8em;
+}
+</style>
+
 ## Row - Bubble plot {height="700px"}
 
 ### L Column - Plot description {width="40%"}
@@ -182,7 +188,7 @@ $$\text{Expansion (\%)} =
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_C4_bub.png") 
 ```
@@ -194,7 +200,7 @@ fig("Pl_C4_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_B2_bub.png") 
 ```
@@ -206,7 +212,7 @@ fig("Pl_B2_bub.png")
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961-1990 baseline (x-intercept), with black points showing the average for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, represented by blue points showing the average (large blue point with species abbreviation) and model simulation runs (small blue points) [@mahony_global_2022]. Other species are shown for reference as grey mean points and shaded ellipses plotting the 1-standard deviation error around the mean. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Pl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 
 fig("Pl_D6_bub.png") 
 ```
@@ -224,13 +230,13 @@ fig("Pl_D6_bub.png")
 ::: card
 The CCISS model predicts that climate change will lead to a decline in Pl suitability across most of its historical range (red shades on the map), with large areas projected to become unsuitable (black on the map). These declines are driven by physiological drought under warming climate conditions.
 
-The climate is projected to become less suitable or unsuitable for Pl in much of the northeast in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. 
-
-Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone on C4 and D6 edatopes. This is driven by a shift to IDF- and ICH-like climates where Pl has a lower suitability (for examples in the SBSdw2 and SBSdw3 suitability declines from E1 to E2 on C4 sites).
+Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone on C4 and D6 edatopes. This is driven by a shift to IDF- and ICH-like climates where Pl has a lower suitability (for example in the SBSdw2 and SBSdw3 suitability declines from E1 to E2 on C4 sites).
 
 Pl suitability is predicted to decline or be lost from dry Interior Douglas-fir (IDF) subzones in valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, the climate is projected to become unsuitable in the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (IDFxh2) which does not support Pl (on C4 and D6 sites). 
 
 Suitability is projected to decline and be lost in smaller areas on Vancouver Island, the South Coast and the rain shadow of the Coast Mountains. 
+
+The climate is projected to become less suitable or unsuitable for Pl in much of the northeast in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. Note that this is an area where there is a higher degree of novelty in future climate projections, i.e. the climate is dissimilar to that of mapped BGC subzone/variants (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
 
 At the same time, as climate warms, an increase in Pl suitability (blue shades on the map) is projected for higher elevations on the coast, Columbia Mountains, and further north in the central northern portion of the province (on C4 and B2 site types). Most notable is the increasing suitability and expansion (blue and yellow shades on the map) of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevation on the coast, in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones.
 
@@ -248,7 +254,7 @@ At the same time, as climate warms, an increase in Pl suitability (blue shades o
 
 ```{r}
 #| label: 2001-C4
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -260,7 +266,7 @@ fig("One_panel.Pl.C4.2001_2020.png")
 
 ```{r}
 #| label: 2021-C4
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
 #| fill: false
 #| out-width: 65%
 
@@ -271,7 +277,7 @@ fig("One_panel.Pl.C4.2021_2040.png")
 
 ```{r}
 #| label: 2041-C4
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
 #| fill: false
 #| out-width: 65%
 
@@ -282,7 +288,7 @@ fig("One_panel.Pl.C4.2041_2060.png")
 
 ```{r}
 #| label: 2061-C4
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles." 
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
 #| fill: false
 #| out-width: 65%
 
@@ -293,7 +299,7 @@ fig("One_panel.Pl.C4.2061_2080.png")
 
 ```{r}
 #| label: 2081-C4
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -308,7 +314,7 @@ fig("One_panel.Pl.C4.2081_2100.png")
 
 ```{r}
 #| label: 2001-B2
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -319,7 +325,7 @@ fig("One_panel.Pl.B2.2001_2020.png")
 
 ```{r}
 #| label: 2021-B2
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -330,7 +336,7 @@ fig("One_panel.Pl.B2.2021_2040.png")
 
 ```{r}
 #| label: 2041-B2
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -341,7 +347,7 @@ fig("One_panel.Pl.B2.2041_2060.png")
 
 ```{r}
 #| label: 2061-B2
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -352,7 +358,7 @@ fig("One_panel.Pl.B2.2061_2080.png")
 
 ```{r}
 #| label: 2081-B2
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -367,7 +373,7 @@ fig("One_panel.Pl.B2.2081_2100.png")
 
 ```{r}
 #| label: 2001-D6
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -378,7 +384,7 @@ fig("One_panel.Pl.D6.2001_2020.png")
 
 ```{r}
 #| label: 2021-D6
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false 
 #| out-width: 65%
 
@@ -389,7 +395,7 @@ fig("One_panel.Pl.D6.2021_2040.png")
 
 ```{r}
 #| label: 2041-D6
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -400,7 +406,7 @@ fig("One_panel.Pl.D6.2041_2060.png")
 
 ```{r}
 #| label: 2061-D6
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -411,7 +417,7 @@ fig("One_panel.Pl.D6.2061_2080.png")
 
 ```{r}
 #| label: 2081-D6
-#| fig-cap: "a) Historical environmental suitability rating during the reference period of 1961--1990 as determined by expert ratings. <br> b) Mean change in suitability from the reference period, with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability. <br> c) Mean changes in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles."
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
 #| fill: false
 #| out-width: 65%
 
@@ -435,7 +441,7 @@ fig("One_panel.Pl.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -453,7 +459,7 @@ fig("Pl_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -470,7 +476,7 @@ fig("Pl_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: This figure shows the projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -486,15 +492,15 @@ fig("Pl_D6_alluv.png")
 
 Pl's total suitable area is projected to shrink across BC over the 21st century, with the greatest decrease in suitable area in the BWBS and lesser decreases in the IDF, CWH and ICH zones. There is a slight increase in suitable area in the SWB, and Pl becomes suitable in the MH and BAFA zones. 
 
-In the northeastern corner of the province Pl is projected to becomes unsuitable in much of the moist Boreal White and Black Spruce (BWBS) subzones on all site types, i.e. BWBSmw and BWBSmk. The future climate is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. 
+In the northeastern corner of the province Pl is projected to becomes unsuitable in much of the moist Boreal White and Black Spruce (BWBS) subzones on all site types, i.e. BWBSmw and BWBSmk. The future climate is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. Note that there is a higher degree of climate novelty in this area of the province (i.e. the climate is unlike that of mapped BGC subzone/variants - see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
 
-There are lesser declines in suitable area of the Interior Douglas-fir (IDF) and Interior Cedar--Hemlock (ICH) zones on C4 site types. The warmest driest portions of these units are projected to become too hot and dry for Pl, shifting to climates similar to those of the very dry IDF and ICH. For example, the IDFdm1 is projected to become unsuitable to Pl during the second half of the 21st century, shifting to climates of very dry IDF and ICH BGC units from BC, Oregon and Washington.
+There are lesser declines in suitable area of the Interior Douglas-fir (IDF) and Interior Cedar--Hemlock (ICH) zones on all site types. The warmest driest portions of these units are projected to become too hot and dry for Pl, shifting to climates similar to those of the very dry IDF and ICH. For example, the IDFdm1 is projected to become unsuitable to Pl during the second half of the 21st century, shifting to climates of very dry IDF and ICH BGC units from BC, Oregon and Washington.
 
-Additionally, there is a decline in suitable area in the Coastal Western Hemlock (CWH) and Coastal Douglas-fir (CDF) zones on C4 and B2 sites. Climate is projected to become unsuitable for Pl in portions of the CWH, for example CWHvh1 and CWHvm3, where the climate is predicted to shift to that of dry or very dry CWH subzones and novel climate (i.e. unlike any of the mapped BGC subzone/variants - see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). Climate of the CDF is projected to shift to climates characterizing very dry CWH, Coastal Redwood Forest (CRF), and a novel climate. There are no species suitability ratings associated with novel climates, therefore this portion of the future CCISS projections are associated with "not suitable". It is unknown whether Pl will remain suitable. 
+Additionally, there is a decline in suitable area in the Coastal Western Hemlock (CWH) and Coastal Douglas-fir (CDF) zones on C4 and B2 sites. Climate is projected to become unsuitable for Pl in portions of the CWH, for example CWHvh1 and CWHvm3, where the climate is predicted to shift to that of dry or very dry CWH subzones and novel climate (i.e. unlike that of any mapped BGC subzone/variants). Climate of the CDF is projected to shift to climates characterizing very dry CWH, Coastal Redwood Forest (CRF), and a novel climate. Future species suitability in novel climates are unknown, use caution when interpreting these results.
 
 There is a slight increase in area in the Spruce--Willow--Birch (SWB). Pl also becomes suitable in the Mountain Hemlock (MH) and Boreal Altai Fesuce Alpine (BAFA) zones. Pl is suitable in the areas below the MH (i.e. in the CWH) and the BAFA (i.e. in the SWB and ESSF). As climate warms, the lower portions of the MH and BAFA become suitable for Pl. 
 
-*(these are patterns are for C4 and B2 patterns -- come back to D6 after new maps)*
+Note that there are no increases in suitability on rich/hygric (D6) sites. Pl suitability on D6 sites is projected to decline dramatically over the 21st century, across all BGC zones.
 
 # Forest health
 
@@ -502,7 +508,7 @@ There is a slight increase in area in the Spruce--Willow--Birch (SWB). Pl also b
 
 **Biotic factors**
 
-Mountain pine beetle (*Dendroctonus ponderosae*), a native insect in pine ecosystems of western North America, is the most severe biotic factor impacting lodgepole pine (Pl). Epidemics of mountain pine beetle occur periodically, impacting the growth and survival of Pl. In the late 1990s, following several relatively warm winters, a massive outbreak resulted in the loss of millions of hectares of pine forest in British Columbia over the next 15 years [@noauthor_mountain_2026]. The mountain pine beetle can attack and kill mature trees by boring through the bark and mining the phloem. The eggs hatch into larvae that consume the phloem. Together with blue stain fungus (*Grosmannia clavigera*) carried by the beetles, which prevents the tree's defenses, can kill Pl trees. The beetles are killed by very cold winter weather, which has historically kept their numbers in check. As winter climate warms, more beetles survive the winter, which can exacerbate a mountain pine beetle epidemic [@noauthor_mountain_2012]. 
+The most severe biotic factor impacting lodgepole pine (Pl) is mountain pine beetle (*Dendroctonus ponderosae*), a native insect in pine ecosystems of western North America. Epidemics of mountain pine beetle occur periodically, impacting the growth and survival of Pl. In the late 1990s, following several relatively warm winters, a massive outbreak resulted in the loss of millions of hectares of pine forest in British Columbia over the next 15 years [@noauthor_mountain_2026]. The mountain pine beetle can attack and kill mature trees by boring through the bark and mining the phloem, working together with blue stain fungus (*Grosmannia clavigera*) carried by the beetles, which prevents the tree's defenses. The eggs hatch into larvae that consume the phloem. The beetles are killed by very cold winter weather, which has historically kept their numbers in check. As winter climate warms, more beetles survive the winter, which can exacerbate a mountain pine beetle epidemic [@noauthor_mountain_2012]. 
 
 After mountain pine beetle, the biotic factor with the second largest impact on Pl is lodgepole pine dwarf mistletoe (*Arceuthobium americanum*), an obligate parasitic plant [@brandt_lodgepole_2024]. Lodgepole pine dwarf mistletoe seeds landing on a susceptible host germinate and infect the tree by growing a root-like structure that penetrates young bark [@noauthor_lodgepole_2026]. Lodgepole pine dwarf mistletoe causes widespread damage throughout interior Pl stands. It's northern distribution is limited by extremely cold winter temperature (about -40°C), which kills overwintering seeds [@noauthor_lodgepole_2026].
 
@@ -510,16 +516,19 @@ Other pests of note include the the pine engraver (*Ips pini*), which primarily 
 
 Damaging fungi of Pl include atropellis canker (*Atropellis piniphila*), comandra blister rust (*Cronartium comandrae*), and western gall rust (*Cronartium harknessii*) [@noauthor_lodgepole_2025-1].
 
-
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br> To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
 ## Climate change
 
 **Climate change**
 
-Key climate pressures include insect infestations, drought and heat stress, shifting species composition/competition, and altered fire regimes. 
+Key climate pressures on Pl include drought and heat stress, insect infestations, and altered fire regimes. Higher temperatures and drier summer conditions reduce radial growth of Pl, cause moisture stress during the growing season and increase juvenile seedling mortality [@coops_process-based_2011; @mclane_climate_2011]. This increased stress also makes Pl vulnerable to pests and diseases, such as Armillaria root rot during extended dry growing seasons [@dempster_impact_2017]. 
 
+At the same time, milder winter temperatures have allowed populations of mountain pine beetles to survive, multiply and attack larger areas of Pl forests [@sambaraju_mountain_2021]. Without extreme winter freezes to control their populations, these bark beetles rapidly multiply, killing vast swathes of mature pine stands. 
 
+The widespread Pl mortality associated with mountain pine beetle has likely altered fire regimes, with evidence demonstrating that large lightning caused fires are 1.7 times more likely within stands affected by mountain pine beetle outbreaks [@woo_influence_2024]. Climate change also acts as a primary driver of altered fire regimes, working in concert with land management and the legacy of mountain pine beetle [@parisien_abrupt_2023]. 
+
+Over time, these combined pressures are projected to drive a substantial contraction of the species' historical range, restricting its survival primarily to the highest-elevation subalpine refugia. 
 
 # References
 
