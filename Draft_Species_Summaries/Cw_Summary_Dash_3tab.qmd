@@ -75,7 +75,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: Environmental suitability for Cw is high (E1) in most of the medium/mesic edatopes within its range. Suitability drops to E2 or E3 in the drier BGC subzones (e.g., the CDFmm and CWHdm subzones along the Strait of Georgia and surrounding low-elevation areas of its drainage basin).
+#| fig-cap: Environmental suitability for Cw is high (E1) in most of the medium/mesic edatopes within its range. Suitability drops to E2 or E3 in the drier BGC subzones (e.g., the CDFmm and CWHdm subzones along the Strait of Georgia and surrounding low-elevation areas of its drainage basin), as well as at mid elevations of the Okanagan Highlands (MSdm1).  Remaining areas (in white) are unsuitable for Cw under historic climates on medium/mesic sites.
 
 fig("Historic_Suit_Map.Cw.C4.png")
 ```
@@ -88,7 +88,7 @@ fig("Historic_Suit_Map.Cw.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: In poor/subxeric edatopes, the environmental suitability for Cw tends to be moderate to low, and only high in BGC subzones that are relatively wet overall (e.g., the CWHvh2 site series along the central coast).
+#| fig-cap: In poor/subxeric edatopes, the environmental suitability for Cw tends to be moderate to low, and only high in BGC subzones that are relatively wet overall (e.g., the CWHvh2 site series along the central coast). Remaining areas (in white) are unsuitable for Cw under historic climates on poor/subxeric sites.
 
 fig("Historic_Suit_Map.Cw.B2.png") 
 
@@ -102,7 +102,8 @@ fig("Historic_Suit_Map.Cw.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: The environmental suitability of Cw is high (E1) on most of the the rich/hygric edatopes of Cw's range, including drier coastal subzones (e.g., CWHdm in the lower mainland) and very wet subzone variants (e.g., CWHvh2 along the Central Coast). However, suitability is moderate (E2) in the very wet CWHvh3 on Haida Gwaii. Suitability is moderate to low (E2-E3) in the northern ICH units. In more xeric subzones of its range (e.g., IDFxh1 and PPxh1 in the Okanagan valley), rich/hygric edatopes only provide pockets of low environmental suitability.
+#| fig-cap: The environmental suitability of Cw is high (E1) on most of the the rich/hygric edatopes of Cw's range, including drier coastal subzones (e.g., CWHdm in the lower mainland) and very wet subzone variants (e.g., CWHvh2 along the Central Coast). However, suitability is moderate (E2) in the very wet CWHvh3 on Haida Gwaii. Suitability is moderate to low (E2-E3) in the northern ICH units. In more xeric subzones of its range (e.g., IDFxh1 and PPxh1 in the Okanagan valley), rich/hygric sites only provide pockets of low environmental suitability.Remaining areas (in white) are unsuitable for Cw under historic climates on rich/hygric sites.
+
 
 fig("Historic_Suit_Map.Cw.D6.png")
 ```

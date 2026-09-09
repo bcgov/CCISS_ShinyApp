@@ -46,7 +46,7 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-Douglas-fir (Fd) is native to the Pacific and Cordilleran regions of Western North America. In BC there are two varieties, interior Douglas-fir (*Pseudotsuga menziesii* var. *glauca*) found throughout the Central and Southern Interior and coastal Douglas-fir (*Pseudotsuga menziesii* var. *menziesii*) found along the south coast and Vancouver Island. It is most common in the montane zone, but also occurs in the submontane zone and to a lesser extent subalpine zone [@klinka_distribution_2000].
+Douglas-fir (Fd) is native to the Pacific and Cordilleran regions of Western North America. In BC there are two varieties, interior Douglas-fir (*Pseudotsuga menziesii* var. *glauca*) found throughout the Central and Southern Interior and coastal Douglas-fir (*Pseudotsuga menziesii* var. *menziesii*) found along the south coast and Vancouver Island. It is most common in the montane zone, but also occurs in the submontane zone and to a lesser extent subalpine zone [@klinka_distribution_2000].  For the purposes of these analyses and figures, we do not distinguish between the two varieties of Fd.
 
 Fd is best adapted to cool/warm temperate and cool (warm) mesothermal climates [@klinka_distribution_2000], occurring from the humid maritime coastal climate to the semi-arid continental climate of the interior. The distribution of Fd in the interior of BC represents its northernmost latitudinal range, limited by cold temperatures. Fd is also limited by high-elevation and forest-grassland transitions [@griesbauer_regional_2010].
 
@@ -74,7 +74,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout.
+#| fig-cap: On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and upslope from lower elevation E1 areas in the south and southeast, including Western Vancouver Island. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout. Remaining areas (in white) are unsuitable for Fd under historic climates on medium/mesic sites.
 
 fig("Historic_Suit_Map.Fd.C4.png")
 ```
@@ -87,7 +87,7 @@ fig("Historic_Suit_Map.Fd.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench.
+#| fig-cap: On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) on  poor/subxeric sites bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench. Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
 
 fig("Historic_Suit_Map.Fd.B2.png") 
 
@@ -101,7 +101,7 @@ fig("Historic_Suit_Map.Fd.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: Fd has a more limited range on rich/hygric sites and environmental suitability is mostly low (E3). Suitability is moderate (E2) around the Georgia Basin (CWHdm1) and mid sloeps of the Okanagan Valley (e.g., IDFdm1). With smaller areas of high (E1) suitability, including the Rocky Mountain Trench (IDFdk5) and southern Vancouver Island (CDFmm).
+#| fig-cap: Fd has a much more limited range on rich/hygric sites overall and environmental suitability is mostly moderate to low (E2-E3). Suitability is moderate (E2) around the Georgia Basin (CWHdm1) and mid slopes of the Okanagan Valley (e.g., IDFdm1) and low (E3) on rich/hygric sites of the Eastern Okanagan –Shuswap and Southern Interior Mountains. Smaller areas of high (E1) suitability exist on rich/hygric sites of the Rocky Mountain Trench (IDFdk5) and southern Vancouver Island (CDFmm). Remaining areas (in white) are unsuitable for Fd under historic climates on rich/hygric sites.
 
 fig("Historic_Suit_Map.Fd.D6.png")
 ```
