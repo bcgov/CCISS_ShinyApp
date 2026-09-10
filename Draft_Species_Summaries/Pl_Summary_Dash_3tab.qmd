@@ -46,7 +46,7 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-In British Columbia lodgepole pine (Pl) is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as "shore pine" (Plc), and *P. contorta* var. *latifolia* which occurs throughout the interior of BC and is known as "interior lodgepole pine" (Pli) or simply "lodgepole pine". The figures and summaries on this dashboard address both Plc and Pli combined.
+In British Columbia lodgepole pine (Pl) is split into two varieties; *Pinus contorta* var. *contorta* which occurs on the coast and is known as "shore pine" (Plc), and *P. contorta* var. *latifolia* which occurs throughout the interior of BC and is known as "interior lodgepole pine" (Pli) or simply "lodgepole pine". For the purposes of these analyses and figures, we do not distinguish between the two varieties of Pl.
 
 Plc occurs throughout the coast in the lowland, montane and subalpine zones, found on poorer sites, including rock outcrops, rocky soils, shorelines, coastal sand dunes and wet to dry bogs [@klinkenberg_pinus_2020]. Pli is found in the interior of BC, from dry submontane forests to the subalpine region, but is most common in montane forests [@klinka_distribution_2000].
 
@@ -116,7 +116,7 @@ Pl occupies the greatest area in the Boreal White and Black Spruce (BWBS) zone i
 
 Pl is the dominant species of the Montane Spruce (MS) and Sub-Boreal Pine -- Spruce (SBPS) zones, both small montane zones in the rain shadow of the Coast Mountains. In both zones dry soil moisture conditions and forest fires promote extensive even-aged stands of Pl.
 
-In the Engelmann Spruce -- Subalpine Fir (ESSF) zone Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock (CWH) zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@meidinger_ecosystems_1991; @centre_for_forest_conservation_genetics_cataloguing_nodate].
+In the Engelmann Spruce -- Subalpine Fir (ESSF) zone, Pl is a common minor species in most subzones. It is abundant in seral stands following wildfire and is also found on drier sites. In the Coastal Western Hemlock (CWH) zone Pl is found on very dry or very wet sites. Pl is also a common seral species in many subzones, for example in the ICH and at higher elevations in the IDF [@meidinger_ecosystems_1991; @centre_for_forest_conservation_genetics_cataloguing_nodate].
 
 ### Pie chart
 
@@ -162,7 +162,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-Lodgepole pine (Pl) is projected to persist within 60--80% of its historically suitable range, and is projected to expand its suitable range into an additional area amounting to 10--25% of its historical total range. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Pl. When combined with the loss of suitable area, the overall total suitable area decreases over time (in the figure to the right the blue dots depicting persistence/expansion of Pl are below the grey dotted line signifying the maintenance of the same total suitable area). This loss of Pl suitability is driven by physiological drought under the warmer climate conditions projected for future time periods. <br>
+Lodgepole pine (Pl) is projected to persist within 60--80% of its historically suitable range, and is projected to expand its suitable range into an additional area amounting to 10--25% of its historical total range, depending on site type. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Pl. When combined with the loss of historically suitable area, the overall total suitable area decreases over time (in the righthand figure, the blue dot is below the grey dashed line- see figure legend). This loss of Pl suitability is driven primarily by physiological drought under the warmer climate conditions projected for future time periods. <br>
 
 *Notes on interpretation of persistence and expansion*
 
@@ -228,17 +228,15 @@ fig("Pl_D6_bub.png")
 ### L col {width="35%"}
 
 ::: card
-The CCISS model predicts that climate change will lead to a decline in Pl suitability across most of its historical range (red shades on the map), with large areas projected to become unsuitable (black on the map). These declines are driven by physiological drought under warming climate conditions.
+The CCISS model predicts that climate change will lead to a decline in Pl suitability across most of its historical range (red shades on the map), with large areas projected to become unsuitable by the end of the century (black on the map). These declines are driven primarily by physiological drought under warming climate conditions. Patterns of decline are consistent across site types, but are particularly strong in rich/hygric sites (D6 edatopes) where Pl suitability was already historically low.  
 
-Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone on C4 and D6 edatopes. This is driven by a shift to IDF- and ICH-like climates where Pl has a lower suitability (for example in the SBSdw2 and SBSdw3 suitability declines from E1 to E2 on C4 sites).
-
-Pl suitability is predicted to decline or be lost from dry Interior Douglas-fir (IDF) subzones in valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, the climate is projected to become unsuitable in the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (IDFxh2) which does not support Pl (on C4 and D6 sites). 
+Declining suitability is projected throughout the interior of BC, most pronounced across the Sub-Boreal Spruce (SBS) zone on C4 and D6 edatopes. This is driven by a shift to IDF- and ICH-like climates in this region, under which Pl has a lower suitability. Pl suitability is predicted to decline or be lost from dry Interior Douglas-fir (IDF) subzones in valley bottoms of the Kootenays and lower elevation of the Southern Interior and Central Interior. For example, the climate is projected to become unsuitable in the IDFdk3 in the Central Interior as the future climate shifts to that of drier IDF units (e.g. IDFxh1 and 2) which do not support Pl. 
 
 Suitability is projected to decline and be lost in smaller areas on Vancouver Island, the South Coast and the rain shadow of the Coast Mountains. 
 
-The climate is projected to become less suitable or unsuitable for Pl in much of the northeast in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate that does not support Pl. Note that this is an area where there is a higher degree of novelty in future climate projections, i.e. the climate is dissimilar to that of mapped BGC subzone/variants (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
+The climate is projected to become less suitable or unsuitable for Pl in much of the northeast in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate (typical of central Alberta). Note that this region has a high degree of climatic novelty in future projections, meaning the projected future climate is not well captured by the closest climate analog (in this case the SBAP) (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around results in areas of climatic novelty, use caution when interpreting.
 
-At the same time, as climate warms, an increase in Pl suitability (blue shades on the map) is projected for higher elevations on the coast, Columbia Mountains, and further north in the central northern portion of the province (on C4 and B2 site types). Most notable is the increasing suitability and expansion (blue and yellow shades on the map) of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevation on the coast, in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones.
+At the same time, as the climate warms, an increase in Pl suitability (light blue shades on the map) is projected for higher elevations on the coast, Chilcotin Plateau, Columbia Mountains, and in the central northern portion of the province (primarily on C4 and B2 site types). Most notable is the increasing suitability and expansion (blue and yellow shades on the map) of suitable area in the Northern Boreal Mountains, in the Spruce--Willow--Birch zone (SWB) and the expansion into the lower Boreal Altai Fescue Alpine zone (BAFA) and northern Engelmann Spruce--Subalpine Fir (ESSF) units. CCISS also predicts expansion of suitable area at higher elevations on the coast, in the upper Coastal Western Hemlock (CWH) and into the Mountain Hemlock (MH) zones.
 
 :::
 
@@ -441,7 +439,7 @@ fig("One_panel.Pl.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -459,7 +457,7 @@ fig("Pl_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -476,7 +474,7 @@ fig("Pl_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Pl suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -490,17 +488,17 @@ fig("Pl_D6_alluv.png")
 
 ### Col - description {width="30%"}
 
-Pl's total suitable area is projected to shrink across BC over the 21st century, with the greatest decrease in suitable area in the BWBS and lesser decreases in the IDF, CWH and ICH zones. There is a slight increase in suitable area in the SWB, and Pl becomes suitable in the MH and BAFA zones. 
+Pl's total suitable area is projected to shrink across BC over the 21st century, with the greatest decrease in total suitable area in the BWBS and lesser decreases in areas with historically lower Pl suitability including the IDF, CWH and ICH zones. There is a slight increase in suitable area in the SWB, and Pl becomes newly suitable in the MH and BAFA zones, as they become warmer and drier. Environmentally suitable area for Pl in the SBS, SBPS, MS, and ESSF zones remain relatively stable over time. 
 
-In the northeastern corner of the province Pl is projected to becomes unsuitable in much of the moist Boreal White and Black Spruce (BWBS) subzones on all site types, i.e. BWBSmw and BWBSmk. The future climate is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. Note that there is a higher degree of climate novelty in this area of the province (i.e. the climate is unlike that of mapped BGC subzone/variants - see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
+Loss in suitable area for Pl is projected for moist Boreal White and Black Spruce (BWBS) subzones on all site types, i.e. BWBSmw and BWBSmk. The future climate in htis area is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. Note that there is a higher degree of climate novelty in this area of the province (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
 
-There are lesser declines in suitable area of the Interior Douglas-fir (IDF) and Interior Cedar--Hemlock (ICH) zones on all site types. The warmest driest portions of these units are projected to become too hot and dry for Pl, shifting to climates similar to those of the very dry IDF and ICH. For example, the IDFdm1 is projected to become unsuitable to Pl during the second half of the 21st century, shifting to climates of very dry IDF and ICH BGC units from BC, Oregon and Washington.
+There are modest declines in suitable area of the Interior Cedar--Hemlock (ICH) and  Interior Douglas-fir (IDF) zones on all site types. The warmest driest portions of these units are projected to become too hot and dry for Pl, shifting to climates similar to those of the very dry IDF and ICH. For example, the IDFdm1 is projected to become unsuitable to Pl during the second half of the 21st century, shifting to climates of very dry IDF and ICH BGC units from BC, Oregon and Washington.
 
-Additionally, there is a decline in suitable area in the Coastal Western Hemlock (CWH) and Coastal Douglas-fir (CDF) zones on C4 and B2 sites. Climate is projected to become unsuitable for Pl in portions of the CWH, for example CWHvh1 and CWHvm3, where the climate is predicted to shift to that of dry or very dry CWH subzones and novel climate (i.e. unlike that of any mapped BGC subzone/variants). Climate of the CDF is projected to shift to climates characterizing very dry CWH, Coastal Redwood Forest (CRF), and a novel climate. Future species suitability in novel climates are unknown, use caution when interpreting these results.
+Additionally, there is a decline in suitable area in the Coastal Western Hemlock (CWH) zone, particularly for C4 and B2 sites. Climate is projected to become unsuitable for Pl in portions of the CWH, for example CWHvh1 and CWHvm3, where the climate is predicted to shift to that of dry or very dry CWH subzones and novel climate (i.e. unlike that of any current BGC subzone/variants). Climate of the CDF is projected to shift to climates characterizing very dry CWH, Coastal Redwood Forest (CRF), and a novel climate. Future species suitability in novel climates are unknown, use caution when interpreting these results.
 
-There is a slight increase in area in the Spruce--Willow--Birch (SWB). Pl also becomes suitable in the Mountain Hemlock (MH) and Boreal Altai Fesuce Alpine (BAFA) zones. Pl is suitable in the areas below the MH (i.e. in the CWH) and the BAFA (i.e. in the SWB and ESSF). As climate warms, the lower portions of the MH and BAFA become suitable for Pl. 
+There is a slight increase in suitable area in the Spruce--Willow--Birch (SWB) zone through the end of the century on C4 and B2 site types. Pl also becomes suitable in the Mountain Hemlock (MH) and Boreal Altai Fesuce Alpine (BAFA) zones, as Pl is historically suitable in the zones below the MH (i.e. CWH) and the BAFA (i.e. SWB and ESSF). As the climate warms, the lower elevation portions of the MH and BAFA are predicted to become suitable for Pl. 
 
-Note that there are no increases in suitability on rich/hygric (D6) sites. Pl suitability on D6 sites is projected to decline dramatically over the 21st century, across all BGC zones.
+Pl suitability on D6 sites is projected to decline dramatically over the 21st century, with only a few exceptions of modest gains in suitable area for SWB subzones in the North and ESSF subzones in the Southeast or the province.
 
 # Forest health
 
@@ -510,7 +508,7 @@ Note that there are no increases in suitability on rich/hygric (D6) sites. Pl su
 
 The most severe biotic factor impacting lodgepole pine (Pl) is mountain pine beetle (*Dendroctonus ponderosae*), a native insect in pine ecosystems of western North America. Epidemics of mountain pine beetle occur periodically, impacting the growth and survival of Pl. In the late 1990s, following several relatively warm winters, a massive outbreak resulted in the loss of millions of hectares of pine forest in British Columbia over the next 15 years [@noauthor_mountain_2026]. The mountain pine beetle can attack and kill mature trees by boring through the bark and mining the phloem, working together with blue stain fungus (*Grosmannia clavigera*) carried by the beetles, which prevents the tree's defenses. The eggs hatch into larvae that consume the phloem. The beetles are killed by very cold winter weather, which has historically kept their numbers in check. As winter climate warms, more beetles survive the winter, which can exacerbate a mountain pine beetle epidemic [@noauthor_mountain_2012]. 
 
-After mountain pine beetle, the biotic factor with the second largest impact on Pl is lodgepole pine dwarf mistletoe (*Arceuthobium americanum*), an obligate parasitic plant [@brandt_lodgepole_2024]. Lodgepole pine dwarf mistletoe seeds landing on a susceptible host germinate and infect the tree by growing a root-like structure that penetrates young bark [@noauthor_lodgepole_2026]. Lodgepole pine dwarf mistletoe causes widespread damage throughout interior Pl stands. It's northern distribution is limited by extremely cold winter temperature (about -40°C), which kills overwintering seeds [@noauthor_lodgepole_2026].
+After mountain pine beetle, the biotic factor with the second largest impact on Pl is lodgepole pine dwarf mistletoe (*Arceuthobium americanum*), an obligate parasitic plant [@brandt_lodgepole_2024]. Lodgepole pine dwarf mistletoe seeds landing on a susceptible host germinate and infect the tree by growing a root-like structure that penetrates young bark [@noauthor_lodgepole_2026]. Lodgepole pine dwarf mistletoe causes widespread damage throughout interior Pl stands. It's northern distribution is limited by extremely cold winter temperatures (about -40°C), which kills overwintering seeds [@noauthor_lodgepole_2026].
 
 Other pests of note include the the pine engraver (*Ips pini*), which primarily attacks trees of smaller diameter (12-20cm). The northern lodgepole pine needle miner (*Coleotechnites milleri*), a defoliator which causes damage to foliage of crown, can cause stress to the tree and predispose the tree to secondary bark beetle attacks. The lodgepole pine terminal weevil (*Pissodes terminalis*), which damages and often kills the tree leader by laying eggs in the newly expanding terminal shoot. The weevil attacks immature Pl throughout British Columbia, typically targeting young regenerating stands containing trees less than 10 meters in height [@noauthor_lodgepole_2025].
 
@@ -518,17 +516,17 @@ Damaging fungi of Pl include atropellis canker (*Atropellis piniphila*), comandr
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br> To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
-## Climate change
+## Climate change -forest health interactions
 
-**Climate change**
+**Climate change -forest health interactions**
 
 Key climate pressures on Pl include drought and heat stress, insect infestations, and altered fire regimes. Higher temperatures and drier summer conditions reduce radial growth of Pl, cause moisture stress during the growing season and increase juvenile seedling mortality [@coops_process-based_2011; @mclane_climate_2011]. This increased stress also makes Pl vulnerable to pests and diseases, such as Armillaria root rot during extended dry growing seasons [@dempster_impact_2017]. 
 
 At the same time, milder winter temperatures have allowed populations of mountain pine beetles to survive, multiply and attack larger areas of Pl forests [@sambaraju_mountain_2021]. Without extreme winter freezes to control their populations, these bark beetles rapidly multiply, killing vast swathes of mature pine stands. 
 
-The widespread Pl mortality associated with mountain pine beetle has likely altered fire regimes, with evidence demonstrating that large lightning caused fires are 1.7 times more likely within stands affected by mountain pine beetle outbreaks [@woo_influence_2024]. Climate change also acts as a primary driver of altered fire regimes, working in concert with land management and the legacy of mountain pine beetle [@parisien_abrupt_2023]. 
+The widespread Pl mortality associated with mountain pine beetle has altered fire regimes, with evidence demonstrating that large lightning caused fires are 1.7 times more likely within stands affected by mountain pine beetle outbreaks [@woo_influence_2024]. Climate change also acts as a primary driver of altered fire regimes, working in concert with land management and the legacy of mountain pine beetle [@parisien_abrupt_2023]. 
 
-Over time, these combined pressures are projected to drive a substantial contraction of the species' historical range, restricting its survival primarily to the highest-elevation subalpine refugia. 
+Over time, these combined pressures are projected to drive a substantial contraction of the species' historical range, restricting its survival primarily to high-elevation subalpine refugia. 
 
 # References
 

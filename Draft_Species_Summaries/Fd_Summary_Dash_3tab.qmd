@@ -163,7 +163,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-Douglas-fir (Fd) is projected to persist within 70--90% of its historically suitable range under climate change. In addition the climatically suitable range of Fd is projected to expand over time into an area 0.75-2 times the size of the historical range. The projected expansion of Fd's suitable area is driven by warming temperatures, for example portions of the Engelmann Spruce--Subalpine Fir (ESSF) and Montane Spruce (MS) zones becoming warmer and therefore more suitable for Fd. <br>
+Douglas-fir (Fd) is projected to persist within 70-90% of its historically suitable range under climate change depending on site type. In addition, the suitable range of Fd is projected to expand over time into an area 1.5 - 2 times the size (150-200%) of its historical range. The projected expansion of Fd's suitable area is driven by warming temperatures, for example portions of the Engelmann Spruce--Subalpine Fir (ESSF) and Montane Spruce (MS) zones becoming warmer and therefore more suitable for Fd. <br>
 
 *Notes on interpretation of persistence and expansion*
 
@@ -437,7 +437,7 @@ fig("One_panel.Fd.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -455,7 +455,7 @@ fig("Fd_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -472,7 +472,7 @@ fig("Fd_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Fd suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -492,7 +492,7 @@ Many mapped subzones within the Sub-Boreal Spruce (SBS) zone in the Skeena Regio
 
 The loss of environmentally suitable area in the IDF zone is driven by a shift to Bunchgrass (BG)-like climates, which does not support Fd. These broad patterns are similar across the medium/mesic (C4) and poor/subxeric (B2) site types. 
 
-Note that the D6 edatope (rich/hygric site type) makes up a small area proportionally to the total range of Fd in BC, an order of magnitude less than the area occupied by Fd on C4 or B2 sites. Historical suitability is low (E3) on most D6 sites, therefore decreases in suitability associated with the projection of warmer climates often result in a loss of Fd suitability. The total area suitable to Fd is projected to decrease or be lost in the CDF, SBS, IDF, ESSF, and ICH, while there is an increased projected area in the CWH, MH and MS. It is also possible that these projected decreases in Fd suitability on wet rich sites are an artefact of the BGC projection method and site series crosswalk, with many fewer D6 sites containing Fd, compared to the C4 and B2 edatopes (see [CCISS tool documentation](https://bcgov-ffec.ca/cciss-docs/Methods.html) for more information). Use caution when interpreting a loss of Fd suitability on wet/rich sites where Fd was historically suitable.
+Note that the D6 edatope (rich/hygric site type) makes up a smaller area proportionally of the total range of Fd in BC when compared to C4 or B2 sites. In addition, historical suitability is low (E3) on most D6 sites, and the total area suitable to Fd on these sites is projected to slightly increase with net gains in the CWH, MS and MH zones to the end of the century. 
 
 # Forest health
 
@@ -513,9 +513,9 @@ Finally, root and butt rots (for example, red ring rot [*Phellinus pini*], lamin
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
-## Climate change and drought
+## Climate-change induced drought
 
-**Climate change and drought**
+**Climate-change induced drought**
 
 Higher summer temperatures and drought are causing reduced Fd growth, increased mortality and susceptibility to pests and pathogens. Increased Fd mortality has been observed following periods of prolonged drought and warming, associated with decreasing summer available soil water and increasing summer temperature and rising vapour pressure deficit (for example in western Oregon, @cline_warming_2025). 
 
