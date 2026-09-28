@@ -101,7 +101,7 @@ fig("Historic_Suit_Map.Pl.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the Interior Plateau, northeast (BWBSmk), Columbia Mountains and outer coast, with the exception of high sutability (E1) in parts of the Thompson Plateau and Okanagan Range southwest of Kelowna (MSxk1 and ESSFxc1). Remaining areas (in white) are  unsuitable for Pl under historic climates on rich/hygric sites. Note that Pl is more suitable on wetter and poorer sites (e.g. bogs) across its range (not shown here).   
+#| fig-cap: Pl suitability is moderate (E2) or low (E3) on most of the rich/hygric sites in its range, throughout the Interior Plateau, northeast (BWBSmk), Rocky Mountains and outer coast, with the exception of high sutability (E1) in parts of the Thompson Plateau and Okanagan Range southwest of Kelowna (MSxk1 and ESSFxc1). Remaining areas (in white) are  unsuitable for Pl under historic climates on rich/hygric sites. Note that Pl is more suitable on wetter and poorer sites (e.g. bogs) across its range (not shown here).   
 
 fig("Historic_Suit_Map.Pl.D6.png")
 ```
@@ -516,9 +516,9 @@ Damaging fungi of Pl include atropellis canker (*Atropellis piniphila*), comandr
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br> To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
-## Climate change -forest health interactions
+## Climate change--forest health interactions
 
-**Climate change -forest health interactions**
+**Climate change--forest health interactions**
 
 Key climate pressures on Pl include drought and heat stress, insect infestations, and altered fire regimes. Higher temperatures and drier summer conditions reduce radial growth of Pl, cause moisture stress during the growing season and increase juvenile seedling mortality [@coops_process-based_2011; @mclane_climate_2011]. This increased stress also makes Pl vulnerable to pests and diseases, such as Armillaria root rot during extended dry growing seasons [@dempster_impact_2017]. 
 
