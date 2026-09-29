@@ -1,0 +1,549 @@
+---
+title: "Interior spruce (Sx)" 
+format: 
+  dashboard:
+    logo: images/BCID_H_RGB_rev.png
+    scrolling: true
+    orientation: rows
+    css: dashboard.css
+    embed-resources: true
+bibliography: referencesSx.bib
+csl: apa.csl
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(gt)
+
+#Use this to set up the file path for all figures saved in ccissr. 
+fig_path <- "./Figures/Sx" #set species and edit all figure names
+
+# Wrapper function for loading figures
+fig <- function(filename) {
+  knitr::include_graphics(file.path(fig_path, filename))
+} #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
+```
+
+# Interior spruce
+
+## Summary info for Sx
+
+### Col - Tree image {width="20%"}
+
+![Interior spruce (*Picea glauca*, *P. engelmannii*, and *P. glauca* x *engelmannii*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_Picea_gla_silhouette.gif){fig-alt="Silhouette of mature white spruce tree"}  
+
+### Col - Welcome text {width="80%"}
+
+**White spruce (Sw; *Picea glauca*) and Engelmann spruce (Se; *Picea engelmannii*) are economically important tree species in British Columbia. The complex of these two species and their hybrids (Sxw) (*Picea glauca* x *engelmannii*) are collectively managed as ‘interior spruce’ (abbreviated as Sx). The CCISS model predicts a decline or loss of suitability throughout much of the historic range of Sx under future climate warming. There is some opportunity for the expansion of Sx's suitable range at higher elevation and further north.** <br>
+
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future management.
+
+# Reference period
+
+## Summary text
+
+**Species geographic and climatic range**
+
+Interior spruce (abbreviated as Sx) refers to white spruce (Sw), Engelmann spruce (Se) and their hybrids (Sxw; *Picea glauca* x *engelmannii*), which are very common throughout the interior of BC. These analyses and figures include Sw, Se and Sxw. Sx is found throughout BC, excluding the coast. White spruce and Engelmann spruce occupy different ecological niches separated primarily by elevation [@de_la_torre_adaptation_2014].
+
+Se is most abundant in the subalpine region, in the Engelmann Spruce--Subalpine Fir (ESSF) zone. Se has relatively low tolerance of high temperatures and drought, but can withstand short growing seasons and high snowfall [@alexander_picea_1990]. Whereas, Sw is primarily a boreal species, found most commonly in the Spruce--Willow--Birch (SWB), Boreal Black and White Spruce (BWBS), and Sub-Boreal Spruce (SBS) zones. Sw grows under highly variable conditions and can tolerate both low winter temperatures and summer drought, but is restricted to low elevations. The ranges of Se and Sw overlap in BC, hybrids are common and cannot be easily distinguished from the parent species. Hybrids occupy ecological and elevational niches intermediate to those of the parental species [@de_la_torre_adaptation_2014]. Se is most abundant in the southern half of the province and Sw is most abundant in the northern half, with the highest frequency of hybrids in the central latitudes [@nocchi_replicated_2025].
+
+Sx is adapted to a wide range of edaphic and climatic conditions. The climatic amplitude of Sx spans cool temperate to subarctic, with Se frequently forming part of the alpine treeline and Sw forming part of the arctic treeline [@noauthor_engelmann_2025; @noauthor_white_2025]. Sx grows best on slightly dry to very moist and poor to very rich sites, with Sw preferring richer sites than Se [@noauthor_engelmann_2025; @noauthor_white_2025].
+
+In BC, Sx is most commonly found in mixed-species stands [@noauthor_engelmann_2025; @noauthor_white_2025]. Se is most frequently found alongside subalpine fir and lodgepole pine [@noauthor_engelmann_2025]. Sw is found alongside trembling aspen, lodgepole pine, black spruce, subalpine fir, balsam poplar, black cottonwood, and paper birch [@noauthor_white_2025]. In the boreal forest (BWBS zone) wildfires are a major disturbance factor in re-establishing a Sw stand. Without fire, black spruce, which is more shade tolerant, would become the dominant species [@noauthor_white_2025]. 
+
+**Species environmental suitability during the reference period (1961--1990)**
+
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime and soil moisture  regime at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
+
+## Reference period plots
+
+### Reference period maps {.tabset}
+
+#### Medium/mesic (C4)
+
+```{r}
+#| title: Environmental suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On medium/mesic sites Sx environmental suitability is high (E1) in the northeastern portion of the province (BWBS), upper elevations/northern portion of the Interior Plateau (SBS, ESSF and MS), Columbia and Rocky Mountains (ESSF and MS), and northern Rocky Mountain Trench (ICH). Suitability is moderate (E2) at mid elevation in the Northern Boreal Mountains (SWB), in the central Interior Plateau (southern portion of the SBS and SBPS), and at mid elevation in the Columbia and Rocky Mountains (ICH). Suitability is low (E3) on the Cariboo Plateau (IDFdk3), the interior Coast Mountains (CWH and MH), and at low elevation in the Selkirk and Purcell Mountains (ICH). Remaining areas (in white) are unsuitable for Sx under historic climates on medium/mesic sites.
+
+fig("Historic_Suit_Map.Sx.C4.png")
+```
+
+#### Poor/subxeric (B2)
+
+```{r}
+#| title: Environmental suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On poor/subxeric sites Sx environmental suitability is mostly moderate to low (E2 to E3). Suitability is low (E3) in the northern portion of the province in the boreal forest (SWB), Boreal and Taiga Plains (BWBS), as well as in the sub-boreal northern Interior Plateau (ESSF, SBS), the interior portion of the Coast Mountains (submaritime CWH), and in the Columbia and Rocky Mountains (ICH and MS). Suitability is moderate (E2) throughout much of the ESSF, MS,and northern ICH (in the Rocky, Omineca, and Columbia Mountains, Chilcotin Ranges, and Fraser Plateau). Suitability is high (E1) in smaller portions of the Columbia Mounatins (ICH and ESSF units surrounding Kinbasket, northern Selkirk and Monashee Mountains, and the Purcell Mountains), the Shuswap Highland (ESSFdc3 and ESSFxc2) and in the Cascade Mountains (ESSFmw1 and mw2). Remaining areas (in white) are unsuitable for Sx under historic climates on poor/subxeric sites.
+
+fig("Historic_Suit_Map.Sx.B2.png") 
+
+```
+
+#### Rich/hygric (D6)
+
+```{r}
+#| title: Environmental suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: Much of the province is moderate to highly suitable for Sx on rich/hygric sites. Suitability is high (E1) in the northeast (BWBSmk), sub-boreal forest (SWB and ESSF), northern Rocky Mountain Trench and smaller portions of the Interior Plateau (SBPS, ICH, MS and very dry ESSF). Suitability is moderate (E2) in the northwest and central northern portion of the province (SWB), much of the Interior Plateau (IDF, SBS), Columbia Mountains and southern Rocky Mountains (ICH, ESSF, MS). Suitabilty is low (E3) in smaller areas, mainly on the Thompson Plateau and Shuswap Highland (and the interior Coast Mounatains). Remaining areas (in white) are unsuitable for Sx under historic climates on poor/subxeric sites.
+
+fig("Historic_Suit_Map.Sx.D6.png")
+```
+
+### BGC text
+
+**Distribution of Sx across BGC zones**
+
+The pie chart to the right depicts the distribution of the total environmentally suitable area for Sx in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
+
+Sx is most abundant in the Boreal White and Black Spruce (BWBS) zone in the northeast of the province, where Sw and aspen forests are common. Sw and balsam popular stands are also found on richer well-drained sites along rivers [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+
+Sx is abundant in the Engelmann Spruce--Subalpine Fir (ESSF) zone, dominated by Se (Sw and Sx are also present). In old growth stands at low to mid-elevations, Se usually dominates the canopy and subalpine fir the understory [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+
+Hyrbid spruce (Sxw) is a major species in the Sub-Boreal Spruce (SBS) zone, common in old-growth stands alongside subalpine fir [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+
+In the Spruce–Willow–Birch (SWB) zone, Sw is the most common species, alongside subalpine fir. 
+
+Sx makes up a smaller component of the Interior Cedar--Hemlock (ICH) zone (including Se, Sw and Sxw). 
+
+In the Montane Spruce (MS) zone Sx occurs as a minor component of the canopy of older stands on wetter sites or wetter subzones, more prevalent on cool-aspect or seepage sites [@centre_for_forest_conservation_genetics_cataloguing_nodate].
+
+Sx is also found on wetter cooler sites of the Interior Douglas-fir (IDF) zone and upper elevation subzones, on wetter sites of the Sub-Boreal Pine--Spruce (SBPS) zone, in northern and upper submaritime subzones of the Coastal Western Hemlock (CWH) zone, and Sx is a minor component of the Mountain Hemlock (MH) zone. 
+
+
+### Pie chart
+
+::: card
+```{r}
+##| title:  Historical range by BGC zone
+##| fig-show: hold
+##| layout-ncol: 2
+#| out-width: "70%"
+#| 
+
+
+
+fig("Sx_histpie.png")
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+# CCISS projections
+
+## Overall summary
+
+**Future projected environmental suitability for interior spruce**
+
+On this page, you will find a visual and interpretive synthesis of the environmental suitability projections calculated using the Climate Change Informed Species Selection [CCISS](https://bcgov-ffec.ca/cciss-docs/) tool, including:
+
+1.  Proportion of the historic range that the species is predicted to remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by site type (edatope).
+
+2.  Predicted mean changes in environmental suitability across its geographic range in BC, by future time period and site type (edatope).
+
+3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
+
+## Row - broad trends {.spacer-row}
+
+**Broad trends**
+
+<style>
+.card .math.display {
+  font-size: 0.8em;
+}
+</style>
+
+## Row - Bubble plot {height="700px"}
+
+### L Column - Plot description {width="40%"}
+
+::: card
+Interior spruce (Sx) is projected to persist within approximately 60--70% of its historical range by the end of the 21st century on medium/mesic and poor/subxeric sites. A higher proportion of suitable area is expected to persist on rich/hygric sites under projected future climate (90%). Sx is projected to expand its environmentally suitable range into an additional area amounting to 5--20% of its historical total range, depending on site type. Overall, this is a fairly modest expansion of future area that will become climatically suitable for Sx, as Sx occupies so much of the province already there is limited opportunity for expansion within BC. Overall, the total projected area suitable for Sx is projected to decrease over time, with the greatest loss of suitable area on medium/mesic and poor/subxeric sites.
+<br>
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+
+$$\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+
+$$\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+:::
+
+### R Column - Bubble plot {width="60%"}
+
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Sx in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+fig("Sx_C4_bub.png") 
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Sx in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+
+fig("Sx_B2_bub.png") 
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Sx in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+
+fig("Sx_D6_bub.png") 
+```
+:::
+::::::
+
+## Row {.spacer-row}
+
+**Suitability changes**
+
+## Row - Maps {height="800px"}
+
+### L col {width="35%"}
+
+::: card
+The CCISS model predicts that climate change will lead to a decline in Sx suitability across most of its historical range (red shades on the map), with large areas projected to become unsuitable by the end of the century (black on the map). This pattern is strongest on poor/subxeric (B2) and medium/mesic (C4) site types, with lesser declines in suitability on wetter sites (D6). The projected decline in species suitability is driven by physiological drought under warming climate conditions. 
+
+On medium/mesic sites the most significant declines are projected to occur in the warmest/driest portions of Sx's range, i.e. the southern portion of the province, including the Interior Plateau (especially the Thompson Plateau, Okanagan and Shuswap Highlands) and the Rocky Mountain Trench (ESSF and MS). As climate becomes warmer and moisture availability decreases these areas become less suitable or unsuitable for Sx. Future climates are projected to be similar to the dry and very dry Interior Cedar--Hemlock (ICH) subzones, Interior Douglas-fir (IDF) subzones, and Interior Grand Fir (IGF) subzones from further south in the US. 
+
+Decline and loss of Sx suitability is most pronounced on dry sites with Sx becoming unsuitable in much of its historical range during the second half of the 21st century (black shades on the map). Notably, a large area in the northern Interior Plateau (Nechako Plateau) in the Sub-boreal Spruce (SBS) zone. Future climate projections are similar to dry ICH and IDF climates, which do not support Sx on poor/subxeric site types. Sx had low suitability (E3) on most of these poor/subxeric sites to begin with (see reference period B2 map), with warming climate these sites become unsuitable to Sx. 
+
+In the northeast corner the climate is projected to become less suitable or unsuitable for Sx in the moist subzones of the Boreal White and Black Spruce (BWBS) zone on all site types. Specifically in the BWBSmk and BWBSmw where Sub-Boreal Aspen Parkland (SBAP) units are projected, which represents a warmer and drier climate (typical of central Alberta). Note that this region has a high degree of climatic novelty in future projections, meaning the projected future climate is not well captured by the closest climate analog (in this case the SBAP) (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around results in areas of climatic novelty, use caution when interpreting.
+
+Additionally, the CCISS model projects an expansion of suitable area for Sx beyond its historical range on C4 and D6 sites in the north and at higher elevation (yellow shades on the map). This includes higher elevation in the Columbia Mountains, Rocky Mountains and interior Coast Mountains, and the central northern portion of the province (Cassiar, Omineca and Skeena Mountains, and the Stikine Plateau). This expansion is driven by the upward movement of Engelmann Spruce--Subalpine Fir (ESSF)-like climate which is projected in the higher elevation ESSF parkland, the Interior Mountain-heather Alpine (IMA) and the Coastal Mountain-heather Alpine (CMA) during future time periods. Similarly, in the north, in Boreal Altai Fescue Alpine (BAFA) and Spruce--Willow--Birch (SWB) scrub subzones, the future climate is projected to be similar to wet and moist ESSF subzones, climate conditions that are suitable for Sx. Note that this expansion will be limited by soil conditions, topography, seed dispersal mechanisms, and local site factors.
+
+:::
+
+### R col {width="65%"}
+
+:::::::: {.card .fit-screen-card}
+::::::: card-body
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+
+fig("One_panel.Sx.C4.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.C4.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.C4.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.C4.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.C4.2081_2100.png")
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.B2.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.B2.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.B2.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.B2.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.B2.2081_2100.png")
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.D6.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false 
+#| out-width: 65%
+
+fig("One_panel.Sx.D6.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.D6.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.D6.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Sx.D6.2081_2100.png")
+```
+:::
+::::::
+:::::::
+::::::::
+
+## Row - Shifts in BGC suitability {.spacer-row}
+
+**Shifts in suitable area**
+
+## Row - Suitability area: alluvial plots {height="750px"}
+
+### Col - Alluvial figure {.tabset width="70%"}
+
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Sx suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
+#| expandable: false
+#| out-width: "60%"
+#| padding: 0px
+ 
+
+fig("Sx_C4_alluv.png")
+
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Sx suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
+#| expandable: false
+#| out-width: "60%"
+#| padding: 0px
+
+fig("Sx_B2_alluv.png")
+
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Sx suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
+#| expandable: false
+#| out-width: "60%"
+#| padding: 0px
+
+fig("Sx_D6_alluv.png")
+
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+### Col - description {width="30%"}
+
+Sx's total suitable area is projected to shrink across BC over the 21st century, most dramatically on B2 site types, followed by C4 sites types, with a maintenance of total suitable area on D6 site types. By BGC zone, the greatest decrease in total suitable area occurs in the BWBS, along with decreases in the SBS, ICH, MS, and IDF zones. There is a increase in suitable area in the ESSF and SWB, and Sx becomes newly suitable in the BAFA (and IMA/CMA) zones, as they become warmer.
+
+Loss in suitable area for Sx is projected for the Boreal White and Black Spruce (BWBS) zone especially on C4 and B2 site types. The future climate in this area is projected to be more similar to that of Sub-Boreal Aspen Parkland (SBAP), a warmer and drier unit from Alberta. Note that there is a higher degree of climate novelty in this area of the province (see documentation about [novel climates](https://bcgov-ffec.ca/cciss-docs/Methods.html#novel-climate-detection)). There is higher uncertainty around these results, use caution when interpreting.
+
+The decrease in suitable area in the Sub-boreal Spruce (SBS) and Montane Spruce (MS) zones is driven by a shift to warmer/drier climate analogous to dry Interior Cedar--Hemlock (ICH) and Interior Douglas-fir (IDF) subzones. Similarly, there is a decline in total area suitable to Sx in the ICH and IDF zones, representing a shift to warmer/drier climate analogous to the very dry IDF and ICH. The warmest driest portions of these units are projected to become too hot and dry for Sx.
+
+There is an increase in suitable area in the Engelmann Spruce--Subalpine Fir (ESSF) and Spruce--Willow--Birch (SWB) on C4 and D6 site types, including the expansion of Sx into the parkland (ESSF) and scrub (SWB) subzones of these units. Sx also becomes suitable in the Boreal Altai Fescue Alpine (BAFA) (as well as small areas of the Interior Mountain-heather Alpine (IMA) and Coastal Mountain-heather Alpine (CMA) zones) on C4 and D6 site types. These increases in suitable area are broadly driven by warming climate conditions, with future climate in these areas projected to be similar to wet and moist ESSF subzones, climate conditions that are suitable for Sx.
+
+# Forest health
+
+## Biotic factors text
+
+**Biotic factors**
+
+Risk of insect damage is high in old growth stands [@noauthor_white_2025]. For mature and old Sx forests in BC, spruce beetle (*Dendroctonus rufipennis*) is the most severe biotic factor, attacking Sw, Se and Sxw [@noauthor_spruce_2026]. The spruce beetle is a native species, but its affects are amplified by climate change, specifically warmer winters and drier summers that accelerate their reproductive cycles. Recent spruce beetle outbreaks have impacted hundreds of thousands of hectares of forest mainly in the Skeena Stikine, Omineca and Northeast forest regions, but is present through Sx's range [@mitchell_2025_2025]. The spruce beetle tunnels through the inner bark phloem of mature trees, introduces blue-stain fungi and constructs larval galleries. The combination of larval feeding and fungal colonization of the sapwood blocks water uptake and kills infested trees [@noauthor_spruce_2026].
+
+In younger stands and tree nurseries, the white pine weevil (*Pissodes strobi*) is the most severe threat to Se, Sw and Sxw, preferentially attacking smaller trees less than 6 meters in height and ~20 years in age [@nealis_white_2024]. Female weevils lay eggs at the tip of the terminal shoot, and the subsequent larval feeding kills the dominant leader [@noauthor_white_2019]. While rarely fatal to the whole tree, this terminal destruction can cause permanent stem defects and forked or dwarfed tree form. Weevil outbreaks are facilitated by monocultures of host trees on warm, highly productive sites [@noauthor_white_2019].
+
+The western spruce budworm (*Choristoneura occidentalis*) is a major cyclical defoliator across BC. The budworm mainly attacks Douglas-fir, but can also be found on Sx [@noauthor_western_2025]. The budworm larvae web together and strip current-year foliage, causing severe growth stagnation, lumber defects, and top-kill, which predisposes survivors to secondary attacks by bark beetles. 
+
+Finally, root and butt rots present a medium risk to Sx stands. Destructive fungal pathogens gradually decay structural root systems and the heartwood of the lower trunk, most notably Schweinitzii butt rot, tomentosus root rot, Armillaria root disease, and red ring rot [@noauthor_white_2025; @noauthor_engelmann_2025]. This undermines the structural stability of the trees, increases the risk of windthrow, and leaves infected stands vulnerable to secondary infestations.
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
+To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
+
+## Climate change--forest health interactions
+
+**Climate change--forest health interactions**
+
+Climate change poses significant threats to Sx. This widespread species complex is affected by bark beetles, wildfire, and site moisture regime, and is expected to experience major shifts in its range as a result of climate change. Research indicates that Sx is highly vulnerable to rising temperatures and shifting moisture levels, particularly within BC's Sub-boreal Spruce (SBS) zone ([CCISS model](https://bcgov-ffec.ca/cciss-docs/); [@johnston_vulnerability_2020]). Warmer summer conditions increasingly drive temperature-induced drought stress, which limits the photosynthetic capacity and radial growth of these traditionally cold-adapted, drought-intolerant trees [@wiley_spruce_2018]. While some northern and higher-elevation habitats may expand, models project a sharp decline in spruce-dominated forests across the Interior Plateau after 2050, potentially leading to localized extirpations. Furthermore, the lack of harsh winter freezes has accelerated the lifecycle of the destructive spruce beetle (*Dendroctonus rufipennis*), triggering insect outbreaks that result in widespread tree mortality [@bentz_climate_2010]. This die-off, combined with hotter summers, altered historical fire regimes and increased wildfire severity, make it harder for Sx stands to naturally regenerate. Consequently, Sx may be progressively replaced by more drought-tolerant species like interior Douglas-fir ([CCISS model](https://bcgov-ffec.ca/cciss-docs/); [@wiley_spruce_2018]).
+
+# References
+
+**Works Cited**
+
+::: {#refs}
+:::
+
+## Other reference materials
+
+**Reference materials**
+
+[CCISS tool](https://bcgov-ffec.ca/cciss/)
+
+[Engelmann Spruce - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/engelmann-spruce)
+
+[White Spruce - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/white-spruce)
+
+[Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)

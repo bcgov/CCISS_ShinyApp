@@ -1,5 +1,5 @@
 ---
-title: "XXXX (XX)"  ##Find and replace all XXXX = Full name or XX = sp code
+title: "YYYY (XX)"  ##Find and replace all YYYY = Full name or XX = sp code
 format: 
   dashboard:
     logo: images/BCID_H_RGB_rev.png
@@ -26,13 +26,13 @@ fig <- function(filename) {
 } #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
 ```
 
-# XXXX
+# YYYY
 
 ## Summary info for XX
 
 ### Col - Tree image {width="20%"}
 
-![XXXX (*Scientific name*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_P_men_v_men_silhouette.gif){fig-alt="Silhouette of mature douglas fir tree"}  #replace with species image
+![YYYY (*Scientific name*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_P_men_v_men_silhouette.gif){fig-alt="Silhouette of mature douglas fir tree"}  #replace with species image
 
 ### Col - Welcome text {width="80%"}
 
@@ -66,7 +66,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE C4 TRENDS - On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout.
+#| fig-cap: SUMMARIZE C4 TRENDS - On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout. Remaining areas (in white) are unsuitable for Fd under historic climates on medium/mesic sites.
 
 fig("Historic_Suit_Map.XX.C4.png")
 ```
@@ -79,7 +79,7 @@ fig("Historic_Suit_Map.XX.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE B2 TRENDS - On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench.
+#| fig-cap: SUMMARIZE B2 TRENDS - On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench. Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
 
 fig("Historic_Suit_Map.XX.B2.png") 
 
@@ -93,7 +93,7 @@ fig("Historic_Suit_Map.XX.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE D6 TRENDS - Fd has a more limited range on rich/hygric sites and environmental suitability is mostly low (E3). With smaller areas of moderate (E2) suitability, including lower slopes in the Okanagan Valley (IDFxh1), in the Rocky Mountain Trench (ICHmw1), and southern Vancouver Island (CDFmm).
+#| fig-cap: SUMMARIZE D6 TRENDS - Fd has a more limited range on rich/hygric sites and environmental suitability is mostly low (E3). With smaller areas of moderate (E2) suitability, including lower slopes in the Okanagan Valley (IDFxh1), in the Rocky Mountain Trench (ICHmw1), and southern Vancouver Island (CDFmm). Remaining areas (in white) are unsuitable for Fd under historic climates on rich/hygric sites.
 
 fig("Historic_Suit_Map.XX.D6.png")
 ```
@@ -129,7 +129,7 @@ fig("XX_histpie.png")
 
 ## Overall summary
 
-**Future projected environmental suitability for XXXX**
+**Future projected environmental suitability for YYYY**
 
 On this page, you will find a visual and interpretive synthesis of the environmental suitability projections calculated using the Climate Change Informed Species Selection [CCISS](https://bcgov-ffec.ca/cciss-docs/) tool, including:
 
@@ -423,7 +423,7 @@ fig("One_panel.XX.D6.2081_2100.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -441,7 +441,7 @@ fig("XX_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -458,7 +458,7 @@ fig("XX_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within the three representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS projections that combine reference-period suitability with future climate data. For future periods, this figure reflects changes in the projected spatial distribution of climate types that may be more or less suitable for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in XX suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
 #| expandable: false
 #| out-width: "60%"
 #| padding: 0px
@@ -505,6 +505,6 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 [CCISS tool](https://bcgov-ffec.ca/cciss/)
 
-[XXXX - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/XXXX)
+[YYYY - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/YYYY)
 
 [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)
