@@ -36,7 +36,7 @@ fig <- function(filename) {
 
 ### Col - Welcome text {width="80%"}
 
-**Western hemlock (abbreviated Hw) is one of the most common conifer species in the Pacific and Cordilleran regions of British Columbia and is an important timber species for pulp and lumber products. The CCISS model predicts a decline or loss of suitability in parts of its historical range (particularly at low elevations?). Expansion upslope is predicted throughout the Coastal and Columbia mountain ranges, as well as expansion into parts of the southern, central, and sub-boreal interior and Georgia depression.** <br> 
+**Western hemlock (abbreviated Hw) is one of the most common conifer species in the Pacific and Cordilleran regions of British Columbia and is an important timber species for pulp and lumber products. The CCISS model predicts a decline or loss of suitability in parts of its historical range (particularly at low elevations?). Expansion of suitability is predicted upslope throughout the Coastal and Columbia mountain ranges, as well as into parts of the southern, central, and sub-boreal interior and Georgia depression.** <br> 
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future western hemlock management.
 
@@ -46,7 +46,9 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-...text...
+Western hemlock (Hw) occurs throughout the Coast mountain area from Northern British Columbia and the Alaska panhandle to Northern California, and throughout the Columbia mountains in British Columbia and Northern Washington, Idaho, and Montana [@nrcan_western_hemlock].
+
+Hw is found in both submontane and montane habitats (up to subalpine) in a wide range of soil moisture and nutrient regimes [@klinka_distribution_2000]. It prefers fresh to very moist soil, but can tolerate wetter conditions by growing on mounds or decomposing stumps. It thrives in very poor to medium soil nutrient regimes, and where acidic coniferous decaying wood is plentiful. Shade cover is required for robust seedling establishment [@hetherington_western_hemlock_establishment]. Hw is adapted to the long growing season characteristic of humid coastal climates and low elevation regions of the interior wet belt, and does not tolerate frozen ground unless it is covered with insulating snow before freezing [@klinka_distribution_2000].
 
 **Species environmental suitability during the reference period (1961--1990)**
 
@@ -66,7 +68,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE C4 TRENDS - On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout. Remaining areas (in white) are unsuitable for Fd under historic climates on medium/mesic sites.
+#| fig-cap: On medium/mesic sites Hw environmental suitability is high (E1) in the wetter BGC subzones of its coastal range (e.g., CWHvm1), valley bottoms of the Columbia Mountains (e.g., ICHmw2), and parts of the Rocky Mountain Trench (e.g., ICHmm). Suitability is moderate (E2) throughout the drier subzones of these regions (e.g., CWHdm1, ICHdw1, MSdk). Suitability is low (E3) at higher subalpine elevations (e.g., MHmm1, ESSFmw1, MSdw), and in the rainshadow of the Coast mountains (e.g., IDFww). Mesic sites in dry lowland subzones (e.g., ICHxw) also have low suitability for Hw. Remaining areas (in white) are unsuitable for Hw under historic climates on medium/mesic sites.
 
 fig("Historic_Suit_Map.Hw.C4.png")
 ```
@@ -79,7 +81,7 @@ fig("Historic_Suit_Map.Hw.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE B2 TRENDS - On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench. Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
+#| fig-cap: On poor/subxeric sites Hw environmental suitability is low (E3) along the Western shore of Haida Gwaii (CWHvh3 - why? very wet but these are subxeric sites??), and the colder ICH, ESSF, and SBS subzones on the North and Eastern edges of the Coast mountains as well as high elevation and/or drier subzones throughout the Coast region (Between Agassiz and Boston bar, struggling to interpret this mosaic of E2 and E3.) Suitability is moderate (E2) in poor/subxeric sites of... Suitability is high (E1) in much of the lower elevations of the southern Columbia Mountains ..... Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
 
 fig("Historic_Suit_Map.Hw.B2.png") 
 
@@ -485,12 +487,44 @@ fig("Hw_D6_alluv.png")
 
 **Biotic factors**
 
-...summary text...
+Insects: 
+Defoliators: 
+Hw is intolerant of defoliation, so mortality can occur following only one year of heavy attack but can also continue for years following the collapse of an infestation. 
+- Western Hemlock looper (Most Hw can recover from less than 50% defoliation by this looper, but its wastful feeding habit increases its damage relative to other defoliating insects. Larvae start their season feeding on new buds but later disperse throughout the crown, partially chewing many needles. They occur most commonly in valley bottoms [@burleigh2014_forest_damage_bc]), 
+- Green-striped forest looper (Hw is one of its preferred host species; it's most common along the coast and interior wet belt, and feeds on all foliage but prefers 1-year old foliage. Severe infestations can be a cause of high mortality in the understory.)
+- Western false hemlock looper (only occasionally attacks Hw)
+- Western blackheaded budworm defoliates the upper crown or entire tree in a heavy attack (successive years of attack pose increasing risk of mortality).
+Conifer sawfly (usually attacks older foliage, and is greatest risk to mortality over multiple years or when co-occuring with other defoliators that attack newer foliage. While outbreaks are short-lived, sawfly damage may pre-dispose Hw to secondary attacks by other insects or fungi.)
+
+Bark/trunk boring:
+- Hylurgops beetle (Secondary pest, not an agressive threat to healthy trees. Attacks 15+ year old mature trees, usually if already stressed. Otherwise they attack stumps and dead or dying wood material. Only attacks below the root collar, which is a way to distinguish it from other beetles.)
+- Silver fir beetle/Fir root bark beetle (The two beetles are very similar, but they attack different parts of the tree)
+
+Other?:
+- Woolly adelgid (Not in field guide, surprisingly! Will find more info elsewhere)
+- Conifer seedling beetle (Girdle seedlings near the root collar, most commonly on cool, moist, rich sites. Populations build up in debris-covered previously logged sites and attack most strongly in sites where ground cover has been cleared prior to planting.)
+
+Diseases: 
+- Hemlock dwarf mistletoe (Common and serious in coastal region but not interior. In highly productive Hw sites, trees can outgrow the mistletoe, but it can spread very easily and can infect large portions of a Hemlock stand within several decades [@burleigh2014_forest_damage_bc])
+- Tomentosus root rot (Most damaging to young trees, less than 60 years old, and death can occur up to two decades after initial infection)
+- Annosus root rot (Hw is the main host)
+-Rhizina root disease (occurs within the two years following a fire.)
+- Phomopsis canker of douglas fir (Cankers survive only for a single year. They can girdle small trees, but larger trees can survive infections and heal over the canker, but might lose branches or tops)
+- Sirococcus tip blight (Affects the current year's needles and terminal tips, which die back to reveal small fruiting bodies. Most common in dense stands with low light and high moisture)
+- Brown crumbly rot (red belt fungus) (Most common on dead material as an important decomposer, but can gain entry to live trees through wounds, bored holes, or other infections. Develops conks on the trunk surface)
+  - Brown cubical rot
+  - Brown trunk rot (Enters through wounds. A single conk indicates a significant volume of the heartwood is already destroyed)
+    - - Red ring rot (similar)
+- Indian paint fungus (Hw is moderately to severely attacked in interior forests, usually following snow damage, high elevations along the coast, and poor sites. Perennial conks develop on living trees)
+(There are so many rots, I'm going to stop noting them all. Stopping at Schweinitzii butt rot)
+
+I will consolidate these notes into a summary once complete.
+
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
 
-## Climate change/drought
+## Climate change-forest health interactions
 
 **Climate change and drought**
 
