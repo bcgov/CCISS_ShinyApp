@@ -46,9 +46,9 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
-Western hemlock (Hw) occurs throughout the Coast mountain area from Northern British Columbia and the Alaska panhandle to Northern California, and throughout the Columbia mountains in British Columbia and Northern Washington, Idaho, and Montana [@nrcan_western_hemlock].
+Western hemlock (Hw) occurs in cool temperate and cool mesothermal climates throughout the Coast mountain area from Northern British Columbia and the Alaska panhandle to Northern California, and throughout the Columbia mountains in British Columbia and Northern Washington, Idaho, and Montana [@nrcan_western_hemlock].
 
-Hw is found in both submontane and montane habitats (up to subalpine) in a wide range of soil moisture and nutrient regimes [@klinka_distribution_2000]. It prefers fresh to very moist soil, but can tolerate wetter conditions by growing on mounds or decomposing stumps. It thrives in very poor to medium soil nutrient regimes, and where acidic coniferous decaying wood is plentiful. Shade cover is required for robust seedling establishment [@hetherington_western_hemlock_establishment]. Hw is adapted to the long growing season characteristic of humid coastal climates and low elevation regions of the interior wet belt, and does not tolerate frozen ground unless it is covered with insulating snow before freezing [@klinka_distribution_2000].
+Hw is found in both submontane and montane habitats (up to subalpine) in a wide range of soil moisture and nutrient regimes [@klinka_distribution_2000]. It prefers fresh to very moist soil, but can tolerate wetter conditions by growing on mounds or decomposing stumps. It thrives in very poor to medium soil nutrient regimes, and where acidic coniferous decaying wood is plentiful. It is very shade-tolerant and shade cover is required for robust seedling establishment [@hetherington_western_hemlock_establishment]. Hw is adapted to the long growing season characteristic of humid coastal climates and low elevation regions of the interior wet belt, and its shallow roots do not tolerate frozen ground unless it is covered with insulating snow before freezing [@klinka_distribution_2000].
 
 **Species environmental suitability during the reference period (1961--1990)**
 
@@ -81,7 +81,7 @@ fig("Historic_Suit_Map.Hw.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: On poor/subxeric sites Hw environmental suitability is low (E3) along the Western shore of Haida Gwaii (CWHvh3 - why? very wet but these are subxeric sites??), and the colder ICH, ESSF, and SBS subzones on the North and Eastern edges of the Coast mountains as well as high elevation and/or drier subzones throughout the Coast region (Between Agassiz and Boston bar, struggling to interpret this mosaic of E2 and E3.) Suitability is moderate (E2) in poor/subxeric sites of... Suitability is high (E1) in much of the lower elevations of the southern Columbia Mountains ..... Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
+#| fig-cap: On poor/subxeric sites Hw environmental suitability is low (E3) along the Western shore of Haida Gwaii where scrub forest and blanket bogs dominate, as well as the colder MH, ICH, ESSF, and SBS subzones on the North and Eastern edges of the Coast mountains and high elevation and/or drier subzones throughout the Coast region. Suitability is moderate (E2) in poor/subxeric sites throughout the Hw range in the Columbia Mountains (except for ICHmm along the Rocky Mountain Trench, where suitability is high) and in dry coastal subzones (e.g., CWHds1). Suitability on poor/subxeric sites is high (E1) in much of the rest of its coastal range, due to its relative tolerance of poor site conditions. Remaining areas (in white) are unsuitable for Hw under historic climates on poor/subxeric sites.
 
 fig("Historic_Suit_Map.Hw.B2.png") 
 
@@ -106,7 +106,12 @@ fig("Historic_Suit_Map.Hw.D6.png")
 
 The pie chart to the right depicts the distribution of the total environmentally suitable area of Hw in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
 
-...summary text...
+Western hemlock is the characteristic tree species of the Coastal Western Hemlock (CWH) zone along the BC coast [@ecosystems_bc_1991]. It is also a characteristic species of the Interior Cedar-Hemlock (ICH) zone in the lower and middle elevations of the Skeena and Nass River drainages, the lower slopes of the Columbia mountains, and west of the continental divide along the Rocky Mountains. 
+
+In the Coast Mountains, it also occurs in the subalpine Mountain Hemlock (MH) zone, where it co-occurs with the more common mountain hemlock (Hm), particularly in the ecotone along the upper edge of the CWH and ICH [@ecosystems_bc_1991]. Similarly but in the interior subalpine, it occurs in the ecotone between the ICH and the Engelmann Spruce -- Subalpine Fir (ESSF) zone. 
+
+To a much lesser extent, it can also be found in the Montane Spruce (MS) and Sub-Boreal Spruce (SBS) at the colder edge of its tolerance, and the Interior Douglas-fir (IDF), and Coastal Douglas-fir (CDF) zones at the drier end of its tolerance, though its environmental suitability in these zones is mostly moderate to low.
+
 ([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/western-hemlock)).
 
 ### Pie chart
