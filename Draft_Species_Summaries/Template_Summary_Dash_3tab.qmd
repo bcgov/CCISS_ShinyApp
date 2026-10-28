@@ -35,10 +35,10 @@ fig <- function(filename) {
 ```{r}
 #| echo: false
 #| fig-alt: "Silhouette of mature YYYY tree"
-#| fig-cap: "YYYY (*Scientific name*)"  #write in the scientific name
-#| out.width: "100%"
+#| fig-cap: "YYYY (*Scientific name*) <br> Image credit: NRCan"  #fill in the scientific name
+#| out.width: "75%"
 
-fig("PyOutline.png") #find the NRCan tree outline online and add it to the Figures/Spp folder
+fig("XX_shadow.gif") #find the NRCan tree outline online and add it to the Figures/"Sp" folder (.gif or .png)
 ```
 
 ### Col - Welcome text {width="80%"}
