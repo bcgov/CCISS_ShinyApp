@@ -32,7 +32,14 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![Lodgepole Pine (*Pinus contorta*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR03_Pinus_con_v_lat_silhouette.gif){fig-alt="Silhouette of mature lodgepole pine tree"}
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature lodgepole pine tree"
+#| fig-cap: "Lodgepole Pine (*Pinus contorta*) <br> Image credit: NRCan"
+
+fig("Pl_shadow.gif")
+```
+
 
 ### Col - Welcome text {width="80%"}
 
