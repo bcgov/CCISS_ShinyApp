@@ -1,5 +1,5 @@
 ---
-title: "Douglas Fir (Fd)"
+title: "Douglas-fir (Fd)"
 format: 
   dashboard:
     logo: images/BCID_H_RGB_rev.png
@@ -32,7 +32,13 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![Douglas Fir (*Pseudotsuga menziesii*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_P_men_v_men_silhouette.gif){fig-alt="Silhouette of mature douglas fir tree"}
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature Douglas-fir tree"
+#| fig-cap: "Douglas-fir (*Pseudotsuga menziesii*) <br> Image credit: NRCan"
+
+fig("Fd_shadow.gif")
+```
 
 ### Col - Welcome text {width="80%"}
 

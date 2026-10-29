@@ -1,5 +1,5 @@
 ---
-title: "Western Redcedar (Cw)"
+title: "Western redcedar (Cw)"
 format: 
   dashboard:
     logo: images/BCID_H_RGB_rev.png
@@ -34,7 +34,13 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![Western Redcedar (*Thuja plicata*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR01_Thuja_pli_silhouette.gif){fig-alt="Silhouette of mature western redcedar tree"}
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature western redcedar tree"
+#| fig-cap: "Western redcedar (*Thuja plicata*) <br> Image credit: NRCan"
+
+fig("Cw_shadow.gif")
+```
 
 ### Col - Welcome text {width="80%"}
 
