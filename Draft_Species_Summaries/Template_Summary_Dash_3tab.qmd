@@ -112,7 +112,7 @@ fig("Historic_Suit_Map.XX.D6.png")
 The pie chart to the right depicts the distribution of the total environmentally suitable area of XX in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
 
 ...summary text...
-([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/douglas-fir)).
+
 
 ### Pie chart
 
@@ -123,8 +123,6 @@ The pie chart to the right depicts the distribution of the total environmentally
 ##| layout-ncol: 2
 #| out-width: "70%"
 #| 
-
-
 
 fig("XX_histpie.png")
 ```
@@ -487,7 +485,7 @@ fig("XX_D6_alluv.png")
 
 **Biotic factors**
 
-...summary text...
+...summary text (using BC gov pages on common biotic agents and other sources)...
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
@@ -496,7 +494,7 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 **Climate change and drought**
 
-...summary text...
+...summary text (you can change the title of this section, as relevant for the tree species)...
 
 
 # References
