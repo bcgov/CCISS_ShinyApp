@@ -20,17 +20,20 @@ Summary info for XX:
 1) find the NRCan tree outline online and add it to the Figures/"Sp" folder (.gif or .png)
     Note: the .gif version of the figure is sized correctly. If you use the .png version, you might need to adjust the sizing with "#| out.width: "75%""
     Temporary note: The NRCan website is currently down, so you might not be able to find and download the tree image until they come back online.
+    Note: add the tree species scientific name to the figure caption.
 
 2) Fill in the "High level species summary text"
 
 
 Reference period page:
-1) Top summary text
+1) Species geographic and climatic range
+Note: Use information from the BC gov species compendium pages, NRCan species summaries, and/or other references. 
 
 2) Map captions
     -	C4
     -	B2
     -	D6
+Note: Add "Remaining areas (in white) are unsuitable for Xx under historic climates on medium/mesic sites." to the end of the historical suitability descriptions.
     
 3)	BGC text
 
@@ -46,7 +49,7 @@ CCISS projections:
 Forest Health:
 1) Biotic factors
 
-2) Climate change and drought
+2) Climate change and drought (you can change this section title as appropriate for each species)
 
 3) Any other sections needed?
 
@@ -69,7 +72,8 @@ So far, we have different approaches that work to fill out the .bib file. You ca
 
 And to then use that reference in the .qmd dashboard, you would cite it like [@mahony_global_2022].
 
-I suggest pulling in the freqently-used citations from pre-existing .bibs of other species when you first creat the file.
+I suggest pulling in the freqently-used citations from pre-existing .bibs of other species when you first creat the file. 
+(the Mahony et al. 2022 citation, example above, is cited in the figure captions, copy into each ReferencesXx.bib file)
 
 All references cited in the dashboard show up automatically in the References tab.
 
@@ -79,3 +83,11 @@ Rendering and pushing to git -----------------------------------------
 As you're working, you can hit Render and it will locally render it in a tab in your browser.
 
 When you're finished, you push the .qmd file, .bib file, and the tree outline image in the Figures folder. DO NOT push the .html file that generates locally on your device when you render the dashboard. It is not needed.
+
+
+
+Other general writing notes -------------------------------------------
+
+- On each individual tab (e.g. Reference period, CCISS projections), the first time the species is mentioned, use "common name (Xx)"" e.g. "ponderosa pine (Py)", for the rest of the page refer to the species using the abbreviation (e.g. "Py").
+- BGC zone names are capitalized (e.g. Engelmann Spruce--Subalpine Fir)
+- Common tree species names are lower case (e.g. western redcedar), unless it contains a proper noun (e.g. Douglas-fir)
