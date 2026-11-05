@@ -433,25 +433,24 @@ fig("One_panel.Hw.D6.2081_2100.png")
 
 **Shifts in suitable area**
 
-## Row - Suitability area: alluvial plots {height="800px"} #was 750
+## Row - Suitability area: alluvial plots {height="800px"} 
 
-### Col - Alluvial figure {.tabset width="70%"}
+### Col - Alluvial figure {.tabset width="60%"}
 
 #### Medium/mesic (C4)
 
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. **Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
 #| expandable: false
-#| out-width: "60%"
+#| out-width: "75%"
 #| padding: 0px
  
 
 fig("Hw_C4_alluv.png")
 
 ```
-
 
 :::
 
@@ -460,16 +459,15 @@ fig("Hw_C4_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
 #| expandable: false
-#| out-width: "60%"
+#| out-width: "75%"
 #| padding: 0px
 
 fig("Hw_B2_alluv.png")
 
 ```
 
-**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
 :::
 
 #### Rich/hygric (D6)
@@ -477,19 +475,18 @@ fig("Hw_B2_alluv.png")
 ::: card
 ```{r}
 #| title: Change in total suitable area over time, across BGC zones
-#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province.
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
 #| expandable: false
-#| out-width: "60%"
+#| out-width: "75%"
 #| padding: 0px
 
 fig("Hw_D6_alluv.png")
 
 ```
 
-**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
 :::
 
-### Col - description {width="30%"}
+### Col - description {width="40%"}
 
 Western hemlock's total suitable area is projected to expand over the rest of this century, due to an overall fairly stable suitable area in its characteristic Coastal Western Hemlock (CWH) and Interior Cedar-Hemlock (ICH) zones (despite losses of suitability in drought-prone subzones, as described above), as well as an increase in suitable area particularly in the Engelmann Spruce – Subalpine Fir (ESSF) and Sub-Boreal Spruce (SBS). 
 
