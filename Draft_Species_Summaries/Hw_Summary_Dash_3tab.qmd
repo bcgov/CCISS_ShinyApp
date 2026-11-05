@@ -32,7 +32,15 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![Western hemlock (*Tsuga heterophylla*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_Tsuga_het_silhouette.gif){fig-alt="Silhouette of mature western hemlock tree"}
+
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature western hemlock tree"
+#| fig-cap: "Western hemlock (*Tsuga heterophylla*) <br> Image credit: NRCan"  
+
+
+fig("Hw_shadow.gif") 
+```
 
 ### Col - Welcome text {width="80%"}
 
