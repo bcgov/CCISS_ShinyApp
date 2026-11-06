@@ -494,7 +494,7 @@ Many mapped units within the SBS zone, especially wetter subzone/variants, are p
 
 The Mountain Hemlock (MH) zone is above the CWH zone in elevation throughout the Coast Mountains and historically supported populations of Hw at lower elevations of the zone, but with only low (E3) to moderate (E2) suitability. While this zone does not see a large increase in suitable area projected for Hw, it is projected to increase in suitability (up to high (E1) suitability) in many areas by 2100. A similar trend is projected for the Montane Spruce (MS) zone, where it had historically low to moderate suitability; as climate change warms this higher-elevation zone, its Hw suitability is projected to increase.
 
-As described above, small areas of the CDF and IDF are projected to potentially become suitable (low (E3) to moderate (E2)) for Hw due to projected warming and increasing precipitation. Small alpine areas of the CMA, BAFA, and IMA are also projected to become suitable as they warm to become more similar to the BGC zones below them in elevation. Additionally, the more northern-latitude zones Spruce--Willow--Birch (SWB) and Boreal White and Black Spruce (BWBS) are projected to become suitable in small areas as they experience warming climates but there is more model uncertainty here in whether that warming will lead to them being climatically similar to Hw-suitable zones. For example, a portion of the projections for the SWBmk subzone suggest that it will become ICH-like with higher temperatures and precipitation, but a variety of other possibilities include becoming more climatically similar to the MS, SBS, and BWBS zones, which would not be suitable for Hw.
+As described above, small areas of the CDF and IDF are projected to potentially become suitable (low (E3) to moderate (E2)) for Hw due to projected increases in precipitation. Small alpine areas of the CMA, BAFA, and IMA are also projected to become suitable as they warm to become more similar to the BGC zones below them in elevation. Additionally, the more northern-latitude zones Spruce--Willow--Birch (SWB) and Boreal White and Black Spruce (BWBS) are projected to become suitable in small areas as they experience warming climates but there is more model uncertainty here in whether that warming will lead to them being climatically similar to Hw-suitable zones. For example, a portion of the projections for the SWBmk subzone suggest that it will become ICH-like with higher temperatures and precipitation, but a variety of other possibilities include becoming more climatically similar to the MS, SBS, and BWBS zones, which would not be suitable for Hw.
 
 
 
@@ -504,38 +504,24 @@ As described above, small areas of the CDF and IDF are projected to potentially 
 
 **Biotic factors**
 
-Insects: 
-Defoliators: 
-Hw is intolerant of defoliation, so mortality can occur following only one year of heavy attack but can also continue for years following the collapse of an infestation. 
-- Western Hemlock looper (Most Hw can recover from less than 50% defoliation by this looper, but its wastful feeding habit increases its damage relative to other defoliating insects. Larvae start their season feeding on new buds but later disperse throughout the crown, partially chewing many needles. They occur most commonly in valley bottoms [@burleigh2014_forest_damage_bc]), 
-- Green-striped forest looper (Hw is one of its preferred host species; it's most common along the coast and interior wet belt, and feeds on all foliage but prefers 1-year old foliage. Severe infestations can be a cause of high mortality in the understory.)
-- Western false hemlock looper (only occasionally attacks Hw)
-- Western blackheaded budworm defoliates the upper crown or entire tree in a heavy attack (successive years of attack pose increasing risk of mortality).
-Conifer sawfly (usually attacks older foliage, and is greatest risk to mortality over multiple years or when co-occuring with other defoliators that attack newer foliage. While outbreaks are short-lived, sawfly damage may pre-dispose Hw to secondary attacks by other insects or fungi.)
+*Defoliating insects*
+Western hemlock (Hw) is host to a variety of defoliators, including the western hemlock looper, green-striped forest looper, western blackheaded budworm, conifer sawflies, and occasionally the western false hemlock looper. Hw is intolerant of defoliation and may experience growth loss or mortality after only a single year of heavy attack. Risk generally increases with repeated years of defoliation, and damage may be compounded when multiple defoliator species attack different age classes of foliage simultaneously. Mortality can continue for years following the collapse of an infestation, and damage may pre-dispose Hw to secondary attacks by other insects or fungi.
 
-Bark/trunk boring:
-- Hylurgops beetle (Secondary pest, not an agressive threat to healthy trees. Attacks 15+ year old mature trees, usually if already stressed. Otherwise they attack stumps and dead or dying wood material. Only attacks below the root collar, which is a way to distinguish it from other beetles.)
-- Silver fir beetle/Fir root bark beetle (The two beetles are very similar, but they attack different parts of the tree)
+The western hemlock looper's wasteful feeding habit makes it particularly damaging for Hw, and occurs most commonly in valley bottoms [@burleigh2014_forest_damage_bc] due to ___. Similarly, the green-striped forest looper prefers Hw as a host species and can cause high mortality in the understory along the coast and interior wet belt. With the projected shift and expansion of these wet and warm BGC zones (e.g., the CWH and ICH) with climate change, these pests are likely to spread...(find citations that explore this).
 
-Other?:
-- Woolly adelgid (Not in field guide, surprisingly! Will find more info elsewhere)
-- Conifer seedling beetle (Girdle seedlings near the root collar, most commonly on cool, moist, rich sites. Populations build up in debris-covered previously logged sites and attack most strongly in sites where ground cover has been cleared prior to planting.)
+*Other insects*
+Bark and root-collar beetles are generally secondary pests of Hw, primarily attacking trees that are already stressed, dying, or recently killed. Species including Hylurgops beetles, silver fir beetles, and fir root bark beetles contribute to decline and wood degradation but are typically not important mortality agents in vigorous stands. The hylurgops beetle in particular is a secondary pest that attacks 15+ year old mature trees, usually if already stressed. Otherwise, they attack stumps and dead or dying wood material.
 
-Diseases: 
-- Hemlock dwarf mistletoe (Common and serious in coastal region but not interior. In highly productive Hw sites, trees can outgrow the mistletoe, but it can spread very easily and can infect large portions of a Hemlock stand within several decades [@burleigh2014_forest_damage_bc])
-- Tomentosus root rot (Most damaging to young trees, less than 60 years old, and death can occur up to two decades after initial infection)
-- Annosus root rot (Hw is the main host)
--Rhizina root disease (occurs within the two years following a fire.)
-- Phomopsis canker of douglas fir (Cankers survive only for a single year. They can girdle small trees, but larger trees can survive infections and heal over the canker, but might lose branches or tops)
-- Sirococcus tip blight (Affects the current year's needles and terminal tips, which die back to reveal small fruiting bodies. Most common in dense stands with low light and high moisture)
-- Brown crumbly rot (red belt fungus) (Most common on dead material as an important decomposer, but can gain entry to live trees through wounds, bored holes, or other infections. Develops conks on the trunk surface)
-  - Brown cubical rot
-  - Brown trunk rot (Enters through wounds. A single conk indicates a significant volume of the heartwood is already destroyed)
-    - - Red ring rot (similar)
-- Indian paint fungus (Hw is moderately to severely attacked in interior forests, usually following snow damage, high elevations along the coast, and poor sites. Perennial conks develop on living trees)
-(There are so many rots, I'm going to stop noting them all. Stopping at Schweinitzii butt rot)
+Western hemlock seedlings may be damaged or killed by conifer seedling beetles, particularly on cool, moist, rich sites. Populations build up in debris-covered previously logged sites, but attack most strongly in sites where ground cover has been cleared prior to replanting.
 
-I will consolidate these notes into a summary once complete.
+*Fungal pathogens and decomposers*
+Root rot can cause substantial growth loss, structural weakening, and mortality in Hw. Root diseases such as tomentosus and annosus root rot contribute to mortality, especially in younger stands or where infection centers become established. Rhizina root disease occurs within the first two years following a fire.
+
+Several pathogens affect shoots, branches, and young trees. Sirococcus tip blight damages current-year shoots in dense, moist stands, while Phomopsis canker may girdle small trees and cause branch or top dieback in larger individuals.
+
+Numerous heart-rot and butt-rot fungi affect Hw, including brown crumbly rot, brown trunk rot, red ring rot, Indian paint fungus, and Schweinitzii butt rot. These fungi are most common on dead material as important decomposers in the ecosystem, but can enter living trees through wounds, bored holes, branch stubs, or damage from snow and can substantially reduce wood quality and structural integrity long before external fruiting bodies (typically conks) become visible on the trunk surface.
+
+Hemlock dwarf mistletoe is a common and serious threat to Hw stands in the Coastal populations but not Interior. In highly productive Hw sites, trees can outgrow the mistletoe, but it can spread very easily and can infect large portions of a hemlock stand within several decades [@burleigh2014_forest_damage_bc].
 
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
@@ -545,7 +531,12 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 **Climate change and drought**
 
-...summary text...
+Qs to address with literature review next:
+- As Hw's suitable area exapnds, will the suitable habitats for its pests also be expanding? Implications for spread?
+
+- Which pests/diseases will benefit from warming and/or drought? Or will projected climate change be bad for any of them?
+
+- Are pests/diseases projected to become more generalist as climates shift, or will their distributions shift with the climates favorable to them? What has been shown so far in the literature? 
 
 
 # References
