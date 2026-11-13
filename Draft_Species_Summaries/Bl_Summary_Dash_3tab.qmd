@@ -43,7 +43,7 @@ fig("Abies_las_silhouette.gif") #find the NRCan tree outline online and add it t
 
 ### Col - Welcome text {width="80%"}
 
-**...High level species summary text...** <br>
+**Subalpine fir (abbreviated as Bl) is a high elevation and high latitude specialist species, flourishing in harsh, cold environments. The CCISS model projects an overall decline in suitable area for this species with climate change, particularly in the central and southern interior, as the ESSF zone becomes more climatically similar to lower elevation ICH zones, with some potential for range expansion into higher elevations and latitudes in the Spruce-Willow Birch, Coastal, Interior and Boreal Alpine zones. However moderate increases in suitability will likely not compensate for the loss of suitable area projected for this species a whole, particularly for dry-poor (B2) sites, where Subalpine fir reaches the limits of its environmental tolerance and is more susceptible to drought** <br>
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future management.
 
@@ -53,12 +53,17 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 **Species geographic and climatic range**
 
+Subalpine fir is a shade tolerant species that occurs in humid continental boreal climates with a short growing season, as well as some high-elevation maritime climates (Burns and Honkala 1990; Klinka et al. 2000). Although Bl is a late successional species, it can also act as an early successional species in cold, high-elevation environments and at recently disturbed sites. Bl occurs at montane and subalpine elevations and often grows to timberline, where it is more likely to occur in pure stands due to its ability to tolerate a heavy snowpack (Burns and Honkala 1990). On the coast, Bl is commonly found with Mountain hemlock and can be dominant at the highest elevations in the MH zone. Bl may also be present throughout the transition from MH to ESSF, where Bl is often co-dominant in mixed stands with Engelmann spruce in continental climates (Burns and Honkala 1990; LMH 77; 2026). Bl increases in abundance and dominance through time and in absence of large disturbances (Burns and Honkala 1990).
 
-Dominant in alpine/subalpine regions - 
+Bl is slow growing at high elevations due to the short growing season and heavy snowpack, while growth is limited at low elevations by soil moisture during the growing season (Ettl and Peterson 1995; Peterson et al. 2002). 
 
-Subalpine fir is a shade tolerant, late successional species that increases in abundance and dominance through time and in absence of large disturbances (Burns and Honkala 1990). 
+Short-term climatic variability influences growth in different ways across its range in central and southern interior BC. Across the ESSF and SBS zones, established Bl are moderately tolerant of drought and high summer temperatures, but there is greater growth with cool temperatures (Griesbauer et al. 2021; Klinka et al. 1998; Splechtna et al. 2000). Although warm temperatures in the growing season are associated with greater growth at high elevations, high temperatures early in the growing season in dry sites and at low elevations are generally associated with decreased growth (Griesbauer et al. 2021; Miyamoto et al. 2010; Splechtna et al. 2000). Bl’s response to drought and high summer temperatures may increase with latitude (Haghshenas and Wood 2025).
+
+Bl is highly tolerant of nutrient poor soils, but site index increases greatly with soil nutrient richness (Klinka et al. 2000; Klinka and Chen 2003). 
 
 **Species environmental suitability during the reference period (1961--1990)**
+
+Subalpine fir grows mainly in humid, continental boreal climates of the XYZ, with a short growing season; less frequently in cool temperate climates of the XYZ, with a longer growing season. When these climates become drier and/or warmer, subalpine fir is absent or its occurrence is rare. 
 
 In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
 
@@ -162,7 +167,8 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-...summary text...
+Subalpine fir is projected to undergo moderate range contractions on zonal (C4) and moist-rich (D6) sites, persisting within approximately 80% (70-100%) of its historic range area by the end of the century. On dry-poor (B2) site types however, the range contraction is projected to be substantially larger, with Subalpine fir retaining only about 50% (40-60%) of its historical range area by 2100. This is in line with projections that loss of snowpack and drought will reduce environmental suitability for this species at high latitudes and elevations, particularly on already moisture limited sites (CITATION). In contrast, increases in suitable area are projected at higher elevations and latitudes than this species historically occurred, leading to an approximately 12-25% increase in newly suitable area ny the end of the century in dry-poor (B2) to moist-rich (D6) site types respectively. 
+
 <br>
 
 *Notes on interpretation of persistence and expansion*
@@ -189,7 +195,7 @@ $$\text{Expansion (\%)} =
 ```{r}
 #| fill: false
 #| out-width: "60%"
-#| fig-cap: "Projected persistence and expansion of the suitable range of Bl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+#| fig-cap: "Projected persistence and expansion of the suitable range of Bl in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
 fig("Bl_C4_bub.png") 
 ```
 :::
@@ -228,8 +234,11 @@ fig("Bl_D6_bub.png")
 ### L col {width="35%"}
 
 ::: card
-...summary text...
 
+Overall, the CCISS model projects that warmer temperatures and decreased winter precipitation will reduce the suitability of  Bl across the Province. Bl suitability is projected to decline over time and eventually become unsuitable across lower elevation areas and throughout the central/southern interior, Rocky-mountain trench and Coast mountains and portions of the Northeast (BWBSwk3 and SWBmk zones). However some of these losses will be compensated by gains of suitability into higher elevation areas, particularly across the Northern Boreal Mountains,    
+
+On Medium/mesic (C4) sites, major areas of decline or loss include SBS units around Prince George (mk1, dw3, wk1, mh, mw), where Bl declines from high (E1) to low (E3) environmental suitability or is projected unsuitable (E5) by the end of the century. BGC climate analogs of this area include ICH-like climates from the Southeast in Clearwater/Revelstoke area (ICHdw3, mw3) and the Kootenays (ICHdw1) that have historically low suitability for Bl. In  the Northwest of the Province, Bl suitability is projected to decline from high elevation areas of the Nass and Boundary and Pelly mountain ranges and in the Northeast of the Province, 
+Portions of the SWB and BWBS in the Northeast are also projected to become unsuitable for Bl, lower elevations of the Rocky Mt. trench, High elevation Coastal Mountain alpine and MH    
 :::
 
 ### R col {width="65%"}
@@ -480,7 +489,7 @@ fig("Bl_D6_alluv.png")
 
 ### Col - description {width="30%"}
 
-...summary text...
+
 
 # Forest health
 
