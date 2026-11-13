@@ -32,7 +32,13 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![Interior spruce (*Picea glauca*, *P. engelmannii*, and *P. glauca* x *engelmannii*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_Picea_gla_silhouette.gif){fig-alt="Silhouette of mature white spruce tree"}  
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature interior spruce tree"
+#| fig-cap: "Interior spruce (*Picea glauca*, *P. engelmannii*, and *P. glauca* x *engelmannii*) <br> Image credit: NRCan"
+
+fig("Sx_shadow.gif")
+```
 
 ### Col - Welcome text {width="80%"}
 

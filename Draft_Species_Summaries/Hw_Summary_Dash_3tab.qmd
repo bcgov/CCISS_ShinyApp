@@ -1,0 +1,568 @@
+---
+title: "Western hemlock (Hw)"  
+format: 
+  dashboard:
+    logo: images/BCID_H_RGB_rev.png
+    scrolling: true
+    orientation: rows
+    css: dashboard.css
+    embed-resources: true
+bibliography: referencesHw.bib
+csl: apa.csl
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(gt)
+
+#Use this to set up the file path for all figures saved in ccissr. 
+fig_path <- "./Figures/Hw" #set species and edit all figure names
+
+# Wrapper function for loading figures
+fig <- function(filename) {
+  knitr::include_graphics(file.path(fig_path, filename))
+} #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
+```
+
+# Western hemlock
+
+## Summary info for Hw
+
+### Col - Tree image {width="20%"}
+
+
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature western hemlock tree"
+#| fig-cap: "Western hemlock (*Tsuga heterophylla*) <br> Image credit: NRCan"  
+
+
+fig("Hw_shadow.gif") 
+```
+
+### Col - Welcome text {width="80%"}
+
+**Western hemlock (abbreviated Hw) is one of the most common conifer species in the Pacific and Cordilleran regions of British Columbia and is an important timber species for pulp and lumber products. The CCISS model predicts a decline or loss of suitability in parts of its historical range (particularly in its warmest and/or driest subzones). Increases and expansion of its environmental suitability are predicted upslope throughout the Coastal and Columbia mountain ranges, as well as into newly suitable areas of the southern, central, and sub-boreal interior and Georgia depression.** <br> 
+
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future western hemlock management.
+
+# Reference period
+
+## Summary text
+
+**Species geographic and climatic range**
+
+Western hemlock (Hw) occurs in cool temperate and cool mesothermal climates throughout the Coast mountain area from Northern British Columbia and the Alaska panhandle to Northern California, and throughout the Columbia mountains in British Columbia and Northern Washington, Idaho, and Montana [@nrcan_western_hemlock; @arno2020northwest].
+
+Hw is found in both submontane and montane habitats (up to subalpine) in a wide range of soil moisture and nutrient regimes [@klinka_distribution_2000]. It prefers fresh to very moist soil, but can tolerate wetter conditions by growing on mounds or decomposing stumps. It thrives in very poor to medium soil nutrient regimes, and where acidic coniferous decaying wood is plentiful. Mycorrhizal associations are common with Hw seedlings establishing in both soil and decaying wood [@kropp_fungi_1982]. It is very shade-tolerant and shade cover is required for robust seedling establishment [@hetherington_western_hemlock_establishment]. Because of this shade tolerance, it tends to be the dominant tree in dense forests that have not seen disturbance for a long period of time [@arno2020northwest]. Hw is adapted to the long growing season characteristic of humid coastal climates and low elevation regions of the interior wet belt, and its shallow roots do not tolerate frozen ground unless it is covered with insulating snow before freezing [@klinka_distribution_2000].
+
+**Species environmental suitability during the reference period (1961--1990)**
+
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime and soil moisture  regime at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
+
+## Reference period plots
+
+### Reference period maps {.tabset}
+
+#### Medium/mesic (C4)
+
+```{r}
+#| title: Environmental suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On medium/mesic sites Hw environmental suitability is high (E1) in the wetter BGC subzones of its coastal range (e.g., CWHvm1), valley bottoms of the Columbia Mountains (e.g., ICHmw2), and parts of the Rocky Mountain Trench (e.g., ICHmm). Suitability is moderate (E2) throughout the drier subzones of these regions (e.g., CWHdm1, ICHdw1, MSdk). Suitability is low (E3) at higher subalpine elevations (e.g., MHmm1, ESSFmw1, MSdw), and in the rainshadow of the Coast mountains (e.g., IDFww). Mesic sites in dry lowland subzones (e.g., ICHxw) also have low suitability for Hw. Remaining areas (in white) are unsuitable for Hw under historic climates on medium/mesic sites.
+
+fig("Historic_Suit_Map.Hw.C4.png")
+```
+
+#### Poor/subxeric (B2)
+
+```{r}
+#| title: Environmental suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On poor/subxeric sites Hw environmental suitability is low (E3) along the Western shore of Haida Gwaii where scrub forest and blanket bogs dominate, as well as the colder MH, ICH, ESSF, and SBS subzones on the North and Eastern edges of the Coast mountains and high elevation and/or drier subzones throughout the Coast region. Suitability is moderate (E2) in poor/subxeric sites throughout the Hw range in the Columbia Mountains (except for ICHmm along the Rocky Mountain Trench, where suitability is high) and in dry coastal subzones (e.g., CWHds1). Suitability on poor/subxeric sites is high (E1) in much of the rest of its coastal range, due to its relative tolerance of poor site conditions. Remaining areas (in white) are unsuitable for Hw under historic climates on poor/subxeric sites.
+
+fig("Historic_Suit_Map.Hw.B2.png") 
+
+```
+
+#### Rich/hygric (D6)
+
+```{r}
+#| title: Environmental suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: In drier subzones (e.g., the ICHdw1 in valley bottoms of the Columbia mountains and the CWHdm1 in the Georgia depression), rich/hygric sites have high environmental suitability (E1) for Hw. In contrast, large areas of its wet Coastal range drop to moderate (E2) or low (E3) suitability, as well as the wetter and/or colder subzones of its range in the Columbia mountains (e.g., ICHmw1 near Golden, ICHmc2 in the Skeena River drainage, and MHmm1 in the Southwest of the Province) In some otherwise unsuitable zones, like the CDFmm along the Strait of Georgia, higher moisture in D6 edatopic pockets allow for low (E3) suitability. Remaining areas (in white) are unsuitable for Hw under historic climates on rich/hygric sites.
+
+fig("Historic_Suit_Map.Hw.D6.png")
+```
+
+### BGC text
+
+**Distribution of Hw across BGC zones**
+
+The pie chart to the right depicts the distribution of the total environmentally suitable area of Hw in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
+
+Western hemlock is the characteristic tree species of the Coastal Western Hemlock (CWH) zone along the BC coast [@ecosystems_bc_1991; @centre_for_forest_conservation_genetics_cataloguing_nodate]. It is also a characteristic species of the Interior Cedar-Hemlock (ICH) zone in the lower and middle elevations of the Skeena and Nass River drainages, the lower slopes of the Columbia mountains, and west of the continental divide along the Rocky Mountains. 
+
+In the Coast Mountains, it also occurs in the subalpine Mountain Hemlock (MH) zone, where it co-occurs with the more common mountain hemlock (Hm), particularly in the ecotone along the upper edge of the CWH and ICH [@ecosystems_bc_1991]. Similarly but in the interior subalpine, it occurs in the ecotone between the ICH and the Engelmann Spruce -- Subalpine Fir (ESSF) zone. 
+
+To a much lesser extent, it can also be found in the Montane Spruce (MS) and Sub-Boreal Spruce (SBS) at the colder edge of its tolerance, and the Interior Douglas-fir (IDF), and Coastal Douglas-fir (CDF) zones at the drier end of its tolerance, though its environmental suitability in these zones is mostly moderate to low.
+
+([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/western-hemlock)).
+
+### Pie chart
+
+::: card
+```{r}
+##| title:  Historical range by BGC zone
+##| fig-show: hold
+##| layout-ncol: 2
+#| out-width: "70%"
+#| 
+
+
+
+fig("Hw_histpie.png")
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+# CCISS projections
+
+## Overall summary
+
+**Future projected environmental suitability for western hemlock**
+
+On this page, you will find a visual and interpretive synthesis of the environmental suitability projections calculated using the Climate Change Informed Species Selection [CCISS](https://bcgov-ffec.ca/cciss-docs/) tool, including:
+
+1.  Proportion of the historic range that the species is predicted to remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by site type (edatope).
+
+2.  Predicted mean changes in environmental suitability across its geographic range in BC, by future time period and site type (edatope).
+
+3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
+
+## Row - broad trends {.spacer-row}
+
+**Broad trends**
+
+<style>
+.card .math.display {
+  font-size: 0.8em;
+}
+</style>
+
+## Row - Bubble plot {height="700px"}
+
+### L Column - Plot description {width="40%"}
+
+::: card
+Western hemlock (Hw) is projected to persist within 55-70% of its historically suitable range, and its suitable range is projected to expand into an additional area about 30-70% of its historical total. Combined, this means that its overall suitable area is projected to stay about the same over time (as shown by the blue dot in the figure remaining close to the grey dashed line - see figure legend), depending on site type. In zonal (C4) and rich/hygric (D6) sites, its suitable range might expand slightly over time as warming climate conditions shift its suitable habitat upslope and into more Northern latitudes, whereas suitability in poor/subxeric B2 sites is projected to decrease over time, primarily due to the increasing drought stress projected for future time periods.
+<br>
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+
+$$\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+
+$$\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+:::
+
+### R Column - Bubble plot {width="60%"}
+
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Hw in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+fig("Hw_C4_bub.png") 
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Hw in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+
+fig("Hw_B2_bub.png") 
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Hw in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+
+fig("Hw_D6_bub.png") 
+```
+:::
+::::::
+
+## Row {.spacer-row}
+
+**Suitability changes**
+
+## Row - Maps {height="800px"}
+
+### L col {width="35%"}
+
+::: card
+The CCISS model generally predicts that environmental suitability for western hemlock will increase upslope of its historical  range, and decrease within its current low elevation range where the climate is projected to become to hot and/or dry to support it. Particularly, suitability declines and losses are projected to be highest in the drier subzones of the low-elevation Coastal Western Hemlock (CWH) and Interior Cedar-Hemlock (ICH) zones. However, many other parts of its coastal range that were historically highly suitable are projected to remain suitable due to the stabilizing influence of the ocean on coastal climates. For example, the wet coastal forest subzones of the CWH are projected to be maintained into the 2081-2100 period in many places, or experience decreases in moisture (e.g., the CWHvh2 is projected to become more CWHvm3-like along the coast near Bella Bella) that are still well within the suitability range for Hw.
+
+As climate change increases regional temperatures over the next 80 years, Hw's suitability is projected to increase and expand in higher elevation zones, such as the Mountain Hemlock (MH), Engelmann Spruce -- Subalpine Fir (ESSF), and even current alpine zones (e.g., the Coastal Mountain-heather Alpine (CMA) and Interior Mountain-heather Alpine (IMA)) as they are projected to become more climatically similar to CWH and MH in the Coast mountains, and ICH-like in the Columbia mountains.
+
+The CCISS model also predicts expansion of suitable habitat for Hw over the course of the century, particularly into medium/mesic (C4) sites of the Sub-Boreal Spruce (SBS) zone in the Interior Plateau. Warming is projected in this region, causing it to become ICH-like over this time period, which will make it suitable for both western redcedar and hemlock. Expansion of Hw suitability into medium/mesic (C4) and rich/hygric (D6) sites of the the Coastal Douglas-fir (CDF) and Montane Spruce (MS) zones is also predicted, since they are also projected to become warmer and wetter with climate change.
+
+:::
+
+### R col {width="65%"}
+
+:::::::: {.card .fit-screen-card}
+::::::: card-body
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+
+fig("One_panel.Hw.C4.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.C4.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.C4.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.C4.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.C4.2081_2100.png")
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.B2.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.B2.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.B2.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.B2.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.B2.2081_2100.png")
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.D6.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false 
+#| out-width: 65%
+
+fig("One_panel.Hw.D6.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.D6.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.D6.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Hw.D6.2081_2100.png")
+```
+:::
+::::::
+:::::::
+::::::::
+
+## Row - Shifts in BGC suitability {.spacer-row}
+
+**Shifts in suitable area**
+
+## Row - Suitability area: alluvial plots {height="800px"} 
+
+### Col - Alluvial figure {.tabset width="60%"}
+
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| expandable: false
+#| out-width: "75%"
+#| padding: 0px
+ 
+
+fig("Hw_C4_alluv.png")
+
+```
+
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| expandable: false
+#| out-width: "75%"
+#| padding: 0px
+
+fig("Hw_B2_alluv.png")
+
+```
+
+:::
+
+#### Rich/hygric (D6)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Hw suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| expandable: false
+#| out-width: "75%"
+#| padding: 0px
+
+fig("Hw_D6_alluv.png")
+
+```
+
+:::
+
+### Col - description {width="40%"}
+
+Western hemlock's total suitable area is projected to expand over the rest of this century, due to an overall fairly stable suitable area in its characteristic Coastal Western Hemlock (CWH) and Interior Cedar-Hemlock (ICH) zones (despite losses of suitability in drought-prone subzones, as described above), as well as an increase in suitable area particularly in the Engelmann Spruce – Subalpine Fir (ESSF) and Sub-Boreal Spruce (SBS). 
+
+Many mapped units within the SBS zone, especially wetter subzone/variants, are projected to become warmer and wetter over time, shifting towards more Interior Cedar–Hemlock (ICH)-like climates in the future. This likely explains Hw’s projected expansion of suitable area into the SBS zone. Similarly, wet variants in the lower elevation portions of the ESSF zone are also projected to undergo shifts toward more ICH-like climates, which means that the increased suitable area projected for Hw in this higher-elevation zone may lead to up-slope movement of the species. To a much smaller extent in area, this is also true of the Sub-Boreal Pine--Spruce (SBPS) zone. 
+
+The Mountain Hemlock (MH) zone is above the CWH zone in elevation throughout the Coast Mountains and historically supported populations of Hw at lower elevations of the zone, but with only low (E3) to moderate (E2) suitability. While this zone does not see a large increase in suitable area projected for Hw, it is projected to increase in suitability (up to high (E1) suitability) in many areas by 2100. A similar trend is projected for the Montane Spruce (MS) zone, where it had historically low to moderate suitability; as climate change warms this higher-elevation zone, its Hw suitability is projected to increase.
+
+As described above, small areas of the CDF and IDF are projected to potentially become suitable (low (E3) to moderate (E2)) for Hw due to projected increases in precipitation. Small alpine areas of the CMA, BAFA, and IMA are also projected to become suitable as they warm to become more similar to the BGC zones below them in elevation. Additionally, the more northern-latitude zones Spruce--Willow--Birch (SWB) and Boreal White and Black Spruce (BWBS) are projected to become suitable in small areas as they experience warming climates but there is more model uncertainty here in whether that warming will lead to them being climatically similar to Hw-suitable zones. For example, a portion of the projections for the SWBmk subzone suggest that it will become ICH-like with higher temperatures and precipitation, but a variety of other possibilities include becoming more climatically similar to the MS, SBS, and BWBS zones, which would not be suitable for Hw.
+
+
+
+# Forest health
+
+## Biotic factors text
+
+**Biotic factors**
+
+*Defoliating insects*
+
+Western hemlock (Hw) is host to a variety of defoliators, including the western hemlock looper, green-striped forest looper, western blackheaded budworm, conifer sawflies, and occasionally the western false hemlock looper. Hw is intolerant of defoliation and may experience growth loss or mortality after only a single year of heavy attack. Risk generally increases with repeated years of defoliation, and damage may be compounded when multiple defoliator species attack different age classes of foliage simultaneously. Mortality can continue for years following the collapse of an infestation, and damage may pre-dispose Hw to secondary attacks by other insects or fungi [@burleigh2014_forest_damage_bc]. Impacts might be more severe in young, spaced stands less than 25 years old [@nealis2010impact]. 
+
+The western hemlock looper's wasteful feeding habit makes it particularly damaging for Hw, and occurs most commonly in valley bottoms [@burleigh2014_forest_damage_bc]. Similarly, the green-striped forest looper prefers Hw as a host species and can cause high mortality in the understory along the coast and interior wet belt. With the projected shift and expansion of these wet and warm BGC zones (e.g., the CWH and ICH) with climate change, these pests are likely to spread...(find citations that explore this).
+
+*Other insects*
+
+Bark and root-collar beetles are generally secondary pests of Hw, primarily attacking trees that are already stressed, dying, or recently killed. Species including Hylurgops beetles, silver fir beetles, and fir root bark beetles contribute to decline and wood degradation but are typically not important mortality agents in vigorous stands. The hylurgops beetle in particular is a secondary pest that attacks 15+ year old mature trees, usually if already stressed. Otherwise, they attack stumps and dead or dying wood material.
+
+Western hemlock seedlings may be damaged or killed by conifer seedling beetles, particularly on cool, moist, rich sites. Populations build up in debris-covered previously logged sites, but attack most strongly in sites where ground cover has been cleared prior to replanting.
+
+Hw is also host to the hemlock woolly adelgid, and -- unlike populations of Eastern hemlock that have been devastated by infestations after the adelgid was accidentally introduced -- is tolerant to its presence and feeding. Hw's tolerance is also accentuated by the presence of native parasitoids which keep adelgid populations low [@kohler2008parasitoids]. Thus, mortality of Hw from the hemlock woolly adelgid alone is usually low [@CFIA_HemlockWoollyAdelgid].
+
+*Fungal pathogens and decomposers*
+
+Root rot can cause substantial growth loss, structural weakening, and mortality in Hw. Root diseases such as tomentosus and annosus root rot contribute to mortality, especially in younger stands or where infection centers become established. Rhizina root disease occurs within the first two years following a fire.
+
+Several pathogens affect shoots, branches, and young trees. Sirococcus tip blight damages current-year shoots in dense, moist stands, while Phomopsis canker may girdle small trees and cause branch or top dieback in larger individuals.
+
+Numerous heart-rot and butt-rot fungi affect Hw, including brown crumbly rot, brown trunk rot, red ring rot, Indian paint fungus, and Schweinitzii butt rot. These fungi are most common on dead material as important decomposers in the ecosystem, but can enter living trees through wounds, bored holes, branch stubs, or damage from snow and can substantially reduce wood quality and structural integrity long before external fruiting bodies (typically conks) become visible on the trunk surface.
+
+Hemlock dwarf mistletoe is a common and serious threat to Hw stands in the Coastal populations but not Interior. In highly productive Hw sites, trees can outgrow the mistletoe, but it can spread very easily and can infect large portions of a hemlock stand within several decades [@burleigh2014_forest_damage_bc]. It reduces growth, water use efficiency, photosynthetic capacity, and total foliage and can severely deform woody tissue [@calkins2021transformation; @marias2014impacts; @meinzer2004integrated].
+
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf) and [Natural Resources Canada](https://tidcf.nrcan.gc.ca/en/trees/factsheet/119). 
+To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
+
+## Abiotic factors
+
+**Abiotic factors**
+
+Western hemlock is vulnerable to high winds, freezing, drought, and fire. Its shallow roots and thin bark make Hw particularly vulnerable to freezing and fire [@arno2020northwest]. These shallow roots also give it low resistance to windthrow [@klinka_distribution_2000]. Hw's distribution is limited to areas that either do not freeze or that receive snow prior to the ground freezing, and while it might tolerate frost, its vigor is reduced by frost damage, resulting in many quickly shed leaves [@klinka_distribution_2000]. It tolerates drought better than Pacific silver fir, one of its more common montane associates, but due to its high water requirements, it requires shade protection from both drought and heat to be able to survive [@klinka_distribution_2000].
+
+## Climate change-forest health interactions
+
+**Climate change and drought**
+
+Qs to address with literature review next:
+- As Hw's suitable area exapnds, will the suitable habitats for its pests also be expanding? Implications for spread?
+
+- Which pests/diseases will benefit from warming and/or drought? Or will projected climate change be bad for any of them?
+
+- Are pests/diseases projected to become more generalist as climates shift, or will their distributions shift with the climates favorable to them? What has been shown so far in the literature? 
+
+
+# References
+
+**Works Cited**
+
+::: {#refs}
+:::
+
+## Other reference materials
+
+**Reference materials**
+
+[CCISS tool](https://bcgov-ffec.ca/cciss/)
+
+[Western hemlock - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/western-hemlock)
+
+[Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)

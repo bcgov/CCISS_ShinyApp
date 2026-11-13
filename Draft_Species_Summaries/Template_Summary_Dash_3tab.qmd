@@ -32,7 +32,14 @@ fig <- function(filename) {
 
 ### Col - Tree image {width="20%"}
 
-![YYYY (*Scientific name*)](https://tidcf.nrcan.gc.ca/images_web/imfc/arbres/dessins/moyen/GR05_P_men_v_men_silhouette.gif){fig-alt="Silhouette of mature douglas fir tree"}  #replace with species image
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature YYYY tree"
+#| fig-cap: "YYYY (*Scientific name*) <br> Image credit: NRCan"  #fill in the scientific name
+#| out.width: "75%"
+
+fig("XX_shadow.gif") #find the NRCan tree outline online and add it to the Figures/"Sp" folder (.gif or .png)
+```
 
 ### Col - Welcome text {width="80%"}
 
@@ -66,7 +73,7 @@ In the maps below, each colour represents the species environmental suitability 
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE C4 TRENDS - On medium/mesic sites Fd environmental suitability is high (E1) in the southern low elevation CWH subzones,  mid slopes of the Southern Interior, and valley bottoms of the Columbia Mountains, Cariboo Mountains and Rocky Mountain Trench. Suitability is moderate (E2) throughout much of the Central Interior and above the E1 area in the south and southeast. Suitability is low (E3) on the Nechako Plateau and at the margins of E2 suitability throughout. Remaining areas (in white) are unsuitable for Fd under historic climates on medium/mesic sites.
+#| fig-cap: SUMMARIZE C4 TRENDS
 
 fig("Historic_Suit_Map.XX.C4.png")
 ```
@@ -79,7 +86,7 @@ fig("Historic_Suit_Map.XX.C4.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE B2 TRENDS - On poor/subxeric sites Fd environmental suitability is moderate to low (E2 to E3) throughout the Central and Southern Interior. Suitability is high (E1) bordering the Strait of Georgia and on the lower slopes of the southern Columbia Mountains and Rocky Mountain Trench. Remaining areas (in white) are unsuitable for Fd under historic climates on poor/subxeric sites.
+#| fig-cap: SUMMARIZE B2 TRENDS
 
 fig("Historic_Suit_Map.XX.B2.png") 
 
@@ -93,7 +100,7 @@ fig("Historic_Suit_Map.XX.B2.png")
 #| out-width: 100%
 #| out-height: 100%
 #| padding: 0px
-#| fig-cap: SUMMARIZE D6 TRENDS - Fd has a more limited range on rich/hygric sites and environmental suitability is mostly low (E3). With smaller areas of moderate (E2) suitability, including lower slopes in the Okanagan Valley (IDFxh1), in the Rocky Mountain Trench (ICHmw1), and southern Vancouver Island (CDFmm). Remaining areas (in white) are unsuitable for Fd under historic climates on rich/hygric sites.
+#| fig-cap: SUMMARIZE D6 TRENDS
 
 fig("Historic_Suit_Map.XX.D6.png")
 ```
@@ -105,7 +112,7 @@ fig("Historic_Suit_Map.XX.D6.png")
 The pie chart to the right depicts the distribution of the total environmentally suitable area of XX in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
 
 ...summary text...
-([Government of British Columbia 2025](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/tree-species-selection/tree-species-compendium-index/douglas-fir)).
+
 
 ### Pie chart
 
@@ -116,8 +123,6 @@ The pie chart to the right depicts the distribution of the total environmentally
 ##| layout-ncol: 2
 #| out-width: "70%"
 #| 
-
-
 
 fig("XX_histpie.png")
 ```
@@ -480,7 +485,7 @@ fig("XX_D6_alluv.png")
 
 **Biotic factors**
 
-...summary text...
+...summary text (using BC gov pages on common biotic agents and other sources)...
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
@@ -489,7 +494,7 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 **Climate change and drought**
 
-...summary text...
+...summary text (you can change the title of this section, as relevant for the tree species)...
 
 
 # References
