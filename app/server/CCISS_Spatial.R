@@ -227,7 +227,6 @@ observeEvent(input$map_click,{
         point_clim <- point_clim[PERIOD != "1961_1990",]
       }
       
-      
       output$novelty_plot <- renderPlotly({
         plot_analog_novelty(clim.target = test_fut, clim.analog = test_hist, clim.icv = test_icv, clim.point = point_clim, analog.focal = input$bgc_pred_click, pcs = NULL)
       })

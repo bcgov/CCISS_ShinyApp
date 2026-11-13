@@ -1,11 +1,19 @@
+carto_url <- function(style, key = Sys.getenv("CARTO_API_KEY")) {
+  paste0(
+    "https://{s}.basemaps.cartocdn.com/",
+    style,
+    "/{z}/{x}/{y}{r}.png?key=",
+    key
+  )
+}
 
 # Map main
 output$bec_map <- renderLeaflet({
   leaflet::leaflet() %>%
     leaflet::setView(lng = -122.77222, lat = 54.2665, zoom = 6) %>%
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronNoLabels, group = "Positron",
+    leaflet::addTiles(carto_url("light_all"), group = "Positron",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterNoLabels, group = "DarkMatter",
+    leaflet::addTiles(carto_url("dark_all"), group = "DarkMatter",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
     leaflet::addProviderTiles(leaflet::providers$Esri.WorldImagery, group = "Satellite",
                               options = leaflet::pathOptions(pane = "mapPane")) %>%
@@ -16,22 +24,20 @@ output$bec_map <- renderLeaflet({
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
       group = "Hillshade",
       options = leaflet::pathOptions(pane = "mapPane")) %>%
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
-                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
-    leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterOnlyLabels, group = "DarkMatter Labels",
-                              options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    # leaflet::addProviderTiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "Positron Labels",
+    #                           options = leaflet::pathOptions(pane = "overlayPane")) %>%
+    # leaflet::addProviderTiles(leaflet::providers$CartoDB.DarkMatterOnlyLabels, group = "DarkMatter Labels",
+    #                           options = leaflet::pathOptions(pane = "overlayPane")) %>%
     leaflet::addTiles(
       urlTemplate = paste0("https://api.mapbox.com/styles/v1/", mblbstyle, "/tiles/{z}/{x}/{y}?access_token=", mbtk),
       attribution = '&#169; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
       group = "Mapbox Labels",
       options = leaflet::pathOptions(pane = "overlayPane")) %>%
     addBGC() %>%
-    leaflet::hideGroup("DarkMatter Labels") %>%
-    leaflet::hideGroup("Positron Labels") %>%
     leaflet.extras::addSearchOSM(options = leaflet.extras::searchOptions(collapsed = TRUE, hideMarkerOnCollapse = TRUE, autoCollapse = TRUE, zoom = 11)) %>%
     leaflet::addLayersControl(
       baseGroups = c("Positron", "DarkMatter", "Satellite", "Hillshade"),
-      overlayGroups = c("Subzones Variants","Districts", "Positron Labels", "DarkMatter Labels", "Mapbox Labels"),
+      overlayGroups = c("Subzones Variants","Districts", "Mapbox Labels"),
       position = "topright")
     ##leaflet::addPolygons(color = "purple") %>% 
     ##leaflet::addMiniMap(toggleDisplay = TRUE, minimized = TRUE)

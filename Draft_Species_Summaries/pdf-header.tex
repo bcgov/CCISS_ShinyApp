@@ -1,0 +1,21 @@
+% Match dashboard.css and the dashboard's system font on Windows (Segoe UI).
+% The one-shot shipout hook paints only the first page, at the paper edge.
+\definecolor{dashboardblue}{HTML}{003366}
+\makeatletter
+\newsavebox{\speciesTitleBox}
+\renewcommand{\maketitle}{%
+  \AddToHookNext{shipout/background}{%
+    \put(0,-72){\color{dashboardblue}\rule{\paperwidth}{72pt}}%
+    \put(43,-57){\includegraphics[width=94pt]{images/BCID_H_RGB_rev.png}}%
+    \put(160,-35){%
+      \color{white}\sffamily\fontsize{20}{24}\selectfont
+      \sbox{\speciesTitleBox}{\@title}%
+      \ifdim\wd\speciesTitleBox>\dimexpr\paperwidth-190pt\relax
+        \resizebox{\dimexpr\paperwidth-190pt\relax}{!}{\usebox{\speciesTitleBox}}%
+      \else\usebox{\speciesTitleBox}\fi
+    }%
+    \put(160,-54){\color{white}\sffamily\fontsize{10}{12}\selectfont Climate Change Informed Species Selection}%
+  }%
+  \vspace*{0.55in}%
+}
+\makeatother

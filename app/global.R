@@ -255,14 +255,16 @@ species_outlooks_intro_ui <- function() {
 
 ## species outlook cards
 species_outlooks <- data.frame(
-  code = c("Cw", "Fd"),
+  code = c("Cw", "Fd", "Pl"),
   common_name = c(
     "Western redcedar",
-    "Douglas-fir"
+    "Douglas-fir",
+    "Lodgepole pine"
   ),
   scientific_name = c(
     "Thuja plicata",
-    "Pseudotsuga menziesii"
+    "Pseudotsuga menziesii",
+    "Pinus contorta"
   ),
   description = c(
     paste(
@@ -274,17 +276,24 @@ species_outlooks <- data.frame(
       "View the province-wide CCISS outlook for Douglas-fir,",
       "including historical suitability, future projections,",
       "and forest health considerations."
+    ),
+    paste(
+      "View the province-wide CCISS outlook for Lodgepole pine,",
+      "including historical suitability, future projections,",
+      "and forest health considerations."
     )
   ),
   image = c(
     "images/Cw_shadow.gif",
-    "images/Fd_shadow.gif"
+    "images/Fd_shadow.gif",
+    "images/Pl_shadow.gif"
   ),
   url = c(
     "/spp-outlooks/Cw/",
-    "/spp-outlooks/Fd/"
+    "/spp-outlooks/Fd/",
+    "/spp-outlooks/Pl/"
   ),
-  available = c(TRUE, FALSE),
+  available = c(TRUE, TRUE, TRUE),
   stringsAsFactors = FALSE
 )
 

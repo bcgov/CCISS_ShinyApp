@@ -1,3 +1,4 @@
 /.quarto/
 _site
 *.html
+__pycache__/

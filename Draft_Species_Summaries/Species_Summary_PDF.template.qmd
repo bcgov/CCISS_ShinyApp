@@ -1,0 +1,205 @@
+---
+title: @@TITLE_YAML@@
+format:
+  pdf:
+    documentclass: article
+    pdf-engine: xelatex
+    papersize: letter
+    geometry:
+      - margin=0.6in
+    fontsize: 10pt
+    mainfont: "Segoe UI"
+    sansfont: "Segoe UI"
+    include-in-header: pdf-header.tex
+    colorlinks: true
+    toc: false
+    keep-tex: false
+bibliography: @@BIBLIOGRAPHY_YAML@@
+csl: @@CSL_YAML@@
+params:
+  time_period: @@PERIOD_YAML@@
+  edatope: @@EDATOPE_YAML@@
+execute:
+  echo: false
+  warning: false
+  message: false
+  cache: false
+---
+
+<!-- Generated from @@SOURCE_NAME@@. Edit the dashboard or PDF template, then regenerate. -->
+
+```{r}
+#| label: setup
+#| include: false
+# Use the same period keys as the pre-rendered CCISS map filenames.
+valid_periods <- c("2001_2020", "2021_2040", "2041_2060", "2061_2080", "2081_2100")
+period <- params$time_period
+# Quarto parses CLI parameters as YAML: an unquoted 2041_2060 becomes
+# the integer 20412060. Map only the five known numeric forms back to keys.
+if (is.numeric(period) && length(period) == 1L && !is.na(period)) {
+  numeric_periods <- as.numeric(gsub("_", "", valid_periods, fixed = TRUE))
+  matched_period <- match(period, numeric_periods)
+  if (!is.na(matched_period)) period <- valid_periods[matched_period]
+}
+if (!is.character(period) || length(period) != 1L || is.na(period) ||
+    !period %in% valid_periods) {
+  stop("Invalid params$time_period. Choose one of: ",
+       paste(valid_periods, collapse = ", "), call. = FALSE)
+}
+period_label <- gsub("_", "-", period, fixed = TRUE)
+fig_path <- @@FIG_PATH_R@@
+edatope <- params$edatope
+if (!is.character(edatope) || length(edatope) != 1L || is.na(edatope) ||
+    !edatope %in% c("all", "C4", "B2", "D6")) {
+  stop("Invalid params$edatope. Choose one of: all, C4, B2, D6.", call. = FALSE)
+}
+edatopes <- if (edatope == "all") c("C4", "B2", "D6") else edatope
+edatope_labels <- c(C4 = "Medium/mesic (C4)", B2 = "Poor/subxeric (B2)",
+                    D6 = "Rich/hygric (D6)")[edatopes]
+orientation <- if (edatope == "all") "landscape" else "portrait"
+# knitr passes this dependency into Pandoc's preamble, before page layout is set.
+# No generated/shared configuration file is needed between renders.
+knitr::knit_meta_add(list(rmarkdown::latex_dependency(
+  "geometry", extra_lines = sprintf("\\geometry{letterpaper,%s,margin=0.6in}", orientation)
+)))
+historic_files <- @@HISTORIC_FILES_R@@[edatopes]
+projection_by_period <- @@PROJECTION_FILES_R@@
+projection_files <- projection_by_period[[period]][edatopes]
+bubble_files <- @@BUBBLE_FILES_R@@[edatopes]
+area_files <- @@AREA_FILES_R@@[edatopes]
+pie_file <- @@PIE_FILE_R@@
+required_files <- file.path(fig_path, c(historic_files, projection_files,
+                                      bubble_files, area_files, pie_file))
+missing_files <- required_files[!file.exists(required_files)]
+if (length(missing_files)) {
+  stop("Missing figure files: ", paste(missing_files, collapse = ", "), call. = FALSE)
+}
+
+# Non-floating minipages keep the selected images together on a single row.
+# Paths are relative to this document, so rendering also works from the repo root.
+figure_row <- function(files) {
+  stopifnot(length(files) == length(edatopes))
+  cat("\\begin{center}\n")
+  panel_width <- if (length(edatopes) == 3L) "0.325" else "0.65"
+  for (i in seq_along(files)) {
+    cat("\\begin{minipage}[t]{", panel_width, "\\linewidth}\\centering\n",
+        "\\textbf{", edatope_labels[i], "}\\par\\smallskip\n",
+        "\\includegraphics[width=\\linewidth]{", file.path(fig_path, files[i]), "}\n",
+        "\\end{minipage}", if (i < length(files)) "\\hfill\n" else "\n",
+        sep = "")
+  }
+  cat("\\end{center}\n")
+}
+```
+
+**Selected map period: `r period_label`**
+
+**Edatopes shown: `r paste(edatope_labels, collapse = "; ")`**
+
+## Summary
+
+@@SUMMARY@@
+
+## Other reference materials
+
+@@LINKS@@
+
+{{< pagebreak >}}
+
+# Reference period: geographic and climatic range
+
+@@RANGE@@
+
+{{< pagebreak >}}
+
+# Reference period: environmental suitability (1961-1990)
+
+@@HISTORIC_INTRO@@
+
+```{r}
+#| label: historic-maps
+#| results: asis
+figure_row(historic_files)
+```
+
+
+```{r}
+#| label: historic-interpretation
+#| results: asis
+historic_interpretation <- @@HISTORIC_CAPTIONS_R@@
+cat(paste(historic_interpretation[edatopes], collapse = "\n\n"))
+```
+
+{{< pagebreak >}}
+
+# Distribution across biogeoclimatic zones
+
+@@BGC_TEXT@@
+
+```{r}
+#| label: historical-bgc
+#| out-width: "48%"
+#| fig-align: center
+knitr::include_graphics(file.path(fig_path, pie_file))
+```
+
+**Key to BGC zones:** [CCISS Documentation > Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+
+
+{{< pagebreak >}}
+
+# CCISS projections: persistence and expansion
+
+@@BUBBLE_TEXT@@
+
+```{r}
+#| label: persistence-expansion
+#| results: asis
+figure_row(bubble_files)
+```
+
+@@BUBBLE_CAPTION@@
+
+{{< pagebreak >}}
+
+# CCISS projections: suitability changes
+
+**Selected map period: `r period_label`** (relative to 1961-1990).
+
+@@MAP_TEXT@@
+
+```{r}
+#| label: selected-period-maps
+#| results: asis
+figure_row(projection_files)
+```
+
+@@MAP_CAPTION@@
+
+{{< pagebreak >}}
+
+# CCISS projections: shifts in suitable area
+
+@@AREA_TEXT@@
+
+```{r}
+#| label: suitable-area
+#| results: asis
+figure_row(area_files)
+```
+
+@@AREA_CAPTION@@
+
+{{< pagebreak >}}
+
+@@FOREST_HEALTH@@
+
+{{< pagebreak >}}
+
+# References
+
+\small
+
+::: {#refs}
+:::
+
