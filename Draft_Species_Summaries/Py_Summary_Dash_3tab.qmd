@@ -1,0 +1,522 @@
+---
+title: "Ponderosa pine (Py)"
+format: 
+  dashboard:
+    logo: images/BCID_H_RGB_rev.png
+    scrolling: true
+    orientation: rows
+    css: dashboard.css
+    embed-resources: true
+bibliography: referencesPy.bib
+csl: apa.csl
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(gt)
+
+#Use this to set up the file path for all figures saved in ccissr. 
+fig_path <- "./Figures/Py" #set species and edit all figure names
+
+# Wrapper function for loading figures
+fig <- function(filename) {
+  knitr::include_graphics(file.path(fig_path, filename))
+} #use fig("filename.png") inside an r chunk to insert the figure where it belongs below
+```
+
+# Ponderosa pine
+
+## Summary info for Py
+
+### Col - Tree image {width="20%"}
+
+```{r}
+#| echo: false
+#| fig-alt: "Silhouette of mature ponderosa pine tree"
+#| fig-cap: "Ponderosa pine (*Pinus ponderosa*) <br> Image credit: NRCan"
+#| out.width: "75%"
+
+fig("Py_shadow.png")
+```
+
+### Col - Welcome text {width="80%"}
+
+**Ponderosa pine (abbreviated as Py) is a low-elevation, drought-tolerant species, found in the hot, dry interior valleys of British Columbia. The CCISS model projects an overall expansion in suitable area for this species with climate change into higher elevations and more northerly latitudes, particularly on the Thompson Plateau, Fraser Plateau and southern Columbia Mountains, on very dry, nutrient-poor sites. However, these broad gains in climatic suitability may be moderated by declining suitable area at the lowest elevations as valley bottoms transition toward Bunchgrass (BG) climates, where Py reaches the limits of its drought tolerance and is more susceptible to regeneration failure.** <br>
+
+While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future management.
+
+# Reference period
+
+## Summary text
+
+**Species geographic and climatic range**
+
+The range of ponderosa pine (abbreviated as Py) extends from the Southern Interior of British Columbia to Mexico [@oliver_ponderosa_1990]. The distribution of Py in BC represents the northernmost extent of the species' range, occurring in the southern portion of the Interior Plateau, Columbia Mountains and Rocky Mountain Trench. Py is very tolerant of high temperatures and drought, and is intolerant of shade. Py commonly forms open forests in BC's hot dry valleys at low elevations (to about 900m) and is found on dry southern exposures (to about 1500m) [@parish_plants_2018].  
+
+Py forests are characterized by frequent fires. Mature Py trees are protected from fire by their thick bark and self-pruning of lower branches, which reduces risk of canopy fire [@parish_plants_2018]. Seedlings are killed by fire, which helps to maintain an open forest structure. In BC, Py grows predominately in pure, single-species stands that consist of many even-aged cohorts as a result of frequent ground and crown fires [@noauthor_ponderosa_2025]. Py is present in early, mid, and late succession [@noauthor_ponderosa_2025]. Py commonly occurs in southern Interior Douglas-fir (IDF) subzones (commonly alongside Douglas-fir and sometimes with lodgepole pine or western larch) and is the dominant tree species of the Ponderosa Pine (PP) zone. 
+
+Py is most abundant in warm mesothermal climate [@noauthor_ponderosa_2025]. The edaphic amplitude of Py spans extremely dry to moist, but it is most common on sites with very dry to moderately dry soil moisture, and with medium to very rich soil nutrients [@noauthor_ponderosa_2025]. Py can develop deep taproots and is most commonly found on coarse-textured soils, which have a higher permeability, deeper penetration and greater water storage capacity at depth (only reached by the roots of trees) [@noauthor_ponderosa_2025]. In contrast, on fine-textured soils Py is out competed by grasses or shrubs, leading to a grassland community. 
+
+Fire suppression and selective logging over the past 50-60 years has led to replacement of Py by the more shade tolerant Douglas-fir [@parish_plants_2018]. 
+
+**Species environmental suitability during the reference period (1961--1990)**
+
+In the maps below, each colour represents the species environmental suitability during the historical reference period\* of 1961--90 as determined by expert ratings. Green represents a high suitability (E1 rating), blue represents moderate suitability (E2), yellow represents low suitability (E3), and white indicates areas that are unsuitable for the species. See [CCISS Documentation tab \> Methods \> Environmental Suitability Ratings](https://bcgov-ffec.ca/cciss-docs/Methods.html#environmental-suitability-ratings) for more detailed definitions and information on the expert rating process.
+
+\*Notes on terminology: 1) The historical reference period is sometimes referred to as the "baseline" or simply "historical" or "reference" period. 2) Edatope refers to the combination of relative soil nutrient regime and soil moisture  regime at a given site which align with distinct site series in a given biogeoclimatic unit. Here we provide three of the possible edatopes as examples: the B2 edatope representing nutrient-poor and relatively dry (subxeric) sites; the C4 edatope representing nutrient-medium and moisture-average (mesic) sites; and the D6 edatope representing nutrient-rich and relatively moist (hygric) sites.
+
+## Reference period plots
+
+### Reference period maps {.tabset}
+
+#### Medium/mesic (C4)
+
+```{r}
+#| title: Environmental suitability in medium/mesic (C4) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On medium/mesic sites Py is suitable in the Thompson Plateau, valley bottoms of the southern Okanagan Highland and Columbia Mountains, and in the southern Rocky Mountain Trench. Environmental suitability is high (E1) in the warmest/driest IDF subzone variants; in the southern Rocky Mountain Trench (IDFxx2) and near Grand Forks (IDFxx1). Suitability is moderate (E2) on the Thompson Plateau and southern Rocky Mountain Trench on very dry (x) and dry (d) IDF subzones and in the PPxh2. Suitability is low (E3) in a smaller area, including near Kamloops (IDFxh2, IDFdc, IDFww), valley bottoms of the southern Columbia Mountains (ICHxw) and in the Rocky Mountain Trench (IDFxk). **Note** that Py is also highly suitable (E1) on PPxh1/101 in the Okanagan Valley and IDFxc/05 near Lillooet, but the other site series within the C4 edatope are E2, therefore the average suitability is moderate (E2). Remaining areas (in white) are unsuitable for Py under the reference climate on medium/mesic sites.
+
+fig("Historic_Suit_Map.Py.C4.png")
+```
+
+#### Poor/subxeric (B2)
+
+```{r}
+#| title: Environmental suitability in poor/subxeric (B2) edatopes under baseline climate (1961-1990)
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: On poor/subxeric sites, Py is environmentally suitable in a larger area than on C4 or D6 sites. Suitability is high (E1) valleys of the southern Columbia Mountains (very dry or dry/warm ICH subzones) and Rocky Mountain Trench (IDFdm2). Suitability is moderate (E2) mainly in the Okanagan Valley (very dry and dry IDF subzones, PPxh1 and BGxh2). Suitability is low (E3) further north in valleys of Columbia Mountains (warm ICH) and Rocky Mountain Trench (IDFxk), and on the Thompson Plateau (IDF, BG, PP). Remaining areas (in white) are unsuitable for Py under the reference climate on poor/subxeric sites.
+
+fig("Historic_Suit_Map.Py.B2.png") 
+
+```
+
+#### Rich/hygric (D6)
+
+```{r}
+#| title: Environmental suitability in rich/hygric (D6) edatopes under baseline climate (1961-1990) 
+#| fig-asp: 1
+#| out-width: 100%
+#| out-height: 100%
+#| padding: 0px
+#| fig-cap: Py has a very limited range on rich/hygric sites. Py is moderately suitable (E2) in a small subzone variant (IDFxx1) near Grand Forks. Remaining areas (in white) are unsuitable for Py under the reference climate on rich/hygric sites.
+
+fig("Historic_Suit_Map.Py.D6.png")
+```
+
+### BGC text
+
+**Distribution of Py across BGC zones**
+
+The pie chart to the right depicts the distribution of the total environmentally suitable area of Py in BC by biogeoclimatic (BGC) zone, based on the climate of the historical reference period (1961--1990).
+
+Py occupies the greatest area in the Interior Douglas-fir (IDF) zone, common in southern IDF subzones on the Thompson Plateau. Py is found on zonal sites of the very dry and dry IDF subzones, alongside Douglas-fir, or less commonly alongside lodgepole pine and western larch. 
+
+Py is also found in the southern Interior Cedar--Hemlock (ICH) subzones, primarily on drier sites at low elevation in the Shuswap and Okanagan Highlands and southern Columbia Mountains. 
+
+Py is the dominant tree species in the Ponderosa Pine (PP) and Bunchgrass (BG) zones in the Thompson River Valley near Kamloops and the Okanagan River Valley, alongside Douglas-fir.
+
+### Pie chart
+
+::: card
+```{r}
+##| title:  Historical range by BGC zone
+##| fig-show: hold
+##| layout-ncol: 2
+#| out-width: "70%"
+#| 
+
+
+
+fig("Py_histpie.png")
+```
+
+**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+:::
+
+# CCISS projections
+
+## Overall summary
+
+**Future projected environmental suitability for ponderosa pine**
+
+On this page, you will find a visual and interpretive synthesis of the environmental suitability projections calculated using the Climate Change Informed Species Selection [CCISS](https://bcgov-ffec.ca/cciss-docs/) tool, including:
+
+1.  Proportion of the historic range that the species is predicted to remain environmentally suitable (i.e. persist) or become newly suitable (i.e. expand) by site type (edatope).
+
+2.  Predicted mean changes in environmental suitability across its geographic range in BC, by future time period and site type (edatope).
+
+3.  Predicted shifts in total suitable area over time across the province and by biogeoclimatic (BGC) zone.
+
+## Row - broad trends {.spacer-row}
+
+**Broad trends**
+
+<style>
+.card .math.display {
+  font-size: 0.8em;
+}
+</style>
+
+## Row - Bubble plot {height="700px"}
+
+### L Column - Plot description {width="40%"}
+
+::: card
+Overall, ponderosa pine (Py) is projected to persist within approximately 60–80% of its historically suitable range. The decrease in overall suitable area is driven by hotter drought, leading to a projected loss of suitability in the hottest driest portions of Py's range, mainly in the Ponderosa Pine (PP) and Bunchgrass (BG) zones. At the same time, Py is projected to become suitable in an area 2-4 times larger than its historically suitable range. The projected expansion of Py’s suitable area is driven by higher temperatures expected under increased warming scenarios, particularly on drier (B2) to mesic (C4) site types. Py is projected to become suitable upslope of the current range (in the IDF, ICH and MS zones) and northward into the Fraser Plateau. Py is a tree species that is tolerant of drought and higher temperatures and is expected to become suitable over a larger area in the future as climate warms.
+
+**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and therefore has been excluded from this analysis. 
+
+<br>
+
+*Notes on interpretation of persistence and expansion*
+
+Persistence (x-axis) and expansion (y-axis) are subtly different in how they relate to the historical range of the species. Persistence describes the change in environmental suitability within the species historical range. Expansion describes the change in environmental suitability outside of the species historical range. Calculated as follows:
+
+$$\text{Persistence (\%)} =
+\frac{\text{future suitable area within historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+
+$$\text{Expansion (\%)} =
+\frac{\text{future suitable area outside historical range of suitability}}
+{\text{historically suitable area}}
+\times 100$$
+:::
+
+### R Column - Bubble plot {width="60%"}
+
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Py in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+fig("Py_C4_bub.png") 
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| fill: false
+#| out-width: "60%"
+#| fig-cap: "Projected persistence and expansion of the suitable range of Py in the SSP2--4.5 emission scenario given current policies for moderate emission mitigation. The black line shows the projected trajectory of change from the 1961--1990 baseline (x-intercept), with black points showing the mean for 20-year time periods. The 2041--2060 time period is the most relevant time period for management planning, shown as the large blue point with species abbreviation respresenting the mean and shaded ellipses plotting the 1-standard deviation error around the mean [@mahony_global_2022]. Other species projections for 2041--2060 are shown for reference as grey mean points and shaded ellipses. The grey dashed line divides the plot to indicate where total suitable area is growing (points above the line) or shrinking (points below the line). Note that all results exclude biogeoclimatic units that do not currently support commercially operable forest, and that expansion (the y-axis) is log-scaled."
+
+fig("Py_B2_bub.png") 
+```
+:::
+
+::::::
+
+## Row {.spacer-row}
+
+**Suitability changes**
+
+## Row - Maps {height="800px"}
+
+### L col {width="35%"}
+
+::: card
+The CCISS model predicts declining Py suitability and loss of suitability throughout much of its historical primary range at lower elevation on the Thompson Plateau and southern Columbia Mountains over the second half of the 21st century (red and black shades on the map). The greatest decline in suitability is projected in the Ponderosa Pine (PP) zone, followed by the Bunchgrass (BG) zone, and parts of the very dry and dry Interior Douglas-fir (IDF) zone. The decline in suitability is most pronounced in the Okanagan Valley, Southern Rocky Mountain Trench and the Thompson River Valley surrounding Kamloops. This is driven by hotter drought, with future climates projected to be similar to those of very dry Bunchgrass subzones from BC and Washington which do not support Py. Smaller portions of the climate projections are similar to Ponderosa Pine (PP), Interior Grand Fir (IGF) and Pinyon Pine--Juniper Woodland (PPJW) subzones from further south (IGF and PPJW are both subzones from the US). 
+
+Py suitability is maintained or increasing in a smaller area at mid-elevation (grey and blue shades on the map), for example on the Thompson Plateau surrounding Merritt in the very dry IDF future climate is projected to be similar to other dry and very dry IDF subzones from further south (including subzones from Washington), that are suitable to Py. 
+
+The CCISS model also predicts expansion of Py suitability outside of its historical range as climate warms (yellow shades on map). On medium/mesic (C4) and poor/subxeric (B2) sites Py is projected to become suitable at higher elevation on the Thompson Plateau in cooler/wetter IDF subzones and Montane Spruce (MS) subzones, where future climates are projected to be similar to dry and very dry IDF suitable to Py. 
+
+The yellow shades in the north, in the moist warm Boreal White and Black Spruce (BWBSmw) subzone near Fort St. John, represent an expansion of Py suitability, where future climate conditions are similar to a PP subzone from Wyoming (PPxm_WY). However, this makes up only a small proportion of future climate projections, in the majority of future climates Py is not suitable, and therefore Py is not recommended for planting. 
+
+A much larger area becomes suitable to Py on drier (B2) sites, including on the Thompson Plateau and southern Columbia and Rocky Mountains, as well as lesser expansions in suitability on the Fraser and Nechacko Plateaus. This is driven by warming climate, and the expansion of climate conditions similar to dry/very dry IDF (as well as PP and BG). 
+
+**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and is not projected to become suitable in any other BGC units during future time periods.
+
+:::
+
+
+### R col {width="65%"}
+
+:::::::: {.card .fit-screen-card}
+::::::: card-body
+:::::: panel-tabset
+#### Medium/mesic (C4)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+
+fig("One_panel.Py.C4.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.C4.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.C4.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)." 
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.C4.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-C4
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.C4.2081_2100.png")
+```
+:::
+
+#### Poor/subxeric (B2)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.B2.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.B2.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.B2.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.B2.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-B2
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.B2.2081_2100.png")
+```
+:::
+
+#### Rich/hygric (D6)
+
+::: panel-tabset
+##### 2001–2020
+
+```{r}
+#| label: 2001-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.D6.2001_2020.png")
+```
+
+##### 2021–2040
+
+```{r}
+#| label: 2021-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false 
+#| out-width: 65%
+
+fig("One_panel.Py.D6.2021_2040.png")
+```
+
+##### 2041–2060
+
+```{r}
+#| label: 2041-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.D6.2041_2060.png")
+```
+
+##### 2061–2080
+
+```{r}
+#| label: 2061-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.D6.2061_2080.png")
+```
+
+##### 2081–2100
+
+```{r}
+#| label: 2081-D6
+#| fig-cap: "Mean change in species environmental suitability from the reference period (1961--1990), with shades of yellow representing areas of new suitability, blue shades representing increased suitability, red shades representing decreased suitability, and black representing a complete loss of suitability (left). Mean change in suitability ranking by BGC zone; boxplot whiskers extend to the 5th and 95th percentiles (right)."
+#| fill: false
+#| out-width: 65%
+
+fig("One_panel.Py.D6.2081_2100.png")
+```
+:::
+::::::
+:::::::
+::::::::
+
+## Row - Shifts in BGC suitability {.spacer-row}
+
+**Shifts in suitable area**
+
+## Row - Suitability area: alluvial plots {height="800px"}
+
+### Col - Alluvial figure {.tabset width="60%"}
+
+#### Medium/mesic (C4)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Py suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| expandable: false
+#| out-width: "75%"
+#| padding: 0px
+ 
+
+fig("Py_C4_alluv.png")
+
+```
+
+:::
+
+#### Poor/subxeric (B2)
+
+::: card
+```{r}
+#| title: Change in total suitable area over time, across BGC zones
+#| fig-cap: Projected changes in Py suitable area in BC (km^2^) over time by biogeoclimatic zone (colours) within representative site types/edatopes (tabs). The first period (1961--1990) is the historical reference period, where suitability is based on expert ratings. Subsequent periods are CCISS model projections that combine reference-period suitability with current or future climate data. Bars show changes over time in the projected spatial distribution of suitable climate types for the focal species, representing changes in suitable area across the province. <br>**Key to BGC zones:** [CCISS Documentation \> Definitions](https://bcgov-ffec.ca/cciss-docs/Definitions.html#biogeoclimatic-ecosystem-classification-bec-codes)
+#| expandable: false
+#| out-width: "75%"
+#| padding: 0px
+
+fig("Py_B2_alluv.png")
+
+```
+
+:::
+
+### Col - description {width="40%"}
+
+The total area suitable for Py is projected to expand across BC over the 21st century, driven by increased suitable area in the IDF, and expansion into the MS and BWBS zones on C4 and B2 sites (as well as expansion into ESSF, SBS and SBPS on B2 sites). At the same time, there is a  decrease in suitable area for Py in the hottest and driest zones; the PP and BG. 
+
+Within the Interior Douglas-fir (IDF) zone, the area suitable to Py are shifting. Py is projected to decline in suitability or become unsuitable in the driest IDF subzones (x; very dry), for example Py suitability on C4 sites is lost by the end of the 21st century in the IDFxx2 in the Southern Rocky Mountain Trench, the IDFxh1 near Kelowna, and the IDFxc near Lillooet. Future climate conditions are warmer and drier, analogous to BGC units from further south in the US, including Bunchgrass (BG), Interior Grand Fir (IFG), or Pinyon Pine--Juniper Woodland (PPJW), which are not suitable to Py. Conversely, Py suitability is projected to expand into the slightly wetter and cooler IDF subzones (e.g. dk; dry cool), where future climate conditions are similar to very dry IDF and PP subzones suitable to Py. 
+
+Py suitability is projected to expand into the Montane Spruce (MS) zone, located above the IDF, as climate conditions that support Py move upwards in elevation (i.e. as climate warms), on medium/mesic (C4) and poor/subxeric (B2) sites. Future climate is expected to be similar to dry and very dry IDF subzones. The CCISS model also projects expansion of Py suitability on B2 sites into Engelmann Spruce--Subalpine fir (ESSF), Sub-Boreal Spruce (SBS), and Sub-Boreal Pine--Spruce (SBPS) zones, as these areas become warmer and shift towards IDF-like climate. 
+
+The CCISS model projects expansion of Py suitability into the Boreal White and Black Spruce (BWBS) zone in the Boreal Plains near Fort St. John, as Ponderosa Pine (PP)-like climate (PPxh_WY, a BGC unit from Wyoming) is projected for a portion of the future climates. This makes up only a small proportion of future climate projections, in the majority of future climates Py is not suitable, and Py is not recommended for planting.
+
+A decline in suitable area for Py is projected in the PP and BG zones, the hottest and driest zones in BC. As climate warms and shifts to that of hotter BG subzones,conditions become unsuitable for Py due to hot drought.
+
+Overall suitable area in the Interior Cedar--Hemlock (ICH) zone remains fairly stable. Within the ICH, Py suitability declines (but is not lost) at lower elevation and increases at higher elevation. 
+
+**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) and has been excluded from this analysis.
+
+# Forest health
+
+## Biotic factors text
+
+**Biotic factors**
+
+Py is susceptible to damage by mountain pine beetle and pine engravers (Ips spp.), as well as western gall rust [@noauthor_ponderosa_2025]. Butt rots are not a serious concern [@noauthor_ponderosa_2025]. 
+
+For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). <br>
+To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
+
+## Climate change/drought
+
+**Climate change and drought**
+
+Hot drought becomes a limiting factor on the hottest and driest sites in Py's range, e.g. valley bottoms of Okanagan and southern Rocky Mountain Trench. On the coldest sites Py is susceptible to damage by frost, cold-air drainage and heavy snow accumulation. 
+
+
+# References
+
+**Works Cited**
+
+::: {#refs}
+:::
+
+## Other reference materials
+
+**Reference materials**
+
+[CCISS tool](https://bcgov-ffec.ca/cciss/)
+
+[Ponderosa pine - in the BC Tree Species Compendium](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/silviculture/stocking-standards/tree-species-compendium-index/ponderosa-pine)
+
+[Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf)
