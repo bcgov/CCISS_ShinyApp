@@ -520,7 +520,7 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 | P or A | Unsuitable  |  Consider removal unless supported by local evidence or operational experience           |
 | P      | E3          |  Consider moving to acceptable, reducing reliance, or monitoring through operational use |   
 | NA     | E1 or E2    |  Consider adding as acceptable or as an operational trial, and document the rationale    |   
-| NA     | E3          |  Consider as a small operational trial on appropriate sites, and document the rationale  |   
+| NA     | E3          |  Don't make changes to stocking standard based on CCISS results alone     
 
 : Table 1. Using CCISS results in stocking standards 
 
