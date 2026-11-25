@@ -512,6 +512,8 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 
 ##
+::: {.stocking-table}
+
 | CFRG   | CCISS result | Example stocking standard response                                                       |
 |--------|-------------|------------------------------------------------------------------------------------------|
 | P or A | E1 or E2    |  Consider retaining the species at its current status                                    |
@@ -520,10 +522,13 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 | NA     | E1 or E2    |  Consider adding as acceptable or as an operational trial, and document the rationale    |   
 | NA     | E3          |  Consider as a small operational trial on appropriate sites, and document the rationale  |   
 
-:Table 1: Using CCISS results in stocking standards 
+: Table 1. Using CCISS results in stocking standards 
 
 **Note:**
-CCISS is a species-screening tool, not a stocking prescription tool: support any change to stocking standards with other lines of evidence (local performance and operational experience, species ecology, forest health and management objectives). The examples above support professional judgement and are not prescriptive
+CCISS is a species-screening tool, not a stocking prescription tool: support any change to stocking standards with other lines of evidence (local performance and operational experience, species ecology, forest health and management objectives). The examples above support professional judgement and are not prescriptive.
+
+:::
+
 
 # References
 

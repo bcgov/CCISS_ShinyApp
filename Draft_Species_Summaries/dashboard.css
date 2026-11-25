@@ -135,3 +135,11 @@
   word-break: normal;
   overflow-wrap: anywhere;
 }
+
+/* Table formatting on the Management Recommendations page */
+.stocking-table caption {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: left;
+  color: black;
+}
