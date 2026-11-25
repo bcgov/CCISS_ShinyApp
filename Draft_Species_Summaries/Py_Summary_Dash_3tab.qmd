@@ -55,9 +55,12 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 The range of ponderosa pine (Py) extends from the Southern Interior of British Columbia to Mexico [@oliver_ponderosa_1990]. The distribution of Py in BC represents the northernmost extent of the species' range, occurring in the southern portion of the Interior Plateau, Columbia Mountains and Rocky Mountain Trench. Py is very tolerant of high temperatures and drought, and is intolerant of shade. Py commonly forms open forests in BC's hot dry valleys at low elevations (to about 900m) and is found on dry southern exposures (to about 1500m) [@parish_plants_2018].  
 
+
 Py forests are characterized by frequent fires. Mature Py trees are protected from fire by their thick bark and self-pruning of lower branches, which reduces risk of canopy fire [@parish_plants_2018]. Seedlings are killed by fire, which helps to maintain an open forest structure. In BC, Py grows predominately in pure, single-species stands that consist of many even-aged cohorts as a result of frequent ground and crown fires [@noauthor_ponderosa_2025]. Py is present in early, mid, and late succession [@noauthor_ponderosa_2025]. Py commonly occurs in southern Interior Douglas-fir (IDF) subzones (commonly alongside Douglas-fir and sometimes with lodgepole pine or western larch) and is the dominant tree species of the Ponderosa Pine (PP) zone. 
 
 Py is most abundant in warm mesothermal climate [@noauthor_ponderosa_2025]. The edaphic amplitude of Py spans extremely dry to moist, but it is most common on sites with very dry to moderately dry soil moisture, and with medium to very rich soil nutrients [@noauthor_ponderosa_2025]. Py can develop deep taproots and is most commonly found on coarse-textured soils, which have a higher permeability, deeper penetration and greater water storage capacity at depth (only reached by the roots of trees) [@noauthor_ponderosa_2025]. In contrast, on fine-textured soils Py is out competed by grasses or shrubs, leading to a grassland community. 
+
+At the coldest edges of its range Py is vulnerable to frost exposure, cold-air drainage, and deep snowpack, which restrict tree growth, survival, and regeneration [@oliver_ponderosa_1990]. In addition, because Py has only moderate resistance to snow loads and poor tolerance for heavy snowpack, deep snow accumulation can cause direct physical damage [@noauthor_ponderosa_2025]. 
 
 Fire suppression and selective logging over the past 50-60 years has led to replacement of Py by the more shade tolerant Douglas-fir [@parish_plants_2018]. 
 
@@ -172,7 +175,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ::: card
 Overall, ponderosa pine (Py) is projected to persist within approximately 60–80% of its historically suitable range. The decrease in overall suitable area is driven by hotter drought, leading to a projected loss of suitability in the hottest/driest portions of Py's range, mainly in the Ponderosa Pine (PP) and Bunchgrass (BG) zones. At the same time, Py is projected to become suitable in an area 2-4 times larger than its historically suitable range. The projected expansion of Py’s suitable area is driven by higher temperatures expected under increased warming scenarios, particularly on drier (B2) to mesic (C4) site types. Py is projected to become suitable upslope of the current range (in the IDF, ICH and MS zones) and northward into the Fraser Plateau. Py is a tree species that is tolerant of drought and higher temperatures and is expected to become suitable over a larger area in the future as climate warms.
 
-**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and therefore has been excluded from this analysis due to insufficient data for plotting accuracy. 
+**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and does not become suitable on D6 sites in any other BGC unit. Therefore D6 has been excluded from this analysis due to insufficient data. 
 
 <br>
 
@@ -238,7 +241,7 @@ The yellow shades in the north, in the moist warm Boreal White and Black Spruce 
 
 A much larger area becomes suitable to Py on drier (B2) sites, including on the Thompson Plateau and southern Columbia and Rocky Mountains, as well as lesser expansions in suitability on the Fraser and Nechacko Plateaus. This is driven by warming climate, and the expansion of climate conditions similar to dry/very dry IDF (as well as PP and BG). 
 
-**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and there is no projected change in suitability in these sites. It is also not projected to become suitable in any other D6 BGC units during future time periods.
+**Note** that Py is suitable within a very small area on rich/hygric (D6) sites (only on IDFxx1) during the reference period and suitability is lost from this site in the future. It is also not projected to become suitable on D6 sites in any other BGC unit during future time periods.
 
 :::
 
