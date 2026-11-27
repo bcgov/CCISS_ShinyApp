@@ -308,12 +308,18 @@ table.table-centered {
 
 .species-card-action {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 7px;
   margin-top: auto;
   color: #315c3d;
   font-size: 14px;
   font-weight: 600;
+}
+
+.species-card-action .btn:focus-visible {
+  outline: 3px solid #78a98a;
+  outline-offset: 3px;
 }
 
 .species-card-action .fa,

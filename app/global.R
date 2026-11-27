@@ -172,14 +172,6 @@ species_outlooks_intro_ui <- function() {
               "Shifts in environmentally suitable area across the province",
               "and within individual BGC zones"
             )
-          ),
-          tags$li(
-            "Projected changes in particular areas of interest in BC ",
-            tags$span(class = "development-label", "In development")
-          ),
-          tags$li(
-            "Projected changes along elevational gradients ",
-            tags$span(class = "development-label", "In development")
           )
         )
       ),
@@ -255,16 +247,18 @@ species_outlooks_intro_ui <- function() {
 
 ## species outlook cards
 species_outlooks <- data.frame(
-  code = c("Cw", "Fd", "Pl"),
+  code = c("Cw", "Fd", "Pl","Sx"),
   common_name = c(
     "Western redcedar",
     "Douglas-fir",
-    "Lodgepole pine"
+    "Lodgepole pine",
+    "Interior spruce"
   ),
   scientific_name = c(
     "Thuja plicata",
     "Pseudotsuga menziesii",
-    "Pinus contorta"
+    "Pinus contorta",
+    "Picea engelmannii × glauca"
   ),
   description = c(
     paste(
@@ -281,21 +275,29 @@ species_outlooks <- data.frame(
       "View the province-wide CCISS outlook for Lodgepole pine,",
       "including historical suitability, future projections,",
       "and forest health considerations."
+    ),
+    paste(
+      "View the province-wide CCISS outlook for Interior spruce,",
+      "including historical suitability, future projections,",
+      "and forest health considerations."
     )
   ),
   image = c(
     "images/Cw_shadow.gif",
     "images/Fd_shadow.gif",
-    "images/Pl_shadow.gif"
+    "images/Pl_shadow.gif",
+    "images/Sx_shadow.gif"
   ),
   url = c(
     "/spp-outlooks/Cw/",
     "/spp-outlooks/Fd/",
-    "/spp-outlooks/Pl/"
+    "/spp-outlooks/Pl/",
+    "/spp-outlooks/Sx/"
   ),
-  available = c(TRUE, TRUE, TRUE),
+  available = c(TRUE, TRUE, TRUE, TRUE),
   stringsAsFactors = FALSE
 )
+
 
 species_outlook_card <- function(code,
                                  common_name,
@@ -346,8 +348,17 @@ species_outlook_card <- function(code,
         
         if (available) {
           tagList(
-            tags$span("View Species Outlook"),
-            icon("arrow-up-right-from-square")
+            tags$a(
+              class = "btn btn-default", href = url, target = "_blank",
+              rel = "noopener noreferrer",
+              `aria-label` = paste("View", common_name, "outlook (opens in new tab)"),
+              "View outlook", icon("arrow-up-right-from-square")
+            ),
+            actionButton(
+              paste0("species_pdf_open_", code), "Download PDF",
+              icon = icon("file-pdf"),
+              `aria-label` = paste("Download", common_name, "PDF report")
+            )
           )
         } else {
           tags$span(
@@ -360,16 +371,8 @@ species_outlook_card <- function(code,
   )
   
   if (available) {
-    tags$a(
+    tags$div(
       class = "species-outlook-card",
-      href = url,
-      target = "_blank",
-      rel = "noopener noreferrer",
-      `aria-label` = paste(
-        "Open the",
-        common_name,
-        "Species Outlook in a new tab"
-      ),
       card_contents
     )
   } else {
@@ -395,8 +398,8 @@ species_outlooks_selector_ui <- function() {
       
       tags$p(
         paste(
-          "Select a species to open its complete outlook.",
-          "The outlook will open in a new browser tab."
+          "View a species outlook in a new tab, or download a PDF report",
+          "for your chosen time period and edatope."
         )
       )
     ),
