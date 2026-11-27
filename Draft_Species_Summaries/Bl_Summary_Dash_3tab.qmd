@@ -43,7 +43,7 @@ fig("Abies_las_silhouette.gif") #find the NRCan tree outline online and add it t
 
 ### Col - Welcome text {width="80%"}
 
-**Subalpine fir (abbreviated as Bl) is a high elevation and high latitude specialist species, flourishing in harsh, cold environments. The CCISS model projects an overall decline in suitable area for this species with climate change, particularly in the central and southern interior, as the ESSF zone becomes more climatically similar to lower elevation ICH zones, with some potential for range expansion into higher elevations and latitudes in the Spruce-Willow Birch, Coastal, Interior and Boreal Alpine zones. However moderate increases in suitability will likely not compensate for the loss of suitable area projected for this species a whole, particularly for dry-poor (B2) sites, where Subalpine fir reaches the limits of its environmental tolerance and is more susceptible to drought** <br>
+**Subalpine fir (abbreviated Bl) is a high elevation and high latitude specialist, flourishing in harsh, cold environments. The CCISS model predicts overall decline in suitable area for this species with climate change, particularly in the central and southern interior, driven by climates of the ESSF zone becoming more similar to lower elevation ICH zones, which do not support Bl. There is some potential for range expansion of Bl into higher elevation and latitude areas, particularly the Spruce-Willow Birch, Interior and Boreal Alpine zones. However moderate projected expansion will likely not compensate for the loss of suitable area projected for this species a whole, particularly for dry-poor (B2) sites, where Subalpine fir reaches the limits of its environmental tolerance and becomes more susceptible to drought** <br>
 
 While the CCISS tool offers valuable insights into broad-scale trends, summarized here by species, suitability projections must be interpreted with caution. Many areas of projected change are also areas with high uncertainty in climate predictions. Furthermore, factors such as soil texture, drainage, land-use history, forest health pressures, and biotic interactions (e.g., competition or browsing) can strongly influence actual outcomes on the ground. These nuances emphasize the importance of pairing climate tools with on-the-ground knowledge and site-specific judgement when planning future management.
 
@@ -55,11 +55,8 @@ While the CCISS tool offers valuable insights into broad-scale trends, summarize
 
 Subalpine fir is a shade tolerant species that occurs in humid continental boreal climates with a short growing season, as well as some high-elevation maritime climates (Burns and Honkala 1990; Klinka et al. 2000). Although Bl is a late successional species, it can also act as an early successional species in cold, high-elevation environments and at recently disturbed sites. Bl occurs at montane and subalpine elevations and often grows to timberline, where it is more likely to occur in pure stands due to its ability to tolerate a heavy snowpack (Burns and Honkala 1990). On the coast, Bl is commonly found with Mountain hemlock and can be dominant at the highest elevations in the MH zone. Bl may also be present throughout the transition from MH to ESSF, where Bl is often co-dominant in mixed stands with Engelmann spruce in continental climates (Burns and Honkala 1990; LMH 77; 2026). Bl increases in abundance and dominance through time and in absence of large disturbances (Burns and Honkala 1990).
 
-Bl is slow growing at high elevations due to the short growing season and heavy snowpack, while growth is limited at low elevations by soil moisture during the growing season (Ettl and Peterson 1995; Peterson et al. 2002). 
+Bl is slow growing at high elevations due to the short growing season and heavy snowpack, while growth is limited at low elevations by soil moisture during the growing season (Ettl and Peterson 1995; Peterson et al. 2002). Short-term climatic variability influences growth in different ways across its range in central and southern interior BC. Across the ESSF and SBS zones, established Bl are moderately tolerant of drought and high summer temperatures, but there is greater growth with cool temperatures (Griesbauer et al. 2021; Klinka et al. 1998; Splechtna et al. 2000). Although warm temperatures in the growing season are associated with greater growth at high elevations, high temperatures early in the growing season in dry sites and at low elevations are generally associated with decreased growth (Griesbauer et al. 2021; Miyamoto et al. 2010; Splechtna et al. 2000). Bl’s response to drought and high summer temperatures may increase with latitude (Haghshenas and Wood 2025). Bl is highly tolerant of nutrient poor soils, but site index increases greatly with soil nutrient richness (Klinka et al. 2000; Klinka and Chen 2003). 
 
-Short-term climatic variability influences growth in different ways across its range in central and southern interior BC. Across the ESSF and SBS zones, established Bl are moderately tolerant of drought and high summer temperatures, but there is greater growth with cool temperatures (Griesbauer et al. 2021; Klinka et al. 1998; Splechtna et al. 2000). Although warm temperatures in the growing season are associated with greater growth at high elevations, high temperatures early in the growing season in dry sites and at low elevations are generally associated with decreased growth (Griesbauer et al. 2021; Miyamoto et al. 2010; Splechtna et al. 2000). Bl’s response to drought and high summer temperatures may increase with latitude (Haghshenas and Wood 2025).
-
-Bl is highly tolerant of nutrient poor soils, but site index increases greatly with soil nutrient richness (Klinka et al. 2000; Klinka and Chen 2003). 
 
 **Species environmental suitability during the reference period (1961--1990)**
 
@@ -167,7 +164,7 @@ On this page, you will find a visual and interpretive synthesis of the environme
 ### L Column - Plot description {width="40%"}
 
 ::: card
-Subalpine fir is projected to undergo moderate range contractions on zonal (C4) and moist-rich (D6) sites, persisting within approximately 80% (70-100%) of its historic range area by the end of the century. On dry-poor (B2) site types however, the range contraction is projected to be substantially larger, with Subalpine fir retaining only about 50% (40-60%) of its historical range area by 2100. This is in line with projections that loss of snowpack and drought will reduce environmental suitability for this species at high latitudes and elevations, particularly on already moisture limited sites (CITATION). In contrast, increases in suitable area are projected at higher elevations and latitudes than this species historically occurred, leading to an approximately 12-25% increase in newly suitable area ny the end of the century in dry-poor (B2) to moist-rich (D6) site types respectively. 
+Subalpine fir is projected to undergo moderate range contractions on zonal (C4) and moist-rich (D6) sites, persisting within approximately 80% (70-100%) of its historic range area by the end of the century. On dry-poor (B2) site types however, the range contraction is projected to be substantially larger, with Subalpine fir retaining only about 50% (40-60%) of its historical range area by 2100. This is in line with projections that loss of snowpack and drought will reduce environmental suitability for this species at high latitudes and elevations, particularly on already moisture limited sites (Haghshenas and Wood, 2025). In contrast, increases in suitable area are projected at higher elevations and latitudes than this species historically occurred, leading to an approximately 12-25% increase in newly suitable area by the end of the century in dry-poor (B2) to moist-rich (D6) site types respectively. 
 
 <br>
 
@@ -235,10 +232,12 @@ fig("Bl_D6_bub.png")
 
 ::: card
 
-Overall, the CCISS model projects that warmer temperatures and decreased winter precipitation will reduce the suitability of  Bl across the Province. Bl suitability is projected to decline over time and eventually become unsuitable across lower elevation areas and throughout the central/southern interior, Rocky-mountain trench and Coast mountains and portions of the Northeast (BWBSwk3 and SWBmk zones). However some of these losses will be compensated by gains of suitability into higher elevation areas, particularly across the Northern Boreal Mountains,    
+Overall, the CCISS model projects that warmer temperatures and decreased winter precipitation will reduce the suitability of  Bl across the Province. Bl suitability is projected to decline over time and eventually become unsuitable across lower elevation areas and throughout the sub-boreal, central and southern interior, Rocky-mountain trench and Northern Coast mountains and portions of the Northeast (BWBSwk/dk and SWBmk zones). However some of these losses may be compensated by gains of suitability into higher elevation areas, particularly across the Northern Boreal Mountains, Chilcotin range and Southern Interior alpine.      
 
-On Medium/mesic (C4) sites, major areas of decline or loss include SBS units around Prince George (mk1, dw3, wk1, mh, mw), where Bl declines from high (E1) to low (E3) environmental suitability or is projected unsuitable (E5) by the end of the century. BGC climate analogs of this area include ICH-like climates from the Southeast in Clearwater/Revelstoke area (ICHdw3, mw3) and the Kootenays (ICHdw1) that have historically low suitability for Bl. In  the Northwest of the Province, Bl suitability is projected to decline from high elevation areas of the Nass and Boundary and Pelly mountain ranges and in the Northeast of the Province, 
-Portions of the SWB and BWBS in the Northeast are also projected to become unsuitable for Bl, lower elevations of the Rocky Mt. trench, High elevation Coastal Mountain alpine and MH    
+On Medium/mesic (C4) sites, major areas of decline or loss include the Sub-boreal and central interior, including SBS and ESSF units around Prince George, where Bl declines from high (E1) or moderate (E2) to low (E3) environmental suitability or is projected unsuitable (E5) by the end of the century. BGC climate analogs of this area include ICH-like climates from the Southeast of the Province that have historically low suitability for Bl (ICHmw3,wk1). Other areas of significant decline include ESSF and MS units in the Southern interior (Coast transition and Okanangan) as well as the lower elevation areas in the Kootenays and Rocky Mountain trench (Essfdk1,2 MSdk, dw). 
+
+Even higher magnitudes of decline are predicted declines on B2 (dry-poor) sites in the same areas, as Bl tends to be less suitable on warmer, drier sites overall. Areas of suitability increase and predicted expansion are also diminished on B2 sites, except in concentrated areas of the Boundary Range (BAFA), N. Rocky Mountains, Chilcotin Range and central Kootenays (IMA, ESSF woodland and parkland zones). Patterns of loss are less pronounced on D6 (wet-rich) sites, particularly in the North, where almost all of the Spruce-Willow Birch zone is projected to become suitable for Bl.     
+
 :::
 
 ### R col {width="65%"}
@@ -486,7 +485,11 @@ fig("Bl_D6_alluv.png")
 
 ### Col - description {width="40%"}
 
-...summary text...
+Declines of suitable area are most pronounced in the ICH, SBS, MS, SBPS, MH and CWH zones with little to no suitable area remaining for Bl by the end of the century. This pattern is strongest in poor/subxeric (B2) sites, followed by for medium/mesic (C4) sites and  slightly less drastic on wetter, richer D6 sites where increased moisture may help the drought resilience of this species (Haghshenas and Wood 2025).
+
+In the Englemann Spruce Suplapine fir (ESSF) zone, where Bl is a co-dominant species, suitable area is projected to decline into the future, however to a lesser degree than the other zones described, and with B2 sites most negatively impacted. This is mostly due to the fact that Bl suitability is projected to decline from high (E1) to moderate (E2) or low (E3) in these areas, but not be lost altogether. Therefore suitable area is maintained but at a lower suitability ranking.  
+
+Increases in suitable area over time for Bl are projected into high elevation alpine zones across the province including the Boreal Altai-Fescue (BAFA), Interior Mountain (IMA), and Coastal Mountain (CMA) alpine. This pattern holds true across all site types, but is strongest in C4 and D6 sites. Suitable area  for Bl is also projected to increase in the Spruce-Willow-Birch (SWB) zone through the end of the century, especially on rich/hygric (D6) sites.   
 
 
 # Forest health
@@ -495,7 +498,7 @@ fig("Bl_D6_alluv.png")
 
 **Biotic factors**
 
-...summary text (using BC gov pages on common biotic agents and other sources)...
+ Western balsam bark beetle, western spruce budworm, root and butt rots (Alexander et al. 1990; Tree Species Compendium).
 
 For more information see the [Forest Guide to Tree Health](https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/forestry/forest-health/forest-health-docs/field_guide_to_forest_damage_in_bc_web.pdf). 
 To view forest health risk across BGC subzone by tree species and biotic factor see the "Forest Health" tab of the [By-BEC Portal](https://thebeczone.ca/shiny/bybecmap/).
@@ -506,6 +509,75 @@ To view forest health risk across BGC subzone by tree species and biotic factor 
 
 ...summary text (you can change the title of this section, as relevant for the tree species)...
 
+## text section
+
+**Extra climatic factors**
+ -fire and windthrow are not accounted for in CCISS, but can be important for Bl. 
+
+# Management Recommendations
+## Text1
+**Overall direction** Maintain subalpine fir as a component of mixed stands where future environmental suitability is projected to persist, consider reducing reliance on subalpine fir in lower-elevation ecosystems where suitability is projected to decline, and consider it as an acceptable species or minor component in expansion areas.
+
+**Species selection and stocking standards** 
+
+•	Maintain subalpine fir as a preferred or acceptable species where future environmental suitability is projected to persist or increase, primarily in higher-elevation ecosystems and mixed stands (Tree Species Compendium).
+
+•	Because of its low heat tolerance and moderate drought tolerance, consider reducing reliance on subalpine fir in lower-elevation ecosystems where suitability is projected to decline because of increasing heat and drought stress. Revised stocking standards may be warranted (Alexander et al. 1990; Tree Species Compendium).
+
+•	Consider subalpine fir as an acceptable species or minor component in projected expansion areas, and document the rationale.
+
+**Microsite selection**
+
+•	Subalpine fir can contribute substantially to stand regeneration through natural seeding where seed sources are retained nearby and suitable seedbeds are available. Natural regeneration may be particularly effective in small openings and partial-cut systems where seed dispersal distances remain short (Steen et al. 2008).
+
+•	Seedlings are susceptible to heat girdling and drought; on warmer, drier sites, use shade from stumps, coarse woody debris or retained trees, and favour mineral soil or moist humus (Alexander et al. 1990).
+
+•	In expansion areas, avoid depressions with late-lying snow and soils prone to frost heaving (Alexander et al. 1990).
+
+**Silvicultural system**
+
+•	Subalpine fir is highly shade-tolerant, and advance regeneration responds well to release; natural regeneration is generally preferred to planting on subalpine sites. Advance regeneration can contribute substantially to post-harvest stocking where it is adequately distributed and free of significant disease (Tree Species Compendium; Steen et al. 2008).
+
+•	Where subalpine fir is desired, shelterwood and single-tree selection favour it; avoid seed-tree systems and heavy partial cuts because of windthrow risk (Alexander et al. 1990; Jull et al. 2025).
+
+•	Subalpine fir has thin bark and is easily wounded during partial cutting, and wounds are often followed by decay; cut severely wounded leave-trees before harvesting ends (Jull et al. 2025).
+
+•	Where subalpine fir is not part of the desired future stand, do not rely on advance regeneration, which is often infected by Indian paint fungus; plant suitable species promptly after harvest (Tree Species Compendium).
+
+**Seed and stock**
+
+•	Genetic information for subalpine fir is limited, and improved or pest-resistant stock is not available (Alexander et al. 1990). There is no provincial breeding program for subalpine fir (BC tree breeding and improvement).
+
+**Off-site performance and trials**
+
+•	Off-site planting of subalpine fir is uncommon because it regenerates naturally.
+
+•	Subalpine fir is one of 15 species in the Assisted Migration Adaptation Trial (AMAT), planted in 2009–2012 at 48 sites from northern California to southern Yukon; results will inform species and seed source selection guidelines (BC Ministry of Forests, AMAT).
+
+**Monitoring and feedback**
+
+•	Monitor the performance of advance regeneration retained through partial harvesting systems, particularly where natural regeneration is relied upon for stand establishment (Steen et al. 2008).
+
+•	In lower-elevation ecosystems where declines are projected, monitor drought damage and western balsam bark beetle mortality in existing stands and advance regeneration.
+
+
+##
+::: {.stocking-table}
+
+| CFRG   | CCISS result | Example stocking standard response                                                       |
+|--------|-------------|------------------------------------------------------------------------------------------|
+| P or A | E1 or E2    |  Consider retaining the species at its current status                                    |
+| P or A | Unsuitable  |  Consider removal unless supported by local evidence or operational experience           |
+| P      | E3          |  Consider moving to acceptable, reducing reliance, or monitoring through operational use |   
+| NA     | E1 or E2    |  Consider adding as acceptable or as an operational trial, and document the rationale    |   
+| NA     | E3          |  Don't make changes to stocking standard based on CCISS results alone    |   
+
+: Table 1. Using CCISS results in stocking standards 
+
+**Note:**
+CCISS is a species-screening tool, not a stocking prescription tool: support any change to stocking standards with other lines of evidence (local performance and operational experience, species ecology, forest health and management objectives). The examples above support professional judgement and are not prescriptive.
+
+:::
 
 # References
 

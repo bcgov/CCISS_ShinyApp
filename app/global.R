@@ -163,7 +163,7 @@ species_outlooks_intro_ui <- function() {
           ),
           tags$li(
             paste(
-              "Shifts in environmental suitability across the province and",
+              "Shifts in environmental suitability ratings across the province and",
               "within individual BGC zones"
             )
           ),
@@ -186,8 +186,23 @@ species_outlooks_intro_ui <- function() {
         
         tags$p(
           paste(
-            "A summary of important forest health considerations and concerns",
-            "for the species."
+            "A summary of important forest health considerations and other biotic and abiotic concerns",
+            "for the species beyond macroclimatic shifts."
+          )
+        )
+      ),
+      
+      tags$div(
+        class = "outlook-section",
+        
+        tags$h3(
+          icon("seedling"),
+          "Management recommendations"
+        ),
+        
+        tags$p(
+          paste(
+            "Planting, sprecies and seed selection guidelines and silviculture practices incorporating climate change projections for the species"
           )
         )
       ),
