@@ -6,6 +6,76 @@ editor_options:
 
 # Species PDF outlooks
 
+## CCISS downloads on demand
+
+Species cards now offer **View outlook** and **Download PDF**. The
+download popup selects period and edatope, then renders a new PDF on the
+CCISS server. No PDFs are pre-generated or cached. The cards listed in
+`app/global.R` determine which species can be downloaded; adding a
+species there wires its download observer automatically, provided its
+report bundle is staged.
+
+After generating/updating the PDF QMDs, run from the repository root:
+
+``` sh
+python Draft_Species_Summaries/stage_species_reports.py
+```
+
+This copies QMDs, species figures, bibliography, CSL, header, and logo
+into `app/species_reports/<code>/`. It does not render PDFs. This
+generated directory is gitignored; stage again before deployment. The
+deployment script uploads it to both production and development app
+directories. Staging accepts `--source` and `--output` for other
+locations and requires Python 3.9+.
+
+The server needs Quarto CLI, XeLaTeX with the packages required by the
+PDF template, and R packages `knitr`, `rmarkdown`, `yaml`, and
+`processx` available to the Shiny service account. The existing
+HTML-to-PDF Chromium setup is not sufficient for these Quarto PDF
+reports. Install these dependencies as part of server setup, not during
+a download. Verify a render as the Shiny service account before release.
+
+The header uses `eso-pic` for compatibility with older LaTeX kernels such as
+TeX Live 2019. If a server reports `Undefined control sequence` at
+`AddToHookNext`, it still has an older copy of `pdf-header.tex`: restage and
+upload the report bundles. Check package availability with
+`kpsewhich eso-pic.sty`; on Ubuntu/Debian it is supplied by
+`texlive-latex-recommended`. A header-only update does not need a Shiny restart.
+
+Configuration (environment variables in the app's deployment
+environment):
+
+-   `CCISS_SPECIES_REPORT_DIR`: bundle directory; defaults to
+    `species_reports` relative to the app working directory.
+-   `CCISS_QUARTO`: full Quarto executable path when it is not on the
+    service PATH.
+-   `CCISS_SPECIES_PDF_FONT`: optional installed font-family override
+    for both body and headings. Defaults to the QMD's Segoe UI. Linux
+    servers must have that font installed with suitable licensing, or
+    configure an installed alternative such as `Noto Sans` (which
+    changes the PDF typography).
+
+Each download copies only its species bundle to a unique temporary
+directory, passes validated parameters in a quoted YAML file, invokes
+Quarto without a shell, and removes intermediate files after success or
+failure. Rendering has a five-minute timeout. Errors are reported in
+CCISS; compiler diagnostics go to the server log. This initial
+implementation renders synchronously in the Shiny worker, so a render
+can briefly delay other sessions served by that same R process. If
+demand grows, move rendering to a background worker queue; separate
+temporary directories already prevent file collisions between processes.
+
+Local checks (from the repository root, after staging):
+
+``` sh
+Rscript tests/test_species_download.R
+Rscript tests/test_species_download.R --render
+```
+
+The optional render check requires all PDF dependencies and generates
+one report through the same rendering helper used by Shiny. It does not
+require database access.
+
 `generate_species_pdf.py` fills `Species_Summary_PDF.template.qmd` from
 each `<species>_Summary_Dash_3tab.qmd`. Dashboards are the source of
 species content; the template controls the PDF layout and parameter

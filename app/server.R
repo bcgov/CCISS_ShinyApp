@@ -117,6 +117,7 @@ shinyServer(function(input, output, session) {
   source("./server/silviculture.R", local = TRUE)
   source("./server/futures.R", local = TRUE)
   source("./server/download.R", local = TRUE)
+  source("./server/species_download.R", local = TRUE)
   source("./server/CCISS_Spatial.R", local = TRUE)
   #source("./server/generate_portfolio.R", local = TRUE)
   source("./server/instructions.R", local = TRUE)

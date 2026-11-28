@@ -1,10 +1,12 @@
 % Match dashboard.css and the dashboard's system font on Windows (Segoe UI).
-% The one-shot shipout hook paints only the first page, at the paper edge.
+% eso-pic supports older LaTeX kernels, including TeX Live 2019.
+% The starred command paints only the current (first) page.
+\usepackage{eso-pic}
 \definecolor{dashboardblue}{HTML}{003366}
 \makeatletter
 \newsavebox{\speciesTitleBox}
 \renewcommand{\maketitle}{%
-  \AddToHookNext{shipout/background}{%
+  \AddToShipoutPictureBG*{\AtPageUpperLeft{%
     \put(0,-72){\color{dashboardblue}\rule{\paperwidth}{72pt}}%
     \put(43,-57){\includegraphics[width=94pt]{images/BCID_H_RGB_rev.png}}%
     \put(160,-35){%
@@ -15,7 +17,7 @@
       \else\usebox{\speciesTitleBox}\fi
     }%
     \put(160,-54){\color{white}\sffamily\fontsize{10}{12}\selectfont Climate Change Informed Species Selection}%
-  }%
+  }}%
   \vspace*{0.55in}%
 }
 \makeatother
